@@ -141,7 +141,7 @@ title: Blogs Post
         const javaURI = "https://spring2025.nighthawkcodingsociety.com";
         function isLoggedIn() {
             //get the cookie jwt_java_spring
-            const token = document.cookie.split('; ').find(row => row.startsWith('jwt_java_spring='));
+            const token = localStorage.getItem('ghid');
             return token !== undefined;
         }
         document.getElementById('issueForm').addEventListener('submit', function(event) {
