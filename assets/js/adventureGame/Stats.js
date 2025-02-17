@@ -40,7 +40,7 @@ class Stats {
             fetch(url, fetchOptions)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById(key).innerText = data ?? 0;
+                    document.getElementById(key).innerHTML = data ?? 0;
                 })
                 .catch(err => console.error(`Error fetching ${key}:`, err));
         }
