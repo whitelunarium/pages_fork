@@ -316,8 +316,6 @@ layout: post
     }
 
 
-    
-
     async function fetchSubmissions(){
         const urllink=javaURI+"/api/submissions/getSubmissions";
         const urllink2=javaURI+"/assignment/"+assignIndex.toString();
@@ -362,7 +360,10 @@ layout: post
         });
     }
 
-    getUserId();
-    fetchSubmissions();
-    fetchAssignments();
+   document.addEventListener("DOMContentLoaded", async () => {
+    await getUserId();
+    await fetchSubmissions();
+    await fetchAssignments();
+});
+
 </script>

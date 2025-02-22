@@ -1,5 +1,5 @@
 import gameControlInstance from "./GameControl.js";
-class Prompt {
+class Quiz {
     constructor() {
         this.isOpen = false;
         this.dim = false;
@@ -41,7 +41,7 @@ class Prompt {
         
     };
 
-    createPromptDisplayTable() {
+    createDisplayTable() {
         const table = document.createElement("table");
         table.className = "table prompt";
     
@@ -58,11 +58,11 @@ class Prompt {
 
     toggleDetails() {
         this.detailed = !this.detailed;
-        this.updatePromptDisplay();
+        this.updateDisplay();
     }
 
-    updatePromptTable() {
-        const table = this.createPromptDisplayTable();
+    updateTable() {
+        const table = this.createDisplayTable();
         // Use `this.currentNpc` to populate questions
         if (this.currentNpc && this.currentNpc.questions) {
             this.currentNpc.questions.forEach((question, index) => {
@@ -128,7 +128,7 @@ class Prompt {
     }
     
 
-    updatePromptDisplay() {
+    updateDisplay() {
         const table = document.getElementsByClassName("table scores")[0];
         const detailToggleSection = document.getElementById("detail-toggle-section");
         const clearButtonRow = document.getElementById("clear-button-row");
@@ -150,7 +150,7 @@ class Prompt {
             clearButtonRow.remove();
         }
 
-        document.getElementById("promptDropDown").append(this.updatePromptTable()); //update new Prompt
+        document.getElementById("promptDropDown").append(this.updateTable()); //update new 
     }
 
     backPage() {
@@ -159,15 +159,15 @@ class Prompt {
         }
 
         this.currentPage -= 1;
-        this.updatePromptDisplay();
+        this.updateDisplay();
     }
 
     frontPage() {
         this.currentPage += 1;
-        this.updatePromptDisplay();
+        this.updateDisplay();
     }
 
-    openPromptPanel(npc) {
+    openPanel(npc) {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
 
@@ -189,7 +189,7 @@ class Prompt {
         promptDropDown.appendChild(promptTitle);
 
         // Display the new questions
-        promptDropDown.appendChild(this.updatePromptTable());
+        promptDropDown.appendChild(this.updateTable());
 
         // Handle the background dim effect
         this.backgroundDim.create();
@@ -202,7 +202,7 @@ class Prompt {
         promptDropDown.style.transition = "all 0.3s ease-in-out"; 
     }
 
-    initializePrompt() {
+    initialize() {
         const promptTitle = document.createElement("div");
         promptTitle.id = "promptTitle";
         document.getElementById("promptDropDown").appendChild(promptTitle);
@@ -210,4 +210,4 @@ class Prompt {
 
 }
 
-export default Prompt;
+export default Quiz;

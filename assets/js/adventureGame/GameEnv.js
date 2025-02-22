@@ -26,9 +26,11 @@ class GameEnv {
         this.innerHeight = 0;
         this.top = 0;
         this.bottom = 0;
-        this.path = '';
-        this.gameControl = null;
-        this.gameObjects = [];
+        /* Below properties are not part of is-A or has-A relationships,
+        *  they are references for easy accessibility in game objects */
+        this.path = ''; // Reference to the resource path
+        this.gameControl = null; // Reference to the GameControl instance
+        this.gameObjects = []; // Reference list of game objects instancces    
     }
 
     /**
