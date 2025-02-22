@@ -11,9 +11,11 @@ permalink: /gamify/adventureGame
 
 
 <script type="module">
-    import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
+    // import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
+    import Game from '{{site.baseurl}}/assets/js/adventureGame/Game.js';
     import Stats from '{{site.baseurl}}/assets/js/adventureGame/Stats.js';
     const path = "{{site.baseurl}}";
-    new GameControl(path).start();
+    Game.main(path);
+    // new GameControl(path).start();
     new Stats().fetchStats();
 </script>

@@ -1,3 +1,5 @@
+import GameControl from './GameControl.js';
+
 class Game {
     constructor() {
         if (!Game.instance) {
@@ -7,12 +9,9 @@ class Game {
         return Game.instance;
     }
 
-    /**
-     * Initialize the game
-     */
-    static main() {
-        const instance = new Game();
-        instance.startGame();
+    // launch GameControl
+    static main(path) {
+        new GameControl(path).start();
     }
 
     /**
