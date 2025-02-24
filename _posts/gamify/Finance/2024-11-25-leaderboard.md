@@ -4,12 +4,8 @@ permalink: /stocks/leaderboard
 title: Leaderboard
 ---
 
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard</title>
-  <style>
+<title>Leaderboard</title>
+<style>
     /* General Reset */
     * {
       margin: 0;
@@ -76,7 +72,7 @@ title: Leaderboard
 
     /* Leaderboard Table Styling */
     section {
-      background: #fff;
+      background: #000;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
@@ -179,96 +175,92 @@ title: Leaderboard
 
     .card h2 { font-size: 20px; }
     .card p { font-size: 36px; font-weight: bold; }
-  </style>
-</head>
-<body>
-
-  <!-- Navbar -->
+</style>
+<!-- Navbar -->
 <nav class="navbar">
-  <div class="logo">NITD</div>
-  <div class="nav-buttons">
-    <a href="{{site.baseurl}}/stocks/home">Home</a>
-    <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-    <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-    <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-    <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-    <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-  </div>
+    <div class="logo">NITD</div>
+    <div class="nav-buttons">
+        <a href="{{site.baseurl}}/stocks/home">Home</a>
+        <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
+        <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
+        <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+        <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+        <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
+    </div>
 </nav>
-  <!-- Dashboard -->
-  <div class="dashboard">
-    <!-- Main Content -->
-    <div class="dashboard-content">
-      <!-- Search -->
-      <div class="search-container">
-        <input type="text" placeholder="Search for a user..." />
-        <button class="search-button">Search</button>
-      </div>
-
-      <!-- Summary Cards -->
-      <div class="summary-cards">
-        <div class="card card-orange">
-          <h2>Top Rank</h2>
-          <p>#1</p>
-        </div>
-        <div class="card card-purple">
-          <h2>Users</h2>
-          <p>1500+</p>
-        </div>
-        <div class="card card-darkblue">
-          <h2>Average Balance</h2>
-          <p>$12,345</p>
-        </div>
-      </div>
-
-      <!-- Leaderboard Table -->
-      <section>
-        <h2>Top 10 Users by Balance</h2>
-        <table id="top-users-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Balance</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Data will be inserted dynamically -->
-          </tbody>
-        </table>
-      </section>
+<!-- Dashboard -->
+<div class="dashboard">
+  <!-- Main Content -->
+  <div class="dashboard-content">
+    <!-- Search -->
+    <div class="search-container">
+      <input type="text" placeholder="Search for a user..." />
+      <button class="search-button">Search</button>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="stock-table">
-        <h2>Your Stocks</h2>
-        <table>
-          <tr><th>Stock</th><th>Value</th></tr>
-          <tr><td>Apple</td><td>$150.00</td></tr>
-          <tr><td>Amazon</td><td>$3,200.00</td></tr>
-        </table>
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="card card-orange">
+        <h2>Top Rank</h2>
+        <p>#1</p>
+      </div>
+      <div class="card card-purple">
+        <h2>Users</h2>
+        <p>1500+</p>
+      </div>
+      <div class="card card-darkblue">
+        <h2>Average Balance</h2>
+        <p>$12,345</p>
       </div>
     </div>
+
+    <!-- Leaderboard Table -->
+    <section>
+      <h2>Top 10 Users by Balance</h2>
+      <table id="top-users-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Balance</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be inserted dynamically -->
+        </tbody>
+      </table>
+    </section>
   </div>
 
-  <script>
-    // Fetch leaderboard data from the server
-    fetch('http://localhost:8085/api/rankings/leaderboard')
-      .then(response => response.json())
-      .then(data => {
-        const topUsersTable = document.querySelector('#top-users-table tbody');
-        data.forEach((user, index) => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>$${Number(user.balance).toFixed(2)}</td>
-            <td>${user.name}</td>
-          `;
-          topUsersTable.appendChild(row);
-        });
-      })
-      .catch(error => console.error('Error fetching leaderboard data:', error));
-  </script>
-</body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="stock-table">
+      <h2>Your Stocks</h2>
+      <table>
+        <tr><th>Stock</th><th>Value</th></tr>
+        <tr><td>Apple</td><td>$150.00</td></tr>
+        <tr><td>Amazon</td><td>$3,200.00</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Fetch leaderboard data from the server
+  fetch('http://localhost:8085/api/rankings/leaderboard')
+    .then(response => response.json())
+    .then(data => {
+      const topUsersTable = document.querySelector('#top-users-table tbody');
+      data.forEach((user, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>$${Number(user.balance).toFixed(2)}</td>
+          <td>${user.name}</td>
+        `;
+        topUsersTable.appendChild(row);
+      });
+    })
+    .catch(error => console.error('Error fetching leaderboard data:', error));
+</script>
 </html>

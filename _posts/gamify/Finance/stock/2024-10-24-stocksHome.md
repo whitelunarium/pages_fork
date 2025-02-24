@@ -181,14 +181,13 @@ title: Stocks Home
             <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
             <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
             <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-            <a href="{{site.baseurl}}/stocks/game">Stocks Game</a>
-
+            <a href="{{site.baseurl}}/stocks/game">Game</a>
         </div>
     </nav>
     <!-- Dashboard -->
     <div class="dashboard">
         <div class="dashboard-content">
-            <h1 id="userIDName" class="welcome">Hi Rafael, Welcome Back</h1>
+            <h1 id="userIDName" class="welcome">Hi, Welcome Back</h1>
             <p>Invest your money with small risk!</p>
             <div class="summary-cards">
                 <div class="card card-orange">
@@ -262,9 +261,24 @@ title: Stocks Home
     </div>
 </body>
 </html>
-   <script type="module">
+<script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-   function getCredentialsJava() {
+    // Fetch user credentials and update the welcome message
+    async function updateWelcomeMessage() {
+        try {
+            const credentials = await getCredentialsJava();
+            const name = credentials?.name; // Assuming the name is stored in the credentials
+            if (name) {
+                document.getElementById("userIDName").textContent = `Hi ${name}, Welcome Back`;
+            } else {
+                console.error("User name not found in credentials");
+            }
+        } catch (error) {
+            console.error("Error updating welcome message:", error);
+        }
+    }
+    // Fetch user credentials
+    function getCredentialsJava() {
         const URL = javaURI + '/api/person/get';
         return fetch(URL, fetchOptions)
             .then(response => {
@@ -545,3 +559,10 @@ async function getUserValue(user) {
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+document.addEventListener("DOMContentLoaded", () => {
+        updateWelcomeMessage(); // Update the welcome message with the user's name
+        updateYourStocksTable();
+        updateStockPrices();
+        getPortfolioPerformance();
+    });
+</script>

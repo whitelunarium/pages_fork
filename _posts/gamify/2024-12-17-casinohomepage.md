@@ -3,16 +3,17 @@ layout: post
 title: Casino Games
 permalink: /gamify/casinohomepage
 ---
+
 <style>
     body {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        background: url('./images/gamify/casino.jpg') no-repeat center center fixed;
         background-size: cover;
         color: white;
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+        position: relative;
     }
     .container {
         max-width: 800px;
@@ -57,13 +58,24 @@ permalink: /gamify/casinohomepage
         transform: scale(1.1);
         box-shadow: 0 10px 20px rgba(40, 167, 69, 0.6);
     }
-    .game-box h2 {
-        font-size: 2em;
-        margin-bottom: 10px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    .leaderboard {
+        margin-top: 40px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        border: 2px solid #ffc107;
     }
-    .game-box p {
-        font-size: 1.2em;
+    
+    .floating-symbol {
+        position: absolute;
+        font-size: 2em;
+        opacity: 0.7;
+        animation: float 5s infinite ease-in-out;
+    }
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        50% { transform: translateY(-50px) rotate(180deg); opacity: 0.5; }
+        100% { transform: translateY(0) rotate(360deg); opacity: 1; }
     }
 </style>
 
@@ -85,5 +97,5 @@ permalink: /gamify/casinohomepage
             <h2>Poker</h2>
             <p>Challenge your skills in this classic card game.</p>
         </div>
-    </div>
+    </div>  
 </div>

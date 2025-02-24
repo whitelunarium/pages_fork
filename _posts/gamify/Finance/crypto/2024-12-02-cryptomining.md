@@ -230,6 +230,110 @@ body {
 .search-button:hover {
     background-color: #e07b00;
 }
+/* ===== Mining Button Effects ===== */
+#start-mining {
+    background: linear-gradient(135deg, 
+        rgba(147, 51, 234, 0.1) 0%,    /* Purple */
+        rgba(59, 130, 246, 0.1) 50%,  /* Blue */
+        rgba(239, 68, 68, 0.1) 100%   /* Red */
+    );
+    border: 2px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(
+        45deg,
+        #9333ea,  /* Purple */
+        #3b82f6,  /* Blue */
+        #ef4444   /* Red */
+    );
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+/* Hover effect with chromatic aberration */
+#start-mining:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 25px rgba(147, 51, 234, 0.4),
+                0 0 15px rgba(59, 130, 246, 0.4),
+                0 0 5px rgba(239, 68, 68, 0.4);
+}
+/* Active state with particle effect */
+#start-mining.active {
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.2) 0%,
+        rgba(59, 130, 246, 0.2) 50%,
+        rgba(239, 68, 68, 0.2) 100%
+    );
+    box-shadow: 0 0 40px rgba(147, 51, 234, 0.6),
+                inset 0 0 20px rgba(59, 130, 246, 0.4);
+}
+/* RGB Cyclic Animation */
+@keyframes chromatic-pulse {
+    0% {
+        border-color: #9333ea;  /* Purple */
+        box-shadow: 0 0 15px rgba(147, 51, 234, 0.4);
+    }
+    33% {
+        border-color: #3b82f6;   /* Blue */
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+    66% {
+        border-color: #ef4444;  /* Red */
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+    100% {
+        border-color: #9333ea;  /* Purple */
+        box-shadow: 0 0 15px rgba(147, 51, 234, 0.4);
+    }
+}
+#start-mining:not(.active) {
+    animation: chromatic-pulse 3s ease-in-out infinite;
+}
+/* Holographic overlay effect */
+#start-mining::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(147, 51, 234, 0.1) 33%,
+        rgba(59, 130, 246, 0.1) 66%,
+        transparent 75%
+    );
+    transform: rotate(45deg);
+    animation: prismatic-flow 4s infinite linear;
+    mix-blend-mode: screen;
+}
+@keyframes prismatic-flow {
+    0% { transform: translateX(-150%) rotate(45deg); }
+    100% { transform: translateX(150%) rotate(45deg); }
+}
+/* Text glow with color transition */
+#start-mining span {
+    position: relative;
+    z-index: 2;
+    animation: text-glow 2s ease-in-out infinite alternate;
+}
+@keyframes text-glow {
+    from {
+        text-shadow: 0 0 5px rgba(147, 51, 234, 0.5),
+                     0 0 10px rgba(59, 130, 246, 0.5),
+                     0 0 15px rgba(239, 68, 68, 0.5);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(147, 51, 234, 0.8),
+                     0 0 20px rgba(59, 130, 246, 0.8),
+                     0 0 30px rgba(239, 68, 68, 0.8);
+    }
+}
 </style>
 <body class="bg-gray-900 text-white min-h-screen p-6">
     *** note: If the stats number are not showing, try to stop the mining and start again... <br>
@@ -359,8 +463,8 @@ body {
         <!-- Mining Controls -->
         <div class="dashboard-card mt-4">
             <div class="flex justify-between items-center">
-                <button id="start-mining" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
-                    Start Mining
+                <button id="start-mining" onclick="toggleMining()">
+                    <span>Start Mining</span>
                 </button>
                 <select id="pool-selection" class="bg-gray-700 rounded px-4 py-2">
                     <option value="nicehash">NiceHash (2% fee, 4hr payout)</option>
@@ -510,18 +614,31 @@ body {
             }
         }
         async function startPeriodicUpdates() {
-            if (updateInterval) {
-                clearInterval(updateInterval);
-            }
-            // Update mining stats every min
+            if (updateInterval) clearInterval(updateInterval);
             updateInterval = setInterval(async () => {
                 await updateMiningStats();
-            }, 60000);
-            // Update market prices every hour
+            }, 5000);
+            // 添加options定义
+            const options = {
+                ...fetchOptions,
+                method: 'GET',
+                cache: 'no-cache'
+            };
+            // 实时监控
             setInterval(async () => {
-                await updateAllMarketPrices();
-                await updateNiceHashPrice();
-            }, 3600000);
+                try {
+                    const response = await fetch(`${javaURI}/api/mining/stats`, options);
+                    const stats = await response.json();
+                    console.log('实时监控:', {
+                        time: new Date().toLocaleTimeString(),
+                        pending: stats.pendingBalance,
+                        hashrate: stats.hashrate,
+                        activeGPUs: stats.activeGPUs?.length || 0
+                    });
+                } catch (error) {
+                    console.error('监控请求失败:', error);
+                }
+            }, 5000);
         }
         // API Calls
         async function loadGPUs() {
@@ -603,23 +720,6 @@ body {
                 showNotification('Error buying GPU: ' + error.message);
             }
         }
-        async function switchPool(event) {
-            try {
-                const options = {
-                    ...fetchOptions,
-                    method: 'POST',
-                    cache: 'no-cache',
-                    body: JSON.stringify({ pool: event.target.value })
-                };
-                const response = await fetch(`${javaURI}/api/mining/pool`, options);
-                const result = await response.json();
-                if (result.success) {
-                    showNotification(`Switched to ${event.target.value}`);
-                }
-            } catch (error) {
-                console.error('Error switching pool:', error);
-            }
-        }
         async function updateMiningStats() {
             try {
                 const options = {
@@ -639,13 +739,27 @@ body {
         }
         // UI Updates
         function updateDisplay(stats) {
-            console.log('Updating display with stats:', stats); // Debug log
-            if (!stats) return; // Guard clause for undefined stats
-            // Update BTC Balance
+            // 添加类型检查
+            console.log('接收到的数据:', {
+                btcBalance: typeof stats.btcBalance,
+                pendingBalance: typeof stats.pendingBalance,
+                hashrate: typeof stats.hashrate
+            });
+            // 强制转换为数字
+            const pending = parseFloat(stats.pendingBalance) || 0;
+            document.getElementById('pending-balance').textContent = pending.toFixed(8);
+            if (!stats) return;
+            // Add small random fluctuations to temperature and power
+            const tempVariation = Math.random() * 2 - 1; // Random variation ±1°C
+            const powerVariation = Math.random() * 10 - 5; // Random variation ±5W
+            // Get base values
+            const baseTemp = parseFloat(stats.averageTemperature) || 0;
+            const basePower = parseFloat(stats.powerConsumption) || 0;
+            // Calculate new values with fluctuations
+            const newTemp = Math.max(30, Math.min(90, baseTemp + tempVariation)); // Keep between 30-90°C
+            const newPower = Math.max(0, basePower + powerVariation); // Keep above 0W
+            // Update display elements
             document.getElementById('btc-balance').textContent = (parseFloat(stats.btcBalance) || 0).toFixed(8);
-            // Update Pending BTC
-            document.getElementById('pending-balance').textContent = (parseFloat(stats.pendingBalance) || 0).toFixed(8);
-            // Update Hashrate
             document.getElementById('hashrate').textContent = `${(parseFloat(stats.hashrate) || 0).toFixed(2)} MH/s`;
             // Update Shares
             document.getElementById('shares').textContent = stats.shares || 0;
@@ -691,10 +805,16 @@ body {
             stats.activeGPUs.forEach(gpu => {
                 console.log('Rendering GPU:', gpu);
                 const gpuCard = document.createElement('div');
-                gpuCard.className = 'gpu-card transform transition-all duration-200 hover:scale-105';
-                const efficiency = (gpu.hashrate / gpu.power).toFixed(3);
-                const dailyRevenue = gpu.hashrate * 86400 / (1e12);
-                const dailyPowerCost = (gpu.power * 24) / 1000 * 0.12;
+                gpuCard.className = 'bg-gray-800 rounded-xl p-6 shadow-2xl transform transition-all duration-300 hover:scale-[1.02] border border-gray-700';
+                gpuCard.dataset.gpuId = gpu.id;
+                // Safely access properties
+                const hashrate = gpu.hashrate || 0;
+                const power = gpu.power || 0;
+                const temp = gpu.temp || 0;
+                const isActive = !!gpu.isActive;
+                const efficiency = (hashrate / (power || 1)).toFixed(3);
+                const dailyRevenue = hashrate * 86400 * 0.00000001;
+                const dailyPowerCost = (power * 24 / 1000 * 0.12);
                 const dailyProfit = dailyRevenue - dailyPowerCost;
                 gpuCard.innerHTML = `
                     <div class="flex justify-between items-start">
@@ -776,8 +896,8 @@ body {
             const card = document.createElement('div');
             card.className = `gpu-card mb-4 ${getCategoryClass(category)}`;
             // Calculate daily estimates
-            const dailyRevenue = (gpu.hashRate || 0) * 86400 / (1e12); // Ensure hashRate is defined
-            const dailyPowerCost = (gpu.powerConsumption || 0) * 24 / 1000 * 0.12; // Ensure powerConsumption is defined
+            const dailyRevenue = (gpu.hashRate || 0) * 86400 * 0.00000001;
+            const dailyPowerCost = (gpu.powerConsumption || 0) * 24 / 1000 * 0.12;
             const dailyProfit = dailyRevenue - dailyPowerCost;
             const roi = dailyProfit > 0 ? (gpu.price / dailyProfit) : Infinity; // Avoid division by zero
             card.innerHTML = `

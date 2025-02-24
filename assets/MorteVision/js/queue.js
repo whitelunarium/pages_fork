@@ -124,10 +124,20 @@ function updateQueueDisplay(queue) {
     const waitingList = document.getElementById('waitingList');
     const doneList = document.getElementById('doneList');
 
-    notGoneList.innerHTML = queue.working.map(person => `<div class="card">${person}</div>`).join('');
+    const notGoneElements = queue.working.map(person => `<div class="card">${person}</div>`);
+    notGoneList.innerHTML = notGoneElements.join('');
     waitingList.innerHTML = queue.waiting.map(person => `<div class="card">${person}</div>`).join('');
     doneList.innerHTML = queue.completed.map(person => `<div class="card">${person}</div>`).join('');
+
+    // Check and update global person variable
+    if (!person.includes("|")) {
+        const matchingPerson = queue.working.find(p => p.includes(person));
+        if (matchingPerson) {
+            person = matchingPerson; // Update global person variable
+        }
+    }
 }
+
 
 document.getElementById('beginTimer').addEventListener('click', startTimer);
 
@@ -147,6 +157,7 @@ function stopQueueUpdateInterval() {
 }
 
 window.addEventListener('load', () => {
+    fetchQueue();
     fetchUser();
     showAssignmentModal();
 });
@@ -161,9 +172,11 @@ async function fetchUser() {
             'X-Origin': 'client' 
         }
     });
+    
     if (response.ok) {
         const userInfo = await response.json();
         person = userInfo.name;
+
         console.log(typeof person);
         if (typeof person == 'undefined') {
             alert("Error: You are not logged in. Redirecting you to the login page.")

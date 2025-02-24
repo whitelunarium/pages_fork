@@ -154,7 +154,7 @@ title: Stocks Viewer
             <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
             <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
             <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-            <a href="{{site.baseurl}}/stocks/game">Stocks Game</a>
+            <a href="{{site.baseurl}}/stocks/game">Game</a>
 
     </div>
   </nav>
@@ -387,7 +387,8 @@ title: Stocks Viewer
   <!-- Chart.js Library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <script>
+ <script type="module">
+    import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     let currentlySelectedStock = null; 
     let stockChart;
@@ -404,7 +405,7 @@ async function selectStock(stock) {
     }
 
     try {
-        const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
+        const response = await fetch(javaURI + `/api/stocks/${stock}`);
         const data = await response.json();
 
         const stockName = data?.chart?.result?.[0]?.meta?.longName;
@@ -456,7 +457,7 @@ async function selectStock(stock) {
 
 async function getStockData(stockSymbol) {
     try {
-        const response = await fetch(`http://localhost:8085/api/stocks/${stockSymbol}`);
+        const response = await fetch(javaURI + `/api/stocks/${stockSymbol}`);
         const data = await response.json();
 
         // Extract relevant information for metrics
@@ -544,7 +545,7 @@ function displayChart(labels, prices, tickerSymbol) {
 
 async function getStockPrice(stock) {
         try {
-            const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
+            const response = await fetch(javaURI + `/api/stocks/${stock}`);
             const data = await response.json();
             console.log(data);
             const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
@@ -563,7 +564,7 @@ async function getStockPrice(stock) {
 }
         async function getPercentChange(stock) {
         try {
-            const response = await fetch(`http://localhost:8085/api/stocks/${stock}`);
+            const response = await fetch(javaURI + `/api/stocks/${stock}`);
             const data = await response.json();
             console.log(data);
             const newValue = data?.chart?.result?.[0]?.meta?.regularMarketPrice;

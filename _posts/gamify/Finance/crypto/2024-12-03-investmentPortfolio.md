@@ -130,12 +130,27 @@ permalink: /crypto/portfolio
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    const userEmail = localStorage.getItem("userEmail");
+    let userEmail = "";
     let userBalance = localStorage.getItem("userBalance");
 
-    if (!userEmail) {
-        alert("No user email found. Please log in.");
-        window.location.href = "/login";
+    async function fetchUser() {
+        try {
+            const response = await fetch(javaURI + `/api/person/get`, fetchOptions);
+            if (response.ok) {
+                const userInfo = await response.json();
+                userEmail = userInfo.email;
+                console.log("User email:", userEmail);
+                document.getElementById('display-username').textContent = userInfo.name;
+                localStorage.setItem("userEmail", userEmail);
+                fetchUserBalance(); // Fetch balance after getting the email
+            } else if (response.status === 401 || response.status === 201) {
+                console.log("Guest");
+                document.getElementById('display-username').textContent = "Guest";
+                document.getElementById('user-balance').innerText = "0.00";
+            }
+        } catch (error) {
+            console.error("Error fetching user:", error);
+        }
     }
 
     function updateBalance(balance) {
@@ -145,6 +160,10 @@ permalink: /crypto/portfolio
     }
 
     async function fetchUserBalance() {
+        if (!userEmail) {
+            console.error("User email not found, skipping balance fetch.");
+            return;
+        }
         try {
             const response = await fetch(`${javaURI}/api/crypto/balance?email=${encodeURIComponent(userEmail)}`, fetchOptions);
             if (!response.ok) throw new Error(`Failed to fetch balance: ${response.status}`);
@@ -157,6 +176,9 @@ permalink: /crypto/portfolio
     }
 
     setInterval(fetchUserBalance, 5000);
+
+    fetchUser();
+
 
     async function fetchCryptos() {
         try {

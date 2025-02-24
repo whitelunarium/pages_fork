@@ -1,8 +1,8 @@
 let javaURI
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-        javaURI = "http://localhost:8080";
+        javaURI = "ws://localhost:8089";
 } else {
-    javaURI = "https://spring2025.nighthawkcodingsociety.com";
+    javaURI = "wss://spring2025.nighthawkcodingsociety.com";
 }
 let socket = io(javaURI)
 const servers = {

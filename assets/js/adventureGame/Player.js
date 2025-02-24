@@ -25,7 +25,7 @@ class Player extends Character {
     constructor(data = null) {
         super(data);
         this.keypress = data?.keypress || {up: 87, left: 65, down: 83, right: 68};
-        this.bindEventListeners();
+        this.bindMovementKeyListners();
     }
 
 
@@ -35,7 +35,7 @@ class Player extends Character {
      * This method binds keydown and keyup event listeners to handle object movement.
      * The .bind(this) method ensures that 'this' refers to the object object.
      */
-    bindEventListeners() {
+    bindMovementKeyListners() {
         addEventListener('keydown', this.handleKeyDown.bind(this));
         addEventListener('keyup', this.handleKeyUp.bind(this));
     }

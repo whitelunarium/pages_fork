@@ -94,7 +94,20 @@ title: Stocks Game
 </head>
 <body>
     <nav class="navbar">
+        
+        <nav class="navbar">
         <div class="logo">NITD</div>
+        <div class="nav-buttons">
+            <a href="{{site.baseurl}}/stocks/home">Home</a>
+            <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
+            <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
+            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+            <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+            <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
+            <a href="{{site.baseurl}}/stocks/game">Game</a>
+
+        </div>
+    </nav>
     </nav>
     <div class="container">
         <h1>Stock Market Simulation Game</h1>
@@ -121,15 +134,10 @@ title: Stocks Game
     <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     window.javaURI = javaURI; // Make sure javaURI is accessible globally
-</script>
-
-    <script>
     const STOCK_API = "https://nitdpython.stu.nighthawkcodingsociety.com/api/stocks/price_five_years_ago/";
     let balance = 10000;
     let userStocks = {};
-
     document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
-
     async function getStockPrice(symbol) {
         try {
             const response = await fetch(`${STOCK_API}${symbol}`);
@@ -141,33 +149,27 @@ title: Stocks Game
             return null;
         }
     }
-
     async function addStock() {
         const stockSymbol = document.getElementById("stockSearch").value.trim().toUpperCase();
         const quantity = parseInt(document.getElementById("stockQuantity").value.trim(), 10);
-        
         if (!stockSymbol || isNaN(quantity) || quantity <= 0) {
             alert("Enter a valid stock symbol and quantity.");
             return;
         }
-
         const stockPrice = await getStockPrice(stockSymbol);
         if (stockPrice === null) {
             alert("Stock not found.");
             return;
         }
-
         const totalCost = stockPrice * quantity;
         if (totalCost > balance) {
             alert("Insufficient funds!");
             return;
         }
-
         balance -= totalCost;
         userStocks[stockSymbol] = (userStocks[stockSymbol] || 0) + quantity;
         updateUI();
     }
-
     function removeStock(symbol) {
         if (!userStocks[symbol]) return;
         getStockPrice(symbol).then(stockPrice => {
@@ -176,7 +178,6 @@ title: Stocks Game
             updateUI();
         });
     }
-
     function updateUI() {
         document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
         const table = document.getElementById("stockTable");
@@ -188,7 +189,6 @@ title: Stocks Game
                 <th>Action</th>
             </tr>
         `;
-
         Object.keys(userStocks).forEach(symbol => {
             getStockPrice(symbol).then(price => {
                 const row = document.createElement("tr");
@@ -202,37 +202,100 @@ title: Stocks Game
             });
         });
     }
-
-    async function submitStocks() {
-        const stockList = Object.entries(userStocks).map(([symbol, quantity]) => ({
-            stockSymbol: symbol,
-            quantity: quantity
-        }));      
-        const payload = { username: "toby@gmail.com", stocks: stockList };       
-        console.log("Submitting payload:", JSON.stringify(payload, null, 2));       
-
-        try {
-            const response = await fetch(`${javaURI}/stocks/table/simulateStocks`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });     
-
-            const result = await response.text(); // Log raw response
-            console.log("Server response:", result);        
-
-            if (!response.ok) {
-                alert("Error submitting stocks: " + result);
-                return;
-            }        
-
-            alert("Stocks successfully purchased!");
-        } catch (err) {
-            console.error("Stock purchase error:", err);
-        }
+    function getCredentialsJava() {
+        const URL = javaURI + '/api/person/get';
+        return fetch(URL, fetchOptions)
+            .then(response => {
+                if (response.status !== 200) {
+                    console.error("HTTP status code: " + response.status);
+                    return null;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data === null) return null;
+                console.log(data);
+                return data;
+            })
+            .catch(err => {
+                console.error("Fetch error: ", err);
+                return null;
+            });
     }
+    async function submitStocks() {
+    const stockList = Object.entries(userStocks).map(([symbol, quantity]) => ({
+        stockSymbol: symbol,
+        quantity: quantity
+    }));
+
+    const credentials = await getCredentialsJava(); // Get user data
+    const email = credentials?.email; // Extract email
+    const payload = { username: email, stocks: stockList };
+
+    console.log("Submitting payload:", JSON.stringify(payload, null, 2));
+
+    try {
+        const response = await fetch(`${javaURI}/stocks/table/simulateStocks`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.text(); // Get raw response as text
+        console.log("Server response:", result);
+
+        if (!response.ok) {
+            alert("Error submitting stocks: " + result);
+            return;
+        }
+
+        // Extract updated balance from response
+        const match = result.match(/Updated Balance: (\d+(\.\d+)?)/); // Regex to extract balance
+        if (match) {
+            balance = parseFloat(match[1]); // Update balance variable
+            document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
+        }
+
+        alert("Stocks successfully simulated!");
+        userStocks = {}; // Reset selected stocks after simulation
+        updateUI();
+    } catch (err) {
+        console.error("Stock simulation error:", err);
+    }
+
+}
+async function getUserBalance() {
+    try {
+        const credentials = await getCredentialsJava(); // Fetch user data
+        const userId = credentials?.id; // Extract user ID
+
+        if (!userId) {
+            console.error("User ID not found in credentials.");
+            return;
+        }
+
+        const balanceResponse = await fetch(`${javaURI}/api/person/${userId}/balance`, fetchOptions);
+
+        if (!balanceResponse.ok) {
+            console.error("Failed to fetch balance. HTTP Status:", balanceResponse.status);
+            return;
+        }
+
+        const balanceData = await balanceResponse.json();
+        balance = parseFloat(balanceData.balance); // Update global balance variable
+
+        // Update UI
+        document.getElementById("moneyDisplay").textContent = `Balance: $${balance.toFixed(2)}`;
+    } catch (error) {
+        console.error("Error fetching user balance:", error);
+    }
+}
+
+// Run on page load
+window.onload = getUserBalance;
+
 
     // Make functions globally available
     window.addStock = addStock;
