@@ -31,6 +31,6 @@ class Game {
         console.log("Game stats updated:", instance.stats);
     }
 }
-
+export default Game;
 // Launch game on load
 window.onload = () => Game.main();
