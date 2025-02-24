@@ -137,13 +137,8 @@ title: Issues Post
         <button type="submit">Submit</button>
     </form>
     <div id="response"></div>
-<<<<<<< HEAD
-    <script type="module">
-        import {javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-=======
     <script>
         const javaURI = "https://spring2025.nighthawkcodingsociety.com";
->>>>>>> 3f5eb141e2b71e6fcf24c693a89276f6de8960e0
         function isLoggedIn() {
             const token = document.cookie.split('; ').find(row => row.startsWith('jwt_java_spring='));
             return token !== undefined;
@@ -159,13 +154,9 @@ title: Issues Post
                     return;
                 } else {
                     const author = null;
-<<<<<<< HEAD
-                    fetch(`${javaURI}/forum/issue/post`, {
-=======
                     const title = document.getElementById('title').value;
                     const context = document.getElementById('problem').value;
-                    fetch('{javaURI}/forum/issue/post', {
->>>>>>> 3f5eb141e2b71e6fcf24c693a89276f6de8960e0
+                    fetch('http://localhost:8085/forum/issue/post', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ title, context, author })
@@ -181,12 +172,7 @@ title: Issues Post
             }
             if (isLoggedIn()) {
                 const author = localStorage.getItem('ghid');
-<<<<<<< HEAD
-                //alert(author);
-                fetch(`${javaURI}/forum/issue/post`, {
-=======
-                fetch('{javaURI}/forum/issue/post', {
->>>>>>> 3f5eb141e2b71e6fcf24c693a89276f6de8960e0
+                fetch('http://localhost:8085/forum/issue/post', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title, context, author })
