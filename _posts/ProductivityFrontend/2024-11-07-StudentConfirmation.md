@@ -5,6 +5,8 @@ title: Seed Tracker Student Confirmation
 type: ccc
 permalink: /project/mort-translator/student-confirmation-tracker
 ---
+
+
 <head>
   <title>Student Confirmation</title>
   <style>
@@ -12,6 +14,7 @@ permalink: /project/mort-translator/student-confirmation-tracker
   </style>
 </head>
 <body>
+
 <h1>Student Confirmation</h1>
 <table id="submissionsTable">
   <thead>
@@ -24,14 +27,17 @@ permalink: /project/mort-translator/student-confirmation-tracker
     <!-- Table rows will be populated here -->
   </tbody>
 </table>
+
 <script>
   async function fetchSubmissions() {
     try {
-      const response = await fetch('http://localhost:8085/api/grades/requests/seed'); // Replace with your actual backend API endpoint// Replace with your actual backend API endpoint
+      const response = await fetch('http://localhost:8085/api/grades/requests/seed'); // Replace with your actual backend API endpoint
       const submissions = await response.json();
       console.log(submissions);
+
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
       tableBody.innerHTML = '';
+
       if (submissions.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="2">No submissions found</td></tr>`;
       } else {
@@ -44,13 +50,16 @@ permalink: /project/mort-translator/student-confirmation-tracker
           tableBody.appendChild(row);
         });
       }
+
     } catch (error) {
       console.error('Error fetching submissions:', error);
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
       tableBody.innerHTML = `<tr><td colspan="2">Error loading data: ${error.message}</td></tr>`;
     }
   }
+
   // Fetch data on page load
   document.addEventListener('DOMContentLoaded', fetchSubmissions);
 </script>
+
 </body>
