@@ -17,7 +17,7 @@ permalink: /gamify/adventureGame
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     const path = "{{site.baseurl}}";
-    Game.main(path, pythonURI, javaURI);
+    Game.main(path, pythonURI, javaURI, fetchOptions);
     // new GameControl(path).start();
     new Stats().fetchStats();
 </script>

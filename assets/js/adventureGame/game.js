@@ -3,16 +3,17 @@ import GameControl from './GameControl.js';
 
 class Game {
     // initialize user and launch GameControl 
-    static main(path, javaURI, pythonURI) {
+    static main(path, javaURI, pythonURI, fetchOptions) {
         this.javaURI = javaURI;
         this.pythonURI = pythonURI;
+        this.fetchOptions = fetchOptions;
         this.initializeUser();
         new GameControl(path).start();
     }
 
     static initializeUser() {
-        const URL = pythonURI + '/api/id';
-        return fetch(URL, fetchOptions)
+        const URL = this.pythonURI + '/api/id';
+        return fetch(URL, this.fetchOptions)
             .then(response => {
                 if (response.status !== 200) {
                     console.error("HTTP status code: " + response.status);
