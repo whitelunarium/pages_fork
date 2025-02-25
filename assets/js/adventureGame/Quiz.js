@@ -13,85 +13,151 @@ class Quiz {
     injectStyles() {
         const style = document.createElement("style");
         style.innerHTML = `
-            /* Cool pixelated font */
+            /* Pixelated font */
             @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-            /* Quiz pop-up window */
+            /* 
+             * ADVANCED ADVENTURE THEME 
+             * Combining a treasure-hunt vibe with retro gaming aesthetics 
+             */
+
+            /* SCROLL APPEARANCE FOR THE POPUP EDGES */
+            .scroll-edge {
+                border: 8px solid #5c3b0b;         /* Dark wood-like color */
+                padding: 15px;
+                background: repeating-linear-gradient(
+                    45deg,
+                    rgba(245, 194, 7, 0.15) 0px,
+                    rgba(245, 194, 7, 0.15) 20px,
+                    rgba(245, 194, 7, 0.2) 20px,
+                    rgba(245, 194, 7, 0.2) 40px
+                );
+                box-shadow: 
+                    0px 0px 15px rgba(245, 194, 7, 0.6),
+                    0px 0px 50px rgba(245, 194, 7, 0.2) inset;
+                border-radius: 10px;
+                position: relative;
+                /* Slight paper "curl" corners */
+            }
+            .scroll-edge::before,
+            .scroll-edge::after {
+                content: '';
+                position: absolute;
+                width: 60px;
+                height: 60px;
+                background: #5c3b0b;
+                border: 8px solid #5c3b0b;
+                border-radius: 50%;
+                box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+            }
+            .scroll-edge::before {
+                top: -38px;
+                left: -38px;
+            }
+            .scroll-edge::after {
+                bottom: -38px;
+                right: -38px;
+            }
+
+            /* QUIZ POPUP */
             .quiz-popup {
                 position: fixed;
                 width: 50%;
                 top: 15%;
                 left: 50%;
                 transform: translate(-50%, 0);
-                background: rgba(44, 62, 80, 0.95);
-                color: white;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
                 z-index: 9999;
                 animation: fadeIn 0.3s ease-in-out;
                 max-height: 70vh;
                 display: flex;
                 flex-direction: column;
-                font-family: 'Press Start 2P', cursive; /* Cool font */
+                font-family: 'Press Start 2P', cursive;
                 text-transform: uppercase;
                 letter-spacing: 1px;
+                color: #f5c207;
             }
 
-            /* Fade-in animation */
+            /* Flicker effect on background */
+            @keyframes flickerBg {
+                0%, 100% {
+                    background: linear-gradient(135deg, #3a2f0b, #1a1005);
+                }
+                50% {
+                    background: linear-gradient(135deg, #4b370a, #231100);
+                }
+            }
+
+            /* Fade-in animation for the panel */
             @keyframes fadeIn {
-                from { opacity: 0; transform: translate(-50%, -10%); }
-                to { opacity: 1; transform: translate(-50%, 0); }
+                from { 
+                    opacity: 0; 
+                    transform: translate(-50%, -10%); 
+                }
+                to { 
+                    opacity: 1; 
+                    transform: translate(-50%, 0); 
+                }
             }
 
-            /* Scrollable question area */
+            /* SCROLLABLE QUESTION AREA */
             .quiz-content {
                 overflow-y: auto;
                 max-height: 50vh;
                 padding: 10px;
+                background: rgba(0, 0, 0, 0.4);
                 border-radius: 5px;
-                background: rgba(255, 255, 255, 0.1);
+                /* Flicker effect to give a torch-lit vibe */
+                animation: flickerBg 3s infinite;
                 flex-grow: 1;
             }
 
-            /* Quiz table */
+            /* TABLE (Retro gold style) */
             .quiz-table {
                 width: 100%;
                 border-collapse: collapse;
             }
 
             .quiz-table th {
-                background: rgba(52, 73, 94, 0.9);
-                color: #00ffff; /* Neon cyan text */
+                background: rgba(245, 194, 7, 0.3);
+                color: #ffe567;
                 padding: 12px;
                 text-align: left;
                 font-size: 18px;
-                text-shadow: 0px 0px 5px #00ffff; /* Soft glow effect */
+                text-shadow: 0 0 8px rgba(245, 194, 7, 0.8);
+                border-bottom: 3px solid #f5c207;
             }
 
             .quiz-table td {
                 padding: 12px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                border-bottom: 1px solid rgba(255, 229, 103, 0.2);
                 color: #ffffff;
                 font-size: 16px;
             }
 
-            /* Input fields */
+            /* INPUT FIELDS */
             .quiz-input {
                 width: 95%;
                 padding: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                background: #ecf0f1;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                background: #faf2d0;
                 border-radius: 5px;
                 font-size: 16px;
                 margin-top: 5px;
                 font-family: 'Press Start 2P', cursive;
+                transition: all 0.2s ease-in-out;
             }
 
-            /* Submit button */
+            .quiz-input:focus {
+                outline: none;
+                border: 2px solid #f5c207;
+                box-shadow: 0 0 8px rgba(245, 194, 7, 0.6);
+                background: #fff8d0;
+            }
+
+            /* SUBMIT BUTTON */
             .quiz-submit {
-                background-color: #27ae60;
-                color: white;
+                background-color: #2ecc71;
+                color: #ffffff;
                 border: none;
                 padding: 12px 20px;
                 font-size: 18px;
@@ -100,18 +166,23 @@ class Quiz {
                 margin-top: 15px;
                 transition: 0.3s ease-in-out;
                 font-family: 'Press Start 2P', cursive;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                box-shadow: 0 0 6px #2ecc71;
             }
 
             .quiz-submit:hover {
-                background-color: #2ecc71;
+                background-color: #27ae60;
+                box-shadow: 0 0 15px #2ecc71;
+                transform: translateY(-2px);
             }
 
-            /* Dimmed background (click to close) */
+            /* DIMMED BACKGROUND (click to close) */
             #dim {
                 position: fixed;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.6);
+                background: rgba(0, 0, 0, 0.8);
                 z-index: 9998;
                 top: 0;
                 left: 0;
@@ -237,9 +308,13 @@ class Quiz {
         promptTitle.innerHTML = npc?.title || "Quiz Time!";
         promptDropDown.appendChild(promptTitle);
 
-        promptDropDown.appendChild(this.updateTable());
-        this.backgroundDim.create();
+        /* Wrap the entire content in a "scroll-edge" container for theming */
+        const scrollEdge = document.createElement("div");
+        scrollEdge.className = "scroll-edge";
+        scrollEdge.appendChild(this.updateTable());
+        promptDropDown.appendChild(scrollEdge);
 
+        this.backgroundDim.create();
         promptDropDown.classList.add("quiz-popup");
     }
 
