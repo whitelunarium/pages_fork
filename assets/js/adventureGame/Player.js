@@ -40,8 +40,9 @@ class Player extends Character {
     }
 
     handleKeyDown({ keyCode }) {
-        // capture the key code of the key pressed
+        // capture the pressed key in the active keys array
         this.pressedKeys[keyCode] = true;
+        // set the velocity and direction based on the newly pressed key
         this.updateVelocityAndDirection();
     }
 
@@ -53,10 +54,11 @@ class Player extends Character {
      * @param {Object} event - The keyup event object.
      */
     handleKeyUp({ keyCode }) {
-        // remove the key code from the active keys array
+        // remove the lifted key from the active keys array
         if (keyCode in this.pressedKeys) {
             delete this.pressedKeys[keyCode];
         }
+        // adjust the velocity and direction based on the remaining keys
         this.updateVelocityAndDirection();
     }
 
@@ -67,6 +69,7 @@ class Player extends Character {
         this.velocity.x = 0;
         this.velocity.y = 0;
 
+        // Multi-key movements (diagonals: upLeft, upRight, downLeft, downRight)
         if (this.pressedKeys[this.keypress.up] && this.pressedKeys[this.keypress.left]) {
             this.velocity.y -= this.yVelocity;
             this.velocity.x -= this.xVelocity;
@@ -83,6 +86,7 @@ class Player extends Character {
             this.velocity.y += this.yVelocity;
             this.velocity.x += this.xVelocity;
             this.direction = 'downRight';
+        // Single key movements (left, right, up, down) 
         } else if (this.pressedKeys[this.keypress.up]) {
             this.velocity.y -= this.yVelocity;
             this.direction = 'up';
@@ -97,6 +101,14 @@ class Player extends Character {
             this.direction = 'right';
         }
     }
+
+    handleCollisionReaction(other) {    
+        this.pressedKeys = {};
+        this.updateVelocityAndDirection();
+        super.handleCollisionReaction(other);
+    }
+
+
 }
 
 export default Player;
