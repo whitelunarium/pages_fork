@@ -7,7 +7,11 @@ import yaml
 import sys
 import subprocess
 from hashlib import sha256
-from scripts.progress_bar import ProgressBar
+
+if __name__ == "__main__":
+    from progress_bar import ProgressBar
+else:
+    from scripts.progress_bar import ProgressBar
 
 
 notebook_directory = "_notebooks"
@@ -40,7 +44,7 @@ def get_relative_output_path(notebook_file):
     markdown_filename = relative_path.replace(".ipynb", "_IPYNB_2_.md")
     
     return os.path.join(destination_directory, markdown_filename)
-    
+
 
 def ensure_directory_exists(path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -77,7 +81,7 @@ def convert_notebooks():
     convertBar = ProgressBar(
         userInfo="Notebook conversion progress:", total=(len(notebook_files))
     )
-    
+
     for notebook_file in notebook_files:
         try:
             convert_single_notebook(notebook_file)
@@ -86,8 +90,37 @@ def convert_notebooks():
             print(f"Conversion error for {notebook_file}: {str(e)}")
             error_cleanup(notebook_file)
             sys.exit(1)
-    
+
     convertBar.end_progress()
+
+
+# MERMAID STUFF =========
+def ensure_directory_exists(path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+def convert_mermaid_to_image(mermaid_code):
+    ensure_directory_exists(mermaid_output_directory)
+    mermaid_hash = sha256(mermaid_code.encode()).hexdigest()
+    image_path = os.path.join(mermaid_output_directory, f"{mermaid_hash}.png")
+    
+    if not os.path.exists(image_path):
+        try:
+            process = subprocess.run([
+                "mmdc", "-i", "-", "-o", image_path, "-s", "10"
+            ], input=mermaid_code, text=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error converting mermaid diagram: {e}")
+            return None
+    return image_path
+
+def process_mermaid_cells(notebook):
+    for cell in notebook.cells:
+        if cell.cell_type == "markdown" and cell.source.startswith("~~~mermaid"):
+            mermaid_code = cell.source.replace("~~~mermaid", "").replace("~~~", "").strip()
+            image_path = convert_mermaid_to_image(mermaid_code)
+            if image_path:
+                cell.source = f"![Mermaid Diagram](../../../../{image_path})"
+
 
 if __name__ == "__main__":
     convert_notebooks()
