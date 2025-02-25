@@ -1,8 +1,10 @@
 import GameControl from './GameControl.js';
+import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
 class Game {
-    // launch GameControl
+    // initialize user and launch GameControl 
     static main(path) {
+        this.initializeUser();
         new GameControl(path).start();
     }
 
@@ -44,10 +46,31 @@ class Game {
         }
     }
     // called to update scoreboard and player stats
-    static updateStats(quizAnswers) {
+    static updateStats(content, questionId, personId) {
+        try {
+            const response = fetch(`${javaURI}/rpg_answer/submitAnswer`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    content: content,
+                    questionId: questionId,
+                    personId: personId
+                })
+            });
 
+            if (!response.ok) throw new Error("Network response was not ok");
+
+            const data = response.json();
+
+            return data.score || "Error scoring answer"; // Return score
+
+        } catch (error) {
+            console.error("Error submitting answer:", error);
+            return "Error submitting answer";
+        }
     }
 }
 export default Game;
-// Launch game on load
-window.onload = () => Game.main();
+
