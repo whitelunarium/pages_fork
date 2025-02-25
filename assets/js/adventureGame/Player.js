@@ -102,6 +102,13 @@ class Player extends Character {
         }
     }
 
+    /**
+     * Overrides the reaction to the collision to handle
+     *  - clearing the pressed keys array
+     *  - stopping the player's velocity
+     *  - updating the player's direction   
+     * @param {*} other - The object that the player is colliding with
+     */
     handleCollisionReaction(other) {    
         this.pressedKeys = {};
         this.updateVelocityAndDirection();
