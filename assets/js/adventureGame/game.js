@@ -1,9 +1,11 @@
 import GameControl from './GameControl.js';
-import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
 
 class Game {
     // initialize user and launch GameControl 
-    static main(path) {
+    static main(path, javaURI, pythonURI) {
+        this.javaURI = javaURI;
+        this.pythonURI = pythonURI;
         this.initializeUser();
         new GameControl(path).start();
     }
