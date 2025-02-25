@@ -13,7 +13,26 @@ class Game {
     static main(path) {
         new GameControl(path).start();
     }
-
+    initializeUser() {
+        const URL = pythonURI + '/api/id';
+        return fetch(URL, fetchOptions)
+            .then(response => {
+                if (response.status !== 200) {
+                    console.error("HTTP status code: " + response.status);
+                    return null;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data === null) return null;
+                console.log(data);
+                return data;
+            })
+            .catch(err => {
+                console.error("Fetch error: ", err);
+                return null;
+            });
+    }
     /**
      * Start the game
      */
@@ -22,6 +41,9 @@ class Game {
         // Load environment, characters, and game levels
     }
 
+    static fetchStats() {
+
+    }
     /**
      * Update game statistics (e.g., score, progress)
      */
