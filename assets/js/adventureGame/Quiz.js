@@ -17,11 +17,12 @@ class Quiz {
             @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
             /************************************************
-             * AN EXTRA-EXCITING, FESTIVE THEME
-             * Confetti, sparkles, shimmering edges, etc.
+             * EXTREME, PARTY-TIME THEME
+             * Multiple waves of confetti, swirling background,
+             * spinning container, and rainbow glow edges!
              ************************************************/
 
-            /* SCROLL APPEARANCE & SHIMMERING EFFECTS */
+            /* SCROLL APPEARANCE & RAINBOW GLOW ANIMATION */
             .scroll-edge {
                 position: relative;
                 border: 8px solid #5c3b0b; /* Dark wood-like color */
@@ -33,29 +34,49 @@ class Quiz {
                     rgba(245, 194, 7, 0.2) 20px,
                     rgba(245, 194, 7, 0.2) 40px
                 );
-                box-shadow: 
-                    0px 0px 15px rgba(245, 194, 7, 0.6),
-                    0px 0px 50px rgba(245, 194, 7, 0.2) inset;
                 border-radius: 10px;
-                /* Shimmer edges around the container */
-                animation: shimmer 3s infinite;
+                /* Animated rainbow border glow */
+                animation: rainbowGlow 3s infinite;
+                box-shadow:
+                    0px 0px 20px rgba(255, 255, 255, 0.4),
+                    0px 0px 50px rgba(255, 255, 255, 0.2) inset;
             }
 
-            /* Shimmer keyframes for edges */
-            @keyframes shimmer {
-                0%, 100% {
-                    box-shadow: 
-                        0px 0px 15px rgba(245, 194, 7, 0.6),
-                        0px 0px 50px rgba(245, 194, 7, 0.2) inset;
+            /* Rainbow Glow: cycles through the hue spectrum */
+            @keyframes rainbowGlow {
+                0% {
+                    box-shadow:
+                        0 0 20px hsl(0, 100%, 50%),
+                        0 0 50px rgba(255, 255, 255, 0.2) inset;
+                    border-color: hsl(0, 100%, 50%);
+                }
+                25% {
+                    box-shadow:
+                        0 0 20px hsl(90, 100%, 50%),
+                        0 0 50px rgba(255, 255, 255, 0.2) inset;
+                    border-color: hsl(90, 100%, 50%);
                 }
                 50% {
-                    box-shadow: 
-                        0px 0px 20px rgba(245, 194, 7, 1),
-                        0px 0px 60px rgba(245, 194, 7, 0.5) inset;
+                    box-shadow:
+                        0 0 20px hsl(180, 100%, 50%),
+                        0 0 50px rgba(255, 255, 255, 0.2) inset;
+                    border-color: hsl(180, 100%, 50%);
+                }
+                75% {
+                    box-shadow:
+                        0 0 20px hsl(270, 100%, 50%),
+                        0 0 50px rgba(255, 255, 255, 0.2) inset;
+                    border-color: hsl(270, 100%, 50%);
+                }
+                100% {
+                    box-shadow:
+                        0 0 20px hsl(360, 100%, 50%),
+                        0 0 50px rgba(255, 255, 255, 0.2) inset;
+                    border-color: hsl(360, 100%, 50%);
                 }
             }
 
-            /* For corner "scroll circles" or embellishments (optional) */
+            /* Optional circles for "scroll corners" */
             .scroll-edge::before,
             .scroll-edge::after {
                 content: '';
@@ -76,7 +97,7 @@ class Quiz {
                 right: -38px;
             }
 
-            /* QUIZ POPUP */
+            /* QUIZ POPUP (NOW WITH SPIN) */
             .quiz-popup {
                 position: fixed;
                 width: 50%;
@@ -84,7 +105,6 @@ class Quiz {
                 left: 50%;
                 transform: translate(-50%, 0);
                 z-index: 9999;
-                animation: fadeIn 0.3s ease-in-out;
                 max-height: 70vh;
                 display: flex;
                 flex-direction: column;
@@ -92,27 +112,52 @@ class Quiz {
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 color: #f5c207;
+                opacity: 0;  /* Start hidden for fade/ spin in */
+                animation: fadeIn 0.3s ease-in-out forwards;
+            }
+
+            /* Spin it after submission */
+            .celebration-spin {
+                animation: spinMe 1s ease-in-out forwards;
+            }
+            @keyframes spinMe {
+                0% { transform: translate(-50%, 0) rotate(0deg); }
+                100% { transform: translate(-50%, 0) rotate(360deg) scale(1.1); }
             }
 
             /* Fade-in animation for the panel */
             @keyframes fadeIn {
-                from { 
-                    opacity: 0; 
-                    transform: translate(-50%, -10%); 
-                }
                 to { 
                     opacity: 1; 
-                    transform: translate(-50%, 0); 
                 }
             }
 
-            /* SCROLLABLE QUESTION AREA */
+            /* SCROLLABLE QUESTION AREA WITH SWIRLING BG */
             .quiz-content {
                 overflow-y: auto;
                 max-height: 50vh;
                 padding: 10px;
-                background: rgba(0, 0, 0, 0.3);
                 border-radius: 5px;
+                animation: swirlBG 6s linear infinite;
+            }
+
+            /* Swirl BG: moves from top-left to bottom-right in a cyclical pattern */
+            @keyframes swirlBG {
+                0% {
+                    background: radial-gradient(circle at 0% 0%, #000000, #1a1005, #462b07);
+                }
+                25% {
+                    background: radial-gradient(circle at 100% 0%, #100f31, #461116, #720707);
+                }
+                50% {
+                    background: radial-gradient(circle at 100% 100%, #000000, #070640, #46116f);
+                }
+                75% {
+                    background: radial-gradient(circle at 0% 100%, #000000, #1a1005, #462b07);
+                }
+                100% {
+                    background: radial-gradient(circle at 0% 0%, #000000, #1a1005, #462b07);
+                }
             }
 
             /* TABLE */
@@ -120,7 +165,6 @@ class Quiz {
                 width: 100%;
                 border-collapse: collapse;
             }
-
             .quiz-table th {
                 background: rgba(245, 194, 7, 0.3);
                 color: #ffe567;
@@ -130,7 +174,6 @@ class Quiz {
                 text-shadow: 0 0 8px rgba(245, 194, 7, 0.8);
                 border-bottom: 3px solid #f5c207;
             }
-
             .quiz-table td {
                 padding: 12px;
                 border-bottom: 1px solid rgba(255, 229, 103, 0.2);
@@ -150,7 +193,6 @@ class Quiz {
                 font-family: 'Press Start 2P', cursive;
                 transition: all 0.2s ease-in-out;
             }
-
             .quiz-input:focus {
                 outline: none;
                 border: 2px solid #f5c207;
@@ -174,7 +216,6 @@ class Quiz {
                 text-transform: uppercase;
                 box-shadow: 0 0 6px #2ecc71;
             }
-
             .quiz-submit:hover {
                 background-color: #27ae60;
                 box-shadow: 0 0 15px #2ecc71;
@@ -194,18 +235,22 @@ class Quiz {
             }
 
             /************************************************
-             * CONFETTI STYLES
+             * CONFETTI & STAR CONFETTI STYLES
              ************************************************/
-            .confetti-piece {
+            .confetti-piece, .star-confetti {
                 position: fixed;
-                top: 0;
+                top: -20px; /* start above the viewport */
                 width: 10px;
                 height: 10px;
-                background-color: #f5c207;
                 opacity: 0.8;
                 z-index: 10000;
                 pointer-events: none;
                 animation: confettiFall linear forwards;
+            }
+
+            /* Square confetti default color */
+            .confetti-piece {
+                background-color: #f5c207;
             }
 
             /* We'll override each piece's animation-duration 
@@ -215,8 +260,26 @@ class Quiz {
                     transform: translateY(-100px) rotateZ(0deg);
                 }
                 100% {
-                    transform: translateY(120vh) rotateZ(720deg);
+                    transform: translateY(110vh) rotateZ(720deg);
                 }
+            }
+
+            /* STAR confetti: using a star shape trick with clip-path */
+            .star-confetti {
+                background: none;
+                clip-path: polygon(
+                    50% 0%,
+                    61% 35%,
+                    98% 35%,
+                    68% 57%,
+                    79% 91%,
+                    50% 70%,
+                    21% 91%,
+                    32% 57%,
+                    2% 35%,
+                    39% 35%
+                );
+                background-color: #ff0055;
             }
         `;
         document.head.appendChild(style);
@@ -242,6 +305,8 @@ class Quiz {
             promptDropDown.style.top = "0";  
             promptDropDown.style.left = "-100%"; 
             promptDropDown.style.transition = "all 0.3s ease-in-out";
+            // Also remove the spin class for next time
+            promptDropDown.classList.remove("celebration-spin");
         },
     };
 
@@ -310,20 +375,25 @@ class Quiz {
     }
 
     /* 
-     * Simple JavaScript confetti effect:
-     * 1. Creates multiple colored confetti pieces
-     * 2. Appends them to the DOM
-     * 3. Randomly positions & animates them
-     * 4. Removes them after animation completes
+     * Confetti effect with two waves:
+     * 1) Regular square confetti
+     * 2) Star-shaped confetti
      */
     triggerConfetti() {
+        // Some bright colors for squares
         const confettiColors = [
             "#f5c207", "#f58b07", "#f55707", 
             "#07f5ce", "#07adf5", "#a507f5", 
-            "#f507b8", "#07f53b"
+            "#f507b8", "#07f53b", "#ffef00", "#f50039"
         ];
-        const confettiCount = 40; // Adjust for more/less confetti
-        for (let i = 0; i < confettiCount; i++) {
+        // Additional bright colors for star confetti
+        const starColors = [
+            "#ff00f5", "#9100ff", "#00ffe2", "#ff00c8", "#ff8400", "#ff0000"
+        ];
+
+        /* 1) SQUARE CONFETTI */
+        const confettiCount1 = 40; // Adjust for more or less
+        for (let i = 0; i < confettiCount1; i++) {
             const confetti = document.createElement("div");
             confetti.classList.add("confetti-piece");
             // Randomize color
@@ -342,6 +412,32 @@ class Quiz {
                 confetti.remove();
             }, fallDuration * 1000);
         }
+
+        /* 2) STAR CONFETTI */
+        const confettiCount2 = 20;
+        setTimeout(() => {
+            for (let i = 0; i < confettiCount2; i++) {
+                const star = document.createElement("div");
+                star.classList.add("star-confetti");
+                // Random color for the star
+                star.style.backgroundColor =
+                    starColors[Math.floor(Math.random() * starColors.length)];
+                // Random horizontal start
+                star.style.left = Math.random() * 100 + "%";
+                // Random falling duration
+                const starFall = (Math.random() * 2 + 1).toFixed(2);
+                star.style.animationDuration = starFall + "s";
+
+                document.body.appendChild(star);
+
+                // Remove star after its animation
+                setTimeout(() => {
+                    star.remove();
+                }, starFall * 1000);
+            }
+        }, 500); 
+        // Wait half a second so the star confetti starts
+        // after the squares, creating a 2-wave effect
     }
 
     handleSubmit() {
@@ -352,8 +448,12 @@ class Quiz {
         }));
         console.log("Submitted Answers:", answers);
 
-        // Trigger confetti effect
+        // Trigger multi-wave confetti
         this.triggerConfetti();
+
+        // Make the quiz container do a "celebration spin"
+        const promptDropDown = document.getElementById("promptDropDown");
+        promptDropDown.classList.add("celebration-spin");
 
         alert("Your answers have been submitted!");
         this.isOpen = false;
