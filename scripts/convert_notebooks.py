@@ -7,6 +7,8 @@ import yaml
 import sys
 import subprocess
 from hashlib import sha256
+from scripts.progress_bar import ProgressBar
+
 
 notebook_directory = "_notebooks"
 destination_directory = "_posts"
@@ -15,12 +17,14 @@ mermaid_output_directory = "assets/mermaid"
 def error_cleanup(notebook_file):
     destination_file = os.path.basename(notebook_file).replace(".ipynb", "_IPYNB_2_.md")
     destination_path = os.path.join(destination_directory, destination_file)
+    
     if os.path.exists(destination_path):
         os.remove(destination_path)
 
 def extract_front_matter(notebook_file, cell):
     front_matter = {}
     source = cell.get('source', '')
+    
     if source.startswith('---'):
         try:
             front_matter = yaml.safe_load(source.split('---', 2)[1])
@@ -32,40 +36,16 @@ def extract_front_matter(notebook_file, cell):
 
 def get_relative_output_path(notebook_file):
     relative_path = os.path.relpath(notebook_file, notebook_directory)
+    
     markdown_filename = relative_path.replace(".ipynb", "_IPYNB_2_.md")
+    
     return os.path.join(destination_directory, markdown_filename)
+    
 
 def ensure_directory_exists(path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
-def convert_mermaid_to_image(mermaid_code):
-    ensure_directory_exists(mermaid_output_directory)
-    mermaid_hash = sha256(mermaid_code.encode()).hexdigest()
-    image_path = os.path.join(mermaid_output_directory, f"{mermaid_hash}.png")
-    
-    if not os.path.exists(image_path):
-        try:
-            process = subprocess.run([
-                "mmdc", "-i", "-", "-o", image_path, "-s", "10"
-            ], input=mermaid_code, text=True, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Error converting mermaid diagram: {e}")
-            return None
-    return image_path
-
-def process_mermaid_cells(notebook):
-    for cell in notebook.cells:
-        if cell.cell_type == "markdown" and cell.source.startswith("~~~mermaid"):
-            mermaid_code = cell.source.replace("~~~mermaid", "").replace("~~~", "").strip()
-            image_path = convert_mermaid_to_image(mermaid_code)
-            if image_path:
-                cell.source = f"![Mermaid Diagram](../../../{image_path})"
-        elif cell.cell_type == "markdown" and cell.source.startswith("```mermaid"):
-            mermaid_code = cell.source.replace("```mermaid", "").replace("```", "").strip()
-            image_path = convert_mermaid_to_image(mermaid_code)
-            if image_path:
-                cell.source = f"![Mermaid Diagram](../../../{image_path})"
-
+# Function to convert the notebook to Markdown with front matter
 def convert_notebook_to_markdown_with_front_matter(notebook_file):
     with open(notebook_file, 'r', encoding='utf-8') as file:
         notebook = nbformat.read(file, as_version=nbformat.NO_CONVERT)
@@ -81,6 +61,7 @@ def convert_notebook_to_markdown_with_front_matter(notebook_file):
         with open(destination_path, "w", encoding="utf-8") as file:
             file.write(markdown_with_front_matter)
 
+# Function to convert the Jupyter Notebook files to Markdown
 def convert_single_notebook(notebook_file):
     try:
         convert_notebook_to_markdown_with_front_matter(notebook_file)
@@ -91,13 +72,22 @@ def convert_single_notebook(notebook_file):
 
 def convert_notebooks():
     notebook_files = glob.glob(f"{notebook_directory}/**/*.ipynb", recursive=True)
+
+    # create progress bar
+    convertBar = ProgressBar(
+        userInfo="Notebook conversion progress:", total=(len(notebook_files))
+    )
+    
     for notebook_file in notebook_files:
         try:
             convert_single_notebook(notebook_file)
+            convertBar.continue_progress()
         except ConversionException as e:
             print(f"Conversion error for {notebook_file}: {str(e)}")
             error_cleanup(notebook_file)
             sys.exit(1)
+    
+    convertBar.end_progress()
 
 if __name__ == "__main__":
     convert_notebooks()
