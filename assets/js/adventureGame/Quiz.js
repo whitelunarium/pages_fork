@@ -6,7 +6,7 @@ class Quiz {
         this.dim = false;
         this.currentNpc = null;
         this.currentPage = 0;
-        this.injectStyles(); // Injects CSS styles dynamically
+        this.injectStyles(); // Inject CSS styles dynamically
     }
 
     // Inject CSS styles directly into the document
@@ -16,14 +16,15 @@ class Quiz {
             /* Pixelated font */
             @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-            /* 
-             * ADVANCED ADVENTURE THEME 
-             * Combining a treasure-hunt vibe with retro gaming aesthetics 
-             */
+            /************************************************
+             * AN EXTRA-EXCITING, FESTIVE THEME
+             * Confetti, sparkles, shimmering edges, etc.
+             ************************************************/
 
-            /* SCROLL APPEARANCE FOR THE POPUP EDGES */
+            /* SCROLL APPEARANCE & SHIMMERING EFFECTS */
             .scroll-edge {
-                border: 8px solid #5c3b0b;         /* Dark wood-like color */
+                position: relative;
+                border: 8px solid #5c3b0b; /* Dark wood-like color */
                 padding: 15px;
                 background: repeating-linear-gradient(
                     45deg,
@@ -36,9 +37,25 @@ class Quiz {
                     0px 0px 15px rgba(245, 194, 7, 0.6),
                     0px 0px 50px rgba(245, 194, 7, 0.2) inset;
                 border-radius: 10px;
-                position: relative;
-                /* Slight paper "curl" corners */
+                /* Shimmer edges around the container */
+                animation: shimmer 3s infinite;
             }
+
+            /* Shimmer keyframes for edges */
+            @keyframes shimmer {
+                0%, 100% {
+                    box-shadow: 
+                        0px 0px 15px rgba(245, 194, 7, 0.6),
+                        0px 0px 50px rgba(245, 194, 7, 0.2) inset;
+                }
+                50% {
+                    box-shadow: 
+                        0px 0px 20px rgba(245, 194, 7, 1),
+                        0px 0px 60px rgba(245, 194, 7, 0.5) inset;
+                }
+            }
+
+            /* For corner "scroll circles" or embellishments (optional) */
             .scroll-edge::before,
             .scroll-edge::after {
                 content: '';
@@ -77,16 +94,6 @@ class Quiz {
                 color: #f5c207;
             }
 
-            /* Flicker effect on background */
-            @keyframes flickerBg {
-                0%, 100% {
-                    background: linear-gradient(135deg, #3a2f0b, #1a1005);
-                }
-                50% {
-                    background: linear-gradient(135deg, #4b370a, #231100);
-                }
-            }
-
             /* Fade-in animation for the panel */
             @keyframes fadeIn {
                 from { 
@@ -104,14 +111,11 @@ class Quiz {
                 overflow-y: auto;
                 max-height: 50vh;
                 padding: 10px;
-                background: rgba(0, 0, 0, 0.4);
+                background: rgba(0, 0, 0, 0.3);
                 border-radius: 5px;
-                /* Flicker effect to give a torch-lit vibe */
-                animation: flickerBg 3s infinite;
-                flex-grow: 1;
             }
 
-            /* TABLE (Retro gold style) */
+            /* TABLE */
             .quiz-table {
                 width: 100%;
                 border-collapse: collapse;
@@ -187,6 +191,32 @@ class Quiz {
                 top: 0;
                 left: 0;
                 cursor: pointer;
+            }
+
+            /************************************************
+             * CONFETTI STYLES
+             ************************************************/
+            .confetti-piece {
+                position: fixed;
+                top: 0;
+                width: 10px;
+                height: 10px;
+                background-color: #f5c207;
+                opacity: 0.8;
+                z-index: 10000;
+                pointer-events: none;
+                animation: confettiFall linear forwards;
+            }
+
+            /* We'll override each piece's animation-duration 
+               and horizontal movement with inline styles in JS */
+            @keyframes confettiFall {
+                0% {
+                    transform: translateY(-100px) rotateZ(0deg);
+                }
+                100% {
+                    transform: translateY(120vh) rotateZ(720deg);
+                }
             }
         `;
         document.head.appendChild(style);
@@ -279,6 +309,41 @@ class Quiz {
         return container;
     }
 
+    /* 
+     * Simple JavaScript confetti effect:
+     * 1. Creates multiple colored confetti pieces
+     * 2. Appends them to the DOM
+     * 3. Randomly positions & animates them
+     * 4. Removes them after animation completes
+     */
+    triggerConfetti() {
+        const confettiColors = [
+            "#f5c207", "#f58b07", "#f55707", 
+            "#07f5ce", "#07adf5", "#a507f5", 
+            "#f507b8", "#07f53b"
+        ];
+        const confettiCount = 40; // Adjust for more/less confetti
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti-piece");
+            // Randomize color
+            confetti.style.backgroundColor = 
+                confettiColors[Math.floor(Math.random() * confettiColors.length)];
+            // Random horizontal start (0% to 100% of viewport width)
+            confetti.style.left = Math.random() * 100 + "%";
+            // Random falling duration between 1s and 3s
+            const fallDuration = (Math.random() * 2 + 1).toFixed(2);
+            confetti.style.animationDuration = fallDuration + "s";
+
+            document.body.appendChild(confetti);
+
+            // Remove the piece after animation ends
+            setTimeout(() => {
+                confetti.remove();
+            }, fallDuration * 1000);
+        }
+    }
+
     handleSubmit() {
         const inputs = document.querySelectorAll(".quiz-input");
         const answers = Array.from(inputs).map(input => ({
@@ -286,6 +351,9 @@ class Quiz {
             answer: input.value.trim()
         }));
         console.log("Submitted Answers:", answers);
+
+        // Trigger confetti effect
+        this.triggerConfetti();
 
         alert("Your answers have been submitted!");
         this.isOpen = false;
