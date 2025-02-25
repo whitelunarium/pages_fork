@@ -307,6 +307,8 @@ search_exclude: true
 
                 name.textContent = data.name;
                 ghid.textContent = data.uid;
+                //store ghid in localStorage
+                localStorage.setItem("ghid", data.uid);
                 id.textContent = data.email;
                 age.textContent = data.age;
                 roles.textContent = data.roles.map(role => role.name).join(', ');

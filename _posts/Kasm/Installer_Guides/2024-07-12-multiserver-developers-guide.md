@@ -10,7 +10,6 @@ comments: true
 permalink: /kasm/multiserver/development
 ---
 
-{% raw %}
 
 ## Initialization Guide
 
@@ -128,7 +127,7 @@ chmod +x main.sh && ./main.sh
 
 The script will first check for the prerequisite dependencies, and will then initialize the dashboard, which will give the menu options:
 
-```
+```text
 Menu
 1. Install Kasm (run launch.sh)
 2. Install Kasm Images on Prewritten Inventory
@@ -162,7 +161,7 @@ Then, the script outputs the ascii art in `ascii_launch`:
 
 *In ascii_launch:*
 
-```
+```text
 ,--. ,--.                             ,--.   ,--.        ,--.  ,--.  ,--. ,---.                                        
 |  .'   / ,--,--. ,---. ,--,--,--.    |   `.'   |,--.,--.|  |,-'  '-.`--''   .-'  ,---. ,--.--.,--.  ,--.,---. ,--.--. 
 |  .   ' ' ,-.  |(  .-' |        |    |  |'.'|  ||  ||  ||  |'-.  .-',--.`.  `-. | .-. :|  .--' \  `'  /| .-. :|  .--' 
@@ -340,7 +339,7 @@ fi
 
 Where now, we begin terraform configuration. The requests are stored in the vars file `variables.tf`:
 
-```
+```shell
 variable "region" {
   description = "The AWS region to deploy in"
   type        = string
@@ -385,7 +384,7 @@ variable "custom_ami" {
 
 The script then proceeds to `main.tf`. First, we set local variables for the amis so we can deploy in any region without having to worry about the changes between amis:
 
-```
+```shell
 locals {
   amis = {
     "us-west-1" = "ami-0ff591da048329e00"
@@ -401,7 +400,7 @@ locals {
 
 Then, we create a SSH key so that we can SSH to each image, which will be needed later on.
 
-```
+```shell
 resource "tls_private_key" "deployer" { # Generate key
   algorithm = "RSA"
   rsa_bits  = 2048
@@ -425,7 +424,7 @@ resource "random_id" "key_id" { # random ending so if multiple people are using 
 
 Since Kasm uses the ports 22 (ssh), 5432 (database), 6379 (redis), and 443 (web), we need to allow connections to those ports from the security group. This is where we create our security group so that the resources can access each other.
 
-```
+```shell
 resource "aws_security_group" "kasm_sg" {
   name        = "kasm_sg"
   description = "Security group for Kasm servers"
@@ -469,7 +468,7 @@ resource "aws_security_group" "kasm_sg" {
 
 Next, the system creates the images. For the agent servers, it uses a count increment method to dynamically assign names to each of the agent servers.
 
-```
+```shell
 resource "aws_instance" "agent_servers" {
   count         = var.agent_server_count
   ami           = local.agent_ami
@@ -490,7 +489,7 @@ resource "aws_instance" "agent_servers" {
 
 After, it creates servers for web, db, and guac:
 
-```
+```shell
 resource "aws_instance" "db_server" {
   ami           = local.other_ami
   instance_type = var.other_server_size
@@ -542,7 +541,7 @@ resource "aws_instance" "web_server" {
 
 Finally, to top of the creation, the system creates an Elastic IP address (EIP) for the web server to prevent it from changing, and assigns it to the web image.
 
-```
+```shell
 resource "aws_eip" "web_server_eip" {
   instance = aws_instance.web_server.id
 }
@@ -550,9 +549,9 @@ resource "aws_eip" "web_server_eip" {
 
 After this, the system outputs all the data to the script, which captures it and places it in files.
 
-*In outputs.tf*
+### In outputs.tf
 
-```
+```shell
 output "agent_server_ips" {
   value = [for instance in aws_instance.agent_servers : instance.public_ip]
 }
@@ -574,7 +573,7 @@ output "key_name" {
 }
 ```
 
-*In deploy.sh*
+### In deploy.sh
 
 ```sh
 # Capture IP addresses from Terraform output
@@ -820,6 +819,8 @@ The `install_kasm.yml` file contains the head of the kasm install script. It pas
     - install_common
   any_errors_fatal: true
 ```
+
+{% raw %}
 
 ```yml
 - include_tasks: 
@@ -1089,7 +1090,9 @@ Once the system is finished, it will be complete with the installation. You can 
 cat web_server_ip.txt
 ```
 
-*If blocked, click on Advanced and then Proceed to the Connection to access the system*
+### If blocked
+
+If blocked, click on Advanced and then Proceed to the Connection to access the system.
 
 ## (2) Installation of Kasm on Prewritten Inventory
 
@@ -1148,9 +1151,9 @@ This can be done for `web`, `agent`, and `guac`, but `db` is not supported as of
 
 In order to deploy with a dedicated remote database that is not managed by ansible you will need to provide endpoint and authentication credentials. To properly init the database superuser credentials along with the credentials the application will use to access it will need to be defined. 
 
-1. First remove the `zone1_db` entry from inventory:
+#### First remove the `zone1_db` entry from inventory:
 
-```
+```yaml
         #zone1_db:
           #hosts:
             #zone1_db_1:
@@ -1160,9 +1163,9 @@ In order to deploy with a dedicated remote database that is not managed by ansib
               #ansible_ssh_private_key_file: ~/.ssh/id_rsa
 ```
 
-2. Set the relevant credentials and enpoints:
+#### Set the relevant credentials and enpoints:
 
-```
+```yaml
     ## PostgreSQL settings ##
     ##############################################
     # PostgreSQL remote DB connection parameters #
@@ -1183,18 +1186,17 @@ In order to deploy with a dedicated remote database that is not managed by ansib
     redis_password: REDIS_PASSWORD
 ```
 
-3. Run the deployment:
- 
-Option 2 on the Menu or `ansible-playbook -i inventory install_kasm.yml`
+#### Run the deployment:
 
+Option 2 on the Menu or `ansible-playbook -i inventory install_kasm.yml`
 
 **Post deployment if the `install_kasm.yml` needs to be run again to make scaling changes it is important to set `init_remote_db: false` this should happen automatically but best to check**
 
 ### Deploying a Dedicated Kasm Proxy
 
-1. Before deployment or while scaling open `inventory` and uncomment/add the relevant lines for :
+#### Before deployment or while scaling open `inventory` and uncomment/add the relevant lines for :
 
-```
+```yaml
         # Optional Web Proxy server
         #zone1_proxy:
           #hosts:
@@ -1205,7 +1207,7 @@ Option 2 on the Menu or `ansible-playbook -i inventory install_kasm.yml`
               #ansible_ssh_private_key_file: ~/.ssh/id_rsa
 ```
 
-2. Post deployment follow the instructions [here](https://www.kasmweb.com/docs/latest/install/multi_server_install/multi_installation_proxy.html#post-install-configuration) to configure the proxy for use.
+#### Post deployment follow the instructions [here](https://www.kasmweb.com/docs/latest/install/multi_server_install/multi_installation_proxy.html#post-install-configuration) to configure the proxy for use.
 
 **It is important to use a DNS endpoint for the `web` and `proxy` role as during deployment the CORS settings will be linked to that domain**
 
@@ -1622,5 +1624,4 @@ For `patch_os.yml`, apt is just upgraded and all packages are brought online. Fi
   when: ansible_pkg_mgr == "apt"
   become: true
 ```
-
 {% endraw %}

@@ -9,7 +9,7 @@ menu: nav/home.html
 <div class="toolkit-buttons">
   <!-- First Row of Buttons -->
     <a href="{{site.baseurl}}/stocks/home" class="toolkit-button" data-description="Experience real-time stock market simulation with virtual trading. Monitor popular stocks like Apple, Google, and Microsoft, manage your portfolio, and climb the leaderboard as you learn investment strategies in a risk-free environment." data-authors="Author: NITD+People">
-    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/stocks.png" alt="Stocks Home" />
+    <img src="{{site.baseurl}}/images/toolkit-nav-buttons/stocks.png" alt="Simulation Home" />
     <span class="button-name">Stocks Home</span>
     <div class="description">
       <p>Experience real-time stock market simulation with virtual trading. Monitor popular stocks like Apple, Google, and Microsoft, manage your portfolio, and climb the leaderboard as you learn investment strategies in a risk-free environment.</p>

@@ -93,19 +93,17 @@ title: Stocks Game
 
 </head>
 <body>
-    <nav class="navbar">
-        
+    <nav class="navbar">    
         <nav class="navbar">
-        <div class="logo">NITD</div>
-        <div class="nav-buttons">
+          <div class="nav-buttons">
             <a href="{{site.baseurl}}/stocks/home">Home</a>
             <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
             <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+            <a href="{{site.baseurl}}/crypto/mining">Mining</a>
             <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
             <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
             <a href="{{site.baseurl}}/stocks/game">Game</a>
-
+            <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
         </div>
     </nav>
     </nav>

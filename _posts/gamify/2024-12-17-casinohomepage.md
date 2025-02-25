@@ -8,12 +8,12 @@ permalink: /gamify/casinohomepage
     body {
         text-align: center;
         font-family: 'Arial', sans-serif;
-        background: url('./images/gamify/casino.jpg') no-repeat center center fixed;
         background-size: cover;
         color: white;
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+        position: relative;
     }
     .container {
         max-width: 800px;
@@ -58,14 +58,6 @@ permalink: /gamify/casinohomepage
         transform: scale(1.1);
         box-shadow: 0 10px 20px rgba(40, 167, 69, 0.6);
     }
-    .game-box h2 {
-        font-size: 2em;
-        margin-bottom: 10px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-    .game-box p {
-        font-size: 1.2em;
-    }
     .leaderboard {
         margin-top: 40px;
         padding: 20px;
@@ -73,28 +65,20 @@ permalink: /gamify/casinohomepage
         border-radius: 10px;
         border: 2px solid #ffc107;
     }
-    .leaderboard h2 {
-        font-size: 1.8em;
-        margin-bottom: 15px;
+    
+    .floating-symbol {
+        position: absolute;
+        font-size: 2em;
+        opacity: 0.7;
+        animation: float 5s infinite ease-in-out;
     }
-    .leaderboard ul {
-        list-style: none;
-        padding: 0;
-    }
-    .leaderboard li {
-        font-size: 1.2em;
-        padding: 8px;
-        border-bottom: 1px solid #555;
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        50% { transform: translateY(-50px) rotate(180deg); opacity: 0.5; }
+        100% { transform: translateY(0) rotate(360deg); opacity: 1; }
     }
 </style>
-<div class="container">
-    <div class="game-boxes">
-        <div class="game-box" onclick="location='./moneyprofile'">
-            <h2>Money Profile</h2>
-            <p>Keep track of your balance while you gamble!</p>
-        </div>
-    </div>
-</div>
+
 <div class="container">
     <div class="game-boxes">
         <div class="game-box" onclick="location='./blackjack'">
@@ -113,33 +97,5 @@ permalink: /gamify/casinohomepage
             <h2>Poker</h2>
             <p>Challenge your skills in this classic card game.</p>
         </div>
-    </div>
-
-    <div class="leaderboard" id="leaderboard">
-        <h2>Leaderboard</h2>
-        <ul id="leaderboard-list">
-            <li>Loading...</li>
-        </ul>
-    </div>
+    </div>  
 </div>
-
-<script>
-    async function fetchLeaderboard() {
-        try {
-            const response = await fetch("http://localhost:8085/api/top5bybalance");
-            const data = await response.json();
-            const leaderboardList = document.getElementById("leaderboard-list");
-            leaderboardList.innerHTML = "";
-
-            data.forEach((player, index) => {
-                let listItem = document.createElement("li");
-                listItem.textContent = `#${index + 1} ${player.name} - $${player.balance}`;
-                leaderboardList.appendChild(listItem);
-            });
-        } catch (error) {
-            console.error("Error fetching leaderboard:", error);
-        }
-    }
-    
-    fetchLeaderboard();
-</script>

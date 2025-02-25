@@ -114,23 +114,6 @@ layout: post
     .shake {
         animation: shake 0.5s infinite;
     }
-    #prevPage, #nextPage {
-        font-size: 12px;
-        padding: 4px 8px; 
-        margin: 0 5px; 
-        height: 30px; 
-        width: auto; 
-    }
-    #pageInfo {
-        font-size: 14px; 
-        margin-right: 10px;
-    }
-    #pagination-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px; 
-    }
 </style>
 
 <div id="modal" class="modal">
@@ -171,11 +154,11 @@ layout: post
         </thead>
         <tbody id="namesTableBody"></tbody>
     </table>
-<div id="pagination-container">
+<!-- <div id="pagination-container">
     <button id="prevPage" onclick="changePage(-1)">Previous</button>
     <span id="pageInfo">Page 1 of 10</span>
     <button id="nextPage" onclick="changePage(1)">Next</button>
-</div>
+</div> -->
 <div class="Review-Group" id="Review-Group">Group Members: </div>
 <br><br><br>
 <div>
@@ -223,6 +206,7 @@ layout: post
     let StuName;
     let Student;
      let people = [], filteredPeople = [], listofpeople = new Set(), currentPage = 1, rowsPerPage = 5, totalPages = 1;
+     let listofpeopleIds=new Set();
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
     function Submit() {
@@ -243,6 +227,8 @@ layout: post
         console.log(now);
         console.log(deadlineDate);
         console.log(deadlineDate-now);
+
+        console.log(listofpeopleIds);
         // const dataRequest = {
         //     "studentId":studentId,
         //     "content": submissionContent,
@@ -255,12 +241,23 @@ layout: post
         formData.append('comment', comment);
         formData.append('isLate', deadlineDate-now<0);
 
+        // const data;
+        console.log(Array.from(listofpeopleIds));
+        const submissionData = {
+            assignmentId: assigmentId,  
+            studentIds: Array.from(listofpeopleIds), 
+            content: submissionContent,
+            comment: comment,
+            isLate: deadlineDate - now < 0
+        };
+        console.log(JSON.stringify(submissionData));
+
         // console.log(dataRequest);
 
         fetch(urllink_submit, {
-                fetchOptions,
+                ...fetchOptions,
                 method: "POST",
-                 body: formData
+                 body: JSON.stringify(submissionData)
             })
         .then(response => {
             const outputBox = document.getElementById('outputBox');
@@ -384,7 +381,9 @@ layout: post
                 userId=data.id;
                 console.log("here",data);
                 StuName=data.name;
-                addName(StuName);
+                let info=data.name+","+String(data.id);
+                console.log(info);
+                addName(info);
 
 
             })
@@ -394,8 +393,6 @@ layout: post
     }
 
 
-    
-
     async function fetchSubmissions(){
         const urllink=javaURI+"/api/submissions/getSubmissions";
         const urllink2=javaURI+"/assignment/"+assignIndex.toString();
@@ -403,6 +400,7 @@ layout: post
         try {
             const response = await fetch(`${urllink}/${userId}`, fetchOptions);
             const Submissions=await response.json();
+            console.log(Submissions);
             populateSubmissionsTable(Submissions);
         } catch (error) {
             console.error('Error fetching submissions:', error);
@@ -415,7 +413,7 @@ layout: post
     
         submissions.forEach(submission => {
             const row = document.createElement('tr');
-            //console.log(submission.assignmentid+" "+assignIndex);
+            console.log(submission.assignmentid+" "+assignIndex);
             if(submission.assignmentid==assignIndex){
                 const contentCell = document.createElement('td');
                 contentCell.textContent = submission.content || 'N/A'; 
@@ -424,6 +422,7 @@ layout: post
                 const gradeCell = document.createElement('td');
                 gradeCell.textContent = submission.grade || 'Ungraded'; 
                 row.appendChild(gradeCell);
+                console.log(submission.grade);
     
                 const feedbackCell = document.createElement('td');
                 feedbackCell.textContent = submission.feedback || 'No feedback yet'; 
@@ -445,12 +444,16 @@ layout: post
         populateTable(filteredPeople.slice(0, rowsPerPage));
     };
 
-    window.addName = function(name) {
-        console.log("Added name:", name);
-        listofpeople.add(name);
+    window.addName = function(info) {
+        console.log(info.split(","));
+        info=info.split(",");
+        console.log("Added name:", info[0]);
+        listofpeople.add(info[0]);
+        listofpeopleIds.add(Number(info[1]));
         console.log(listofpeople);
         const reviewGroup = document.getElementById('Review-Group');
         reviewGroup.textContent =  "Group Members: "+Array.from(listofpeople).join(", ");
+        console.log(listofpeopleIds);
     };
 
     async function fetchAllStudents() {
@@ -475,16 +478,16 @@ layout: post
         populateTable(filteredPeople.slice(startIdx, endIdx));
     };
 
-    window.changePage = function changePage(direction) {
-        if (direction === 'prev' && currentPage > 1) {
-            currentPage--;
-        } else if (direction === 'next' && currentPage < totalPages) {
-            currentPage++;
-        }
-        const startIdx = (currentPage - 1) * rowsPerPage;
-        const endIdx = startIdx + rowsPerPage;
-        populateTable(filteredPeople.slice(startIdx, endIdx));
-    };
+    // window.changePage = function changePage(direction) {
+    //     if (direction === 'prev' && currentPage > 1) {
+    //         currentPage--;
+    //     } else if (direction === 'next' && currentPage < totalPages) {
+    //         currentPage++;
+    //     }
+    //     const startIdx = (currentPage - 1) * rowsPerPage;
+    //     const endIdx = startIdx + rowsPerPage;
+    //     populateTable(filteredPeople.slice(startIdx, endIdx));
+    // };
 
     window.updatePageInfo = function updatePageInfo() {
     const pageInfo = document.getElementById("pageInfo");
@@ -499,7 +502,9 @@ layout: post
         tableBody.innerHTML = "";
         names.forEach(name => {
             const row = document.createElement("tr");
-            row.innerHTML = `<td>${name.name}</td><td><button onclick="addName('${name.name}')">Add</button></td>`;
+            let info=[name.name,name.id];
+            
+            row.innerHTML = `<td>${name.name}</td><td><button onclick="addName('${info}')">Add</button></td>`;
             tableBody.appendChild(row);
         });
         updatePageInfo();
@@ -507,7 +512,10 @@ layout: post
 
     fetchAllStudents();
 
-    getUserId();
-    fetchSubmissions();
-    fetchAssignments();
+   document.addEventListener("DOMContentLoaded", async () => {
+    await getUserId();
+    await fetchSubmissions();
+    await fetchAssignments();
+});
+
 </script>

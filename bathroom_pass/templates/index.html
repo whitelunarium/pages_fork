@@ -182,19 +182,10 @@
     </div>
     
     
-<script type="module">
-    import { javaURI, fetchOptions } from '/static/assets/api/pass_config.js';
-
-    //setTimeout(function() {
-    //    location.reload();
-    //}, 10000);
-    
-    const tinkleURL = javaURI + '/api/tinkle/add';
-// Load users from localStorage
-    function loadUsers() {
-        const storedUsers = localStorage.getItem('users');
-        return storedUsers ? JSON.parse(storedUsers) : {};
-    }
+    <script type="module">
+        import { pythonURI, fetchOptions } from '/static/assets/api/pass_config.js';
+        
+        const javaURI = "https://spring2025.nighthawkcodingsociety.com"
 
     // Save users to localStorage
     function saveUsers() {

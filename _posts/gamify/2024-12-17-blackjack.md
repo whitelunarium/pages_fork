@@ -35,8 +35,6 @@ permalink: /gamify/blackjack
         color: red;
         font-weight: bold;
     }
-
-
     .card {
         display: inline-block;
         width: 50px;
@@ -58,7 +56,6 @@ permalink: /gamify/blackjack
     .clubs, .spades {
         color: black;
     }
-
 </style>
 
 <div class="container">
@@ -79,7 +76,6 @@ permalink: /gamify/blackjack
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-
 
     const API_URL = `${javaURI}/api/casino/blackjack`;
     let uid = "";
@@ -115,9 +111,6 @@ permalink: /gamify/blackjack
 
             if (!response.ok) throw new Error("Failed to start game.");
             const data = await response.json();
-
-            updateUI(data, bet);
-
             updateUI(data);
         } catch (error) {
             document.getElementById("gameStatus").innerText = error.message;
@@ -153,7 +146,6 @@ permalink: /gamify/blackjack
             if (!response.ok) throw new Error("Failed to stand.");
             const data = await response.json();
             updateUI(data);
-
         } catch (error) {
             document.getElementById("gameStatus").innerText = error.message;
         }
@@ -162,7 +154,6 @@ permalink: /gamify/blackjack
     function updateBetDisplay() {
         document.getElementById("betValue").innerText = `$${document.getElementById("betAmount").value}`;
     }
-
 
     function updateUI(data) {
         console.log("API Response:", data);
@@ -229,5 +220,4 @@ permalink: /gamify/blackjack
             cardContainer.appendChild(cardElement);
         });
     }
-
 </script>
