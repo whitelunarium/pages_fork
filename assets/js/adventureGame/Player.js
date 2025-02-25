@@ -24,9 +24,9 @@ class Player extends Character {
     constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
         this.keypress = data?.keypress || {up: 87, left: 65, down: 83, right: 68};
+        this.pressedKeys = {}; // active keys array
         this.bindMovementKeyListners();
     }
-
 
     /**
      * Binds key event listeners to handle object movement.
@@ -40,24 +40,9 @@ class Player extends Character {
     }
 
     handleKeyDown({ keyCode }) {
-        switch (keyCode) {
-            case this.keypress.up:
-                this.velocity.y -= this.yVelocity;
-                this.direction = 'up';
-                break;
-            case this.keypress.left:
-                this.velocity.x -= this.xVelocity;
-                this.direction = 'left';
-                break;
-            case this.keypress.down:
-                this.velocity.y += this.yVelocity;
-                this.direction = 'down';
-                break;
-            case this.keypress.right:
-                this.velocity.x += this.xVelocity;
-                this.direction = 'right';
-                break;
-        }
+        // capture the key code of the key pressed
+        this.pressedKeys[keyCode] = true;
+        this.updateVelocityAndDirection();
     }
 
     /**
@@ -68,22 +53,50 @@ class Player extends Character {
      * @param {Object} event - The keyup event object.
      */
     handleKeyUp({ keyCode }) {
-        switch (keyCode) {
-            case this.keypress.up:
-                this.velocity.y = 0;
-                break;
-            case this.keypress.left:
-                this.velocity.x = 0;
-                break;
-            case this.keypress.down: 
-                this.velocity.y = 0;
-                break;
-            case this.keypress.right: 
-                this.velocity.x = 0;
-                break;
+        // remove the key code from the active keys array
+        if (keyCode in this.pressedKeys) {
+            delete this.pressedKeys[keyCode];
         }
+        this.updateVelocityAndDirection();
     }
 
+    /**
+     * Update the player's velocity and direction based on the pressed keys.
+     */
+    updateVelocityAndDirection() {
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
+        if (this.pressedKeys[this.keypress.up] && this.pressedKeys[this.keypress.left]) {
+            this.velocity.y -= this.yVelocity;
+            this.velocity.x -= this.xVelocity;
+            this.direction = 'upLeft';
+        } else if (this.pressedKeys[this.keypress.up] && this.pressedKeys[this.keypress.right]) {
+            this.velocity.y -= this.yVelocity;
+            this.velocity.x += this.xVelocity;
+            this.direction = 'upRight';
+        } else if (this.pressedKeys[this.keypress.down] && this.pressedKeys[this.keypress.left]) {
+            this.velocity.y += this.yVelocity;
+            this.velocity.x -= this.xVelocity;
+            this.direction = 'downLeft';
+        } else if (this.pressedKeys[this.keypress.down] && this.pressedKeys[this.keypress.right]) {
+            this.velocity.y += this.yVelocity;
+            this.velocity.x += this.xVelocity;
+            this.direction = 'downRight';
+        } else if (this.pressedKeys[this.keypress.up]) {
+            this.velocity.y -= this.yVelocity;
+            this.direction = 'up';
+        } else if (this.pressedKeys[this.keypress.left]) {
+            this.velocity.x -= this.xVelocity;
+            this.direction = 'left';
+        } else if (this.pressedKeys[this.keypress.down]) {
+            this.velocity.y += this.yVelocity;
+            this.direction = 'down';
+        } else if (this.pressedKeys[this.keypress.right]) {
+            this.velocity.x += this.xVelocity;
+            this.direction = 'right';
+        }
+    }
 }
 
 export default Player;
