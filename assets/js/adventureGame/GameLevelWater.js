@@ -37,7 +37,7 @@ class GameLevelWater {
         pixels: {height: 250, width: 167},
         orientation: {rows: 3, columns: 2 },
         down: {row: 0, start: 0, columns: 2 },
-        downLeft: {row: 0, start: 0, columns: 2, rotate: Math.Pi/16 }, // mirror is used to flip the sprite
+        downLeft: {row: 0, start: 0, columns: 2, mirror: true, rotate: Math.Pi/16 }, // mirror is used to flip the sprite
         downRight: {row: 0, start: 0, columns: 2, rotate: -Math.Pi/16 },
         left: {row: 1, start: 0, columns: 2, mirror: true }, // mirror is used to flip the sprite
         right: {row: 1, start: 0, columns: 2 },
