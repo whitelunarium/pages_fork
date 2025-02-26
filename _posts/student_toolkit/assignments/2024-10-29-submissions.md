@@ -118,7 +118,7 @@ layout: post
     position: relative;
     display: inline-block;
     width: 50px;
-    height: 24px;
+    height: 20px;
 }
 /* Hide default checkbox */
 .toggle-switch input {
@@ -140,9 +140,9 @@ layout: post
 .slider::before {
     content: "";
     position: absolute;
-    height: 20px;
+    height: 17px;
     width: 20px;
-    left: 4px;
+    left: 1px;
     bottom: 2px;
     background-color: white;
     border-radius: 50%;
@@ -153,6 +153,9 @@ layout: post
 }
 .toggle-switch input:checked + .slider::before {
     transform: translateX(26px); /* Move the circular knob */
+}
+.message {
+    font-size: 15px;
 }
 </style>
 
