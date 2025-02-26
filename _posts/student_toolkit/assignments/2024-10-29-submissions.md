@@ -162,7 +162,7 @@ layout: post
         <span class="slider"></span>
     </label>
     <p id="message" class="message">
-        Check the toggle to enable group submissions (add members of your group into the submission instead of separate submissions of the same content).
+        Check the toggle to enable group submissions (add members of your group into a common submission).
     </p>
 </div>
 <div id="modal" class="modal">
