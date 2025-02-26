@@ -465,24 +465,29 @@ layout: post
         const urllink=javaURI+"/api/submissions/getSubmissions";
         const urllink2=javaURI+"/assignment/"+assignIndex.toString();
         const theUserId=await getUserId();
+        console.log("here");
         try {
             const response = await fetch(`${urllink}/${userId}`, fetchOptions);
             const Submissions=await response.json();
-            console.log(Submissions);
-            populateSubmissionsTable(Submissions);
+            console.log("bruh");
+            console.log(JSON.stringify(Submissions)+"------");
+            populateSubmissionsTable(JSON.stringify(Submissions));
         } catch (error) {
+            console.log("this is so skibbidi");
             console.error('Error fetching submissions:', error);
         }
     }
 
-    function populateSubmissionsTable(submissions) {
+    function populateSubmissionsTable(submissionsJson) {
+        const submissions = JSON.parse(submissionsJson);
         const tableBody = document.getElementById('submissions-table').getElementsByTagName('tbody')[0];
         tableBody.innerHTML = ''; 
     
         submissions.forEach(submission => {
             const row = document.createElement('tr');
-            console.log(submission.assignmentid+" "+assignIndex);
-            if(submission.assignmentid==assignIndex){
+            console.log(submission.assignment?.id+" "+assignIndex+"$$$$$");
+            if(submission.assignment?.id==assignIndex){
+                console.log("SKIBBBB");
                 const contentCell = document.createElement('td');
                 contentCell.textContent = submission.content || 'N/A'; 
                 row.appendChild(contentCell);
