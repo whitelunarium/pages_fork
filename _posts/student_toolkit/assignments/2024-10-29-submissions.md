@@ -26,7 +26,7 @@ layout: post
         margin: 0 auto;
     }
     /* For the buttons and table in the student section */
-    #namesTableBody {
+    #namesTableBody {s
         width: 75%;
         max-height: 50px;  /* Add max height to allow for scrolling if needed */
         overflow-y: auto;
