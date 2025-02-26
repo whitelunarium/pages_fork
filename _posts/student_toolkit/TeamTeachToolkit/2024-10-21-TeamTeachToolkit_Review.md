@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Review Page
 description: Post questions and get replies from peers
-permalink: /student/sagai/QNA
+permalink: /student/TeamTeachToolkit/review
 ---
 
 <html lang="en">
@@ -216,17 +216,16 @@ permalink: /student/sagai/QNA
 <body>
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}/student/sagai"><button>Home</button></a>
-        <a href="{{site.baseurl}}/student/sagai/grader"><button>Grader</button></a>
-        <a href="{{site.baseurl}}/student/sagai/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/generator"><button>Generator</button></a>
     </div>
     <!-- Main Q&A Section -->
     <div class="container">
-        <h1 class="section-title">College Board Review</h1>
         <!-- Question submission section -->
         <div id="ask-question">
             <h2>Ask a Question:</h2>
-            <textarea id="question-input" placeholder="Insert question here..."></textarea><br>
+            <textarea id="question-input" placeholder="Insert questions, generated hacks, or responses here..."></textarea><br>
             <!--Drop down menu-->
               <select id="subject">
               <option value="other" selected="selected">Other</option>

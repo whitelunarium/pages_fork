@@ -19,8 +19,8 @@ class GameLevelStarWars {
     };
 
     // Player data for snowspeeder
-    const sprite_src_snowspeeder = path + "/images/gamify/snowspeeder_sprite.png"; // be sure to include the path
-    const SNOWSPEEDER_SCALE_FACTOR = 5;
+    const sprite_src_snowspeeder = path + "/images/gamify/snowspeeder_sprite2.png"; // be sure to include the path
+    const SNOWSPEEDER_SCALE_FACTOR = 6;
     const sprite_data_snowspeeder = {
         id: 'Snowspeeder',
         greeting: "Hi I am snowspeeder, the desert wanderer. I am trying to take donwn the empire's AT-ATs!",
@@ -29,12 +29,16 @@ class GameLevelStarWars {
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
         INIT_POSITION: { x: 0, y: 0 }, 
-        pixels: {height: 577, width: 433},
+        pixels: {height: 293, width: 358},
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1, rotate: -Math.PI/2 },
+        downRight: {row: 0, start: 0, columns: 1, rotate: -3*Math.PI/4 },
+        downLeft: {row: 0, start: 0, columns: 1, rotate: -Math.PI/4 },
         left: {row: 0, start: 0, columns: 1 },
         right: {row: 0, start: 0, columns: 1, rotate: Math.PI },
         up: {row: 0, start: 0, columns: 1, rotate: Math.PI/2 },
+        upLeft: {row: 0, start: 0, columns: 1, rotate: Math.PI/4 },
+        upRight: {row: 0, start: 0, columns: 1, rotate: 3*Math.PI/4 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 87, left: 65, down: 83, right: 68 }, // W, A, S, D
         reaction: function() {
