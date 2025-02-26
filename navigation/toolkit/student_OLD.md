@@ -2,13 +2,13 @@
 layout: post
 title: Student Toolkit
 description:
-permalink: /student
+permalink: /STUDENT_DEPRECATED
 menu: nav/homejava.html
 show_reading_time: false
 ---
 
 <div class="container">
-    <div class="bathroom glow-on-hover-search" onclick="location.href='{{site.baseurl}}/bathroom/';"
+    <div class="bathroom glow-on-hover-search" onclick="location.href='{{site.baseurl}}/bathroom';"
         style="cursor: pointer;">
         <div class="bathroom-image">
             <img src="{{site.baseurl}}/images/toolkit-nav-buttons/bathroom.png" alt="Bathroom" />
