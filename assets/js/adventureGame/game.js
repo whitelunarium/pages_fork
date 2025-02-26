@@ -3,17 +3,19 @@ import GameControl from './GameControl.js';
 
 class Game {
     // initialize user and launch GameControl 
-    static main(path, javaURI, pythonURI, fetchOptions) {
-        this.javaURI = javaURI;
+    static main(path, pythonURI, javaURI, fetchOptions) {
         this.pythonURI = pythonURI;
+        this.javaURI = javaURI;
         this.fetchOptions = fetchOptions;
         this.initializeUser();
+        this.uid;
+        this.id;
         new GameControl(path).start();
     }
 
     static initializeUser() {
-        const URL = this.pythonURI + '/api/id';
-        return fetch(URL, this.fetchOptions)
+        const pythonURL = this.pythonURI + '/api/id';
+        fetch(pythonURL, this.fetchOptions)
             .then(response => {
                 if (response.status !== 200) {
                     console.error("HTTP status code: " + response.status);
@@ -22,25 +24,40 @@ class Game {
                 return response.json();
             })
             .then(data => {
-                if (data === null) return null;
-                console.log(data);
-                return data;
+                if (!data) return;
+                this.uid = data.uid;
+                console.log("User ID:", this.uid);  // Ensure this prints correctly
+    
+                // Now that this.uid is set, fetch from the Java backend
+                const javaURL = this.javaURI + '/rpg_answer/person/' + this.uid;
+                return fetch(javaURL, this.fetchOptions);
             })
-            .catch(err => {
-                console.error("Fetch error: ", err);
-                return null;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data) return;
+                this.id = data.id;
+                this.fetchStats(data.id);
+            })
+            .catch(error => {
+                console.error("Error:", error);
             });
     }
+    
 
     static fetchStats(personId) {
         const endpoints = {
-            balance: `${javaURI}/rpg_answer/getBalance/${personId}`,
-            chatScore: `${javaURI}/rpg_answer/getChatScore/${personId}`,
-            questionsAnswered: `${javaURI}/rpg_answer/getQuestionsAnswered/${personId}`
+            balance: this.javaURI + '/rpg_answer/getBalance/' + personId,
+            chatScore: this.javaURI + '/rpg_answer/getChatScore/' + personId,
+            questionsAnswered: this.javaURI + '/rpg_answer/getQuestionsAnswered/' + personId
         };
 
         for (let [key, url] of Object.entries(endpoints)) {
-            fetch(url, fetchOptions)
+            fetch(url, this.fetchOptions)
                 .then(response => response.json())
                 .then(data => {
                     localStorage.setItem(key, data ?? 0);
@@ -51,7 +68,7 @@ class Game {
     // called to update scoreboard and player stats
     static updateStats(content, questionId, personId) {
         try {
-            const response = fetch(`${javaURI}/rpg_answer/submitAnswer`, {
+            const response = fetch(this.javaURI + '/rpg_answer/submitAnswer', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
