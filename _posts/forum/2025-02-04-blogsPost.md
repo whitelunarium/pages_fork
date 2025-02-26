@@ -196,7 +196,7 @@ title: Blogs Post
             };
             //wait 3 seconds then send them back
             setTimeout(function() {
-                window.location.href = "{javaURI}/CSA_Combined_Frontend_Fork/studentBlogs/";
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/studentBlogs/";
             }, 3000);
         });
     </script>

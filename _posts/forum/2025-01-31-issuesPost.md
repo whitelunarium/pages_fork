@@ -188,7 +188,7 @@ title: Issues Post
                 });
             };
             setTimeout(function() {
-                window.location.href = "http://localhost:4100/portfolio_2025/studentIssue/";
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/studentIssue";
             }, 3000);
         });
     </script>
