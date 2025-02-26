@@ -156,11 +156,15 @@ layout: post
 }
 </style>
 
-<label class="toggle-switch">
-    <input type="checkbox" />
-    <span class="slider"></span>
-</label>
-
+<div class="toggle-container">
+    <label class="toggle-switch">
+        <input type="checkbox" id="myToggle"/> 
+        <span class="slider"></span>
+    </label>
+    <p id="message" class="message">
+        Check the toggle to enable group submissions (add members of your group into the submission instead of separate submissions of the same content).
+    </p>
+</div>
 <div id="modal" class="modal">
     <div class="modal-content">
         <h2>Submit here</h2>
@@ -173,39 +177,41 @@ layout: post
         <p id="time-left"></p>
     </div>
     <br><br>
-    <div>
-        <label for="searchBar">Search for a name: </label>
-        <input type="text" id="searchBar" placeholder="Search for a name..." onkeyup="filterNames()">
+    <div class="Group Submit" id="Group Submit">
+        <div>
+            <label for="searchBar">Search for a name: </label>
+            <input type="text" id="searchBar" placeholder="Search for a name..." onkeyup="filterNames()">
+        </div>
+        <div>
+            <label for="rowsPerPage">Rows per page: </label>
+            <select id="rowsPerPage" onchange="changeRowsPerPage()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="1000">1000</option>
+                <option value="1000">2000</option>
+            </select>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="namesTableBody"></tbody>
+        </table>
+        <!-- <div id="pagination-container">
+            <button id="prevPage" onclick="changePage(-1)">Previous</button>
+            <span id="pageInfo">Page 1 of 10</span>
+            <button id="nextPage" onclick="changePage(1)">Next</button>
+        </div> -->
+        <div class="Review-Group" id="Review-Group">Group Members: </div>
+        <br><br><br>
     </div>
-    <div>
-        <label for="rowsPerPage">Rows per page: </label>
-        <select id="rowsPerPage" onchange="changeRowsPerPage()">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="1000">1000</option>
-            <option value="1000">2000</option>
-        </select>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="namesTableBody"></tbody>
-    </table>
-<!-- <div id="pagination-container">
-    <button id="prevPage" onclick="changePage(-1)">Previous</button>
-    <span id="pageInfo">Page 1 of 10</span>
-    <button id="nextPage" onclick="changePage(1)">Next</button>
-</div> -->
-<div class="Review-Group" id="Review-Group">Group Members: </div>
-<br><br><br>
 <div>
     <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
     <input type="url" id="submissionContent" required />
@@ -254,6 +260,20 @@ layout: post
      let listofpeopleIds=new Set();
 
     document.getElementById("submit-assignment").addEventListener("click", Submit);
+    document.getElementById("myToggle").addEventListener("change", function() {
+        if (this.checked) {
+            console.log("Toggle is ON");
+            // Perform action when toggled ON
+            document.getElementById("Group Submit").style.display = "block";
+        } else {
+            console.log("Toggle is OFF");
+            // Perform action when toggled OFF
+            document.getElementById("Group Submit").style.display = "none";
+        }
+    });
+    function disableGroupSubmit(){
+         document.getElementById("Group Submit").style.display = "none";
+    }
     function Submit() {
         let urllink_submit=javaURI+"/api/submissions/submit/";
         const submissionContent = document.getElementById('submissionContent').value;
@@ -556,7 +576,7 @@ layout: post
     }
 
     fetchAllStudents();
-
+    disableGroupSubmit();
    document.addEventListener("DOMContentLoaded", async () => {
     await getUserId();
     await fetchSubmissions();
