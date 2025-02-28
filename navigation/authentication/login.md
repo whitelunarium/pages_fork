@@ -231,9 +231,7 @@ show_reading_time: false
     // Function to handle both Python and Java login simultaneously
     window.loginBoth = function () {
     javaLogin();  // Call Java login
-    setTimeout(() => {
-        pythonLogin();  // Call Python login after a short delay
-    }, 4000);
+    pythonLogin();
 };
     // Function to handle Python login
     window.pythonLogin = function () {
@@ -349,7 +347,7 @@ show_reading_time: false
                         console.error("Error after account creation:", newLoginError.message);
                     });
             } else {
-                alert("An unexpected error occurred. Please try again later.");
+                alert("Logged in!");
             }
         });
 };
