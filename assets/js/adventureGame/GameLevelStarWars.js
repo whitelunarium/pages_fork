@@ -20,7 +20,7 @@ class GameLevelStarWars {
 
     // Player data for snowspeeder
     const sprite_src_snowspeeder = path + "/images/gamify/snowspeeder_sprite2.png"; // be sure to include the path
-    const SNOWSPEEDER_SCALE_FACTOR = 5;
+    const SNOWSPEEDER_SCALE_FACTOR = 6;
     const sprite_data_snowspeeder = {
         id: 'Snowspeeder',
         greeting: "Hi I am snowspeeder, the desert wanderer. I am trying to take donwn the empire's AT-ATs!",
