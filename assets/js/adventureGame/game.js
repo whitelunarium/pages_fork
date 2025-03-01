@@ -1,24 +1,31 @@
 import GameControl from './GameControl.js';
-
-
+import GameLevelWater from "./GameLevelWater.js";
+import GameLevelDesert from "./GameLevelDesert.js";
 class Game {
     // initialize user and launch GameControl 
-    static main(path, pythonURI, javaURI, fetchOptions) {
-        // keep track of user ids
+    static main(environment) {
+
+        // setting Web Application path
+        this.path = environment.path;
+
+        // setting Element IDs
+        this.gameContainer = environment.gameContainer;
+        this.gameCanvas = environment.gameCanvas;
+
+        // setting API environment variables 
+        this.pythonURI = environment.pythonURI;
+        this.javaURI = environment.javaURI;
+        this.fetchOptions = environment.fetchOptions;
+
+        // prepare user data for scoring and stats 
         this.uid;
         this.id;
-
-        // fetching variables 
-        this.pythonURI = pythonURI;
-        this.javaURI = javaURI;
-        this.fetchOptions = fetchOptions;
-
-        // init functions for user and stats
         this.initUser();
         this.initStatsUI();
         
-        // start game
-        new GameControl(path).start();
+        // start the game
+        const gameLevelClasses = [GameLevelDesert, GameLevelWater]
+        new GameControl(this, gameLevelClasses).start();
     }
 
     static initUser() {
