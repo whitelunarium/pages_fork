@@ -4,7 +4,11 @@ import GameEnv from "./GameEnv.js";
 class GameLevel {
     constructor(gameControl) {
         this.gameEnv = new GameEnv();
+        // Set properties for easy access within game objects
+        this.gameEnv.game = gameControl.game;
         this.gameEnv.path = gameControl.path;
+        this.gameEnv.gameContainer = gameControl.gameContainer;
+        this.gameEnv.gameCanvas = gameControl.gameCanvas;
         this.gameEnv.gameControl = gameControl;
     }
 

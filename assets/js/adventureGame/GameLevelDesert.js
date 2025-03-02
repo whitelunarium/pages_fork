@@ -37,9 +37,13 @@ class GameLevelDesert {
         pixels: {height: 384, width: 512},
         orientation: {rows: 3, columns: 4 },
         down: {row: 0, start: 0, columns: 3 },
+        downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/16 },
+        downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/16 },
         left: {row: 2, start: 0, columns: 3 },
         right: {row: 1, start: 0, columns: 3 },
         up: {row: 3, start: 0, columns: 3 },
+        upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/16 },
+        upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/16 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
@@ -183,7 +187,7 @@ class GameLevelDesert {
       down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       /* Reaction function
-      *  This function is called when the player interacts with the NPC
+      *  This function is called when the player collides with the NPC
       *  It displays an alert with the greeting message
       */
       reaction: function() {
@@ -199,7 +203,7 @@ class GameLevelDesert {
         // Define the game in game level
         let levelArray = [GameLevelStarWars];
         // Define a new GameControl instance with the StarWars level
-        let gameInGame = new GameControl(path,levelArray);
+        let gameInGame = new GameControl(gameEnv.game,levelArray);
         // Pause the primary game 
         primaryGame.pause();
         // Start the game in game
