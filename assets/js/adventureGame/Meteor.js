@@ -49,12 +49,8 @@ class Meteor extends Character {
     }
 
     this.draw()
-    
-    if (this.ctx) {
-      this.ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    }
   }
 }
 
 export default Meteor
+

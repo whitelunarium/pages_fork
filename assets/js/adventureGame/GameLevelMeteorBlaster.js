@@ -15,6 +15,7 @@ class GameLevelMeteorBlaster {
     checkGameImages(path)
 
     this.score = 0
+    this.lives = 3
     this.gameOver = false
     this.isPaused = false
     this.meteors = []
@@ -23,6 +24,8 @@ class GameLevelMeteorBlaster {
     this.shootCooldown = 500
     this.meteorSpawnRate = 2000
     this.meteorSpawnInterval = null
+    this.invincibleTime = 0
+    this.invincibleDuration = 1500
 
     this.quiz = new Quiz()
     this.quiz.initialize()
@@ -84,6 +87,7 @@ class GameLevelMeteorBlaster {
     ]
 
     this.createScoreDisplay()
+    this.createLivesDisplay()
     this.bindShootKey()
   }
 
@@ -221,10 +225,47 @@ class GameLevelMeteorBlaster {
     gameContainer.appendChild(this.scoreElement)
   }
 
+  createLivesDisplay() {
+    const gameContainer = document.getElementById("gameContainer")
+    if (!gameContainer) {
+      console.error("Game container not found")
+      return
+    }
+
+    const existingLives = document.getElementById("meteor-lives")
+    if (existingLives) {
+      existingLives.remove()
+    }
+
+    this.livesElement = document.createElement("div")
+    this.livesElement.id = "meteor-lives"
+    this.livesElement.style.position = "absolute"
+    this.livesElement.style.top = "10px"
+    this.livesElement.style.right = "10px"
+    this.livesElement.style.color = "white"
+    this.livesElement.style.fontSize = "24px"
+    this.livesElement.style.fontWeight = "bold"
+    this.livesElement.style.zIndex = "1000"
+    this.livesElement.textContent = "Lives: 3"
+
+    gameContainer.appendChild(this.livesElement)
+  }
+
   updateScore(points) {
     this.score += points
     if (this.scoreElement) {
       this.scoreElement.textContent = `Score: ${this.score}`
+    }
+  }
+
+  updateLives(lives) {
+    this.lives = lives
+    if (this.livesElement) {
+      this.livesElement.textContent = `Lives: ${this.lives}`
+    }
+
+    if (this.lives <= 0) {
+      this.endGame()
     }
   }
 
@@ -262,6 +303,11 @@ class GameLevelMeteorBlaster {
   }
 
   checkCollisions() {
+    // Get player object
+    const player = this.gameEnv.gameObjects.find((obj) => obj.spriteData && obj.spriteData.id === "Ufo")
+    if (!player) return
+
+    // Check for laser-meteor collisions
     for (let i = this.lasers.length - 1; i >= 0; i--) {
       const laser = this.lasers[i]
 
@@ -278,6 +324,46 @@ class GameLevelMeteorBlaster {
         }
       }
     }
+
+    // Check for player-meteor collisions (only if not invincible)
+    if (Date.now() > this.invincibleTime) {
+      for (let j = this.meteors.length - 1; j >= 0; j--) {
+        const meteor = this.meteors[j]
+
+        if (!meteor.isHit && this.isColliding(player, meteor)) {
+          // Player hit by meteor
+          this.updateLives(this.lives - 1)
+          this.removeMeteor(j)
+
+          // Make player invincible for a short time
+          this.invincibleTime = Date.now() + this.invincibleDuration
+
+          // Flash player to indicate invincibility
+          this.flashPlayer(player)
+
+          break
+        }
+      }
+    }
+  }
+
+  flashPlayer(player) {
+    let flashCount = 0
+    const maxFlashes = 6
+    const flashInterval = setInterval(() => {
+      if (flashCount >= maxFlashes) {
+        clearInterval(flashInterval)
+        if (player.canvas) {
+          player.canvas.style.opacity = "1"
+        }
+        return
+      }
+
+      if (player.canvas) {
+        player.canvas.style.opacity = flashCount % 2 === 0 ? "0.3" : "1"
+      }
+      flashCount++
+    }, 250)
   }
 
   isColliding(obj1, obj2) {
@@ -321,9 +407,9 @@ class GameLevelMeteorBlaster {
 
   checkGameOver() {
     for (let i = 0; i < this.meteors.length; i++) {
-      if (this.meteors[i].position.y > this.gameEnv.innerHeight) {
-        this.endGame()
-        return
+      if (this.meteors[i].position.y > this.gameEnv.innerHeight && !this.meteors[i].isHit) {
+        // Meteor reached bottom - no life lost, just remove it
+        this.removeMeteor(i)
       }
     }
   }
@@ -361,6 +447,10 @@ class GameLevelMeteorBlaster {
     if (this.scoreElement) {
       this.scoreElement.remove()
     }
+
+    if (this.livesElement) {
+      this.livesElement.remove()
+    }
   }
 
   update() {
@@ -377,12 +467,6 @@ class GameLevelMeteorBlaster {
       if (laserIndex === -1 || this.lasers[i].position.y < -this.lasers[i].height) {
         this.removeLaser(i)
         continue
-      }
-    }
-
-    for (let i = this.meteors.length - 1; i >= 0; i--) {
-      if (this.meteors[i].position.y > this.gameEnv.innerHeight && !this.meteors[i].isHit) {
-        this.removeMeteor(i)
       }
     }
 
