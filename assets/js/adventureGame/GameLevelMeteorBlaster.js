@@ -6,7 +6,8 @@ import Quiz from "./Quiz.js"
 
 class GameLevelMeteorBlaster {
   constructor(gameEnv) {
-    this.gameEnv = gameEnv // Store game environment reference
+    // Store reference to game environment
+    this.gameEnv = gameEnv
     const width = gameEnv.innerWidth
     const height = gameEnv.innerHeight
     const path = gameEnv.path
@@ -20,6 +21,9 @@ class GameLevelMeteorBlaster {
     this.lastShotTime = 0
     this.shootCooldown = 500 // milliseconds between shots
     this.meteorSpawnRate = 2000 // milliseconds between meteor spawns
+    this.meteorSpawnInterval = null
+
+    // Initialize quiz
     this.quiz = new Quiz()
     this.quiz.initialize()
 
@@ -31,20 +35,29 @@ class GameLevelMeteorBlaster {
       pixels: { height: 857, width: 1200 },
     }
 
-    // Player (UFO)
+    // Updated Player (UFO) configuration
     const sprite_src_ufo = path + "/images/gamify/ufo.png"
     const UFO_SCALE_FACTOR = 5
     this.playerData = {
       id: "Ufo",
       src: sprite_src_ufo,
       SCALE_FACTOR: UFO_SCALE_FACTOR,
-      STEP_FACTOR: 1000,
+      STEP_FACTOR: 100, // Reduced from 1000 to make movement more responsive
       ANIMATION_RATE: 50,
-      INIT_POSITION: { x: width / 2, y: height - 100 },
+      INIT_POSITION: { x: width / 2 - 50, y: height - 100 },
       pixels: { height: 422, width: 460 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
-      keypress: { up: 87, left: 65, down: 83, right: 68 },
+      left: { row: 0, start: 0, columns: 1 },
+      right: { row: 0, start: 0, columns: 1 },
+      up: { row: 0, start: 0, columns: 1 },
+      keypress: {
+        up: 87, // W
+        left: 65, // A
+        down: 83, // S
+        right: 68, // D
+      },
+      hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 }, // Added hitbox
     }
 
     // Laser data
@@ -69,38 +82,54 @@ class GameLevelMeteorBlaster {
       down: { row: 0, start: 0, columns: 1 },
     }
 
-    // List of game objects
+    // List of game objects - IMPORTANT: This is what the GameLevel uses to create objects
     this.classes = [
       { class: Background, data: image_data_space },
       { class: Player, data: this.playerData },
     ]
 
-    // Create score display
+    // Create score display - ensure gameContainer exists
     this.createScoreDisplay()
 
     // Bind shoot method to spacebar
     this.bindShootKey()
+  }
 
-    // Start meteor spawner
+  initialize() {
+    console.log("Initializing Meteor Blaster game")
+    // Start meteor spawner immediately
     this.startMeteorSpawner()
+    // Spawn initial meteors
+    for (let i = 0; i < 3; i++) {
+      this.spawnMeteor()
+    }
   }
 
   startMeteorSpawner() {
+    console.log("Starting meteor spawner")
+    // Clear any existing interval
+    if (this.meteorSpawnInterval) {
+      clearInterval(this.meteorSpawnInterval)
+    }
+
+    // Spawn meteors more frequently (every 1.5 seconds)
     this.meteorSpawnInterval = setInterval(() => {
       if (!this.isPaused && !this.gameOver) {
         this.spawnMeteor()
       }
-    }, this.meteorSpawnRate)
+    }, 1500) // Changed from 2000 to 1500ms
   }
 
   spawnMeteor() {
-    // Create a random question for this meteor
-    const question = this.getRandomQuestion()
-
+    console.log("Spawning meteor")
     const meteorData = {
       ...this.meteorData,
-      id: `Meteor-${Math.random()}`,
-      question: question,
+      id: `Meteor-${Math.random().toString(36).substr(2, 9)}`,
+      question: this.getRandomQuestion(),
+      INIT_POSITION: {
+        x: Math.random() * (this.gameEnv.innerWidth - 50),
+        y: -100, // Start above the screen
+      },
     }
 
     const meteor = new Meteor(meteorData, this.gameEnv)
@@ -129,12 +158,17 @@ class GameLevelMeteorBlaster {
     // Find player
     const player = this.gameEnv.gameObjects.find((obj) => obj.spriteData && obj.spriteData.id === "Ufo")
 
-    if (!player) return
+    if (!player) {
+      console.error("Player not found")
+      return
+    }
+
+    console.log("Shooting laser")
 
     // Create laser data
     const laserData = {
       ...this.laserData,
-      id: `Laser-${Math.random()}`,
+      id: `Laser-${Math.random().toString(36).substring(2, 9)}`,
       INIT_POSITION: {
         x: player.position.x + player.width / 2 - 10,
         y: player.position.y - 20,
@@ -159,6 +193,19 @@ class GameLevelMeteorBlaster {
 
   // Create score display
   createScoreDisplay() {
+    // Check if gameContainer exists
+    const gameContainer = document.getElementById("gameContainer")
+    if (!gameContainer) {
+      console.error("Game container not found")
+      return
+    }
+
+    // Remove existing score element if it exists
+    const existingScore = document.getElementById("meteor-score")
+    if (existingScore) {
+      existingScore.remove()
+    }
+
     this.scoreElement = document.createElement("div")
     this.scoreElement.id = "meteor-score"
     this.scoreElement.style.position = "absolute"
@@ -170,7 +217,7 @@ class GameLevelMeteorBlaster {
     this.scoreElement.style.zIndex = "1000"
     this.scoreElement.textContent = "Score: 0"
 
-    document.getElementById("gameContainer").appendChild(this.scoreElement)
+    gameContainer.appendChild(this.scoreElement)
   }
 
   // Update score
@@ -189,11 +236,6 @@ class GameLevelMeteorBlaster {
       "What is the chemical symbol for water?\n1. H2O\n2. CO2\n3. O2\n4. N2",
       "What is the capital of France?\n1. London\n2. Berlin\n3. Madrid\n4. Paris",
       "Who wrote 'Romeo and Juliet'?\n1. Charles Dickens\n2. William Shakespeare\n3. Jane Austen\n4. Mark Twain",
-      "What is the largest mammal?\n1. Elephant\n2. Giraffe\n3. Blue Whale\n4. Gorilla",
-      "What is the square root of 81?\n1. 8\n2. 9\n3. 10\n4. 12",
-      "Which element has the symbol 'Au'?\n1. Silver\n2. Gold\n3. Aluminum\n4. Argon",
-      "How many continents are there?\n1. 5\n2. 6\n3. 7\n4. 8",
-      "What is the main component of air?\n1. Oxygen\n2. Carbon Dioxide\n3. Nitrogen\n4. Hydrogen",
     ]
 
     return questions[Math.floor(Math.random() * questions.length)]
@@ -306,6 +348,13 @@ class GameLevelMeteorBlaster {
     this.gameOver = true
     clearInterval(this.meteorSpawnInterval)
 
+    // Check if gameContainer exists
+    const gameContainer = document.getElementById("gameContainer")
+    if (!gameContainer) {
+      console.error("Game container not found")
+      return
+    }
+
     // Show game over message
     const gameOverMsg = document.createElement("div")
     gameOverMsg.style.position = "absolute"
@@ -319,17 +368,21 @@ class GameLevelMeteorBlaster {
     gameOverMsg.style.zIndex = "1000"
     gameOverMsg.innerHTML = `GAME OVER<br>Score: ${this.score}<br><span style="font-size: 24px">Press ESC to exit</span>`
 
-    document.getElementById("gameContainer").appendChild(gameOverMsg)
+    gameContainer.appendChild(gameOverMsg)
   }
 
   // Clean up when level is destroyed
   cleanup() {
-    clearInterval(this.meteorSpawnInterval)
+    if (this.meteorSpawnInterval) {
+      clearInterval(this.meteorSpawnInterval)
+    }
+
     if (this.scoreElement) {
       this.scoreElement.remove()
     }
   }
 
+  // This is the main update method called by the game loop
   update() {
     if (this.isPaused || this.gameOver) return
 
@@ -352,6 +405,11 @@ class GameLevelMeteorBlaster {
 
     // Check if game is over
     this.checkGameOver()
+  }
+
+  // This method is called when the level is destroyed
+  destroy() {
+    this.cleanup()
   }
 }
 

@@ -4,8 +4,8 @@ class Meteor extends Character {
   constructor(data, gameEnv) {
     super(data, gameEnv)
 
-    // Set random position at the top of the screen
-    this.position = {
+    // Set initial position
+    this.position = data.INIT_POSITION || {
       x: Math.random() * (gameEnv.innerWidth - this.width),
       y: -this.height,
     }
@@ -13,14 +13,18 @@ class Meteor extends Character {
     // Set random velocity for falling
     this.velocity = {
       x: (Math.random() - 0.5) * 2, // slight horizontal movement
-      y: 2 + Math.random() * 3, // downward movement
+      y: 3 + Math.random() * 2, // Increased speed (was 2 + Math.random() * 3)
     }
 
     // Track if meteor has been hit
     this.isHit = false
+
+    console.log(`Created meteor at position (${this.position.x}, ${this.position.y})`)
   }
 
   update() {
+    if (this.isHit) return
+
     // Move the meteor
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y
@@ -31,7 +35,7 @@ class Meteor extends Character {
     }
 
     // Draw the meteor
-    super.update()
+    this.draw()
   }
 }
 
