@@ -73,7 +73,7 @@ class GameLevelMeteorBlaster {
       src: path + "/images/gamify/meteor.png",
       SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
-      pixels: { height: 100, width: 100 },
+      pixels: { height: 1111, width: 1111 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
     }
