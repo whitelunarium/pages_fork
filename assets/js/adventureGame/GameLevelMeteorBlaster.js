@@ -271,11 +271,45 @@ class GameLevelMeteorBlaster {
 
   getRandomQuestion() {
     const questions = [
-      "What is 2 + 2?\n1. 3\n2. 4\n3. 5\n4. 6",
-      "Which planet is closest to the Sun?\n1. Earth\n2. Venus\n3. Mercury\n4. Mars",
-      "What is the chemical symbol for water?\n1. H2O\n2. CO2\n3. O2\n4. N2",
-      "What is the capital of France?\n1. London\n2. Berlin\n3. Madrid\n4. Paris",
-      "Who wrote 'Romeo and Juliet'?\n1. Charles Dickens\n2. William Shakespeare\n3. Jane Austen\n4. Mark Twain",
+      "What does the 'DOM' stand for in web development?\n1. Document Object Model\n2. Data Object Model\n3. Document Oriented Markup\n4. Digital Object Memory",
+
+      "Which of these is NOT a JavaScript data type?\n1. String\n2. Boolean\n3. Integer\n4. Object",
+
+      "What does CSS stand for?\n1. Computer Style Sheets\n2. Creative Style System\n3. Cascading Style Sheets\n4. Colorful Style Sheets",
+
+      "Which symbol is used for single-line comments in JavaScript?\n1. //\n2. /* */\n3. #\n4. --",
+
+      "What is the correct HTML element for the largest heading?\n1. <h1>\n2. <heading>\n3. <head>\n4. <h6>",
+
+      "Which method adds an element to the end of an array in JavaScript?\n1. push()\n2. append()\n3. add()\n4. insert()",
+
+      "What does API stand for?\n1. Application Programming Interface\n2. Application Process Integration\n3. Automated Programming Interface\n4. Application Protocol Interface",
+
+      "Which of these is a JavaScript framework?\n1. Django\n2. Flask\n3. React\n4. Ruby on Rails",
+
+      "What does the 'git clone' command do?\n1. Creates a new branch\n2. Creates a copy of a repository\n3. Merges two branches\n4. Deletes a repository",
+
+      "Which of these is a valid way to declare a variable in JavaScript?\n1. variable x = 5;\n2. var x = 5;\n3. int x = 5;\n4. x as Integer = 5;",
+
+      "What is the purpose of the 'npm' command?\n1. Node Package Manager\n2. Node Process Monitor\n3. New Program Module\n4. Network Protocol Manager",
+
+      "Which HTML tag is used to create a hyperlink?\n1. <link>\n2. <a>\n3. <href>\n4. <url>",
+
+      "What does JSON stand for?\n1. JavaScript Object Notation\n2. Java Standard Object Notation\n3. JavaScript Oriented Network\n4. Java Source Object Name",
+
+      "Which operator is used for strict equality in JavaScript?\n1. ==\n2. ===\n3. =\n4. !=",
+
+      "What is the correct way to write a function in JavaScript?\n1. function myFunction()\n2. function:myFunction()\n3. function = myFunction()\n4. myFunction() = function",
+
+      "Which method is used to remove the last element from an array in JavaScript?\n1. pop()\n2. remove()\n3. delete()\n4. splice()",
+
+      "What is the purpose of the 'this' keyword in JavaScript?\n1. Refers to the current function\n2. Refers to the current object\n3. Refers to the parent object\n4. Refers to the global object",
+
+      "Which CSS property is used to change the text color?\n1. text-color\n2. font-color\n3. color\n4. text-style",
+
+      "What is the correct way to include an external JavaScript file?\n1. <script href='script.js'>\n2. <script name='script.js'>\n3. <script src='script.js'>\n4. <javascript src='script.js'>",
+
+      "Which method is used to add a class to an HTML element using JavaScript?\n1. element.addClass()\n2. element.className.add()\n3. element.classList.add()\n4. element.class.add()",
     ]
 
     return questions[Math.floor(Math.random() * questions.length)]
