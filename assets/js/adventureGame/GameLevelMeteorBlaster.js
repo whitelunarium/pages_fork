@@ -3,6 +3,7 @@ import Player from "./Player.js"
 import Meteor from "./Meteor.js"
 import Character from "./Character.js"
 import Quiz from "./Quiz.js"
+import { checkGameImages } from "./debug-helper.js" // Import the debug helper
 
 class GameLevelMeteorBlaster {
   constructor(gameEnv) {
@@ -11,6 +12,9 @@ class GameLevelMeteorBlaster {
     const width = gameEnv.innerWidth
     const height = gameEnv.innerHeight
     const path = gameEnv.path
+
+    // Debug: Check if images exist
+    checkGameImages(path)
 
     // Game state
     this.score = 0
@@ -71,10 +75,10 @@ class GameLevelMeteorBlaster {
       down: { row: 0, start: 0, columns: 1 },
     }
 
-    // Meteor data
+    // Meteor data - ensure the image path is correct
     this.meteorData = {
       id: "Meteor",
-      src: path + "/images/gamify/meteor.png",
+      src: path + "/images/gamify/meteor.png", // Verify this path
       SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
       pixels: { height: 100, width: 100 },
@@ -121,20 +125,37 @@ class GameLevelMeteorBlaster {
   }
 
   spawnMeteor() {
-    console.log("Spawning meteor")
+    console.log("Spawning meteor with path:", this.meteorData.src)
+
+    // Create a unique ID for the meteor
+    const meteorId = `Meteor-${Math.random().toString(36).substr(2, 9)}`
+
+    // Create meteor data with explicit properties
     const meteorData = {
-      ...this.meteorData,
-      id: `Meteor-${Math.random().toString(36).substr(2, 9)}`,
+      id: meteorId,
+      src: this.meteorData.src,
+      SCALE_FACTOR: this.meteorData.SCALE_FACTOR,
+      ANIMATION_RATE: this.meteorData.ANIMATION_RATE,
+      pixels: this.meteorData.pixels,
+      orientation: this.meteorData.orientation,
+      down: this.meteorData.down,
       question: this.getRandomQuestion(),
+      // Explicitly set initial position
       INIT_POSITION: {
         x: Math.random() * (this.gameEnv.innerWidth - 50),
         y: -100, // Start above the screen
       },
     }
 
-    const meteor = new Meteor(meteorData, this.gameEnv)
-    this.meteors.push(meteor)
-    this.gameEnv.gameObjects.push(meteor)
+    // Create and add the meteor
+    try {
+      const meteor = new Meteor(meteorData, this.gameEnv)
+      this.meteors.push(meteor)
+      this.gameEnv.gameObjects.push(meteor)
+      console.log(`Successfully created meteor ${meteorId}, total meteors: ${this.meteors.length}`)
+    } catch (error) {
+      console.error("Error creating meteor:", error)
+    }
   }
 
   // Bind shoot key (spacebar)
@@ -184,6 +205,17 @@ class GameLevelMeteorBlaster {
     // Override update method to handle laser movement
     laser.update = function () {
       this.position.y += this.velocity.y
+
+      // Add self-destruction when off-screen
+      if (this.position.y < -this.height) {
+        const index = this.gameEnv.gameObjects.indexOf(this)
+        if (index !== -1) {
+          this.gameEnv.gameObjects.splice(index, 1)
+          this.destroy()
+        }
+        return
+      }
+
       this.draw()
     }
 
@@ -322,15 +354,24 @@ class GameLevelMeteorBlaster {
 
   // Remove laser
   removeLaser(index) {
-    const laser = this.lasers[index]
-    const gameObjIndex = this.gameEnv.gameObjects.indexOf(laser)
+    if (index < 0 || index >= this.lasers.length) return
 
+    const laser = this.lasers[index]
+    if (!laser) return
+
+    // Remove from gameObjects array
+    const gameObjIndex = this.gameEnv.gameObjects.indexOf(laser)
     if (gameObjIndex !== -1) {
       this.gameEnv.gameObjects.splice(gameObjIndex, 1)
     }
 
+    // Remove from lasers array
     this.lasers.splice(index, 1)
-    laser.destroy()
+
+    // Destroy the laser object
+    if (laser.destroy && typeof laser.destroy === "function") {
+      laser.destroy()
+    }
   }
 
   // Check if any meteors hit the bottom
@@ -388,8 +429,11 @@ class GameLevelMeteorBlaster {
 
     // Update lasers and remove those that are off-screen
     for (let i = this.lasers.length - 1; i >= 0; i--) {
-      if (this.lasers[i].position.y < -this.lasers[i].height) {
+      // Check if the laser still exists in gameObjects
+      const laserIndex = this.gameEnv.gameObjects.indexOf(this.lasers[i])
+      if (laserIndex === -1 || this.lasers[i].position.y < -this.lasers[i].height) {
         this.removeLaser(i)
+        continue
       }
     }
 
