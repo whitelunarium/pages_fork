@@ -271,45 +271,92 @@ class GameLevelMeteorBlaster {
 
   getRandomQuestion() {
     const questions = [
-      "What does the 'DOM' stand for in web development?\n1. Document Object Model\n2. Data Object Model\n3. Document Oriented Markup\n4. Digital Object Memory",
+      // Multiple choice questions
+      {
+        type: "multiple-choice",
+        question: "What does the 'DOM' stand for in web development?",
+        options: ["Document Object Model", "Data Object Model", "Document Oriented Markup", "Digital Object Memory"],
+        correctAnswer: 0,
+      },
+      {
+        type: "multiple-choice",
+        question: "Which of these is NOT a JavaScript data type?",
+        options: ["String", "Boolean", "Integer", "Object"],
+        correctAnswer: 2,
+      },
+      {
+        type: "multiple-choice",
+        question: "What does CSS stand for?",
+        options: ["Computer Style Sheets", "Creative Style System", "Cascading Style Sheets", "Colorful Style Sheets"],
+        correctAnswer: 2,
+      },
+      {
+        type: "multiple-choice",
+        question: "Which symbol is used for single-line comments in JavaScript?",
+        options: ["//", "/* */", "#", "--"],
+        correctAnswer: 0,
+      },
+      {
+        type: "multiple-choice",
+        question: "What is the correct HTML element for the largest heading?",
+        options: ["<h1>", "<heading>", "<head>", "<h6>"],
+        correctAnswer: 0,
+      },
 
-      "Which of these is NOT a JavaScript data type?\n1. String\n2. Boolean\n3. Integer\n4. Object",
-
-      "What does CSS stand for?\n1. Computer Style Sheets\n2. Creative Style System\n3. Cascading Style Sheets\n4. Colorful Style Sheets",
-
-      "Which symbol is used for single-line comments in JavaScript?\n1. //\n2. /* */\n3. #\n4. --",
-
-      "What is the correct HTML element for the largest heading?\n1. <h1>\n2. <heading>\n3. <head>\n4. <h6>",
-
-      "Which method adds an element to the end of an array in JavaScript?\n1. push()\n2. append()\n3. add()\n4. insert()",
-
-      "What does API stand for?\n1. Application Programming Interface\n2. Application Process Integration\n3. Automated Programming Interface\n4. Application Protocol Interface",
-
-      "Which of these is a JavaScript framework?\n1. Django\n2. Flask\n3. React\n4. Ruby on Rails",
-
-      "What does the 'git clone' command do?\n1. Creates a new branch\n2. Creates a copy of a repository\n3. Merges two branches\n4. Deletes a repository",
-
-      "Which of these is a valid way to declare a variable in JavaScript?\n1. variable x = 5;\n2. var x = 5;\n3. int x = 5;\n4. x as Integer = 5;",
-
-      "What is the purpose of the 'npm' command?\n1. Node Package Manager\n2. Node Process Monitor\n3. New Program Module\n4. Network Protocol Manager",
-
-      "Which HTML tag is used to create a hyperlink?\n1. <link>\n2. <a>\n3. <href>\n4. <url>",
-
-      "What does JSON stand for?\n1. JavaScript Object Notation\n2. Java Standard Object Notation\n3. JavaScript Oriented Network\n4. Java Source Object Name",
-
-      "Which operator is used for strict equality in JavaScript?\n1. ==\n2. ===\n3. =\n4. !=",
-
-      "What is the correct way to write a function in JavaScript?\n1. function myFunction()\n2. function:myFunction()\n3. function = myFunction()\n4. myFunction() = function",
-
-      "Which method is used to remove the last element from an array in JavaScript?\n1. pop()\n2. remove()\n3. delete()\n4. splice()",
-
-      "What is the purpose of the 'this' keyword in JavaScript?\n1. Refers to the current function\n2. Refers to the current object\n3. Refers to the parent object\n4. Refers to the global object",
-
-      "Which CSS property is used to change the text color?\n1. text-color\n2. font-color\n3. color\n4. text-style",
-
-      "What is the correct way to include an external JavaScript file?\n1. <script href='script.js'>\n2. <script name='script.js'>\n3. <script src='script.js'>\n4. <javascript src='script.js'>",
-
-      "Which method is used to add a class to an HTML element using JavaScript?\n1. element.addClass()\n2. element.className.add()\n3. element.classList.add()\n4. element.class.add()",
+      // Free response questions
+      {
+        type: "free-response",
+        question: "What JavaScript method is used to add an element to the end of an array?",
+        correctAnswer: "push",
+        acceptableAnswers: ["push", "push()", ".push", ".push()"],
+      },
+      {
+        type: "free-response",
+        question: "What HTML tag is used to create a hyperlink?",
+        correctAnswer: "a",
+        acceptableAnswers: ["a", "<a>", "a tag", "anchor", "<a></a>"],
+      },
+      {
+        type: "free-response",
+        question: "What CSS property is used to change the text color?",
+        correctAnswer: "color",
+        acceptableAnswers: ["color", "color:"],
+      },
+      {
+        type: "free-response",
+        question: "What JavaScript method is used to select an HTML element by its id?",
+        correctAnswer: "getElementById",
+        acceptableAnswers: [
+          "getElementById",
+          "document.getElementById",
+          "getElementById()",
+          "document.getElementById()",
+        ],
+      },
+      {
+        type: "free-response",
+        question: "What is the JavaScript keyword used to declare a variable that cannot be reassigned?",
+        correctAnswer: "const",
+        acceptableAnswers: ["const", "const "],
+      },
+      {
+        type: "free-response",
+        question: "What is the CSS property to make text bold?",
+        correctAnswer: "font-weight",
+        acceptableAnswers: ["font-weight", "font-weight: bold", "font-weight:bold"],
+      },
+      {
+        type: "free-response",
+        question: "What method converts a JavaScript object to a JSON string?",
+        correctAnswer: "JSON.stringify",
+        acceptableAnswers: ["JSON.stringify", "stringify", "JSON.stringify()"],
+      },
+      {
+        type: "free-response",
+        question: "What is the HTML tag for creating a paragraph?",
+        correctAnswer: "p",
+        acceptableAnswers: ["p", "<p>", "p tag", "<p></p>"],
+      },
     ]
 
     return questions[Math.floor(Math.random() * questions.length)]
@@ -319,21 +366,50 @@ class GameLevelMeteorBlaster {
     this.isPaused = true
 
     const quizData = {
-      title: "Meteor Question",
-      questions: [meteor.spriteData.question],
+      title: "Coding Challenge",
+      question: meteor.spriteData.question,
     }
 
-    this.quiz.openPanel(quizData)
+    this.quiz.openPanel(quizData, (isCorrect) => {
+      this.isPaused = false
 
-    const submitButton = document.querySelector(".quiz-submit")
-    if (submitButton) {
-      const newButton = submitButton.cloneNode(true)
-      submitButton.parentNode.replaceChild(newButton, submitButton)
+      // Reward for correct answer
+      if (isCorrect) {
+        this.updateScore(20) // Extra points for correct answer
 
-      newButton.addEventListener("click", () => {
-        this.isPaused = false
-      })
-    }
+        // 10% chance to get an extra life (up to max 5 lives)
+        if (Math.random() < 0.1 && this.lives < 5) {
+          this.updateLives(this.lives + 1)
+
+          // Show life gained message
+          const gameContainer = document.getElementById("gameContainer")
+          if (gameContainer) {
+            const lifeMsg = document.createElement("div")
+            lifeMsg.style.position = "absolute"
+            lifeMsg.style.top = "50%"
+            lifeMsg.style.left = "50%"
+            lifeMsg.style.transform = "translate(-50%, -50%)"
+            lifeMsg.style.color = "#00ff00"
+            lifeMsg.style.fontSize = "36px"
+            lifeMsg.style.fontWeight = "bold"
+            lifeMsg.style.textAlign = "center"
+            lifeMsg.style.zIndex = "1000"
+            lifeMsg.style.textShadow = "0 0 10px #00ff00"
+            lifeMsg.textContent = "EXTRA LIFE!"
+
+            gameContainer.appendChild(lifeMsg)
+
+            // Remove the message after 1.5 seconds
+            setTimeout(() => {
+              lifeMsg.remove()
+            }, 1500)
+          }
+        }
+      } else {
+        // No extra points for wrong answer
+        this.updateScore(5)
+      }
+    })
   }
 
   checkCollisions() {
@@ -468,7 +544,7 @@ class GameLevelMeteorBlaster {
     gameOverMsg.style.fontWeight = "bold"
     gameOverMsg.style.textAlign = "center"
     gameOverMsg.style.zIndex = "1000"
-    gameOverMsg.innerHTML = `GAME OVER<br>Score: ${this.score}<br><span style="font-size: 24px">Press ESC to exit</span>`
+    gameOverMsg.innerHTML = `GAME OVER<br>Score: ${this.score}<br><span style="font-size: 24px">Press ESC to exit the game</span>`
 
     gameContainer.appendChild(gameOverMsg)
   }
