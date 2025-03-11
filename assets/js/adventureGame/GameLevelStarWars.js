@@ -19,8 +19,8 @@ class GameLevelStarWars {
     };
 
     // Player data for snowspeeder
-    const sprite_src_snowspeeder = path + "/images/gamify/snowspeeder_sprite.png"; // be sure to include the path
-    const SNOWSPEEDER_SCALE_FACTOR = 5;
+    const sprite_src_snowspeeder = path + "/images/gamify/snowspeeder_sprite2.png"; // be sure to include the path
+    const SNOWSPEEDER_SCALE_FACTOR = 6;
     const sprite_data_snowspeeder = {
         id: 'Snowspeeder',
         greeting: "Hi I am snowspeeder, the desert wanderer. I am trying to take donwn the empire's AT-ATs!",
@@ -29,18 +29,25 @@ class GameLevelStarWars {
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
         INIT_POSITION: { x: 0, y: 0 }, 
-        pixels: {height: 577, width: 433},
+        pixels: {height: 293, width: 358},
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1, rotate: -Math.PI/2 },
+        downRight: {row: 0, start: 0, columns: 1, rotate: -3*Math.PI/4 },
+        downLeft: {row: 0, start: 0, columns: 1, rotate: -Math.PI/4 },
         left: {row: 0, start: 0, columns: 1 },
         right: {row: 0, start: 0, columns: 1, rotate: Math.PI },
         up: {row: 0, start: 0, columns: 1, rotate: Math.PI/2 },
+        upLeft: {row: 0, start: 0, columns: 1, rotate: Math.PI/4 },
+        upRight: {row: 0, start: 0, columns: 1, rotate: 3*Math.PI/4 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-        keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
+        keypress: { up: 87, left: 65, down: 83, right: 68 }, // W, A, S, D
+        reaction: function() {
+          alert("We just got hit by a projectile!");
+        }
     };
 
     // NPC Data for Turret Anti-Air
-    const sprite_src_turret = path + "/images/gamify/turret_aa.png"; // be sure to include the path
+    const sprite_src_turret = path + "/images/gamify/aa_spritesheet1.png"; // be sure to include the path
     const TURRET_SCALE_FACTOR = 3;
     const sprite_data_turret = {
       id: 'Turret-Anti-Air',
@@ -48,10 +55,10 @@ class GameLevelStarWars {
       src: sprite_src_turret,
       SCALE_FACTOR: TURRET_SCALE_FACTOR,  // Adjust this based on your scaling needs
       ANIMATION_RATE: 100,
-      pixels: {width: 562, height: 444},
+      pixels: {width: 1056, height: 236},
       INIT_POSITION: { x: width - (height/TURRET_SCALE_FACTOR), y: height - .82*(height/TURRET_SCALE_FACTOR) }, 
-      orientation: {rows: 1, columns: 1 },
-      down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
+      orientation: {rows: 1, columns: 3 },
+      down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
     };
 
@@ -69,11 +76,10 @@ class GameLevelStarWars {
         INIT_POSITION_RATIO: { x: 1 / 1.78, y: 1 / 3.3 }, // Ratios for initial position
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         // define animation properties
-        ANIMATION_RATE: 100, // 1/50th of the frame rate for redraw
         TRANSLATE_SCALE_FACTOR: 10, // Grow to this size at end translation
         TRANSLATE_POSITION_RATIO: { x: 1 / 2.78, y: 1 / 2.9 }, // Ratios for translate position
-        TRANSLATE_SIMULATION: {miliseconds: 1000, steps: 10}, // 1 second, 10 steps
-        down: {row: 0, start: 0, columns: 1, spin: 4},  // down is default
+        TRANSLATE_SIMULATION: {miliseconds: 500 }, // 1 second
+        down: {row: 0, start: 0, columns: 3, spin: 4},  // down is default
      };
 
      // Laser data, temporary sprite for testing
@@ -89,10 +95,9 @@ class GameLevelStarWars {
         INIT_POSITION_RATIO: { x: 1 / 8, y: 1 / 1.95 }, // Ratios for initial position
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         // define animation properties
-        ANIMATION_RATE: 100, // 1/50th of the frame rate for redraw
         TRANSLATE_SCALE_FACTOR: 20, // Grow to this size at end translation
         TRANSLATE_POSITION_RATIO: { x: 1 / 20, y: 1 / 1.9 }, // Ratios for translate position
-        TRANSLATE_SIMULATION: {miliseconds: 1000, steps: 10}, // 1 second, 10 steps
+        TRANSLATE_SIMULATION: {miliseconds: 500 }, // 1 second
         down: {row: 0, start: 0, columns: 1, spin: 4},  // down is default
      };
 

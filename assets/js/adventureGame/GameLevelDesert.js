@@ -38,9 +38,13 @@ class GameLevelDesert {
         pixels: {height: 384, width: 512},
         orientation: {rows: 3, columns: 4 },
         down: {row: 0, start: 0, columns: 3 },
+        downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/16 },
+        downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/16 },
         left: {row: 2, start: 0, columns: 3 },
         right: {row: 1, start: 0, columns: 3 },
         up: {row: 3, start: 0, columns: 3 },
+        upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/16 },
+        upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/16 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
@@ -48,9 +52,10 @@ class GameLevelDesert {
 
     // NPC data for Tux 
     const sprite_src_tux = path + "/images/gamify/tux.png"; // be sure to include the path
+    const sprite_greet_tux = "Hi I am Tux, the Linux mascot.  I am very happy to spend some linux shell time with you!";
     const sprite_data_tux = {
         id: 'Tux',
-        greeting: "Hi I am Tux, the Linux mascot.  I am very happy to spend some linux shell time with you!",
+        greeting: sprite_greet_tux,
         src: sprite_src_tux,
         SCALE_FACTOR: 8,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
@@ -75,6 +80,9 @@ class GameLevelDesert {
             "Which command is used to view the contents of a file?\n1. less\n2. more\n3. view\n4. cat" 
           ] 
         },
+        reaction: function() {
+          alert(sprite_greet_tux);
+        },
         interact: function() {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
@@ -87,9 +95,10 @@ class GameLevelDesert {
 
       // NPC data for Octocat
       const sprite_src_octocat = path + "/images/gamify/octocat.png"; // be sure to include the path
+      const sprite_greet_octocat = "Hi I am Octocat! I am the GitHub code code code collaboration mascot";
       const sprite_data_octocat = {
         id: 'Octocat',
-        greeting: "Hi I am Octocat! I am the GitHub code code code collaboration mascot",
+        greeting: sprite_greet_octocat,
         src: sprite_src_octocat,
         SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
@@ -114,6 +123,9 @@ class GameLevelDesert {
             "Which command is used to view the commit history?\n1. git log\n2. git history\n3. git commits\n4. git show"
           ] 
         },
+        reaction: function() {
+          alert(sprite_greet_octocat);
+        },
         interact: function() {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
@@ -123,9 +135,10 @@ class GameLevelDesert {
   
 
     const sprite_src_robot = path + "/images/gamify/robot.png"; // be sure to include the path
+    const sprite_greet_robot = "Hi I am Robot, the Jupyter Notebook mascot.  I am very happy to spend some linux shell time with you!";
     const sprite_data_robot = {
       id: 'Robot',
-      greeting: "Hi I am Robot, the Jupyter Notebook mascot.  I am very happy to spend some linux shell time with you!",
+      greeting: sprite_greet_robot,
       src: sprite_src_robot,
       SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
       ANIMATION_RATE: 100,
@@ -135,6 +148,26 @@ class GameLevelDesert {
       down: {row: 1, start: 0, columns: 6 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       // Linux command quiz
+
+      quiz: { 
+        title: "Jupyter Notebook Command Quiz",
+        questions: [
+          "Which shortcut is used to run a cell in Jupyter Notebook?\n1. Shift + Enter\n2. Ctrl + Enter\n3. Alt + Enter\n4. Tab + Enter",
+          "Which shortcut adds a new cell above the current cell?\n1. A\n2. B\n3. C\n4. D",
+          "Which shortcut adds a new cell below the current cell?\n1. B\n2. A\n3. C\n4. D",
+          "Which shortcut changes a cell to Markdown format?\n1. M\n2. Y\n3. R\n4. K",
+          "Which shortcut changes a cell to Code format?\n1. Y\n2. M\n3. C\n4. D",
+          "Which shortcut deletes the current cell?\n1. D, D\n2. X\n3. Del\n4. Ctrl + D",
+          "Which shortcut saves the current notebook?\n1. Ctrl + S\n2. Alt + S\n3. Shift + S\n4. Tab + S",
+          "Which shortcut restarts the kernel?\n1. 0, 0\n2. R, R\n3. K, K\n4. Shift + R",
+          "Which shortcut interrupts the kernel?\n1. I, I\n2. Ctrl + C\n3. Shift + I\n4. Alt + I",
+          "Which shortcut toggles line numbers in a cell?\n1. L\n2. N\n3. T\n4. G"
+        ] 
+      },
+      reaction: function() {
+        alert(sprite_greet_robot);
+      },
+
       interact: function() {
         // Set a primary game reference from the game environment
         let primaryGame = gameEnv.gameControl;
@@ -156,9 +189,10 @@ class GameLevelDesert {
 
     // NPC Data for R2D2
     const sprite_src_r2d2 = path + "/images/gamify/r2_idle.png"; // be sure to include the path
+    const sprite_greet_r2d2 = "Hi I am R2D2.  Leave this planet and help defent the rebel base on Hoth!";
     const sprite_data_r2d2 = {
       id: 'StarWarsR2D2',
-      greeting: "Hi I am R2D2.  Leave this planet and help defent the rebel base on Hoth!",
+      greeting: sprite_greet_r2d2,
       src: sprite_src_r2d2,
       SCALE_FACTOR: 8,  // Adjust this based on your scaling needs
       ANIMATION_RATE: 100,
@@ -167,6 +201,13 @@ class GameLevelDesert {
       orientation: {rows: 1, columns: 3 },
       down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      /* Reaction function
+      *  This function is called when the player collides with the NPC
+      *  It displays an alert with the greeting message
+      */
+      reaction: function() {
+        alert(sprite_greet_r2d2);
+      },
       /* Interact function
       *  This function is called when the player interacts with the NPC
       *  It pauses the main game, creates a new GameControl instance with the StarWars level,
@@ -177,7 +218,7 @@ class GameLevelDesert {
         // Define the game in game level
         let levelArray = [GameLevelStarWars];
         // Define a new GameControl instance with the StarWars level
-        let gameInGame = new GameControl(path,levelArray);
+        let gameInGame = new GameControl(gameEnv.game,levelArray);
         // Pause the primary game 
         primaryGame.pause();
         // Start the game in game

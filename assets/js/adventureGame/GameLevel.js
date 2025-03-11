@@ -2,6 +2,7 @@
 import GameEnv from "./GameEnv.js"
 
 class GameLevel {
+
   constructor(gameControl) {
     this.gameEnv = new GameEnv()
     // Set properties for easy access within game objects
@@ -28,6 +29,7 @@ class GameLevel {
     // Initialize the game level if it has an initialize method
     if (typeof this.gameLevel.initialize === "function") {
       this.gameLevel.initialize()
+
     }
 
     // Add event listener for window resize
