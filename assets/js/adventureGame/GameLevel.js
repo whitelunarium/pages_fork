@@ -4,7 +4,11 @@ import GameEnv from "./GameEnv.js"
 class GameLevel {
   constructor(gameControl) {
     this.gameEnv = new GameEnv()
+    // Set properties for easy access within game objects
+    this.gameEnv.game = gameControl.game
     this.gameEnv.path = gameControl.path
+    this.gameEnv.gameContainer = gameControl.gameContainer
+    this.gameEnv.gameCanvas = gameControl.gameCanvas
     this.gameEnv.gameControl = gameControl
   }
 
@@ -15,9 +19,9 @@ class GameLevel {
     this.gameObjectClasses = this.gameLevel.classes
 
     // Create game objects
-    for (const gameObjectClass of this.gameObjectClasses) {
+    for (let gameObjectClass of this.gameObjectClasses) {
       if (!gameObjectClass.data) gameObjectClass.data = {}
-      const gameObject = new gameObjectClass.class(gameObjectClass.data, this.gameEnv)
+      let gameObject = new gameObjectClass.class(gameObjectClass.data, this.gameEnv)
       this.gameEnv.gameObjects.push(gameObject)
     }
 
@@ -47,7 +51,7 @@ class GameLevel {
     this.gameEnv.clear()
 
     // Update all game objects
-    for (const gameObject of this.gameEnv.gameObjects) {
+    for (let gameObject of this.gameEnv.gameObjects) {
       gameObject.update()
     }
 
@@ -59,7 +63,7 @@ class GameLevel {
 
   resize() {
     this.gameEnv.resize()
-    for (const gameObject of this.gameEnv.gameObjects) {
+    for (let gameObject of this.gameEnv.gameObjects) {
       gameObject.resize()
     }
   }
