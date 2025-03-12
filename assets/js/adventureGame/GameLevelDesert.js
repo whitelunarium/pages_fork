@@ -201,7 +201,7 @@ class GameLevelDesert {
         // Define the game in game level
         let levelArray = [GameLevelMeteorBlaster];
         // Define a new GameControl instance with the StarWars level
-        let gameInGame = new GameControl(path,levelArray);
+        let gameInGame = new GameControl(gameEnv.game, levelArray);
         // Pause the primary game 
         primaryGame.pause();
         // Start the game in game

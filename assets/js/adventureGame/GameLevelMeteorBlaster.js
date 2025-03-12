@@ -8,9 +8,9 @@ import { checkGameImages } from "./debug-helper.js"
 class GameLevelMeteorBlaster {
   constructor(gameEnv) {
     this.gameEnv = gameEnv
-    const width = gameEnv.innerWidth
-    const height = gameEnv.innerHeight
-    const path = gameEnv.path
+    let width = gameEnv.innerWidth
+    let height = gameEnv.innerHeight
+    let path = gameEnv.path
 
     console.log("Game path:", path)  // Debug log
     checkGameImages(path)
