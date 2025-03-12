@@ -47,7 +47,7 @@ class GameLevelStarWars {
     };
 
     // NPC Data for Turret Anti-Air
-    const sprite_src_turret = path + "/images/gamify/turret_aa.png"; // be sure to include the path
+    const sprite_src_turret = path + "/images/gamify/aa_spritesheet1.png"; // be sure to include the path
     const TURRET_SCALE_FACTOR = 3;
     const sprite_data_turret = {
       id: 'Turret-Anti-Air',
@@ -55,10 +55,10 @@ class GameLevelStarWars {
       src: sprite_src_turret,
       SCALE_FACTOR: TURRET_SCALE_FACTOR,  // Adjust this based on your scaling needs
       ANIMATION_RATE: 100,
-      pixels: {width: 562, height: 444},
+      pixels: {width: 1056, height: 236},
       INIT_POSITION: { x: width - (height/TURRET_SCALE_FACTOR), y: height - .82*(height/TURRET_SCALE_FACTOR) }, 
-      orientation: {rows: 1, columns: 1 },
-      down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
+      orientation: {rows: 1, columns: 3 },
+      down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
     };
 
@@ -79,7 +79,7 @@ class GameLevelStarWars {
         TRANSLATE_SCALE_FACTOR: 10, // Grow to this size at end translation
         TRANSLATE_POSITION_RATIO: { x: 1 / 2.78, y: 1 / 2.9 }, // Ratios for translate position
         TRANSLATE_SIMULATION: {miliseconds: 500 }, // 1 second
-        down: {row: 0, start: 0, columns: 1, spin: 4},  // down is default
+        down: {row: 0, start: 0, columns: 3, spin: 4},  // down is default
      };
 
      // Laser data, temporary sprite for testing
