@@ -5,6 +5,7 @@ title: Seed Tracker Teacher
 type: ccc
 permalink: /project/mort-translator/teacher-tracker
 ---
+
 <head>
   <title>Student Weekly Project Submissions</title>
   <style>
@@ -12,6 +13,7 @@ permalink: /project/mort-translator/teacher-tracker
   </style>
 </head>
 <body>
+
 <h1>Student Weekly Project Submissions</h1>
 <table id="submissionsTable">
   <thead>
@@ -25,14 +27,17 @@ permalink: /project/mort-translator/teacher-tracker
   <tbody>
   </tbody>
 </table>
+
 <script>
   // Fetch all submissions when the page loads
   async function fetchSubmissions() {
     try {
       const response = await fetch('http://localhost:8085/api/grades/requests/seed');
       const submissions = await response.json();
+
       const tableBody = document.getElementById('submissionsTable').querySelector('tbody');
       tableBody.innerHTML = '';  // Clear existing rows
+
       if (submissions.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="4">No submissions found</td></tr>`;
       } else {
@@ -56,14 +61,17 @@ permalink: /project/mort-translator/teacher-tracker
       tableBody.innerHTML = `<tr><td colspan="4">Error loading data: ${error.message}</td></tr>`;
     }
   }
+
   // Adjust the grade by +0.05 or -0.05, update the backend as well
   async function adjustRequest(id, change) {
   try {
     const requestElement = document.getElementById(`request-${id}`);
     let currentRequest = parseFloat(requestElement.textContent);
     const updatedRequest = currentRequest + change;
+
     // Update the frontend
     requestElement.textContent = updatedRequest.toFixed(2);
+
     // Update the backend
   const response = await fetch(`http://localhost:8085/api/grades/requests/seed/${id}`, {
       method: 'PUT',
@@ -72,16 +80,20 @@ permalink: /project/mort-translator/teacher-tracker
       },
       body: JSON.stringify({
         grade: updatedRequest,
-      }),
+      }),   
     });
+
     if (!response.ok) {
       throw new Error('Error updating request in backend');
     }
+
     } catch (error) {
       console.error('Error adjusting request:', error);
     }
   }
+
   // Fetch data when the page is fully loaded
   document.addEventListener('DOMContentLoaded', fetchSubmissions);
 </script>
+
 </body>

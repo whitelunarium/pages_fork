@@ -9,13 +9,21 @@ permalink: /gamify/adventureGame
     <canvas id='gameCanvas'></canvas>
 </div>
 
-
 <script type="module">
-    // import GameControl from '{{site.baseurl}}/assets/js/adventureGame/GameControl.js';
+    // Adnventure Game assets locations
     import Game from '{{site.baseurl}}/assets/js/adventureGame/Game.js';
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    const path = "{{site.baseurl}}";
-    Game.main(path, pythonURI, javaURI, fetchOptions);
-    // new GameControl(path).start();
+
+    // Web Server Environment data
+    const environment = {
+        path:"{{site.baseurl}}",
+        pythonURI: pythonURI,
+        javaURI: javaURI,
+        fetchOptions: fetchOptions,
+        gameContainer: document.getElementById("gameContainer"),
+        gameCanvas: document.getElementById("gameCanvas")
+    }
+    // Launch Adventure Game
+    Game.main(environment);
 </script>

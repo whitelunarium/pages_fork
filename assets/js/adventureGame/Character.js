@@ -161,6 +161,10 @@ class Character extends GameObject {
                 this.ctx.translate(-this.canvas.width / 2, -this.canvas.height / 2);
             }
 
+            if (directionData.explode) {
+                this.ctx.filter = 'grayscale(50%) blur(5px)';
+            }   
+
             // Draw the current frame of the sprite sheet
             this.ctx.drawImage(
                 this.spriteSheet,

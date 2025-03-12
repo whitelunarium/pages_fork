@@ -128,7 +128,7 @@ title: Issues Post
     </style>
 </head>
 <body>
-    <h1>Create a Issue Post</h1>
+    <h1>Create an Issue Post</h1>
     <form id="issueForm">
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" required><br><br>
@@ -137,32 +137,30 @@ title: Issues Post
         <button type="submit">Submit</button>
     </form>
     <div id="response"></div>
-    <script>
-        const javaURI = "https://spring2025.nighthawkcodingsociety.com";
+    <script type="module">
+        import {javaURI, fetchOptions} from '{{site.baseurl}}/assets/js/api/config.js';
         function isLoggedIn() {
-            //get the cookie jwt_java_spring
-            const token = document.cookie.split('; ').find(row => row.startsWith('jwt_java_spring='));
+            const token = localStorage.getItem('ghid');
             return token !== undefined;
         }
         document.getElementById('issueForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevents the form from refreshing the page
-            // print out button pressed in console
-            console.log('Button pressed');
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+                    const context = document.getElementById('problem').value;
+                    //alert(title);
+                    //alert(context);
             if (!isLoggedIn()) {
                 if (!confirm('You are not logged in. Submitting will not save your post. Do you want to continue?')) {
                     return;
-                }
-                else
-                {
+                } else {
                     const author = null;
                     const title = document.getElementById('title').value;
                     const context = document.getElementById('problem').value;
-                    fetch('{javaURI}/forum/issue/post', {
+                    fetch(`${javaURI}/forum/issue/post`, {
+                        ...fetchOptions,
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ title, context, author }),
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title, context, author })
                     })
                     .then(response => response.text())
                     .then(data => {
@@ -174,15 +172,12 @@ title: Issues Post
                 }
             }
             if (isLoggedIn()) {
-                const title = document.getElementById('title').value;
-                const context = document.getElementById('problem').value;
                 const author = localStorage.getItem('ghid');
-                fetch('{javaURI}/forum/issue/post', {
+                fetch(`${javaURI}/forum/issue/post`, {
+                    ...fetchOptions,
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ title, context, author }),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, context, author })
                 })
                 .then(response => response.text())
                 .then(data => {
@@ -192,6 +187,9 @@ title: Issues Post
                     document.getElementById('response').innerText = 'Error: ' + error;
                 });
             };
+            setTimeout(function() {
+                window.location.href = "/portfolio_2025/studentIssue";
+            }, 3000);
         });
     </script>
 </body>

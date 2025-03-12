@@ -2,6 +2,7 @@
 import GameEnv from "./GameEnv.js"
 
 class GameLevel {
+
   constructor(gameControl) {
     this.gameEnv = new GameEnv()
     this.gameEnv.game = gameControl.game
@@ -25,6 +26,7 @@ class GameLevel {
 
     if (typeof this.gameLevel.initialize === "function") {
       this.gameLevel.initialize()
+
     }
 
     window.addEventListener("resize", this.resize.bind(this))
