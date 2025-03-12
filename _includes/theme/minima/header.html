@@ -91,7 +91,10 @@
             {%- assign default_paths = site.pages | map: "path" -%}
             {%- assign page_paths = site.header_pages | default: default_paths -%}
             {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-            <a class="site-title" rel="author" href="{{ " /" | relative_url }}">{{ site.title | escape }}</a>
+            <a class="site-title glitch" rel="author" href="{{ " /" | relative_url }}"
+                data-value="{{ site.title | escape }}">
+                {{ site.title | escape }}
+            </a>
 
             {%- if titles_size > 0 -%}
             <nav class="site-nav">
@@ -120,4 +123,37 @@
     </header>
 
     <script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>
+
+    <script>
+        const links = document.getElementsByClassName("glitch");
+        const letters = "#+©-&*0KIR1L2345";
+        const lettersLength = letters.length;
+        const regex = /\s/;
+
+        for (let i = 0; i < links.length; i++) {
+            links[i].addEventListener("mouseover", (event) => {
+                let iterations = 0;
+                const target = event.target;
+                const originalText = target.dataset.value || target.innerText;
+
+                const interval = setInterval(() => {
+                    target.innerText = originalText
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iterations) {
+                                return originalText[index];
+                            }
+                            return regex.test(letter) ? letter : letters[Math.floor(Math.random() * lettersLength)];
+                        })
+                        .join("");
+
+                    if (iterations >= originalText.length) {
+                        clearInterval(interval);
+                    }
+
+                    iterations += 1;
+                }, 100);
+            });
+        }
+    </script>
 </body>
