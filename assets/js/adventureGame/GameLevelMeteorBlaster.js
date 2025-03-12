@@ -61,19 +61,20 @@ class GameLevelMeteorBlaster {
       hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
     }
 
+    const laser_image = path + "/images/gamify/laser_bolt.png"
     this.laserData = {
       id: "Laser",
-      src: path + "/images/gamify/laser_bolt.png",
+      src: laser_image,
       SCALE_FACTOR: 20,
       ANIMATION_RATE: 50,
       pixels: { height: 500, width: 500 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
     }
-
+  const meteor_image = path + "/images/gamify/meteor.png"
     this.meteorData = {
       id: "Meteor",
-      src: path + "/images/gamify/meteor.png",
+      src: meteor_image, 
       SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
       pixels: { height: 100, width: 100 },
