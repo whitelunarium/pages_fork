@@ -155,7 +155,7 @@ class GameLevelDesert {
         interact: function() {
             const confirmTeleport = window.confirm("Teleport to the stock market?");
             if (confirmTeleport) {
-                window.location.href = "https://your-casino-link.com"; // Replace with your link
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home"; // Replace with your link
             }
         }
     };
