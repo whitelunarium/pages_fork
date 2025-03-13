@@ -49,13 +49,16 @@
     
 
     <!-- main content -->
-    <div class="container">
-        <!-- navigation pane on the left (sign in/out, etc.) -->
-        <div class="sidebar">
-            {% include Aesthetihawk/sidebar.html %}
+     
+    <div>
+        <div class="container">
+            <!-- navigation pane on the left (sign in/out, etc.) -->
+            <div class="sidebar">
+                {% include Aesthetihawk/sidebar.html %}
+            </div>
+    
+            {{ content }}
         </div>
-
-        {{ content }}
     </div>
 
 </body>
