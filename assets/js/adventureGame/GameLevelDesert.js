@@ -133,7 +133,7 @@ class GameLevelDesert {
         }
     }
 
-    const sprite_src_stocks = path + "/images/gamify/slotmachine.png"; // Path to the NPC sprite
+    const sprite_src_stocks = path + "/images/gamify/stockguy.png"; // Path to the NPC sprite
     const sprite_greet_stocks = "Teleport to the stock market?";
     
     const sprite_data_stocks = {
@@ -142,7 +142,7 @@ class GameLevelDesert {
         src: sprite_src_stocks,
         SCALE_FACTOR: 10,
         ANIMATION_RATE: 50,
-        pixels: {height: 256, width: 256},
+        pixels: {height: 441, width: 339},
         INIT_POSITION: { x: width * 0.75, y: height * 0.6 },
         orientation: {rows: 5, columns: 1},
         down: {row: 0, start: 0, columns: 1 },
