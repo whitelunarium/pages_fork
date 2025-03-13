@@ -144,7 +144,7 @@ class GameLevelDesert {
         ANIMATION_RATE: 50,
         pixels: {height: 441, width: 339},
         INIT_POSITION: { x: width * 0.75, y: height * 0.6 },
-        orientation: {rows: 5, columns: 1},
+        orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         // Reaction when player approaches NPC
