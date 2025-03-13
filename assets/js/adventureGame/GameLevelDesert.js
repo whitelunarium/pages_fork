@@ -169,9 +169,9 @@ class GameLevelDesert {
         src: sprite_src_crypto,
         SCALE_FACTOR: 10,
         ANIMATION_RATE: 50,
-        pixels: {height: 512, width: 512},
+        pixels: {height: 600, width: 600},
         INIT_POSITION: { x: width / 3, y: height / 3 },
-        orientation: {rows: 5, columns: 1},
+        orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         // Reaction when player approaches NPC
