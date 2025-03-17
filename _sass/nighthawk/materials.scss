@@ -1,6 +1,18 @@
-// NORMAL MATERIALS
-// NORMAL MATERIALS
-// NORMAL MATERIALS
+// this is the materials file
+// it has all the site materials like glass, lighting, or colors
+// call these variables instead of hardcoding them
+
+// COLORS ===================================
+
+// gray
+$systemGray: rgba(142, 142, 147, 1);
+$systemGray2: rgba(174, 174, 178, 1);
+$systemGray3: rgba(199, 199, 204, 1);
+$systemGray4: rgba(209, 209, 214, 1);
+$systemGray5: rgba(229, 229, 234, 1);
+$systemGray6: rgba(242, 242, 247, 1);
+
+// NORMAL MATERIALS ===================================
 
 .TEMP {
     // code here
@@ -9,9 +21,7 @@
 
 
 
-// GLASS MATERIALS
-// GLASS MATERIALS
-// GLASS MATERIALS
+// GLASS MATERIALS ===================================
 
 .glass {
     backdrop-filter: blur(30px);
@@ -22,9 +32,7 @@
     background: rgba(50, 50, 50, 0.5);
 }
 
-// LIGHTING MATERIALS
-// LIGHTING MATERIALS
-// LIGHTING MATERIALS
+// LIGHTING MATERIALS ===================================
 
 .glow-on-hover-search {
     border: none;
