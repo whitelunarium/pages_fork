@@ -134,7 +134,7 @@ class GameLevelDesert {
     }
 
     const sprite_src_stocks = path + "/images/gamify/stockguy.png"; // Path to the NPC sprite
-    const sprite_greet_stocks = "Teleport to the stock market?";
+    const sprite_greet_stocks = "Darn it, I lost some money on the stock market.. come with me to help me out?";
     
     const sprite_data_stocks = {
         id: 'Stock-NPC',
@@ -161,7 +161,7 @@ class GameLevelDesert {
     };
 
     const sprite_src_crypto = path + "/images/gamify/bitcoin.png"; // Path to the NPC sprite
-    const sprite_greet_crypto = "Teleport to the crypto hub?";
+    const sprite_greet_crypto = "*cha-ching*";
     
     const sprite_data_crypto = {
         id: 'Crypto-NPC',
@@ -180,9 +180,9 @@ class GameLevelDesert {
         },
         // Interact when player presses "E"
         interact: function() {
-            const confirmTeleport = window.confirm("Teleport to crypto hub?");
+            const confirmTeleport = window.confirm("Teleport to gambling hub?");
             if (confirmTeleport) {
-                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home"; // Replace with your link
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage"; // Replace with your lin
             }
         }
     };
