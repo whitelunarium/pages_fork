@@ -53,39 +53,31 @@ class Game {
 
         // Create the content
         instructionsDiv.innerHTML = `
-            <h2 style="color: #f5c207; margin-bottom: 20px; text-align: center;">Welcome to the Adventure Game!</h2>
-            <div style="margin-bottom: 20px;">
+            <h2 style="color: #f5c207; margin-bottom: 15px; text-align: center;">Welcome!</h2>
+            <div style="margin-bottom: 15px;">
                 <h3 style="color: #f5c207;">Controls:</h3>
-                <p>• Use W, A, S, D keys to move your character</p>
-                <p>• Press E or U to interact with NPCs</p>
-                <p>• Press ESC to exit mini-games</p>
+                <p>• WASD - Move</p>
+                <p>• E/U - Interact with NPCs</p>
+                <p>• ESC - Exit mini-games</p>
             </div>
-            <div style="margin-bottom: 20px;">
-                <h3 style="color: #f5c207;">Interactive Features:</h3>
-                <p>• Press E near NPCs to:</p>
-                <p style="margin-left: 20px;">- Play the Meteor Blaster game (Robot NPC)</p>
-                <p style="margin-left: 20px;">- Play the Star Wars game (R2D2 NPC)</p>
-                <p style="margin-left: 20px;">- Take quizzes (Tux and Octocat NPCs)</p>
-                <p style="margin-left: 20px;">- Visit the Stock Market (Stock Guy NPC)</p>
-                <p style="margin-left: 20px;">- Visit the Casino (Bitcoin NPC)</p>
-            </div>
-            <div style="margin-bottom: 20px;">
-                <h3 style="color: #f5c207;">Game Features:</h3>
-                <p>• Complete quizzes to earn points and test your knowledge</p>
-                <p>• Play mini-games to earn extra points</p>
-                <p>• Track your progress with the stats panel</p>
-                <p>• Visit different areas through NPC interactions</p>
+            <div style="margin-bottom: 15px;">
+                <h3 style="color: #f5c207;">NPCs:</h3>
+                <p>• Robot - Meteor Blaster game</p>
+                <p>• R2D2 - Star Wars game</p>
+                <p>• Tux/Octocat - Quizzes</p>
+                <p>• Stock Guy - Stock Market</p>
+                <p>• Bitcoin - Casino</p>
             </div>
             <div style="text-align: center;">
                 <button id="startGameBtn" style="
                     background: #f5c207;
                     color: black;
                     border: none;
-                    padding: 10px 20px;
+                    padding: 8px 16px;
                     border-radius: 5px;
                     cursor: pointer;
                     font-family: 'Press Start 2P', cursive;
-                    font-size: 14px;
+                    font-size: 12px;
                     transition: all 0.3s ease;
                 ">Start Game</button>
             </div>
