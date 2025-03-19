@@ -265,7 +265,6 @@ title: Stocks Home
             </tr>
         </table>
     </div>
-    
     <!-- Add the Crypto Holdings section -->
     <div class="crypto-holdings">
         <h3>Your Crypto Holdings</h3>
@@ -276,14 +275,12 @@ title: Stocks Home
             </tr>
         </table>
     </div>
-    
     <!-- Move this to a modal only -->
     <div class="crypto-history">
         <h3>Recent Transactions</h3>
         <button class="view-full-history-btn" onclick="openHistoryModal()">View Full History</button>
     </div>
 </div>
-
 <!-- Modal for Full History -->
 <div id="historyModal" class="modal">
     <div class="modal-content">
@@ -300,10 +297,9 @@ title: Stocks Home
     </div>
 </div>
 </div>
-
 </div>
-
 <script type="module">
+// changes
 import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 // Fetch user credentials and update the welcome message
 async function updateWelcomeMessage() {
