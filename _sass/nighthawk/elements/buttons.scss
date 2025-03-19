@@ -1,4 +1,3 @@
-@import "../elements.scss";
 // BUTTON ELEMENTS ===============
 
 // BUTTON STATES ============
@@ -68,7 +67,7 @@
     padding: 30px 45px;
 }
 
-// Button styles with dynamic hover & active effects
+// FILLED BUTTONS =========
 .primaryFilled {
     background-color: $systemBlack;
     @include hover-darken($systemBlack);
@@ -87,4 +86,20 @@
     background-color: $systemGray5;
     @include hover-darken($systemGray5);
     @include active-darken($systemGray5);
+}
+
+// HOLLOW BUTTONS =========
+.primaryHollow {
+    @extend .primaryFilled;
+    background-color: transparent;
+}
+
+.secondaryHollow{
+    @extend .secondaryFilled;
+    background-color: transparent;
+}
+
+.tertiaryHollow {
+    @extend .tertiaryFilled;
+    background-color: transparent;
 }
