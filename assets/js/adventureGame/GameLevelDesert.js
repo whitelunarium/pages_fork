@@ -6,6 +6,7 @@ import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
 import GameLevelStarWars from './GameLevelStarWars.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
+import GameLevelMinesweeper from './GameLevelMinesweeper.js';
 
 class GameLevelDesert {
   constructor(gameEnv) {
@@ -285,6 +286,34 @@ class GameLevelDesert {
 
     };
 
+    const sprite_src_minesweeper = path + "/images/gamify/robot.png"; // Using robot sprite for Minesweeper NPC
+    const sprite_greet_minesweeper = "Want to play a game of Minesweeper? Right-click to flag mines!";
+    const sprite_data_minesweeper = {
+      id: 'Minesweeper',
+      greeting: sprite_greet_minesweeper,
+      src: sprite_src_minesweeper,
+      SCALE_FACTOR: 10,
+      ANIMATION_RATE: 100,
+      pixels: {height: 316, width: 627},
+      INIT_POSITION: { x: (width * 2 / 3), y: (height * 2 / 3)},
+      orientation: {rows: 3, columns: 6},
+      down: {row: 1, start: 0, columns: 6},
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function() {
+        alert(sprite_greet_minesweeper);
+      },
+      interact: function() {
+        let primaryGame = gameEnv.gameControl;
+        let levelArray = [GameLevelMinesweeper];
+        let gameInGame = new GameControl(gameEnv.game, levelArray);
+        primaryGame.pause();
+        gameInGame.start();
+        gameInGame.gameOver = function() {
+          primaryGame.resume();
+        }
+      }
+    };
+
     // List of objects defnitions for this level
     this.classes = [
       { class: Background, data: image_data_desert },
@@ -294,9 +323,9 @@ class GameLevelDesert {
       { class: Npc, data: sprite_data_robot },
       { class: Npc, data: sprite_data_r2d2 },
       { class: Npc, data: sprite_data_stocks },
-      { class: Npc, data: sprite_data_crypto}
+      { class: Npc, data: sprite_data_crypto },
+      { class: Npc, data: sprite_data_minesweeper }  // Added Minesweeper NPC
     ];
-    
   }
 
 }

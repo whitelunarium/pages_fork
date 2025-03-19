@@ -1,23 +1,19 @@
-import Player from './Player.js';
-import Npc from './Npc.js';
-import Quiz from './Quiz.js';
+import Background from './Background.js';
 
 class GameLevelMinesweeper {
     constructor(gameEnv) {
         // Store gameEnv for later use
         this.gameEnv = gameEnv;
-        // Initialize gameObjectClasses array
-        this.gameObjectClasses = [];
+        // Initialize classes array - we don't need a background since we draw our own
+        this.classes = [];
     }
 
-    create(gameEnv) {
-        // Values dependent on gameEnv.create()
-        this.width = gameEnv.innerWidth;
-        this.height = gameEnv.innerHeight;
-        this.path = gameEnv.path;
-
-        // Initialize game objects array
-        this.gameObjects = [];
+    initialize() {
+        // This method is called by GameLevel.js after creating game objects
+        this.width = this.gameEnv.innerWidth;
+        this.height = this.gameEnv.innerHeight;
+        this.canvas = this.gameEnv.gameCanvas;
+        this.ctx = this.canvas.getContext('2d');
 
         // Game settings
         this.gridSize = 10; // 10x10 grid
@@ -38,23 +34,15 @@ class GameLevelMinesweeper {
         this.gridX = (this.width - (this.gridSize * this.cellSize)) / 2;
         this.gridY = (this.height - (this.gridSize * this.cellSize)) / 2;
 
-        // Create canvas
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.left = '0';
-        this.canvas.style.top = '0';
-        this.canvas.style.zIndex = '10'; // Increased z-index to ensure it's above other elements
-        document.getElementById('gameCanvas').appendChild(this.canvas);
-        this.ctx = this.canvas.getContext('2d');
-
         // Initialize game
         this.initializeGrid();
         this.addEventListeners();
 
-        // Start the game loop
+        // Start the game
         this.isRunning = true;
+        
+        // Start the game loop
+        this.gameLoop();
     }
 
     gameLoop() {
@@ -116,7 +104,8 @@ class GameLevelMinesweeper {
     }
 
     addEventListeners() {
-        this.canvas.addEventListener('click', (e) => {
+        // Store bound event handlers so we can remove them later
+        this.handleClick = (e) => {
             if (this.gameOver) return;
             
             const rect = this.canvas.getBoundingClientRect();
@@ -130,9 +119,9 @@ class GameLevelMinesweeper {
                 gridY >= 0 && gridY < this.gridSize) {
                 this.revealCell(gridX, gridY);
             }
-        });
+        };
 
-        this.canvas.addEventListener('contextmenu', (e) => {
+        this.handleRightClick = (e) => {
             e.preventDefault();
             if (this.gameOver) return;
             
@@ -147,7 +136,10 @@ class GameLevelMinesweeper {
                 gridY >= 0 && gridY < this.gridSize) {
                 this.toggleFlag(gridX, gridY);
             }
-        });
+        };
+
+        this.canvas.addEventListener('click', this.handleClick);
+        this.canvas.addEventListener('contextmenu', this.handleRightClick);
     }
 
     revealCell(x, y) {
@@ -238,23 +230,48 @@ class GameLevelMinesweeper {
     }
 
     draw() {
-        // Clear the entire canvas and draw background
+        if (!this.ctx) return;  // Make sure we have a context before drawing
+
+        // Clear the entire canvas and draw desert background
         this.ctx.clearRect(0, 0, this.width, this.height);
-        this.ctx.fillStyle = '#87CEEB'; // Sky blue background
+        
+        // Draw desert sky gradient
+        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.height);
+        gradient.addColorStop(0, '#FFB74D');  // Light orange sky
+        gradient.addColorStop(1, '#FFA726');  // Darker orange sky
+        this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.width, this.height);
 
-        // Add title
-        this.ctx.fillStyle = 'black';
-        this.ctx.font = 'bold 24px Arial';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText('Minesweeper', this.width/2, 30);
+        // Draw sun
+        this.ctx.fillStyle = '#FFD700';
+        this.ctx.beginPath();
+        this.ctx.arc(100, 100, 40, 0, Math.PI * 2);
+        this.ctx.fill();
 
-        // Add instructions
-        this.ctx.font = '16px Arial';
-        this.ctx.fillText('Left-click to reveal, Right-click to flag mines', this.width/2, 60);
+        // Draw some desert dunes in the background
+        this.ctx.fillStyle = '#F5DEB3';  // Wheat color
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, this.height * 0.7);
+        this.ctx.quadraticCurveTo(this.width * 0.25, this.height * 0.6, this.width * 0.5, this.height * 0.7);
+        this.ctx.quadraticCurveTo(this.width * 0.75, this.height * 0.8, this.width, this.height * 0.7);
+        this.ctx.lineTo(this.width, this.height);
+        this.ctx.lineTo(0, this.height);
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        // Add title with desert theme
+        this.ctx.fillStyle = '#8B4513';  // Saddle brown
+        this.ctx.font = 'bold 32px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Desert Minesweeper', this.width/2, 50);
+
+        // Add instructions with desert theme
+        this.ctx.font = '18px Arial';
+        this.ctx.fillStyle = '#8B4513';
+        this.ctx.fillText('Left-click to dig, Right-click to flag mines', this.width/2, 80);
         
-        // Draw grid background
-        this.ctx.fillStyle = 'rgba(200, 200, 200, 0.9)';
+        // Draw grid background with desert sand color
+        this.ctx.fillStyle = '#DEB887';  // Burly wood color
         this.ctx.fillRect(
             this.gridX - 5, 
             this.gridY - 5, 
@@ -269,37 +286,45 @@ class GameLevelMinesweeper {
                 const y = this.gridY + j * this.cellSize;
 
                 // Draw cell background with 3D effect
-                this.ctx.fillStyle = this.revealed[i][j] ? '#e0e0e0' : '#c0c0c0';
+                this.ctx.fillStyle = this.revealed[i][j] ? '#F5DEB3' : '#DEB887';  // Wheat and Burly wood colors
                 this.ctx.fillRect(x, y, this.cellSize, this.cellSize);
 
                 if (!this.revealed[i][j]) {
                     // Draw 3D effect for unrevealed cells
-                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.fillStyle = '#FFE4B5';  // Moccasin color
                     this.ctx.beginPath();
                     this.ctx.moveTo(x, y + this.cellSize);
                     this.ctx.lineTo(x, y);
                     this.ctx.lineTo(x + this.cellSize, y);
-                    this.ctx.strokeStyle = '#ffffff';
+                    this.ctx.strokeStyle = '#FFE4B5';
                     this.ctx.stroke();
 
-                    this.ctx.fillStyle = '#808080';
+                    this.ctx.fillStyle = '#CD853F';  // Peru color
                     this.ctx.beginPath();
                     this.ctx.moveTo(x + this.cellSize, y);
                     this.ctx.lineTo(x + this.cellSize, y + this.cellSize);
                     this.ctx.lineTo(x, y + this.cellSize);
-                    this.ctx.strokeStyle = '#808080';
+                    this.ctx.strokeStyle = '#CD853F';
                     this.ctx.stroke();
                 }
 
                 if (this.revealed[i][j]) {
                     if (this.grid[i][j] === -1) {
-                        // Draw mine
-                        this.ctx.fillStyle = 'black';
+                        // Draw cactus instead of mine
+                        this.ctx.fillStyle = '#228B22';  // Forest green
                         this.ctx.beginPath();
-                        this.ctx.arc(x + this.cellSize/2, y + this.cellSize/2, this.cellSize/3, 0, Math.PI * 2);
-                        this.ctx.fill();
+                        // Main body
+                        this.ctx.moveTo(x + this.cellSize/2, y + this.cellSize/2);
+                        this.ctx.lineTo(x + this.cellSize/2, y + this.cellSize/3);
+                        // Left arm
+                        this.ctx.moveTo(x + this.cellSize/2, y + this.cellSize/2);
+                        this.ctx.lineTo(x + this.cellSize/3, y + this.cellSize/3);
+                        // Right arm
+                        this.ctx.moveTo(x + this.cellSize/2, y + this.cellSize/2);
+                        this.ctx.lineTo(x + this.cellSize*2/3, y + this.cellSize/3);
+                        this.ctx.stroke();
                     } else if (this.grid[i][j] > 0) {
-                        // Draw number
+                        // Draw number with desert theme colors
                         this.ctx.fillStyle = this.getNumberColor(this.grid[i][j]);
                         this.ctx.font = 'bold 20px Arial';
                         this.ctx.textAlign = 'center';
@@ -307,8 +332,8 @@ class GameLevelMinesweeper {
                         this.ctx.fillText(this.grid[i][j], x + this.cellSize/2, y + this.cellSize/2);
                     }
                 } else if (this.flagged[i][j]) {
-                    // Draw flag
-                    this.ctx.fillStyle = 'red';
+                    // Draw flag with desert theme
+                    this.ctx.fillStyle = '#8B4513';  // Saddle brown
                     this.ctx.beginPath();
                     this.ctx.moveTo(x + this.cellSize/4, y + this.cellSize/4);
                     this.ctx.lineTo(x + this.cellSize*3/4, y + this.cellSize/2);
@@ -319,16 +344,16 @@ class GameLevelMinesweeper {
             }
         }
 
-        // Draw game over message
+        // Draw game over message with desert theme
         if (this.gameOver) {
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            this.ctx.fillStyle = 'rgba(139, 69, 19, 0.7)';  // Semi-transparent saddle brown
             this.ctx.fillRect(0, 0, this.width, this.height);
-            this.ctx.fillStyle = 'white';
+            this.ctx.fillStyle = '#FFD700';  // Gold color
             this.ctx.font = 'bold 30px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(
-                this.won ? 'You Won!' : 'Game Over!',
+                this.won ? 'You Found All the Cacti!' : 'Game Over!',
                 this.width/2,
                 this.height/2
             );
@@ -341,38 +366,38 @@ class GameLevelMinesweeper {
                 );
             }
             
-            // Add replay button
-            this.ctx.fillStyle = '#4CAF50';
+            // Add replay button with desert theme
+            this.ctx.fillStyle = '#8B4513';  // Saddle brown
             const buttonWidth = 200;
             const buttonHeight = 50;
             const buttonX = this.width/2 - buttonWidth/2;
             const buttonY = this.height/2 + 80;
             this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
-            this.ctx.fillStyle = 'white';
+            this.ctx.fillStyle = '#FFD700';  // Gold color
             this.ctx.font = '20px Arial';
             this.ctx.fillText('Play Again', this.width/2, buttonY + buttonHeight/2);
         }
 
-        // Draw remaining mines count
+        // Draw remaining mines count with desert theme
         let remainingFlags = this.mineCount - this.flagged.flat().filter(Boolean).length;
-        this.ctx.fillStyle = 'black';
+        this.ctx.fillStyle = '#8B4513';  // Saddle brown
         this.ctx.font = '20px Arial';
         this.ctx.textAlign = 'left';
-        this.ctx.fillText(`Mines remaining: ${remainingFlags}`, 10, 30);
+        this.ctx.fillText(`Cacti remaining: ${remainingFlags}`, 10, 30);
     }
 
     getNumberColor(number) {
         const colors = [
-            '#0000FF', // 1: Blue
-            '#008000', // 2: Green
-            '#FF0000', // 3: Red
-            '#000080', // 4: Dark Blue
-            '#800000', // 5: Dark Red
-            '#008080', // 6: Teal
-            '#000000', // 7: Black
-            '#808080'  // 8: Gray
+            '#8B4513', // 1: Saddle brown
+            '#A0522D', // 2: Sienna
+            '#CD853F', // 3: Peru
+            '#D2691E', // 4: Chocolate
+            '#8B0000', // 5: Dark red
+            '#B8860B', // 6: Dark goldenrod
+            '#DAA520', // 7: Goldenrod
+            '#BDB76B'  // 8: Dark khaki
         ];
-        return colors[number - 1] || 'black';
+        return colors[number - 1] || '#8B4513';
     }
 
     update() {
@@ -383,9 +408,14 @@ class GameLevelMinesweeper {
 
     cleanup() {
         this.isRunning = false;
-        if (this.canvas && this.canvas.parentNode) {
-            this.canvas.parentNode.removeChild(this.canvas);
+        if (this.canvas) {
+            this.canvas.removeEventListener('click', this.handleClick);
+            this.canvas.removeEventListener('contextmenu', this.handleRightClick);
         }
+    }
+
+    destroy() {
+        this.cleanup();
     }
 }
 
