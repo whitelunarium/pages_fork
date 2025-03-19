@@ -2,7 +2,7 @@
 layout: base
 title: Team Selection
 type: game
-permalink: /crypto/team-selection
+permalink: /leaderboard/team-selection
 ---
 
 <link rel="stylesheet" href="{{site.baseurl}}/assets/css/team-selection.css">
@@ -155,9 +155,10 @@ permalink: /crypto/team-selection
 <!-- Navigation Bar -->
 <nav class="navbar">
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/crypto/team-selection">Team viewer</a>
-        <a href="{{site.baseurl}}/stocks/leaderboard">Team selector</a>
+        <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
+        <a href="{{site.baseurl}}/leaderboard/team-selection">Team viewer</a>
+        <a href="{{site.baseurl}}/leaderboard/team-viewer">Team viewer</a>
+        <a href="{{site.baseurl}}/leaderboard/team-leaderboard">Team leaderboard</a>
     </div>
 </nav>
 
