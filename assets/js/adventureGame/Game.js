@@ -1,10 +1,10 @@
 import GameControl from './GameControl.js';
 import GameLevelWater from "./GameLevelWater.js";
 import GameLevelDesert from "./GameLevelDesert.js";
+
 class Game {
     // initialize user and launch GameControl 
     static main(environment) {
-
         // setting Web Application path
         this.path = environment.path;
 
@@ -23,9 +23,93 @@ class Game {
         this.initUser();
         this.initStatsUI();
         
-        // start the game
-        const gameLevelClasses = [GameLevelDesert, GameLevelWater]
-        new GameControl(this, gameLevelClasses).start();
+        // Show instructions before starting the game
+        this.showInstructions(() => {
+            // start the game after instructions are closed
+            const gameLevelClasses = [GameLevelDesert, GameLevelWater]
+            new GameControl(this, gameLevelClasses).start();
+        });
+    }
+
+    static showInstructions(callback) {
+        // Create the instructions popup
+        const instructionsDiv = document.createElement('div');
+        instructionsDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            max-width: 600px;
+            width: 90%;
+            font-family: 'Press Start 2P', cursive;
+            border: 3px solid #f5c207;
+            box-shadow: 0 0 20px rgba(245, 194, 7, 0.5);
+        `;
+
+        // Create the content
+        instructionsDiv.innerHTML = `
+            <h2 style="color: #f5c207; margin-bottom: 20px; text-align: center;">Welcome to the Adventure Game!</h2>
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #f5c207;">Controls:</h3>
+                <p>• Use W, A, S, D keys to move your character</p>
+                <p>• Press E or U to interact with NPCs</p>
+                <p>• Press ESC to exit mini-games</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #f5c207;">Interactive Features:</h3>
+                <p>• Press E near NPCs to:</p>
+                <p style="margin-left: 20px;">- Play the Meteor Blaster game (Robot NPC)</p>
+                <p style="margin-left: 20px;">- Play the Star Wars game (R2D2 NPC)</p>
+                <p style="margin-left: 20px;">- Take quizzes (Tux and Octocat NPCs)</p>
+                <p style="margin-left: 20px;">- Visit the Stock Market (Stock Guy NPC)</p>
+                <p style="margin-left: 20px;">- Visit the Casino (Bitcoin NPC)</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #f5c207;">Game Features:</h3>
+                <p>• Complete quizzes to earn points and test your knowledge</p>
+                <p>• Play mini-games to earn extra points</p>
+                <p>• Track your progress with the stats panel</p>
+                <p>• Visit different areas through NPC interactions</p>
+            </div>
+            <div style="text-align: center;">
+                <button id="startGameBtn" style="
+                    background: #f5c207;
+                    color: black;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-family: 'Press Start 2P', cursive;
+                    font-size: 14px;
+                    transition: all 0.3s ease;
+                ">Start Game</button>
+            </div>
+        `;
+
+        // Add the popup to the document
+        document.body.appendChild(instructionsDiv);
+
+        // Add click handler for the start button
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            instructionsDiv.remove();
+            if (callback) callback();
+        });
+
+        // Add hover effect to the button
+        const startButton = document.getElementById('startGameBtn');
+        startButton.addEventListener('mouseover', () => {
+            startButton.style.transform = 'scale(1.1)';
+            startButton.style.boxShadow = '0 0 15px #f5c207';
+        });
+        startButton.addEventListener('mouseout', () => {
+            startButton.style.transform = 'scale(1)';
+            startButton.style.boxShadow = 'none';
+        });
     }
 
     static initUser() {
