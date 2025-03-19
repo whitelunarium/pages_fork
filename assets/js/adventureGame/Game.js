@@ -19,9 +19,12 @@ class Game {
 
         // prepare user data for scoring and stats 
         this.uid;
+        
         this.id;
         this.initUser();
         this.initStatsUI();
+
+        this.gname = null;
         
         // Show instructions before starting the game
         this.showInstructions(() => {
@@ -157,32 +160,123 @@ class Game {
                 .catch(err => console.error(`Error fetching ${key}:`, err));
         }
     }
-    // called to update scoreboard and player stats
-    static updateStats(content, questionId, personId) {
+
+    static async createStats(stats, gname, uid) {
         try {
-            const response = fetch(this.javaURI + '/rpg_answer/submitAnswer', {
+            const response = await fetch(`${this.javaURI}/createStats`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    content: content,
-                    questionId: questionId,
-                    personId: personId
+                    uid: uid,
+                    gname: gname,
+                    stats: stats
                 })
             });
-
-            if (!response.ok) throw new Error("Network response was not ok");
-
-            const data = response.json();
-
-            return data.score || "Error scoring answer"; // Return score
-
+     
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+    
+            const data = await response.json();
+            return data; // returns the stats JSON
         } catch (error) {
-            console.error("Error submitting answer:", error);
-            return "Error submitting answer";
+            console.error("Error creating stats:", error);
+            return "Error creating stats";
         }
     }
+    
+    static async getStats(uid) {
+        try {
+            const response = await fetch(`${this.javaURI}/getStats/${uid}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching stats:", error);
+            return "Error fetching stats";
+        }
+    }
+    
+    static async updateStats(stats, gname, uid) {
+        try {
+            const response = await fetch(`${this.javaURI}/updateStats`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    uid: uid,
+                    gname: gname,
+                    stats: stats
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+    
+            const data = await response.json();
+            return data; 
+        } catch (error) {
+            console.error("Error updating stats:", error);
+            return "Error updating stats";
+        }
+    }
+    
+    
+    static async fetchQuestionByCategory(category) {
+        try {
+
+            const response = await fetch(`${this.javaURI}/rpg_answer/getQuestion?category=${category}`, this.fetchOptions);
+            if (!response.ok) {
+                throw new Error("Failed to fetch questions");
+            }
+            
+            const questions = await response.json();
+            console.log(questions);
+            return questions;
+        } catch (error) {
+            console.error("Error fetching question by category:", error);
+            return null;
+        }
+    }
+
+    static async updateStatsMCQ(questionId, choiceId, personId) {
+        try {
+            const response = await fetch(this.javaURI + '/rpg_answer/submitMCQAnswer', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    questionId: questionId,
+                    personId: personId,
+                    choiceId: choiceId
+                })
+            });
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            // You can decide what to return – here we assume the response includes a score or a confirmation.
+            return data.score || "Answer submitted";
+        } catch (error) {
+            console.error("Error submitting MCQ answer:", error);
+            throw error;
+        }
+    }
+
 
     static initStatsUI() {
         const statsContainer = document.createElement('div');
