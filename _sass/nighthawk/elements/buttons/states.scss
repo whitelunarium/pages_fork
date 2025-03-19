@@ -1,0 +1,43 @@
+// disabled state
+@mixin disabled {
+    color: rgba(142, 142, 147, 0.6); // Light gray for text
+    background-color: rgba(142, 142, 147, 0.2); // Lighter gray background
+    cursor: not-allowed;
+    // pointer-events: none;
+    opacity: 0.5;
+
+    // Remove hover and active effects
+    &:hover,
+    &:active {
+        background-color: inherit;
+    }
+}
+
+// Disabled class
+.disabled {
+    @include disabled;
+}
+
+// If you want to make buttons disabled
+.primaryFilled.disabled,
+.secondaryFilled.disabled,
+.tertiaryFilled.disabled {
+    @include disabled;
+}
+
+// ########################################################
+// ########################################################
+// ########################################################
+
+// hover and active states
+@mixin hover-darken($color, $amount: 10%) {
+    &:hover {
+        background-color: darken($color, $amount);
+    }
+}
+
+@mixin active-darken($color, $amount: 20%) {
+    &:active {
+        background-color: darken($color, $amount);
+    }
+}

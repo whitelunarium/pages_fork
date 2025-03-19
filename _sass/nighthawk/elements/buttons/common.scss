@@ -1,0 +1,22 @@
+// Common button styles
+.common {
+    border-radius: 10px;
+    border-style: none;
+    transition: background-color 0.3s ease;
+}
+
+// sizes for buttons
+.small {
+    @extend .common;
+    padding: 10px;
+}
+
+.medium {
+    @extend .common;
+    padding: 20px;
+}
+
+.large {
+    @extend .common;
+    padding: 30px 45px;
+}

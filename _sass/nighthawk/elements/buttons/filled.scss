@@ -1,0 +1,22 @@
+@import "states.scss";
+
+// FILLED BUTTONS =========
+.primaryFilled {
+    background-color: $systemBlack;
+    @include hover-darken($systemBlack);
+    @include active-darken($systemBlack);
+
+    color: white;
+}
+
+.secondaryFilled {
+    background-color: $systemGray2;
+    @include hover-darken($systemGray2);
+    @include active-darken($systemGray2);
+}
+
+.tertiaryFilled {
+    background-color: $systemGray5;
+    @include hover-darken($systemGray5);
+    @include active-darken($systemGray5);
+}
