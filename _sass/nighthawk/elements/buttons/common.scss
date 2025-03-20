@@ -1,22 +1,26 @@
-// Common button styles
-.common {
-    border-radius: 10px;
-    border-style: none;
-    transition: background-color 0.3s ease;
+$sizes: (
+    /* height, vertical padding, horizontal padding, border radius, text size, line height */
+    small: (28px, 4px, 10px, 40px, 15px, 20px, -0.23px),
+    medium: (35px, 7px, 14px, 12px, 15px, 20px, -0.23px),
+    large: (50px, 14px, 20px, 12px, 17px, 22px, -0.43px)
+);
+
+
+@mixin button-style($height, $paddingVertical, $paddingHorizontal, $borderRadius, $textSize, $lineHeight, $letterSpacing) {
+    height: $height;
+
+    padding: $paddingVertical $paddingHorizontal;
+
+    border-radius: $borderRadius;
+    border: none;
+
+    text-size: $textSize;
+    line-height: $lineHeight;
+    letter-spacing: $letterSpacing;
 }
 
-// sizes for buttons
-.small {
-    @extend .common;
-    padding: 10px;
-}
-
-.medium {
-    @extend .common;
-    padding: 20px;
-}
-
-.large {
-    @extend .common;
-    padding: 30px 45px;
+@each $name, $values in $sizes {
+    .#{$name} {
+        @include button-style($values...);
+    }
 }

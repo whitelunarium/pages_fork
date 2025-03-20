@@ -1,7 +1,7 @@
 // disabled state
 @mixin disabled {
-    color: rgba(142, 142, 147, 0.6); // Light gray for text
-    background-color: rgba(142, 142, 147, 0.2); // Lighter gray background
+    color: rgba(118, 118, 128, 0.48);
+    background-color: rgba(120, 120, 128, 0.12);
     cursor: not-allowed;
     // pointer-events: none;
     opacity: 0.5;
@@ -19,9 +19,9 @@
 }
 
 // If you want to make buttons disabled
-.primaryFilled.disabled,
-.secondaryFilled.disabled,
-.tertiaryFilled.disabled {
+.primary.disabled,
+.secondary.disabled,
+.tertiary.disabled {
     @include disabled;
 }
 
