@@ -58,14 +58,14 @@
 .queue-buttons button {
     @extend .glowOnHover;
     @extend .medium;
-    @extend .primaryFilled;
+    @extend .primary;
     border-radius: 8px;
     font-size: 16px;
     padding: 12px 18px;
 }
 
 .queue-buttons button:nth-child(3) {
-    @extend .secondaryFilled;
+    @extend .secondary;
 }
 
 .exit-container {
@@ -76,7 +76,7 @@
 
 .exit-button {
     @extend .medium;
-    @extend .tertiaryFilled;
+    @extend .tertiary;
     border-radius: 8px;
     font-size: 16px;
     padding: 12px 18px;
