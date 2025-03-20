@@ -56,7 +56,7 @@
 }
 
 .queue-buttons button {
-    @extend .glow-on-hover-search;
+    @extend .glowOnHover;
     @extend .medium;
     @extend .primaryFilled;
     border-radius: 8px;
