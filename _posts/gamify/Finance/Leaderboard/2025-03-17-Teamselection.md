@@ -4,7 +4,6 @@ permalink: /leaderboard/team-selection
 title: Team Selection
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -148,25 +147,35 @@ title: Team Selection
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     async function fetchTeamMembers() {
+        const staticData = [
+            { name: "Alice", balance: 1200.50 },
+            { name: "Bob", balance: 950.75 },
+            { name: "Charlie", balance: 875.30 }
+        ];
+
         try {
             const response = await fetch(`${javaURI}/api/teams/members`, fetchOptions);
             if (!response.ok) throw new Error("Failed to fetch team data");
             const data = await response.json();
-            const teamTable = document.querySelector("#team-members-table");
-            teamTable.innerHTML = "";
-
-            data.forEach((member, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td class="rank">${index + 1}</td>
-                    <td class="balance">$${Number(member.balance).toFixed(2)}</td>
-                    <td class="name">${member.name}</td>
-                `;
-                teamTable.appendChild(row);
-            });
+            populateTable(data);
         } catch (error) {
             console.error("Error fetching team data:", error);
+            populateTable(staticData);
         }
+    }
+
+    function populateTable(data) {
+        const teamTable = document.querySelector("#team-members-table");
+        teamTable.innerHTML = "";
+        data.forEach((member, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="rank">${index + 1}</td>
+                <td class="balance">$${Number(member.balance).toFixed(2)}</td>
+                <td class="name">${member.name}</td>
+            `;
+            teamTable.appendChild(row);
+        });
     }
 
     document.addEventListener("DOMContentLoaded", fetchTeamMembers);

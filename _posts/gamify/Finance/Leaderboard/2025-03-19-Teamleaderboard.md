@@ -27,10 +27,6 @@ title: Team Selection
             background-color: #1c1c1c;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-        }
         .nav-buttons a {
             color: #ffffff;
             text-decoration: none;
@@ -54,6 +50,9 @@ title: Team Selection
             background: linear-gradient(90deg, #ff8c00, #ff22a6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: inline-block;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff22a6;
             margin-bottom: 20px;
         }
         .leaderboard-table {
@@ -69,105 +68,96 @@ title: Team Selection
         th, td {
             padding: 15px 20px;
             text-align: left;
-            position: relative;
         }
         th {
             background-color: #ff9800;
             color: #000;
             font-size: 18px;
-            text-transform: uppercase;
         }
         td {
             background-color: #2a2a2a;
             font-size: 16px;
             border-bottom: 1px solid #444;
             transition: background 0.3s;
+            position: relative;
         }
         tr:hover td {
             background-color: #ff22a6;
             color: #ffffff;
         }
         .tooltip {
+            display: none;
             position: absolute;
             background: rgba(0, 0, 0, 0.8);
-            color: #fff;
+            color: white;
             padding: 10px;
             border-radius: 6px;
-            display: none;
-            font-size: 14px;
-            text-align: left;
+            white-space: nowrap;
+        }
+        tr:hover .tooltip {
+            display: block;
         }
     </style>
 </head>
 <body>
-<nav class="navbar">
-    <div class="nav-buttons">
-        <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/leaderboard/team-selection">Team Selection</a>
-        <a href="{{site.baseurl}}/leaderboard/team-viewer">Team Viewer</a>
-        <a href="{{site.baseurl}}/leaderboard/team-leaderboard">Team Leaderboard</a>
+    <nav class="navbar">
+        <div class="nav-buttons">
+            <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
+            <a href="{{site.baseurl}}/leaderboard/team-selection">Team selector</a>
+            <a href="{{site.baseurl}}/leaderboard/team-viewer">Team viewer</a>
+            <a href="{{site.baseurl}}/leaderboard/team-leaderboard">Team leaderboard</a>
+        </div>
+    </nav>
+
+    <div class="dashboard">
+        <h1 class="leaderboard-title">Top Teams by Balance</h1>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team</th>
+                    <th>Total Balance</th>
+                </tr>
+            </thead>
+            <tbody id="team-leaderboard">
+                <tr><td colspan="3">Loading...</td></tr>
+            </tbody>
+        </table>
     </div>
-</nav>
-
-<div class="dashboard">
-    <h1 class="leaderboard-title">Top Teams by Balance</h1>
-    <table class="leaderboard-table">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Team Name</th>
-                <th>Balance</th>
-            </tr>
-        </thead>
-        <tbody id="team-leaderboard-table">
-        </tbody>
-    </table>
-</div>
-
-<script type="module">
-  import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-
-  async function fetchTeamLeaderboard() {
-    try {
-      const response = await fetch(`${javaURI}/api/teams/leaderboard`, fetchOptions);
-      if (!response.ok) throw new Error("Failed to fetch team leaderboard");
-      const data = await response.json();
-      const teamTable = document.querySelector("#team-leaderboard-table");
-      teamTable.innerHTML = "";
-
-      data.forEach((team, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td class="team-name" data-members='${JSON.stringify(team.members)}'>${team.name}</td>
-          <td>$${Number(team.balance).toFixed(2)}</td>
-          <div class="tooltip"></div>
-        `;
-        teamTable.appendChild(row);
-      });
-    } catch (error) {
-      console.error("Error fetching team leaderboard:", error);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    fetchTeamLeaderboard();
-    document.body.addEventListener("mouseover", function(event) {
-      if (event.target.classList.contains("team-name")) {
-        const tooltip = document.querySelector(".tooltip");
-        const members = JSON.parse(event.target.getAttribute("data-members"));
-        tooltip.innerHTML = members.map(m => `${m.name}: $${Number(m.balance).toFixed(2)}`).join("<br>");
-        tooltip.style.display = "block";
-        tooltip.style.left = event.pageX + "px";
-        tooltip.style.top = event.pageY + "px";
-      }
-    });
-    document.body.addEventListener("mouseout", function(event) {
-      if (event.target.classList.contains("team-name")) {
-        document.querySelector(".tooltip").style.display = "none";
-      }
-    });
-  });
-</script>
+    
+    <script type="module">
+        import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+        const fallbackData = [
+            { team: "Alpha", balance: 12000, members: [{ name: "Alice", balance: 5000 }, { name: "Bob", balance: 7000 }] },
+            { team: "Bravo", balance: 9500, members: [{ name: "Charlie", balance: 4000 }, { name: "David", balance: 5500 }] },
+            { team: "Charlie", balance: 8600, members: [{ name: "Eve", balance: 3600 }, { name: "Frank", balance: 5000 }] }
+        ];
+        async function fetchTeamLeaderboard() {
+            try {
+                const response = await fetch(`${javaURI}/api/rankings/team-leaderboard`, fetchOptions);
+                if (!response.ok) throw new Error("Failed to fetch team leaderboard data");
+                const data = await response.json();
+                populateTable(data);
+            } catch (error) {
+                console.error("Error fetching team leaderboard:", error);
+                populateTable(fallbackData);
+            }
+        }
+        function populateTable(teams) {
+            const table = document.querySelector("#team-leaderboard");
+            table.innerHTML = "";
+            teams.forEach((team, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${team.team}</td>
+                    <td>$${team.balance.toLocaleString()}</td>
+                    <td class="tooltip">${team.members.map(m => `${m.name}: $${m.balance}`).join("<br>")}</td>
+                `;
+                table.appendChild(row);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", fetchTeamLeaderboard);
+    </script>
 </body>
 </html>
