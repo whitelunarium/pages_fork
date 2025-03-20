@@ -1,19 +1,17 @@
 ---
 layout: base
-permalink: /leaderboard/team-selection
+permalink: /leaderboard/team-leaderboard
 title: Team Selection
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Viewer</title>
+    <title>Team Leaderboard</title>
     <link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* General Styles */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #121212;
@@ -21,8 +19,6 @@ title: Team Selection
             margin: 0;
             padding: 0;
         }
-
-        /* Navigation Bar */
         .navbar {
             display: flex;
             justify-content: center;
@@ -47,30 +43,20 @@ title: Team Selection
             background-color: #ff9800;
             transform: scale(1.1);
         }
-
-        /* Team Viewer Container */
         .dashboard {
             padding: 40px;
             text-align: center;
         }
-
-        /* Title Effect */
-        .team-title {
+        .leaderboard-title {
             font-size: 32px;
             font-weight: bold;
             text-transform: uppercase;
             background: linear-gradient(90deg, #ff8c00, #ff22a6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: inline-block;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #ff22a6;
-            letter-spacing: 2px;
             margin-bottom: 20px;
         }
-
-        /* Team Table */
-        .team-table {
+        .leaderboard-table {
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
@@ -83,6 +69,7 @@ title: Team Selection
         th, td {
             padding: 15px 20px;
             text-align: left;
+            position: relative;
         }
         th {
             background-color: #ff9800;
@@ -100,76 +87,87 @@ title: Team Selection
             background-color: #ff22a6;
             color: #ffffff;
         }
-
-        /* Member Styling */
-        .rank {
-            font-weight: bold;
-            color: #ffcc00;
-        }
-        .balance {
-            color: #00ff7f;
-            font-weight: bold;
-        }
-        .name {
-            font-weight: bold;
-            color: #ffffff;
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+            font-size: 14px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-<!-- Navigation Bar -->
 <nav class="navbar">
     <div class="nav-buttons">
         <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/leaderboard/team-selection">Team Selector</a>
+        <a href="{{site.baseurl}}/leaderboard/team-selection">Team Selection</a>
         <a href="{{site.baseurl}}/leaderboard/team-viewer">Team Viewer</a>
         <a href="{{site.baseurl}}/leaderboard/team-leaderboard">Team Leaderboard</a>
     </div>
 </nav>
 
-<!-- Dashboard -->
 <div class="dashboard">
-    <h1 class="team-title">Team Members</h1>
-    <table class="team-table">
+    <h1 class="leaderboard-title">Top Teams by Balance</h1>
+    <table class="leaderboard-table">
         <thead>
             <tr>
                 <th>Rank</th>
+                <th>Team Name</th>
                 <th>Balance</th>
-                <th>Name</th>
             </tr>
         </thead>
-        <tbody id="team-members-table">
-            <!-- Team Members Populated Here -->
+        <tbody id="team-leaderboard-table">
         </tbody>
     </table>
 </div>
 
 <script type="module">
-    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+  import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    async function fetchTeamMembers() {
-        try {
-            const response = await fetch(`${javaURI}/api/teams/members`, fetchOptions);
-            if (!response.ok) throw new Error("Failed to fetch team data");
-            const data = await response.json();
-            const teamTable = document.querySelector("#team-members-table");
-            teamTable.innerHTML = "";
+  async function fetchTeamLeaderboard() {
+    try {
+      const response = await fetch(`${javaURI}/api/teams/leaderboard`, fetchOptions);
+      if (!response.ok) throw new Error("Failed to fetch team leaderboard");
+      const data = await response.json();
+      const teamTable = document.querySelector("#team-leaderboard-table");
+      teamTable.innerHTML = "";
 
-            data.forEach((member, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td class="rank">${index + 1}</td>
-                    <td class="balance">$${Number(member.balance).toFixed(2)}</td>
-                    <td class="name">${member.name}</td>
-                `;
-                teamTable.appendChild(row);
-            });
-        } catch (error) {
-            console.error("Error fetching team data:", error);
-        }
+      data.forEach((team, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td class="team-name" data-members='${JSON.stringify(team.members)}'>${team.name}</td>
+          <td>$${Number(team.balance).toFixed(2)}</td>
+          <div class="tooltip"></div>
+        `;
+        teamTable.appendChild(row);
+      });
+    } catch (error) {
+      console.error("Error fetching team leaderboard:", error);
     }
+  }
 
-    document.addEventListener("DOMContentLoaded", fetchTeamMembers);
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchTeamLeaderboard();
+    document.body.addEventListener("mouseover", function(event) {
+      if (event.target.classList.contains("team-name")) {
+        const tooltip = document.querySelector(".tooltip");
+        const members = JSON.parse(event.target.getAttribute("data-members"));
+        tooltip.innerHTML = members.map(m => `${m.name}: $${Number(m.balance).toFixed(2)}`).join("<br>");
+        tooltip.style.display = "block";
+        tooltip.style.left = event.pageX + "px";
+        tooltip.style.top = event.pageY + "px";
+      }
+    });
+    document.body.addEventListener("mouseout", function(event) {
+      if (event.target.classList.contains("team-name")) {
+        document.querySelector(".tooltip").style.display = "none";
+      }
+    });
+  });
 </script>
 </body>
 </html>

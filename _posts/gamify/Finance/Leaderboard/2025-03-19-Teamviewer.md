@@ -1,10 +1,9 @@
 ---
 layout: base
-permalink: /leaderboard/team-selection
-title: Team Selection
+permalink: /leaderboard/team-viewer
+title: Leaderboard
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
