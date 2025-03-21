@@ -66,7 +66,6 @@ comments: false
     
     #submissionsTable th {
         background-color:rgb(49, 41, 41);
-        color: black;
     }
 
     .btn {
@@ -198,7 +197,11 @@ comments: false
     // View submissions for an assignment, use window object to make it globally accessible
     window.viewSubmissions = function(assignmentId, assignmentName) {
         fetch(`${javaURI}/api/assignments/${assignmentId}/submissions`, fetchOptions)
-        .then(response => response.json())
+        .then(async response => {
+            // const test = await response.text();
+            // console.log(test);
+            return response.json();
+        })
         .then(submissions => {
             document.getElementById('assignmentNameHeader').textContent = `Submissions for: ${assignmentName}`;
             
@@ -228,7 +231,7 @@ comments: false
                         <td>${submission.comment || 'No comments'}</td>
                         <td>${submission.grade || 'Not graded'}</td>
                         <td>
-                            <button class="btn btn-grade" onclick="gradeSubmission(${submission.id})">Grade</button>
+                            <button class="btn btn-grade" onclick="gradeAssignment(${submission.assignment.id}, ${JSON.stringify(submission.students.map(s => s.id))})">Grade</button>
                         </td>
                     `;
                     submissionsList.appendChild(row);
@@ -250,7 +253,7 @@ comments: false
     }
 
     // Placeholder for grading a submission
-    window.gradeAssignment = function(studentId, assignmentId) {
+    window.gradeAssignment = function(assignmentId, studentIds) {
         var gradeSuggestion = null;
         do {
             gradeSuggestion = prompt("What grade do you want to give?");
@@ -264,12 +267,15 @@ comments: false
         if (explanation === null) {
             return;
         }
-        console.log(studentId);
+        console.log(studentIds);
         console.log(assignmentId);
         console.log(gradeSuggestion);
         console.log(explanation);
 
-        fetch(`${javaURI}/api/synergy/grades/requests`, {
+        // const studentIds = JSON.parse(studentIds);
+        console.log(studentIds);
+
+        fetch(`${javaURI}/api/synergy/grades/requests/bulk`, {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
@@ -279,7 +285,7 @@ comments: false
                 'X-Origin': 'client'
             },
             body: JSON.stringify({
-                'studentId': studentId,
+                'studentIds': studentIds,
                 'assignmentId': assignmentId,
                 'gradeSuggestion': gradeSuggestion,
                 'explanation': explanation
