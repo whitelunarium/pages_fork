@@ -2,7 +2,7 @@
 @import "common.scss";
 
 // FILLED BUTTONS =========
-button {
+button, .primary {
     // this is the default button style
     color: white;
     background-color: rgba(80, 80, 80, 0.7);
