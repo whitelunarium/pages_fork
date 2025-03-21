@@ -6,7 +6,7 @@ $sizes: (
 );
 
 
-@mixin button-style($height, $paddingVertical, $paddingHorizontal, $borderRadius, $textSize, $lineHeight, $letterSpacing) {
+@mixin button-style($height, $paddingVertical, $paddingHorizontal, $borderRadius, $fontSize, $lineHeight, $letterSpacing) {
     height: $height;
 
     padding: $paddingVertical $paddingHorizontal;
@@ -14,7 +14,7 @@ $sizes: (
     border-radius: $borderRadius;
     border: none;
 
-    text-size: $textSize;
+    font-size: $fontSize;
     line-height: $lineHeight;
     letter-spacing: $letterSpacing;
 }
