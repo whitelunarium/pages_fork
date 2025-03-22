@@ -87,7 +87,7 @@ class GameLevelDesert {
         interact: function() {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
-          quiz.openPanel(sprite_data_tux.quiz);
+          quiz.openPanel(sprite_data_tux);
           }
     
       };
@@ -130,7 +130,7 @@ class GameLevelDesert {
         interact: function() {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
-          quiz.openPanel(sprite_data_octocat.quiz);
+          quiz.openPanel(sprite_data_octocat);
         }
     }
 
