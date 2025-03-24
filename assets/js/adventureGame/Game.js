@@ -1,6 +1,7 @@
 import GameControl from './GameControl.js';
 import GameLevelWater from "./GameLevelWater.js";
 import GameLevelDesert from "./GameLevelDesert.js";
+import GameLevelSquares from './GameLevelSquares.js';
 class Game {
     // initialize user and launch GameControl 
     static main(environment) {
@@ -24,7 +25,7 @@ class Game {
         this.initStatsUI();
         
         // start the game
-        const gameLevelClasses = [GameLevelDesert, GameLevelWater]
+        const gameLevelClasses = [GameLevelDesert, GameLevelWater, GameLevelSquares]
         new GameControl(this, gameLevelClasses).start();
     }
 

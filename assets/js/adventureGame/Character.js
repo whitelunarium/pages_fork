@@ -5,6 +5,7 @@ const SCALE_FACTOR = 25; // 1/nth of the height of the canvas
 const STEP_FACTOR = 100; // 1/nth, or N steps up and across the canvas
 const ANIMATION_RATE = 1; // 1/nth of the frame rate
 const INIT_POSITION = { x: 0, y: 0 };
+const PIXELS = {height: 16, width: 16};
 
 /**
  * Character is a dynamic class that manages the data and events for objects like player and NPCs.
@@ -56,8 +57,8 @@ class Character extends GameObject {
         // Create canvas element
         this.canvas = document.createElement("canvas");
         this.canvas.id = data.id || "default";
-        this.canvas.width = data.pixels?.width || 0;
-        this.canvas.height = data.pixels?.height || 0;
+        this.canvas.width = data.pixels?.width || PIXELS.width;
+        this.canvas.height = data.pixels?.height || PIXELS.height;
         this.hitbox = data?.hitbox || {};
         this.ctx = this.canvas.getContext('2d');
         document.getElementById("gameContainer").appendChild(this.canvas);
@@ -67,15 +68,15 @@ class Character extends GameObject {
         this.y = 0;
         this.frame = 0;
         
-        // Initialize the object's scale based on the game environment
+        // Initialize the object's properties 
         this.scale = { width: this.gameEnv.innerWidth, height: this.gameEnv.innerHeight };
+        this.scaleFactor = data.SCALE_FACTOR || SCALE_FACTOR;
+        this.stepFactor = data.STEP_FACTOR || STEP_FACTOR;
+        this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
+        this.position = data.INIT_POSITION || INIT_POSITION;
         
         // Check if sprite data is provided
         if (data && data.src) {
-            this.scaleFactor = data.SCALE_FACTOR || SCALE_FACTOR;
-            this.stepFactor = data.STEP_FACTOR || STEP_FACTOR;
-            this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
-            this.position = data.INIT_POSITION || INIT_POSITION;
     
             // Load the sprite sheet
             this.spriteSheet = new Image();
@@ -87,7 +88,7 @@ class Character extends GameObject {
             this.direction = 'down'; // Initial direction
             this.spriteData = data;
         } else {
-            throw new Error('Sprite data is required');
+            //throw new Error('Sprite data is required');
         }
 
         // Initialize the object's position and velocity
