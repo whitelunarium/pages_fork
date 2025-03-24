@@ -131,15 +131,9 @@ class Character extends GameObject {
             frameX = (directionData.start + this.frameIndex) * frameWidth;
             frameY = directionData.row * frameHeight;
     
-            // Set up the canvas dimensions and styles
             this.canvas.width = frameWidth;
             this.canvas.height = frameHeight;
-            this.canvas.style.width = `${this.width}px`;
-            this.canvas.style.height = `${this.height}px`;
-            this.canvas.style.position = 'absolute';
-            this.canvas.style.left = `${this.position.x}px`;
-            this.canvas.style.top = `${this.gameEnv.top+this.position.y}px`;
-    
+
             // Clear the canvas before drawing
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
    
@@ -184,6 +178,14 @@ class Character extends GameObject {
             this.ctx.fillStyle = 'red';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         }
+
+        // Set up the canvas dimensions and styles
+        this.canvas.style.width = `${this.width}px`;
+        this.canvas.style.height = `${this.height}px`;
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.left = `${this.position.x}px`;
+        this.canvas.style.top = `${this.gameEnv.top+this.position.y}px`;
+        
     }
 
 
