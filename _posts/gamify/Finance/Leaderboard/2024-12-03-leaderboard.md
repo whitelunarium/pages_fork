@@ -1,7 +1,7 @@
 ---
-layout: post
-title: Bank Analytics
-permalink: /gamify/bankanalytics
+layout: base
+permalink: /leaderboard/overall-leaderboard
+title: Leaderboard
 ---
 
 <html lang="en">
