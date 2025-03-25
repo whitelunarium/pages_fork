@@ -111,82 +111,135 @@ class Character extends GameObject {
     }
 
 
-    /**
+   /**
      * Draws the object on the canvas.
      * 
      * This method renders the object using the sprite sheet if provided, otherwise a red square.
      */
     draw() {
+        // Clear the canvas before drawing
+        this.clearCanvas();
+
         if (this.spriteSheet) {
-            // Sprite Sheet frame size: pixels = total pixels / total frames
-            const frameWidth = this.spriteData.pixels.width / this.spriteData.orientation.columns;
-            const frameHeight = this.spriteData.pixels.height / this.spriteData.orientation.rows;
-    
-            // Sprite Sheet direction data source (e.g., front, left, right, back)
-            const directionData = this.spriteData[this.direction];
-    
-            // Sprite Sheet x and y declarations to store coordinates of current frame
-            let frameX, frameY;
-            // Sprite Sheet x and y current frame: coordinate = (index) * (pixels)
-            frameX = (directionData.start + this.frameIndex) * frameWidth;
-            frameY = directionData.row * frameHeight;
-    
-            this.canvas.width = frameWidth;
-            this.canvas.height = frameHeight;
-
-            // Clear the canvas before drawing
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-   
-            // Apply transformations for rotation and mirroring
-            if (directionData.rotate || directionData.mirror || directionData.spin) {
-                // Translate to the context to the center of the sprite
-                this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
-                // Apply rotation transformation
-                if (directionData.rotate) {
-                    this.ctx.rotate(directionData.rotate);
-                }
-                // Apply mirror transformation
-                if (directionData.mirror) {
-                    this.ctx.scale(-1, 1); // Flip horizontally
-                }
-                if (directionData.spin) {
-                    this.ctx.rotate(Math.PI / Math.floor(Math.random() * directionData.spin + 1));
-                }
-                // Translate the context back to the upper left corner
-                this.ctx.translate(-this.canvas.width / 2, -this.canvas.height / 2);
-            }
-
-            if (directionData.explode) {
-                this.ctx.filter = 'grayscale(50%) blur(5px)';
-            }   
-
-            // Draw the current frame of the sprite sheet
-            this.ctx.drawImage(
-                this.spriteSheet,
-                frameX, frameY, frameWidth, frameHeight, // Source rectangle
-                0, 0, this.canvas.width, this.canvas.height // Destination rectangle
-            );
-            
-    
-            // Update the frame index for animation at a slower rate
-            this.frameCounter++;
-            if (this.frameCounter % this.animationRate === 0) {
-                this.frameIndex = (this.frameIndex + 1) % directionData.columns;
-            }
+            // Draw the sprite sheet frame
+            this.drawSprite();
+            // Update the frame index for animation
+            this.updateAnimationFrame();
         } else {
             // Draw default red square
-            this.ctx.fillStyle = 'red';
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.drawDefaultSquare();
         }
 
         // Set up the canvas dimensions and styles
+        this.setupCanvas();
+    }
+
+    /**
+     * Clears the canvas before drawing.
+     */
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    /**
+     * Draws the current frame of the sprite sheet.
+     */
+    drawSprite() {
+        // Calculate the frame dimensions
+        const frameWidth = this.spriteData.pixels.width / this.spriteData.orientation.columns;
+        const frameHeight = this.spriteData.pixels.height / this.spriteData.orientation.rows;
+
+        // Calculate the frame position on the sprite sheet
+        const directionData = this.spriteData[this.direction];
+        const frameX = (directionData.start + this.frameIndex) * frameWidth;
+        const frameY = directionData.row * frameHeight;
+
+        // Set the canvas dimensions based on the frame size
+        this.canvas.width = frameWidth;
+        this.canvas.height = frameHeight;
+
+        // Apply transformations (rotation, mirroring, spinning)
+        this.applyTransformations(directionData);
+
+        // Apply visual effects (e.g., grayscale, blur)
+        this.applyFilters(directionData);
+
+        // Draw the sprite sheet frame
+        this.ctx.drawImage(
+            this.spriteSheet,
+            frameX, frameY, frameWidth, frameHeight, // Source rectangle
+            0, 0, this.canvas.width, this.canvas.height // Destination rectangle
+        );
+    }
+
+    /**
+     * Updates the frame index for animation at a slower rate.
+     */
+    updateAnimationFrame() {
+        this.frameCounter++;
+        if (this.frameCounter % this.animationRate === 0) {
+            const directionData = this.spriteData[this.direction];
+            this.frameIndex = (this.frameIndex + 1) % directionData.columns;
+        }
+    }
+
+    /**
+     * Draws a default red square on the canvas.
+     */
+    drawDefaultSquare() {
+        this.ctx.fillStyle = 'red';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    /**
+     * Sets up the canvas dimensions and styles.
+     */
+    setupCanvas() {
         this.canvas.style.width = `${this.width}px`;
         this.canvas.style.height = `${this.height}px`;
         this.canvas.style.position = 'absolute';
         this.canvas.style.left = `${this.position.x}px`;
-        this.canvas.style.top = `${this.gameEnv.top+this.position.y}px`;
-        
+        this.canvas.style.top = `${this.gameEnv.top + this.position.y}px`;
     }
+
+    /**
+     * Applies transformations like rotation, mirroring, and spinning.
+     */
+    applyTransformations(directionData) {
+        if (directionData.rotate || directionData.mirror || directionData.spin) {
+            // Translate to the center of the sprite
+            this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
+
+            // Apply rotation
+            if (directionData.rotate) {
+                this.ctx.rotate(directionData.rotate);
+            }
+
+            // Apply mirroring
+            if (directionData.mirror) {
+                this.ctx.scale(-1, 1); // Flip horizontally
+            }
+
+            // Apply spinning
+            if (directionData.spin) {
+                this.ctx.rotate(Math.PI / Math.floor(Math.random() * directionData.spin + 1));
+            }
+
+            // Translate back to the upper-left corner
+            this.ctx.translate(-this.canvas.width / 2, -this.canvas.height / 2);
+        }
+    }
+
+    /**
+     * Applies visual effects like grayscale and blur.
+     */
+    applyFilters(directionData) {
+        if (directionData.explode) {
+            this.ctx.filter = 'grayscale(50%) blur(5px)';
+        } else {
+            this.ctx.filter = 'none'; // Reset filters
+        }
+    } 
 
 
     /**
