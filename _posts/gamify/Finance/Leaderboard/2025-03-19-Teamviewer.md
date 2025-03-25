@@ -153,6 +153,12 @@ title: Leaderboard
                 <td class="balance">$900.00</td>
                 <td class="name">Justice league</td>
             </tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="team-members-table">
+            <!-- Team Members Populated Here -->
+
         </tbody>
     </table>
 </div>
@@ -186,3 +192,33 @@ title: Leaderboard
 </script>
 </body>
 </html>
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    async function fetchTeamMembers() {
+        try {
+            const response = await fetch(`${javaURI}/api/teams/members`, fetchOptions);
+            if (!response.ok) throw new Error("Failed to fetch team data");
+            const data = await response.json();
+            const teamTable = document.querySelector("#team-members-table");
+            teamTable.innerHTML = "";
+
+            data.forEach((member, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="rank">${index + 1}</td>
+                    <td class="balance">$${Number(member.balance).toFixed(2)}</td>
+                    <td class="name">${member.name}</td>
+                `;
+                teamTable.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Error fetching team data:", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchTeamMembers);
+</script>
+</body>
+</html>
+
+
