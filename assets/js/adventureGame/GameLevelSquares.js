@@ -9,7 +9,7 @@ class GameLevelSquares {
     let path = gameEnv.path;
     this.classes = [      
       { class: Background, data: {} },
-      { class: BackgroundParallax, data: {src:  path + "/images/platformer/backgrounds/snowfall.png", velocity: 1} },
+      { class: BackgroundParallax, data: {src:  path + "/images/platformer/backgrounds/snowfall.png"} },
       { class: Player, data: {} }, 
     ];
   }
