@@ -1,65 +1,26 @@
-import GameObject from './GameObject.js';
+import Background from './Background.js';
 
 /** Parallax Background GameObject
  * - Layered: draw this background images on top of another
  * - Tiling: draw multiple of the image to fill the gameCanvas extents
  * - Scrolling: adds velocity or position updates to the update(), to scroll the background
  */
-export class BackgroundParallax extends GameObject {
+export class BackgroundParallax extends Background {
     /**
      * Constructor is called by GameLevel create() method
      * @param {Object} data - The data object for the background
      * @param {Object} gameEnv - The game environment object for convenient access to game properties 
      */
     constructor(data = null, gameEnv = null) {
-        super(gameEnv);
+        super(data,gameEnv);
 
-        if (!data.src) {
-            throw new Error('BackgroundParallax requires a src property in data');
-        }
-
-        // Set the properties of the background
-        this.image = new Image();
-        this.image.src = data.src;
-        this.isInitialized = false; // Flag to track initialization
         this.position = data.position || { x: 0, y: 0 };
         this.velocity = data.velocity || 1;
-
-        // Finish initializing the background after the image loads 
-        this.image.onload = () => {
-            // Width and height come from the image
-            this.width = this.image.width;
-            this.height = this.image.height;
-
-            // Create the canvas element and context
-            this.canvas = document.createElement("canvas");
-            this.canvas.style.position = "absolute";
-            this.canvas.id = data.id || "backgroundParallax";
-            this.ctx = this.canvas.getContext("2d");
-            
-            // Align the canvas size to the gameCanvas
-            this.alignCanvas();
-
-            // Append the canvas to the DOM
-            document.getElementById("gameContainer").appendChild(this.canvas);
-            this.isInitialized = true; // Mark as initialized
-        };
-    }
-
-    /**
-     * Align canvas to be the same size and position as the gameCanvas 
-     */
-    alignCanvas() {
-        // align the canvas to the gameCanvas, Layered
-        const gameCanvas = document.getElementById("gameCanvas");
-        this.canvas.width = gameCanvas.width;
-        this.canvas.height = gameCanvas.height;
-        this.canvas.style.left = gameCanvas.style.left;
-        this.canvas.style.top = gameCanvas.style.top;
     }
 
     /**
      * Update is called by GameLoop on all GameObjects 
+     * @override Background update() method 
      */
     update() {
         // Update the position for parallax scrolling
@@ -79,7 +40,8 @@ export class BackgroundParallax extends GameObject {
     }
 
     /**
-     * Draws the background image within the canvas 
+     * Draws the background image within the canvas
+     * @override Background draw() method 
      */
     draw() {
         if (!this.isInitialized) {
@@ -118,13 +80,6 @@ export class BackgroundParallax extends GameObject {
         }
     }
     
-    /**
-     * Resize method is called by resize listner on all GameObjects
-     */
-    resize() {
-        this.alignCanvas(); // Align the canvas to the gameCanvas
-        this.draw(); // Redraw the canvas after resizing
-    }
 }
 
 export default BackgroundParallax;
