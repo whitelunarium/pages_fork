@@ -17,6 +17,9 @@ export class BackgroundParallax extends GameObject {
         this.image = new Image();
         this.image.src = data.src;
         this.isInitialized = false; // Flag to track initialization
+            this.position = data.position || { x: 0, y: 0 };
+            this.velocity = data.velocity || 1;
+
 
         // Finish initializing the background after the image loads 
         this.image.onload = () => {
@@ -56,6 +59,18 @@ export class BackgroundParallax extends GameObject {
      * draw() is only action with Static Tiling
      */
     update() {
+                // Update the position for parallax scrolling
+                this.position.x -= this.velocity; // Move left
+                this.position.y += this.velocity; // Move down (for snowfall effect)
+        
+                // Wrap the position to prevent overflow
+                if (this.position.x < -this.width) {
+                    this.position.x = 0;
+                }
+                if (this.position.y > this.height) {
+                    this.position.y = 0;
+                }
+
         this.draw();
     }
 
@@ -69,14 +84,25 @@ export class BackgroundParallax extends GameObject {
         if (!this.isInitialized) {
             return; // Skip drawing if not initialized
         }
-    
+
         const canvasWidth = this.canvas.width;
         const canvasHeight = this.canvas.height;
     
+        // Calculate the wrapped position
+        let xWrapped = this.position.x % this.width;
+        let yWrapped = this.position.y % this.height;
+    
+        if (xWrapped > 0) {
+            xWrapped -= this.width;
+        }
+        if (yWrapped > 0) {
+            yWrapped -= this.height;
+        }
+   
         // Calculate the number of draws needed to fill the canvas
         const numHorizontalDraws = Math.ceil(canvasWidth / this.width) + 1;
         const numVerticalDraws = Math.ceil(canvasHeight / this.height) + 1;
-    
+
         // Clear the canvas
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -86,8 +112,7 @@ export class BackgroundParallax extends GameObject {
                 this.ctx.drawImage(
                     this.image, // Source image
                     0, 0, this.width, this.height, // Source rectangle
-                    i * this.width, j * this.height, this.width, this.height // Destination rectangle
-                );
+                    xWrapped + i * this.width, yWrapped + j * this.height, this.width, this.height); // Destination rectangle              );
             }
         }
     }
