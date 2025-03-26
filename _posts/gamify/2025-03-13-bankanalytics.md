@@ -163,6 +163,7 @@ permalink: /gamify/bankanalytics
     <div class="nav-buttons">
         <a href="{{site.baseurl}}/gamify/bank">Bank</a>
         <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
+        <a href="{{site.baseurl}}/gamify/timeline">Timeline</a>
     </div>
   </nav>
 
