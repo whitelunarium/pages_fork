@@ -1,6 +1,11 @@
 import GameObject from './GameObject.js';
 
 export class BackgroundParallax extends GameObject {
+    /**
+     * Constructor is called by GameLevel create() method
+     * @param {Object} data - The data object for the background
+     * @param {Object} gameEnv - The game environment object for convenient access to game properties 
+     */
     constructor(data = null, gameEnv = null) {
         super(gameEnv);
 
@@ -47,14 +52,18 @@ export class BackgroundParallax extends GameObject {
     }
 
     /**
-     * Update the background by redrawing it
+     * Update is called by GameLoop on all GameObjects 
+     * draw() is only action with Static Tiling
      */
     update() {
         this.draw();
     }
 
     /**
-     * Draw the background on the canvas several times to fill the canvas 
+     * Draws the background image on the canvas,  using Static Tiling.
+     * - Static Tiling: The image is drawn multiple times to fill the canvas
+     * - Scrolling: adds velocity or position updates to the update(), to scroll the background
+     * - Layered: draw multiple background images on top of each other 
      */
     draw() {
         if (!this.isInitialized) {
@@ -84,7 +93,7 @@ export class BackgroundParallax extends GameObject {
     }
     
     /**
-     * Resize the background canvas and redraw the background
+     * Resize method is called by resize listner on all GameObjects
      */
     resize() {
         this.alignCanvas(); // Align the canvas to the gameCanvas
