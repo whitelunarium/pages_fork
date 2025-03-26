@@ -511,7 +511,7 @@ function autoRemoveQueue() {
     processNextUser(0);
 }
 
-setTimeout(autoRemoveQueue, 600000);
+setTimeout(autoRemoveQueue, 15000);
 
 const bellSchedule = {
     "regDay": ["08:35", "09:41", "10:55", "11:32", "12:42", "13:13", "14:24", "15:35"],
@@ -534,11 +534,9 @@ function checkTimeAndRun() {
         }
     }
 }
-
 // Check every minute
-//setInterval(checkTimeAndRun, 60000);
-
+setInterval(checkTimeAndRun, 60000);
 
 </script>
-<!-- </body> -->
+
 </html>
