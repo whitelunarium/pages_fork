@@ -12,7 +12,7 @@ export class BackgroundParallax extends GameObject {
         this.image = new Image();
         this.image.src = data.src;
         this.position = data.position || { x: 0, y: 0 };
-        this.velocity = data.velocity || 0.5;
+        this.velocity = data.velocity || 1;
         this.isInitialized = false; // Flag to track initialization
 
         // Finish initializing the background after the image loads 
