@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: base
 title: Bank Analytics
 permalink: /gamify/bankanalytics
 ---
@@ -166,7 +166,8 @@ permalink: /gamify/bankanalytics
         <a href="{{site.baseurl}}/gamify/timeline">Timeline</a>
     </div>
   </nav>
-
+  <br>
+  <h1 style="text-align: center;">Bank Analytics</h1>
   <!-- Dashboard Content -->
   <div class="dashboard">
     <!-- Left Section - User Details -->
