@@ -75,9 +75,9 @@ export class BackgroundParallax extends GameObject {
         for (let i = 0; i < numHorizontalDraws; i++) {
             for (let j = 0; j < numVerticalDraws; j++) {
                 this.ctx.drawImage(
-                    this.image,
-                    0, 0, this.width, this.height,
-                    i * this.width, j * this.height, this.width, this.height
+                    this.image, // Source image
+                    0, 0, this.width, this.height, // Source rectangle
+                    i * this.width, j * this.height, this.width, this.height // Destination rectangle
                 );
             }
         }
