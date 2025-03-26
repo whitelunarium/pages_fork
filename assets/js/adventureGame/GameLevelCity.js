@@ -2,7 +2,8 @@ import GameEnvBackground from './GameEnvBackground.js';
 import Npc from './Npc.js';
 import Player from './Player.js';
 import GameControl from './GameControl.js';
-import GameLevelStarWars from './GameLevelStarWars.js';
+
+import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
 
 class GameLevelCity {
   /**
@@ -76,6 +77,8 @@ class GameLevelCity {
         }
       }
     }
+
+
 
     // List of classes and supporting definitions to create the game level
     this.classes = [
