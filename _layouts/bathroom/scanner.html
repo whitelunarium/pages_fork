@@ -168,7 +168,7 @@
     <div class="map-container">
         <img src="https://i.ibb.co/tMQ1mTy6/map.png" alt="Map">
     </div>
-    <input maxlength="7" type="text" id="barcode-input" autofocus style="position:absolute; left:-9999px;">
+    <input type="text" id="barcode-input" autofocus style="position:absolute; left:-9999px;">
 
 </div>
 
@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     barcodeInput.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
-            let barcode = barcodeInput.value.trim().slice(0,7);
+            let barcode = barcodeInput.value.trim();
             console.log("Scanned Barcode:", barcode);
 
             // Check if barcode is empty
@@ -340,7 +340,27 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 })
             }
-           
+            //fetch("/scan-barcode", {
+                //method: "POST",
+               // headers: { "Content-Type": "application/json" },
+              //  body: JSON.stringify({ student_id: barcode })
+            //})
+            //.then(response => response.json())
+            //.then(resp => {
+               /// if (resp.student) {
+                    //users[resp.student] = barcode;
+                    //saveUsers(); // Save updated users list
+                   // console.log("User added:", resp.student);
+                   // localStorage.setItem('timeout', getTime())
+                 //   console.log('timeout', getTime());
+               // } else {
+                 //   console.log("Invalid response:", resp);
+               // }
+             //   location.reload();
+            //})
+           // .catch(error => console.error("Error:", error));
+
+            // Clear input field and refocus
             barcodeInput.value = "";
         }
     });
