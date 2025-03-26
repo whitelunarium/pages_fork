@@ -1,5 +1,10 @@
 import GameObject from './GameObject.js';
 
+/** Parallax Background GameObject
+ * - Layered: draw this background images on top of another
+ * - Tiling: draw multiple of the image to fill the gameCanvas extents
+ * - Scrolling: adds velocity or position updates to the update(), to scroll the background
+ */
 export class BackgroundParallax extends GameObject {
     /**
      * Constructor is called by GameLevel create() method
@@ -17,9 +22,8 @@ export class BackgroundParallax extends GameObject {
         this.image = new Image();
         this.image.src = data.src;
         this.isInitialized = false; // Flag to track initialization
-            this.position = data.position || { x: 0, y: 0 };
-            this.velocity = data.velocity || 1;
-
+        this.position = data.position || { x: 0, y: 0 };
+        this.velocity = data.velocity || 1;
 
         // Finish initializing the background after the image loads 
         this.image.onload = () => {
@@ -46,7 +50,7 @@ export class BackgroundParallax extends GameObject {
      * Align canvas to be the same size and position as the gameCanvas 
      */
     alignCanvas() {
-        // align the canvas to the gameCanvas
+        // align the canvas to the gameCanvas, Layered
         const gameCanvas = document.getElementById("gameCanvas");
         this.canvas.width = gameCanvas.width;
         this.canvas.height = gameCanvas.height;
@@ -56,29 +60,26 @@ export class BackgroundParallax extends GameObject {
 
     /**
      * Update is called by GameLoop on all GameObjects 
-     * draw() is only action with Static Tiling
      */
     update() {
-                // Update the position for parallax scrolling
-                this.position.x -= this.velocity; // Move left
-                this.position.y += this.velocity; // Move down (for snowfall effect)
-        
-                // Wrap the position to prevent overflow
-                if (this.position.x < -this.width) {
-                    this.position.x = 0;
-                }
-                if (this.position.y > this.height) {
-                    this.position.y = 0;
-                }
+        // Update the position for parallax scrolling
+        this.position.x -= this.velocity; // Move left
+        this.position.y += this.velocity; // Move down (for snowfall effect)
 
+        // Wrap the position to prevent overflow
+        if (this.position.x < -this.width) {
+            this.position.x = 0;
+        }
+        if (this.position.y > this.height) {
+            this.position.y = 0;
+        }
+
+        // Draw the background image
         this.draw();
     }
 
     /**
-     * Draws the background image on the canvas,  using Static Tiling.
-     * - Static Tiling: The image is drawn multiple times to fill the canvas
-     * - Scrolling: adds velocity or position updates to the update(), to scroll the background
-     * - Layered: draw multiple background images on top of each other 
+     * Draws the background image within the canvas 
      */
     draw() {
         if (!this.isInitialized) {
@@ -88,7 +89,7 @@ export class BackgroundParallax extends GameObject {
         const canvasWidth = this.canvas.width;
         const canvasHeight = this.canvas.height;
     
-        // Calculate the wrapped position
+        // Calculate the wrapped position, Scrolling
         let xWrapped = this.position.x % this.width;
         let yWrapped = this.position.y % this.height;
     
@@ -99,14 +100,14 @@ export class BackgroundParallax extends GameObject {
             yWrapped -= this.height;
         }
    
-        // Calculate the number of draws needed to fill the canvas
+        // Calculate the number of draws needed to fill the canvas, Tiling
         const numHorizontalDraws = Math.ceil(canvasWidth / this.width) + 1;
         const numVerticalDraws = Math.ceil(canvasHeight / this.height) + 1;
 
         // Clear the canvas
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        // Draw the background image multiple times to fill the canvas
+        // Draw the background image multiple times to fill the canvas, Tiling
         for (let i = 0; i < numHorizontalDraws; i++) {
             for (let j = 0; j < numVerticalDraws; j++) {
                 this.ctx.drawImage(
