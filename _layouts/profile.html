@@ -5,22 +5,6 @@ active_tab: profile
 ---
 
 <style>
-    .main-info {
-        display: grid;
-        /* grid-template-columns: 500px 500px; */
-        grid-template-columns: repeat(auto-fit, minmax(300px, 500px)); /* Responsive grid */
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-        gap: 30px 30px;
-        grid-auto-flow: row;
-        grid-template-areas:
-            "header header"
-            "name-info uid-info"
-            "email-info password-info"
-            "kasm-info class-info"
-            "pfp-info dummy";
-        grid-area: main-info;
-    }
-
     @media (min-width: 1400PX) {
     .cards { grid-template-columns: repeat(2, 1fr); }
     }
@@ -209,7 +193,7 @@ active_tab: profile
 
     .change-info-card {
         /* colors */
-        backdrop-filter: blur(30px);
+        background-color: hsla(240, 3%, 12%, 0.90);
 
         /* border */
         border-radius: 10px;
@@ -329,75 +313,30 @@ active_tab: profile
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
     }
+
+    /* fancy user panel css */
+    .userPanel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns of equal width */
+        grid-template-rows: repeat(3, auto); /* 3 rows with height based on content */
+        gap: 20px; /* Adjust spacing between items */
+        grid-auto-flow: row; /* Fill rows first */
+        justify-content: center; /* Center the grid horizontally */
+        align-items: start; /* Align items to the top */
+        border: 2px solid hsla(240, 6%, 30%, 0.63); /* Add a visible border */
+        border-radius: 15px; /* Rounded corners */
+        background-color: hsla(240, 3%, 20%, 0.5); /* Subtle background */
+        padding: 20px; /* Some space inside */
+        margin-top: 20px; /* Spacing from other content */
+    }
+
+    .class-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 30px;
+    }
 </style>
-
-<!-- change name box -->
-<div id="change-name" class="change-info-card" style="visibility: hidden;">
-    <ion-icon name="person-outline" size="large"></ion-icon>
-    <h1>Name</h1>
-    <form onsubmit="return changeName(event)">
-        <input type="text" id="nameInput" placeholder="Enter new name.">
-        <input type="submit" value="Save changes">
-    </form>
-    <div class="close" onclick="document.getElementById('change-name').style.visibility = 'hidden'">
-        <ion-icon name="close-outline" size="large" class="close"></ion-icon>
-    </div>
-</div>
-
-<!-- change user ID box -->
-<div id="change-uid" class="change-info-card" style="visibility: hidden;">
-    <ion-icon name="id-card-outline" size="large"></ion-icon>
-    <h1>User ID</h1>
-    <form onsubmit="return changeUid(event)">
-        <input type="text" id="uidInput" placeholder="Enter new user ID.">
-        <input type="submit" value="Save changes">
-    </form>
-    <div class="close" onclick="document.getElementById('change-uid').style.visibility = 'hidden'">
-        <ion-icon name="close-outline" size="large" class="close"></ion-icon>
-    </div>
-</div>
-
-<!-- change email box -->
-<div id="change-email" class="change-info-card" style="visibility: hidden;">
-    <ion-icon name="mail-outline" size="large"></ion-icon>
-    <h1>Email</h1>
-    <form onsubmit="return changeEmail(event)">
-        <input type="text" id="emailInput" placeholder="Enter new email.">
-        <input type="submit" value="Save changes">
-    </form>
-    <div class="close" onclick="document.getElementById('change-email').style.visibility = 'hidden'">
-        <ion-icon name="close-outline" size="large" class="close"></ion-icon>
-    </div>
-</div>
-
-<!-- change password box -->
-<div id="change-password" class="change-info-card" style="visibility: hidden;">
-    <ion-icon name="mail-outline" size="large"></ion-icon>
-    <h1>Password</h1>
-    <form onsubmit="return changePassword(event)">
-        <input type="password" id="passwordInput" placeholder="Enter new password.">
-        <input type="submit" value="Save changes">
-    </form>
-    <div class="close" onclick="document.getElementById('change-password').style.visibility = 'hidden'">
-        <ion-icon name="close-outline" size="large" class="close"></ion-icon>
-    </div>
-</div>
-
-<!-- change kasm box -->
-<div id="change-kasm" class="change-info-card" style="visibility: hidden;">
-    <ion-icon name="server-outline" size="large"></ion-icon>
-    <h1>Kasm</h1>
-    <form>
-        <label class="container-checkbox" style="white-space: nowrap;">I need a Kasm server.
-            <input type="checkbox" checked="checked" id="kasm-checkbox" onchange="window.changeKasmServerStatus(event)">
-            <span class="checkmark"></span>
-        </label>
-    </form>
-    <div class="close" onclick="document.getElementById('change-kasm').style.visibility = 'hidden'">
-        <ion-icon name="close-outline" size="large" class="close"></ion-icon>
-    </div>
-</div>
-
 
 <!-- change class box -->
 <div id="change-class" class="change-info-card" style="visibility: hidden;">
@@ -450,87 +389,50 @@ active_tab: profile
             more.</p>
     </div>
 
-    <!-- name card -->
-    <div class="name-info card" onclick="document.getElementById('change-name').style.visibility = 'visible'" data-tilt
-        data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="name-details">
-            <h3>Name</h3>
-            <p id="name"></p>
+     <!-- Fancy total panel  -->
+    <div class="userPanel">
+        <div class="userPanel_name">
+            <h2 id="name">Name</h2>
+            <form onsubmit="return changeName(event)">
+                <input type="text" id="nameChangeInput" placeholder="Enter new name.">
+                <input type="submit" value="Save changes">
+            </form>
         </div>
-        <div class="name-icon">
-            <ion-icon name="person-outline" size="large"></ion-icon>
+        <div class="userPanel_uid">
+            <h2 id="uid">User ID</h2>
+            <a>UID changing temporarily suspended.</a>
         </div>
-    </div>
-
-    <!-- uid card -->
-    <div class="uid-info card" onclick="document.getElementById('change-uid').style.visibility = 'visible'" data-tilt
-        data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="uid-details">
-            <h3>User ID</h3>
-            <p id="uid"></p>
+        <div class="userPanel_password">
+            <h2 id="password">Password</h2>
+            <form onsubmit="return changePassword(event)">
+                <input type="password" id="passwordChangeInput" placeholder="Enter new password.">
+                <input type="submit" value="Save changes">
+            </form>
         </div>
-        <div class="uid-icon">
-            <ion-icon name="id-card-outline" size="large"></ion-icon>
+        <div class="userPanel_email">
+            <h2 id="email">Email</h2>
+            <form onsubmit="return changeEmail(event)">
+                <input type="text" id="emailChangeInput" placeholder="Enter new email.">
+                <input type="submit" value="Save changes">
+            </form>
         </div>
-    </div>
-
-    <!-- email card -->
-    <div class="email-info card" onclick="document.getElementById('change-email').style.visibility = 'visible'"
-        data-tilt data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="email-details">
-            <h3>Email</h3>
-            <p id="email"></p>
+        <div class="userPanel_kasm">
+            <h2 id="kasm">Kasm</h2>
+            <form>
+                <label class="container-checkbox" style="white-space: nowrap;">Kasm server needed.
+                    <input type="checkbox" checked="checked" id="kasmChange-checkbox" onchange="window.changeKasmServerStatus(event)">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
         </div>
-        <div class="email-icon">
-            <ion-icon name="mail-outline" size="large"></ion-icon>
-        </div>
-    </div>
-
-    <!-- password card -->
-    <div class="password-info card" onclick="document.getElementById('change-password').style.visibility = 'visible'" data-tilt
-        data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="password-details">
-            <h3>Password</h3>
-            <p>Click to change your password.</p>
-        </div>
-        <div class="password-icon">
-            <ion-icon name="lock-closed-outline" size="large"></ion-icon>
-        </div>
-    </div>
-
-    <!-- kasm card -->
-    <div class="kasm-info card" onclick="document.getElementById('change-kasm').style.visibility = 'visible'" data-tilt
-        data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="kasm-details">
-            <h3>Kasm</h3>
-            <p id="kasm"></p>
-        </div>
-        <div class="kasm-icon">
-            <ion-icon name="server-outline" size="large"></ion-icon>
-        </div>
-    </div>
-
-    <!-- class card -->
-    <div class="class-info card" onclick="document.getElementById('change-class').style.visibility = 'visible'"
-        data-tilt data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="class-details">
-            <h3>Class Info</h3>
-            <p>CSA 2025</p>
-        </div>
-        <div class="class-icon">
-            <ion-icon name="school-outline" size="large"></ion-icon>
-        </div>
-    </div>
-
-    <!-- pfp card -->
-    <div class="pfp-info card" onclick="document.getElementById('change-pfp').style.visibility = 'visible'" data-tilt
-        data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
-        <div class="pfp-details">
-            <h3>Profile Picture</h3>
-            <p>Click to change or add your profile picture.</p>
-        </div>
-        <div class="pfp-icon">
-            <ion-icon name="image-outline" size="large"></ion-icon>
+        <div class="userPanel_class">
+            <h2 id="class">Class Info</h2>
+            <div class="class-actions">
+                <div class="class-details">
+                    <a id="classDisplayedInfo">CSA 2025</a>
+                </div>
+                <input type="submit" value="Change class" onclick="document.getElementById('change-class').style.visibility = 'visible'">
+            </div>
         </div>
     </div>
 </div>
@@ -556,6 +458,25 @@ active_tab: profile
             console.error('Initialization error:', error.message);
         }
     });
+
+    // make it run constantly to check for esc key press
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            document.getElementById('change-pfp').style.visibility = 'hidden';
+            document.getElementById('change-class').style.visibility = 'hidden';
+        }
+    });
+
+    // Attach the function to the global window object
+    window.openChangePfpModal = function () {
+        const changePfpBox = document.getElementById('change-pfp');
+        console.log("Change pfp button clicked");
+        if (changePfpBox) {
+            changePfpBox.style.visibility = 'visible'; // Make the modal visible
+        } else {
+            console.error('Change PFP modal not found in the DOM.');
+        }
+    };
 
     // loading the user data to display
     window.loadUserData = async function () {
@@ -669,11 +590,11 @@ active_tab: profile
             // Update checkbox state based on fetched value
             if (kasmServerNeeded) {
                 document.getElementById("kasm").textContent = "Kasm Enabled";
-                document.getElementById('kasm-checkbox').checked = kasmServerNeeded;
+                document.getElementById('kasmChange-checkbox').checked = kasmServerNeeded;
             }
             else {
                 document.getElementById("kasm").textContent = "Kasm Disabled";
-                document.getElementById('kasm-checkbox').checked = kasmServerNeeded;
+                document.getElementById('kasmChange-checkbox').checked = kasmServerNeeded;
             }
 
             return kasmServerNeeded;
@@ -686,34 +607,41 @@ active_tab: profile
 
     // UPDATE COMMANDS =======
     window.changeName = async function (event) {
-        event.preventDefault(); // Prevent the form from refreshing the page
-
-        const name = document.getElementById("nameInput").value.trim(); // Get and trim input value
-
-        // send the post request
-        if (name) {
-            const URL = javaURI + "/api/person/update";
-            const options = {
-                URL,
-                body: { name },
-                callback: () => {
-                    console.log('Name updated successfully!');
-                }
-            };
-            try {
-                await postUpdate(options);
-            } catch (error) {
-                console.error('Error updating Name:', error.message);
-            }
+        // Ensure the input element is selected
+        const nameChangeInput = document.getElementById("nameChangeInput");
+        if (!nameChangeInput) {
+            console.error("Input element not found.");
+            return;
+        }
+    
+        // Get value from the input field
+        const name = nameChangeInput.value.trim(); // Trim to remove accidental spaces
+        if (!name) {
+            console.error("Name input is empty.");
+            return;
+        } else {
+            console.log("Name input:", name);
         }
 
-        document.getElementById("name").textContent = name; //reload the content
-    }
+        // send the post request
+        const URL = javaURI + "/api/person/update"; // Adjusted endpoint
+        const options = {
+            URL,
+            body: { name }, // Adjust the message area as needed
+            callback: () => {
+                console.log('Name updated successfully!');
+                alert("Name updated successfully!");
+            }
+        };
+        try {
+            await postUpdate(options);
+        } catch (error) {
+            console.error('Error updating name:', error.message);
+        }
+    };
 
     window.changeUid = async function (event) {
-        event.preventDefault(); // Prevent the form from refreshing the page
-
-        const uid = document.getElementById("uidInput").value.trim(); // Get and trim input value
+        const uid = document.getElementById("uidChangeInput").value.trim(); // Get and trim input value
 
         // send the post request
         if (uid) {
@@ -723,6 +651,7 @@ active_tab: profile
                 body: { uid },
                 callback: () => {
                     console.log('Uid updated successfully!');
+                    alert("UID updated successfully!");
                 }
             };
             try {
@@ -738,7 +667,7 @@ active_tab: profile
     window.changeEmail = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page
 
-        const email = document.getElementById("emailInput").value.trim(); // Get and trim input value
+        const email = document.getElementById("emailChangeInput").value.trim(); // Get and trim input value
 
         // send the post request
         if (email) {
@@ -763,7 +692,7 @@ active_tab: profile
     window.changePassword = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page
 
-        const password = document.getElementById("passwordInput").value.trim(); // Get and trim input value
+        const password = document.getElementById("passwordChangeInput").value.trim(); // Get and trim input value
 
         if (password) {
             const URL = javaURI + "/api/person/update"; // Adjusted endpoint
@@ -816,8 +745,11 @@ active_tab: profile
 
     window.changeClass = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page
-
-        // no java code on profile java for this; collaboration with mort required
+        // change the class info p box
+        const classInput = document.getElementById("classInput").value;
+        const classInputYear = document.getElementById("classInputYear").value;
+        const classDisplayedInfo = document.getElementById("classDisplayedInfo");
+        classDisplayedInfo.textContent = classInput + " " + classInputYear;
     }
     
 
