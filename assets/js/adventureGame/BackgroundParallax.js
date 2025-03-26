@@ -7,6 +7,7 @@ export class BackgroundParallax extends GameObject {
         if (!data.src) {
             throw new Error('BackgroundParallax requires a src property in data');
         }
+
         this.gameEnv = gameEnv;
         this.position = data.position || { x: 0, y: 0 };
         this.velocity = data.velocity || 1;
@@ -26,11 +27,6 @@ export class BackgroundParallax extends GameObject {
             this.canvas.id = data.id || "backgroundParallax";
             this.canvas.width = this.gameEnv.innerWidth;
             this.canvas.height = this.gameEnv.innerHeight;
-            this.canvas.style.width = `${this.width}px`;
-            this.canvas.style.height = `${this.height}px`;
-            this.canvas.style.position = 'absolute';
-            this.canvas.style.left = `${this.position.x}px`;
-            this.canvas.style.top = `${this.gameEnv.top}px`;
             this.ctx = this.canvas.getContext("2d");
 
             // Append the canvas to the DOM
@@ -39,42 +35,54 @@ export class BackgroundParallax extends GameObject {
         };
     }
 
-    // speed is used to background parallax behavior
     update() {
+        // Update the position for parallax scrolling
+        this.position.x -= this.velocity; // Move left
+        this.position.y += this.velocity; // Move down (for snowfall effect)
+
+        // Wrap the position to prevent overflow
+        if (this.position.x < -this.width) {
+            this.position.x = 0;
+        }
+        if (this.position.y > this.height) {
+            this.position.y = 0;
+        }
+
         this.draw();
     }
 
     draw() {
-        // Wait until the image and canvas are initialized
         if (!this.isInitialized) {
             return; // Skip drawing if not initialized
         }
 
-        const width = this.gameEnv.innerWidth;
+        const canvasWidth = this.canvas.width;
+        const canvasHeight = this.canvas.height;
 
-        // Normalize the x position for seamless wrapping
-        let xWrapped = this.velocity % this.width;
+        let xWrapped = this.position.x % this.width;
+        let yWrapped = this.position.y % this.height;
+
         if (xWrapped > 0) {
             xWrapped -= this.width;
         }
-
-        // Calculate how many times to potentially draw the image to cover wide viewports
-        let numDraws = Math.ceil(width / this.width) + 1; // +1 to ensure overlap coverage
-
-        // Draw the image multiple times to cover the entire canvas
-        for (let i = 0; i < numDraws; i++) {
-            this.ctx.drawImage(
-                this.image,
-                0, 0, this.width, this.height, // Source rectangle
-                xWrapped + i * this.width, 0, this.width, this.height // Destination rectangle
-            );
+        if (yWrapped > 0) {
+            yWrapped -= this.height;
         }
-    }
 
-    resize() {
-        this.canvas.width = this.gameEnv.innerWidth;
-        this.canvas.height = this.gameEnv.innerHeight;
-        this.draw();
+        const numHorizontalDraws = Math.ceil(canvasWidth / this.width) + 1;
+        const numVerticalDraws = Math.ceil(canvasHeight / this.height) + 1;
+
+        this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        for (let i = 0; i < numHorizontalDraws; i++) {
+            for (let j = 0; j < numVerticalDraws; j++) {
+                this.ctx.drawImage(
+                    this.image,
+                    0, 0, this.width, this.height,
+                    xWrapped + i * this.width, yWrapped + j * this.height, this.width, this.height
+                );
+            }
+        }
     }
 }
 
