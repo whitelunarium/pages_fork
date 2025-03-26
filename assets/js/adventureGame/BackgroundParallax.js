@@ -8,32 +8,27 @@ export class BackgroundParallax extends GameObject {
             throw new Error('BackgroundParallax requires a src property in data');
         }
 
-        this.gameEnv = gameEnv;
-        this.position = data.position || { x: 0, y: 0 };
-        this.velocity = data.velocity || 1;
+        // Set the properties of the background
         this.image = new Image();
         this.image.src = data.src;
-        this.width = 1;
-        this.height = 1;
+        this.position = data.position || { x: 0, y: 0 };
+        this.velocity = data.velocity || 0.5;
         this.isInitialized = false; // Flag to track initialization
 
-        // Set the src and handle the onload event
+        // Finish initializing the background after the image loads 
         this.image.onload = () => {
+            // Width and height come from the image
             this.width = this.image.width;
             this.height = this.image.height;
 
-            // Create the canvas element
+            // Create the canvas element and context
             this.canvas = document.createElement("canvas");
-            this.canvas.id = data.id || "backgroundParallax";
-            this.canvas.width = this.gameEnv.innerWidth;
-            this.canvas.height = this.gameEnv.innerHeight;
-            this.ctx = this.canvas.getContext("2d");
-
-            // Align the canvas with the gameCanvas
-            const gameCanvas = document.getElementById("gameCanvas");
             this.canvas.style.position = "absolute";
-            this.canvas.style.left = gameCanvas.style.left;
-            this.canvas.style.top = gameCanvas.style.top;
+            this.canvas.id = data.id || "backgroundParallax";
+            this.ctx = this.canvas.getContext("2d");
+            
+            // Align the canvas size to the gameCanvas
+            this.alignCanvas();
 
             // Append the canvas to the DOM
             document.getElementById("gameContainer").appendChild(this.canvas);
@@ -41,6 +36,21 @@ export class BackgroundParallax extends GameObject {
         };
     }
 
+    /**
+     * Align canvas to be the same size and position as the gameCanvas 
+     */
+    alignCanvas() {
+        // align the canvas to the gameCanvas
+        const gameCanvas = document.getElementById("gameCanvas");
+        this.canvas.width = gameCanvas.width;
+        this.canvas.height = gameCanvas.height;
+        this.canvas.style.left = gameCanvas.style.left;
+        this.canvas.style.top = gameCanvas.style.top;
+    }
+
+    /**
+     * Update the background position and draw it on the canvas
+     */
     update() {
         // Update the position for parallax scrolling
         this.position.x -= this.velocity; // Move left
@@ -57,6 +67,9 @@ export class BackgroundParallax extends GameObject {
         this.draw();
     }
 
+    /**
+     * Draw the background on the canvas 
+     */
     draw() {
         if (!this.isInitialized) {
             return; // Skip drawing if not initialized
@@ -65,6 +78,7 @@ export class BackgroundParallax extends GameObject {
         const canvasWidth = this.canvas.width;
         const canvasHeight = this.canvas.height;
     
+        // Calculate the wrapped position
         let xWrapped = this.position.x % this.width;
         let yWrapped = this.position.y % this.height;
     
@@ -74,12 +88,15 @@ export class BackgroundParallax extends GameObject {
         if (yWrapped > 0) {
             yWrapped -= this.height;
         }
-    
+   
+        // Calculate the number of draws needed to fill the canvas
         const numHorizontalDraws = Math.ceil(canvasWidth / this.width) + 1;
         const numVerticalDraws = Math.ceil(canvasHeight / this.height) + 1;
     
+        // Clear the canvas
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    
+
+        // Draw the background image multiple times to fill the canvas
         for (let i = 0; i < numHorizontalDraws; i++) {
             for (let j = 0; j < numVerticalDraws; j++) {
                 this.ctx.drawImage(
@@ -90,14 +107,12 @@ export class BackgroundParallax extends GameObject {
             }
         }
     }
-
-    resize() {
-        const gameCanvas = document.getElementById("gameCanvas");
-        this.canvas.width = this.gameEnv.innerWidth;
-        this.canvas.height = this.gameEnv.innerHeight;
-        this.canvas.style.left = gameCanvas.style.left;
-        this.canvas.style.top = gameCanvas.style.top;
     
+    /**
+     * Resize the background canvas and redraw the background
+     */
+    resize() {
+        this.alignCanvas(); // Align the canvas to the gameCanvas
         this.draw(); // Redraw the canvas after resizing
     }
 }
