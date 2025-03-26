@@ -7,9 +7,8 @@ permalink: /gamify/bankanalytics
 <html lang="en">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard</title>
+  <title>Bank Analytics Dashboard</title>
   <link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* General Styles */
     body {
@@ -46,13 +45,52 @@ permalink: /gamify/bankanalytics
         transform: scale(1.1);
     }
 
-    /* Leaderboard Container */
+    /* Dashboard Layout */
     .dashboard {
+        display: flex;
+        gap: 30px;
         padding: 40px;
-        text-align: center;
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
-    /* Title Button Effect */
+    /* User Details Section */
+    .user-details {
+        flex: 1;
+        background: #1f1f1f;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 15px rgba(255, 136, 0, 0.3);
+    }
+
+    .user-profile {
+        text-align: left;
+        margin-bottom: 30px;
+    }
+
+    .user-stats {
+        background: #2a2a2a;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .stat-item {
+        margin: 15px 0;
+        font-size: 18px;
+    }
+
+    .stat-label {
+        color: #ff9800;
+        margin-right: 10px;
+    }
+
+    /* Leaderboard Section */
+    .leaderboard-container {
+        width: 35%;
+        min-width: 400px;
+    }
+
     .leaderboard-title {
         font-size: 32px;
         font-weight: bold;
@@ -67,106 +105,137 @@ permalink: /gamify/bankanalytics
         margin-bottom: 20px;
     }
 
-    /* Leaderboard Table */
     .leaderboard-table {
         width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
         border-collapse: collapse;
         background: #1f1f1f;
         border-radius: 8px;
         box-shadow: 0px 0px 15px rgba(255, 136, 0, 0.5);
         overflow: hidden;
     }
+
     th, td {
-        padding: 15px 20px;
+        padding: 12px 15px;
         text-align: left;
     }
+
     th {
         background-color: #ff9800;
         color: #000;
-        font-size: 18px;
+        font-size: 14px;
         text-transform: uppercase;
     }
+
     td {
         background-color: #2a2a2a;
-        font-size: 16px;
         border-bottom: 1px solid #444;
         transition: background 0.3s;
     }
+
     tr:hover td {
         background-color: #ff22a6;
         color: #ffffff;
     }
 
-    /* Rank, Balance & Name Effects */
     .rank {
         font-weight: bold;
         color: #ffcc00;
     }
+
     .balance {
         color: #00ff7f;
         font-weight: bold;
     }
+
     .name {
         font-weight: bold;
         color: #ffffff;
     }
+
+    /* Column Widths */
+    .leaderboard-table th:nth-child(1) { width: 15%; }
+    .leaderboard-table th:nth-child(2) { width: 55%; }
+    .leaderboard-table th:nth-child(3) { width: 30%; }
   </style>
 <body>
-<!-- Navigation Bar -->
-<nav class="navbar">
+  <!-- Navigation Bar -->
+  <nav class="navbar">
     <div class="nav-buttons">
+        <a href="{{site.baseurl}}/gamify/bank">Bank</a>
         <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
         <a href="{{site.baseurl}}/leaderboard/team-selection">Team selector</a>
         <a href="{{site.baseurl}}/leaderboard/team-viewer">Team viewer</a>
         <a href="{{site.baseurl}}/leaderboard/team-leaderboard">Team leaderboard</a>
     </div>
-</nav>
+  </nav>
 
-  <!-- Dashboard -->
+  <!-- Dashboard Content -->
   <div class="dashboard">
-    <h1 class="leaderboard-title">Top 10 Users by Balance</h1>
-    <table class="leaderboard-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Balance</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody id="top-users-table">
-        <!-- Leaderboard Data Populated Here -->
-      </tbody>
-    </table>
+    <!-- Left Section - User Details -->
+    <div class="user-details">
+      <div class="user-profile">
+        <h2 style="color: #ff9800; margin-bottom: 20px;">User Analytics</h2>
+        <div class="user-stats">
+          <div class="stat-item">
+            <span class="stat-label">Username:</span>
+            <span class="name">JohnDoe2023</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Account Balance:</span>
+            <span class="balance">$12,450.75</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Transactions:</span>
+            <span>147</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section - Leaderboard -->
+    <div class="leaderboard-container">
+      <h1 class="leaderboard-title">Top 10 Users</h1>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="top-users-table">
+          <!-- Leaderboard Data Populated Here -->
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <script type="module">
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+    async function fetchLeaderboard() {
+      try {
+        const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
+        if (!response.ok) throw new Error("Failed to fetch leaderboard data");
+        const data = await response.json();
+        const topUsersTable = document.querySelector("#top-users-table");
+        topUsersTable.innerHTML = "";
+
+        data.forEach((user, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td class="rank">${index + 1}</td>
+            <td class="name">${user.name}</td>
+            <td class="balance">$${Number(user.balance).toFixed(2)}</td>
+          `;
+          topUsersTable.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error fetching leaderboard data:", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+  </script>
 </body>
 </html>
-
-<script type="module">
-  import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-
-  async function fetchLeaderboard() {
-    try {
-      const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
-      if (!response.ok) throw new Error("Failed to fetch leaderboard data");
-      const data = await response.json();
-      const topUsersTable = document.querySelector("#top-users-table");
-      topUsersTable.innerHTML = "";
-
-      data.forEach((user, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td class="rank">${index + 1}</td>
-          <td class="balance">$${Number(user.balance).toFixed(2)}</td>
-          <td class="name">${user.name}</td>
-        `;
-        topUsersTable.appendChild(row);
-      });
-    } catch (error) {
-      console.error("Error fetching leaderboard data:", error);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", fetchLeaderboard);
-</script>
