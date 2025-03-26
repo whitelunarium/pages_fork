@@ -1,5 +1,5 @@
 // To build GameLevels, each contains GameObjects from below imports
-import Background from './Background.js';
+import GamEnvBackground from './GameEnvBackground.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
@@ -316,7 +316,7 @@ class GameLevelDesert {
 
     // List of objects defnitions for this level
     this.classes = [
-      { class: Background, data: image_data_desert },
+      { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
