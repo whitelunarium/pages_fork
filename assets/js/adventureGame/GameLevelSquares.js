@@ -9,10 +9,10 @@ class GameLevelSquares {
   constructor(gameEnv) {
     let path = gameEnv.path;
     this.classes = [      
-      { class: GameEnvBackground, data: {src:  path + "/images/platformer/backgrounds/mountains.jpg"} },
-      { class: Background, data: {src:  path + "/images/platformer/backgrounds/hills.png"} },
-      { class: Player, data: {} }, 
-      { class: BackgroundParallax, data: {src:  path + "/images/platformer/backgrounds/snowfall.png"} },
+      { class: GameEnvBackground, data: {src:  path + "/images/platformer/backgrounds/mountains.jpg"} }, // zIndex default is 0
+      { class: Background, data: {src:  path + "/images/platformer/backgrounds/hills.png", zIndex: 1 } },
+      { class: BackgroundParallax, data: {src:  path + "/images/platformer/backgrounds/snowfall.png", zIndex: 2 } },
+      { class: Player, data: {zIndex: 3} }, 
     ];
   }
 }
