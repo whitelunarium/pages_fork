@@ -1,4 +1,3 @@
-import GameEnv from './GameEnv.js';
 import GameObject from './GameObject.js';
 
 /** Background class for primary background
@@ -35,7 +34,7 @@ export class Background extends GameObject {
             ctx.drawImage(this.image, 0, 0, width, height);
         } else {
             // Fill the canvas with fillstyle color if no image is provided
-            ctx.fillStyle = '#87CEEB';
+            ctx.fillStyle = '#063970';
             ctx.fillRect(0, 0, width, height);
         }
     }
