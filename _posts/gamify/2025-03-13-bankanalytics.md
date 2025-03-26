@@ -176,15 +176,15 @@ permalink: /gamify/bankanalytics
         <div class="user-stats">
           <div class="stat-item">
             <span class="stat-label">Username:</span>
-            <span class="name">JohnDoe2023</span>
+            <span class="name">toby</span>
           </div>
           <div class="stat-item">
             <span class="stat-label">Account Balance:</span>
-            <span class="balance">$12,450.75</span>
+            <span class="balance">$100000</span>
           </div>
           <div class="stat-item">
             <span class="stat-label">Total Transactions:</span>
-            <span>147</span>
+            <span>0</span>
           </div>
         </div>
       </div>
