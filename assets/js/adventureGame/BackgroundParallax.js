@@ -11,8 +11,6 @@ export class BackgroundParallax extends GameObject {
         // Set the properties of the background
         this.image = new Image();
         this.image.src = data.src;
-        this.position = data.position || { x: 0, y: 0 };
-        this.velocity = data.velocity || 1;
         this.isInitialized = false; // Flag to track initialization
 
         // Finish initializing the background after the image loads 
@@ -49,26 +47,14 @@ export class BackgroundParallax extends GameObject {
     }
 
     /**
-     * Update the background position and draw it on the canvas
+     * Update the background by redrawing it
      */
     update() {
-        // Update the position for parallax scrolling
-        this.position.x -= this.velocity; // Move left
-        this.position.y += this.velocity; // Move down (for snowfall effect)
-
-        // Wrap the position to prevent overflow
-        if (this.position.x < -this.width) {
-            this.position.x = 0;
-        }
-        if (this.position.y > this.height) {
-            this.position.y = 0;
-        }
-
         this.draw();
     }
 
     /**
-     * Draw the background on the canvas 
+     * Draw the background on the canvas several times to fill the canvas 
      */
     draw() {
         if (!this.isInitialized) {
@@ -78,17 +64,6 @@ export class BackgroundParallax extends GameObject {
         const canvasWidth = this.canvas.width;
         const canvasHeight = this.canvas.height;
     
-        // Calculate the wrapped position
-        let xWrapped = this.position.x % this.width;
-        let yWrapped = this.position.y % this.height;
-    
-        if (xWrapped > 0) {
-            xWrapped -= this.width;
-        }
-        if (yWrapped > 0) {
-            yWrapped -= this.height;
-        }
-   
         // Calculate the number of draws needed to fill the canvas
         const numHorizontalDraws = Math.ceil(canvasWidth / this.width) + 1;
         const numVerticalDraws = Math.ceil(canvasHeight / this.height) + 1;
@@ -102,7 +77,7 @@ export class BackgroundParallax extends GameObject {
                 this.ctx.drawImage(
                     this.image,
                     0, 0, this.width, this.height,
-                    xWrapped + i * this.width, yWrapped + j * this.height, this.width, this.height
+                    i * this.width, j * this.height, this.width, this.height
                 );
             }
         }
