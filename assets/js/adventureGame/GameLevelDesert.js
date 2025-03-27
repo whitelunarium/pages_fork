@@ -4,10 +4,8 @@ import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
-import GameLevelStarWars from './GameLevelStarWars.js';
-import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
-import GameLevelMinesweeper from './GameLevelMinesweeper.js';
 
+import GameLevelUniverse from './GameLevelUniverse.js';
 class GameLevelDesert {
   constructor(gameEnv) {
     // Values dependent on this.gameEnv.create()
@@ -16,12 +14,12 @@ class GameLevelDesert {
     let path = gameEnv.path;
 
     // Background data
-    const image_src_desert = path + "/images/gamify/desert.png"; // be sure to include the path
+    const image_src_desert = path + "/images/gamify/airport.jpg"; // be sure to include the path
     const image_data_desert = {
         name: 'desert',
         greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
         src: image_src_desert,
-        pixels: {height: 580, width: 1038}
+        pixels: {height: 580, width: 386}
     };
 
 
@@ -133,7 +131,57 @@ class GameLevelDesert {
           quiz.openPanel(sprite_data_octocat);
         }
     }
-
+      // NPC data for Octocat
+      const sprite_src_alien = path + "/images/gamify/ufo.png"; // be sure to include the path
+      const sprite_greet_alien = "Hi I am Octocat! I am the GitHub code code code collaboration mascot";
+      const sprite_data_alien = {
+        id: 'Alien',
+        greeting: sprite_greet_alien,
+        src: sprite_src_alien,
+        SCALE_FACTOR: 5,  // Adjust this based on your scaling needs
+        ANIMATION_RATE: 50,
+        pixels: {height: 460, width: 422},
+        INIT_POSITION: { x: (width / 3), y: (height / 3)},
+        orientation: {rows: 1, columns: 4 },
+        down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+        // GitHub command quiz 
+        quiz: { 
+          title: "GitHub Command Quiz",
+          questions: [
+            "Which command is used to clone a repository?\n1. git clone\n2. git fork\n3. git copy\n4. git download",
+            "Which command is used to add changes to the staging area?\n1. git add\n2. git stage\n3. git commit\n4. git push",
+            "Which command is used to commit changes?\n1. git commit\n2. git add\n3. git save\n4. git push",
+            "Which command is used to push changes to a remote repository?\n1. git push\n2. git upload\n3. git send\n4. git commit",
+            "Which command is used to pull changes from a remote repository?\n1. git pull\n2. git fetch\n3. git receive\n4. git update",
+            "Which command is used to check the status of the working directory and staging area?\n1. git status\n2. git check\n3. git info\n4. git log",
+            "Which command is used to create a new branch?\n1. git branch\n2. git create-branch\n3. git new-branch\n4. git checkout",
+            "Which command is used to switch to a different branch?\n1. git checkout\n2. git switch\n3. git change-branch\n4. git branch",
+            "Which command is used to merge branches?\n1. git merge\n2. git combine\n3. git join\n4. git integrate",
+            "Which command is used to view the commit history?\n1. git log\n2. git history\n3. git commits\n4. git show"
+          ] 
+        },
+        reaction: function() {
+          alert(sprite_greet_octocat);
+        },
+        interact: function() {
+          // Set a primary game reference from the game environment
+          let primaryGame = gameEnv.gameControl;
+          // Define the game in game level
+          let levelArray = [GameLevelUniverse];
+          // Define a new GameControl instance with the StarWars level
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+          // Pause the primary game 
+          primaryGame.pause();
+          // Start the game in game
+          gameInGame.start();
+          // Setup "callback" function to allow transition from game in gaame to the underlying game
+          gameInGame.gameOver = function() {
+            // Call .resume on primary game
+            primaryGame.resume();
+          }
+        }
+    }
 
 
 
@@ -146,6 +194,7 @@ class GameLevelDesert {
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
+      { class: Npc, data: sprite_data_alien },
       
 
       
