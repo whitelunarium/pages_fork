@@ -5,6 +5,7 @@ permalink: /gamify/bankanalytics
 ---
 
 <html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bank Analytics Dashboard</title>
@@ -157,6 +158,7 @@ permalink: /gamify/bankanalytics
     .leaderboard-table th:nth-child(2) { width: 55%; }
     .leaderboard-table th:nth-child(3) { width: 30%; }
   </style>
+</head>
 <body>
   <!-- Navigation Bar -->
   <nav class="navbar">
@@ -177,11 +179,11 @@ permalink: /gamify/bankanalytics
         <div class="user-stats">
           <div class="stat-item">
             <span class="stat-label">Username:</span>
-            <span class="name">toby</span>
+            <span class="name">Loading...</span>
           </div>
           <div class="stat-item">
             <span class="stat-label">Account Balance:</span>
-            <span class="balance">$100000</span>
+            <span class="balance">Loading...</span>
           </div>
           <div class="stat-item">
             <span class="stat-label">Total Transactions:</span>
@@ -212,29 +214,47 @@ permalink: /gamify/bankanalytics
   <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    async function fetchLeaderboard() {
-      try {
-        const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
-        if (!response.ok) throw new Error("Failed to fetch leaderboard data");
-        const data = await response.json();
-        const topUsersTable = document.querySelector("#top-users-table");
-        topUsersTable.innerHTML = "";
-
-        data.forEach((user, index) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td class="rank">${index + 1}</td>
-            <td class="name">${user.name}</td>
-            <td class="balance">$${Number(user.balance).toFixed(2)}</td>
-          `;
-          topUsersTable.appendChild(row);
-        });
-      } catch (error) {
-        console.error("Error fetching leaderboard data:", error);
-      }
+    async function fetchUserDetails() {
+        try {
+            const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+            if (!response.ok) throw new Error("Failed to fetch user data");
+            const userData = await response.json();
+            
+            // Update user details section
+            document.querySelector('.name').textContent = userData.uid;
+            document.querySelector('.balance').textContent = `$${Number(userData.balance).toFixed(2)}`;
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            document.querySelector('.name').textContent = "Error loading user";
+        }
     }
 
-    document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+    async function fetchLeaderboard() {
+        try {
+            const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
+            if (!response.ok) throw new Error("Failed to fetch leaderboard data");
+            const data = await response.json();
+            const topUsersTable = document.querySelector("#top-users-table");
+            topUsersTable.innerHTML = "";
+
+            data.forEach((user, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="rank">${index + 1}</td>
+                    <td class="name">${user.name}</td>
+                    <td class="balance">$${Number(user.balance).toFixed(2)}</td>
+                `;
+                topUsersTable.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Error fetching leaderboard data:", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchUserDetails();
+        fetchLeaderboard();
+    });
   </script>
 </body>
 </html>
