@@ -775,7 +775,28 @@ active_tab: profile
             } catch (error) {
                 console.error('Error updating uid:', error.message);
             }
-        }
+
+            const pythonURL = pythonURI + "/api/user"; // Adjusted endpoint
+
+            const pythonoptions = {
+                URL,
+                body: { uid },
+                message: 'uid-message', // Adjust the message area as needed
+                callback: () => {
+                    alert("You updated your Github ID, so you will automatically be logged out. Be sure to remember your new github id to log in!");
+                    console.log('UID updated successfully!');
+                    window.updateUidField(uid);
+                    window.location.href = '{{site.baseurl}}/login'
+                }
+            };
+
+            try {
+                await putUpdate(pythonoptions);
+            } catch (error) {
+                console.error('Error updating UID:', error.message);
+                document.getElementById('uid-message').textContent = 'Error updating UID: ' + error.message;
+            }
+        }   
 
         document.getElementById("uid").textContent = uid; //reload the content
     }
