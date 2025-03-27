@@ -1,16 +1,16 @@
 @import "common.scss";
 
-input>.smallInput {
+input.smallInput {
     @extend input;
     font-size: 0.8em;
 }
 
-input>.mediumInput {
+input.mediumInput {
     @extend input;
     font-size: 1em;
 }
 
-input>.largeInput {
+input.largeInput {
     @extend input;
     font-size: 1.5em;
 }

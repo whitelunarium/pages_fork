@@ -2,14 +2,12 @@
 @import "../../materials/main.scss";
 
 // for the various styles, like a gradient styled input
-input>.gradientInput {
+input.gradientInput {
     @extend input;
-    background-image: $gradient1
+    background-image: $gradient1;
 }
 
 .inputIconGroup>ion-icon {
-
-    @extend input;
     position: absolute;
     top: 50%;
     left: 10px;
