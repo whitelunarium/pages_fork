@@ -1,4 +1,4 @@
-import Background from "./Background.js"
+import GameEnvBackground from "./GameEnvBackground.js"
 import Player from "./Player.js"
 import Meteor from "./Meteor.js"
 import Character from "./Character.js"
@@ -91,7 +91,7 @@ class GameLevelMeteorBlaster {
     console.log("Meteor image path:", meteor_image)
 
     this.classes = [
-      { class: Background, data: image_data_space },
+      { class: GameEnvBackground, data: image_data_space },
       { class: Player, data: this.playerData },
     ]
 

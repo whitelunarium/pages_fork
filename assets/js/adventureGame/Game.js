@@ -2,6 +2,9 @@ import GameControl from './GameControl.js';
 import GameLevelWater from "./GameLevelWater.js";
 import GameLevelDesert from "./GameLevelDesert.js";
 
+import GameLevelSquares from './GameLevelSquares.js';
+
+
 class Game {
     // initialize user and launch GameControl 
     static main(environment) {
@@ -26,6 +29,11 @@ class Game {
 
         this.gname = null;
         
+
+        // start the game
+        const gameLevelClasses = [GameLevelDesert, GameLevelWater, GameLevelSquares]
+        new GameControl(this, gameLevelClasses).start();
+
         // Show instructions before starting the game
         this.showInstructions(() => {
             // start the game after instructions are closed
@@ -105,6 +113,7 @@ class Game {
             startButton.style.transform = 'scale(1)';
             startButton.style.boxShadow = 'none';
         });
+
     }
 
     static initUser() {
