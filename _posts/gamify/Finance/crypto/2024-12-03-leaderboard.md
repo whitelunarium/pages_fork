@@ -1,6 +1,6 @@
 ---
 layout: base
-permalink: /leaderboard/overall-leaderboard
+permalink: /crypto/leaderboard
 title: Leaderboard
 ---
 
@@ -117,10 +117,14 @@ title: Leaderboard
 <!-- Navigation Bar -->
 <nav class="navbar">
     <div class="nav-buttons">
-        <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/leaderboard/team-selection">Team selector</a>
-        <a href="{{site.baseurl}}/leaderboard/team-viewer">Team viewer</a>
-        <a href="{{site.baseurl}}/leaderboard/team-leaderboard">Team leaderboard</a>
+        <a href="{{site.baseurl}}/stocks/home">Home</a>
+        <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
+        <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
+        <a href="{{site.baseurl}}/crypto/mining">Mining</a>
+        <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
+        <a href="{{site.baseurl}}/crypto/leaderboard">Leaderboard</a>
+        <a href="{{site.baseurl}}/stocks/game">Game</a>
+        <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
     </div>
 </nav>
 
