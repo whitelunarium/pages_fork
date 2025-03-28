@@ -23,40 +23,27 @@ show_reading_time: false
     }
 
     .login-container {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        /* allows the cards to wrap onto the next line if the screen is too small */
+        display: flex; /* Use flexbox for side-by-side layout */
+        justify-content: space-between; /* Add space between the cards */
+        align-items: flex-start; /* Align items to the top */
+        gap: 20px; /* Add spacing between the cards */
+        flex-wrap: nowrap; /* Prevent wrapping of the cards */
     }
 
-    .login-card {
-        margin-top: 0;
-        /* remove the top margin */
-        width: 45%;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
+    .login-card, .signup-card {
+        flex: 1 1 calc(50% - 20px); /* Take up 50% of the container width minus the gap */
+        max-width: 45%; /* Ensure the cards don't exceed 45% of the container width */
+        box-sizing: border-box; /* Include padding and border in width calculation */
+        background: #1e1e1e; /* Background color for the cards */
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for the cards */
+        padding: 20px; /* Add padding inside the cards */
+        color: white; /* Text color */
+        overflow: hidden; /* Prevent scrollbars */
     }
 
     .login-card h1 {
         margin-bottom: 20px;
-    }
-
-    .signup-card {
-        margin-top: 0;
-        /* remove the top margin */
-        width: 45%;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
     }
 
     .signup-card h1 {
@@ -72,25 +59,22 @@ show_reading_time: false
         position: absolute;
         top: 50%;
         left: 10px;
-        /* Adjust based on desired spacing */
         transform: translateY(-50%);
         font-size: 1.5rem;
-        /* Adjust the size of the icon */
         color: rgba(255, 255, 255, 0.4);
         pointer-events: none;
-        /* Ensure the icon does not interfere with input focus */
     }
 
     .form-input {
-        width: 100%;
-        padding: 1rem 1rem 1rem 3rem;
-        /* Add left padding to make room for the icon */
+        width: calc(100% - 2rem); /* Ensure the input fits within the card's padding */
+        padding: 1rem 1rem 1rem 3rem; /* Add left padding to make room for the icon */
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         font-size: 1rem;
         color: white;
         transition: all 0.3s ease;
+        box-sizing: border-box; /* Include padding and border in width calculation */
     }
 
     .form-input::placeholder {
