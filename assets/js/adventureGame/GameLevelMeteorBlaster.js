@@ -23,10 +23,14 @@ class GameLevelMeteorBlaster {
     this.lasers = []
     this.lastShotTime = 0
     this.shootCooldown = 500
-    this.meteorSpawnRate = 2000
+    this.meteorSpawnRate = 2000  // Time between meteor spawns in milliseconds
     this.meteorSpawnInterval = null
     this.invincibleTime = 0
     this.invincibleDuration = 1500
+    this.questionsAnswered = 0
+    this.totalQuestions = 10
+    this.hasKey = false
+    this.meteorsSpawned = 0  // Track number of meteors spawned
 
     this.quiz = new Quiz()
     this.quiz.initialize()
@@ -103,9 +107,6 @@ class GameLevelMeteorBlaster {
   initialize() {
     console.log("Initializing Meteor Blaster game")
     this.startMeteorSpawner()
-    for (let i = 0; i < 3; i++) {
-      this.spawnMeteor()
-    }
   }
 
   startMeteorSpawner() {
@@ -115,10 +116,13 @@ class GameLevelMeteorBlaster {
     }
 
     this.meteorSpawnInterval = setInterval(() => {
-      if (!this.isPaused && !this.gameOver) {
+      if (!this.isPaused && !this.gameOver && this.meteorsSpawned < this.totalQuestions) {
         this.spawnMeteor()
+        this.meteorsSpawned++
+      } else if (this.meteorsSpawned >= this.totalQuestions) {
+        clearInterval(this.meteorSpawnInterval)
       }
-    }, 1500)
+    }, this.meteorSpawnRate)
   }
 
   spawnMeteor() {
@@ -223,13 +227,24 @@ class GameLevelMeteorBlaster {
     this.scoreElement = document.createElement("div")
     this.scoreElement.id = "meteor-score"
     this.scoreElement.style.position = "absolute"
-    this.scoreElement.style.top = "10px"
-    this.scoreElement.style.left = "10px"
-    this.scoreElement.style.color = "white"
-    this.scoreElement.style.fontSize = "24px"
+    this.scoreElement.style.top = "20px"
+    this.scoreElement.style.left = "50%"
+    this.scoreElement.style.transform = "translateX(-50%)"
+    this.scoreElement.style.color = "#FFFFFF"
+    this.scoreElement.style.fontSize = "28px"
     this.scoreElement.style.fontWeight = "bold"
     this.scoreElement.style.zIndex = "1000"
-    this.scoreElement.textContent = "Score: 0"
+    this.scoreElement.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)"
+    this.scoreElement.style.backgroundColor = "rgba(0, 0, 0, 0.5)"
+    this.scoreElement.style.padding = "10px 20px"
+    this.scoreElement.style.borderRadius = "15px"
+    this.scoreElement.style.display = "flex"
+    this.scoreElement.style.gap = "20px"
+    this.scoreElement.style.alignItems = "center"
+    this.scoreElement.innerHTML = `
+      <span style="color: #FFD700">Score: 0</span>
+      <span style="color: #00FF00">Questions: 0/${this.totalQuestions}</span>
+    `
 
     gameContainer.appendChild(this.scoreElement)
   }
@@ -263,7 +278,10 @@ class GameLevelMeteorBlaster {
   updateScore(points) {
     this.score += points
     if (this.scoreElement) {
-      this.scoreElement.textContent = `Score: ${this.score}`
+      this.scoreElement.innerHTML = `
+        <span style="color: #FFD700">Score: ${this.score}</span>
+        <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+      `
     }
   }
 
@@ -382,43 +400,69 @@ class GameLevelMeteorBlaster {
     this.quiz.openPanel(quizData, (isCorrect) => {
       this.isPaused = false
 
-      // Reward for correct answer
       if (isCorrect) {
-        this.updateScore(20) // Extra points for correct answer
+        this.updateScore(20)
+        this.questionsAnswered++
+        
+        // Check if all questions are answered
+        if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
+          this.hasKey = true
+          this.showKeyReward()
+        }
 
         // 10% chance to get an extra life (up to max 5 lives)
         if (Math.random() < 0.1 && this.lives < 5) {
           this.updateLives(this.lives + 1)
-
-          // Show life gained message
-          const gameContainer = document.getElementById("gameContainer")
-          if (gameContainer) {
-            const lifeMsg = document.createElement("div")
-            lifeMsg.style.position = "absolute"
-            lifeMsg.style.top = "50%"
-            lifeMsg.style.left = "50%"
-            lifeMsg.style.transform = "translate(-50%, -50%)"
-            lifeMsg.style.color = "#00ff00"
-            lifeMsg.style.fontSize = "36px"
-            lifeMsg.style.fontWeight = "bold"
-            lifeMsg.style.textAlign = "center"
-            lifeMsg.style.zIndex = "1000"
-            lifeMsg.style.textShadow = "0 0 10px #00ff00"
-            lifeMsg.textContent = "EXTRA LIFE!"
-
-            gameContainer.appendChild(lifeMsg)
-
-            // Remove the message after 1.5 seconds
-            setTimeout(() => {
-              lifeMsg.remove()
-            }, 1500)
-          }
+          this.showLifeGainedMessage()
         }
       } else {
-        // No extra points for wrong answer
         this.updateScore(5)
       }
     })
+  }
+
+  showKeyReward() {
+    const gameContainer = document.getElementById("gameContainer")
+    if (!gameContainer) return
+
+    const keyMsg = document.createElement("div")
+    keyMsg.style.position = "absolute"
+    keyMsg.style.top = "50%"
+    keyMsg.style.left = "50%"
+    keyMsg.style.transform = "translate(-50%, -50%)"
+    keyMsg.style.color = "#FFD700"
+    keyMsg.style.fontSize = "36px"
+    keyMsg.style.fontWeight = "bold"
+    keyMsg.style.textAlign = "center"
+    keyMsg.style.zIndex = "1000"
+    keyMsg.style.textShadow = "0 0 10px #FFD700"
+    keyMsg.innerHTML = "🎉 CONGRATULATIONS! 🎉<br>You've earned the key!<br>Press ESC to exit"
+
+    gameContainer.appendChild(keyMsg)
+  }
+
+  showLifeGainedMessage() {
+    const gameContainer = document.getElementById("gameContainer")
+    if (!gameContainer) return
+
+    const lifeMsg = document.createElement("div")
+    lifeMsg.style.position = "absolute"
+    lifeMsg.style.top = "50%"
+    lifeMsg.style.left = "50%"
+    lifeMsg.style.transform = "translate(-50%, -50%)"
+    lifeMsg.style.color = "#00ff00"
+    lifeMsg.style.fontSize = "36px"
+    lifeMsg.style.fontWeight = "bold"
+    lifeMsg.style.textAlign = "center"
+    lifeMsg.style.zIndex = "1000"
+    lifeMsg.style.textShadow = "0 0 10px #00ff00"
+    lifeMsg.textContent = "EXTRA LIFE!"
+
+    gameContainer.appendChild(lifeMsg)
+
+    setTimeout(() => {
+      lifeMsg.remove()
+    }, 1500)
   }
 
   checkCollisions() {
