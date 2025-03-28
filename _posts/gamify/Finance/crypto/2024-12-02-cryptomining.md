@@ -822,6 +822,16 @@ body {
             </div>
         </div>
     </div>
+    <!-- Tutorial Welcome Modal -->
+    <div id="tutorial-welcome" class="tutorial-welcome hidden">
+        <h2>Welcome to Crypto Mining Simulator!</h2>
+        <p>Would you like to take a quick tour of the mining interface?</p>
+        <div class="tutorial-buttons">
+            <button class="tutorial-button tutorial-button-primary" onclick="startTutorial()">Start Tour</button>
+            <button class="tutorial-button tutorial-button-tertiary" onclick="skipTutorial()">Skip</button>
+            <button class="tutorial-button tutorial-button-tertiary" onclick="neverShowTutorial()">Never Show</button>
+        </div>
+    </div>
     <!-- GPU Shop Modal -->
     <div id="gpu-shop-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
@@ -1587,9 +1597,16 @@ body {
             const lastLogin = localStorage.getItem('lastLogin');
             const now = new Date().getTime();
             const oneWeek = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+            
+            // Show tutorial if:
+            // 1. Tutorial has never been seen, or
+            // 2. Last login was more than a week ago, or
+            // 3. User hasn't chosen to never show it
             if (!localStorage.getItem('tutorialSeen') || 
                 (lastLogin && (now - parseInt(lastLogin)) > oneWeek)) {
-                document.getElementById('tutorial-welcome').classList.remove('hidden');
+                if (!localStorage.getItem('neverShowTutorial')) {
+                    document.getElementById('tutorial-welcome').classList.remove('hidden');
+                }
             }
         } catch (error) {
             console.error('Error checking login status:', error);
