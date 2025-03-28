@@ -73,7 +73,7 @@ show_reading_time: false
     }
 
     .form-input {
-        width: 90%;
+        width: 100%;
         padding: 1rem 1rem 1rem 3rem;
         /* Add left padding to make room for the icon */
         background: rgba(255, 255, 255, 0.05);
