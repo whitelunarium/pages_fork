@@ -303,31 +303,31 @@ class GameLevelMeteorBlaster {
         type: "multiple-choice",
         question: "What does the 'DOM' stand for in web development?",
         options: ["Document Object Model", "Data Object Model", "Document Oriented Markup", "Digital Object Memory"],
-        correctAnswer: 0,
+        correctAnswer: 0
       },
       {
         type: "multiple-choice",
         question: "Which of these is NOT a JavaScript data type?",
         options: ["String", "Boolean", "Integer", "Object"],
-        correctAnswer: 2,
+        correctAnswer: 2
       },
       {
         type: "multiple-choice",
         question: "What does CSS stand for?",
         options: ["Computer Style Sheets", "Creative Style System", "Cascading Style Sheets", "Colorful Style Sheets"],
-        correctAnswer: 2,
+        correctAnswer: 2
       },
       {
         type: "multiple-choice",
         question: "Which symbol is used for single-line comments in JavaScript?",
         options: ["//", "/* */", "#", "--"],
-        correctAnswer: 0,
+        correctAnswer: 0
       },
       {
         type: "multiple-choice",
         question: "What is the correct HTML element for the largest heading?",
         options: ["<h1>", "<heading>", "<head>", "<h6>"],
-        correctAnswer: 0,
+        correctAnswer: 0
       },
 
       // Free response questions
@@ -335,66 +335,48 @@ class GameLevelMeteorBlaster {
         type: "free-response",
         question: "What JavaScript method is used to add an element to the end of an array?",
         correctAnswer: "push",
-        acceptableAnswers: ["push", "push()", ".push", ".push()"],
+        acceptableAnswers: ["push", "push()", ".push", ".push()"]
       },
       {
         type: "free-response",
         question: "What HTML tag is used to create a hyperlink?",
         correctAnswer: "a",
-        acceptableAnswers: ["a", "<a>", "a tag", "anchor", "<a></a>"],
+        acceptableAnswers: ["a", "<a>", "a tag", "anchor", "<a></a>"]
       },
       {
         type: "free-response",
         question: "What CSS property is used to change the text color?",
         correctAnswer: "color",
-        acceptableAnswers: ["color", "color:"],
+        acceptableAnswers: ["color", "color:"]
       },
       {
         type: "free-response",
         question: "What JavaScript method is used to select an HTML element by its id?",
         correctAnswer: "getElementById",
-        acceptableAnswers: [
-          "getElementById",
-          "document.getElementById",
-          "getElementById()",
-          "document.getElementById()",
-        ],
+        acceptableAnswers: ["getElementById", "document.getElementById", "getElementById()", "document.getElementById()"]
       },
       {
         type: "free-response",
         question: "What is the JavaScript keyword used to declare a variable that cannot be reassigned?",
         correctAnswer: "const",
-        acceptableAnswers: ["const", "const "],
-      },
-      {
-        type: "free-response",
-        question: "What is the CSS property to make text bold?",
-        correctAnswer: "font-weight",
-        acceptableAnswers: ["font-weight", "font-weight: bold", "font-weight:bold"],
-      },
-      {
-        type: "free-response",
-        question: "What method converts a JavaScript object to a JSON string?",
-        correctAnswer: "JSON.stringify",
-        acceptableAnswers: ["JSON.stringify", "stringify", "JSON.stringify()"],
-      },
-      {
-        type: "free-response",
-        question: "What is the HTML tag for creating a paragraph?",
-        correctAnswer: "p",
-        acceptableAnswers: ["p", "<p>", "p tag", "<p></p>"],
-      },
-    ]
+        acceptableAnswers: ["const", "const "]
+      }
+    ];
 
-    return questions[Math.floor(Math.random() * questions.length)]
+    return questions[Math.floor(Math.random() * questions.length)];
   }
 
   showQuiz(meteor) {
     this.isPaused = true
 
+    const question = meteor.spriteData.question
     const quizData = {
       title: "Coding Challenge",
-      question: meteor.spriteData.question,
+      question: question.question,
+      type: question.type,
+      options: question.options,
+      correctAnswer: question.correctAnswer,
+      acceptableAnswers: question.acceptableAnswers
     }
 
     this.quiz.openPanel(quizData, (isCorrect) => {
