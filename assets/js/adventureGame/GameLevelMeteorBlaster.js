@@ -376,31 +376,34 @@ class GameLevelMeteorBlaster {
       type: question.type,
       options: question.options,
       correctAnswer: question.correctAnswer,
-      acceptableAnswers: question.acceptableAnswers
+      acceptableAnswers: question.acceptableAnswers,
+      callback: (isCorrect) => {
+        this.isPaused = false
+        console.log("Quiz callback received, isCorrect:", isCorrect) // Debug log
+
+        if (isCorrect) {
+          this.updateScore(20)
+          this.questionsAnswered++
+          console.log("Questions answered:", this.questionsAnswered) // Debug log
+          
+          // Check if all questions are answered
+          if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
+            this.hasKey = true
+            this.showKeyReward()
+          }
+
+          // 10% chance to get an extra life (up to max 5 lives)
+          if (Math.random() < 0.1 && this.lives < 5) {
+            this.updateLives(this.lives + 1)
+            this.showLifeGainedMessage()
+          }
+        } else {
+          this.updateScore(5)
+        }
+      }
     }
 
-    this.quiz.openPanel(quizData, (isCorrect) => {
-      this.isPaused = false
-
-      if (isCorrect) {
-        this.updateScore(20)
-        this.questionsAnswered++
-        
-        // Check if all questions are answered
-        if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
-          this.hasKey = true
-          this.showKeyReward()
-        }
-
-        // 10% chance to get an extra life (up to max 5 lives)
-        if (Math.random() < 0.1 && this.lives < 5) {
-          this.updateLives(this.lives + 1)
-          this.showLifeGainedMessage()
-        }
-      } else {
-        this.updateScore(5)
-      }
-    })
+    this.quiz.openPanel(quizData)
   }
 
   showKeyReward() {

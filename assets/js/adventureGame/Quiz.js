@@ -470,13 +470,10 @@ class Quiz {
             this.triggerConfetti();
         }
 
-        // Store the callback before closing the panel
-        const callback = this.currentNpc?.callback;
-
         // Call the callback after a delay
         setTimeout(() => {
-            if (callback) {
-                callback(isCorrect);
+            if (this.currentNpc?.callback) {
+                this.currentNpc.callback(isCorrect);
             }
             this.closePanel();
         }, 1500);
