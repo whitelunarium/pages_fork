@@ -28,7 +28,7 @@ class GameLevelMeteorBlaster {
     this.invincibleTime = 0
     this.invincibleDuration = 1500
     this.questionsAnswered = 0
-    this.totalQuestions = 3
+    this.totalQuestions = 3  // Set to 3 questions total
     this.hasKey = false
     this.meteorsSpawned = 0  // Track number of meteors spawned
 
@@ -243,7 +243,7 @@ class GameLevelMeteorBlaster {
     this.scoreElement.style.alignItems = "center"
     this.scoreElement.innerHTML = `
       <span style="color: #FFD700">Score: ${this.score}</span>
-      <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+      <span style="color: #00FF00">Questions: ${this.questionsAnswered}/3</span>
     `
 
     gameContainer.appendChild(this.scoreElement)
@@ -277,19 +277,22 @@ class GameLevelMeteorBlaster {
 
   updateScore(points) {
     this.score += points
-    // Force update the display
+    this.updateDisplay()
+  }
+
+  updateQuestions() {
+    this.questionsAnswered++
     this.updateDisplay()
   }
 
   updateDisplay() {
-    if (this.scoreElement) {
-      // Update both score and questions in the display
-      this.scoreElement.innerHTML = `
+    const scoreElement = document.getElementById("meteor-score")
+    if (scoreElement) {
+      scoreElement.innerHTML = `
         <span style="color: #FFD700">Score: ${this.score}</span>
-        <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+        <span style="color: #00FF00">Questions: ${this.questionsAnswered}/3</span>
       `
     } else {
-      // If scoreElement doesn't exist, create it
       this.createScoreDisplay()
     }
   }
@@ -405,7 +408,7 @@ class GameLevelMeteorBlaster {
 
     const question = meteor.spriteData.question
     const quizData = {
-      title: "Coding Challenge",
+      title: "Finance Challenge",
       question: question.question,
       type: question.type,
       options: question.options,
@@ -417,20 +420,7 @@ class GameLevelMeteorBlaster {
       console.log("Quiz callback received, isCorrect:", isCorrect) // Debug log
 
       if (isCorrect) {
-        // Update score and questions first
-        this.score += 20
-        this.questionsAnswered++
-        
-        // Update display immediately
-        this.scoreElement.innerHTML = `
-          <span style="color: #FFD700">Score: ${this.score}</span>
-          <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
-        `
-        
-        console.log("Updated score:", this.score)
-        console.log("Questions answered:", this.questionsAnswered)
-
-        // Remove the meteor
+        // First remove the meteor
         const meteorIndex = this.meteors.indexOf(meteor)
         if (meteorIndex > -1) {
           this.meteors.splice(meteorIndex, 1)
@@ -439,6 +429,13 @@ class GameLevelMeteorBlaster {
             this.gameEnv.gameObjects.splice(gameObjectIndex, 1)
           }
         }
+
+        // Update score and questions using the dedicated methods
+        this.updateScore(20)
+        this.updateQuestions()
+        
+        console.log("Updated score:", this.score)
+        console.log("Questions answered:", this.questionsAnswered)
         
         // Check if all questions are answered
         if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
@@ -452,12 +449,7 @@ class GameLevelMeteorBlaster {
           this.showLifeGainedMessage()
         }
       } else {
-        // Wrong answer
-        this.score += 5
-        this.scoreElement.innerHTML = `
-          <span style="color: #FFD700">Score: ${this.score}</span>
-          <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
-        `
+        this.updateScore(5)
       }
 
       this.isPaused = false
