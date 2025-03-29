@@ -286,6 +286,41 @@ class Game {
         }
     }
 
+    static async transitionToSiliconValley(personId) {
+        try {
+            const response = await fetch(`${this.javaURI}/question/transitionToSiliconValley?personId=${personId}`, this.fetchOptions);
+            if (!response.ok) {
+                throw new Error("Failed to fetch questions");
+            }
+            const questionsAnswered = await response.json();
+            console.log(questionsAnswered);
+            if (questionsAnswered >= 6) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error("Error transitioning to Silicon Valley:", error);
+            return null;
+        }
+    }
+
+    static async transitionToParadise(personId) {
+        try {
+
+            const response = await fetch(`${this.javaURI}/question/transitionToParadise?personId=${personId}`, this.fetchOptions);
+            if (!response.ok) {
+                throw new Error("Failed to fetch questions");
+            }
+            const boolean = await response.json();
+            console.log(boolean);
+            return boolean;
+        } catch (error) {
+            console.error("Error transitioning to Paradise:", error);
+            return null;
+        }
+    }
+
 
     static initStatsUI() {
         const statsContainer = document.createElement('div');
