@@ -106,7 +106,7 @@ body {
     background-color: #001f3f;
     color: #fff;
     width: 100%;
-    z-index: 1; /* 确保在较低的层级 */
+    z-index: 1; 
 }
 .navbar .logo {
     font-size: 24px;
@@ -682,6 +682,21 @@ body {
 .tutorial-button-container button span:first-child {
     font-size: 1.25rem;
 }
+/* Tutorial Help Button */
+.tutorial-help-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+.tutorial-help-button button {
+    font-weight: bold;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+}
+.tutorial-help-button button:hover {
+    transform: scale(1.1);
+}
 </style>
 <body>
     <div class="main-content">
@@ -689,15 +704,14 @@ body {
         <h1 class="page-title">Crypto Mining Simulator</h1>
         <!-- Warning messages -->
         <div class="text-center mb-4 text-yellow-400">
-            <!-- Tutorial button -->
-            <div class="tutorial-button-container mb-4">
-                <button onclick="startTutorial()" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2 text-sm">
-                    <span class="text-lg">📖</span>
-                    <span>Interactive Tutorial</span>
-                </button>
-            </div>
             *** note: If the stats number are not showing, try to stop the mining and start again... <br>
             *** note: If it says "Error loading mining state. Please try again.", please check if you are logged in or no...
+        </div>
+        <!-- Tutorial Help Button -->
+        <div class="tutorial-help-button" title="Interactive Tutorial">
+            <button onclick="startTutorial()" class="bg-gray-800 hover:bg-gray-700 text-green-500 w-8 h-8 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 border border-green-500/30">
+                <span class="text-lg font-bold">?</span>
+            </button>
         </div>
         <!-- Navigation Bar -->
         <nav class="navbar">
@@ -1597,7 +1611,6 @@ body {
             const lastLogin = localStorage.getItem('lastLogin');
             const now = new Date().getTime();
             const oneWeek = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-            
             // Show tutorial if:
             // 1. Tutorial has never been seen, or
             // 2. Last login was more than a week ago, or
