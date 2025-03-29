@@ -277,7 +277,13 @@ class GameLevelMeteorBlaster {
 
   updateScore(points) {
     this.score += points
+    // Force update the display
+    this.updateDisplay()
+  }
+
+  updateDisplay() {
     if (this.scoreElement) {
+      // Update both score and questions in the display
       this.scoreElement.innerHTML = `
         <span style="color: #FFD700">Score: ${this.score}</span>
         <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
@@ -384,12 +390,22 @@ class GameLevelMeteorBlaster {
 
     const handleAnswer = (isCorrect) => {
       console.log("Quiz callback received, isCorrect:", isCorrect) // Debug log
-      this.isPaused = false
 
       if (isCorrect) {
-        this.updateScore(20)
+        // First update the score and questions
+        this.score += 20
         this.questionsAnswered++
-        console.log("Questions answered:", this.questionsAnswered) // Debug log
+        
+        // Then update the display
+        if (this.scoreElement) {
+          this.scoreElement.innerHTML = `
+            <span style="color: #FFD700">Score: ${this.score}</span>
+            <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+          `
+        }
+        
+        console.log("Updated score:", this.score)
+        console.log("Questions answered:", this.questionsAnswered)
         
         // Remove the meteor when answered correctly
         const meteorIndex = this.meteors.indexOf(meteor)
@@ -413,8 +429,16 @@ class GameLevelMeteorBlaster {
           this.showLifeGainedMessage()
         }
       } else {
-        this.updateScore(5)
+        this.score += 5
+        if (this.scoreElement) {
+          this.scoreElement.innerHTML = `
+            <span style="color: #FFD700">Score: ${this.score}</span>
+            <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+          `
+        }
       }
+
+      this.isPaused = false
     }
 
     this.quiz.openPanel(quizData, handleAnswer)
