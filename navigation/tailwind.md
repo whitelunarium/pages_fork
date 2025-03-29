@@ -8,11 +8,11 @@ hide: true
 ---
 
 <!-- Start of body content specific to page -->
-<div class="px-5 py-5 mx-auto">
-    <h1 class="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-5">Python Home Page</h1>
+<div class="text-gray-200 dark:bg-gray-800">
+    <h1 class="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-5">Python Development Description using Tailwind</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div class="text-gray-200 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <img class="w-full h-64 object-cover" src="{{site.baseurl}}/images/course-brag/python.jpeg" alt="Python Development">
                 <div class="p-5">
                     <h5 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">What should <mark>Student Developers learn</mark>?</h5>
@@ -30,7 +30,7 @@ hide: true
             </div>
         </div>
         <div>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div class="text-gray-200 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <img class="w-full h-64 object-cover" src="{{site.baseurl}}/images/course-brag/flask.png" alt="Flask Development">
                 <div class="p-5">
                     <h5 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">What is <mark>Flask</mark>? How do I start Web development?</h5>
@@ -47,7 +47,7 @@ hide: true
             </div>
         </div>
         <div>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div class="text-gray-200 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <img class="w-full h-64 object-cover" src="{{site.baseurl}}/images/course-brag/pythondb.png" alt="Backend and Persistence">
                 <div class="p-5">
                     <h5 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">How do you manage <mark>Persistent data</mark> with Python?</h5>

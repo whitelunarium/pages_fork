@@ -9,7 +9,7 @@ hide: true
     
 <!-- Start of body content specific to page -->
 <div class="px-5 py-5 mx-auto">
-    <h1 class="text-dark"><strong>Python Home Page</strong></h1>
+    <h1 class="text-dark"><strong>Python Development Description using Bootstrap</strong></h1>
     <div class="row">
         <div class="col-4">
             <div class="card">
