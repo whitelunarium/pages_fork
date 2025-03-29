@@ -17,8 +17,8 @@ class Meteor extends Character {
     }
 
     this.velocity = {
-      x: (Math.random() - 0.5) * 3,
-      y: 5 + Math.random() * 3,
+      x: (Math.random() - 0.5) * 2,
+      y: 1 + Math.random() * 0.5,
     }
 
     this.isHit = false

@@ -116,10 +116,11 @@ class GameLevelMeteorBlaster {
     }
 
     this.meteorSpawnInterval = setInterval(() => {
-      if (!this.isPaused && !this.gameOver && this.meteorsSpawned < this.totalQuestions) {
+      if (!this.isPaused && !this.gameOver && this.questionsAnswered < this.totalQuestions) {
         this.spawnMeteor()
-        this.meteorsSpawned++
-      } else if (this.meteorsSpawned >= this.totalQuestions) {
+        console.log("Meteor spawned, questions answered:", this.questionsAnswered, "total:", this.totalQuestions)
+      } else if (this.questionsAnswered >= this.totalQuestions) {
+        console.log("All questions answered, stopping spawner")
         clearInterval(this.meteorSpawnInterval)
       }
     }, this.meteorSpawnRate)
@@ -243,7 +244,7 @@ class GameLevelMeteorBlaster {
     this.scoreElement.style.alignItems = "center"
     this.scoreElement.innerHTML = `
       <span style="color: #FFD700">Score: ${this.score}</span>
-      <span style="color: #00FF00">Questions: ${this.questionsAnswered}/3</span>
+      <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
     `
 
     gameContainer.appendChild(this.scoreElement)
@@ -290,8 +291,9 @@ class GameLevelMeteorBlaster {
     if (scoreElement) {
       scoreElement.innerHTML = `
         <span style="color: #FFD700">Score: ${this.score}</span>
-        <span style="color: #00FF00">Questions: ${this.questionsAnswered}/3</span>
+        <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
       `
+      console.log("Display updated - Score:", this.score, "Questions:", this.questionsAnswered, "Total:", this.totalQuestions)
     } else {
       this.createScoreDisplay()
     }
@@ -452,6 +454,8 @@ class GameLevelMeteorBlaster {
         this.updateScore(5)
       }
 
+      // Force a display update
+      this.updateDisplay()
       this.isPaused = false
     }
 
@@ -461,6 +465,9 @@ class GameLevelMeteorBlaster {
   showKeyReward() {
     const gameContainer = document.getElementById("gameContainer")
     if (!gameContainer) return
+
+    // Create cookie with key
+    document.cookie = "gameKey=meteorBlasterKey; path=/; max-age=86400" // Cookie lasts 24 hours
 
     const keyMsg = document.createElement("div")
     keyMsg.style.position = "absolute"
@@ -473,9 +480,23 @@ class GameLevelMeteorBlaster {
     keyMsg.style.textAlign = "center"
     keyMsg.style.zIndex = "1000"
     keyMsg.style.textShadow = "0 0 10px #FFD700"
-    keyMsg.innerHTML = "🎉 CONGRATULATIONS! 🎉<br>You've earned the key!<br>Press ESC to exit"
+    keyMsg.style.backgroundColor = "rgba(0, 0, 0, 0.8)"
+    keyMsg.style.padding = "20px"
+    keyMsg.style.borderRadius = "10px"
+    keyMsg.style.border = "2px solid #FFD700"
+    keyMsg.innerHTML = `
+      🎉 CONGRATULATIONS! 🎉<br>
+      You've earned the key!<br>
+      <span style="font-size: 24px; color: #00FF00">Key: meteorBlasterKey</span><br>
+      <span style="font-size: 20px; color: #FFA500">Page will refresh in 5 seconds...</span>
+    `
 
     gameContainer.appendChild(keyMsg)
+
+    // Refresh the page after 5 seconds
+    setTimeout(() => {
+      window.location.reload()
+    }, 5000)
   }
 
   showLifeGainedMessage() {
