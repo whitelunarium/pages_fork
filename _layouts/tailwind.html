@@ -4,31 +4,21 @@ layout: base
 
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class', // Enable dark mode
+  };
+</script>
 
 <style>
   /* Custom Styling for Light and Dark Themes */
-  body[data-theme="dark"] {
+  body.dark {
     background-color: #121212;
     color: white;
   }
-  body[data-theme="dark"] .card {
-    background-color: #1e1e1e;
-    color: white;
-    border-color: #444;
-  }
-  body[data-theme="dark"] .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-  }
-
-  body[data-theme="light"] {
+  body.light {
     background-color: white;
     color: black;
-  }
-  body[data-theme="light"] .card {
-    background-color: white;
-    color: black;
-    border-color: #ddd;
   }
 
   /* Position and z-index for the theme toggle button */
@@ -42,7 +32,7 @@ layout: base
 </style>
 
 <!-- Tailwind-styled content -->
-<div data-theme="dark">
+<div>
   <div class="container mx-auto px-4">
     <!-- Theme Toggle Button -->
     <div class="flex justify-end p-3">
@@ -58,7 +48,10 @@ layout: base
     const body = document.body;
 
     function setTheme(theme) {
-      body.setAttribute("data-theme", theme);
+      body.classList.remove('light', 'dark');
+      body.classList.add(theme);
+      console.log(`Theme set to: ${theme}`);
+      console.log(`Body classes: ${body.className}`);
       localStorage.setItem("theme", theme);
       toggleButton.innerHTML = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
     }
@@ -69,9 +62,8 @@ layout: base
 
     // Toggle theme on button click
     toggleButton.addEventListener("click", () => {
-      const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      const newTheme = body.classList.contains("dark") ? "light" : "dark";
       setTheme(newTheme);
     });
   </script>
 </div>
-
