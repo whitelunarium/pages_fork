@@ -310,65 +310,90 @@ class GameLevelMeteorBlaster {
       // Multiple choice questions
       {
         type: "multiple-choice",
-        question: "What does the 'DOM' stand for in web development?",
-        options: ["Document Object Model", "Data Object Model", "Document Oriented Markup", "Digital Object Memory"],
+        question: "What is compound interest?",
+        options: [
+          "Interest earned on both principal and previously earned interest",
+          "Interest earned only on the principal amount",
+          "A fixed interest rate that never changes",
+          "Interest paid at the end of a loan term"
+        ],
         correctAnswer: 0
       },
       {
         type: "multiple-choice",
-        question: "Which of these is NOT a JavaScript data type?",
-        options: ["String", "Boolean", "Integer", "Object"],
-        correctAnswer: 2
+        question: "Which investment typically has the highest risk?",
+        options: [
+          "Government bonds",
+          "Individual stocks",
+          "Savings accounts",
+          "Certificates of deposit"
+        ],
+        correctAnswer: 1
       },
       {
         type: "multiple-choice",
-        question: "What does CSS stand for?",
-        options: ["Computer Style Sheets", "Creative Style System", "Cascading Style Sheets", "Colorful Style Sheets"],
-        correctAnswer: 2
+        question: "What is diversification in investing?",
+        options: [
+          "Putting all money in one stable stock",
+          "Spreading investments across different assets",
+          "Only investing in real estate",
+          "Keeping all money in a savings account"
+        ],
+        correctAnswer: 1
       },
       {
         type: "multiple-choice",
-        question: "Which symbol is used for single-line comments in JavaScript?",
-        options: ["//", "/* */", "#", "--"],
-        correctAnswer: 0
+        question: "What is a bear market?",
+        options: [
+          "A market where prices are rising",
+          "A market where prices are falling",
+          "A market with no change",
+          "A market only for commodities"
+        ],
+        correctAnswer: 1
       },
       {
         type: "multiple-choice",
-        question: "What is the correct HTML element for the largest heading?",
-        options: ["<h1>", "<heading>", "<head>", "<h6>"],
+        question: "What is an ETF?",
+        options: [
+          "Exchange-Traded Fund",
+          "Electronic Transfer Fee",
+          "Extended Tax Form",
+          "Emergency Trust Fund"
+        ],
         correctAnswer: 0
       },
 
       // Free response questions
       {
         type: "free-response",
-        question: "What JavaScript method is used to add an element to the end of an array?",
-        correctAnswer: "push",
-        acceptableAnswers: ["push", "push()", ".push", ".push()"]
+        question: "What is the most common retirement account type in the US? (Hint: 3 letters)",
+        correctAnswer: "401k",
+        acceptableAnswers: ["401k", "401(k)", "401-k"]
       },
       {
         type: "free-response",
-        question: "What HTML tag is used to create a hyperlink?",
-        correctAnswer: "a",
-        acceptableAnswers: ["a", "<a>", "a tag", "anchor", "<a></a>"]
+        question: "What is the name for money you initially put into an investment?",
+        correctAnswer: "principal",
+        acceptableAnswers: ["principal", "principle", "initial investment"]
       },
       {
         type: "free-response",
-        question: "What CSS property is used to change the text color?",
-        correctAnswer: "color",
-        acceptableAnswers: ["color", "color:"]
+        question: "What type of investment pays regular fixed payments? (Hint: 4 letters)",
+        correctAnswer: "bond",
+        acceptableAnswers: ["bond", "bonds"]
       },
       {
         type: "free-response",
-        question: "What JavaScript method is used to select an HTML element by its id?",
-        correctAnswer: "getElementById",
-        acceptableAnswers: ["getElementById", "document.getElementById", "getElementById()", "document.getElementById()"]
+        question: "What's the term for the upward movement of market prices? (Hint: starts with B)",
+        correctAnswer: "bull",
+        acceptableAnswers: ["bull", "bullish", "bull market"]
       },
       {
         type: "free-response",
-        question: "What is the JavaScript keyword used to declare a variable that cannot be reassigned?",
-        correctAnswer: "const",
-        acceptableAnswers: ["const", "const "]
+        question: "What's the three-letter acronym for a tax-advantaged retirement account?",
+        correctAnswer: "IRA",
+        acceptableAnswers: ["ira", "IRA", "i.r.a."]
       }
     ];
 
@@ -392,7 +417,20 @@ class GameLevelMeteorBlaster {
       console.log("Quiz callback received, isCorrect:", isCorrect) // Debug log
 
       if (isCorrect) {
-        // First remove the meteor
+        // Update score and questions first
+        this.score += 20
+        this.questionsAnswered++
+        
+        // Update display immediately
+        this.scoreElement.innerHTML = `
+          <span style="color: #FFD700">Score: ${this.score}</span>
+          <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+        `
+        
+        console.log("Updated score:", this.score)
+        console.log("Questions answered:", this.questionsAnswered)
+
+        // Remove the meteor
         const meteorIndex = this.meteors.indexOf(meteor)
         if (meteorIndex > -1) {
           this.meteors.splice(meteorIndex, 1)
@@ -401,22 +439,6 @@ class GameLevelMeteorBlaster {
             this.gameEnv.gameObjects.splice(gameObjectIndex, 1)
           }
         }
-
-        // Then update score and questions
-        this.score += 20
-        this.questionsAnswered++
-        
-        // Force update the display
-        const scoreElement = document.getElementById("meteor-score")
-        if (scoreElement) {
-          scoreElement.innerHTML = `
-            <span style="color: #FFD700">Score: ${this.score}</span>
-            <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
-          `
-        }
-        
-        console.log("Updated score:", this.score)
-        console.log("Questions answered:", this.questionsAnswered)
         
         // Check if all questions are answered
         if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
@@ -430,15 +452,12 @@ class GameLevelMeteorBlaster {
           this.showLifeGainedMessage()
         }
       } else {
+        // Wrong answer
         this.score += 5
-        // Force update the display for wrong answer too
-        const scoreElement = document.getElementById("meteor-score")
-        if (scoreElement) {
-          scoreElement.innerHTML = `
-            <span style="color: #FFD700">Score: ${this.score}</span>
-            <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
-          `
-        }
+        this.scoreElement.innerHTML = `
+          <span style="color: #FFD700">Score: ${this.score}</span>
+          <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+        `
       }
 
       this.isPaused = false
