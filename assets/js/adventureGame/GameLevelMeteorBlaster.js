@@ -28,7 +28,7 @@ class GameLevelMeteorBlaster {
     this.invincibleTime = 0
     this.invincibleDuration = 1500
     this.questionsAnswered = 0
-    this.totalQuestions = 10
+    this.totalQuestions = 3
     this.hasKey = false
     this.meteorsSpawned = 0  // Track number of meteors spawned
 
@@ -392,22 +392,7 @@ class GameLevelMeteorBlaster {
       console.log("Quiz callback received, isCorrect:", isCorrect) // Debug log
 
       if (isCorrect) {
-        // First update the score and questions
-        this.score += 20
-        this.questionsAnswered++
-        
-        // Then update the display
-        if (this.scoreElement) {
-          this.scoreElement.innerHTML = `
-            <span style="color: #FFD700">Score: ${this.score}</span>
-            <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
-          `
-        }
-        
-        console.log("Updated score:", this.score)
-        console.log("Questions answered:", this.questionsAnswered)
-        
-        // Remove the meteor when answered correctly
+        // First remove the meteor
         const meteorIndex = this.meteors.indexOf(meteor)
         if (meteorIndex > -1) {
           this.meteors.splice(meteorIndex, 1)
@@ -416,6 +401,22 @@ class GameLevelMeteorBlaster {
             this.gameEnv.gameObjects.splice(gameObjectIndex, 1)
           }
         }
+
+        // Then update score and questions
+        this.score += 20
+        this.questionsAnswered++
+        
+        // Force update the display
+        const scoreElement = document.getElementById("meteor-score")
+        if (scoreElement) {
+          scoreElement.innerHTML = `
+            <span style="color: #FFD700">Score: ${this.score}</span>
+            <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
+          `
+        }
+        
+        console.log("Updated score:", this.score)
+        console.log("Questions answered:", this.questionsAnswered)
         
         // Check if all questions are answered
         if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
@@ -430,8 +431,10 @@ class GameLevelMeteorBlaster {
         }
       } else {
         this.score += 5
-        if (this.scoreElement) {
-          this.scoreElement.innerHTML = `
+        // Force update the display for wrong answer too
+        const scoreElement = document.getElementById("meteor-score")
+        if (scoreElement) {
+          scoreElement.innerHTML = `
             <span style="color: #FFD700">Score: ${this.score}</span>
             <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
           `
