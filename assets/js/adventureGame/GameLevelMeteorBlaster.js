@@ -242,8 +242,8 @@ class GameLevelMeteorBlaster {
     this.scoreElement.style.gap = "20px"
     this.scoreElement.style.alignItems = "center"
     this.scoreElement.innerHTML = `
-      <span style="color: #FFD700">Score: 0</span>
-      <span style="color: #00FF00">Questions: 0/${this.totalQuestions}</span>
+      <span style="color: #FFD700">Score: ${this.score}</span>
+      <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
     `
 
     gameContainer.appendChild(this.scoreElement)
@@ -282,6 +282,9 @@ class GameLevelMeteorBlaster {
         <span style="color: #FFD700">Score: ${this.score}</span>
         <span style="color: #00FF00">Questions: ${this.questionsAnswered}/${this.totalQuestions}</span>
       `
+    } else {
+      // If scoreElement doesn't exist, create it
+      this.createScoreDisplay()
     }
   }
 
@@ -387,6 +390,16 @@ class GameLevelMeteorBlaster {
         this.updateScore(20)
         this.questionsAnswered++
         console.log("Questions answered:", this.questionsAnswered) // Debug log
+        
+        // Remove the meteor when answered correctly
+        const meteorIndex = this.meteors.indexOf(meteor)
+        if (meteorIndex > -1) {
+          this.meteors.splice(meteorIndex, 1)
+          const gameObjectIndex = this.gameEnv.gameObjects.indexOf(meteor)
+          if (gameObjectIndex > -1) {
+            this.gameEnv.gameObjects.splice(gameObjectIndex, 1)
+          }
+        }
         
         // Check if all questions are answered
         if (this.questionsAnswered >= this.totalQuestions && !this.hasKey) {
