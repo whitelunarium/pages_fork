@@ -325,49 +325,70 @@ class Quiz {
     }
 
     updateTable() {
-        const table = this.createDisplayTable();
-        if (this.currentNpc && this.currentNpc.questions) {
-            this.currentNpc.questions.forEach((question, index) => {
-                const row = document.createElement("tr");
+        const table = document.createElement("table");
+        table.className = "quiz-table";
 
-                const questionCell = document.createElement("td");
-                questionCell.innerText = `${index + 1}. ${question}`;
-                row.appendChild(questionCell);
+        // Create question row
+        const questionRow = document.createElement("tr");
+        const questionCell = document.createElement("td");
+        questionCell.colSpan = 2;
+        questionCell.innerHTML = this.currentNpc?.question || "No question available";
+        questionRow.appendChild(questionCell);
+        table.appendChild(questionRow);
 
-                const inputCell = document.createElement("td");
-                const input = document.createElement("input");
-                input.type = "text";
-                input.placeholder = "Your answer...";
-                input.dataset.questionIndex = index;
-                input.className = "quiz-input";
-                inputCell.appendChild(input);
-                row.appendChild(inputCell);
-                table.appendChild(row);
+        // Create answer input based on question type
+        const answerRow = document.createElement("tr");
+        const answerCell = document.createElement("td");
+        answerCell.colSpan = 2;
+
+        if (this.currentNpc?.type === "multiple-choice") {
+            // Create radio buttons for multiple choice
+            this.currentNpc.options.forEach((option, index) => {
+                const optionDiv = document.createElement("div");
+                optionDiv.style.marginBottom = "10px";
+                
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.name = "answer";
+                radio.value = index;
+                radio.id = `option${index}`;
+                
+                const label = document.createElement("label");
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                label.style.marginLeft = "10px";
+                
+                optionDiv.appendChild(radio);
+                optionDiv.appendChild(label);
+                answerCell.appendChild(optionDiv);
             });
-
-            // Submit button row
-            const submitRow = document.createElement("tr");
-            const submitCell = document.createElement("td");
-            submitCell.colSpan = 2;
-            submitCell.style.textAlign = "center";
-
-            const submitButton = document.createElement("button");
-            submitButton.innerText = "Submit";
-            submitButton.className = "quiz-submit";
-            submitButton.addEventListener("click", this.handleSubmit.bind(this));
-
-            submitCell.appendChild(submitButton);
-            submitRow.appendChild(submitCell);
-            table.appendChild(submitRow);
         } else {
-            const row = document.createElement("tr");
-            const noQuestionsCell = document.createElement("td");
-            noQuestionsCell.colSpan = 2;
-            noQuestionsCell.innerText = "No questions available.";
-            row.appendChild(noQuestionsCell);
-            table.appendChild(row);
+            // Create text input for free response
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "quiz-input";
+            input.placeholder = "Type your answer here...";
+            answerCell.appendChild(input);
         }
 
+        answerRow.appendChild(answerCell);
+        table.appendChild(answerRow);
+
+        // Create submit button
+        const submitRow = document.createElement("tr");
+        const submitCell = document.createElement("td");
+        submitCell.colSpan = 2;
+        submitCell.style.textAlign = "center";
+
+        const submitButton = document.createElement("button");
+        submitButton.className = "quiz-submit";
+        submitButton.textContent = "Submit Answer";
+        submitButton.onclick = () => this.handleSubmit();
+        submitCell.appendChild(submitButton);
+        submitRow.appendChild(submitCell);
+        table.appendChild(submitRow);
+
+        // Wrap the table in a container div
         const container = document.createElement("div");
         container.className = "quiz-content";
         container.appendChild(table);
@@ -440,6 +461,38 @@ class Quiz {
         // after the squares, creating a 2-wave effect
     }
 
+    openPanel(quizData, callback) {
+        const promptDropDown = document.querySelector('.promptDropDown');
+        const promptTitle = document.getElementById("promptTitle");
+    
+        if (this.isOpen) {
+            this.closePanel();
+        }
+    
+        // Reset the styles to ensure the panel is visible
+        promptDropDown.style.width = "50%";
+        promptDropDown.style.top = "15%";
+        promptDropDown.style.left = "50%";
+        promptDropDown.style.transition = "none";
+    
+        this.currentNpc = quizData;
+        this.callback = callback;
+        this.isOpen = true;
+        promptDropDown.innerHTML = "";
+    
+        promptTitle.style.display = "block";
+        promptTitle.innerHTML = quizData.title || "Quiz Time!";
+        promptDropDown.appendChild(promptTitle);
+    
+        const scrollEdge = document.createElement("div");
+        scrollEdge.className = "scroll-edge";
+        scrollEdge.appendChild(this.updateTable());
+        promptDropDown.appendChild(scrollEdge);
+    
+        this.backgroundDim.create();
+        promptDropDown.classList.add("quiz-popup");
+    }
+
     handleSubmit() {
         let isCorrect = false;
         const submitButton = document.querySelector(".quiz-submit");
@@ -460,6 +513,8 @@ class Quiz {
             }
         }
 
+        console.log("Answer submitted, isCorrect:", isCorrect); // Debug log
+
         // Visual feedback
         submitButton.style.backgroundColor = isCorrect ? "#2ecc71" : "#e74c3c";
         submitButton.textContent = isCorrect ? "Correct!" : "Try Again";
@@ -470,111 +525,20 @@ class Quiz {
             this.triggerConfetti();
         }
 
+        // Store the callback before closing
+        const callback = this.callback;
+        const isCorrectResult = isCorrect;
+
         // Call the callback after a delay
         setTimeout(() => {
-            if (this.currentNpc?.callback) {
-                this.currentNpc.callback(isCorrect);
+            console.log("Executing callback with result:", isCorrectResult); // Debug log
+            if (callback) {
+                callback(isCorrectResult);
+            } else {
+                console.log("No callback found!"); // Debug log
             }
             this.closePanel();
         }, 1500);
-    }
-
-    openPanel(quizData, callback) {
-        const promptDropDown = document.querySelector('.promptDropDown');
-        const promptTitle = document.getElementById("promptTitle");
-    
-        if (this.isOpen) {
-            this.closePanel();
-        }
-    
-        // Reset the styles to ensure the panel is visible
-        promptDropDown.style.width = "50%";
-        promptDropDown.style.top = "15%";
-        promptDropDown.style.left = "50%";
-        promptDropDown.style.transition = "none";
-    
-        this.currentNpc = { ...quizData, callback };
-        this.isOpen = true;
-        promptDropDown.innerHTML = "";
-    
-        promptTitle.style.display = "block";
-        promptTitle.innerHTML = quizData.title || "Quiz Time!";
-        promptDropDown.appendChild(promptTitle);
-    
-        const scrollEdge = document.createElement("div");
-        scrollEdge.className = "scroll-edge";
-        scrollEdge.appendChild(this.updateTable());
-        promptDropDown.appendChild(scrollEdge);
-    
-        this.backgroundDim.create();
-        promptDropDown.classList.add("quiz-popup");
-    }
-
-    updateTable() {
-        const table = document.createElement("table");
-        table.className = "quiz-table";
-
-        // Create question row
-        const questionRow = document.createElement("tr");
-        const questionCell = document.createElement("td");
-        questionCell.colSpan = 2;
-        questionCell.innerHTML = this.currentNpc?.question || "No question available";
-        questionRow.appendChild(questionCell);
-        table.appendChild(questionRow);
-
-        // Create answer input based on question type
-        const answerRow = document.createElement("tr");
-        const answerCell = document.createElement("td");
-        answerCell.colSpan = 2;
-
-        if (this.currentNpc?.type === "multiple-choice") {
-            // Create radio buttons for multiple choice
-            this.currentNpc.options.forEach((option, index) => {
-                const optionDiv = document.createElement("div");
-                optionDiv.style.marginBottom = "10px";
-                
-                const radio = document.createElement("input");
-                radio.type = "radio";
-                radio.name = "answer";
-                radio.value = index;
-                radio.id = `option${index}`;
-                
-                const label = document.createElement("label");
-                label.htmlFor = `option${index}`;
-                label.textContent = option;
-                label.style.marginLeft = "10px";
-                
-                optionDiv.appendChild(radio);
-                optionDiv.appendChild(label);
-                answerCell.appendChild(optionDiv);
-            });
-        } else {
-            // Create text input for free response
-            const input = document.createElement("input");
-            input.type = "text";
-            input.className = "quiz-input";
-            input.placeholder = "Type your answer here...";
-            answerCell.appendChild(input);
-        }
-
-        answerRow.appendChild(answerCell);
-        table.appendChild(answerRow);
-
-        // Create submit button
-        const submitRow = document.createElement("tr");
-        const submitCell = document.createElement("td");
-        submitCell.colSpan = 2;
-        submitCell.style.textAlign = "center";
-
-        const submitButton = document.createElement("button");
-        submitButton.className = "quiz-submit";
-        submitButton.textContent = "Submit Answer";
-        submitButton.onclick = () => this.handleSubmit();
-        submitCell.appendChild(submitButton);
-        submitRow.appendChild(submitCell);
-        table.appendChild(submitRow);
-
-        return table;
     }
 
     closePanel() {
@@ -590,6 +554,7 @@ class Quiz {
         this.backgroundDim.remove();
         promptDropDown.classList.remove("quiz-popup");
         this.isOpen = false;
+        this.callback = null;
         this.currentNpc = null;
     }
 
