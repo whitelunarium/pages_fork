@@ -184,19 +184,21 @@ class GameLevelDesert {
     }
 
     // NPC data for Key Checker
-    const sprite_src_keychecker = path + "/images/gamify/octocat.png"; // Using octocat image as fallback
     const sprite_data_keychecker = {
         id: 'KeyChecker',
         greeting: "I can check if you have the meteor game key!",
-        src: sprite_src_keychecker,
-        SCALE_FACTOR: 10,
+        src: null, // No image source needed
+        SCALE_FACTOR: 5,
         ANIMATION_RATE: 50,
-        pixels: {height: 301, width: 801},
-        INIT_POSITION: { x: (width / 4), y: (height / 4)},
-        orientation: {rows: 1, columns: 4 },
-        down: {row: 0, start: 0, columns: 3 },
+        pixels: {height: 50, width: 50}, // Smaller size for the box
+        INIT_POSITION: { x: (width * 3/4), y: (height * 3/4)}, // Bottom right quadrant
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
         reaction: function() {
+            alert(this.greeting);
+        },
+        interact: function() {
             // Check for meteor game key cookie
             const cookies = document.cookie.split(';');
             const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
