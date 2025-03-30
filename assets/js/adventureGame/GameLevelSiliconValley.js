@@ -2,7 +2,7 @@ import GameEnvBackground from './GameEnvBackground.js';
 import Npc from './Npc.js';
 import Player from './Player.js';
 import GameControl from './GameControl.js';
-
+import Quiz from './Quiz.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
 
 class GameLevelSiliconValley {
@@ -102,28 +102,39 @@ class GameLevelSiliconValley {
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
 
       reaction: function() {
-        alert(sprite_greet_fidelity);
+        alert(sprite_greet_fidelity.id);
       },
 
       interact: function() {
-        // Set a primary game reference from the game environment
-        let primaryGame = gameEnv.gameControl;
-        // Define the game in game level
-        let levelArray = [GameLevelMeteorBlaster];
-        // Define a new GameControl instance with the StarWars level
-        let gameInGame = new GameControl(gameEnv.game, levelArray);
-        // Pause the primary game 
-        primaryGame.pause();
-        // Start the game in game
-        gameInGame.start();
-        // Setup "callback" function to allow transition from game in gaame to the underlying game
-        gameInGame.gameOver = function() {
-          // Call .resume on primary game
-          primaryGame.resume();
-        } 
+        let quiz = new Quiz(); 
+        quiz.initialize();
+        quiz.openPanel(sprite_data_fidelity);
       }
     }
+    const sprite_src_schwab = path + "/images/gamify/schwab.png"; // be sure to include the path
+    const sprite_greet_schwab = "Hi I'm schwab! Lets tackle some finance and tech questions!";
+    const sprite_data_schwab = {
+      id: 'Schwab',
+      greeting: sprite_greet_schwab,
+      src: sprite_src_schwab,
+      SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+      ANIMATION_RATE: 50,
+      pixels: {height: 2048, width: 2048},
+      INIT_POSITION: { x: (width / 2), y: (height / 5)},
+      orientation: {rows: 1, columns: 1 },
+      down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
 
+      reaction: function() {
+        alert(sprite_greet_schwab);
+      },
+
+      interact: function() {
+        let quiz = new Quiz(); 
+        quiz.initialize();
+        quiz.openPanel(sprite_data_schwab.id);
+      }
+    }
 
 
     // List of classes and supporting definitions to create the game level
@@ -132,6 +143,7 @@ class GameLevelSiliconValley {
       { class: Player, data: sprite_data_octopus },
       { class: Npc, data: sprite_data_robot },
       { class: Npc, data: sprite_data_fidelity },
+      { class: Npc, data: sprite_data_schwab },
     ];
   }
 }
