@@ -332,10 +332,17 @@ class Game {
         statsContainer.style.color = 'white';
         statsContainer.style.padding = '10px';
         statsContainer.style.borderRadius = '5px';
+        
+        // Check for meteor game cookie
+        const cookies = document.cookie.split(';');
+        const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
+        const meteorKeyStatus = gameKeyCookie ? '✅ Meteor Key Earned' : '❌ Meteor Key Not Earned';
+        
         statsContainer.innerHTML = `
-            <div>Balance: <span id="balance">0</span></div>
-            <div>Chat Score: <span id="chatScore">0</span></div>
-            <div>Questions Answered: <span id="questionsAnswered">0</span></div>
+          <div>Balance: <span id="balance">0</span></div>
+          <div>Chat Score: <span id="chatScore">0</span></div>
+          <div>Questions Answered: <span id="questionsAnswered">0</span></div>
+          <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
         `;
         document.body.appendChild(statsContainer);
     }
