@@ -210,6 +210,15 @@ class GameLevelDesert {
             } else {
                 alert("❌ You haven't earned the meteor game key yet. Complete the meteor game to get it!");
             }
+        },
+        collisionAction: function() {
+            // This ensures the NPC is recognized in collision events
+            if (this.gameEnv) {
+                const player = this.gameEnv.gameObjects.find(obj => obj instanceof Player);
+                if (player) {
+                    player.state.collisionEvents = ['KeyChecker'];
+                }
+            }
         }
     };
 

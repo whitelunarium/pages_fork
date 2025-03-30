@@ -75,9 +75,11 @@ class Character extends GameObject {
         this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
         this.position = data.INIT_POSITION || INIT_POSITION;
         
+        // Always set spriteData, even if there's no sprite sheet
+        this.spriteData = data;
+        
         // Check if sprite data is provided
         if (data && data.src) {
-    
             // Load the sprite sheet
             this.spriteSheet = new Image();
             this.spriteSheet.src = data.src;
@@ -86,9 +88,6 @@ class Character extends GameObject {
             this.frameIndex = 0; // index reference to current frame
             this.frameCounter = 0; // count each frame rate refresh
             this.direction = 'down'; // Initial direction
-            this.spriteData = data;
-        } else {
-            //throw new Error('Sprite data is required');
         }
 
         // Initialize the object's position and velocity
@@ -96,7 +95,6 @@ class Character extends GameObject {
 
         // Set the initial size and velocity of the object
         this.resize();
-
     }
 
 
