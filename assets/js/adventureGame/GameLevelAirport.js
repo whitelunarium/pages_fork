@@ -6,6 +6,7 @@ import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
 
 import GameLevelUniverse from './GameLevelSiliconValley.js';
+import GameLevelSiliconValley from './GameLevelSiliconValley.js';
 class GameLevelAirport {
   constructor(gameEnv) {
     // Values dependent on this.gameEnv.create()
@@ -152,7 +153,7 @@ class GameLevelAirport {
           // Set a primary game reference from the game environment
           let primaryGame = gameEnv.gameControl;
           // Define the game in game level
-          let levelArray = [GameLevelUniverse];
+          let levelArray = [GameLevelSiliconValley];
           // Define a new GameControl instance with the StarWars level
           let gameInGame = new GameControl(gameEnv.game, levelArray);
           // Pause the primary game 

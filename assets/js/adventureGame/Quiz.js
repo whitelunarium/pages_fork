@@ -461,27 +461,39 @@ class Quiz {
         // after the squares, creating a 2-wave effect
     }
 
-    openPanel(quizData, callback) {
+    async openPanel(npcId, callback) {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
     
         if (this.isOpen) {
             this.closePanel();
         }
+        Game.main(environment);
+        console.log(Game.javaURI);
+        // Fetch questions by category (use npcId as category)
+        const questions = await Game.fetchQuestionByCategory(npcId);
+        if (!questions || questions.length === 0) {
+            console.error("No questions found for category:", npcId);
+            return;
+        }
     
-        // Reset the styles to ensure the panel is visible
-        promptDropDown.style.width = "50%";
-        promptDropDown.style.top = "15%";
-        promptDropDown.style.left = "50%";
-        promptDropDown.style.transition = "none";
+        // Take the first question and format it for display
+        const question = questions[0];
+        const formattedQuestion = {
+            title: npcId + " Quiz",
+            question: question.questionText,
+            type: "multiple-choice",
+            options: question.choices.map(c => c.choiceText),
+            correctAnswer: question.choices.findIndex(c => c.correct), // assumes one correct
+        };
     
-        this.currentNpc = quizData;
+        this.currentNpc = formattedQuestion;
         this.callback = callback;
         this.isOpen = true;
         promptDropDown.innerHTML = "";
     
         promptTitle.style.display = "block";
-        promptTitle.innerHTML = quizData.title || "Quiz Time!";
+        promptTitle.innerHTML = formattedQuestion.title;
         promptDropDown.appendChild(promptTitle);
     
         const scrollEdge = document.createElement("div");
