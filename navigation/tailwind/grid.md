@@ -7,7 +7,7 @@ hide: true
 ---
 
 <!-- 
-  Tailwind Grid Example
+  Tailwind Grid Example with Menu and Main Content
 
   This file demonstrates the use of Tailwind CSS to create a responsive grid layout.
   The grid is defined with custom column and row sizes using `grid-cols-*` and `grid-rows-*`.
@@ -36,7 +36,7 @@ hide: true
   Note:
   - Use this as reference to build a grid structure, content, or styles to suit your needs.
 -->
-<div class="relative grid min-h-screen grid-cols-[12rem_1fr] grid-rows-[4rem_auto] bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+<div class="relative grid grid-cols-[12rem_1fr] grid-rows-[4rem_auto] bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
   <!-- Left Menu -->
   <div class="col-start-1 row-span-full bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
     <!-- Profile Picture -->
