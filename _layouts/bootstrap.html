@@ -9,42 +9,34 @@ layout: base
     crossorigin="anonymous">
 
 <style>
-    /* Custom Styling for Light and Dark Themes */
-    body[data-bs-theme="dark"] {
-        background-color: #121212;
-        color: white;
-    }
-    body[data-bs-theme="dark"] .card {
-        background-color: #1e1e1e;
-        color: white;
-        border-color: #444;
-    }
-    body[data-bs-theme="dark"] .btn-primary {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-    }
-    body[data-bs-theme="light"] {
-        background-color: white;
-        color: black;
-    }
-    body[data-bs-theme="light"] .card {
-        background-color: white;
-        color: black;
-        border-color: #ddd;
-    }
+  /* Custom Styling for Light and Dark Themes */
+  body[data-bs-theme="dark"] .card {
+      background-color: #1e1e1e;
+      color: white;
+      border-color: #444;
+  }h
+  body[data-bs-theme="dark"] .btn-primary {
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+  }
+  body[data-bs-theme="light"] .card {
+      background-color: white;
+      color: black;
+      border-color: #ddd;
+  }
 
-    /* Position and z-index for the theme toggle button */
-    #theme-toggle {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1000; /* Low z-index to avoid covering the menu */
-        border-radius: 50%;
-    }
-  </style>
+  /* Position and z-index for the theme toggle button */
+  #theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000; /* Low z-index to avoid covering the menu */
+      border-radius: 50%;
+  }
+</style>
 
 <!-- Bootstrap-styled content -->
-<div data-bs-theme="dark">
+<div>
   <div class="container">
     <!-- Theme Toggle Button -->
     <div class="d-flex justify-content-end p-3">
