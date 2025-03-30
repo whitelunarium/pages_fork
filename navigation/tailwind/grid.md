@@ -19,29 +19,31 @@ hide: true
   - Decorative borders and background patterns using Tailwind's advanced utilities.
 
   Reference for Grid:
-    grid-cols-[1fr_2.5rem_auto_2.5rem_1fr]
-    - 1fr: The first column takes up 1 fraction of the available space.
-    - 2.5rem: The second column has a fixed width of 2.5rem (40px).
-    - auto: The third column adjusts its width based on its content.
-    - 2.5rem: The fourth column also has a fixed width of 2.5rem (40px).
-    - 1fr: The fifth column takes up 1 fraction of the available space.
+    grid-cols-[12rem_1fr]
+    - 12rem: The first column has a fixed width of 12rem (192px).
+    - 1fr: The second column takes up 1 fraction of the available space.
 
-    grid-rows-[1fr_1px_auto_1px_1fr]
-    - 1fr: The first row takes up 1 fraction of the available space.
-    - 1px: The second row has a fixed height of 1px (likely used for a border or separator).
-    - auto: The third row adjusts its height based on its content.
-    - 1px: The fourth row has a fixed height of 1px (likely used for another border or separator).
-    - 1fr: The fifth row takes up 1 fraction of the available space.
+    grid-rows-[4rem_auto]
+    - 4rem: The first row has a fixed height of 4rem (64px).
+    - auto: The second row adjusts its height based on its content.
 
-    col-start-3 row-start-3
-    - Positions the content in the third column and third row of the grid.
+    col-start-2 row-start-1
+    - Positions the title in the second column and first row of the grid.
+
+    col-start-2 row-start-2
+    - Positions the main content in the second column and second row of the grid.
 
   Note:
   - Use this as reference to build a grid structure, content, or styles to suit your needs.
 -->
-<div class="relative grid min-h-screen grid-cols-[12rem_2.5rem_auto_2.5rem_1fr] grid-rows-[1fr_1px_auto_1px_1fr] bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+<div class="relative grid min-h-screen grid-cols-[12rem_1fr] grid-rows-[4rem_auto] bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
   <!-- Left Menu -->
   <div class="col-start-1 row-span-full bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+    <!-- Profile Picture -->
+    <div class="flex justify-center mb-6">
+      <img class="w-24 h-24 rounded-full border-4 border-gray-800 dark:border-gray-100" src="{{site.baseurl}}/images/logo.png" alt="Profile Picture" />
+    </div>
+    <!-- Navigation Links -->
     <nav class="space-y-4">
       <a href="#profile" class="block text-gray-800 dark:text-gray-100 hover:text-sky-500 dark:hover:text-sky-400 font-medium">Profile</a>
       <a href="#messages" class="block text-gray-800 dark:text-gray-100 hover:text-sky-500 dark:hover:text-sky-400 font-medium">Messages</a>
@@ -49,8 +51,13 @@ hide: true
     </nav>
   </div>
 
+  <!-- Title -->
+  <div class="col-start-2 row-start-1 flex items-center justify-center bg-gray-200 dark:bg-gray-800 border-b border-gray-400 dark:border-gray-600">
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Messages</h1>
+  </div>
+
   <!-- Main Content -->
-  <div class="col-start-3 row-start-3 flex max-w-lg flex-col p-2">
+  <div class="col-start-2 row-start-2 p-4">
     <div class="border border-gray-800 dark:border-gray-100 rounded-lg">
       <div class="rounded-xl p-10 text-sm/7 text-gray-700 bg-gray-100 dark:bg-gray-950">
         <img class="size-12 shrink-0" src="{{site.baseurl}}/images/logo.png" alt="ChitChat Logo" />
