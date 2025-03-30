@@ -3,8 +3,7 @@ import Npc from './Npc.js';
 import Player from './Player.js';
 import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
-import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
-
+import GameLevelRetro from './GameLevelRetro.js';
 class GameLevelSiliconValley {
   /**
    * Properties and methods to define a game level
@@ -17,35 +16,34 @@ class GameLevelSiliconValley {
     let path = gameEnv.path;
 
     // Background data
-    const image_src_universe = path + "/images/gamify/siliconvalley.png"; // be sure to include the path
-    const image_data_universe = {
+    const image_src_siliconvalley = path + "/images/gamify/siliconvalley.png"; // be sure to include the path
+    const image_data_siliconvalley = {
         name: 'Silicon Valley',
         greeting: "Welcome to Silicon Valley!  It is bustling and vast so enjoy your stay!",
-        src: image_src_universe,
+        src: image_src_siliconvalley,
         pixels: {height: 1024, width: 1024}
     };
 
-    // Player Data for Octopus
-    const sprite_src_octopus = path + "/images/gamify/octopus.png"; // be sure to include the path
-    const OCTOPUS_SCALE_FACTOR = 5;
-    const sprite_data_octopus = {
-        id: 'Octopus',
-        greeting: "Hi I am Octopus, the water wanderer. I am looking for wisdome and adventure!",
-        src: sprite_src_octopus,
-        SCALE_FACTOR: OCTOPUS_SCALE_FACTOR,
+    const sprite_src_chillguy = path + "/images/gamify/chillguy.png"; // be sure to include the path
+    const CHILLGUY_SCALE_FACTOR = 5;
+    const sprite_data_chillguy = {
+        id: 'Chill Guy',
+        greeting: "Hi I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
+        src: sprite_src_chillguy,
+        SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 50,
-        INIT_POSITION: { x: 0, y: height - (height/OCTOPUS_SCALE_FACTOR) }, 
-        pixels: {height: 250, width: 167},
-        orientation: {rows: 3, columns: 2 },
-        down: {row: 0, start: 0, columns: 2 },
-        downLeft: {row: 0, start: 0, columns: 2, mirror: true, rotate: Math.Pi/16 }, // mirror is used to flip the sprite
-        downRight: {row: 0, start: 0, columns: 2, rotate: -Math.Pi/16 },
-        left: {row: 1, start: 0, columns: 2, mirror: true }, // mirror is used to flip the sprite
-        right: {row: 1, start: 0, columns: 2 },
-        up: {row: 0, start: 0, columns: 2},
-        upLeft: {row: 1, start: 0, columns: 2, mirror: true, rotate: -Math.Pi/16 }, // mirror is used to flip the sprite
-        upRight: {row: 1, start: 0, columns: 2, rotate: Math.Pi/16 },
+        INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
+        pixels: {height: 384, width: 512},
+        orientation: {rows: 3, columns: 4 },
+        down: {row: 0, start: 0, columns: 3 },
+        downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/16 },
+        downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/16 },
+        left: {row: 2, start: 0, columns: 3 },
+        right: {row: 1, start: 0, columns: 3 },
+        up: {row: 3, start: 0, columns: 3 },
+        upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/16 },
+        upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/16 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
@@ -71,7 +69,7 @@ class GameLevelSiliconValley {
         // Set a primary game reference from the game environment
         let primaryGame = gameEnv.gameControl;
         // Define the game in game level
-        let levelArray = [GameLevelMeteorBlaster];
+        let levelArray = [GameLevelRetro];
         // Define a new GameControl instance with the StarWars level
         let gameInGame = new GameControl(gameEnv.game, levelArray);
         // Pause the primary game 
@@ -139,8 +137,8 @@ class GameLevelSiliconValley {
 
     // List of classes and supporting definitions to create the game level
     this.classes = [
-      { class: GameEnvBackground, data: image_data_universe },
-      { class: Player, data: sprite_data_octopus },
+      { class: GameEnvBackground, data: image_data_siliconvalley },
+      { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_robot },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },

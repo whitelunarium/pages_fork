@@ -168,45 +168,6 @@ class GameLevelAirport {
         }
     }
 
-    // NPC data for Key Checker
-    const sprite_data_keychecker = {
-        id: 'KeyChecker',
-        greeting: "I can check if you have the meteor game key!",
-        src: null, // No image source needed
-        SCALE_FACTOR: 5,
-        ANIMATION_RATE: 50,
-        pixels: {height: 50, width: 50}, // Smaller size for the box
-        INIT_POSITION: { x: (width * 3/4), y: (height * 3/4)}, // Bottom right quadrant
-        orientation: {rows: 1, columns: 1 },
-        down: {row: 0, start: 0, columns: 1 },
-        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-        reaction: function() {
-            alert(this.greeting);
-        },
-        interact: function() {
-            // Check for meteor game key cookie
-            const cookies = document.cookie.split(';');
-            const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-            const hasKey = gameKeyCookie ? true : false;
-            
-            // Show appropriate message
-            if (hasKey) {
-                alert("🎉 Congratulations! You have earned the meteor game key!");
-            } else {
-                alert("❌ You haven't earned the meteor game key yet. Complete the meteor game to get it!");
-            }
-        },
-        collisionAction: function() {
-            // This ensures the NPC is recognized in collision events
-            if (this.gameEnv) {
-                const player = this.gameEnv.gameObjects.find(obj => obj instanceof Player);
-                if (player) {
-                    player.state.collisionEvents = ['KeyChecker'];
-                }
-            }
-        }
-    };
-
     // List of objects defnitions for this level
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
@@ -214,7 +175,6 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
       { class: Npc, data: sprite_data_alien },
-      { class: Npc, data: sprite_data_keychecker },
     ];
   }
 
