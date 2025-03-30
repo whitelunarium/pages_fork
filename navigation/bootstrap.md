@@ -8,7 +8,7 @@ hide: true
 ---
     
 <!-- Start of body content specific to page -->
-<div class="mx-auto">
+<div class="card mx-auto">
     <h3><strong>Python Development Description using Bootstrap</strong></h3>
     <div class="row">
         <div class="col-4">
