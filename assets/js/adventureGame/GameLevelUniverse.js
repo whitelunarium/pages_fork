@@ -17,10 +17,10 @@ class GameLevelUniverse {
     let path = gameEnv.path;
 
     // Background data
-    const image_src_universe = path + "/images/gamify/siliconvalley.jpg"; // be sure to include the path
+    const image_src_universe = path + "/images/gamify/siliconvalley.png"; // be sure to include the path
     const image_data_universe = {
-        name: 'universe',
-        greeting: "Welcome to the universe!  It is bustling and vast so enjoy your stay!",
+        name: 'Silicon Valley',
+        greeting: "Welcome to Silicon Valley!  It is bustling and vast so enjoy your stay!",
         src: image_src_universe,
         pixels: {height: 1024, width: 1024}
     };
@@ -139,6 +139,7 @@ class GameLevelUniverse {
       },
 
       interact: function() {
+        
         // Set a primary game reference from the game environment
         let primaryGame = gameEnv.gameControl;
         // Define the game in game level
