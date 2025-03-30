@@ -58,9 +58,9 @@ hide: true
 
   <!-- Main Content -->
   <div class="col-start-2 row-start-2 p-4">
-    <div class="border border-gray-800 dark:border-gray-100 rounded-lg">
+    <div class="border rounded-lg">
       <div class="rounded-xl p-10 text-sm/7 text-gray-700 bg-gray-100 dark:bg-gray-950">
-        <img class="size-12 shrink-0" src="{{site.baseurl}}/images/logo.png" alt="ChitChat Logo" />
+        <img class="size-12 shrink-0" src="{{site.baseurl}}/images/tailwind_logo.jpg" alt="ChitChat Logo" />
         <div class="text-xl font-medium text-bg-gray-950 dark:text-gray-700">ChitChat</div>
         <p class="text-gray-500 dark:text-gray-400">You have a new message from Tailwind!</p>
         <ul class="space-y-3">
@@ -71,8 +71,8 @@ hide: true
               <path d="M8 11.5L10.5 14L14 8" class="stroke-sky-800 dark:stroke-sky-300" />
             </svg>
             <p class="ml-3">
-              Customizing your theme with
-              <code class="font-mono font-medium text-gray-100">@theme</code>
+              Customizing a layout using
+              <code class="font-mono font-medium text-gray-100">grid</code>
             </p>
           </li>
           <li class="flex">
@@ -82,8 +82,8 @@ hide: true
               <path d="M8 11.5L10.5 14L14 8" class="stroke-sky-800 dark:stroke-sky-300" />
             </svg>
             <p class="ml-3">
-              Adding custom utilities with
-              <code class="font-mono font-medium text-gray-100">@utility</code>
+              Build a menu and content with
+              <code class="font-mono font-medium text-gray-100">col, row</code>
             </p>
           </li>
           <li class="flex">
@@ -92,12 +92,12 @@ hide: true
               <circle cx="11" cy="11" r="10.5" class="stroke-sky-400/25" />
               <path d="M8 11.5L10.5 14L14 8" class="stroke-sky-800 dark:stroke-sky-300" />
             </svg>
-            <p class="ml-3">Code completion with instant preview</p>
+            <p class="ml-3">Learn more using Flexbox and Grid</p>
           </li>
         </ul>
         <hr class="my-4 w-full border-gray-400 dark:border-gray-600" />
         <p class="font-semibold">
-          <a href="https://tailwindcss.com/docs" class="text-gray-950 dark:text-gray-100 underline underline-offset-3 hover:decoration-2">Read the docs &rarr;</a>
+          <a href="https://tailwindcss.com/docs/flex-basis" class="text-gray-950 dark:text-gray-100 underline underline-offset-3 hover:decoration-2">Read the reference docs &rarr;</a>
         </p>
       </div>
     </div>
