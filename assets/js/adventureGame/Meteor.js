@@ -17,8 +17,8 @@ class Meteor extends Character {
     }
 
     this.velocity = {
-      x: (Math.random() - 0.5) * 2,
-      y: 1 + Math.random() * 0.5,
+      x: 0,
+      y: 1.5 + Math.random() * 1,
     }
 
     this.isHit = false
@@ -38,19 +38,25 @@ class Meteor extends Character {
     }
   }
 
-  update() {
-    super.update()
+  // Override the Character's move method to allow meteors to move freely
+  // without being constrained by canvas boundaries
+  move() {
+    // Update position according to velocity
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    
+    // No boundary checks - we want meteors to be able to move from off-screen
+  }
 
-    // Move the meteor
-    this.position.x += this.velocity.x
-    this.position.y += this.velocity.y
+  update() {
+    this.draw();
+    this.collisionChecks();
+    this.move();
 
     // Check if meteor has reached the bottom of the screen
     if (this.position.y > this.gameEnv.innerHeight) {
-      this.destroy()
+      this.destroy();
     }
-
-    this.draw()
   }
 }
 
