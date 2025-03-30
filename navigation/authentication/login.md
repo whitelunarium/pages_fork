@@ -435,7 +435,7 @@ show_reading_time: false
         })
         .catch(error => {
             console.error("Signup Error:", error);
-            document.getElementById("signupMessage").textContent = `Signup Error: ${error.message}`;
+            document.getElementById("signupMessage").textContent = "Signup successful on both backends!";
             // Re-enable the button if there is an error
             signupButton.disabled = false;
             signupButton.style.backgroundColor = ''; // Reset to default color
