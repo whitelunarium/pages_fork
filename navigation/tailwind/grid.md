@@ -45,9 +45,9 @@ hide: true
     </div>
     <!-- Navigation Links -->
     <nav class="space-y-4">
-      <a href="#profile" class="block text-gray-800 dark:text-gray-100 hover:text-sky-500 dark:hover:text-sky-400 font-medium">Profile</a>
-      <a href="#messages" class="block text-gray-800 dark:text-gray-100 hover:text-sky-500 dark:hover:text-sky-400 font-medium">Messages</a>
-      <a href="#settings" class="block text-gray-800 dark:text-gray-100 hover:text-sky-500 dark:hover:text-sky-400 font-medium">Settings</a>
+      <a href="#profile" class="block font-medium">Profile</a>
+      <a href="#messages" class="block font-medium">Messages</a>
+      <a href="#settings" class="block font-medium">Settings</a>
     </nav>
   </div>
 
@@ -59,7 +59,7 @@ hide: true
   <!-- Main Content -->
   <div class="col-start-2 row-start-2 p-4">
     <div class="border rounded-lg">
-      <div class="rounded-xl p-10 text-sm/7 text-gray-700 bg-gray-100 dark:bg-gray-950">
+      <div class="rounded-xl p-10 text-sm/7 text-gray-700 bg-gray-200 dark:bg-gray-950">
         <img class="size-12 shrink-0" src="{{site.baseurl}}/images/tailwind_logo.jpg" alt="ChitChat Logo" />
         <div class="text-xl font-medium text-bg-gray-950 dark:text-gray-700">ChitChat</div>
         <p class="text-gray-500 dark:text-gray-400">You have a new message from Tailwind!</p>
@@ -96,9 +96,7 @@ hide: true
           </li>
         </ul>
         <hr class="my-4 w-full border-gray-400 dark:border-gray-600" />
-        <p class="font-semibold">
-          <a href="https://tailwindcss.com/docs/flex-basis" class="text-gray-950 dark:text-gray-100 underline underline-offset-3 hover:decoration-2">Read the reference docs &rarr;</a>
-        </p>
+        <a href="https://tailwindcss.com/docs/flex-basis">Read the reference docs &rarr;</a>
       </div>
     </div>
   </div>
