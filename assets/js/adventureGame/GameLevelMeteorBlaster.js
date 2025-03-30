@@ -466,8 +466,22 @@ class GameLevelMeteorBlaster {
     const gameContainer = document.getElementById("gameContainer")
     if (!gameContainer) return
 
-    // Create cookie with key
-    document.cookie = "gameKey=meteorBlasterKey; path=/; max-age=86400" // Cookie lasts 24 hours
+    // Set cookie with simpler attributes
+    const cookieValue = "meteorBlasterKey"
+    const cookieName = "gameKey"
+    
+    // Set the cookie with minimal attributes
+    document.cookie = `${cookieName}=${cookieValue}`
+    
+    // Debug log to check cookie
+    console.log("Attempting to set cookie...")
+    console.log("Cookie string:", document.cookie)
+    console.log("All cookies:", document.cookie.split(';'))
+    
+    // Verify cookie was set
+    const cookies = document.cookie.split(';')
+    const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='))
+    console.log("Game key cookie found:", gameKeyCookie)
 
     const keyMsg = document.createElement("div")
     keyMsg.style.position = "absolute"
@@ -487,14 +501,25 @@ class GameLevelMeteorBlaster {
     keyMsg.innerHTML = `
       🎉 CONGRATULATIONS! 🎉<br>
       You've earned the key!<br>
-      <span style="font-size: 24px; color: #00FF00">Key: meteorBlasterKey</span><br>
+      <span style="font-size: 24px; color: #00FF00">Key: ${cookieValue}</span><br>
       <span style="font-size: 20px; color: #FFA500">Page will refresh in 5 seconds...</span>
     `
 
     gameContainer.appendChild(keyMsg)
 
+    // Add countdown timer
+    let countdown = 5
+    const countdownInterval = setInterval(() => {
+      countdown--
+      keyMsg.querySelector('span:last-child').textContent = `Page will refresh in ${countdown} seconds...`
+      console.log(`Countdown: ${countdown} seconds remaining`)
+    }, 1000)
+
     // Refresh the page after 5 seconds
+    console.log("Setting up refresh timer...")
     setTimeout(() => {
+      console.log("Refresh timer triggered")
+      clearInterval(countdownInterval)
       window.location.reload()
     }, 5000)
   }
