@@ -39,13 +39,15 @@ class Meteor extends Character {
   }
 
   update() {
-    if (this.isHit) return
+    super.update()
 
+    // Move the meteor
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y
 
-    if (this.position.x <= 0 || this.position.x + this.width >= this.gameEnv.innerWidth) {
-      this.velocity.x *= -1
+    // Check if meteor has reached the bottom of the screen
+    if (this.position.y > this.gameEnv.innerHeight) {
+      this.destroy()
     }
 
     this.draw()

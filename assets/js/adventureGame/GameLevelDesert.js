@@ -183,10 +183,33 @@ class GameLevelDesert {
         }
     }
 
-
-
-
-
+    // NPC data for Key Checker
+    const sprite_src_keychecker = path + "/images/gamify/octocat.png"; // Using octocat image as fallback
+    const sprite_data_keychecker = {
+        id: 'KeyChecker',
+        greeting: "I can check if you have the meteor game key!",
+        src: sprite_src_keychecker,
+        SCALE_FACTOR: 10,
+        ANIMATION_RATE: 50,
+        pixels: {height: 301, width: 801},
+        INIT_POSITION: { x: (width / 4), y: (height / 4)},
+        orientation: {rows: 1, columns: 4 },
+        down: {row: 0, start: 0, columns: 3 },
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+        reaction: function() {
+            // Check for meteor game key cookie
+            const cookies = document.cookie.split(';');
+            const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
+            const hasKey = gameKeyCookie ? true : false;
+            
+            // Show appropriate message
+            if (hasKey) {
+                alert("🎉 Congratulations! You have earned the meteor game key!");
+            } else {
+                alert("❌ You haven't earned the meteor game key yet. Complete the meteor game to get it!");
+            }
+        }
+    };
 
     // List of objects defnitions for this level
     this.classes = [
@@ -195,9 +218,7 @@ class GameLevelDesert {
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
       { class: Npc, data: sprite_data_alien },
-      
-
-      
+      { class: Npc, data: sprite_data_keychecker },
     ];
   }
 
