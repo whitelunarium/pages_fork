@@ -1,8 +1,9 @@
 import GameControl from './GameControl.js';
 import GameLevelWater from "./GameLevelWater.js";
-import GameLevelDesert from "./GameLevelDesert.js";
-
+import GameLevelDesert from "./GameLevelAirport.js";
+import GameLevelAirport from "./GameLevelAirport.js";
 import GameLevelSquares from './GameLevelSquares.js';
+import GameLevelSiliconValley from './GameLevelSiliconValley.js';
 
 
 class Game {
@@ -31,13 +32,13 @@ class Game {
         
 
         // start the game
-        const gameLevelClasses = [GameLevelDesert, GameLevelWater, GameLevelSquares]
-        new GameControl(this, gameLevelClasses).start();
+        // const gameLevelClasses = [GameLevelAirport, GameLevelSiliconValley]
+        // new GameControl(this, gameLevelClasses).start();
 
         // Show instructions before starting the game
         this.showInstructions(() => {
             // start the game after instructions are closed
-            const gameLevelClasses = [GameLevelDesert, GameLevelWater]
+            const gameLevelClasses = [GameLevelAirport, GameLevelSiliconValley]
             new GameControl(this, gameLevelClasses).start();
         });
     }

@@ -5,7 +5,7 @@ import GameControl from './GameControl.js';
 
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
 
-class GameLevelUniverse {
+class GameLevelSiliconValley {
   /**
    * Properties and methods to define a game level
    * @param {*} gameEnv - The active game environment
@@ -63,23 +63,6 @@ class GameLevelUniverse {
       orientation: {rows: 3, columns: 6 },
       down: {row: 1, start: 0, columns: 6 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      // Linux command quiz
-
-      quiz: { 
-        title: "Jupyter Notebook Command Quiz",
-        questions: [
-          "Which shortcut is used to run a cell in Jupyter Notebook?\n1. Shift + Enter\n2. Ctrl + Enter\n3. Alt + Enter\n4. Tab + Enter",
-          "Which shortcut adds a new cell above the current cell?\n1. A\n2. B\n3. C\n4. D",
-          "Which shortcut adds a new cell below the current cell?\n1. B\n2. A\n3. C\n4. D",
-          "Which shortcut changes a cell to Markdown format?\n1. M\n2. Y\n3. R\n4. K",
-          "Which shortcut changes a cell to Code format?\n1. Y\n2. M\n3. C\n4. D",
-          "Which shortcut deletes the current cell?\n1. D, D\n2. X\n3. Del\n4. Ctrl + D",
-          "Which shortcut saves the current notebook?\n1. Ctrl + S\n2. Alt + S\n3. Shift + S\n4. Tab + S",
-          "Which shortcut restarts the kernel?\n1. 0, 0\n2. R, R\n3. K, K\n4. Shift + R",
-          "Which shortcut interrupts the kernel?\n1. I, I\n2. Ctrl + C\n3. Shift + I\n4. Alt + I",
-          "Which shortcut toggles line numbers in a cell?\n1. L\n2. N\n3. T\n4. G"
-        ] 
-      },
       reaction: function() {
         alert(sprite_greet_robot);
       },
@@ -104,42 +87,25 @@ class GameLevelUniverse {
     }
 
 
-    const sprite_src_wizard = path + "/images/gamify/robot.png"; // be sure to include the path
-    const sprite_greet_wizard = "Hi I am Robot, the Jupyter Notebook mascot.  I am very happy to spend some linux shell time with you!";
-    const sprite_data_wizard = {
-      id: 'Robot',
-      greeting: sprite_greet_wizard,
-      src: sprite_src_wizard,
+    const sprite_src_fidelity = path + "/images/gamify/fidelity.png"; // be sure to include the path
+    const sprite_greet_fidelity = "Hi I'm Fidelity! Lets tackle some finance and tech questions!";
+    const sprite_data_fidelity = {
+      id: 'Fidelity',
+      greeting: sprite_greet_fidelity,
+      src: sprite_src_fidelity,
       SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
-      ANIMATION_RATE: 100,
-      pixels: {height: 316, width: 627},
-      INIT_POSITION: { x: (width * 3 / 4), y: (height * 1 / 4)},
-      orientation: {rows: 3, columns: 6 },
-      down: {row: 1, start: 0, columns: 6 },  // This is the stationary npc, down is default 
+      ANIMATION_RATE: 50,
+      pixels: {height: 2298, width: 612},
+      INIT_POSITION: { x: (width * 1 / 4), y: (height * 1 / 4)},
+      orientation: {rows: 0, columns: 3 },
+      down: {row: 0, start: 0, columns: 0 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      // Linux command quiz
 
-      quiz: { 
-        title: "Jupyter Notebook Command Quiz",
-        questions: [
-          "Which shortcut is used to run a cell in Jupyter Notebook?\n1. Shift + Enter\n2. Ctrl + Enter\n3. Alt + Enter\n4. Tab + Enter",
-          "Which shortcut adds a new cell above the current cell?\n1. A\n2. B\n3. C\n4. D",
-          "Which shortcut adds a new cell below the current cell?\n1. B\n2. A\n3. C\n4. D",
-          "Which shortcut changes a cell to Markdown format?\n1. M\n2. Y\n3. R\n4. K",
-          "Which shortcut changes a cell to Code format?\n1. Y\n2. M\n3. C\n4. D",
-          "Which shortcut deletes the current cell?\n1. D, D\n2. X\n3. Del\n4. Ctrl + D",
-          "Which shortcut saves the current notebook?\n1. Ctrl + S\n2. Alt + S\n3. Shift + S\n4. Tab + S",
-          "Which shortcut restarts the kernel?\n1. 0, 0\n2. R, R\n3. K, K\n4. Shift + R",
-          "Which shortcut interrupts the kernel?\n1. I, I\n2. Ctrl + C\n3. Shift + I\n4. Alt + I",
-          "Which shortcut toggles line numbers in a cell?\n1. L\n2. N\n3. T\n4. G"
-        ] 
-      },
       reaction: function() {
-        alert(sprite_greet_robot);
+        alert(sprite_greet_fidelity);
       },
 
       interact: function() {
-        
         // Set a primary game reference from the game environment
         let primaryGame = gameEnv.gameControl;
         // Define the game in game level
@@ -154,7 +120,7 @@ class GameLevelUniverse {
         gameInGame.gameOver = function() {
           // Call .resume on primary game
           primaryGame.resume();
-        }
+        } 
       }
     }
 
@@ -165,9 +131,9 @@ class GameLevelUniverse {
       { class: GameEnvBackground, data: image_data_universe },
       { class: Player, data: sprite_data_octopus },
       { class: Npc, data: sprite_data_robot },
-      { class: Npc, data: sprite_data_wizard },
+      { class: Npc, data: sprite_data_fidelity },
     ];
   }
 }
 
-export default GameLevelUniverse;
+export default GameLevelSiliconValley;
