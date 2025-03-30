@@ -95,10 +95,10 @@ class GameLevelSiliconValley {
       src: sprite_src_fidelity,
       SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
       ANIMATION_RATE: 50,
-      pixels: {height: 2298, width: 612},
+      pixels: {height: 512, width: 512},
       INIT_POSITION: { x: (width * 1 / 4), y: (height * 1 / 4)},
-      orientation: {rows: 0, columns: 3 },
-      down: {row: 0, start: 0, columns: 0 },  // This is the stationary npc, down is default 
+      orientation: {rows: 1, columns: 1 },
+      down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
 
       reaction: function() {
