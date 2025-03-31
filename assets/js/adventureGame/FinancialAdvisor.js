@@ -96,6 +96,9 @@ class FinancialAdvisor extends Npc {
             "Financial goals should be specific, measurable, achievable, relevant, and time-bound (SMART)."
         ];
 
+        // Flag to track if panel is currently open
+        this.isAdvicePanelOpen = false;
+
         // Custom interact method
         if (!this.interact) {
             this.interact = this.provideFinancialAdvice.bind(this);
@@ -151,34 +154,188 @@ class FinancialAdvisor extends Npc {
     }
 
     /**
+     * Creates the background dim effect
+     */
+    createBackgroundDim() {
+        const dimDiv = document.createElement("div");
+        dimDiv.id = "financial-dim";
+        dimDiv.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+        `;
+        
+        // Click handler to close the panel
+        dimDiv.addEventListener("click", () => this.closeAdvicePanel());
+        
+        document.body.appendChild(dimDiv);
+    }
+
+    /**
+     * Closes the financial advice panel
+     */
+    closeAdvicePanel() {
+        const panel = document.getElementById("financial-advice-panel");
+        const dim = document.getElementById("financial-dim");
+        
+        if (panel) {
+            panel.style.opacity = "0";
+            setTimeout(() => panel.remove(), 300);
+        }
+        
+        if (dim) dim.remove();
+        
+        this.isAdvicePanelOpen = false;
+    }
+
+    /**
      * Provides a random financial news item and tip when player interacts
      */
     provideFinancialAdvice() {
+        // Don't open multiple panels
+        if (this.isAdvicePanelOpen) return;
+        
+        // Mark panel as open
+        this.isAdvicePanelOpen = true;
+        
         // Select random news and tip
         const randomNews = this.financialNews[Math.floor(Math.random() * this.financialNews.length)];
         const randomTip = this.financialTips[Math.floor(Math.random() * this.financialTips.length)];
         
-        // Create the message with stock data
-        const message = `
-            📰 FINANCIAL NEWS UPDATE 📰
-            ${randomNews.headline}
-            
-            ${randomNews.details}
-            
-            Published: ${randomNews.date}
-            Source: ${randomNews.source}
-            
-            📈 MARKET DATA 📈
-            ${randomNews.stockData.name} (${randomNews.stockData.symbol}): 
-            ${randomNews.stockData.price} ${randomNews.stockData.change}
-            Last updated: ${randomNews.stockData.updated}
-            
-            💡 FINANCIAL TIP 💡
-            ${randomTip}
+        // Create background dim
+        this.createBackgroundDim();
+        
+        // Create panel element
+        const panel = document.createElement("div");
+        panel.id = "financial-advice-panel";
+        panel.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 20, 40, 0.95);
+            color: white;
+            border-radius: 10px;
+            width: 60%;
+            max-width: 800px;
+            max-height: 80%;
+            overflow-y: auto;
+            z-index: 9999;
+            box-shadow: 0 0 20px rgba(0, 150, 200, 0.6);
+            border: 2px solid #0099cc;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         `;
         
-        // Display the message
-        alert(message);
+        // Create content for the panel
+        panel.innerHTML = `
+            <div style="text-align: right;">
+                <button id="close-financial-panel" style="
+                    background: none;
+                    border: none;
+                    color: #0099cc;
+                    font-size: 24px;
+                    cursor: pointer;
+                    ">&times;</button>
+            </div>
+            
+            <div style="margin-bottom: 20px; text-align: center;">
+                <h2 style="
+                    color: #0099cc;
+                    margin: 0;
+                    font-size: 24px;
+                    border-bottom: 1px solid #0099cc;
+                    padding-bottom: 10px;
+                    ">📰 FINANCIAL NEWS UPDATE</h2>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h3 style="
+                    margin: 0 0 10px 0;
+                    color: #e6e6e6;
+                    font-size: 18px;
+                    ">${randomNews.headline}</h3>
+                
+                <p style="
+                    margin: 0 0 15px 0;
+                    line-height: 1.5;
+                    ">${randomNews.details}</p>
+                
+                <div style="
+                    font-size: 14px;
+                    color: #cccccc;
+                    font-style: italic;
+                    ">
+                    Published: ${randomNews.date}<br>
+                    Source: ${randomNews.source}
+                </div>
+            </div>
+            
+            <div style="
+                background-color: rgba(0, 80, 120, 0.3);
+                padding: 15px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+                border-left: 3px solid #0099cc;
+                ">
+                <h3 style="
+                    margin: 0 0 10px 0;
+                    color: #0099cc;
+                    font-size: 18px;
+                    ">📈 MARKET DATA</h3>
+                
+                <div style="font-size: 16px;">
+                    <strong>${randomNews.stockData.name}</strong> (${randomNews.stockData.symbol}): 
+                    ${randomNews.stockData.price} 
+                    <span style="color: ${randomNews.stockData.change.includes('▲') ? '#00cc66' : '#ff6666'}; font-weight: bold;">
+                        ${randomNews.stockData.change}
+                    </span>
+                </div>
+                
+                <div style="
+                    font-size: 14px;
+                    color: #cccccc;
+                    margin-top: 5px;
+                    ">
+                    Last updated: ${randomNews.stockData.updated}
+                </div>
+            </div>
+            
+            <div style="
+                background-color: rgba(255, 255, 200, 0.1);
+                padding: 15px;
+                border-radius: 5px;
+                border-left: 3px solid #ffcc00;
+                ">
+                <h3 style="
+                    margin: 0 0 10px 0;
+                    color: #ffcc00;
+                    font-size: 18px;
+                    ">💡 FINANCIAL TIP</h3>
+                
+                <p style="
+                    margin: 0;
+                    line-height: 1.5;
+                    ">${randomTip}</p>
+            </div>
+        `;
+        
+        // Append panel to the document
+        document.body.appendChild(panel);
+        
+        // Add close button event listener
+        document.getElementById("close-financial-panel").addEventListener("click", () => this.closeAdvicePanel());
+        
+        // Trigger animation to fade in the panel
+        setTimeout(() => {
+            panel.style.opacity = "1";
+        }, 10);
     }
 }
 
