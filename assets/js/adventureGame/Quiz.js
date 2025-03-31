@@ -460,38 +460,63 @@ class Quiz {
         // Wait half a second so the star confetti starts
         // after the squares, creating a 2-wave effect
     }
-    async openPanel(npcId, callback) {
+    async openPanel(npcData, callback) {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
     
         if (this.isOpen) {
             this.closePanel();
+            // Add a short delay to ensure the panel is fully closed before reopening
+            await new Promise(resolve => setTimeout(resolve, 100));
         }
     
-        console.log("Fetching questions for:", npcId);
-        const questionData = await Game.fetchQuestionByCategory(npcId);
-        if (!questionData?.questions || questionData.questions.length === 0) {
-            console.error("No questions found for category:", npcId);
-            return;
+        console.log("Opening quiz panel with data:", npcData);
+        
+        // Mark panel as open immediately to prevent multiple opens
+        this.isOpen = true;
+        
+        // Handle both direct question data (for meteor game) and NPC IDs (for regular quizzes)
+        let formattedQuestion;
+        if (typeof npcData === 'object' && npcData.question) {
+            // For the meteor game, use the question data directly
+            formattedQuestion = npcData;
+        } else {
+            // For regular NPC quizzes, fetch from API
+            try {
+                const questionData = await Game.fetchQuestionByCategory(npcData);
+                if (!questionData?.questions || questionData.questions.length === 0) {
+                    console.error("No questions found for category:", npcData);
+                    this.isOpen = false; // Reset if there's an error
+                    return;
+                }
+            
+                const questionEntry = questionData.questions[0]; // Get first question from the response
+                formattedQuestion = {
+                    title: npcData + " Quiz",
+                    question: questionEntry.question.content,
+                    type: "multiple-choice",
+                    options: questionEntry.choices.map(c => c.choice),
+                    correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
+                };
+            } catch (error) {
+                console.error("Error fetching question:", error);
+                this.isOpen = false; // Reset if there's an error
+                return;
+            }
         }
-    
-        const questionEntry = questionData.questions[0]; // Get first question from the response
-        const formattedQuestion = {
-            title: npcId + " Quiz",
-            question: questionEntry.question.content,
-            type: "multiple-choice",
-            options: questionEntry.choices.map(c => c.choice),
-            correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
-        };
     
         this.currentNpc = formattedQuestion;
         this.callback = callback;
-        this.isOpen = true;
+        
+        // Clear any existing content
         promptDropDown.innerHTML = "";
     
-        promptTitle.style.display = "block";
-        promptTitle.innerHTML = formattedQuestion.title;
-        promptDropDown.appendChild(promptTitle);
+        // Recreate the title element
+        const newPromptTitle = document.createElement("div");
+        newPromptTitle.id = "promptTitle";
+        newPromptTitle.style.display = "block";
+        newPromptTitle.innerHTML = formattedQuestion.title;
+        promptDropDown.appendChild(newPromptTitle);
     
         const scrollEdge = document.createElement("div");
         scrollEdge.className = "scroll-edge";
@@ -563,9 +588,20 @@ class Quiz {
 
         this.backgroundDim.remove();
         promptDropDown.classList.remove("quiz-popup");
+        
+        // Clear the content of the promptDropDown
+        promptDropDown.innerHTML = "";
+        
+        // Reset properties so the quiz can be shown again
         this.isOpen = false;
         this.callback = null;
         this.currentNpc = null;
+        
+        // Restore the title element
+        const promptTitle = document.createElement("div");
+        promptTitle.id = "promptTitle";
+        promptTitle.style.display = "none";
+        promptDropDown.appendChild(promptTitle);
     }
 
     initialize() {

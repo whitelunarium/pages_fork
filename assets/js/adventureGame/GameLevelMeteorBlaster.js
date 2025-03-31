@@ -422,14 +422,10 @@ class GameLevelMeteorBlaster {
       console.log("Quiz callback received, isCorrect:", isCorrect) // Debug log
 
       if (isCorrect) {
-        // First remove the meteor
+        // Now we can safely remove the meteor
         const meteorIndex = this.meteors.indexOf(meteor)
         if (meteorIndex > -1) {
-          this.meteors.splice(meteorIndex, 1)
-          const gameObjectIndex = this.gameEnv.gameObjects.indexOf(meteor)
-          if (gameObjectIndex > -1) {
-            this.gameEnv.gameObjects.splice(gameObjectIndex, 1)
-          }
+          this.removeMeteor(meteorIndex)
         }
 
         // Update score and questions using the dedicated methods
@@ -452,11 +448,21 @@ class GameLevelMeteorBlaster {
         }
       } else {
         this.updateScore(5)
+        
+        // Even if answer is wrong, remove the meteor so player can continue
+        const meteorIndex = this.meteors.indexOf(meteor)
+        if (meteorIndex > -1) {
+          this.removeMeteor(meteorIndex)
+        }
       }
 
       // Force a display update
       this.updateDisplay()
-      this.isPaused = false
+      
+      // Wait a short moment before unpausing to avoid immediate collision with another meteor
+      setTimeout(() => {
+        this.isPaused = false
+      }, 300)
     }
 
     this.quiz.openPanel(quizData, handleAnswer)
@@ -553,6 +559,9 @@ class GameLevelMeteorBlaster {
     const player = this.gameEnv.gameObjects.find((obj) => obj.spriteData && obj.spriteData.id === "Ufo")
     if (!player) return
 
+    // Don't check for new collisions if quiz is currently open
+    if (this.isPaused) return
+
     // Check for laser-meteor collisions
     for (let i = this.lasers.length - 1; i >= 0; i--) {
       const laser = this.lasers[i]
@@ -561,12 +570,14 @@ class GameLevelMeteorBlaster {
         const meteor = this.meteors[j]
 
         if (!meteor.isHit && this.isColliding(laser, meteor)) {
-          meteor.isHit = true
-          this.showQuiz(meteor)
-          this.updateScore(10)
-          this.removeMeteor(j)
-          this.removeLaser(i)
-          break
+          meteor.isHit = true;
+          // Remove the laser immediately
+          this.removeLaser(i);
+          // Don't remove the meteor until after the quiz is answered
+          this.showQuiz(meteor);
+          // Add some points for hitting the meteor
+          this.updateScore(10);
+          break;
         }
       }
     }
