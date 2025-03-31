@@ -156,7 +156,6 @@ class Game {
     static fetchStats(personId) {
         const endpoints = {
             balance: this.javaURI + '/rpg_answer/getBalance/' + personId,
-            chatScore: this.javaURI + '/rpg_answer/getChatScore/' + personId,
             questionsAnswered: this.javaURI + '/rpg_answer/getQuestionsAnswered/' + personId
         };
 
@@ -345,7 +344,7 @@ class Game {
         
         statsContainer.innerHTML = `
           <div>Balance: <span id="balance">0</span></div>
-          <div>Chat Score: <span id="chatScore">0</span></div>
+          
           <div>Questions Answered: <span id="questionsAnswered">0</span></div>
           <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
         `;
