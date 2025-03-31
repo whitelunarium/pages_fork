@@ -4,7 +4,9 @@ import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
+import FinancialAdvisor from './FinancialAdvisor.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
+
 class GameLevelAirport {
   constructor(gameEnv) {
     // Values dependent on this.gameEnv.create()
@@ -15,8 +17,7 @@ class GameLevelAirport {
     // Background data
     const image_src_desert = path + "/images/gamify/airport.jpg"; // be sure to include the path
     const image_data_desert = {
-        name: 'desert',
-        greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
+        id: 'Airport-Background',
         src: image_src_desert,
         pixels: {height: 580, width: 386}
     };
@@ -47,6 +48,24 @@ class GameLevelAirport {
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 
+    // Financial Advisor NPC data
+    const sprite_src_advisor = path + "/images/gamify/octocat.png"; // Using octocat as placeholder
+    const sprite_greet_advisor = "Hello! I'm your Financial Advisor. Press 'E' near me to get the latest financial news and tips!";
+    const sprite_data_advisor = {
+        id: 'Financial Advisor',
+        greeting: sprite_greet_advisor,
+        src: sprite_src_advisor,
+        SCALE_FACTOR: 10,
+        ANIMATION_RATE: 50,
+        pixels: {height: 301, width: 801},
+        INIT_POSITION: { x: (width * 0.8), y: (height * 0.3)},
+        orientation: {rows: 1, columns: 4 },
+        down: {row: 0, start: 0, columns: 3 },
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+        reaction: function() {
+            alert(sprite_greet_advisor);
+        }
+    };
 
     // NPC data for Tux 
     const sprite_src_tux = path + "/images/gamify/tux.png"; // be sure to include the path
@@ -173,6 +192,7 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
       { class: Npc, data: sprite_data_alien },
+      { class: FinancialAdvisor, data: sprite_data_advisor },
     ];
   }
 
