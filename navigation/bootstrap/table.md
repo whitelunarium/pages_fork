@@ -53,17 +53,16 @@ hide: true
             tbody.appendChild(row);
         });
 
-        // Initialize DataTable with custom settings
+        // Initialize DataTable add text-primary to a-tags for visability
         $(document).ready(function () {
             $('#cars').DataTable({
-                pagingType: 'full_numbers', // Enables full pagination controls
-                language: {
-                    paginate: {
-                        first: '<span class="text-primary">First</span>', // Add Bootstrap text-primary class
-                        previous: '<span class="text-primary">&laquo; Previous</span>', // Add Bootstrap text-primary class
-                        next: '<span class="text-primary">Next &raquo;</span>', // Add Bootstrap text-primary class
-                        last: '<span class="text-primary">Last</span>' // Add Bootstrap text-primary class
-                    }
+                drawCallback: function () {
+                    // Add Bootstrap's text-primary class to the inner HTML of <a> tags inside pagination buttons
+                    $('.dataTables_paginate .paginate_button a').each(function () {
+                        const link = $(this);
+                        const innerHTML = link.html();
+                        link.html(`<span class="text-primary">${innerHTML}</span>`);
+                    });
                 }
             });
         });
