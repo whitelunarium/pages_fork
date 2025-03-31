@@ -54,8 +54,8 @@ class Game {
             background: linear-gradient(135deg, rgba(0, 32, 64, 0.98) 0%, rgba(0, 16, 32, 0.98) 100%);
             color: white;
             border-radius: 15px;
-            width: 65%;
-            max-width: 850px;
+            width: 75%;
+            max-width: 1000px;
             max-height: 85%;
             overflow-y: auto;
             z-index: 1000;
@@ -78,6 +78,11 @@ class Game {
                 @keyframes slideIn {
                     from { transform: translateX(-20px); opacity: 0; }
                     to { transform: translateX(0); opacity: 1; }
+                }
+
+                @keyframes tickerScroll {
+                    0% { transform: translateX(100%); }
+                    100% { transform: translateX(-100%); }
                 }
                 
                 .panel-header {
@@ -106,6 +111,12 @@ class Game {
                     overflow: hidden;
                     animation: slideIn 0.5s ease forwards;
                     opacity: 0;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .panel-section:hover {
+                    transform: translateX(5px);
+                    box-shadow: 0 5px 15px rgba(0, 255, 128, 0.1);
                 }
                 
                 .panel-section:nth-child(1) { animation-delay: 0.2s; }
@@ -116,16 +127,18 @@ class Game {
                     background: linear-gradient(45deg, #00ff80, #00cc66);
                     color: #003300;
                     border: none;
-                    padding: 12px 24px;
+                    padding: 15px 30px;
                     border-radius: 25px;
                     cursor: pointer;
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: 600;
                     transition: all 0.3s ease;
                     display: block;
                     margin: 20px auto;
                     text-align: center;
                     box-shadow: 0 4px 15px rgba(0, 255, 128, 0.3);
+                    position: relative;
+                    overflow: hidden;
                 }
                 
                 .start-button:hover {
@@ -137,41 +150,133 @@ class Game {
                     transform: translateY(0);
                 }
 
+                .start-button::after {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: linear-gradient(
+                        45deg,
+                        transparent,
+                        rgba(255, 255, 255, 0.1),
+                        transparent
+                    );
+                    transform: rotate(45deg);
+                    animation: buttonShine 3s infinite;
+                }
+
+                @keyframes buttonShine {
+                    0% { transform: translateX(-100%) rotate(45deg); }
+                    100% { transform: translateX(100%) rotate(45deg); }
+                }
+
                 .stock-ticker {
                     position: absolute;
                     top: 0;
                     left: 0;
                     right: 0;
                     background: rgba(0, 255, 128, 0.1);
-                    padding: 5px 10px;
+                    padding: 8px 0;
                     font-family: 'Courier New', monospace;
                     font-size: 14px;
                     color: #00ff80;
                     overflow: hidden;
                     white-space: nowrap;
+                    border-bottom: 1px solid rgba(0, 255, 128, 0.2);
+                }
+
+                .ticker-content {
+                    display: inline-block;
+                    animation: tickerScroll 20s linear infinite;
                 }
 
                 .positive-change {
                     color: #00ff80;
+                    font-weight: bold;
                 }
 
                 .negative-change {
                     color: #ff4444;
+                    font-weight: bold;
+                }
+
+                .market-status {
+                    position: absolute;
+                    top: 8px;
+                    right: 15px;
+                    font-size: 12px;
+                    color: #00ff80;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+
+                .market-status::before {
+                    content: '';
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    background: #00ff80;
+                    border-radius: 50%;
+                    animation: pulse 2s infinite;
+                }
+
+                @keyframes pulse {
+                    0% { transform: scale(1); opacity: 1; }
+                    50% { transform: scale(1.2); opacity: 0.7; }
+                    100% { transform: scale(1); opacity: 1; }
+                }
+
+                .partner-card {
+                    background: rgba(0, 255, 128, 0.05);
+                    border-radius: 8px;
+                    padding: 10px;
+                    margin: 5px 0;
+                    transition: all 0.3s ease;
+                }
+
+                .partner-card:hover {
+                    background: rgba(0, 255, 128, 0.1);
+                    transform: translateX(5px);
+                }
+
+                .partner-icon {
+                    display: inline-block;
+                    margin-right: 10px;
+                    font-size: 16px;
+                }
+
+                .partner-name {
+                    color: #00ff80;
+                    font-weight: 600;
+                }
+
+                .partner-role {
+                    color: rgba(255, 255, 255, 0.7);
+                    font-size: 13px;
                 }
             </style>
             
             <div class="stock-ticker">
-                <span class="positive-change">📈 AAPL +2.5%</span> | 
-                <span class="positive-change">GOOGL +1.8%</span> | 
-                <span class="positive-change">MSFT +3.2%</span> | 
-                <span class="positive-change">AMZN +1.9%</span> | 
-                <span class="negative-change">TSLA -4.1%</span> 📉
+                <div class="ticker-content">
+                    <span class="positive-change">📈 AAPL +2.5%</span> | 
+                    <span class="positive-change">GOOGL +1.8%</span> | 
+                    <span class="positive-change">MSFT +3.2%</span> | 
+                    <span class="positive-change">AMZN +1.9%</span> | 
+                    <span class="negative-change">TSLA -4.1%</span> |
+                    <span class="positive-change">NVDA +5.2%</span> |
+                    <span class="positive-change">META +2.8%</span> |
+                    <span class="negative-change">NFLX -1.5%</span> 📉
+                </div>
+                <div class="market-status">Market Open</div>
             </div>
             
             <div class="panel-header">
                 <h2 style="
                     margin: 0;
-                    font-size: 22px;
+                    font-size: 24px;
                     font-weight: 600;
                     color: white;
                     display: flex;
@@ -180,13 +285,14 @@ class Game {
                     <span style="
                         background: linear-gradient(45deg, #00ff80, #00cc66);
                         border-radius: 50%;
-                        width: 32px;
-                        height: 32px;
+                        width: 40px;
+                        height: 40px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        margin-right: 12px;
+                        margin-right: 15px;
                         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+                        font-size: 20px;
                     ">💼</span>
                     Financial Adventure
                 </h2>
@@ -197,7 +303,7 @@ class Game {
                     <h3 style="
                         margin: 0 0 15px 0;
                         color: #00ff80;
-                        font-size: 18px;
+                        font-size: 20px;
                         font-weight: 600;
                         display: flex;
                         align-items: center;
@@ -205,18 +311,18 @@ class Game {
                         <span style="
                             background: linear-gradient(45deg, #00ff80, #00cc66);
                             border-radius: 50%;
-                            width: 26px;
-                            height: 26px;
+                            width: 32px;
+                            height: 32px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            margin-right: 10px;
-                            font-size: 14px;
+                            margin-right: 12px;
+                            font-size: 16px;
                             color: #003300;
                         ">⌨️</span>
                         Trading Controls
                     </h3>
-                    <p style="margin: 0; line-height: 1.6; color: rgba(255, 255, 255, 0.9); font-size: 15px;">
+                    <p style="margin: 0; line-height: 1.8; color: rgba(255, 255, 255, 0.9); font-size: 15px;">
                         • WASD - Navigate the trading floor<br>
                         • E/U - Interact with financial advisors<br>
                         • ESC - Exit trading sessions
@@ -227,7 +333,7 @@ class Game {
                     <h3 style="
                         margin: 0 0 15px 0;
                         color: #00ff80;
-                        font-size: 18px;
+                        font-size: 20px;
                         font-weight: 600;
                         display: flex;
                         align-items: center;
@@ -235,24 +341,42 @@ class Game {
                         <span style="
                             background: linear-gradient(45deg, #00ff80, #00cc66);
                             border-radius: 50%;
-                            width: 26px;
-                            height: 26px;
+                            width: 32px;
+                            height: 32px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            margin-right: 10px;
-                            font-size: 14px;
+                            margin-right: 12px;
+                            font-size: 16px;
                             color: #003300;
                         ">📊</span>
                         Trading Partners
                     </h3>
-                    <p style="margin: 0; line-height: 1.6; color: rgba(255, 255, 255, 0.9); font-size: 15px;">
-                        • Market Analyst - Stock Trading Game<br>
-                        • Investment Banker - Portfolio Management<br>
-                        • Financial Advisor - Investment Quizzes<br>
-                        • Crypto Expert - Cryptocurrency Trading<br>
-                        • Risk Manager - Risk Assessment Games
-                    </p>
+                    <div class="partner-card">
+                        <span class="partner-icon">📈</span>
+                        <span class="partner-name">Market Analyst</span>
+                        <span class="partner-role">Stock Trading Game</span>
+                    </div>
+                    <div class="partner-card">
+                        <span class="partner-icon">💼</span>
+                        <span class="partner-name">Investment Banker</span>
+                        <span class="partner-role">Portfolio Management</span>
+                    </div>
+                    <div class="partner-card">
+                        <span class="partner-icon">📚</span>
+                        <span class="partner-name">Financial Advisor</span>
+                        <span class="partner-role">Investment Quizzes</span>
+                    </div>
+                    <div class="partner-card">
+                        <span class="partner-icon">₿</span>
+                        <span class="partner-name">Crypto Expert</span>
+                        <span class="partner-role">Cryptocurrency Trading</span>
+                    </div>
+                    <div class="partner-card">
+                        <span class="partner-icon">⚠️</span>
+                        <span class="partner-name">Risk Manager</span>
+                        <span class="partner-role">Risk Assessment Games</span>
+                    </div>
                 </div>
                 
                 <button id="startGameBtn" class="start-button">Start Trading</button>
