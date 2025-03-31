@@ -60,7 +60,7 @@ class Character extends GameObject {
         this.canvas.width = data.pixels?.width || PIXELS.width;
         this.canvas.height = data.pixels?.height || PIXELS.height;
         this.hitbox = data?.hitbox || {};
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
         document.getElementById("gameContainer").appendChild(this.canvas);
 
         // Set initial object properties 
