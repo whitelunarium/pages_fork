@@ -1,6 +1,6 @@
 ---
 layout: bootstrap 
-title: Flask Descriptions
+title: Bootstrap Card 
 description: An overview of Flask Requirements
 author: John Mortensen
 permalink: /bootstrap
