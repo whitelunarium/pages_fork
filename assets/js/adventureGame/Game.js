@@ -264,6 +264,12 @@ class Game {
 
     static async updateStatsMCQ(questionId, choiceId, personId) {
         try {
+            console.log("Submitting answer with:", {
+                questionId,     // should be a valid number
+                choiceId,       // should be a valid number
+                personId        // should be a valid number
+            });
+            
             const response = await fetch(this.javaURI + '/rpg_answer/submitMCQAnswer', {
                 method: "POST",
                 headers: {
@@ -278,9 +284,7 @@ class Game {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
-            const data = await response.json();
-            // You can decide what to return – here we assume the response includes a score or a confirmation.
-            return data.score || "Answer submitted";
+            return response;
         } catch (error) {
             console.error("Error submitting MCQ answer:", error);
             throw error;

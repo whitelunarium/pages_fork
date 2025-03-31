@@ -518,7 +518,10 @@ class Quiz {
                     type: "multiple-choice",
                     options: questionEntry.choices.map(c => c.choice),
                     correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
+                    questionId: questionEntry.question.id,
+                    choiceIds: questionEntry.choices.map(c => c.id),
                 };
+                
                 console.log("Fetched question data:", formattedQuestion);
             } catch (error) {
                 console.error("Error fetching question:", error);
@@ -560,15 +563,28 @@ class Quiz {
     }
     
 
-    handleSubmit() {
+    async handleSubmit() {
         let isCorrect = false;
         const submitButton = document.querySelector(".quiz-submit");
         const questionType = this.currentNpc?.type;
-
+        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    
         if (questionType === "multiple-choice") {
-            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
             if (selectedAnswer) {
-                isCorrect = parseInt(selectedAnswer.value) === this.currentNpc.correctAnswer;
+                const answerIndex = parseInt(selectedAnswer.value);
+                isCorrect = answerIndex === this.currentNpc.correctAnswer;
+    
+                // ✅ Hit the backend to submit answer
+                const questionId = this.currentNpc.questionId; // Make sure this is available
+                const choiceId = this.currentNpc.choiceIds[answerIndex]; // Add this to currentNpc when fetching
+                const personId = Game.id;
+    
+                try {
+                    await Game.updateStatsMCQ(questionId, choiceId, personId);
+                    Game.fetchStats(personId); // Refresh UI stats
+                } catch (error) {
+                    console.error("Error updating MCQ stats:", error);
+                }
             }
         } else {
             const answerInput = document.querySelector(".quiz-input");
@@ -579,34 +595,22 @@ class Quiz {
                 );
             }
         }
-
-        console.log("Answer submitted, isCorrect:", isCorrect); // Debug log
-
-        // Visual feedback
+    
+        // UI feedback
         submitButton.style.backgroundColor = isCorrect ? "#2ecc71" : "#e74c3c";
         submitButton.textContent = isCorrect ? "Correct!" : "Try Again";
         submitButton.disabled = true;
-
-        // Trigger confetti for correct answers
-        if (isCorrect) {
-            this.triggerConfetti();
-        }
-
-        // Store the callback before closing
+    
+        if (isCorrect) this.triggerConfetti();
+    
         const callback = this.callback;
-        const isCorrectResult = isCorrect;
-
-        // Call the callback after a delay
+    
         setTimeout(() => {
-            console.log("Executing callback with result:", isCorrectResult); // Debug log
-            if (callback) {
-                callback(isCorrectResult);
-            } else {
-                console.log("No callback found!"); // Debug log
-            }
+            if (callback) callback(isCorrect);
             this.closePanel();
         }, 1500);
     }
+    
 
     closePanel() {
         const promptDropDown = document.querySelector('.promptDropDown');
