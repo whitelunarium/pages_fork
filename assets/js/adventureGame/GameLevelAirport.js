@@ -21,6 +21,7 @@ class GameLevelAirport {
         pixels: {height: 580, width: 386}
     };
 
+
     // Player data for Chillguy
     const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
     const CHILLGUY_SCALE_FACTOR = 5;
@@ -75,11 +76,34 @@ class GameLevelAirport {
         }
     };
 
+    // NPC data for Worker
+    const sprite_src_worker = path + "/images/gamify/worker.png"; // Ensure this file exists
+    const sprite_greet_worker = "Hey! You look like your a chill guy! The plane on the runway leaves to Silicon Valley soon, better catch it! Press 'e' when you talk to the pilot and other people you meet! Safe travels! ";
+    const sprite_data_worker = {
+        id: 'Worker',
+        greeting: sprite_greet_worker,
+        src: sprite_src_worker,
+        SCALE_FACTOR: 3.5,
+        ANIMATION_RATE: 50,
+        pixels: {height: 400, width: 400},
+        INIT_POSITION: { x: width * 0.6, y: height * 0.7 },
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 1 },
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+        reaction: function () {
+            alert(sprite_greet_worker);
+        },
+        interact: function () {
+            alert(sprite_greet_worker);
+        }
+    };
+
     // List of objects defnitions for this level
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_pilot },
+      { class: Npc, data: sprite_data_worker }
     ];
   }
 }
