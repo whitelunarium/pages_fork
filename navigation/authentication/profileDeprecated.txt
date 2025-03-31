@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Profile Settings
-permalink: /profile
+permalink: /profileOLD
 search_exclude: true
 show_reading_time: false
 ---
@@ -9,7 +9,7 @@ show_reading_time: false
 
 <div style="display: flex; flex-direction: row; gap: 20px; max-width: 1200px; margin: 0 auto;">
     <!-- Sidebar -->
-    <div style="flex: 0 0 250px; background-color: #1e1e1e; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); height: 100vh; position: fixed; top: 0; left: 0; padding: 20px;">
+    <div style="flex: 0 0 250px; background-color: #1e1e1e; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); height: 100vh; position: fixed; top: 20px; left: 0; padding: 20px;">
         {% include Aesthetihawk/sidebarMain.html %}
     </div>
     <div class="profile-container" style="background-color: #1e1e1e; color: white; max-width: 800px; margin: 50px auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); display: flex; align-items: center; padding-left: 40px; padding-right: 40px;">
@@ -47,6 +47,7 @@ show_reading_time: false
 <script type="module">
     // Import fetchOptions from config.js
     import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Import functions from config.js
     import { putUpdate, postUpdate, deleteData, logoutUser } from "{{site.baseurl}}/assets/js/api/profile.js";
     
