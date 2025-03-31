@@ -10,20 +10,18 @@ permalink: /gamify/adventureGame
 </div>
 
 <script type="module">
-    // Adnventure Game assets locations
     import Game from '{{site.baseurl}}/assets/js/adventureGame/Game.js';
-    import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import * as config from '{{site.baseurl}}/assets/js/api/config.js';
 
-
-    // Web Server Environment data
     const environment = {
-        path:"{{site.baseurl}}",
-        pythonURI: pythonURI,
-        javaURI: javaURI,
-        fetchOptions: fetchOptions,
+        path: "{{site.baseurl}}",
+        pythonURI: config.pythonURI,
+        javaURI: config.javaURI,
+        fetchOptions: config.fetchOptions,
         gameContainer: document.getElementById("gameContainer"),
         gameCanvas: document.getElementById("gameCanvas")
-    }
-    // Launch Adventure Game
+    };
+    console.log(config.javaURI);
     Game.main(environment);
+
 </script>

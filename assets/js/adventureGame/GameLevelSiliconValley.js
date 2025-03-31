@@ -100,13 +100,13 @@ class GameLevelSiliconValley {
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
 
       reaction: function() {
-        alert(sprite_greet_fidelity.id);
+        alert(sprite_greet_fidelity);
       },
 
       interact: function() {
         let quiz = new Quiz(); 
         quiz.initialize();
-        quiz.openPanel(sprite_data_fidelity);
+        quiz.openPanel(sprite_data_fidelity.id);
       }
     }
     const sprite_src_schwab = path + "/images/gamify/schwab.png"; // be sure to include the path
@@ -122,7 +122,6 @@ class GameLevelSiliconValley {
       orientation: {rows: 1, columns: 1 },
       down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-
       reaction: function() {
         alert(sprite_greet_schwab);
       },

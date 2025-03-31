@@ -4,8 +4,6 @@ import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
-
-import GameLevelUniverse from './GameLevelSiliconValley.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
 class GameLevelAirport {
   constructor(gameEnv) {
@@ -86,7 +84,7 @@ class GameLevelAirport {
         interact: function() {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
-          quiz.openPanel(sprite_data_tux);
+          quiz.openPanel(sprite_data_tux.id);
           }
     
       };
@@ -129,7 +127,7 @@ class GameLevelAirport {
         interact: function() {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
-          quiz.openPanel(sprite_data_octocat);
+          quiz.openPanel(sprite_data_octocat.id);
         }
     }
       // NPC data for Alien

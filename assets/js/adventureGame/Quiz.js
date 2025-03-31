@@ -1,5 +1,5 @@
 import gameControlInstance from "./GameControl.js";
-
+import Game from "./Game.js";
 class Quiz {
     constructor() {
         this.isOpen = false;
@@ -460,7 +460,6 @@ class Quiz {
         // Wait half a second so the star confetti starts
         // after the squares, creating a 2-wave effect
     }
-
     async openPanel(npcId, callback) {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
@@ -468,23 +467,21 @@ class Quiz {
         if (this.isOpen) {
             this.closePanel();
         }
-        Game.main(environment);
-        console.log(Game.javaURI);
-        // Fetch questions by category (use npcId as category)
-        const questions = await Game.fetchQuestionByCategory(npcId);
-        if (!questions || questions.length === 0) {
+    
+        console.log("Fetching questions for:", npcId);
+        const questionData = await Game.fetchQuestionByCategory(npcId);
+        if (!questionData?.questions || questionData.questions.length === 0) {
             console.error("No questions found for category:", npcId);
             return;
         }
     
-        // Take the first question and format it for display
-        const question = questions[0];
+        const questionEntry = questionData.questions[0]; // Get first question from the response
         const formattedQuestion = {
             title: npcId + " Quiz",
-            question: question.questionText,
+            question: questionEntry.question.content,
             type: "multiple-choice",
-            options: question.choices.map(c => c.choiceText),
-            correctAnswer: question.choices.findIndex(c => c.correct), // assumes one correct
+            options: questionEntry.choices.map(c => c.choice),
+            correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
         };
     
         this.currentNpc = formattedQuestion;
@@ -504,6 +501,7 @@ class Quiz {
         this.backgroundDim.create();
         promptDropDown.classList.add("quiz-popup");
     }
+    
 
     handleSubmit() {
         let isCorrect = false;
