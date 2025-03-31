@@ -36,7 +36,27 @@ hide: true
             { make: "Kuboto", model: "L3301 Tractor", year: 2015, color: "Orange", price: "$12,000" },
             { make: "Ford", model: "Fusion Energi", year: 2015, color: "Green", price: "$15,000" },
             { make: "Acura", model: "XL", year: 2006, color: "Grey", price: "$10,000" },
-            { make: "Ford", model: "F150 Lightning", year: 2023, color: "Grey", price: "$70,000" }
+            { make: "Ford", model: "F150 Lightning", year: 2023, color: "Grey", price: "$70,000" },
+            { make: "Chevrolet", model: "Corvette", year: 2021, color: "Yellow", price: "$60,000" },
+            { make: "BMW", model: "X5", year: 2020, color: "Blue", price: "$50,000" },
+            { make: "Audi", model: "A4", year: 2019, color: "White", price: "$40,000" },
+            { make: "Mercedes-Benz", model: "C-Class", year: 2018, color: "Black", price: "$45,000" },
+            { make: "Honda", model: "Civic", year: 2022, color: "Silver", price: "$22,000" },
+            { make: "Hyundai", model: "Elantra", year: 2021, color: "Blue", price: "$20,000" },
+            { make: "Nissan", model: "Altima", year: 2020, color: "Red", price: "$24,000" },
+            { make: "Jeep", model: "Wrangler", year: 2023, color: "Green", price: "$45,000" },
+            { make: "Subaru", model: "Outback", year: 2022, color: "White", price: "$30,000" },
+            { make: "Mazda", model: "CX-5", year: 2021, color: "Grey", price: "$28,000" },
+            { make: "Volkswagen", model: "Jetta", year: 2020, color: "Black", price: "$18,000" },
+            { make: "Chevrolet", model: "Silverado", year: 2023, color: "Blue", price: "$55,000" },
+            { make: "Dodge", model: "Charger", year: 2022, color: "Red", price: "$40,000" },
+            { make: "Kia", model: "Sorento", year: 2021, color: "White", price: "$32,000" },
+            { make: "Toyota", model: "Highlander", year: 2022, color: "Silver", price: "$38,000" },
+            { make: "Ford", model: "Explorer", year: 2023, color: "Black", price: "$50,000" },
+            { make: "Tesla", model: "Model 3", year: 2023, color: "Blue", price: "$45,000" },
+            { make: "Ram", model: "1500", year: 2022, color: "Grey", price: "$48,000" },
+            { make: "GMC", model: "Sierra", year: 2023, color: "White", price: "$60,000" },
+            { make: "Volvo", model: "XC90", year: 2021, color: "Black", price: "$55,000" }
         ];
 
         // Populate the table dynamically
