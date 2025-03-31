@@ -243,6 +243,25 @@ permalink: /crypto/portfolio
         <div id="search-results"></div>
     </div>
 </div>
+<!-- Comparison Section in Modal -->
+<div class="modal" id="compare-modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeCompareModal()">&times;</span>
+        <h2>Crypto Comparison</h2>
+        <div class="compare-inputs">
+            <input type="text" id="crypto-compare-1" placeholder="Enter first crypto symbol">
+            <input type="text" id="crypto-compare-2" placeholder="Enter second crypto symbol">
+            <input type="number" id="compare-days" placeholder="Number of days">
+            <button class="btn btn-buy" onclick="compareCryptos()">Compare</button>
+        </div>
+        <div id="compare-result"></div>
+        <button class="btn btn-close" onclick="closeCompareModal()">Close</button>
+    </div>
+</div>
+<!-- Button to trigger comparison modal -->
+<div class="container">
+    <button class="btn btn-buy" onclick="openCompareModal()">Compare Cryptos</button>
+</div>
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
