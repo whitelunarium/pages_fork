@@ -21,6 +21,7 @@ class GameControl {
         this.exitKeyListener = this.handleExitKey.bind(this);
         this.gameOver = null; // Callback for when the game is over 
         this.savedCanvasState = []; // Save the current levels game elements 
+        this.canvasContexts = new Map(); // Store canvas contexts
     }
 
     /**
@@ -122,6 +123,14 @@ class GameControl {
         document.removeEventListener('keydown', this.exitKeyListener);
     }
 
+    // Helper method to get or create canvas context
+    getCanvasContext(canvas) {
+        if (!this.canvasContexts.has(canvas)) {
+            this.canvasContexts.set(canvas, canvas.getContext('2d', { willReadFrequently: true }));
+        }
+        return this.canvasContexts.get(canvas);
+    }
+
     // Helper method to save the current canvas id and image data in the game container
     saveCanvasState() {
         const gameContainer = document.getElementById('gameContainer');
@@ -129,7 +138,7 @@ class GameControl {
         this.savedCanvasState = Array.from(canvasElements).map(canvas => {
             return {
                 id: canvas.id,
-                imageData: canvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, canvas.width, canvas.height)
+                imageData: this.getCanvasContext(canvas).getImageData(0, 0, canvas.width, canvas.height)
             };
         });
     }
@@ -152,7 +161,7 @@ class GameControl {
             const canvas = document.getElementById(hidden_canvas.id);
             if (canvas) {
                 canvas.style.display = 'block';
-                canvas.getContext('2d').putImageData(hidden_canvas.imageData, 0, 0);
+                this.getCanvasContext(canvas).putImageData(hidden_canvas.imageData, 0, 0);
             }
         });
     }
