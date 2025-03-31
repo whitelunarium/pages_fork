@@ -298,15 +298,27 @@ class Quiz {
             this.dim = false;
             const dimDiv = document.getElementById("dim");
             if (dimDiv) dimDiv.remove();
-            this.isOpen = false;
-            document.getElementById("promptTitle").style.display = "none";
+            
+            // Don't directly modify isOpen here - let closePanel handle that
+            const promptTitle = document.getElementById("promptTitle");
+            if (promptTitle) promptTitle.style.display = "none";
+            
             const promptDropDown = document.getElementById("promptDropDown");
-            promptDropDown.style.width = "0"; 
-            promptDropDown.style.top = "0";  
-            promptDropDown.style.left = "-100%"; 
-            promptDropDown.style.transition = "all 0.3s ease-in-out";
-            // Also remove the spin class for next time
-            promptDropDown.classList.remove("celebration-spin");
+            if (promptDropDown) {
+                // Reset the position but don't remove it completely
+                promptDropDown.style.opacity = "0";
+                promptDropDown.classList.remove("celebration-spin");
+                
+                // Use setTimeout to ensure the closing animation completes
+                setTimeout(() => {
+                    if (this.isOpen === false) {
+                        // Only reset the position if the panel is actually closed
+                        promptDropDown.style.top = "0";
+                        promptDropDown.style.left = "-100%";
+                        promptDropDown.style.width = "0";
+                    }
+                }, 300);
+            }
         },
     };
 
@@ -461,16 +473,24 @@ class Quiz {
         // after the squares, creating a 2-wave effect
     }
     async openPanel(npcData, callback) {
-        const promptDropDown = document.querySelector('.promptDropDown');
-        const promptTitle = document.getElementById("promptTitle");
-    
+        console.log("Opening quiz panel with data:", npcData);
+        
+        // Reset and clear everything first
         if (this.isOpen) {
             this.closePanel();
             // Add a short delay to ensure the panel is fully closed before reopening
             await new Promise(resolve => setTimeout(resolve, 100));
         }
-    
-        console.log("Opening quiz panel with data:", npcData);
+
+        // Make sure promptDropDown exists and is set up
+        let promptDropDown = document.getElementById("promptDropDown");
+        if (!promptDropDown) {
+            this.initialize();
+            promptDropDown = document.getElementById("promptDropDown");
+        } else {
+            // Clear any existing content
+            promptDropDown.innerHTML = "";
+        }
         
         // Mark panel as open immediately to prevent multiple opens
         this.isOpen = true;
@@ -480,6 +500,7 @@ class Quiz {
         if (typeof npcData === 'object' && npcData.question) {
             // For the meteor game, use the question data directly
             formattedQuestion = npcData;
+            console.log("Using direct question data:", formattedQuestion);
         } else {
             // For regular NPC quizzes, fetch from API
             try {
@@ -498,6 +519,7 @@ class Quiz {
                     options: questionEntry.choices.map(c => c.choice),
                     correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
                 };
+                console.log("Fetched question data:", formattedQuestion);
             } catch (error) {
                 console.error("Error fetching question:", error);
                 this.isOpen = false; // Reset if there's an error
@@ -508,23 +530,33 @@ class Quiz {
         this.currentNpc = formattedQuestion;
         this.callback = callback;
         
-        // Clear any existing content
-        promptDropDown.innerHTML = "";
+        // Set up the appearance of the prompt dropdown
+        promptDropDown.style.display = "block";
+        promptDropDown.style.position = "fixed";
+        promptDropDown.style.width = "50%";
+        promptDropDown.style.left = "50%";
+        promptDropDown.style.top = "15%";
+        promptDropDown.style.transform = "translateX(-50%)";
+        promptDropDown.style.zIndex = "9999";
     
-        // Recreate the title element
+        // Create the title element
         const newPromptTitle = document.createElement("div");
         newPromptTitle.id = "promptTitle";
         newPromptTitle.style.display = "block";
         newPromptTitle.innerHTML = formattedQuestion.title;
         promptDropDown.appendChild(newPromptTitle);
     
+        // Create the scroll edge and append the question table
         const scrollEdge = document.createElement("div");
         scrollEdge.className = "scroll-edge";
         scrollEdge.appendChild(this.updateTable());
         promptDropDown.appendChild(scrollEdge);
     
+        // Create the background dim and add the quiz-popup class
         this.backgroundDim.create();
         promptDropDown.classList.add("quiz-popup");
+        
+        console.log("Quiz panel opened successfully");
     }
     
 
@@ -605,9 +637,32 @@ class Quiz {
     }
 
     initialize() {
-        const promptTitle = document.createElement("div");
-        promptTitle.id = "promptTitle";
-        document.getElementById("promptDropDown").appendChild(promptTitle);
+        // Check if promptDropDown exists, if not create it
+        let promptDropDown = document.getElementById("promptDropDown");
+        if (!promptDropDown) {
+            promptDropDown = document.createElement("div");
+            promptDropDown.id = "promptDropDown";
+            promptDropDown.className = "promptDropDown";
+            promptDropDown.style.zIndex = "9999";
+            document.getElementById("gameContainer").appendChild(promptDropDown);
+        }
+
+        // Ensure promptDropDown has necessary styles
+        promptDropDown.style.position = "fixed";
+        promptDropDown.style.width = "50%";
+        promptDropDown.style.left = "50%";
+        promptDropDown.style.top = "15%";
+        promptDropDown.style.transform = "translateX(-50%)";
+        promptDropDown.style.zIndex = "9999";
+
+        // Create the title element if it doesn't exist
+        let promptTitle = document.getElementById("promptTitle");
+        if (!promptTitle) {
+            promptTitle = document.createElement("div");
+            promptTitle.id = "promptTitle";
+            promptTitle.style.display = "none";
+            promptDropDown.appendChild(promptTitle);
+        }
     }
 }
 
