@@ -58,7 +58,6 @@ hide: true
             { make: "GMC", model: "Sierra", year: 2023, color: "White", price: "$60,000" },
             { make: "Volvo", model: "XC90", year: 2021, color: "Black", price: "$55,000" }
         ];
-
         // Populate the table dynamically
         const tbody = document.querySelector("#cars tbody");
         cars.forEach(car => {
@@ -72,7 +71,6 @@ hide: true
             `;
             tbody.appendChild(row);
         });
-
         // Initialize DataTable add text-primary to a-tags for visability
         $(document).ready(function () {
             $('#cars').DataTable({
