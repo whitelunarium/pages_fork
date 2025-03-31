@@ -57,6 +57,8 @@ class GameControl {
         const GameLevelClass = this.levelClasses[this.currentLevelIndex];
         this.currentLevel = new GameLevel(this);
         this.currentLevel.create(GameLevelClass);
+        // Initialize contexts for any new canvases created during level creation
+        this.initializeCanvasContexts();
         this.gameLoop();
     }
 
@@ -148,6 +150,8 @@ class GameControl {
     saveCanvasState() {
         const gameContainer = document.getElementById('gameContainer');
         const canvasElements = gameContainer.querySelectorAll('canvas');
+        // Ensure all canvas contexts are initialized before saving state
+        this.initializeCanvasContexts();
         this.savedCanvasState = Array.from(canvasElements).map(canvas => {
             return {
                 id: canvas.id,
