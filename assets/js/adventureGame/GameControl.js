@@ -129,7 +129,7 @@ class GameControl {
         this.savedCanvasState = Array.from(canvasElements).map(canvas => {
             return {
                 id: canvas.id,
-                imageData: canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height)
+                imageData: canvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, canvas.width, canvas.height)
             };
         });
     }
