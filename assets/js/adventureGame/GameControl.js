@@ -24,13 +24,26 @@ class GameControl {
         this.canvasContexts = new Map(); // Store canvas contexts
     }
 
+    // Initialize all canvas contexts
+    initializeCanvasContexts() {
+        const gameContainer = document.getElementById('gameContainer');
+        const canvasElements = gameContainer.querySelectorAll('canvas');
+        canvasElements.forEach(canvas => {
+            if (!this.canvasContexts.has(canvas)) {
+                this.canvasContexts.set(canvas, canvas.getContext('2d', { willReadFrequently: true }));
+            }
+        });
+    }
+
     /**
      * Starts the game by 
      * 1. Adding an exit key listener
-     * 2. Transitioning to the first level
+     * 2. Initializing canvas contexts
+     * 3. Transitioning to the first level
      */
     start() {
         this.addExitKeyListener();
+        this.initializeCanvasContexts();
         this.transitionToLevel();
     }
 
