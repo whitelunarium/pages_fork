@@ -51,47 +51,220 @@ class Game {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
+            background: linear-gradient(135deg, rgba(0, 32, 64, 0.98) 0%, rgba(0, 16, 32, 0.98) 100%);
             color: white;
-            padding: 30px;
             border-radius: 15px;
+            width: 65%;
+            max-width: 850px;
+            max-height: 85%;
+            overflow-y: auto;
             z-index: 1000;
-            max-width: 600px;
-            width: 90%;
-            font-family: 'Press Start 2P', cursive;
-            border: 3px solid #f5c207;
-            box-shadow: 0 0 20px rgba(245, 194, 7, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 128, 0.2);
+            border: 1px solid rgba(0, 255, 128, 0.3);
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            opacity: 0;
+            animation: fadeIn 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         `;
 
         // Create the content
         instructionsDiv.innerHTML = `
-            <h2 style="color: #f5c207; margin-bottom: 15px; text-align: center;">Welcome!</h2>
-            <div style="margin-bottom: 15px;">
-                <h3 style="color: #f5c207;">Controls:</h3>
-                <p>• WASD - Move</p>
-                <p>• E/U - Interact with NPCs</p>
-                <p>• ESC - Exit mini-games</p>
-            </div>
-            <div style="margin-bottom: 15px;">
-                <h3 style="color: #f5c207;">NPCs:</h3>
-                <p>• Robot - Meteor Blaster game</p>
-                <p>• R2D2 - Star Wars game</p>
-                <p>• Tux/Octocat - Quizzes</p>
-                <p>• Stock Guy - Stock Market</p>
-                <p>• Bitcoin - Casino</p>
-            </div>
-            <div style="text-align: center;">
-                <button id="startGameBtn" style="
-                    background: #f5c207;
-                    color: black;
+            <style>
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translate(-50%, -45%); }
+                    to { opacity: 1; transform: translate(-50%, -50%); }
+                }
+                
+                @keyframes slideIn {
+                    from { transform: translateX(-20px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                
+                .panel-header {
+                    position: sticky;
+                    top: 0;
+                    background: linear-gradient(135deg, rgba(0, 32, 64, 0.98) 0%, rgba(0, 16, 32, 0.98) 100%);
+                    padding: 20px 25px 5px;
+                    border-bottom: 1px solid rgba(0, 255, 128, 0.2);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    z-index: 1;
+                }
+                
+                .panel-content {
+                    padding: 5px 25px 30px;
+                }
+                
+                .panel-section {
+                    background: rgba(0, 255, 128, 0.03);
+                    border-radius: 10px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    border-left: 3px solid #00ff80;
+                    position: relative;
+                    overflow: hidden;
+                    animation: slideIn 0.5s ease forwards;
+                    opacity: 0;
+                }
+                
+                .panel-section:nth-child(1) { animation-delay: 0.2s; }
+                .panel-section:nth-child(2) { animation-delay: 0.3s; }
+                .panel-section:nth-child(3) { animation-delay: 0.4s; }
+                
+                .start-button {
+                    background: linear-gradient(45deg, #00ff80, #00cc66);
+                    color: #003300;
                     border: none;
-                    padding: 8px 16px;
-                    border-radius: 5px;
+                    padding: 12px 24px;
+                    border-radius: 25px;
                     cursor: pointer;
-                    font-family: 'Press Start 2P', cursive;
-                    font-size: 12px;
+                    font-size: 16px;
+                    font-weight: 600;
                     transition: all 0.3s ease;
-                ">Start Game</button>
+                    display: block;
+                    margin: 20px auto;
+                    text-align: center;
+                    box-shadow: 0 4px 15px rgba(0, 255, 128, 0.3);
+                }
+                
+                .start-button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(0, 255, 128, 0.4);
+                }
+                
+                .start-button:active {
+                    transform: translateY(0);
+                }
+
+                .stock-ticker {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: rgba(0, 255, 128, 0.1);
+                    padding: 5px 10px;
+                    font-family: 'Courier New', monospace;
+                    font-size: 14px;
+                    color: #00ff80;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
+                .positive-change {
+                    color: #00ff80;
+                }
+
+                .negative-change {
+                    color: #ff4444;
+                }
+            </style>
+            
+            <div class="stock-ticker">
+                <span class="positive-change">📈 AAPL +2.5%</span> | 
+                <span class="positive-change">GOOGL +1.8%</span> | 
+                <span class="positive-change">MSFT +3.2%</span> | 
+                <span class="positive-change">AMZN +1.9%</span> | 
+                <span class="negative-change">TSLA -4.1%</span> 📉
+            </div>
+            
+            <div class="panel-header">
+                <h2 style="
+                    margin: 0;
+                    font-size: 22px;
+                    font-weight: 600;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                ">
+                    <span style="
+                        background: linear-gradient(45deg, #00ff80, #00cc66);
+                        border-radius: 50%;
+                        width: 32px;
+                        height: 32px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 12px;
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+                    ">💼</span>
+                    Financial Adventure
+                </h2>
+            </div>
+            
+            <div class="panel-content">
+                <div class="panel-section">
+                    <h3 style="
+                        margin: 0 0 15px 0;
+                        color: #00ff80;
+                        font-size: 18px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                    ">
+                        <span style="
+                            background: linear-gradient(45deg, #00ff80, #00cc66);
+                            border-radius: 50%;
+                            width: 26px;
+                            height: 26px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-right: 10px;
+                            font-size: 14px;
+                            color: #003300;
+                        ">⌨️</span>
+                        Trading Controls
+                    </h3>
+                    <p style="margin: 0; line-height: 1.6; color: rgba(255, 255, 255, 0.9); font-size: 15px;">
+                        • WASD - Navigate the trading floor<br>
+                        • E/U - Interact with financial advisors<br>
+                        • ESC - Exit trading sessions
+                    </p>
+                </div>
+                
+                <div class="panel-section">
+                    <h3 style="
+                        margin: 0 0 15px 0;
+                        color: #00ff80;
+                        font-size: 18px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                    ">
+                        <span style="
+                            background: linear-gradient(45deg, #00ff80, #00cc66);
+                            border-radius: 50%;
+                            width: 26px;
+                            height: 26px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-right: 10px;
+                            font-size: 14px;
+                            color: #003300;
+                        ">📊</span>
+                        Trading Partners
+                    </h3>
+                    <p style="margin: 0; line-height: 1.6; color: rgba(255, 255, 255, 0.9); font-size: 15px;">
+                        • Market Analyst - Stock Trading Game<br>
+                        • Investment Banker - Portfolio Management<br>
+                        • Financial Advisor - Investment Quizzes<br>
+                        • Crypto Expert - Cryptocurrency Trading<br>
+                        • Risk Manager - Risk Assessment Games
+                    </p>
+                </div>
+                
+                <button id="startGameBtn" class="start-button">Start Trading</button>
+                
+                <div style="
+                    text-align: center;
+                    margin-top: 20px;
+                    font-size: 12px;
+                    color: rgba(255, 255, 255, 0.5);
+                ">
+                    Press ESC key or click outside to close
+                </div>
             </div>
         `;
 
@@ -100,21 +273,25 @@ class Game {
 
         // Add click handler for the start button
         document.getElementById('startGameBtn').addEventListener('click', () => {
-            instructionsDiv.remove();
-            if (callback) callback();
+            instructionsDiv.style.animation = 'fadeOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards';
+            setTimeout(() => {
+                instructionsDiv.remove();
+                if (callback) callback();
+            }, 400);
         });
 
-        // Add hover effect to the button
-        const startButton = document.getElementById('startGameBtn');
-        startButton.addEventListener('mouseover', () => {
-            startButton.style.transform = 'scale(1.1)';
-            startButton.style.boxShadow = '0 0 15px #f5c207';
-        });
-        startButton.addEventListener('mouseout', () => {
-            startButton.style.transform = 'scale(1)';
-            startButton.style.boxShadow = 'none';
-        });
-
+        // Add ESC key handler
+        const escKeyHandler = (e) => {
+            if (e.key === 'Escape') {
+                instructionsDiv.style.animation = 'fadeOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards';
+                setTimeout(() => {
+                    instructionsDiv.remove();
+                    if (callback) callback();
+                }, 400);
+                document.removeEventListener('keydown', escKeyHandler);
+            }
+        };
+        document.addEventListener('keydown', escKeyHandler);
     }
 
     static initUser() {
