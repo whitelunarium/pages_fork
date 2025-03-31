@@ -108,8 +108,6 @@ class GameLevelAirport {
     
       };
 
-
-
       // NPC data for Octocat
       const sprite_src_octocat = path + "/images/gamify/octocat.png"; // be sure to include the path
       const sprite_greet_octocat = "Hi I am Octocat! I am the GitHub code code code collaboration mascot";
@@ -149,22 +147,22 @@ class GameLevelAirport {
           quiz.openPanel(sprite_data_octocat.id);
         }
     }
-      // NPC data for Alien
-      const sprite_src_alien = path + "/images/gamify/ufo.png"; // be sure to include the path
-      const sprite_greet_alien = "Hi I'm the alien! Come along and let's travel to another dimension.";
-      const sprite_data_alien = {
-        id: 'Alien',
-        greeting: sprite_greet_alien,
-        src: sprite_src_alien,
-        SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+      // NPC data for Pilot
+      const sprite_src_pilot = path + "/images/gamify/pilot.png"; // be sure to include the path
+      const sprite_greet_pilot = "Greetings passenger! Ready to travel to Silicon Valley?";
+      const sprite_data_pilot = {
+        id: 'Pilot',
+        greeting: sprite_greet_pilot,
+        src: sprite_src_pilot,
+        SCALE_FACTOR: 5,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
         pixels: {height: 460, width: 422},
-        INIT_POSITION: { x: (width / 10), y: (height / 10)},
+        INIT_POSITION: { x: (width / 10), y: (height * 0.2)},
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
         reaction: function() {
-          alert(sprite_greet_alien);
+          alert(sprite_greet_pilot);
         },
         interact: function() {
           // Set a primary game reference from the game environment
@@ -191,7 +189,7 @@ class GameLevelAirport {
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
       { class: Npc, data: sprite_data_octocat },
-      { class: Npc, data: sprite_data_alien },
+      { class: Npc, data: sprite_data_pilot },
       { class: FinancialAdvisor, data: sprite_data_advisor },
     ];
   }
