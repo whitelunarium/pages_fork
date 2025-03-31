@@ -5,220 +5,108 @@ permalink: /profile
 search_exclude: true
 show_reading_time: false
 ---
-<style>
-    .submit-button {
-        width: 100%;
-        padding: 1rem;
-        color: black;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        padding: 1rem;
-    }
 
-    .login-card {
-        margin-top: 0;
-        /* remove the top margin */
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        background-color: #2c3e50;
-        /* Enable horizontal scrolling */
-    }
-
-    .login-card h1 {
-        margin-bottom: 20px;
-    }
-
-    .signup-card {
-        margin-top: 0;
-        /* remove the top margin */
-        width: 45%;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        /* Enable horizontal scrolling */
-    }
-
-    .signup-card h1 {
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        position: relative;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group ion-icon {
-        position: absolute;
-        top: 50%;
-        left: 10px;
-        /* Adjust based on desired spacing */
-        transform: translateY(-50%);
-        font-size: 1.5rem;
-        /* Adjust the size of the icon */
-        color: rgba(255, 255, 255, 0.4);
-        pointer-events: none;
-        /* Ensure the icon does not interfere with input focus */
-    }
-
-    .form-input {
-        width: 100%;
-        padding: 1rem 1rem 1rem 3rem;
-        /* Add left padding to make room for the icon */
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        font-size: 1rem;
-        color: white;
-        transition: all 0.3s ease;
-    }
-
-    .form-input::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-    }
-
-    .form-input:focus {
-        outline: none;
-        border-color: rgba(255, 255, 255, 0.3);
-        background: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
-    }
-
-    .form-input:-webkit-autofill,
-    .form-input:-webkit-autofill:hover,
-    .form-input:-webkit-autofill:focus,
-    .form-input:-webkit-autofill:active {
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: #ffffff;
-        transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px #23232329;
-
-    }
-
-    .glowOnHover {
-        //this makes it actually glow
-        border: none;
-        outline: none;
-        color: #fff;
-        background: #1e1e1e;
-        cursor: pointer;
-        position: relative;
-        z-index: 0;
-        border-radius: 10px;
-    }
-
-    .glowOnHover:before {
-        content: '';
-        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        background-size: 400%;
-        z-index: -1;
-        filter: blur(5px);
-        width: calc(100% + 4px);
-        height: calc(100% + 4px);
-        animation: glowing 20s linear infinite;
-        opacity: 0;
-        transition: opacity .3s ease-in-out;
-        border-radius: 10px;
-    }
-
-    .glowOnHover:hover:before {
-        opacity: 1;
-    }
-
-    .glowOnHover:after {
-        z-index: -1;
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #1e1e1e;
-        left: 0;
-        top: 0;
-        border-radius: 10px;
-    }
-
-    @keyframes glowing {
-        0% {
-            background-position: 0 0;
-        }
-
-        50% {
-            background-position: 400% 0;
-        }
-
-        100% {
-            background-position: 0 0;
-        }
-    }
-
-    .your-profile-container {
-        justify-content: center;
-        align-items: center'
-    }
-</style>
-
-<div class='userOverview'>
-    <div class='user-card'>
-        <h1>User Overview</h1>
-        <div class='user-info'>
-            <div class='user-info-item'>
-                <strong>Name:</strong> <span id='newName'></span>
-            </div>
-            <div class='user-info-item'>
-                <strong>UID:</strong> <span id='newUid'></span>
+<div style="display: flex; flex-direction: row; gap: 20px; max-width: 1200px; margin: 0 auto;">
+    <!-- Sidebar -->
+    <div style="flex: 0 0 250px; background-color: #1e1e1e; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); height: 100vh; position: fixed; top: 0; left: 0; padding: 20px;">
+        {% include Aesthetihawk/sidebarMain.html %}
+    </div>
+    <!-- Profile Content -->
+    <div style="flex: 1; margin-left: 270px; display: flex; justify-content: center;">
+        <div class="profile-container" style="background-color: #1e1e1e; color: white; max-width: 800px; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+            <div class="d-flex align-items-center">
+                <div class="text-center" style="flex-shrink: 0; flex-basis: 150px; display: flex; flex-direction: column; align-items: center; padding: 0 20px;">
+                    <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; background-color: #2c3e50; border: 2px solid white;">
+                    <button class="btn btn-dark mt-2" style="display: block; margin: 10px auto;" onclick="editProfilePhoto()">✏️ Change Profile Photo</button>
+                </div>
+                <div style="flex-grow: 1;">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label" style="color: white;">User ID</label>
+                            <input type="text" class="form-control" id="profileUid" value="Loading..." style="background-color: #2c3e50; color: white; border: none;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" style="color: white;">Full Name</label>
+                            <input type="text" class="form-control" id="profileName" value="Loading..." style="background-color: #2c3e50; color: white; border: none;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" style="color: white;">Email Address</label>
+                            <input type="email" class="form-control" id="profileEmail" value="Loading..." style="background-color: #2c3e50; color: white; border: none;">
+                        </div>
+                        <div class="mb-3">
+                            <input type="checkbox" id="kasm-server" style="margin-right: 5px;">
+                            <label for="kasm-server" style="color: white;">Kasm server needed</label>
+                            <p class="text-muted" style="color: rgba(255, 255, 255, 0.6);">Enable this if you need a dedicated Kasm workspace server.</p>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2">Cancel</button>
+                            <button type="submit" class="btn btn-success" onclick="saveProfileChanges(event)">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<button id="toggleProfileButton" class="submit-button" onclick="toggleProfileContainer()">Toggle Profile Settings</button>
-
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 <script type="module">
     // Import fetchOptions from config.js
     import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Import functions from config.js
     import { putUpdate, postUpdate, deleteData, logoutUser } from "{{site.baseurl}}/assets/js/api/profile.js";
-
-    window.fetchName = async function () {
-        const URL = pythonURI + "/api/id"; // Adjusted endpoint
-
+    
+    async function fetchUserProfile() {
+        const URL = pythonURI + "/api/id"; // Endpoint to fetch user profile data
+    
         try {
             const response = await fetch(URL, fetchOptions);
             if (!response.ok) {
-                throw new Error(`Failed to fetch Name: ${response.status}`);
+                throw new Error(`Failed to fetch user profile: ${response.status}`);
             }
-
-            const data = await response.json();
-
-            // Update the DOM with the fetched name and UID
-            document.getElementById('newName').textContent = data.name || 'N/A';
-            document.getElementById('newUid').textContent = data.uid || 'N/A';
-
-            console.log('Fetched Name:', data.name);
-            console.log('Fetched UID:', data.uid);
+    
+            const profileData = await response.json();
+            console.log('Fetched Profile Data:', profileData);
+    
+            // Update the profile fields
+            document.getElementById('profileUid').value = profileData.uid || 'N/A';
+            document.getElementById('profileName').value = profileData.name || 'N/A';
+            document.getElementById('profileEmail').value = profileData.email || 'N/A';
+            document.getElementById('kasm-server').checked = profileData.kasm_server_needed || false;
+    
+            // Update the profile picture
+            const profilePhoto = document.getElementById('profilePhoto');
+            if (profileData.pfp) {
+                profilePhoto.src = profileData.pfp;
+            } else {
+                profilePhoto.src = ''; // Blank circle as default
+                profilePhoto.style.backgroundColor = '#1e1e1e'; // Ensure it has a dark background
+            }
         } catch (error) {
-            console.error('Error fetching Name:', error.message);
+            console.error('Error fetching user profile:', error.message);
         }
-    };
-
-    document.addEventListener('DOMContentLoaded', function () {
-        fetchName(); // Fetch and display the user's name and UID
+    }
+    
+    function saveProfileChanges(event) {
+        event.preventDefault(); // Prevent form submission
+    
+        const updatedProfile = {
+            uid: document.getElementById('profileUid').value,
+            name: document.getElementById('profileName').value,
+            email: document.getElementById('profileEmail').value,
+            kasm_server_needed: document.getElementById('kasm-server').checked,
+        };
+    
+        console.log('Saving Profile Changes:', updatedProfile);
+    
+        // Add logic to send updatedProfile to the backend
+    }
+    
+    function editProfilePhoto() {
+        alert('Edit Profile Photo functionality coming soon!');
+    }
+    
+    // Ensure the profile data is fetched on page load
+    document.addEventListener('DOMContentLoaded', async function () {
+        await fetchUserProfile();
     });
 </script>
