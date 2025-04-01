@@ -103,6 +103,33 @@ class GameLevelParadise {
         }
     };
     
+    const sprite_src_cryptoMining = path + "/images/gamify/mining.png"; // Path to the NPC sprite
+    const sprite_greet_cryptoMining = "Teleport to the crypto mining hub?";
+    
+    const sprite_data_cryptoMining = {
+        id: 'CryptoMining-NPC',
+        greeting: sprite_greet_cryptoMining,
+        src: sprite_src_cryptoMining,
+        SCALE_FACTOR: 10,
+        ANIMATION_RATE: 50,
+        pixels: {height: 600, width: 600},
+        INIT_POSITION: { x: width / 3, y: height / 3 },
+        orientation: {rows: 1, columns: 1},
+        down: {row: 0, start: 0, columns: 1 },
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+        // Reaction when player approaches NPC
+        reaction: function() {
+            alert(sprite_greet_cryptoMining);
+        },
+        // Interact when player presses "E"
+        interact: function() {
+            const confirmTeleport = window.confirm("Teleport to crypto?");
+            if (confirmTeleport) {
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/mining"; // Replace with your link
+            }
+        }
+    };
+
     const sprite_src_crypto = path + "/images/gamify/bitcoin.png"; // Path to the NPC sprite
     const sprite_greet_crypto = "Teleport to the crypto hub?";
     
@@ -125,7 +152,7 @@ class GameLevelParadise {
         interact: function() {
             const confirmTeleport = window.confirm("Teleport to crypto?");
             if (confirmTeleport) {
-                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/mining"; // Replace with your link
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio"; // Replace with your link
             }
         }
     };
@@ -135,7 +162,8 @@ class GameLevelParadise {
     this.classes = [
       { class: GameEnvBackground, data: image_data_city },
       { class: Player, data: sprite_data_chillguy },
-      { class: Npc, data: sprite_data_crypto },
+      { class: Npc, data: sprite_data_cryptoMining },
+      { class: Npc, data: sprite_data_crypto }, 
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_casino },
     ];
