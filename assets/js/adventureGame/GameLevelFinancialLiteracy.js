@@ -52,7 +52,7 @@ class GameLevelFinancialLiteracy {
             src: sprite_src_owl,
             SCALE_FACTOR: 8,
             ANIMATION_RATE: 50,
-            pixels: { height: 384, width: 512 },
+            pixels: { height: 1068, width: 1071 },
             INIT_POSITION: { x: width * 0.85, y: height * 0.4 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
