@@ -125,7 +125,7 @@ class GameLevelParadise {
         interact: function() {
             const confirmTeleport = window.confirm("Teleport to crypto?");
             if (confirmTeleport) {
-                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home"; // Replace with your link
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/mining"; // Replace with your link
             }
         }
     };
