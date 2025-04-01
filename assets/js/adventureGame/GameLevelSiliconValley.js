@@ -4,7 +4,7 @@ import Player from './Player.js';
 import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
-
+import Game from './Game.js';
 class GameLevelSiliconValley {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
@@ -88,10 +88,9 @@ class GameLevelSiliconValley {
         alert(sprite_greet_fidelity);
       },
       interact: function () {
-        let quiz = new Quiz();
-        quiz.initialize();
-        quiz.openPanel(sprite_data_fidelity.id);
-      }
+        Game.attemptQuizForNpc(sprite_data_fidelity.id);
+    }
+    
     };
 
     const sprite_src_schwab = path + "/images/gamify/schwab.png";
@@ -111,9 +110,7 @@ class GameLevelSiliconValley {
         alert(sprite_greet_schwab);
       },
       interact: function () {
-        let quiz = new Quiz();
-        quiz.initialize();
-        quiz.openPanel(sprite_data_schwab.id);
+        Game.attemptQuizForNpc(sprite_data_schwab.id);
       }
     };
 
