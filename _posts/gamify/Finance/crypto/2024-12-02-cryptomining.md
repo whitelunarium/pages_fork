@@ -699,6 +699,7 @@ body {
 }
 </style>
 <body>
+    <div id="notification" class="notification"></div>
     <div class="main-content">
         <!-- Page title -->
         <h1 class="page-title">Crypto Mining Simulator</h1>
@@ -889,6 +890,9 @@ body {
                 <!-- GPUs will be listed here -->
             </div>
         </div>
+    </div>
+    <div id="sellModal">
+        <div id="sellModalContent"></div>
     </div>
     <script type="module">
         import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js'; 
@@ -1282,39 +1286,44 @@ body {
             if (!inventoryElement) return;
             inventoryElement.innerHTML = '';
             const gpus = stats?.gpus || [];
-            if (gpus.length === 0) {
-                inventoryElement.innerHTML = `
-                    <div class="text-gray-400 text-center p-8 bg-gray-800 rounded-lg w-full">
-                        <p class="mb-2">🛒 Inventory empty!</p>
-                        <p>Click the button above to visit the GPU shop</p>
-                    </div>
-                `;
+
+            if (!gpus.length) {
+                inventoryElement.innerHTML = '<p class="text-gray-400 text-center">No GPUs in inventory</p>';
                 return;
             }
-            // Group GPUs by ID and count quantities
+
+            // Create gpuGroups object to group GPUs by ID
             const gpuGroups = {};
             gpus.forEach(gpu => {
                 const gpuId = gpu.id;
                 if (!gpuGroups[gpuId]) {
                     gpuGroups[gpuId] = {
                         ...gpu,
-                        quantity: gpu.quantity,
-                        activeCount: gpu.isActive ? gpu.quantity : 0
+                        quantity: gpu.quantity || 0,
+                        activeCount: gpu.isActive ? (gpu.quantity || 0) : 0
                     };
                 }
             });
+
             const container = document.createElement('div');
             container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4';
+            
             Object.values(gpuGroups).forEach(gpu => {
                 const gpuCard = document.createElement('div');
                 gpuCard.className = 'bg-gray-800 rounded-xl p-6 shadow-2xl transform transition-all duration-300 hover:scale-[1.02] border border-gray-700';
                 gpuCard.dataset.gpuId = gpu.id;
-                const hashrate = gpu.hashrate || 0;
-                const power = gpu.power || 0;
-                const temp = gpu.temp || 0;
+
+                // Fix property names to match the backend data
+                const hashrate = parseFloat(gpu.hashRate) || 0;  // Changed from hashrate to hashRate
+                const power = parseFloat(gpu.powerConsumption) || 0;  // Changed from power to powerConsumption
+                const temp = parseFloat(gpu.temp) || 0;
+                const price = parseFloat(gpu.price) || 0;
+                
                 const dailyRevenue = hashrate * 86400 * 0.00000001;
                 const dailyPowerCost = (power * 24 / 1000 * 0.12);
                 const dailyProfit = dailyRevenue - dailyPowerCost;
+                const sellPrice = (price * 0.8).toFixed(2);
+
                 gpuCard.innerHTML = `
                     <div class="flex flex-col h-full">
                         <div class="flex-1">
@@ -1339,12 +1348,20 @@ body {
                             </div>
                             <div class="mt-4 text-sm">
                                 <p class="text-purple-400">Total Daily Profit: $${(dailyProfit * gpu.quantity).toFixed(2)}</p>
+                                <p class="text-yellow-400">Sell Price: $${sellPrice} each</p>
+                            </div>
+                            <div class="mt-4 flex justify-end">
+                                <button onclick="showSellModal(${gpu.id}, '${gpu.name}', ${gpu.quantity}, ${sellPrice})"
+                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                                    Sell GPU
+                                </button>
                             </div>
                         </div>
                     </div>
                 `;
                 container.appendChild(gpuCard);
             });
+            
             inventoryElement.appendChild(container);
         }
         function updateCharts(stats) {
@@ -1695,5 +1712,109 @@ body {
         localStorage.setItem('neverShowTutorial', 'true');
         localStorage.setItem('lastLogin', new Date().getTime().toString());
     }
+    </script>
+    <script>
+    // Add these functions for selling functionality
+    function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
+        // Ensure sellPrice is a valid number
+        sellPrice = parseFloat(sellPrice) || 0;
+        
+        const modal = document.getElementById('sellModal');
+        const modalContent = document.getElementById('sellModalContent');
+        
+        modalContent.innerHTML = `
+            <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
+                <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
+                <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
+                
+                <div class="mb-4">
+                    <label class="text-gray-300 block mb-2">Quantity:</label>
+                    <input type="number" id="sellQuantity" 
+                           min="1" max="${maxQuantity}" value="1" 
+                           class="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                           onchange="updateSellTotal(${sellPrice})">
+                </div>
+                
+                <p class="text-lg text-green-400 mb-4">
+                    Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
+                </p>
+                
+                <div class="flex justify-end gap-4">
+                    <button onclick="closeSellModal()"
+                            class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
+                        Cancel
+                    </button>
+                    <button onclick="confirmSell(${gpuId})"
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                        Confirm Sale
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        modal.style.display = 'flex';
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        
+        // Initialize the total value
+        updateSellTotal(sellPrice);
+    }
+
+    // Make these functions global
+    window.updateSellTotal = function(sellPrice) {
+        const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
+        const total = (sellPrice * quantity).toFixed(2);
+        document.getElementById('totalSellValue').textContent = total;
+    };
+
+    window.closeSellModal = function() {
+        document.getElementById('sellModal').style.display = 'none';
+    };
+
+    // Update the confirmSell function to use the correct URI
+    window.confirmSell = async function(gpuId) {
+        const quantity = parseInt(document.getElementById('sellQuantity').value);
+        try {
+            // Use the correct URI from your config
+            const response = await fetch(`/api/mining/gpu/sell/${gpuId}`, {
+                ...window.fetchOptions,
+                method: 'POST',
+                body: JSON.stringify({ quantity })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                window.showNotification(result.message);
+                closeSellModal();
+                updateMiningStats();
+            } else {
+                window.showNotification(result.message || 'Failed to sell GPU', true);
+            }
+        } catch (error) {
+            window.showNotification('Error selling GPU: ' + error.message, true);
+        }
+    };
+    </script>
+    <script>
+    // Define these at the very top of your first script tag
+    const showNotification = (message, isError = false) => {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `notification ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-4 py-2 rounded shadow-lg`;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    };
+
+    // Make it globally available
+    window.showNotification = showNotification;
+
+    // Also define fetchOptions globally if not already defined
+    window.fetchOptions = {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
     </script>
 </body>
