@@ -598,7 +598,8 @@ class GameLevelMeteorBlaster {
       }, 300)
     }
 
-    this.quiz.openPanel(quizData, handleAnswer)
+    // Pass the pre-fetched question data directly to openPanel
+    this.quiz.openPanel(null, handleAnswer, quizData)
   }
 
   showKeyReward() {
