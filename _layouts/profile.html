@@ -516,40 +516,35 @@ active_tab: profile
 
     // FETCH COMMANDS ========
     window.fetchName = async function () {
-        const URL = javaURI + "/api/person/get"; // Adjusted endpoint
+        const URL = pythonURI + "/api/id"; // Adjusted endpoint
 
         try {
             const response = await fetch(URL, fetchOptions);
-
             if (!response.ok) {
                 throw new Error(`Failed to fetch Name: ${response.status}`);
             }
 
             const data = await response.json();
             return data.name;
-        }
-        catch (error) {
-            document.getElementById("name").textContent = "Failed to load. Are you logged in?";
+        } catch (error) {
             console.error('Error fetching Name:', error.message);
             return null;
         }
     };
 
     window.fetchUid = async function () {
-        const URL = javaURI + "/api/person/get"; // Adjusted endpoint
+        const URL = pythonURI + "/api/id"; // Adjusted endpoint
+
         try {
             const response = await fetch(URL, fetchOptions);
-
             if (!response.ok) {
-                throw new Error(`Failed to fetch Name: ${response.status}`);
+                throw new Error(`Failed to fetch UID: ${response.status}`);
             }
 
             const data = await response.json();
             return data.uid;
-        }
-        catch (error) {
-            document.getElementById("uid").textContent = "Failed to load. Are you logged in?";
-            console.error('Error fetching Name:', error.message);
+        } catch (error) {
+            console.error('Error fetching UID:', error.message);
             return null;
         }
     };
@@ -624,19 +619,21 @@ active_tab: profile
         }
 
         // send the post request
-        const URL = javaURI + "/api/person/update"; // Adjusted endpoint
+        const URL = pythonURI + "/api/user";
         const options = {
             URL,
-            body: { name }, // Adjust the message area as needed
+            body: { name },
+            message: 'name-message',
             callback: () => {
                 console.log('Name updated successfully!');
-                alert("Name updated successfully!");
+                window.updateNameField(name);
             }
         };
         try {
-            await postUpdate(options);
+            await putUpdate(options);
         } catch (error) {
-            console.error('Error updating name:', error.message);
+            console.error('Error updating Name:', error.message);
+            document.getElementById('name-message').textContent = 'Error updating Name: ' + error.message;
         }
     };
 
@@ -645,19 +642,25 @@ active_tab: profile
 
         // send the post request
         if (uid) {
-            const URL = javaURI + "/api/person/update";
+            const URL = pythonURI + "/api/user"; // Adjusted endpoint
+
             const options = {
                 URL,
                 body: { uid },
+                message: 'uid-message', // Adjust the message area as needed
                 callback: () => {
-                    console.log('Uid updated successfully!');
-                    alert("UID updated successfully!");
+                    alert("You updated your Github ID, so you will automatically be logged out. Be sure to remember your new github id to log in!");
+                    console.log('UID updated successfully!');
+                    window.updateUidField(uid);
+                    window.location.href = '{{site.baseurl}}/duallogin';
                 }
             };
+
             try {
-                await postUpdate(options);
+                await putUpdate(options);
             } catch (error) {
-                console.error('Error updating uid:', error.message);
+                console.error('Error updating UID:', error.message);
+                document.getElementById('uid-message').textContent = 'Error updating UID: ' + error.message;
             }
         }
 
@@ -695,21 +698,25 @@ active_tab: profile
         const password = document.getElementById("passwordChangeInput").value.trim(); // Get and trim input value
 
         if (password) {
-            const URL = javaURI + "/api/person/update"; // Adjusted endpoint
+            const URL = pythonURI + "/api/user"; // Adjusted endpoint
+
             const options = {
                 URL,
-                body: { password }, // Adjust the message area as needed
+                body: { password },
+                message: 'password-message', // Adjust the message area as needed
                 callback: () => {
                     console.log('Password updated successfully!');
-                    window.location.href = '/portfolio_2025/toolkit-login'
+                    window.location.href = '{{site.baseurl}}/duallogin';
                 }
             };
+
             try {
                 alert("You updated your password, so you will automatically be logged out. Be sure to remember your password!");
-                await postUpdate(options);
-                await logoutUserJava();
+                await putUpdate(options);
+                await logoutUser();
             } catch (error) {
                 console.error('Error updating password:', error.message);
+                document.getElementById('password-message').textContent = 'Error updating password: ' + error.message;
             }
         }
     }
