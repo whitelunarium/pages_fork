@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: bank
 title: Blackjack
 permalink: /gamify/blackjack
 ---

@@ -1,0 +1,42 @@
+---
+layout: base
+---
+<nav class="bank-nav">
+  <div class="nav-container">
+    <a class="nav-link" href="{{ site.baseurl }}/gamify/bank">Bank</a>
+    <a class="nav-link" href="{{ site.baseurl }}/leaderboard/overall-leaderboard">Leaderboard</a>
+    <a class="nav-link" href="{{ site.baseurl }}/gamify/timeline">Timeline</a>
+  </div>
+</nav>
+
+{{ content }}
+
+<style>
+.bank-nav {
+  background-color: #f8f9fa;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+</style>

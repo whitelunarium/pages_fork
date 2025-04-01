@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: bank
 title: Bank Analytics
 permalink: /gamify/bankanalytics
 ---
@@ -172,14 +172,7 @@ permalink: /gamify/bankanalytics
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-buttons">
-        <a href="{{site.baseurl}}/gamify/bank">Bank</a>
-        <a href="{{site.baseurl}}/leaderboard/overall-leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/gamify/timeline">Timeline</a>
-    </div>
-  </nav>
+
   <br>
   <h1 style="text-align: center;">Bank Analytics</h1>
   <!-- Dashboard Content -->

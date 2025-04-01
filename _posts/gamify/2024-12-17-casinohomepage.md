@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: bank
 title: Casino Homepage
 permalink: /gamify/casinohomepage
 ---
