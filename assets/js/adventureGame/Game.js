@@ -4,6 +4,7 @@ import GameLevelDesert from "./GameLevelAirport.js";
 import GameLevelAirport from "./GameLevelAirport.js";
 import GameLevelSquares from './GameLevelSquares.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
+import GameLevelParadise from './GameLevelParadise.js';
 
 
 class Game {
