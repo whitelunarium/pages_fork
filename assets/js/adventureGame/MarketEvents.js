@@ -33,7 +33,12 @@ class MarketEvents {
                 marketVolatility: 2.0,
                 priceChange: -0.3,
                 tradingVolume: 2.5,
-                message: "Market crash! Stock prices are falling rapidly!"
+                message: "Market crash! Stock prices are falling rapidly!",
+                npcEffect: {
+                    speed: 0.7, // NPCs move 30% slower
+                    panic: true, // NPCs run around in panic
+                    color: "red" // NPCs turn red
+                }
             },
             visualEffect: "red_flash",
             soundEffect: "crash_sound"
@@ -49,7 +54,12 @@ class MarketEvents {
                 marketVolatility: 1.5,
                 priceChange: 0.25,
                 tradingVolume: 2.0,
-                message: "Bull market rally! Prices are soaring!"
+                message: "Bull market rally! Prices are soaring!",
+                npcEffect: {
+                    speed: 1.3, // NPCs move 30% faster
+                    happy: true, // NPCs jump with joy
+                    color: "green" // NPCs turn green
+                }
             },
             visualEffect: "green_flash",
             soundEffect: "rally_sound"
@@ -65,7 +75,12 @@ class MarketEvents {
                 marketVolatility: 1.8,
                 priceChange: 0.15,
                 tradingVolume: 1.8,
-                message: "Earnings reports are coming in! Watch for price movements!"
+                message: "Earnings reports are coming in! Watch for price movements!",
+                npcEffect: {
+                    speed: 1.1, // NPCs move slightly faster
+                    busy: true, // NPCs look busy with papers
+                    color: "blue" // NPCs turn blue
+                }
             },
             visualEffect: "chart_flash",
             soundEffect: "earnings_sound"
@@ -81,7 +96,12 @@ class MarketEvents {
                 marketVolatility: 2.2,
                 priceChange: 0.2,
                 tradingVolume: 2.2,
-                message: "Fed announcement! Market is reacting to policy changes!"
+                message: "Fed announcement! Market is reacting to policy changes!",
+                npcEffect: {
+                    speed: 0.9, // NPCs move slightly slower
+                    serious: true, // NPCs look serious
+                    color: "gold" // NPCs turn gold
+                }
             },
             visualEffect: "gold_flash",
             soundEffect: "fed_sound"
@@ -203,6 +223,104 @@ class MarketEvents {
         if (this.gameEnv.market) {
             this.gameEnv.market.applyEventEffects(event.effect);
         }
+
+        // Apply NPC effects
+        if (event.effect.npcEffect) {
+            this.applyNPCEffects(event.effect.npcEffect);
+        }
+    }
+
+    applyNPCEffects(npcEffect) {
+        // Find all NPCs in the game
+        const npcs = this.gameEnv.gameObjects.filter(obj => obj instanceof NPC);
+        
+        npcs.forEach(npc => {
+            // Apply speed changes
+            if (npcEffect.speed) {
+                npc.baseSpeed *= npcEffect.speed;
+            }
+
+            // Apply visual effects
+            if (npcEffect.color) {
+                npc.color = npcEffect.color;
+            }
+
+            // Apply behavior changes
+            if (npcEffect.panic) {
+                this.startPanicBehavior(npc);
+            } else if (npcEffect.happy) {
+                this.startHappyBehavior(npc);
+            } else if (npcEffect.busy) {
+                this.startBusyBehavior(npc);
+            } else if (npcEffect.serious) {
+                this.startSeriousBehavior(npc);
+            }
+        });
+    }
+
+    startPanicBehavior(npc) {
+        // Make NPCs run around randomly in panic
+        const originalBehavior = npc.update;
+        npc.update = () => {
+            // Random direction changes
+            if (Math.random() < 0.1) {
+                npc.xVelocity = (Math.random() - 0.5) * 5;
+                npc.yVelocity = (Math.random() - 0.5) * 5;
+            }
+            originalBehavior.call(npc);
+        };
+
+        // Reset after event duration
+        setTimeout(() => {
+            npc.update = originalBehavior;
+            npc.xVelocity = 0;
+            npc.yVelocity = 0;
+        }, 300000); // 5 minutes
+    }
+
+    startHappyBehavior(npc) {
+        // Make NPCs jump with joy
+        const originalBehavior = npc.update;
+        npc.update = () => {
+            // Add jumping motion
+            npc.yVelocity = Math.sin(Date.now() / 200) * 2;
+            originalBehavior.call(npc);
+        };
+
+        setTimeout(() => {
+            npc.update = originalBehavior;
+            npc.yVelocity = 0;
+        }, 300000);
+    }
+
+    startBusyBehavior(npc) {
+        // Make NPCs look busy with papers
+        const originalBehavior = npc.update;
+        npc.update = () => {
+            // Add slight movement to simulate busyness
+            npc.xVelocity = Math.sin(Date.now() / 1000) * 0.5;
+            originalBehavior.call(npc);
+        };
+
+        setTimeout(() => {
+            npc.update = originalBehavior;
+            npc.xVelocity = 0;
+        }, 600000); // 10 minutes
+    }
+
+    startSeriousBehavior(npc) {
+        // Make NPCs move more deliberately
+        const originalBehavior = npc.update;
+        npc.update = () => {
+            // Reduce movement speed and make it more deliberate
+            npc.xVelocity *= 0.9;
+            npc.yVelocity *= 0.9;
+            originalBehavior.call(npc);
+        };
+
+        setTimeout(() => {
+            npc.update = originalBehavior;
+        }, 180000); // 3 minutes
     }
 
     showEventNotification(event) {
@@ -363,4 +481,4 @@ class MarketEvents {
     }
 }
 
-export default MarketEvents; 
+export default MarketEvents;

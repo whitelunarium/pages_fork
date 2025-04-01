@@ -368,6 +368,61 @@ class GameLevelMeteorBlaster {
         ],
         correctAnswer: 0
       },
+      {
+        type: "multiple-choice",
+        question: "What is the primary purpose of a budget?",
+        options: [
+          "To spend all your money",
+          "To track and control your spending",
+          "To avoid paying taxes",
+          "To invest in stocks"
+        ],
+        correctAnswer: 1
+      },
+      {
+        type: "multiple-choice",
+        question: "What is inflation?",
+        options: [
+          "When prices decrease over time",
+          "When prices increase over time",
+          "When the stock market crashes",
+          "When interest rates drop"
+        ],
+        correctAnswer: 1
+      },
+      {
+        type: "multiple-choice",
+        question: "What is a dividend?",
+        options: [
+          "A type of loan",
+          "A payment made by a company to its shareholders",
+          "A type of tax",
+          "A type of insurance"
+        ],
+        correctAnswer: 1
+      },
+      {
+        type: "multiple-choice",
+        question: "What is the Dow Jones Industrial Average?",
+        options: [
+          "A type of savings account",
+          "A measure of 30 large US companies' stock prices",
+          "A type of bond",
+          "A government agency"
+        ],
+        correctAnswer: 1
+      },
+      {
+        type: "multiple-choice",
+        question: "What is a credit score?",
+        options: [
+          "Your bank account balance",
+          "A number that represents your creditworthiness",
+          "Your annual income",
+          "Your tax bracket"
+        ],
+        correctAnswer: 1
+      },
 
       // Free response questions
       {
@@ -399,6 +454,36 @@ class GameLevelMeteorBlaster {
         question: "What's the three-letter acronym for a tax-advantaged retirement account?",
         correctAnswer: "IRA",
         acceptableAnswers: ["ira", "IRA", "i.r.a."]
+      },
+      {
+        type: "free-response",
+        question: "What's the term for spreading investments across different assets? (Hint: starts with D)",
+        correctAnswer: "diversification",
+        acceptableAnswers: ["diversification", "diversify", "diversified"]
+      },
+      {
+        type: "free-response",
+        question: "What's the term for the percentage of interest charged on borrowed money? (Hint: starts with R)",
+        correctAnswer: "rate",
+        acceptableAnswers: ["rate", "interest rate", "APR"]
+      },
+      {
+        type: "free-response",
+        question: "What's the term for money set aside for future use? (Hint: starts with S)",
+        correctAnswer: "savings",
+        acceptableAnswers: ["savings", "saving", "saved money"]
+      },
+      {
+        type: "free-response",
+        question: "What's the term for the total value of all goods and services produced in a country? (Hint: starts with G)",
+        correctAnswer: "GDP",
+        acceptableAnswers: ["gdp", "GDP", "g.d.p."]
+      },
+      {
+        type: "free-response",
+        question: "What's the term for a company's first sale of stock to the public? (Hint: 3 letters)",
+        correctAnswer: "IPO",
+        acceptableAnswers: ["ipo", "IPO", "i.p.o."]
       }
     ];
 
