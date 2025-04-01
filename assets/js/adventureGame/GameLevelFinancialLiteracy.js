@@ -123,7 +123,7 @@ class GameLevelFinancialLiteracy {
         newsPanel.style.display = 'block';
 
         try {
-            const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=YIFVKCN362NFW1KO`);
+            const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=HB01C01RW6EG85AB`);
             const data = await response.json();
 
             if (data.feed && data.feed.length > 0) {
