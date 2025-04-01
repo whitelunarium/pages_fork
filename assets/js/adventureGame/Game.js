@@ -4,6 +4,7 @@ import GameLevelDesert from "./GameLevelAirport.js";
 import GameLevelAirport from "./GameLevelAirport.js";
 import GameLevelSquares from './GameLevelSquares.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
+import Quiz from './Quiz.js';
 
 class Game {
     // initialize user and launch GameControl 
@@ -170,6 +171,54 @@ class Game {
             return null;
         }
     }
+    static async getIncorrectQuestionsByCategory(personId, category) {
+        try {
+            const response = await fetch(
+                `${this.javaURI}/rpg_answer/getIncorrectQuestions/${personId}/${category}`,
+                this.fetchOptions
+            );
+            if (!response.ok) throw new Error("Failed to fetch incorrect questions");
+            const data = await response.json();
+            return data.questions || [];
+        } catch (error) {
+            console.error("Error fetching incorrect questions:", error);
+            return [];
+        }
+    }
+    static async attemptQuizForNpc(npcCategory, callback = null) {
+        const personId = this.id;
+    
+        try {
+            const response = await this.fetchQuestionByCategory(npcCategory);
+            const allQuestions = response?.questions || [];
+    
+            if (allQuestions.length === 0) {
+                alert(`❌ No questions available for ${npcCategory}`);
+                return;
+            }
+    
+            const unansweredQuestions = allQuestions.filter(q =>
+                !(q.question.answeredBy?.includes(personId))
+            );
+    
+            if (unansweredQuestions.length === 0) {
+                alert(`✅ You've already completed all of ${npcCategory}'s questions!`);
+                return;
+            }
+    
+            const quiz = new Quiz();
+            quiz.initialize();
+            quiz.openPanel(npcCategory, callback, unansweredQuestions);
+    
+        } catch (error) {
+            console.error("Error during NPC quiz attempt:", error);
+            alert("⚠️ There was a problem loading the quiz. Please try again.");
+        }
+    }
+    
+        
+    
+        
 
     static async updateStatsMCQ(questionId, choiceId, personId) {
         try {

@@ -473,7 +473,7 @@ class Quiz {
         // Wait half a second so the star confetti starts
         // after the squares, creating a 2-wave effect
     }
-    async openPanel(npcData, callback) {
+    async openPanel(npcData, callback, preFetchedQuestions = null) {
         console.log("Opening quiz panel with data:", npcData);
     
         if (this.isOpen) {
@@ -493,20 +493,21 @@ class Quiz {
     
         let formattedQuestion;
         try {
-            const questionData = await Game.fetchQuestionByCategory(npcData);
-            if (!questionData?.questions || questionData.questions.length === 0) {
+            const questionList = preFetchedQuestions ??
+                (await Game.fetchQuestionByCategory(npcData)).questions;
+    
+            if (!questionList || questionList.length === 0) {
                 console.error("No questions found for category:", npcData);
                 this.isOpen = false;
                 return;
             }
     
-            // Filter out already-answered questions
             if (!this.answeredQuestionsByNpc[npcData]) {
                 this.answeredQuestionsByNpc[npcData] = new Set();
             }
             const answered = this.answeredQuestionsByNpc[npcData];
     
-            const availableQuestions = questionData.questions.filter(
+            const availableQuestions = questionList.filter(
                 q => !answered.has(q.question.id)
             );
     
@@ -520,6 +521,7 @@ class Quiz {
     
             formattedQuestion = {
                 title: npcData + " Quiz",
+                npcCategory: npcData,
                 question: questionEntry.question.content,
                 type: "multiple-choice",
                 options: questionEntry.choices.map(c => c.choice),
@@ -527,7 +529,6 @@ class Quiz {
                 questionId: questionEntry.question.id,
                 choiceIds: questionEntry.choices.map(c => c.id)
             };
-            console.log("Fetched question:", formattedQuestion);
         } catch (error) {
             console.error("Error fetching question:", error);
             this.isOpen = false;
@@ -574,15 +575,14 @@ class Quiz {
                 const answerIndex = parseInt(selectedAnswer.value);
                 isCorrect = answerIndex === this.currentNpc.correctAnswer;
     
-                // ✅ Hit the backend to submit answer
-                const questionId = this.currentNpc.questionId; // Make sure this is available
-                const choiceId = this.currentNpc.choiceIds?.[answerIndex]; // Add optional chaining
+                const questionId = this.currentNpc.questionId; 
+                const choiceId = this.currentNpc.choiceIds?.[answerIndex]; 
                 const personId = Game.id;
     
                 try {
                     if (questionId && choiceId && personId) {
                         await Game.updateStatsMCQ(questionId, choiceId, personId);
-                        Game.fetchStats(personId); // Refresh UI stats
+                        Game.fetchStats(personId); 
                     } else {
                         console.error("Missing required data for MCQ submission:", { questionId, choiceId, personId });
                     }
@@ -610,13 +610,13 @@ class Quiz {
         const callback = this.callback;
         const npcCategory = this.currentNpc?.npcCategory;
     
-        // Track answered question
-        if (npcCategory) {
+        if (isCorrect && npcCategory) {
             if (!this.answeredQuestionsByNpc[npcCategory]) {
                 this.answeredQuestionsByNpc[npcCategory] = new Set();
             }
             this.answeredQuestionsByNpc[npcCategory].add(this.currentNpc.questionId);
         }
+        
     
         setTimeout(() => {
             if (callback) callback(isCorrect);
