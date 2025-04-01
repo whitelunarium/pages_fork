@@ -493,46 +493,70 @@ class Quiz {
     
         let formattedQuestion;
         try {
-            const questionList = preFetchedQuestions ??
-                (await Game.fetchQuestionByCategory(npcData)).questions;
+            // If preFetchedQuestions is provided, use it directly
+            if (preFetchedQuestions) {
+                formattedQuestion = {
+                    title: "Finance Challenge",
+                    question: preFetchedQuestions.question,
+                    type: preFetchedQuestions.type,
+                    options: preFetchedQuestions.options,
+                    correctAnswer: preFetchedQuestions.correctAnswer,
+                    acceptableAnswers: preFetchedQuestions.acceptableAnswers
+                };
+            } else {
+                // Try to fetch from backend
+                const response = await Game.fetchQuestionByCategory(npcData);
+                if (!response || !response.questions || response.questions.length === 0) {
+                    throw new Error("No questions available from backend");
+                }
     
-            if (!questionList || questionList.length === 0) {
-                console.error("No questions found for category:", npcData);
-                this.isOpen = false;
-                return;
+                const questionList = response.questions;
+    
+                if (!this.answeredQuestionsByNpc[npcData]) {
+                    this.answeredQuestionsByNpc[npcData] = new Set();
+                }
+                const answered = this.answeredQuestionsByNpc[npcData];
+    
+                const availableQuestions = questionList.filter(
+                    q => !answered.has(q.question.id)
+                );
+    
+                if (availableQuestions.length === 0) {
+                    alert("You've answered all available questions from this NPC!");
+                    this.isOpen = false;
+                    return;
+                }
+    
+                const questionEntry = availableQuestions[0];
+    
+                formattedQuestion = {
+                    title: npcData + " Quiz",
+                    npcCategory: npcData,
+                    question: questionEntry.question.content,
+                    type: "multiple-choice",
+                    options: questionEntry.choices.map(c => c.choice),
+                    correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
+                    questionId: questionEntry.question.id,
+                    choiceIds: questionEntry.choices.map(c => c.id)
+                };
             }
-    
-            if (!this.answeredQuestionsByNpc[npcData]) {
-                this.answeredQuestionsByNpc[npcData] = new Set();
-            }
-            const answered = this.answeredQuestionsByNpc[npcData];
-    
-            const availableQuestions = questionList.filter(
-                q => !answered.has(q.question.id)
-            );
-    
-            if (availableQuestions.length === 0) {
-                alert("You've answered all available questions from this NPC!");
-                this.isOpen = false;
-                return;
-            }
-    
-            const questionEntry = availableQuestions[0];
-    
-            formattedQuestion = {
-                title: npcData + " Quiz",
-                npcCategory: npcData,
-                question: questionEntry.question.content,
-                type: "multiple-choice",
-                options: questionEntry.choices.map(c => c.choice),
-                correctAnswer: questionEntry.choices.findIndex(c => c.is_correct),
-                questionId: questionEntry.question.id,
-                choiceIds: questionEntry.choices.map(c => c.id)
-            };
         } catch (error) {
             console.error("Error fetching question:", error);
-            this.isOpen = false;
-            return;
+            // If we have preFetchedQuestions, use it as fallback
+            if (preFetchedQuestions) {
+                formattedQuestion = {
+                    title: "Finance Challenge",
+                    question: preFetchedQuestions.question,
+                    type: preFetchedQuestions.type,
+                    options: preFetchedQuestions.options,
+                    correctAnswer: preFetchedQuestions.correctAnswer,
+                    acceptableAnswers: preFetchedQuestions.acceptableAnswers
+                };
+            } else {
+                console.error("No fallback questions available");
+                this.isOpen = false;
+                return;
+            }
         }
     
         this.currentNpc = formattedQuestion;
