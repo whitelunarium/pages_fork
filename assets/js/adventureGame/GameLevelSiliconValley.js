@@ -4,7 +4,7 @@ import Player from './Player.js';
 import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
-import Game from './Game.js';
+
 class GameLevelSiliconValley {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
@@ -136,13 +136,43 @@ class GameLevelSiliconValley {
       }
     };
 
+    // Add Night Owl Character
+    const sprite_src_owl = path + "/images/gamify/owl.png";
+    const sprite_greet_owl = "Hoot! I'm the Tech Owl. Want to play a fun game? Press 'E' to start!";
+    const sprite_data_owl = {
+      id: 'Tech Owl',
+      greeting: sprite_greet_owl,
+      src: sprite_src_owl,
+      SCALE_FACTOR: 8,
+      ANIMATION_RATE: 50,
+      pixels: { height: 384, width: 512 },
+      INIT_POSITION: { x: width * 0.85, y: height * 0.4 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function() {
+        alert(sprite_greet_owl);
+      },
+      interact: function() {
+        let primaryGame = gameEnv.gameControl;
+        let levelArray = [GameLevelNightOwl];
+        let gameInGame = new GameControl(gameEnv.game, levelArray);
+        primaryGame.pause();
+        gameInGame.start();
+        gameInGame.gameOver = function() {
+          primaryGame.resume();
+        }
+      }
+    };
+
     this.classes = [
       { class: GameEnvBackground, data: image_data_siliconvalley },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_robot },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
-      { class: Npc, data: sprite_data_advisor }  
+      { class: Npc, data: sprite_data_advisor },
+      { class: Npc, data: sprite_data_owl }  // Add owl to the level
     ];
   }
 }
