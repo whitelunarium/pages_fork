@@ -4,6 +4,7 @@ import Player from './Player.js';
 import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
+import GameLevelNightOwl from './GameLevelNightOwl.js';
 
 class GameLevelSiliconValley {
   constructor(gameEnv) {
