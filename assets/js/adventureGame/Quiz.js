@@ -292,7 +292,10 @@ class Quiz {
             const dimDiv = document.createElement("div");
             dimDiv.id = "dim";
             document.body.append(dimDiv);
-            dimDiv.addEventListener("click", this.backgroundDim.remove); // Click off to close
+            dimDiv.addEventListener("click", () => {
+                this.closePanel();
+            });
+            
         },
 
         remove: () => {

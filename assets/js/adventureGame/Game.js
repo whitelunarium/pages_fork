@@ -242,15 +242,15 @@ class Game {
         }
     }
 
-    static async transitionToSiliconValley(personId) {
+    static async transitionToRetro(personId) {
         try {
-            const response = await fetch(`${this.javaURI}/question/transitionToSiliconValley?personId=${personId}`, this.fetchOptions);
+            const response = await fetch(`${this.javaURI}/question/transitionToRetro/${personId}`, this.fetchOptions);
             if (!response.ok) {
                 throw new Error("Failed to fetch questions");
             }
             const questionsAnswered = await response.json();
             console.log(questionsAnswered);
-            return questionsAnswered >= 6;
+            return questionsAnswered >= 9;
         } catch (error) {
             console.error("Error transitioning to Silicon Valley:", error);
             return null;
@@ -259,7 +259,7 @@ class Game {
 
     static async transitionToParadise(personId) {
         try {
-            const response = await fetch(`${this.javaURI}/question/transitionToParadise?personId=${personId}`, this.fetchOptions);
+            const response = await fetch(`${this.javaURI}/question/transitionToParadise/${personId}`, this.fetchOptions);
             if (!response.ok) {
                 throw new Error("Failed to fetch questions");
             }

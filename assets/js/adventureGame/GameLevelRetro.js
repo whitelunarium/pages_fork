@@ -3,7 +3,8 @@ import Npc from './Npc.js';
 import Player from './Player.js';
 import GameControl from './GameControl.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
-
+import GameLevelParadise from './GameLevelParadise.js';
+import Game from './Game.js';
 class GameLevelRetro {
   /**
    * Properties and methods to define a game level
@@ -63,18 +64,24 @@ class GameLevelRetro {
       reaction: function() {
           alert(sprite_greet_wizard);
       },
-      interact: function() {
-          // Check for meteor game key cookie
-          const cookies = document.cookie.split(';');
-          const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-          const hasKey = gameKeyCookie ? true : false;
-          
-          // Show appropriate message
-          if (hasKey) {
-              alert("🎉 Congratulations! You have earned the meteor game key!");
-          } else {
-              alert("❌ You haven't earned the meteor game key yet. Complete the meteor game to get it!");
-          }
+      interact: async function () {
+        const personId = Game.id; 
+        const transitionAllowed = await Game.transitionToRetro(personId);
+      
+        if (transitionAllowed) {
+          let primaryGame = gameEnv.gameControl;
+          let levelArray = [GameLevelParadise];
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+      
+          primaryGame.pause();
+          gameInGame.start();
+      
+          gameInGame.gameOver = function () {
+            primaryGame.resume();
+          };
+        } else {
+          alert("You need to answer all the questions before accessing Wallstreet. Keep exploring!");
+        }
       },
       collisionAction: function() {
           // This ensures the NPC is recognized in collision events
