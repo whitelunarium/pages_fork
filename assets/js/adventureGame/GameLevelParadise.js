@@ -56,10 +56,10 @@ class GameLevelParadise {
         id: 'Casino-NPC',
         greeting: sprite_greet_casino,
         src: sprite_src_casino,
-        SCALE_FACTOR: 10,
+        SCALE_FACTOR: 10, //scale factor for size
         ANIMATION_RATE: 50,
-        pixels: {height: 441, width: 339},
-        INIT_POSITION: { x: width * 0.75, y: height * 0.6 },
+        pixels: {height: 1920, width: 1861},
+        INIT_POSITION: { x: width * 0.55, y: height * 0.6 },
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -138,7 +138,6 @@ class GameLevelParadise {
       { class: Npc, data: sprite_data_crypto },
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_casino },
-
     ];
   }
 }
