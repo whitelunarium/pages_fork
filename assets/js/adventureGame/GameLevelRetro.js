@@ -56,7 +56,7 @@ class GameLevelRetro {
       SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
       pixels: {height: 163, width: 185}, 
-      INIT_POSITION: { x: (width / 6), y: (height / 6)}, 
+      INIT_POSITION: { x: (width / 2), y: (height / 2)}, 
       orientation: {rows: 1, columns: 1 },
       down: {row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
@@ -95,10 +95,10 @@ class GameLevelRetro {
         id: 'Alien',
         greeting: sprite_greet_alien,
         src: sprite_src_alien,
-        SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+        SCALE_FACTOR: 3,  // Adjust this based on your scaling needs
         ANIMATION_RATE: 50,
         pixels: {height: 460, width: 422},
-        INIT_POSITION: { x: (width / 5), y: (height / 3)},
+        INIT_POSITION: { x: (width / 7), y: (height / 3)},
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
