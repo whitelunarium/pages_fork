@@ -1,137 +1,313 @@
+import SoundManager from './SoundManager.js';
+
 class MarketEvents {
     constructor(gameEnv) {
         this.gameEnv = gameEnv;
-        this.events = [
-            {
-                title: "Market Crash!",
-                description: "The stock market has experienced a significant downturn. All investments are down 20%.",
-                effect: () => {
-                    // Reduce player's score by 20%
-                    const player = this.gameEnv.gameObjects.find(obj => obj instanceof Player);
-                    if (player) {
-                        player.score = Math.floor(player.score * 0.8);
-                        this.showEventAlert("Market Crash!", "Your score has decreased by 20%!");
-                    }
-                }
-            },
-            {
-                title: "Economic Boom!",
-                description: "The economy is thriving! All investments are up 15%.",
-                effect: () => {
-                    // Increase player's score by 15%
-                    const player = this.gameEnv.gameObjects.find(obj => obj instanceof Player);
-                    if (player) {
-                        player.score = Math.floor(player.score * 1.15);
-                        this.showEventAlert("Economic Boom!", "Your score has increased by 15%!");
-                    }
-                }
-            },
-            {
-                title: "Inflation Alert!",
-                description: "High inflation rates are affecting the economy. All prices are up 10%.",
-                effect: () => {
-                    // Increase meteor speed by 10%
-                    this.gameEnv.gameObjects.forEach(obj => {
-                        if (obj instanceof Meteor) {
-                            obj.yVelocity *= 1.1;
-                        }
-                    });
-                    this.showEventAlert("Inflation Alert!", "Meteors are moving 10% faster!");
-                }
-            },
-            {
-                title: "Interest Rate Hike!",
-                description: "Central bank raises interest rates. Movement speed reduced by 15%.",
-                effect: () => {
-                    // Reduce player movement speed by 15%
-                    const player = this.gameEnv.gameObjects.find(obj => obj instanceof Player);
-                    if (player) {
-                        player.xVelocity *= 0.85;
-                        player.yVelocity *= 0.85;
-                        this.showEventAlert("Interest Rate Hike!", "Your movement speed has decreased by 15%!");
-                    }
-                }
-            },
-            {
-                title: "Tech Sector Boom!",
-                description: "Technology companies are performing exceptionally well. Bonus points for correct answers!",
-                effect: () => {
-                    // Double points for correct answers temporarily
-                    this.gameEnv.scoreMultiplier = 2;
-                    setTimeout(() => {
-                        this.gameEnv.scoreMultiplier = 1;
-                        this.showEventAlert("Tech Sector Boom Ends", "Bonus points period has ended!");
-                    }, 10000); // Lasts for 10 seconds
-                    this.showEventAlert("Tech Sector Boom!", "Correct answers are worth double points for 10 seconds!");
-                }
-            }
-        ];
-        this.eventInterval = 30000; // Events occur every 30 seconds
-        this.startEventSystem();
+        this.events = [];
+        this.activeEvents = [];
+        this.eventHistory = [];
+        this.soundManager = new SoundManager();
+        this.eventTypes = {
+            MARKET_CRASH: 'market_crash',
+            BULL_RUN: 'bull_run',
+            EARNINGS_SEASON: 'earnings_season',
+            FED_ANNOUNCEMENT: 'fed_announcement',
+            MERGER_NEWS: 'merger_news',
+            IPO: 'ipo',
+            NATURAL_DISASTER: 'natural_disaster',
+            POLITICAL_EVENT: 'political_event',
+            TECH_BREAKTHROUGH: 'tech_breakthrough',
+            REGULATORY_CHANGE: 'regulatory_change'
+        };
+        this.initializeEvents();
     }
 
-    startEventSystem() {
-        setInterval(() => {
-            this.triggerRandomEvent();
-        }, this.eventInterval);
+    initializeEvents() {
+        // Market Crash Event
+        this.events.push({
+            type: this.eventTypes.MARKET_CRASH,
+            title: "Market Crash",
+            description: "A sudden market crash has occurred! Stock prices are plummeting.",
+            duration: 300, // 5 minutes
+            effect: {
+                marketVolatility: 2.0,
+                priceChange: -0.3,
+                tradingVolume: 2.5,
+                message: "Market crash! Stock prices are falling rapidly!"
+            },
+            visualEffect: "red_flash",
+            soundEffect: "crash_sound"
+        });
+
+        // Bull Run Event
+        this.events.push({
+            type: this.eventTypes.BULL_RUN,
+            title: "Bull Market Rally",
+            description: "A strong bull market rally is driving prices up!",
+            duration: 300,
+            effect: {
+                marketVolatility: 1.5,
+                priceChange: 0.25,
+                tradingVolume: 2.0,
+                message: "Bull market rally! Prices are soaring!"
+            },
+            visualEffect: "green_flash",
+            soundEffect: "rally_sound"
+        });
+
+        // Earnings Season Event
+        this.events.push({
+            type: this.eventTypes.EARNINGS_SEASON,
+            title: "Earnings Season",
+            description: "Major companies are reporting their earnings this week.",
+            duration: 600, // 10 minutes
+            effect: {
+                marketVolatility: 1.8,
+                priceChange: 0.15,
+                tradingVolume: 1.8,
+                message: "Earnings reports are coming in! Watch for price movements!"
+            },
+            visualEffect: "chart_flash",
+            soundEffect: "earnings_sound"
+        });
+
+        // Fed Announcement Event
+        this.events.push({
+            type: this.eventTypes.FED_ANNOUNCEMENT,
+            title: "Fed Policy Announcement",
+            description: "The Federal Reserve is making a major policy announcement.",
+            duration: 180, // 3 minutes
+            effect: {
+                marketVolatility: 2.2,
+                priceChange: 0.2,
+                tradingVolume: 2.2,
+                message: "Fed announcement! Market is reacting to policy changes!"
+            },
+            visualEffect: "gold_flash",
+            soundEffect: "fed_sound"
+        });
+
+        // Merger News Event
+        this.events.push({
+            type: this.eventTypes.MERGER_NEWS,
+            title: "Major Merger Announcement",
+            description: "Two major companies have announced a merger!",
+            duration: 240, // 4 minutes
+            effect: {
+                marketVolatility: 1.6,
+                priceChange: 0.18,
+                tradingVolume: 1.9,
+                message: "Merger news! Stock prices are reacting to the announcement!"
+            },
+            visualEffect: "blue_flash",
+            soundEffect: "merger_sound"
+        });
+
+        // IPO Event
+        this.events.push({
+            type: this.eventTypes.IPO,
+            title: "Major IPO Launch",
+            description: "A highly anticipated company is going public!",
+            duration: 300,
+            effect: {
+                marketVolatility: 1.7,
+                priceChange: 0.22,
+                tradingVolume: 2.1,
+                message: "IPO launch! New stock available for trading!"
+            },
+            visualEffect: "purple_flash",
+            soundEffect: "ipo_sound"
+        });
+
+        // Natural Disaster Event
+        this.events.push({
+            type: this.eventTypes.NATURAL_DISASTER,
+            title: "Natural Disaster Impact",
+            description: "A natural disaster is affecting major markets.",
+            duration: 360,
+            effect: {
+                marketVolatility: 2.3,
+                priceChange: -0.25,
+                tradingVolume: 2.0,
+                message: "Natural disaster! Market is experiencing significant volatility!"
+            },
+            visualEffect: "red_flash",
+            soundEffect: "disaster_sound"
+        });
+
+        // Political Event Event
+        this.events.push({
+            type: this.eventTypes.POLITICAL_EVENT,
+            title: "Political Event Impact",
+            description: "Major political news is affecting market sentiment.",
+            duration: 300,
+            effect: {
+                marketVolatility: 1.9,
+                priceChange: 0.15,
+                tradingVolume: 1.7,
+                message: "Political news! Market sentiment is shifting!"
+            },
+            visualEffect: "yellow_flash",
+            soundEffect: "political_sound"
+        });
+
+        // Tech Breakthrough Event
+        this.events.push({
+            type: this.eventTypes.TECH_BREAKTHROUGH,
+            title: "Tech Industry Breakthrough",
+            description: "A major technological breakthrough has been announced!",
+            duration: 240,
+            effect: {
+                marketVolatility: 1.5,
+                priceChange: 0.28,
+                tradingVolume: 1.8,
+                message: "Tech breakthrough! Tech stocks are surging!"
+            },
+            visualEffect: "blue_flash",
+            soundEffect: "tech_sound"
+        });
+
+        // Regulatory Change Event
+        this.events.push({
+            type: this.eventTypes.REGULATORY_CHANGE,
+            title: "Regulatory Changes",
+            description: "New regulations are affecting market operations.",
+            duration: 300,
+            effect: {
+                marketVolatility: 1.8,
+                priceChange: -0.15,
+                tradingVolume: 1.6,
+                message: "Regulatory changes! Market is adjusting to new rules!"
+            },
+            visualEffect: "orange_flash",
+            soundEffect: "regulatory_sound"
+        });
+    }
+
+    startEvent(eventType) {
+        const event = this.events.find(e => e.type === eventType);
+        if (event) {
+            this.activeEvents.push({
+                ...event,
+                startTime: Date.now(),
+                endTime: Date.now() + (event.duration * 1000)
+            });
+            this.applyEventEffects(event);
+            this.showEventNotification(event);
+            this.playEventEffects(event);
+        }
+    }
+
+    applyEventEffects(event) {
+        // Apply market effects
+        if (this.gameEnv.market) {
+            this.gameEnv.market.applyEventEffects(event.effect);
+        }
+    }
+
+    showEventNotification(event) {
+        // Create and show event notification
+        const notification = document.createElement('div');
+        notification.className = 'market-event-notification';
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(0, 32, 64, 0.98) 0%, rgba(0, 16, 32, 0.98) 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: slideIn 0.5s ease forwards;
+            border-left: 4px solid #00ff80;
+        `;
+
+        notification.innerHTML = `
+            <h3 style="margin: 0 0 10px 0; color: #00ff80;">${event.title}</h3>
+            <p style="margin: 0; font-size: 14px;">${event.description}</p>
+            <div style="margin-top: 10px; font-size: 12px; color: rgba(255, 255, 255, 0.7);">
+                Duration: ${event.duration / 60} minutes
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Remove notification after event duration
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.5s ease forwards';
+            setTimeout(() => notification.remove(), 500);
+        }, event.duration * 1000);
+    }
+
+    playEventEffects(event) {
+        // Play visual effects
+        if (event.visualEffect) {
+            this.playVisualEffect(event.visualEffect);
+        }
+
+        // Play sound effects
+        if (event.soundEffect) {
+            this.playSoundEffect(event.soundEffect);
+        }
+    }
+
+    playVisualEffect(effectType) {
+        const effect = document.createElement('div');
+        effect.className = `visual-effect ${effectType}`;
+        effect.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            animation: ${effectType} 1s ease forwards;
+        `;
+        document.body.appendChild(effect);
+        setTimeout(() => effect.remove(), 1000);
+    }
+
+    playSoundEffect(soundType) {
+        this.soundManager.playSound(soundType);
+    }
+
+    setSoundVolume(volume) {
+        this.soundManager.setVolume(volume);
+    }
+
+    toggleSoundMute() {
+        return this.soundManager.toggleMute();
+    }
+
+    isSoundMuted() {
+        return this.soundManager.isMuted();
+    }
+
+    update() {
+        // Update active events
+        this.activeEvents = this.activeEvents.filter(event => {
+            if (Date.now() >= event.endTime) {
+                this.eventHistory.push(event);
+                return false;
+            }
+            return true;
+        });
+    }
+
+    getActiveEvents() {
+        return this.activeEvents;
+    }
+
+    getEventHistory() {
+        return this.eventHistory;
     }
 
     triggerRandomEvent() {
-        const randomEvent = this.events[Math.floor(Math.random() * this.events.length)];
-        this.showEventAlert(randomEvent.title, randomEvent.description);
-        randomEvent.effect();
-    }
-
-    showEventAlert(title, message) {
-        // Create alert element
-        const alertDiv = document.createElement('div');
-        alertDiv.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            z-index: 1000;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        `;
-
-        // Create title element
-        const titleElement = document.createElement('h3');
-        titleElement.textContent = title;
-        titleElement.style.cssText = `
-            margin: 0 0 10px 0;
-            color: #ffd700;
-            font-size: 18px;
-        `;
-
-        // Create message element
-        const messageElement = document.createElement('p');
-        messageElement.textContent = message;
-        messageElement.style.cssText = `
-            margin: 0;
-            font-size: 16px;
-        `;
-
-        // Add elements to alert
-        alertDiv.appendChild(titleElement);
-        alertDiv.appendChild(messageElement);
-
-        // Add alert to document
-        document.body.appendChild(alertDiv);
-
-        // Remove alert after 5 seconds
-        setTimeout(() => {
-            alertDiv.style.opacity = '0';
-            alertDiv.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => {
-                document.body.removeChild(alertDiv);
-            }, 500);
-        }, 5000);
+        const eventTypes = Object.values(this.eventTypes);
+        const randomType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+        this.startEvent(randomType);
     }
 }
 
