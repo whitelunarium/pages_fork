@@ -4,7 +4,7 @@ import Player from './Player.js';
 import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
-import GameLevelNightOwl from './GameLevelNightOwl.js';
+import GameLevelFinancialLiteracy from './GameLevelFinancialLiteracy.js';
 
 class GameLevelSiliconValley {
   constructor(gameEnv) {
@@ -156,7 +156,7 @@ class GameLevelSiliconValley {
       },
       interact: function() {
         let primaryGame = gameEnv.gameControl;
-        let levelArray = [GameLevelNightOwl];
+        let levelArray = [GameLevelFinancialLiteracy];
         let gameInGame = new GameControl(gameEnv.game, levelArray);
         primaryGame.pause();
         gameInGame.start();
