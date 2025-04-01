@@ -394,13 +394,16 @@ active_tab: profile
         <div class="userPanel_name">
             <h2 id="name">Name</h2>
             <form onsubmit="return changeName(event)">
-                <input type="text" id="nameChangeInput" placeholder="Enter new name.">
-                <input type="submit" value="Save changes">
+                <input type="text" id="nameChangeInput" placeholder="Loading name..." />
+                <input type="submit" value="Save changes" />
             </form>
         </div>
         <div class="userPanel_uid">
             <h2 id="uid">User ID</h2>
-            <a>UID changing temporarily suspended.</a>
+            <form onsubmit="return changeUid(event)">
+                <input type="text" id="uidChangeInput" placeholder="Loading UID..." />
+                <input type="submit" value="Save changes" />
+            </form>
         </div>
         <div class="userPanel_password">
             <h2 id="password">Password</h2>
@@ -481,39 +484,49 @@ active_tab: profile
     // loading the user data to display
     window.loadUserData = async function () {
         try {
-            // fetch the data
+            // Fetch name and UID from Python backend
             const name = await window.fetchName();
             const uid = await window.fetchUid();
+    
+            // Fetch email and Kasm status from Java backend
             const email = await window.fetchEmail();
             const kasm = await window.fetchKasmStatus();
-
-            // if the fetch failed, set that as the text content; otherwise show
-            if (name == null) {
-                document.getElementById("name").textContent = "Failed to load. Are you logged in?";
-            }
-            else {
+    
+            // Update the name and UID placeholders
+            const nameInput = document.getElementById("nameChangeInput");
+            const uidInput = document.getElementById("uidChangeInput");
+    
+            if (name) {
                 document.getElementById("name").textContent = name;
+                nameInput.placeholder = name; // Set the placeholder to the fetched name
+            } else {
+                document.getElementById("name").textContent = "Failed to load. Are you logged in?";
+                nameInput.placeholder = "Failed to load name";
             }
-            if (uid == null) {
-                document.getElementById("uid").textContent = "Failed to load. Are you logged in?";
-            }
-            else {
+    
+            if (uid) {
                 document.getElementById("uid").textContent = uid;
+                uidInput.placeholder = uid; // Set the placeholder to the fetched UID
+            } else {
+                document.getElementById("uid").textContent = "Failed to load. Are you logged in?";
+                uidInput.placeholder = "Failed to load UID";
             }
-            if (email == null) {
+    
+            // Update the email field
+            if (email) {
+                document.getElementById("email").textContent = email;
+            } else {
                 document.getElementById("email").textContent = "Failed to load. Are you logged in?";
             }
-            else {
-                document.getElementById("email").textContent = email;
-            }
+    
+            // Update the Kasm status
             if (kasm == null) {
                 document.getElementById("kasm").textContent = "Failed to load. Are you logged in?";
             }
         } catch (error) {
-            console.error('Error setting placeholders:', error.message);
+            console.error("Error setting placeholders:", error.message);
         }
-    }
-
+    };
     // FETCH COMMANDS ========
     window.fetchName = async function () {
         const URL = pythonURI + "/api/id"; // Adjusted endpoint
