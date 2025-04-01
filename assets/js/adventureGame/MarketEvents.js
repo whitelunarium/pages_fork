@@ -223,8 +223,45 @@ class MarketEvents {
             border-left: 4px solid #00ff80;
         `;
 
+        // Add frog emojis based on event type
+        let frogEmoji = '🐸';
+        switch(event.type) {
+            case this.eventTypes.MARKET_CRASH:
+                frogEmoji = '🐸💥';
+                break;
+            case this.eventTypes.BULL_RUN:
+                frogEmoji = '🐸🚀';
+                break;
+            case this.eventTypes.EARNINGS_SEASON:
+                frogEmoji = '🐸📊';
+                break;
+            case this.eventTypes.FED_ANNOUNCEMENT:
+                frogEmoji = '🐸🏦';
+                break;
+            case this.eventTypes.MERGER_NEWS:
+                frogEmoji = '🐸🤝';
+                break;
+            case this.eventTypes.IPO:
+                frogEmoji = '🐸📈';
+                break;
+            case this.eventTypes.NATURAL_DISASTER:
+                frogEmoji = '🐸🌪️';
+                break;
+            case this.eventTypes.POLITICAL_EVENT:
+                frogEmoji = '🐸🏛️';
+                break;
+            case this.eventTypes.TECH_BREAKTHROUGH:
+                frogEmoji = '🐸💻';
+                break;
+            case this.eventTypes.REGULATORY_CHANGE:
+                frogEmoji = '🐸📜';
+                break;
+        }
+
         notification.innerHTML = `
-            <h3 style="margin: 0 0 10px 0; color: #00ff80;">${event.title}</h3>
+            <h3 style="margin: 0 0 10px 0; color: #00ff80;">
+                ${frogEmoji} ${event.title} ${frogEmoji}
+            </h3>
             <p style="margin: 0; font-size: 14px;">${event.description}</p>
             <div style="margin-top: 10px; font-size: 12px; color: rgba(255, 255, 255, 0.7);">
                 Duration: ${event.duration / 60} minutes
@@ -255,6 +292,19 @@ class MarketEvents {
     playVisualEffect(effectType) {
         const effect = document.createElement('div');
         effect.className = `visual-effect ${effectType}`;
+        
+        // Add frog emoji to visual effects
+        const frogEmoji = document.createElement('div');
+        frogEmoji.className = 'frog-emoji';
+        frogEmoji.textContent = '🐸';
+        frogEmoji.style.cssText = `
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: frogBounce 1s ease infinite;
+            opacity: 0.8;
+        `;
+        
         effect.style.cssText = `
             position: fixed;
             top: 0;
@@ -265,6 +315,8 @@ class MarketEvents {
             z-index: 999;
             animation: ${effectType} 1s ease forwards;
         `;
+        
+        effect.appendChild(frogEmoji);
         document.body.appendChild(effect);
         setTimeout(() => effect.remove(), 1000);
     }
