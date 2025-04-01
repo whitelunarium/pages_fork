@@ -1286,12 +1286,10 @@ body {
             if (!inventoryElement) return;
             inventoryElement.innerHTML = '';
             const gpus = stats?.gpus || [];
-
             if (!gpus.length) {
                 inventoryElement.innerHTML = '<p class="text-gray-400 text-center">No GPUs in inventory</p>';
                 return;
             }
-
             // Create gpuGroups object to group GPUs by ID
             const gpuGroups = {};
             gpus.forEach(gpu => {
@@ -1304,26 +1302,21 @@ body {
                     };
                 }
             });
-
             const container = document.createElement('div');
             container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4';
-            
             Object.values(gpuGroups).forEach(gpu => {
                 const gpuCard = document.createElement('div');
                 gpuCard.className = 'bg-gray-800 rounded-xl p-6 shadow-2xl transform transition-all duration-300 hover:scale-[1.02] border border-gray-700';
                 gpuCard.dataset.gpuId = gpu.id;
-
                 // Fix property names to match the backend data
                 const hashrate = parseFloat(gpu.hashRate) || 0;  // Changed from hashrate to hashRate
                 const power = parseFloat(gpu.powerConsumption) || 0;  // Changed from power to powerConsumption
                 const temp = parseFloat(gpu.temp) || 0;
                 const price = parseFloat(gpu.price) || 0;
-                
                 const dailyRevenue = hashrate * 86400 * 0.00000001;
                 const dailyPowerCost = (power * 24 / 1000 * 0.12);
                 const dailyProfit = dailyRevenue - dailyPowerCost;
                 const sellPrice = (price * 0.8).toFixed(2);
-
                 gpuCard.innerHTML = `
                     <div class="flex flex-col h-full">
                         <div class="flex-1">
@@ -1361,7 +1354,6 @@ body {
                 `;
                 container.appendChild(gpuCard);
             });
-            
             inventoryElement.appendChild(container);
         }
         function updateCharts(stats) {
@@ -1718,15 +1710,12 @@ body {
     function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
         // Ensure sellPrice is a valid number
         sellPrice = parseFloat(sellPrice) || 0;
-        
         const modal = document.getElementById('sellModal');
         const modalContent = document.getElementById('sellModalContent');
-        
         modalContent.innerHTML = `
             <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
                 <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
                 <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
-                
                 <div class="mb-4">
                     <label class="text-gray-300 block mb-2">Quantity:</label>
                     <input type="number" id="sellQuantity" 
@@ -1734,11 +1723,9 @@ body {
                            class="bg-gray-700 text-white px-3 py-2 rounded w-full"
                            onchange="updateSellTotal(${sellPrice})">
                 </div>
-                
                 <p class="text-lg text-green-400 mb-4">
                     Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
                 </p>
-                
                 <div class="flex justify-end gap-4">
                     <button onclick="closeSellModal()"
                             class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
@@ -1751,25 +1738,20 @@ body {
                 </div>
             </div>
         `;
-        
         modal.style.display = 'flex';
         modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        
         // Initialize the total value
         updateSellTotal(sellPrice);
     }
-
     // Make these functions global
     window.updateSellTotal = function(sellPrice) {
         const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
         const total = (sellPrice * quantity).toFixed(2);
         document.getElementById('totalSellValue').textContent = total;
     };
-
     window.closeSellModal = function() {
         document.getElementById('sellModal').style.display = 'none';
     };
-
     // Update the confirmSell function to use the correct URI
     window.confirmSell = async function(gpuId) {
         const quantity = parseInt(document.getElementById('sellQuantity').value);
@@ -1780,7 +1762,6 @@ body {
                 method: 'POST',
                 body: JSON.stringify({ quantity })
             });
-            
             const result = await response.json();
             if (result.success) {
                 window.showNotification(result.message);
@@ -1805,10 +1786,8 @@ body {
             notification.style.display = 'none';
         }, 3000);
     };
-
     // Make it globally available
     window.showNotification = showNotification;
-
     // Also define fetchOptions globally if not already defined
     window.fetchOptions = {
         credentials: 'include',
