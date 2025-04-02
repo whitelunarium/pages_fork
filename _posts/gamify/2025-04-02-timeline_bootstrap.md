@@ -1,7 +1,7 @@
 ---
 layout: bank
 title: Gamify Timeline
-permalink: /gamify/timeline
+permalink: /gamify/timeline/bootstrap
 ---
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -61,7 +61,7 @@ body {
     <div class="row timeline-item">
     <div class="col-md-5 text-end">
         <div class="bg-success text-white p-4 rounded shadow">
-        <h4 class="fw-bold">🚀 Project Completion</h4>
+        <h4 class="fw-bold" style="color:white">🚀 Project Completion</h4>
         <small class="d-block mb-2">April 9, 2024</small>
         <p>Target date for core game completion</p>
         </div>
@@ -84,7 +84,7 @@ body {
     </div>
     <div class="col-md-5 text-start">
         <div class="bg-primary text-white p-4 rounded shadow">
-        <h4 class="fw-bold">🎮 Playtest Phase</h4>
+        <h4 class="fw-bold" style="color:white">🎮 Playtest Phase</h4>
         <small class="d-block mb-2">April 14-18, 2024</small>
         <p>Internal testing and feedback collection</p>
         </div>
@@ -99,7 +99,7 @@ body {
     <div class="row timeline-item">
     <div class="col-md-5 text-end">
         <div class="bg-danger text-white p-4 rounded shadow">
-        <h4 class="fw-bold">🐞 Bug Fixing Sprint</h4>
+        <h4 class="fw-bold" style="color:white">🐞 Bug Fixing Sprint</h4>
         <small class="d-block mb-2">April 21-25, 2024</small>
         <p>Addressing issues from playtest feedback</p>
         </div>
@@ -122,7 +122,7 @@ body {
     </div>
     <div class="col-md-5 text-start">
         <div class="bg-purple text-white p-4 rounded shadow">
-        <h4 class="fw-bold">🏆 Live Game Period</h4>
+        <h4 class="fw-bold" style="color:white">🏆 Live Game Period</h4>
         <small class="d-block mb-2">April 28 - May 20, 2024</small>
         <p>Official gameplay period with final version</p>
         </div>
