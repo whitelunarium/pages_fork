@@ -8,6 +8,7 @@ import GameLevelFinancialLiteracy from './GameLevelFinancialLiteracy.js';
 import Game from './Game.js';
 import StockMoodModal from './StockMoodModal.js';
 import Market from './Market.js';
+import HelpPanel2 from './HelpPanel2.js'; // ✅ new import
 
 class GameLevelSiliconValley {
   constructor(gameEnv) {
@@ -18,7 +19,7 @@ class GameLevelSiliconValley {
     const image_src_siliconvalley = path + "/images/gamify/siliconvalley2.png";
     const image_data_siliconvalley = {
         name: 'Silicon Valley',
-        greeting: "Welcome to Silicon Valley!  It is bustling and vast so enjoy your stay!",
+        greeting: "Welcome to Silicon Valley! It is bustling and vast so enjoy your stay!",
         src: image_src_siliconvalley,
         pixels: { height: 1024, width: 1024 }
     };
@@ -48,7 +49,7 @@ class GameLevelSiliconValley {
     };
 
     const sprite_src_robot = path + "/images/gamify/robot.png";
-    const sprite_greet_robot = "Hi I am Robot, the Jupyter Notebook mascot.  I am very happy to spend some linux shell time with you!";
+    const sprite_greet_robot = "Hi I am Robot, the Jupyter Notebook mascot. I am very happy to spend some linux shell time with you!";
     const sprite_data_robot = {
       id: 'Robot',
       greeting: sprite_greet_robot,
@@ -64,17 +65,15 @@ class GameLevelSiliconValley {
         alert(sprite_greet_robot);
       },
       interact: async function () {
-        const personId = Game.id; 
+        const personId = Game.id;
         const transitionAllowed = await Game.transitionToRetro(personId);
-      
+
         if (transitionAllowed) {
           let primaryGame = gameEnv.gameControl;
           let levelArray = [GameLevelRetro];
           let gameInGame = new GameControl(gameEnv.game, levelArray);
-      
           primaryGame.pause();
           gameInGame.start();
-      
           gameInGame.gameOver = function () {
             primaryGame.resume();
           };
@@ -85,7 +84,7 @@ class GameLevelSiliconValley {
     };
 
     const sprite_src_fidelity = path + "/images/gamify/fidelity.png";
-    const sprite_greet_fidelity = "Hi I'm Fidelity! Lets tackle some finance and tech questions!";
+    const sprite_greet_fidelity = "Hi I'm Fidelity! Let's tackle some finance and tech questions!";
     const sprite_data_fidelity = {
       id: 'Fidelity',
       greeting: sprite_greet_fidelity,
@@ -102,12 +101,11 @@ class GameLevelSiliconValley {
       },
       interact: function () {
         Game.attemptQuizForNpc(sprite_data_fidelity.id);
-    }
-    
+      }
     };
 
     const sprite_src_schwab = path + "/images/gamify/schwab.png";
-    const sprite_greet_schwab = "Hi I'm schwab! Lets tackle some finance and tech questions!";
+    const sprite_greet_schwab = "Hi I'm Schwab! Let's tackle some finance and tech questions!";
     const sprite_data_schwab = {
       id: 'Schwab',
       greeting: sprite_greet_schwab,
@@ -127,7 +125,6 @@ class GameLevelSiliconValley {
       }
     };
 
-    // Add Night Owl Character
     const sprite_src_owl = path + "/images/gamify/owl.png";
     const sprite_greet_owl = "Hoot! I'm the Tech Owl. Want to play a fun game? Press 'E' to start!";
     const sprite_data_owl = {
@@ -141,31 +138,56 @@ class GameLevelSiliconValley {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function() {
+      reaction: function () {
         alert(sprite_greet_owl);
       },
-      interact: function() {
+      interact: function () {
         let primaryGame = gameEnv.gameControl;
         let levelArray = [GameLevelFinancialLiteracy];
         let gameInGame = new GameControl(gameEnv.game, levelArray);
         primaryGame.pause();
         gameInGame.start();
-        gameInGame.gameOver = function() {
+        gameInGame.gameOver = function () {
           primaryGame.resume();
         }
       }
     };
 
+    const sprite_src_helpicon = path + "/images/gamify/helpbutton.png";
+    const sprite_data_helpicon = {
+      id: 'HelpIcon',
+      greeting: "",
+      src: sprite_src_helpicon,
+      SCALE_FACTOR: 14,
+      ANIMATION_RATE: 50,
+      pixels: { height: 201, width: 158 },
+      INIT_POSITION: { x: width * 0.01, y: height * 0.91 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0, heightPercentage: 0 },
+      interact: function () {
+        HelpPanel2.toggle();
+      }
+    };
+
     new StockMoodModal();
-    new Market(1500)
+    new Market(1500);
+
     this.classes = [
       { class: GameEnvBackground, data: image_data_siliconvalley },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_robot },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
-      { class: Npc, data: sprite_data_owl }  // Add owl to the level
+      { class: Npc, data: sprite_data_owl },
+      { class: Npc, data: sprite_data_helpicon }
     ];
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'h') {
+        HelpPanel2.toggle();
+      }
+    });
   }
 }
 
