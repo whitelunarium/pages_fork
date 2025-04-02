@@ -1,20 +1,25 @@
 // black
-$systemBlack: rgba(0, 0, 0, 1);
+$black1: rgba(0, 0, 0, 1);
 
 // gray (light to dark)
-$systemGray1: rgba(142, 142, 147, 1);
-$systemGray2: rgba(99, 99, 102, 1);
-$systemGray3: rgba(72, 72, 74, 1);
-$systemGray4: rgba(58, 58, 60, 1);
-$systemGray5: rgba(44, 44, 46, 1);
-$systemGray6: rgba(28, 28, 30, 1);
+$gray1: rgba(142, 142, 147, 1);
+$gray2: rgba(99, 99, 102, 1);
+$gray3: rgba(72, 72, 74, 1);
+$gray4: rgba(58, 58, 60, 1);
+$gray5: rgba(44, 44, 46, 1);
+$gray6: rgba(28, 28, 30, 1);
+
+// white
+$white1: rgba(255, 255, 255, 1);
+$white2: rgba(white, 0.87);
 
 // gradients   
 $gradient1: linear-gradient(120deg, #1e1e1e 45%, #2a2a2a);
 
 // vibrant colors
-$systemBlue: #007aff;
-$systemGreen: #34c759;
+$blue1: #007aff;
+$green1: #34c759;
+$lightBlue1: rgba(75, 186, 255, 1);
 
 // tinted shadows
-$blueShadow: #2196f3;
+$blueShadow1: #2196f3;

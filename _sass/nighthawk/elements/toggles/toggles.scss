@@ -14,15 +14,15 @@
         height: 0;
 
         &:checked+.slider {
-            background: $systemBlue;
+            background: $blue1;
 
             &.green {
-                background: $systemGreen;
+                background: $green1;
             }
         }
 
         &:focus+.slider {
-            box-shadow: 0 0 1px $blueShadow;
+            box-shadow: 0 0 1px $blueShadow1;
         }
 
         &:checked+.slider:before {
@@ -36,7 +36,7 @@
     cursor: pointer;
     inset: 0;
     border-radius: 100px;
-    background: $systemGray4;
+    background: $gray4;
     background-blend-mode: overlay, luminosity;
     transition: 0.4s;
 

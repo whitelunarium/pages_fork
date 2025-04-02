@@ -1,6 +1,14 @@
-// havent made anything yet
+@import "../../materials/main.scss";
 
 h1 h2 h3 h4 p {
-    color: white;
+    color: $white1;
     font-family: Verdana, sans-serif;
+}
+
+a {
+    color: $lightBlue1 !important;
+
+    &:hover {
+        color: $white2 !important;
+    }
 }

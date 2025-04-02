@@ -5,11 +5,11 @@
     max-width: 500px;
     margin: 40px auto;
     padding: 20px;
-    background: $systemGray6;
+    background: $gray6;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
-    border: 2px solid $systemGray3;
+    border: 2px solid $gray3;
     @extend .glass; 
 }
 
@@ -18,7 +18,7 @@
     font-weight: bold;
     color: white;
     padding-bottom: 10px;
-    border-bottom: 2px solid $systemGray4;
+    border-bottom: 2px solid $gray4;
     margin-bottom: 15px;
 }
 
@@ -31,7 +31,7 @@
 
 .hallpass-details {
     font-size: 16px;
-    color: $systemGray2;
+    color: $gray2;
     margin-bottom: 10px;
 }
 

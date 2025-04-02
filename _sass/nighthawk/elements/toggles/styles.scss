@@ -6,16 +6,16 @@ $transitionTime: 0.4s;
 .switch {
     input[type="checkbox"] {
         &:checked+.slider {
-            background: $systemBlue;
+            background: $blue1;
 
             // Apply green color when the slider has the `green` class
             &.green {
-                background: $systemGreen;
+                background: $green1;
             }
         }
 
         &:focus+.slider {
-            box-shadow: 0 0 1px $blueShadow;
+            box-shadow: 0 0 1px $blueShadow1;
         }
 
         &:checked+.slider:before {
@@ -25,7 +25,7 @@ $transitionTime: 0.4s;
 }
 
 .slider {
-    background: $systemGray4;
+    background: $gray4;
     background-blend-mode: overlay, luminosity;
     transition: $transitionTime;
 
