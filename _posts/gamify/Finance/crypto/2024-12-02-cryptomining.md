@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Crypto Mining Simulator
-type: issues
+type: issueshen i
 permalink: /crypto/mining
 ---
 
@@ -131,6 +131,20 @@ body {
 }
 .navbar .nav-buttons a:hover {
     background-color: #ff8c00;
+}
+.navbar .balance-display {
+    background-color: #ff8c00;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: #fff;
+    font-size: 0.99em; 
+}
+
+.navbar .balance-display #user-balance {
+    font-size: 0.99em;
+    margin-left: 3px;
 }
 body {
     font-family: Arial, sans-serif;
@@ -724,6 +738,7 @@ body {
                 <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
                 <a href="{{site.baseurl}}/stocks/game">Game</a>
                 <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+                <div class="balance-display">Balance: $<span id="user-balance">Loading...</span></div>
             </div>
         </nav>
         <div class="container mx-auto">
@@ -895,7 +910,64 @@ body {
         <div id="sellModalContent"></div>
     </div>
     <script type="module">
-        import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js'; 
+        import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+        let userEmail = "";
+        let userBalance = localStorage.getItem("userBalance");
+
+        async function fetchUser() {
+            console.log("Attempting to fetch user...");
+            try {
+                const response = await fetch(javaURI + `/api/person/get`, fetchOptions);
+                console.log("User fetch response status:", response.status);
+                if (response.ok) {
+                    const userInfo = await response.json();
+                    userEmail = userInfo.email;
+                    console.log("Successfully fetched user email:", userEmail);
+                    localStorage.setItem("userEmail", userEmail);
+                    fetchUserBalance(); // Fetch balance after getting the email
+                } else if (response.status === 401 || response.status === 201) {
+                    console.log("Guest user detected");
+                    document.getElementById('user-balance').innerText = "0.00";
+                }
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        }
+
+        function updateBalance(balance) {
+            const formattedBalance = parseFloat(balance).toFixed(2);
+            document.getElementById('user-balance').innerText = formattedBalance;
+            localStorage.setItem("userBalance", formattedBalance);
+        }
+
+        async function fetchUserBalance() {
+            console.log("Attempting to fetch balance for email:", userEmail);
+            if (!userEmail) {
+                console.error("User email not found, skipping balance fetch.");
+                return;
+            }
+            try {
+                const balanceUrl = `${javaURI}/api/crypto/balance?email=${encodeURIComponent(userEmail)}`;
+                console.log("Fetching balance from:", balanceUrl);
+                const response = await fetch(balanceUrl, fetchOptions);
+                console.log("Balance fetch response status:", response.status);
+                if (!response.ok) throw new Error(`Failed to fetch balance: ${response.status}`);
+                const balanceData = await response.json();
+                console.log("Received balance data:", balanceData);
+                updateBalance(balanceData.balance);
+            } catch (error) {
+                console.error("Error fetching balance:", error);
+                document.getElementById('user-balance').innerText = "Error";
+            }
+        }
+
+        // Update balance every 5 seconds
+        setInterval(fetchUserBalance, 5000);
+
+        // Initial fetch
+        fetchUser();
+
         // Make functions globally available
         window.openActiveGPUsModal = function() {
             const modal = document.getElementById('active-gpus-modal');
