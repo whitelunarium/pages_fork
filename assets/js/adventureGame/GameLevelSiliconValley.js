@@ -15,7 +15,7 @@ class GameLevelSiliconValley {
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
 
-    const image_src_siliconvalley = path + "/images/gamify/siliconvalley.png";
+    const image_src_siliconvalley = path + "/images/gamify/siliconvalley2.png";
     const image_data_siliconvalley = {
         name: 'Silicon Valley',
         greeting: "Welcome to Silicon Valley!  It is bustling and vast so enjoy your stay!",
