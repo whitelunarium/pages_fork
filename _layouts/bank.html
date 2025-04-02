@@ -4,39 +4,48 @@ layout: base
 <nav class="bank-nav">
   <div class="nav-container">
     <a class="nav-link" href="{{ site.baseurl }}/gamify/bank">Bank</a>
+    <a class="nav-link" href="{{ site.baseurl }}/gamify/bankanalytics">Analytics</a>
     <a class="nav-link" href="{{ site.baseurl }}/leaderboard/overall-leaderboard">Leaderboard</a>
     <a class="nav-link" href="{{ site.baseurl }}/gamify/timeline">Timeline</a>
+    <a class="nav-link" href="{{ site.baseurl }}/gamify/loan">Loans</a>
+    <a class="nav-link" href="{{ site.baseurl }}/gamify/casinohomepage">Casino</a>
+    <a class="nav-link" href="{{ site.baseurl }}/stocks/home">Stocks</a>
+    <a class="nav-link" href="{{ site.baseurl }}/media">Media Bias Game</a>
+    <a class="nav-link" href="{{ site.baseurl }}/gamify/adventureGame">Adventure Game</a>
+    
   </div>
 </nav>
 
 {{ content }}
 
 <style>
-.bank-nav {
-  background-color: #f8f9fa;
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.nav-link {
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.nav-link:hover {
-  background-color: #e9ecef;
-  color: #007bff;
-}
-</style>
+  .bank-nav {
+    background-color: #1c1c1c; /* Changed to dark background */
+    padding: 1rem 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+  }
+  
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Reduced gap */
+  }
+  
+  .nav-link {
+    color: #ffffff; /* White text */
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 20px; /* Adjusted padding */
+    border-radius: 6px; /* Increased border radius */
+    transition: all 0.3s ease; /* Added transform to transition */
+    font-size: 14px; /* Added font size */
+  }
+  
+  .nav-link:hover {
+    background-color: #ff9800; /* Orange hover */
+    color: #000000; /* Black text on hover */
+    transform: scale(1.1); /* Added scale effect */
+  }
+  </style>
