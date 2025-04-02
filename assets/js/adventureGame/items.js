@@ -1,6 +1,6 @@
 export const defaultItems = {
     // Trading Items
-    stockCertificate: {
+    stock_certificate: {
         id: "stock_certificate",
         name: "Stock Certificate",
         description: "A valuable stock certificate that can be traded for profit.",
@@ -18,7 +18,7 @@ export const defaultItems = {
     },
     
     // Power-ups
-    tradingBoost: {
+    trading_boost: {
         id: "trading_boost",
         name: "Trading Boost",
         description: "Increases trading profits by 50% for 30 seconds.",
@@ -26,7 +26,7 @@ export const defaultItems = {
         stackable: true,
         value: 200
     },
-    speedBoost: {
+    speed_boost: {
         id: "speed_boost",
         name: "Speed Boost",
         description: "Increases movement speed by 25% for 20 seconds.",
@@ -36,7 +36,7 @@ export const defaultItems = {
     },
     
     // Collectibles
-    rareCoin: {
+    rare_coin: {
         id: "rare_coin",
         name: "Rare Coin",
         description: "A valuable collectible coin with historical significance.",
@@ -44,7 +44,7 @@ export const defaultItems = {
         stackable: false,
         value: 5000
     },
-    tradingManual: {
+    trading_manual: {
         id: "trading_manual",
         name: "Trading Manual",
         description: "A comprehensive guide to advanced trading strategies.",
@@ -62,7 +62,7 @@ export const defaultItems = {
         stackable: false,
         value: 1000
     },
-    marketScanner: {
+    market_scanner: {
         id: "market_scanner",
         name: "Market Scanner",
         description: "Reveals market trends and opportunities.",
@@ -70,7 +70,7 @@ export const defaultItems = {
         stackable: false,
         value: 2000
     },
-    roiCalculator: {
+    roi_calculator: {
         id: "roi_calculator",
         name: "ROI Calculator",
         description: "Calculate Return on Investment for your trades.",

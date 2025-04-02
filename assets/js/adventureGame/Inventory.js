@@ -13,6 +13,11 @@ class Inventory {
         this.isOpen = false;
         this.injectStyles();
         this.initialize();
+        
+        // Add starting items first
+        this.addStartingItems();
+        
+        // Then load any additional items from cookies
         this.loadFromCookies();
     }
 
@@ -155,6 +160,8 @@ class Inventory {
                 z-index: 1002;
                 min-width: 300px;
                 box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+                cursor: move;
+                user-select: none;
             }
 
             .calculator-header {
@@ -164,6 +171,11 @@ class Inventory {
                 margin-bottom: 20px;
                 padding-bottom: 10px;
                 border-bottom: 2px solid #ffd700;
+                cursor: move;
+                background: rgba(255, 215, 0, 0.1);
+                margin: -25px -25px 20px -25px;
+                padding: 15px 25px;
+                border-radius: 12px 12px 0 0;
             }
 
             .calculator-title {
@@ -226,6 +238,54 @@ class Inventory {
                 background: #ff6b6b;
                 transform: scale(1.05);
             }
+
+            .trading-tips {
+                color: white;
+                padding: 20px;
+            }
+
+            .trading-tips h3 {
+                color: #ffd700;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 24px;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+
+            .tip-section {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid #ffd700;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 15px;
+                transition: all 0.3s;
+            }
+
+            .tip-section:hover {
+                background: rgba(255, 215, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+            .tip-section h4 {
+                color: #ffd700;
+                margin: 0 0 10px 0;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .tip-section p {
+                margin: 5px 0;
+                line-height: 1.4;
+                color: #fff;
+            }
+
+            .tip-section p:before {
+                content: "•";
+                color: #ffd700;
+                margin-right: 8px;
+            }
         `;
         document.head.appendChild(style);
     }
@@ -249,7 +309,7 @@ class Inventory {
 
         // Add keyboard shortcut
         document.addEventListener("keydown", (e) => {
-            if (e.key === "i" || e.key === "I") {
+            if (e.key === ".") {
                 this.toggle();
             }
         });
@@ -263,12 +323,12 @@ class Inventory {
         
         // Check for game keys
         const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-        if (gameKeyCookie) {
+        if (gameKeyCookie && !this.items.some(item => item.id === 'game_key')) {
             this.addItem({
                 id: 'game_key',
                 name: 'Game Key',
                 description: 'A special key earned through gameplay achievements.',
-                image: 'assets/images/items/game_key.png',
+                emoji: '🔑',
                 stackable: false,
                 value: 1000
             });
@@ -276,12 +336,13 @@ class Inventory {
 
         // Check for meteor key
         const meteorKeyCookie = cookies.find(cookie => cookie.trim().startsWith('meteorKey='));
-        if (meteorKeyCookie) {
+        if (meteorKeyCookie && !this.items.some(item => item.id === 'meteor_key')) {
+            console.log("Found meteor key cookie, adding meteor key to inventory");
             this.addItem({
                 id: 'meteor_key',
                 name: 'Meteor Key',
                 description: 'A special key earned by completing meteor challenges.',
-                image: 'assets/images/items/meteor_key.png',
+                emoji: '🌠',
                 stackable: false,
                 value: 2000
             });
@@ -293,15 +354,16 @@ class Inventory {
             const [name, value] = cookie.split('=');
             const achievementId = name.replace('achievement_', '').trim();
             
-            // Add achievement as a collectible item
-            this.addItem({
-                id: `achievement_${achievementId}`,
-                name: achievementId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-                description: `Achievement earned: ${achievementId.replace(/_/g, ' ')}`,
-                image: 'assets/images/items/achievement.png',
-                stackable: false,
-                value: 500
-            });
+            if (!this.items.some(item => item.id === `achievement_${achievementId}`)) {
+                this.addItem({
+                    id: `achievement_${achievementId}`,
+                    name: achievementId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                    description: `Achievement earned: ${achievementId.replace(/_/g, ' ')}`,
+                    emoji: '🏆',
+                    stackable: false,
+                    value: 500
+                });
+            }
         });
 
         // Check for level completion cookies
@@ -310,15 +372,16 @@ class Inventory {
             const [name, value] = cookie.split('=');
             const levelId = name.replace('level_', '').trim();
             
-            // Add level completion as a collectible item
-            this.addItem({
-                id: `level_${levelId}`,
-                name: `${levelId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Badge`,
-                description: `Completed ${levelId.replace(/_/g, ' ')} level`,
-                image: 'assets/images/items/level_badge.png',
-                stackable: false,
-                value: 1000
-            });
+            if (!this.items.some(item => item.id === `level_${levelId}`)) {
+                this.addItem({
+                    id: `level_${levelId}`,
+                    name: `${levelId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Badge`,
+                    description: `Completed ${levelId.replace(/_/g, ' ')} level`,
+                    emoji: '🎖️',
+                    stackable: false,
+                    value: 1000
+                });
+            }
         });
 
         // Check for quiz completion cookies
@@ -327,15 +390,16 @@ class Inventory {
             const [name, value] = cookie.split('=');
             const quizId = name.replace('quiz_', '').trim();
             
-            // Add quiz completion as a collectible item
-            this.addItem({
-                id: `quiz_${quizId}`,
-                name: `${quizId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Certificate`,
-                description: `Completed ${quizId.replace(/_/g, ' ')} quiz`,
-                image: 'assets/images/items/certificate.png',
-                stackable: false,
-                value: 500
-            });
+            if (!this.items.some(item => item.id === `quiz_${quizId}`)) {
+                this.addItem({
+                    id: `quiz_${quizId}`,
+                    name: `${quizId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Certificate`,
+                    description: `Completed ${quizId.replace(/_/g, ' ')} quiz`,
+                    emoji: '📜',
+                    stackable: false,
+                    value: 500
+                });
+            }
         });
 
         console.log("Finished loading items from cookies");
@@ -354,24 +418,21 @@ class Inventory {
 
     addItem(item) {
         console.log("Adding item to inventory:", item);
-        if (this.items.length >= this.maxSlots) {
-            console.log("Inventory is full!");
+        if (!item || !item.id) {
+            console.error("Invalid item:", item);
             return false;
         }
 
-        // Check if item already exists and is stackable
         const existingItem = this.items.find(i => i.id === item.id);
         if (existingItem && existingItem.stackable) {
             existingItem.quantity += item.quantity || 1;
         } else {
-            this.items.push({
-                ...item,
-                quantity: item.quantity || 1
-            });
+            this.items.push({ ...item, quantity: item.quantity || 1 });
         }
-
-        this.updateDisplay();
+        
+        console.log("Current inventory items:", this.items);
         this.saveToCookies();
+        this.updateDisplay();
         return true;
     }
 
@@ -407,7 +468,9 @@ class Inventory {
         }
         grid.innerHTML = "";
 
+        console.log("Current items to display:", this.items);
         this.items.forEach(item => {
+            console.log("Creating slot for item:", item);
             const slot = document.createElement("div");
             slot.className = "inventory-slot";
             
@@ -426,6 +489,8 @@ class Inventory {
             slot.addEventListener("click", () => {
                 if (item.isCalculator) {
                     this.showCalculator(item);
+                } else if (item.id === 'trading_manual') {
+                    this.showTradingTips();
                 }
             });
 
@@ -454,6 +519,39 @@ class Inventory {
         }
     }
 
+    makeDraggable(element) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        const header = element.querySelector(".calculator-header");
+        
+        header.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e.preventDefault();
+            // Get the mouse cursor position at startup
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e.preventDefault();
+            // Calculate the new cursor position
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // Set the element's new position
+            element.style.top = (element.offsetTop - pos2) + "px";
+            element.style.left = (element.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
     showCalculator(item) {
         const modal = document.createElement("div");
         modal.className = "calculator-modal";
@@ -471,6 +569,7 @@ class Inventory {
         `;
 
         document.body.appendChild(modal);
+        this.makeDraggable(modal);
 
         const closeBtn = modal.querySelector(".calculator-close");
         const calculateBtn = modal.querySelector(".calculator-button");
@@ -491,6 +590,54 @@ class Inventory {
 
             const roi = ((currentValue - initialInvestment) / initialInvestment) * 100;
             resultDiv.textContent = `ROI: ${roi.toFixed(2)}%`;
+        });
+    }
+
+    showTradingTips() {
+        const modal = document.createElement("div");
+        modal.className = "calculator-modal";
+        modal.innerHTML = `
+            <div class="calculator-header">
+                <h2 class="calculator-title">Trading Manual</h2>
+                <button class="calculator-close">×</button>
+            </div>
+            <div class="calculator-form">
+                <div class="trading-tips">
+                    <h3>Essential Trading Tips</h3>
+                    <div class="tip-section">
+                        <h4>📈 Market Analysis</h4>
+                        <p>• Study market trends before making decisions</p>
+                        <p>• Use technical indicators to identify patterns</p>
+                        <p>• Keep track of market news and events</p>
+                    </div>
+                    <div class="tip-section">
+                        <h4>💰 Risk Management</h4>
+                        <p>• Never invest more than you can afford to lose</p>
+                        <p>• Set stop-loss orders to limit potential losses</p>
+                        <p>• Diversify your portfolio across different assets</p>
+                    </div>
+                    <div class="tip-section">
+                        <h4>⏰ Timing</h4>
+                        <p>• Buy low, sell high - but don't try to time the market</p>
+                        <p>• Be patient and wait for good opportunities</p>
+                        <p>• Don't let emotions drive your trading decisions</p>
+                    </div>
+                    <div class="tip-section">
+                        <h4>📊 Strategy</h4>
+                        <p>• Develop and stick to a trading plan</p>
+                        <p>• Keep detailed records of your trades</p>
+                        <p>• Learn from both successful and failed trades</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        this.makeDraggable(modal);
+
+        const closeBtn = modal.querySelector(".calculator-close");
+        closeBtn.addEventListener("click", () => {
+            modal.remove();
         });
     }
 
@@ -544,6 +691,103 @@ class Inventory {
             Inventory.instance = new Inventory();
         }
         return Inventory.instance;
+    }
+
+    addStartingItems() {
+        console.log("Adding starting items...");
+        // Add ROI Calculator
+        this.addItem({
+            id: 'roi_calculator',
+            name: 'ROI Calculator',
+            description: 'Calculate Return on Investment for your trades.',
+            emoji: '📊',
+            stackable: false,
+            value: 300,
+            isCalculator: true
+        });
+
+        // Add other starting items
+        this.addItem({
+            id: 'stock_certificate',
+            name: 'Stock Certificate',
+            description: 'A valuable stock certificate that can be traded for profit.',
+            emoji: '📈',
+            stackable: true,
+            value: 1000,
+            quantity: 5
+        });
+
+        this.addItem({
+            id: 'bond',
+            name: 'Government Bond',
+            description: 'A safe investment that provides steady returns.',
+            emoji: '💵',
+            stackable: true,
+            value: 500,
+            quantity: 3
+        });
+
+        this.addItem({
+            id: 'trading_boost',
+            name: 'Trading Boost',
+            description: 'Increases trading profits by 50% for 30 seconds.',
+            emoji: '⚡',
+            stackable: true,
+            value: 200,
+            quantity: 2
+        });
+
+        this.addItem({
+            id: 'speed_boost',
+            name: 'Speed Boost',
+            description: 'Increases movement speed by 25% for 20 seconds.',
+            emoji: '🚀',
+            stackable: true,
+            value: 150,
+            quantity: 2
+        });
+
+        this.addItem({
+            id: 'calculator',
+            name: 'Financial Calculator',
+            description: 'Helps calculate complex financial metrics.',
+            emoji: '🧮',
+            stackable: false,
+            value: 1000,
+            quantity: 1
+        });
+
+        this.addItem({
+            id: 'market_scanner',
+            name: 'Market Scanner',
+            description: 'Reveals market trends and opportunities.',
+            emoji: '🔍',
+            stackable: false,
+            value: 2000,
+            quantity: 1
+        });
+
+        this.addItem({
+            id: 'rare_coin',
+            name: 'Rare Coin',
+            description: 'A valuable collectible coin with historical significance.',
+            emoji: '🪙',
+            stackable: false,
+            value: 5000,
+            quantity: 1
+        });
+
+        this.addItem({
+            id: 'trading_manual',
+            name: 'Trading Manual',
+            description: 'A comprehensive guide to advanced trading strategies.',
+            emoji: '📚',
+            stackable: false,
+            value: 3000,
+            quantity: 1
+        });
+
+        console.log("Starting items added successfully");
     }
 }
 

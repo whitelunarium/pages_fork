@@ -310,16 +310,20 @@ class Game {
 
     // Add method to give items to player
     giveItem(itemId, quantity = 1) {
+        console.log("Giving item:", itemId, "quantity:", quantity);
         const item = defaultItems[itemId];
         if (!item) {
             console.error(`Item ${itemId} not found in defaultItems`);
             return false;
         }
 
-        return Inventory.getInstance().addItem({
+        const itemToAdd = {
             ...item,
-            quantity
-        });
+            quantity: quantity
+        };
+
+        console.log("Adding item to inventory:", itemToAdd);
+        return this.inventory.addItem(itemToAdd);
     }
 
     // Add method to remove items from player
@@ -359,6 +363,7 @@ class Game {
         this.giveItem('trading_manual', 1);     // 1 trading manual
 
         // Add ROI Calculator
+        console.log("Adding ROI Calculator...");
         this.giveItem('roi_calculator', 1);     // 1 ROI Calculator
     }
 }
