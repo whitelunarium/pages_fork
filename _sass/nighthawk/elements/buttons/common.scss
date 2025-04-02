@@ -17,6 +17,8 @@ $sizes: (
     font-size: $fontSize;
     line-height: $lineHeight;
     letter-spacing: $letterSpacing;
+
+    cursor: pointer;
 }
 
 @each $name, $values in $sizes {

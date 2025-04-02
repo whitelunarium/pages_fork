@@ -1,16 +1,22 @@
 .switch {
-    position: relative;
     display: flex;
-    width: 54px;
-    height: 31px;
-    padding: 2px 2px 2px 6px;
-    justify-content: flex-end;
     align-items: center;
+    gap: 10px; // Adjust the spacing between toggle and text
 
-    input[type="checkbox"] {
-        opacity: 0;
-        width: 0;
-        height: 0;
+    .toggle {
+        position: relative;
+        display: flex;
+        width: 54px;
+        height: 31px;
+        padding: 2px 2px 2px 6px;
+        justify-content: flex-end;
+        align-items: center;
+
+        input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
     }
 }
 
@@ -29,4 +35,10 @@
         bottom: 4px;
         border-radius: 50%;
     }
+}
+
+.label-text {
+    font-size: 16px;
+    color: #fff; // Adjust the text color as needed
+    user-select: none;
 }
