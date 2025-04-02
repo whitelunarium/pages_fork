@@ -1,5 +1,6 @@
 // GameControl.js
 import GameLevel from "./GameLevel.js";
+import Inventory from "./Inventory.js";
 
 class GameControl {
     /**
@@ -22,6 +23,15 @@ class GameControl {
         this.gameOver = null; // Callback for when the game is over 
         this.savedCanvasState = []; // Save the current levels game elements 
         this.canvasContexts = new Map(); // Store canvas contexts
+        
+        // Store this instance in the game container for access by other components
+        if (this.gameContainer) {
+            this.gameContainer.gameControl = this;
+        }
+        
+        // Initialize inventory
+        console.log("Initializing inventory in GameControl...");
+        this.inventory = Inventory.getInstance();
     }
 
     // Initialize all canvas contexts

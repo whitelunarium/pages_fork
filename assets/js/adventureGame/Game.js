@@ -6,8 +6,21 @@ import GameLevelSquares from './GameLevelSquares.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
 import GameLevelParadise from './GameLevelParadise.js';
 import Quiz from './Quiz.js';
+import Character from "./Character.js";
+import Inventory from "./Inventory.js";
+import { defaultItems } from "./items.js";
 
 class Game {
+    constructor() {
+        // initialize user and launch GameControl 
+        this.main(environment);
+        console.log("Initializing game inventory...");
+        this.inventory = Inventory.getInstance();
+        
+        // Give starting items to the player
+        this.giveStartingItems();
+    }
+
     // initialize user and launch GameControl 
     static main(environment) {
         // setting Web Application path
@@ -293,6 +306,60 @@ class Game {
             <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
         `;
         document.body.appendChild(statsContainer);
+    }
+
+    // Add method to give items to player
+    giveItem(itemId, quantity = 1) {
+        const item = defaultItems[itemId];
+        if (!item) {
+            console.error(`Item ${itemId} not found in defaultItems`);
+            return false;
+        }
+
+        return Inventory.getInstance().addItem({
+            ...item,
+            quantity
+        });
+    }
+
+    // Add method to remove items from player
+    removeItem(itemId, quantity = 1) {
+        return Inventory.getInstance().removeItem(itemId, quantity);
+    }
+
+    // Add method to check if player has an item
+    hasItem(itemId) {
+        return Inventory.getInstance().items.some(item => item.id === itemId);
+    }
+
+    // Add method to get item quantity
+    getItemQuantity(itemId) {
+        const item = Inventory.getInstance().items.find(item => item.id === itemId);
+        return item ? item.quantity : 0;
+    }
+
+    // Add method to give starting items
+    giveStartingItems() {
+        console.log("Giving starting items to player...");
+        
+        // Trading items
+        this.giveItem('stock_certificate', 5);  // 5 stock certificates
+        this.giveItem('bond', 3);               // 3 bonds
+        
+        // Power-ups
+        this.giveItem('trading_boost', 2);      // 2 trading boosts
+        this.giveItem('speed_boost', 2);        // 2 speed boosts
+        
+        // Tools
+        this.giveItem('calculator', 1);         // 1 calculator
+        this.giveItem('market_scanner', 1);     // 1 market scanner
+        
+        // Collectibles
+        this.giveItem('rare_coin', 1);          // 1 rare coin
+        this.giveItem('trading_manual', 1);     // 1 trading manual
+
+        // Add ROI Calculator
+        this.giveItem('roi_calculator', 1);     // 1 ROI Calculator
     }
 }
 
