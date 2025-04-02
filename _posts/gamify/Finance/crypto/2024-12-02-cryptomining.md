@@ -911,9 +911,19 @@ body {
     </div>
     <script type="module">
         import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-
         let userEmail = "";
         let userBalance = localStorage.getItem("userBalance");
+
+        // Define showNotification globally at the top of your script
+        window.showNotification = function(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-4 py-2 rounded shadow-lg`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        };
 
         async function fetchUser() {
             console.log("Attempting to fetch user...");
@@ -934,13 +944,11 @@ body {
                 console.error("Error fetching user:", error);
             }
         }
-
         function updateBalance(balance) {
             const formattedBalance = parseFloat(balance).toFixed(2);
             document.getElementById('user-balance').innerText = formattedBalance;
             localStorage.setItem("userBalance", formattedBalance);
         }
-
         async function fetchUserBalance() {
             console.log("Attempting to fetch balance for email:", userEmail);
             if (!userEmail) {
@@ -961,13 +969,10 @@ body {
                 document.getElementById('user-balance').innerText = "Error";
             }
         }
-
         // Update balance every 5 seconds
         setInterval(fetchUserBalance, 5000);
-
         // Initial fetch
         fetchUser();
-
         // Make functions globally available
         window.openActiveGPUsModal = function() {
             const modal = document.getElementById('active-gpus-modal');
@@ -1613,16 +1618,6 @@ body {
                 e.target.classList.add('hidden');
             }
         });
-        function showNotification(message) {
-            console.log('Notification:', message);
-            const notificationElement = document.createElement('div');
-            notificationElement.textContent = message;
-            notificationElement.className = 'notification';
-            document.body.appendChild(notificationElement);
-            setTimeout(() => {
-                document.body.removeChild(notificationElement);
-            }, 3000);
-        }
         function stopPeriodicUpdates() {
             if (updateInterval) {
                 clearInterval(updateInterval);
@@ -1673,6 +1668,87 @@ body {
                 await buyGpu(purchase.gpuId, purchase.quantity);
             }
         };
+
+        // Add sell functionality
+        function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
+            const modal = document.getElementById('sellModal');
+            const modalContent = document.getElementById('sellModalContent');
+            modalContent.innerHTML = `
+                <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
+                    <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
+                    <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
+                    <div class="mb-4">
+                        <label class="text-gray-300 block mb-2">Quantity:</label>
+                        <input type="number" id="sellQuantity" 
+                               min="1" max="${maxQuantity}" value="1" 
+                               class="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                               onchange="updateSellTotal(${sellPrice})">
+                    </div>
+                    <p class="text-lg text-green-400 mb-4">
+                        Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
+                    </p>
+                    <div class="flex justify-end gap-4">
+                        <button onclick="closeSellModal()"
+                                class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
+                            Cancel
+                        </button>
+                        <button onclick="confirmSell(${gpuId})"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                            Confirm Sale
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            updateSellTotal(sellPrice);
+        }
+
+        window.updateSellTotal = function(sellPrice) {
+            const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
+            const total = (sellPrice * quantity).toFixed(2);
+            document.getElementById('totalSellValue').textContent = total;
+        };
+
+        window.closeSellModal = function() {
+            document.getElementById('sellModal').style.display = 'none';
+        };
+
+        // Update the confirmSell function with proper headers
+        window.confirmSell = async function(gpuId) {
+            const quantity = parseInt(document.getElementById('sellQuantity').value);
+            try {
+                const response = await fetch(`${javaURI}/api/mining/gpu/sell/${gpuId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...fetchOptions.headers
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ quantity: quantity })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    window.showNotification(result.message);
+                    closeSellModal();
+                    await updateMiningStats();
+                    // Update user balance
+                    await fetchUserBalance();
+                } else {
+                    window.showNotification(result.message || 'Failed to sell GPU', true);
+                }
+            } catch (error) {
+                console.error('Error selling GPU:', error);
+                window.showNotification('Error selling GPU: ' + error.message, true);
+            }
+        };
+
+        // Make functions globally available
+        window.showSellModal = showSellModal;
+        window.updateSellTotal = updateSellTotal;
+        window.closeSellModal = closeSellModal;
+        window.confirmSell = confirmSell;
     </script>
     <script>
     // Add tutorial initialization code
@@ -1776,96 +1852,5 @@ body {
         localStorage.setItem('neverShowTutorial', 'true');
         localStorage.setItem('lastLogin', new Date().getTime().toString());
     }
-    </script>
-    <script>
-    // Add these functions for selling functionality
-    function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
-        // Ensure sellPrice is a valid number
-        sellPrice = parseFloat(sellPrice) || 0;
-        const modal = document.getElementById('sellModal');
-        const modalContent = document.getElementById('sellModalContent');
-        modalContent.innerHTML = `
-            <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
-                <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
-                <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
-                <div class="mb-4">
-                    <label class="text-gray-300 block mb-2">Quantity:</label>
-                    <input type="number" id="sellQuantity" 
-                           min="1" max="${maxQuantity}" value="1" 
-                           class="bg-gray-700 text-white px-3 py-2 rounded w-full"
-                           onchange="updateSellTotal(${sellPrice})">
-                </div>
-                <p class="text-lg text-green-400 mb-4">
-                    Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
-                </p>
-                <div class="flex justify-end gap-4">
-                    <button onclick="closeSellModal()"
-                            class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
-                        Cancel
-                    </button>
-                    <button onclick="confirmSell(${gpuId})"
-                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
-                        Confirm Sale
-                    </button>
-                </div>
-            </div>
-        `;
-        modal.style.display = 'flex';
-        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        // Initialize the total value
-        updateSellTotal(sellPrice);
-    }
-    // Make these functions global
-    window.updateSellTotal = function(sellPrice) {
-        const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
-        const total = (sellPrice * quantity).toFixed(2);
-        document.getElementById('totalSellValue').textContent = total;
-    };
-    window.closeSellModal = function() {
-        document.getElementById('sellModal').style.display = 'none';
-    };
-    // Update the confirmSell function to use the correct URI
-    window.confirmSell = async function(gpuId) {
-        const quantity = parseInt(document.getElementById('sellQuantity').value);
-        try {
-            // Use the correct URI from your config
-            const response = await fetch(`/api/mining/gpu/sell/${gpuId}`, {
-                ...window.fetchOptions,
-                method: 'POST',
-                body: JSON.stringify({ quantity })
-            });
-            const result = await response.json();
-            if (result.success) {
-                window.showNotification(result.message);
-                closeSellModal();
-                updateMiningStats();
-            } else {
-                window.showNotification(result.message || 'Failed to sell GPU', true);
-            }
-        } catch (error) {
-            window.showNotification('Error selling GPU: ' + error.message, true);
-        }
-    };
-    </script>
-    <script>
-    // Define these at the very top of your first script tag
-    const showNotification = (message, isError = false) => {
-        const notification = document.getElementById('notification');
-        notification.textContent = message;
-        notification.className = `notification ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-4 py-2 rounded shadow-lg`;
-        notification.style.display = 'block';
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 3000);
-    };
-    // Make it globally available
-    window.showNotification = showNotification;
-    // Also define fetchOptions globally if not already defined
-    window.fetchOptions = {
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
     </script>
 </body>
