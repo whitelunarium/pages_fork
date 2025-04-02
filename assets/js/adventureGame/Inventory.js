@@ -320,24 +320,12 @@ class Inventory {
     loadFromCookies() {
         console.log("Loading items from cookies...");
         const cookies = document.cookie.split(';');
+        console.log("All cookies:", cookies);
         
         // Check for game keys
         const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-        if (gameKeyCookie && !this.items.some(item => item.id === 'game_key')) {
-            this.addItem({
-                id: 'game_key',
-                name: 'Game Key',
-                description: 'A special key earned through gameplay achievements.',
-                emoji: '🔑',
-                stackable: false,
-                value: 1000
-            });
-        }
-
-        // Check for meteor key
-        const meteorKeyCookie = cookies.find(cookie => cookie.trim().startsWith('meteorKey='));
-        if (meteorKeyCookie && !this.items.some(item => item.id === 'meteor_key')) {
-            console.log("Found meteor key cookie, adding meteor key to inventory");
+        if (gameKeyCookie && gameKeyCookie.includes('meteorBlasterKey') && !this.items.some(item => item.id === 'meteor_key')) {
+            console.log("Found meteor key in gameKey cookie");
             this.addItem({
                 id: 'meteor_key',
                 name: 'Meteor Key',
@@ -345,6 +333,38 @@ class Inventory {
                 emoji: '🌠',
                 stackable: false,
                 value: 2000
+            });
+        }
+
+        // Check for meteor key - try different possible cookie names
+        const meteorKeyCookie = cookies.find(cookie => {
+            const trimmedCookie = cookie.trim();
+            return trimmedCookie.startsWith('meteorKey=') || 
+                   trimmedCookie.startsWith('meteor_key=') || 
+                   trimmedCookie.startsWith('meteor=');
+        });
+        
+        console.log("Meteor key cookie found:", meteorKeyCookie);
+        console.log("Current inventory items before meteor key:", this.items);
+        
+        if (meteorKeyCookie && !this.items.some(item => item.id === 'meteor_key')) {
+            console.log("Adding meteor key to inventory");
+            const meteorKeyItem = {
+                id: 'meteor_key',
+                name: 'Meteor Key',
+                description: 'A special key earned by completing meteor challenges.',
+                emoji: '🌠',
+                stackable: false,
+                value: 2000
+            };
+            console.log("Meteor key item to add:", meteorKeyItem);
+            this.addItem(meteorKeyItem);
+            console.log("Inventory items after adding meteor key:", this.items);
+        } else {
+            console.log("Meteor key not added because:", {
+                cookieExists: !!meteorKeyCookie,
+                cookieValue: meteorKeyCookie,
+                alreadyInInventory: this.items.some(item => item.id === 'meteor_key')
             });
         }
 
@@ -408,12 +428,20 @@ class Inventory {
     saveToCookies() {
         console.log("Saving items to cookies...");
         this.items.forEach(item => {
-            if (item.id.startsWith('game_key') || item.id.startsWith('meteor_key') || 
-                item.id.startsWith('achievement_') || item.id.startsWith('level_') || 
-                item.id.startsWith('quiz_')) {
-                document.cookie = `${item.id}=true;path=/`;
+            if (item.id === 'meteor_key') {
+                console.log("Saving meteor key cookie");
+                document.cookie = `meteorKey=true;path=/;max-age=31536000`; // 1 year expiry
+            } else if (item.id === 'game_key') {
+                document.cookie = `gameKey=true;path=/;max-age=31536000`;
+            } else if (item.id.startsWith('achievement_')) {
+                document.cookie = `${item.id}=true;path=/;max-age=31536000`;
+            } else if (item.id.startsWith('level_')) {
+                document.cookie = `${item.id}=true;path=/;max-age=31536000`;
+            } else if (item.id.startsWith('quiz_')) {
+                document.cookie = `${item.id}=true;path=/;max-age=31536000`;
             }
         });
+        console.log("Finished saving items to cookies");
     }
 
     addItem(item) {
@@ -423,14 +451,31 @@ class Inventory {
             return false;
         }
 
+        // Special handling for meteor key
+        if (item.id === 'meteor_key') {
+            console.log("Special handling for meteor key");
+            // Remove any existing meteor key first
+            this.items = this.items.filter(i => i.id !== 'meteor_key');
+            // Add the new meteor key
+            this.items.push({ ...item, quantity: 1 });
+            console.log("Meteor key added successfully");
+            this.saveToCookies();
+            this.updateDisplay();
+            return true;
+        }
+
         const existingItem = this.items.find(i => i.id === item.id);
+        console.log("Existing item found:", existingItem);
+        
         if (existingItem && existingItem.stackable) {
+            console.log("Updating quantity of existing item");
             existingItem.quantity += item.quantity || 1;
         } else {
+            console.log("Adding new item to inventory");
             this.items.push({ ...item, quantity: item.quantity || 1 });
         }
         
-        console.log("Current inventory items:", this.items);
+        console.log("Current inventory items after add:", this.items);
         this.saveToCookies();
         this.updateDisplay();
         return true;
