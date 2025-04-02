@@ -7,6 +7,7 @@ import GameLevelRetro from './GameLevelRetro.js';
 import GameLevelFinancialLiteracy from './GameLevelFinancialLiteracy.js';
 import Game from './Game.js';
 import StockMoodModal from './StockMoodModal.js';
+import Market from './Market.js';
 
 class GameLevelSiliconValley {
   constructor(gameEnv) {
@@ -178,7 +179,7 @@ class GameLevelSiliconValley {
     };
 
     new StockMoodModal();
-    
+    new Market(1500)
     this.classes = [
       { class: GameEnvBackground, data: image_data_siliconvalley },
       { class: Player, data: sprite_data_chillguy },
