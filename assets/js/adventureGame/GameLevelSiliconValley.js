@@ -6,6 +6,8 @@ import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
 import GameLevelFinancialLiteracy from './GameLevelFinancialLiteracy.js';
 import Game from './Game.js';
+import StockMoodModal from './StockMoodModal.js';
+
 class GameLevelSiliconValley {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
@@ -175,6 +177,8 @@ class GameLevelSiliconValley {
       }
     };
 
+    new StockMoodModal();
+    
     this.classes = [
       { class: GameEnvBackground, data: image_data_siliconvalley },
       { class: Player, data: sprite_data_chillguy },
