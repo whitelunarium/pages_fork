@@ -394,14 +394,14 @@ active_tab: profile
         <div class="userPanel_name">
             <h2 id="name">Name</h2>
             <form onsubmit="return changeName(event)">
-                <input type="text" id="nameChangeInput" placeholder="Loading name..." />
+                <input type="text" id="nameChangeInput" value="Loading name..." />
                 <input type="submit" value="Save changes" />
             </form>
         </div>
         <div class="userPanel_uid">
             <h2 id="uid">User ID</h2>
             <form onsubmit="return changeUid(event)">
-                <input type="text" id="uidChangeInput" placeholder="Loading UID..." />
+                <input type="text" id="uidChangeInput" value="Loading UID..." />
                 <input type="submit" value="Save changes" />
             </form>
         </div>
@@ -415,8 +415,8 @@ active_tab: profile
         <div class="userPanel_email">
             <h2 id="email">Email</h2>
             <form onsubmit="return changeEmail(event)">
-                <input type="text" id="emailChangeInput" placeholder="Enter new email.">
-                <input type="submit" value="Save changes">
+                <input type="text" id="emailChangeInput" value="Loading email..." />
+                <input type="submit" value="Save changes" />
             </form>
         </div>
         <div class="userPanel_kasm">
@@ -449,6 +449,9 @@ active_tab: profile
 
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    // Import fetchOptions from config.js
+    import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    // Import functions from config.js
     import { putUpdate, postUpdate, deleteData, logoutUserJava } from "{{site.baseurl}}/assets/js/api/profile.js";
 
     // this runs on page load
@@ -492,31 +495,36 @@ active_tab: profile
             const email = await window.fetchEmail();
             const kasm = await window.fetchKasmStatus();
     
-            // Update the name and UID placeholders
+            // Update the name and UID input fields
             const nameInput = document.getElementById("nameChangeInput");
             const uidInput = document.getElementById("uidChangeInput");
+            const emailInput = document.getElementById("emailChangeInput");
     
             if (name) {
                 document.getElementById("name").textContent = name;
-                nameInput.placeholder = name; // Set the placeholder to the fetched name
+                console.log("Fun feature" + name);
+                nameInput.value = name; // Set the value to the fetched name
             } else {
                 document.getElementById("name").textContent = "Failed to load. Are you logged in?";
-                nameInput.placeholder = "Failed to load name";
+                nameInput.value = "Failed to load name";
             }
     
             if (uid) {
                 document.getElementById("uid").textContent = uid;
-                uidInput.placeholder = uid; // Set the placeholder to the fetched UID
+                console.log(uid);
+                uidInput.value = uid; // Set the value to the fetched UID
             } else {
                 document.getElementById("uid").textContent = "Failed to load. Are you logged in?";
-                uidInput.placeholder = "Failed to load UID";
+                uidInput.value = "Failed to load UID";
             }
     
-            // Update the email field
+            // Update the email input field
             if (email) {
                 document.getElementById("email").textContent = email;
+                emailInput.value = email; // Set the value to the fetched email
             } else {
                 document.getElementById("email").textContent = "Failed to load. Are you logged in?";
+                emailInput.value = "Failed to load email";
             }
     
             // Update the Kasm status
@@ -524,9 +532,10 @@ active_tab: profile
                 document.getElementById("kasm").textContent = "Failed to load. Are you logged in?";
             }
         } catch (error) {
-            console.error("Error setting placeholders:", error.message);
+            console.error("Error setting input field values:", error.message);
         }
     };
+
     // FETCH COMMANDS ========
     window.fetchName = async function () {
         const URL = pythonURI + "/api/id"; // Adjusted endpoint
