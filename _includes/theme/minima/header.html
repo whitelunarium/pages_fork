@@ -124,67 +124,8 @@
 
     <script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>
 
-    <script>
-        const links = document.getElementsByClassName("glitch");
-        const letters = "#+©-&*0KIR1L2345";
-        const lettersLength = letters.length;
-        const regex = /\s/;
-
-        for (let i = 0; i < links.length; i++) {
-            links[i].addEventListener("mouseover", (event) => {
-                let iterations = 0;
-                const target = event.target;
-                const originalText = target.dataset.value || target.innerText;
-
-                const interval = setInterval(() => {
-                    target.innerText = originalText
-                        .split("")
-                        .map((letter, index) => {
-                            if (index < iterations) {
-                                return originalText[index];
-                            }
-                            return regex.test(letter) ? letter : letters[Math.floor(Math.random() * lettersLength)];
-                        })
-                        .join("");
-
-                    if (iterations >= originalText.length) {
-                        clearInterval(interval);
-                    }
-
-                    iterations += 1;
-                }, 100);
-            });
-        }
-    </script>
+    
 </body>
-<!-- Style should be in SASS -->
-<header class="site-header">
-
-  <div class="wrapper">
-    {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%}
-    {%- assign page_titles = site.pages | map: 'title' | compact %}
-    <a class="site-title" rel="author" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
-
-    {%- unless page_titles == empty %}
-      <nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon fas fa-bars fa-lg"></span>
-        </label>
-
-        <div class="drawer-container">
-          <div class="drawer">
-            {%- include nav-items.html paths = page_paths %}
-          </div>
-        </div>
-        <div class="slab">
-          {%- include nav-items.html paths = page_paths %}
-          <a id="loginArea" href="{{ site.baseurl }}/login">Login</a>
-        </div>
-      </nav>
-    {%- endunless %}
-  </div>
-</header>
 
 <script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>
+<!-- http://localhost:4100/portfolio_2025/student/ -->
