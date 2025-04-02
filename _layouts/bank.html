@@ -20,9 +20,9 @@ layout: base
 
 <style>
   .bank-nav {
-    background-color: #1c1c1c; /* Changed to dark background */
-    padding: 1rem 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    background-color: #1c1c1c;
+    padding: 0.75rem 0; /* Reduced vertical padding */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
   
   .nav-container {
@@ -30,22 +30,24 @@ layout: base
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    gap: 15px; /* Reduced gap */
+    gap: 10px; /* Reduced gap between items */
+    flex-wrap: wrap; /* Allows items to wrap if needed */
   }
   
   .nav-link {
-    color: #ffffff; /* White text */
+    color: #ffffff;
     text-decoration: none;
     font-weight: 500;
-    padding: 10px 20px; /* Adjusted padding */
-    border-radius: 6px; /* Increased border radius */
-    transition: all 0.3s ease; /* Added transform to transition */
-    font-size: 14px; /* Added font size */
+    padding: 8px 15px; /* Reduced padding */
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 14px; /* Reduced from 16px */
+    white-space: nowrap; /* Prevents text wrapping */
   }
   
   .nav-link:hover {
-    background-color: #ff9800; /* Orange hover */
-    color: #000000; /* Black text on hover */
-    transform: scale(1.1); /* Added scale effect */
+    background-color: #ff9800;
+    color: #000000;
+    transform: scale(1.05); /* Reduced scale effect */
   }
   </style>
