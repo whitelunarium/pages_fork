@@ -426,6 +426,12 @@ class Inventory {
                 filter: blur(5px);
                 pointer-events: none;
                 transition: filter 0.3s ease-in-out;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 998;
             }
 
             .game-overlay {
@@ -438,11 +444,53 @@ class Inventory {
                 z-index: 999;
                 display: none;
                 transition: opacity 0.3s ease-in-out;
+                pointer-events: none;
             }
 
             .game-overlay.active {
                 display: block;
                 opacity: 1;
+            }
+
+            .floor-item {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 2px solid #ffd700;
+                border-radius: 5px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: all 0.3s;
+                z-index: 100;
+                backdrop-filter: blur(5px);
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            }
+
+            .floor-item:hover {
+                transform: scale(1.1);
+                background: rgba(255, 215, 0, 0.2);
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            }
+
+            .floor-item .item-emoji {
+                font-size: 24px;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+
+            .floor-item .item-name {
+                font-size: 12px;
+                color: #ffd700;
+                text-align: center;
+                margin-top: 2px;
+                text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 45px;
             }
         `;
         document.head.appendChild(style);

@@ -5,12 +5,15 @@ import Npc from './Npc.js';
 import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
+import FloorItemManager from './FloorItemManager.js';
+
 class GameLevelAirport {
   constructor(gameEnv) {
     // Values dependent on this.gameEnv.create()
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
+
     // Background data
     const image_src_desert = path + "/images/gamify/airport.jpg";
     const image_data_desert = {
@@ -467,6 +470,14 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_pilot },
       { class: Npc, data: sprite_data_worker }
     ];
+
+    // Initialize the floor item manager
+    this.initialize = function() {
+      console.log('Initializing GameLevelAirport...');
+      const floorItemManager = FloorItemManager.getInstance();
+      console.log('FloorItemManager instance:', floorItemManager);
+    };
   }
 }
+
 export default GameLevelAirport;
