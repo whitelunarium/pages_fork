@@ -461,6 +461,7 @@ active_tab: profile
         try {
             console.log("Initializing user data...");
             await loadUserData();
+            console.log("User data loaded successfully.");
         } catch (error) {
             console.error('Initialization error:', error.message);
         }
