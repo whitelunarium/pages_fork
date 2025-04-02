@@ -5,7 +5,7 @@ import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
 import GameLevelFinancialLiteracy from './GameLevelFinancialLiteracy.js';
-
+import Game from './Game.js';
 class GameLevelSiliconValley {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
@@ -60,15 +60,24 @@ class GameLevelSiliconValley {
       reaction: function () {
         alert(sprite_greet_robot);
       },
-      interact: function () {
-        let primaryGame = gameEnv.gameControl;
-        let levelArray = [GameLevelRetro];
-        let gameInGame = new GameControl(gameEnv.game, levelArray);
-        primaryGame.pause();
-        gameInGame.start();
-        gameInGame.gameOver = function () {
-          primaryGame.resume();
-        };
+      interact: async function () {
+        const personId = Game.id; 
+        const transitionAllowed = await Game.transitionToRetro(personId);
+      
+        if (transitionAllowed) {
+          let primaryGame = gameEnv.gameControl;
+          let levelArray = [GameLevelRetro];
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+      
+          primaryGame.pause();
+          gameInGame.start();
+      
+          gameInGame.gameOver = function () {
+            primaryGame.resume();
+          };
+        } else {
+          alert("You need to answer all the questions before accessing the Retro level. Keep exploring!");
+        }
       }
     };
 
