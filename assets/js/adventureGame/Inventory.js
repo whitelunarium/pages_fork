@@ -233,6 +233,7 @@ class Inventory {
     initialize() {
         const container = document.createElement("div");
         container.className = "inventory-container";
+        container.id = "inventoryContainer";
         container.style.display = "none"; // Hide inventory by default
         container.innerHTML = `
             <div class="inventory-header">
@@ -248,9 +249,7 @@ class Inventory {
 
         // Add keyboard shortcut
         document.addEventListener("keydown", (e) => {
-            console.log("Key pressed:", e.key);
             if (e.key === "i" || e.key === "I") {
-                console.log("Inventory toggle triggered");
                 this.toggle();
             }
         });
@@ -513,6 +512,7 @@ class Inventory {
             return;
         }
         container.style.display = "block";
+        this.updateDisplay();
         
         // Get the game control instance from the game container
         const gameContainer = document.getElementById("gameContainer");
