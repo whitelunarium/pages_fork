@@ -1,12 +1,8 @@
 import GameEnvBackground from './GameEnvBackground.js';
 import Npc from './Npc.js';
 import Player from './Player.js';
-import GameControl from './GameControl.js';
-import Quiz from './Quiz.js';
 
-
-
-class GameLevelParadise {
+class GameLevelWallstreet {
   /**
    * Properties and methods to define a game level
    * @param {*} gameEnv - The active game environment
@@ -170,4 +166,4 @@ class GameLevelParadise {
   }
 }
 
-export default GameLevelParadise;
+export default GameLevelWallstreet;

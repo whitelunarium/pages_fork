@@ -1,4 +1,3 @@
-import gameControlInstance from "./GameControl.js";
 import Game from "./Game.js";
 class Quiz {
     constructor() {
@@ -295,7 +294,6 @@ class Quiz {
             dimDiv.addEventListener("click", () => {
                 this.closePanel();
             });
-            
         },
 
         remove: () => {

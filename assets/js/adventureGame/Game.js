@@ -1,10 +1,7 @@
 import GameControl from './GameControl.js';
-import GameLevelWater from "./GameLevelWater.js";
-import GameLevelDesert from "./GameLevelAirport.js";
 import GameLevelAirport from "./GameLevelAirport.js";
-import GameLevelSquares from './GameLevelSquares.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
-import GameLevelParadise from './GameLevelParadise.js';
+import GameLevelWallstreet from './GameLevelWallstreet.js';
 import Quiz from './Quiz.js';
 import Character from "./Character.js";
 import Inventory from "./Inventory.js";
@@ -44,7 +41,7 @@ class Game {
         this.gname = null;
 
         // start the game immediately
-        const gameLevelClasses = [GameLevelAirport, GameLevelSiliconValley];
+        const gameLevelClasses = [GameLevelAirport, GameLevelSiliconValley, GameLevelWallstreet];
         new GameControl(this, gameLevelClasses).start();
     }
 
@@ -172,11 +169,16 @@ class Game {
 
     static async fetchQuestionByCategory(category) {
         try {
-            const response = await fetch(`${this.javaURI}/rpg_answer/getQuestion?category=${category}`, this.fetchOptions);
+            const personId = this.id;
+            const response = await fetch(
+                `${this.javaURI}/rpg_answer/getQuestion?category=${category}&personid=${personId}`, 
+                this.fetchOptions
+            );
+    
             if (!response.ok) {
                 throw new Error("Failed to fetch questions");
             }
-
+    
             const questions = await response.json();
             console.log(questions);
             return questions;
@@ -185,6 +187,7 @@ class Game {
             return null;
         }
     }
+    
     static async getIncorrectQuestionsByCategory(personId, category) {
         try {
             const response = await fetch(
@@ -207,22 +210,13 @@ class Game {
             const allQuestions = response?.questions || [];
     
             if (allQuestions.length === 0) {
-                alert(`❌ No questions available for ${npcCategory}`);
-                return;
-            }
-    
-            const unansweredQuestions = allQuestions.filter(q =>
-                !(q.question.answeredBy?.includes(personId))
-            );
-    
-            if (unansweredQuestions.length === 0) {
                 alert(`✅ You've already completed all of ${npcCategory}'s questions!`);
                 return;
             }
     
             const quiz = new Quiz();
             quiz.initialize();
-            quiz.openPanel(npcCategory, callback, unansweredQuestions);
+            quiz.openPanel(npcCategory, callback, allQuestions);
     
         } catch (error) {
             console.error("Error during NPC quiz attempt:", error);
@@ -230,10 +224,6 @@ class Game {
         }
     }
     
-        
-    
-        
-
     static async updateStatsMCQ(questionId, choiceId, personId) {
         try {
             console.log("Submitting answer with:", { questionId, choiceId, personId });

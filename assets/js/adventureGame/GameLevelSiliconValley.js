@@ -127,28 +127,6 @@ class GameLevelSiliconValley {
       }
     };
 
-    // ✅ Re-adding the Financial Advisor (Octocat)
-    const sprite_src_advisor = path + "/images/gamify/financeguy.png";
-    const sprite_greet_advisor = "Hello! I'm your Financial Advisor. Press 'E' near me to get the latest financial news and tips!";
-    const sprite_data_advisor = {
-      id: 'Financial Advisor',
-      greeting: sprite_greet_advisor,
-      src: sprite_src_advisor,
-      SCALE_FACTOR: 10,
-      ANIMATION_RATE: 50,
-      pixels: { height: 301, width: 801 },
-      INIT_POSITION: { x: width * 0.35, y: height * 0.6 },
-      orientation: { rows: 1, columns: 4 },
-      down: { row: 0, start: 0, columns: 3 },
-      hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      reaction: function () {
-        alert(sprite_greet_advisor);
-      },
-      interact: function () {
-        alert("Here's a financial tip: Diversify your investments and stay informed!");
-      }
-    };
-
     // Add Night Owl Character
     const sprite_src_owl = path + "/images/gamify/owl.png";
     const sprite_greet_owl = "Hoot! I'm the Tech Owl. Want to play a fun game? Press 'E' to start!";
@@ -186,7 +164,6 @@ class GameLevelSiliconValley {
       { class: Npc, data: sprite_data_robot },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
-      { class: Npc, data: sprite_data_advisor },
       { class: Npc, data: sprite_data_owl }  // Add owl to the level
     ];
   }

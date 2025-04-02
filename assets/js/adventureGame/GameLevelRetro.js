@@ -3,7 +3,7 @@ import Npc from './Npc.js';
 import Player from './Player.js';
 import GameControl from './GameControl.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
-import GameLevelParadise from './GameLevelParadise.js';
+import GameLevelParadise from './GameLevelWallstreet.js';
 import Game from './Game.js';
 class GameLevelRetro {
   /**
@@ -66,7 +66,7 @@ class GameLevelRetro {
       },
       interact: async function () {
         const personId = Game.id; 
-        const transitionAllowed = await Game.transitionToRetro(personId);
+        const transitionAllowed = await Game.transitionToParadise(personId);
       
         if (transitionAllowed) {
           let primaryGame = gameEnv.gameControl;
