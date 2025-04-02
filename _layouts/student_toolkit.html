@@ -33,12 +33,13 @@ active_tab: toolkit
         message.style.top = '50%';
         message.style.left = '50%';
         message.style.transform = 'translate(-50%, -50%)';
-        message.style.backgroundColor = '#ffcc00';
+        message.style.backgroundColor = 'rgba(72, 72, 74, 1)';
         message.style.padding = '20px';
         message.style.fontSize = '20px';
         message.style.color = '#000';
         message.style.borderRadius = '10px';
-        message.innerHTML = 'Please login';
+        message.style.backdropFilter = 'blur(30px)';
+        message.innerHTML = 'You need to login first.';
         
         // Add the message on top of the loading screen
         document.body.appendChild(message);
