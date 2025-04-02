@@ -26,10 +26,10 @@ class HelpPanel2 {
     panel.innerHTML = `
       <h2>🆘 Help & Instructions</h2>
       <ul style="line-height: 1.6;">
+        <li><b>Objective:</b> Walk around and answer the npcs' questions! Then travel to the next level!</li
         <li><b>WASD</b> — Move around</li>
         <li><b>E</b> — Interact with characters</li>
         <li><b>H</b> — Toggle this help panel</li>
-        <li><b>Objective:</b> Complete tech quizzes and gain access to new levels!</li>
       </ul>
       <button id="close-help" style="margin-top: 15px;">Close</button>
     `;
