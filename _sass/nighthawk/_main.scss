@@ -12,3 +12,12 @@
 // aesthetihawk stuff
 @import "materials/main.scss";
 @import "elements/main.scss";
+
+
+html,
+body,
+input,
+textarea,
+select {
+    background-color: $background;
+}

@@ -15,7 +15,6 @@ input,
 textarea,
 select {
     color: $high-emph !important;
-    background-color: $dark-grey !important;
 }
 
 
@@ -52,16 +51,6 @@ code {
 .post-content p,
 .post-content li {
     color: $med-emph;
-}
-
-.btn {
-    background-color: $overlay !important;
-    color: $high-emph !important;
-    border-color: $overlay-light !important;
-}
-
-.btn:hover {
-    background-color: $dark-grey !important;
 }
 
 table th {
