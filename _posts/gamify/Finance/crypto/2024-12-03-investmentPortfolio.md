@@ -323,6 +323,35 @@ permalink: /crypto/portfolio
         document.getElementById('user-balance').innerText = formattedBalance;
         localStorage.setItem("userBalance", formattedBalance);
     }
+    window.openCompareModal = function () {
+        document.getElementById('compare-modal').style.display = 'flex';
+    };
+    window.closeCompareModal = function () {
+        document.getElementById('compare-modal').style.display = 'none';
+        document.getElementById('compare-result').innerHTML = "";
+    };
+    window.compareCryptos = async function () {
+        const cryptoId1 = document.getElementById('crypto-compare-1').value.trim();
+        const cryptoId2 = document.getElementById('crypto-compare-2').value.trim();
+        const days = document.getElementById('compare-days').value;
+        if (!cryptoId1 || !cryptoId2 || !days) {
+            alert("Please fill all fields.");
+            return;
+        }
+        try {
+            const response = await fetch(`${javaURI}/api/crypto/compare?cryptoId1=${encodeURIComponent(cryptoId1)}&cryptoId2=${encodeURIComponent(cryptoId2)}&days=${days}`, fetchOptions);
+            if (!response.ok) throw new Error("Failed to fetch comparison data.");
+            const data = await response.json();
+            const resultDiv = document.getElementById('compare-result');
+            resultDiv.innerHTML = `
+                <p><strong>${data.cryptoId1}:</strong> ${data.cryptoId1ChangePercent.toFixed(2)}%</p>
+                <p><strong>${data.cryptoId2}:</strong> ${data.cryptoId2ChangePercent.toFixed(2)}%</p>
+            `;
+        } catch (error) {
+            console.error("Error comparing cryptos:", error);
+            alert("Error fetching comparison data.");
+        }
+    };
 
     async function fetchUserBalance() {
         if (!userEmail) {
