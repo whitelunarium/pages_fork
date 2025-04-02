@@ -7,22 +7,16 @@ class Inventory {
         }
         Inventory.instance = this;
         
-        console.log("Initializing Inventory system...");
         this.items = [];
         this.maxSlots = 20;
         this.isOpen = false;
         this.injectStyles();
         this.initialize();
-        
-        // Add starting items first
         this.addStartingItems();
-        
-        // Then load any additional items from cookies
         this.loadFromCookies();
     }
 
     injectStyles() {
-        console.log("Injecting inventory styles...");
         const style = document.createElement("style");
         style.textContent = `
             .inventory-container {
@@ -38,6 +32,8 @@ class Inventory {
                 z-index: 1000;
                 backdrop-filter: blur(5px);
                 box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+                user-select: none;
+                width: 400px;
             }
 
             .inventory-header {
@@ -47,21 +43,28 @@ class Inventory {
                 margin-bottom: 20px;
                 padding-bottom: 10px;
                 border-bottom: 2px solid #ffd700;
+                cursor: move;
+                background: rgba(255, 215, 0, 0.1);
+                margin: -20px -20px 20px -20px;
+                padding: 12px 20px;
+                border-radius: 10px 10px 0 0;
             }
 
             .inventory-header h2 {
                 margin: 0;
                 color: #ffd700;
                 text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                font-size: 18px;
+                font-weight: bold;
             }
 
             .close-inventory {
                 background: none;
                 border: none;
                 color: #ffd700;
-                font-size: 24px;
+                font-size: 20px;
                 cursor: pointer;
-                padding: 0 10px;
+                padding: 0 8px;
                 transition: color 0.3s;
             }
 
@@ -152,139 +155,294 @@ class Inventory {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                background: rgba(0, 0, 0, 0.95);
-                padding: 25px;
-                border-radius: 15px;
-                border: 3px solid #ffd700;
+                background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+                padding: 20px;
+                border-radius: 12px;
+                border: 2px solid #ffd700;
                 color: white;
                 z-index: 1002;
-                min-width: 300px;
+                width: 320px;
+                max-height: 80vh;
+                overflow-y: auto;
                 box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
                 cursor: move;
                 user-select: none;
+            }
+
+            .calculator-modal::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .calculator-modal::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+            }
+
+            .calculator-modal::-webkit-scrollbar-thumb {
+                background: #ffd700;
+                border-radius: 3px;
             }
 
             .calculator-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 20px;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #ffd700;
+                margin-bottom: 15px;
+                padding-bottom: 8px;
+                border-bottom: 1px solid #ffd700;
                 cursor: move;
                 background: rgba(255, 215, 0, 0.1);
-                margin: -25px -25px 20px -25px;
-                padding: 15px 25px;
-                border-radius: 12px 12px 0 0;
+                margin: -20px -20px 15px -20px;
+                padding: 12px 20px;
+                border-radius: 10px 10px 0 0;
             }
 
             .calculator-title {
                 margin: 0;
                 color: #ffd700;
-                font-size: 20px;
+                font-size: 18px;
+                font-weight: bold;
             }
 
             .calculator-close {
                 background: none;
                 border: none;
                 color: #ffd700;
-                font-size: 24px;
+                font-size: 20px;
                 cursor: pointer;
-                padding: 0 10px;
+                padding: 0 8px;
+                transition: color 0.3s;
+            }
+
+            .calculator-close:hover {
+                color: #ff6b6b;
             }
 
             .calculator-form {
                 display: flex;
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
+            }
+
+            .calculator-tabs {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 5px;
+            }
+
+            .tab-btn {
+                flex: 1;
+                background: rgba(255, 215, 0, 0.1);
+                border: 1px solid #ffd700;
+                color: #ffd700;
+                padding: 6px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.3s;
+            }
+
+            .tab-btn:hover {
+                background: rgba(255, 215, 0, 0.2);
+            }
+
+            .tab-btn.active {
+                background: #ffd700;
+                color: black;
+                font-weight: bold;
             }
 
             .calculator-input {
+                width: 100%;
                 background: rgba(255, 255, 255, 0.1);
                 border: 1px solid #ffd700;
-                border-radius: 5px;
+                border-radius: 4px;
                 padding: 8px;
                 color: white;
-                font-size: 16px;
+                font-size: 14px;
+                box-sizing: border-box;
             }
 
             .calculator-input:focus {
                 outline: none;
                 border-color: #ff6b6b;
-            }
-
-            .calculator-result {
-                margin-top: 20px;
-                padding: 15px;
-                background: rgba(255, 215, 0, 0.1);
-                border-radius: 5px;
-                text-align: center;
-                font-size: 18px;
-                color: #ffd700;
+                box-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
             }
 
             .calculator-button {
                 background: #ffd700;
                 border: none;
-                border-radius: 5px;
-                padding: 10px;
+                border-radius: 4px;
+                padding: 8px;
                 color: black;
                 font-weight: bold;
                 cursor: pointer;
                 transition: all 0.3s;
+                font-size: 14px;
             }
 
             .calculator-button:hover {
                 background: #ff6b6b;
-                transform: scale(1.05);
+                transform: scale(1.02);
+            }
+
+            .calculator-result {
+                margin-top: 12px;
+                padding: 12px;
+                background: rgba(255, 215, 0, 0.1);
+                border-radius: 4px;
+                text-align: center;
+                font-size: 14px;
+                color: #ffd700;
+                line-height: 1.4;
+            }
+
+            .calculator-content {
+                display: none;
+            }
+
+            .calculator-content.active {
+                display: block;
             }
 
             .trading-tips {
                 color: white;
-                padding: 20px;
+                padding: 10px;
+                max-height: 400px;
+                overflow-y: auto;
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                border-radius: 8px;
             }
 
             .trading-tips h3 {
                 color: #ffd700;
                 text-align: center;
-                margin-bottom: 20px;
-                font-size: 24px;
+                margin-bottom: 15px;
+                font-size: 18px;
                 text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                border-bottom: 2px solid #ffd700;
+                padding-bottom: 10px;
             }
 
             .tip-section {
                 background: rgba(255, 255, 255, 0.1);
                 border: 1px solid #ffd700;
-                border-radius: 8px;
-                padding: 15px;
-                margin-bottom: 15px;
+                border-radius: 6px;
+                padding: 12px;
+                margin-bottom: 12px;
                 transition: all 0.3s;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             }
 
             .tip-section:hover {
                 background: rgba(255, 215, 0, 0.1);
                 transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             }
 
             .tip-section h4 {
                 color: #ffd700;
-                margin: 0 0 10px 0;
-                font-size: 18px;
+                margin: 0 0 8px 0;
+                font-size: 14px;
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 6px;
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
             }
 
             .tip-section p {
-                margin: 5px 0;
-                line-height: 1.4;
+                margin: 4px 0;
+                line-height: 1.3;
                 color: #fff;
+                font-size: 12px;
             }
 
             .tip-section p:before {
                 content: "•";
                 color: #ffd700;
-                margin-right: 8px;
+                margin-right: 6px;
+            }
+
+            .manual-navigation {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255, 215, 0, 0.3);
+            }
+
+            .nav-btn {
+                background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+                border: none;
+                color: #000;
+                padding: 6px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.3s;
+                font-weight: bold;
+                font-size: 12px;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+
+            .nav-btn:hover:not(:disabled) {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            }
+
+            .nav-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+            .page-indicator {
+                color: #ffd700;
+                font-weight: bold;
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+                font-size: 12px;
+                background: rgba(0, 0, 0, 0.2);
+                padding: 4px 8px;
+                border-radius: 4px;
+            }
+
+            .manual-page {
+                transition: all 0.3s ease-in-out;
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            .manual-page[style*="display: none"] {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            .manual-page[style*="display: block"] {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .game-blur {
+                filter: blur(5px);
+                pointer-events: none;
+                transition: filter 0.3s ease-in-out;
+            }
+
+            .game-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 999;
+                display: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .game-overlay.active {
+                display: block;
+                opacity: 1;
             }
         `;
         document.head.appendChild(style);
@@ -294,7 +452,7 @@ class Inventory {
         const container = document.createElement("div");
         container.className = "inventory-container";
         container.id = "inventoryContainer";
-        container.style.display = "none"; // Hide inventory by default
+        container.style.display = "none";
         container.innerHTML = `
             <div class="inventory-header">
                 <h2>Inventory</h2>
@@ -304,28 +462,27 @@ class Inventory {
         `;
         document.body.appendChild(container);
 
+        const overlay = document.createElement("div");
+        overlay.className = "game-overlay";
+        document.body.appendChild(overlay);
+
         const closeBtn = container.querySelector(".close-inventory");
         closeBtn.addEventListener("click", () => this.close());
 
-        // Add keyboard shortcut
         document.addEventListener("keydown", (e) => {
             if (e.key === ".") {
                 this.toggle();
             }
         });
 
-        console.log("Inventory UI setup complete");
+        this.makeDraggable(container);
     }
 
     loadFromCookies() {
-        console.log("Loading items from cookies...");
         const cookies = document.cookie.split(';');
-        console.log("All cookies:", cookies);
         
-        // Check for game keys
         const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
         if (gameKeyCookie && gameKeyCookie.includes('meteorBlasterKey') && !this.items.some(item => item.id === 'meteor_key')) {
-            console.log("Found meteor key in gameKey cookie");
             this.addItem({
                 id: 'meteor_key',
                 name: 'Meteor Key',
@@ -336,7 +493,6 @@ class Inventory {
             });
         }
 
-        // Check for meteor key - try different possible cookie names
         const meteorKeyCookie = cookies.find(cookie => {
             const trimmedCookie = cookie.trim();
             return trimmedCookie.startsWith('meteorKey=') || 
@@ -344,11 +500,7 @@ class Inventory {
                    trimmedCookie.startsWith('meteor=');
         });
         
-        console.log("Meteor key cookie found:", meteorKeyCookie);
-        console.log("Current inventory items before meteor key:", this.items);
-        
         if (meteorKeyCookie && !this.items.some(item => item.id === 'meteor_key')) {
-            console.log("Adding meteor key to inventory");
             const meteorKeyItem = {
                 id: 'meteor_key',
                 name: 'Meteor Key',
@@ -357,18 +509,9 @@ class Inventory {
                 stackable: false,
                 value: 2000
             };
-            console.log("Meteor key item to add:", meteorKeyItem);
             this.addItem(meteorKeyItem);
-            console.log("Inventory items after adding meteor key:", this.items);
-        } else {
-            console.log("Meteor key not added because:", {
-                cookieExists: !!meteorKeyCookie,
-                cookieValue: meteorKeyCookie,
-                alreadyInInventory: this.items.some(item => item.id === 'meteor_key')
-            });
         }
 
-        // Check for other achievement cookies
         const achievementCookies = cookies.filter(cookie => cookie.trim().startsWith('achievement_'));
         achievementCookies.forEach(cookie => {
             const [name, value] = cookie.split('=');
@@ -386,7 +529,6 @@ class Inventory {
             }
         });
 
-        // Check for level completion cookies
         const levelCookies = cookies.filter(cookie => cookie.trim().startsWith('level_'));
         levelCookies.forEach(cookie => {
             const [name, value] = cookie.split('=');
@@ -404,7 +546,6 @@ class Inventory {
             }
         });
 
-        // Check for quiz completion cookies
         const quizCookies = cookies.filter(cookie => cookie.trim().startsWith('quiz_'));
         quizCookies.forEach(cookie => {
             const [name, value] = cookie.split('=');
@@ -421,16 +562,12 @@ class Inventory {
                 });
             }
         });
-
-        console.log("Finished loading items from cookies");
     }
 
     saveToCookies() {
-        console.log("Saving items to cookies...");
         this.items.forEach(item => {
             if (item.id === 'meteor_key') {
-                console.log("Saving meteor key cookie");
-                document.cookie = `meteorKey=true;path=/;max-age=31536000`; // 1 year expiry
+                document.cookie = `meteorKey=true;path=/;max-age=31536000`;
             } else if (item.id === 'game_key') {
                 document.cookie = `gameKey=true;path=/;max-age=31536000`;
             } else if (item.id.startsWith('achievement_')) {
@@ -441,48 +578,35 @@ class Inventory {
                 document.cookie = `${item.id}=true;path=/;max-age=31536000`;
             }
         });
-        console.log("Finished saving items to cookies");
     }
 
     addItem(item) {
-        console.log("Adding item to inventory:", item);
         if (!item || !item.id) {
-            console.error("Invalid item:", item);
             return false;
         }
 
-        // Special handling for meteor key
         if (item.id === 'meteor_key') {
-            console.log("Special handling for meteor key");
-            // Remove any existing meteor key first
             this.items = this.items.filter(i => i.id !== 'meteor_key');
-            // Add the new meteor key
             this.items.push({ ...item, quantity: 1 });
-            console.log("Meteor key added successfully");
             this.saveToCookies();
             this.updateDisplay();
             return true;
         }
 
         const existingItem = this.items.find(i => i.id === item.id);
-        console.log("Existing item found:", existingItem);
         
         if (existingItem && existingItem.stackable) {
-            console.log("Updating quantity of existing item");
             existingItem.quantity += item.quantity || 1;
         } else {
-            console.log("Adding new item to inventory");
             this.items.push({ ...item, quantity: item.quantity || 1 });
         }
         
-        console.log("Current inventory items after add:", this.items);
         this.saveToCookies();
         this.updateDisplay();
         return true;
     }
 
     removeItem(itemId, amount = 1) {
-        console.log("Removing item from inventory:", itemId, "amount:", amount);
         const itemIndex = this.items.findIndex(item => item.id === itemId);
         if (itemIndex === -1) return false;
 
@@ -491,7 +615,6 @@ class Inventory {
             item.quantity -= amount;
         } else {
             this.items.splice(itemIndex, 1);
-            // Remove cookie if it's a cookie-based item
             if (itemId.startsWith('game_key') || itemId.startsWith('meteor_key') || 
                 itemId.startsWith('achievement_') || itemId.startsWith('level_') || 
                 itemId.startsWith('quiz_')) {
@@ -505,17 +628,13 @@ class Inventory {
     }
 
     updateDisplay() {
-        console.log("Updating inventory display...");
         const grid = document.querySelector(".inventory-grid");
         if (!grid) {
-            console.error("Inventory grid not found!");
             return;
         }
         grid.innerHTML = "";
 
-        console.log("Current items to display:", this.items);
         this.items.forEach(item => {
-            console.log("Creating slot for item:", item);
             const slot = document.createElement("div");
             slot.className = "inventory-slot";
             
@@ -566,13 +685,14 @@ class Inventory {
 
     makeDraggable(element) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        const header = element.querySelector(".calculator-header");
+        const header = element.querySelector(".calculator-header") || element.querySelector(".inventory-header");
         
+        if (!header) return;
+
         header.onmousedown = dragMouseDown;
 
         function dragMouseDown(e) {
             e.preventDefault();
-            // Get the mouse cursor position at startup
             pos3 = e.clientX;
             pos4 = e.clientY;
             document.onmouseup = closeDragElement;
@@ -581,12 +701,10 @@ class Inventory {
 
         function elementDrag(e) {
             e.preventDefault();
-            // Calculate the new cursor position
             pos1 = pos3 - e.clientX;
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
-            // Set the element's new position
             element.style.top = (element.offsetTop - pos2) + "px";
             element.style.left = (element.offsetLeft - pos1) + "px";
         }
@@ -606,10 +724,45 @@ class Inventory {
                 <button class="calculator-close">×</button>
             </div>
             <div class="calculator-form">
-                <input type="number" class="calculator-input" id="initialInvestment" placeholder="Initial Investment">
-                <input type="number" class="calculator-input" id="currentValue" placeholder="Current Value">
-                <button class="calculator-button">Calculate ROI</button>
-                <div class="calculator-result"></div>
+                <div class="calculator-content" data-page="1">
+                    <h3>ROI Calculator</h3>
+                    <div class="tip-section">
+                        <input type="number" class="calculator-input" id="initialInvestment" placeholder="Initial Investment">
+                        <input type="number" class="calculator-input" id="currentValue" placeholder="Current Value">
+                        <input type="number" class="calculator-input" id="timePeriod" placeholder="Time Period (months)">
+                        <button class="calculator-button">Calculate ROI</button>
+                        <div class="calculator-result"></div>
+                    </div>
+                </div>
+
+                <div class="calculator-content" data-page="2" style="display: none;">
+                    <h3>Compound Interest</h3>
+                    <div class="tip-section">
+                        <input type="number" class="calculator-input" id="principal" placeholder="Principal Amount">
+                        <input type="number" class="calculator-input" id="rate" placeholder="Annual Interest Rate (%)">
+                        <input type="number" class="calculator-input" id="time" placeholder="Time (years)">
+                        <input type="number" class="calculator-input" id="compounds" placeholder="Compounds per year">
+                        <button class="calculator-button">Calculate Compound Interest</button>
+                        <div class="calculator-result"></div>
+                    </div>
+                </div>
+
+                <div class="calculator-content" data-page="3" style="display: none;">
+                    <h3>Profit/Loss Calculator</h3>
+                    <div class="tip-section">
+                        <input type="number" class="calculator-input" id="buyPrice" placeholder="Buy Price">
+                        <input type="number" class="calculator-input" id="sellPrice" placeholder="Sell Price">
+                        <input type="number" class="calculator-input" id="quantity" placeholder="Quantity">
+                        <button class="calculator-button">Calculate Profit/Loss</button>
+                        <div class="calculator-result"></div>
+                    </div>
+                </div>
+
+                <div class="manual-navigation">
+                    <button class="nav-btn prev-btn" disabled>Previous</button>
+                    <span class="page-indicator">Calculator 1 of 3</span>
+                    <button class="nav-btn next-btn">Next</button>
+                </div>
             </div>
         `;
 
@@ -617,24 +770,98 @@ class Inventory {
         this.makeDraggable(modal);
 
         const closeBtn = modal.querySelector(".calculator-close");
-        const calculateBtn = modal.querySelector(".calculator-button");
-        const resultDiv = modal.querySelector(".calculator-result");
+        const prevBtn = modal.querySelector(".prev-btn");
+        const nextBtn = modal.querySelector(".next-btn");
+        const pageIndicator = modal.querySelector(".page-indicator");
+        const pages = modal.querySelectorAll(".calculator-content");
+        const calculateBtns = modal.querySelectorAll(".calculator-button");
+        const resultDivs = modal.querySelectorAll(".calculator-result");
+        let currentPage = 1;
 
-        closeBtn.addEventListener("click", () => {
-            modal.remove();
+        const updateNavigation = () => {
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === pages.length;
+            pageIndicator.textContent = `Calculator ${currentPage} of ${pages.length}`;
+        };
+
+        prevBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+                pages[currentPage - 1].style.display = "none";
+                currentPage--;
+                pages[currentPage - 1].style.display = "block";
+                updateNavigation();
+            }
         });
 
-        calculateBtn.addEventListener("click", () => {
+        nextBtn.addEventListener("click", () => {
+            if (currentPage < pages.length) {
+                pages[currentPage - 1].style.display = "none";
+                currentPage++;
+                pages[currentPage - 1].style.display = "block";
+                updateNavigation();
+            }
+        });
+
+        calculateBtns[0].addEventListener("click", () => {
             const initialInvestment = parseFloat(document.getElementById("initialInvestment").value);
             const currentValue = parseFloat(document.getElementById("currentValue").value);
+            const timePeriod = parseFloat(document.getElementById("timePeriod").value);
 
-            if (isNaN(initialInvestment) || isNaN(currentValue)) {
-                resultDiv.textContent = "Please enter valid numbers";
+            if (isNaN(initialInvestment) || isNaN(currentValue) || isNaN(timePeriod)) {
+                resultDivs[0].textContent = "Please enter valid numbers";
                 return;
             }
 
             const roi = ((currentValue - initialInvestment) / initialInvestment) * 100;
-            resultDiv.textContent = `ROI: ${roi.toFixed(2)}%`;
+            const annualizedRoi = (Math.pow(currentValue / initialInvestment, 12 / timePeriod) - 1) * 100;
+            resultDivs[0].innerHTML = `
+                ROI: ${roi.toFixed(2)}%<br>
+                Annualized ROI: ${annualizedRoi.toFixed(2)}%<br>
+                Total Profit: $${(currentValue - initialInvestment).toFixed(2)}
+            `;
+        });
+
+        calculateBtns[1].addEventListener("click", () => {
+            const principal = parseFloat(document.getElementById("principal").value);
+            const rate = parseFloat(document.getElementById("rate").value);
+            const time = parseFloat(document.getElementById("time").value);
+            const compounds = parseFloat(document.getElementById("compounds").value);
+
+            if (isNaN(principal) || isNaN(rate) || isNaN(time) || isNaN(compounds)) {
+                resultDivs[1].textContent = "Please enter valid numbers";
+                return;
+            }
+
+            const amount = principal * Math.pow(1 + (rate / 100) / compounds, compounds * time);
+            const interest = amount - principal;
+            resultDivs[1].innerHTML = `
+                Final Amount: $${amount.toFixed(2)}<br>
+                Interest Earned: $${interest.toFixed(2)}<br>
+                Effective Annual Rate: ${((Math.pow(1 + (rate / 100) / compounds, compounds) - 1) * 100).toFixed(2)}%
+            `;
+        });
+
+        calculateBtns[2].addEventListener("click", () => {
+            const buyPrice = parseFloat(document.getElementById("buyPrice").value);
+            const sellPrice = parseFloat(document.getElementById("sellPrice").value);
+            const quantity = parseFloat(document.getElementById("quantity").value);
+
+            if (isNaN(buyPrice) || isNaN(sellPrice) || isNaN(quantity)) {
+                resultDivs[2].textContent = "Please enter valid numbers";
+                return;
+            }
+
+            const profit = (sellPrice - buyPrice) * quantity;
+            const profitPercentage = ((sellPrice - buyPrice) / buyPrice) * 100;
+            resultDivs[2].innerHTML = `
+                Profit/Loss: $${profit.toFixed(2)}<br>
+                Profit/Loss %: ${profitPercentage.toFixed(2)}%<br>
+                Total Value: $${(sellPrice * quantity).toFixed(2)}
+            `;
+        });
+
+        closeBtn.addEventListener("click", () => {
+            modal.remove();
         });
     }
 
@@ -648,30 +875,121 @@ class Inventory {
             </div>
             <div class="calculator-form">
                 <div class="trading-tips">
-                    <h3>Essential Trading Tips</h3>
-                    <div class="tip-section">
-                        <h4>📈 Market Analysis</h4>
-                        <p>• Study market trends before making decisions</p>
-                        <p>• Use technical indicators to identify patterns</p>
-                        <p>• Keep track of market news and events</p>
+                    <div class="manual-page" data-page="1">
+                        <h3>Market Analysis Basics</h3>
+                        <div class="tip-section">
+                            <h4>📈 Understanding Market Trends</h4>
+                            <p>• Learn to identify market trends using price charts</p>
+                            <p>• Study support and resistance levels</p>
+                            <p>• Analyze trading volume patterns</p>
+                            <p>• Identify market cycles and patterns</p>
+                            <p>• Use multiple timeframes for confirmation</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>📊 Technical Indicators</h4>
+                            <p>• Moving Averages (MA, EMA)</p>
+                            <p>• Relative Strength Index (RSI)</p>
+                            <p>• MACD and Bollinger Bands</p>
+                            <p>• Stochastic Oscillator</p>
+                            <p>• Volume Profile and OBV</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>📰 Fundamental Analysis</h4>
+                            <p>• Company financial statements</p>
+                            <p>• Industry trends and news</p>
+                            <p>• Economic indicators</p>
+                            <p>• Market sentiment analysis</p>
+                        </div>
                     </div>
-                    <div class="tip-section">
-                        <h4>💰 Risk Management</h4>
-                        <p>• Never invest more than you can afford to lose</p>
-                        <p>• Set stop-loss orders to limit potential losses</p>
-                        <p>• Diversify your portfolio across different assets</p>
+
+                    <div class="manual-page" data-page="2" style="display: none;">
+                        <h3>Risk Management Strategies</h3>
+                        <div class="tip-section">
+                            <h4>💰 Position Sizing</h4>
+                            <p>• Never risk more than 1-2% per trade</p>
+                            <p>• Calculate position size based on risk</p>
+                            <p>• Use stop-loss orders effectively</p>
+                            <p>• Scale in and out of positions</p>
+                            <p>• Consider leverage and margin requirements</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>🎯 Portfolio Management</h4>
+                            <p>• Diversify across different assets</p>
+                            <p>• Balance risk and reward</p>
+                            <p>• Regular portfolio rebalancing</p>
+                            <p>• Asset allocation strategies</p>
+                            <p>• Risk-adjusted returns calculation</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>🛡️ Risk Control</h4>
+                            <p>• Set maximum drawdown limits</p>
+                            <p>• Use trailing stops</p>
+                            <p>• Implement hedging strategies</p>
+                            <p>• Monitor correlation between assets</p>
+                            <p>• Regular risk assessment</p>
+                        </div>
                     </div>
-                    <div class="tip-section">
-                        <h4>⏰ Timing</h4>
-                        <p>• Buy low, sell high - but don't try to time the market</p>
-                        <p>• Be patient and wait for good opportunities</p>
-                        <p>• Don't let emotions drive your trading decisions</p>
+
+                    <div class="manual-page" data-page="3" style="display: none;">
+                        <h3>Advanced Trading Strategies</h3>
+                        <div class="tip-section">
+                            <h4>⚡ Day Trading</h4>
+                            <p>• Quick profit taking</p>
+                            <p>• Managing multiple positions</p>
+                            <p>• Risk management in fast markets</p>
+                            <p>• Scalping techniques</p>
+                            <p>• High-frequency trading basics</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>📈 Swing Trading</h4>
+                            <p>• Holding positions for days/weeks</p>
+                            <p>• Trend following strategies</p>
+                            <p>• Managing longer-term positions</p>
+                            <p>• Breakout trading</p>
+                            <p>• Mean reversion strategies</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>🎯 Options Trading</h4>
+                            <p>• Understanding options basics</p>
+                            <p>• Call and put strategies</p>
+                            <p>• Options Greeks</p>
+                            <p>• Options spreads</p>
+                            <p>• Risk management in options</p>
+                        </div>
                     </div>
-                    <div class="tip-section">
-                        <h4>📊 Strategy</h4>
-                        <p>• Develop and stick to a trading plan</p>
-                        <p>• Keep detailed records of your trades</p>
-                        <p>• Learn from both successful and failed trades</p>
+
+                    <div class="manual-page" data-page="4" style="display: none;">
+                        <h3>Psychology & Mindset</h3>
+                        <div class="tip-section">
+                            <h4>🧠 Trading Psychology</h4>
+                            <p>• Control emotions during trades</p>
+                            <p>• Develop a trading routine</p>
+                            <p>• Learn from losses and wins</p>
+                            <p>• Overcoming fear and greed</p>
+                            <p>• Building trading confidence</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>📝 Trading Journal</h4>
+                            <p>• Record all trades and outcomes</p>
+                            <p>• Analyze patterns in success/failure</p>
+                            <p>• Continuous improvement process</p>
+                            <p>• Performance metrics tracking</p>
+                            <p>• Strategy optimization</p>
+                        </div>
+                        <div class="tip-section">
+                            <h4>🎯 Trading Plan</h4>
+                            <p>• Define trading goals</p>
+                            <p>• Set up trading rules</p>
+                            <p>• Create entry/exit criteria</p>
+                            <p>• Regular plan review</p>
+                            <p>• Adapt to market conditions</p>
+                        </div>
+                    </div>
+
+                    <div class="manual-navigation">
+                        <button class="nav-btn prev-btn" disabled>Previous</button>
+                        <span class="page-indicator">Page 1 of 4</span>
+                        <button class="nav-btn next-btn">Next</button>
                     </div>
                 </div>
             </div>
@@ -681,13 +999,42 @@ class Inventory {
         this.makeDraggable(modal);
 
         const closeBtn = modal.querySelector(".calculator-close");
+        const prevBtn = modal.querySelector(".prev-btn");
+        const nextBtn = modal.querySelector(".next-btn");
+        const pageIndicator = modal.querySelector(".page-indicator");
+        const pages = modal.querySelectorAll(".manual-page");
+        let currentPage = 1;
+
+        const updateNavigation = () => {
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === pages.length;
+            pageIndicator.textContent = `Page ${currentPage} of ${pages.length}`;
+        };
+
+        prevBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+                pages[currentPage - 1].style.display = "none";
+                currentPage--;
+                pages[currentPage - 1].style.display = "block";
+                updateNavigation();
+            }
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (currentPage < pages.length) {
+                pages[currentPage - 1].style.display = "none";
+                currentPage++;
+                pages[currentPage - 1].style.display = "block";
+                updateNavigation();
+            }
+        });
+
         closeBtn.addEventListener("click", () => {
             modal.remove();
         });
     }
 
     toggle() {
-        console.log("Toggling inventory, current state:", this.isOpen);
         if (this.isOpen) {
             this.close();
         } else {
@@ -696,41 +1043,52 @@ class Inventory {
     }
 
     open() {
-        console.log("Opening inventory...");
         this.isOpen = true;
         const container = document.getElementById("inventoryContainer");
         if (!container) {
-            console.error("Inventory container not found!");
             return;
         }
         container.style.display = "block";
         this.updateDisplay();
         
-        // Get the game control instance from the game container
         const gameContainer = document.getElementById("gameContainer");
+        if (gameContainer) {
+            gameContainer.classList.add("game-blur");
+            
+            const overlay = document.querySelector(".game-overlay");
+            if (overlay) {
+                overlay.classList.add("active");
+            }
+        }
+
         if (gameContainer && gameContainer.gameControl) {
             gameContainer.gameControl.pause();
         }
     }
 
     close() {
-        console.log("Closing inventory...");
         this.isOpen = false;
         const container = document.getElementById("inventoryContainer");
         if (!container) {
-            console.error("Inventory container not found!");
             return;
         }
         container.style.display = "none";
         
-        // Get the game control instance from the game container
         const gameContainer = document.getElementById("gameContainer");
+        if (gameContainer) {
+            gameContainer.classList.remove("game-blur");
+            
+            const overlay = document.querySelector(".game-overlay");
+            if (overlay) {
+                overlay.classList.remove("active");
+            }
+        }
+        
         if (gameContainer && gameContainer.gameControl) {
             gameContainer.gameControl.resume();
         }
     }
 
-    // Add static method to get instance
     static getInstance() {
         if (!Inventory.instance) {
             Inventory.instance = new Inventory();
@@ -739,8 +1097,6 @@ class Inventory {
     }
 
     addStartingItems() {
-        console.log("Adding starting items...");
-        // Add ROI Calculator
         this.addItem({
             id: 'roi_calculator',
             name: 'ROI Calculator',
@@ -751,7 +1107,6 @@ class Inventory {
             isCalculator: true
         });
 
-        // Add other starting items
         this.addItem({
             id: 'stock_certificate',
             name: 'Stock Certificate',
@@ -793,36 +1148,6 @@ class Inventory {
         });
 
         this.addItem({
-            id: 'calculator',
-            name: 'Financial Calculator',
-            description: 'Helps calculate complex financial metrics.',
-            emoji: '🧮',
-            stackable: false,
-            value: 1000,
-            quantity: 1
-        });
-
-        this.addItem({
-            id: 'market_scanner',
-            name: 'Market Scanner',
-            description: 'Reveals market trends and opportunities.',
-            emoji: '🔍',
-            stackable: false,
-            value: 2000,
-            quantity: 1
-        });
-
-        this.addItem({
-            id: 'rare_coin',
-            name: 'Rare Coin',
-            description: 'A valuable collectible coin with historical significance.',
-            emoji: '🪙',
-            stackable: false,
-            value: 5000,
-            quantity: 1
-        });
-
-        this.addItem({
             id: 'trading_manual',
             name: 'Trading Manual',
             description: 'A comprehensive guide to advanced trading strategies.',
@@ -831,8 +1156,6 @@ class Inventory {
             value: 3000,
             quantity: 1
         });
-
-        console.log("Starting items added successfully");
     }
 }
 
