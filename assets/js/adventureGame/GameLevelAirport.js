@@ -1,15 +1,19 @@
+// To build GameLevels, each contains GameObjects from below imports
 import GamEnvBackground from './GameEnvBackground.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
 import GameControl from './GameControl.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
+import HelpButton from './HelpButton.js'; // ✅ new import
+
 class GameLevelAirport {
   constructor(gameEnv) {
     // Values dependent on this.gameEnv.create()
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
+
     // Background data
     const image_src_desert = path + "/images/gamify/airport.jpg";
     const image_data_desert = {
@@ -17,6 +21,7 @@ class GameLevelAirport {
         src: image_src_desert,
         pixels: {height: 580, width: 386}
     };
+
     // Player data for Chillguy
     const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
     const CHILLGUY_SCALE_FACTOR = 5;
@@ -41,6 +46,7 @@ class GameLevelAirport {
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
+
     // NPC data for Pilot
     const sprite_src_pilot = path + "/images/gamify/pilot.png";
     const sprite_greet_pilot = "Greetings passenger! Ready to travel to Silicon Valley?";
@@ -69,9 +75,10 @@ class GameLevelAirport {
           }
         }
     };
+
     // NPC data for Worker
-    const sprite_src_worker = path + "/images/gamify/worker.png"; // Ensure this file exists
-    const sprite_greet_worker = "Hey! You look like your a chill guy! The plane on the runway leaves to Silicon Valley soon, better catch it! Press 'e' when you talk to the pilot and other people you meet! Safe travels! ";
+    const sprite_src_worker = path + "/images/gamify/worker.png";
+    const sprite_greet_worker = "Hey! You look like you're a chill guy! The plane on the runway leaves to Silicon Valley soon. Better catch it! Press 'E' when you talk to the pilot and other people you meet. Safe travels!";
     const sprite_data_worker = {
         id: 'Worker',
         greeting: sprite_greet_worker,
@@ -87,16 +94,22 @@ class GameLevelAirport {
             alert(sprite_greet_worker);
         },
         interact: function () {
-            alert(sprite_greet_worker);
+            const panel = document.getElementById('worker-instructions-panel');
+            if (panel) panel.style.display = 'block';
         }
     };
-    // List of objects defnitions for this level
+
+    // Define game objects
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_pilot },
       { class: Npc, data: sprite_data_worker }
     ];
+
+    // ✅ Initialize Help Button
+    new HelpButton(path + "/images/gamify/helpbutton.png");
   }
 }
+
 export default GameLevelAirport;
