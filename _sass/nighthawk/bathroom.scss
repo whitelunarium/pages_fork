@@ -11,14 +11,6 @@
     @extend .glass;
 }
 
-.queue-header h2 {
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
 .queue-info {
     text-align: center;
     font-size: 18px;
@@ -54,10 +46,4 @@
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
-}
-
-.exit-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
 }
