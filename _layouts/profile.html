@@ -450,15 +450,16 @@ active_tab: profile
 <script type="module">
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Import fetchOptions from config.js
-    import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+    import { pythonURI } from '{{site.baseurl}}/assets/js/api/config.js';
     // Import functions from config.js
     import { putUpdate, postUpdate, deleteData, logoutUserJava } from "{{site.baseurl}}/assets/js/api/profile.js";
 
     // this runs on page load
     document.addEventListener('DOMContentLoaded', async function () {
-        localStorage.setItem('activeTab', 'profile');
+        console.log("Page loaded. Initializing user data...");
 
         try {
+            console.log("Initializing user data...");
             await loadUserData();
         } catch (error) {
             console.error('Initialization error:', error.message);
@@ -487,6 +488,7 @@ active_tab: profile
     // loading the user data to display
     window.loadUserData = async function () {
         try {
+            console.log("Loading user data...");
             // Fetch name and UID from Python backend
             const name = await window.fetchName();
             const uid = await window.fetchUid();
@@ -525,6 +527,7 @@ active_tab: profile
             } else {
                 document.getElementById("email").textContent = "Failed to load. Are you logged in?";
                 emailInput.value = "Failed to load email";
+                console.log("Failed to load email, check Java account status.");
             }
     
             // Update the Kasm status
