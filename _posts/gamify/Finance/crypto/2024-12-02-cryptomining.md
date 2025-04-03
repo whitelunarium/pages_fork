@@ -913,7 +913,6 @@ body {
         import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
         let userEmail = "";
         let userBalance = localStorage.getItem("userBalance");
-
         // Define showNotification globally at the top of your script
         window.showNotification = function(message, isError = false) {
             const notification = document.getElementById('notification');
@@ -924,7 +923,6 @@ body {
                 notification.style.display = 'none';
             }, 3000);
         };
-
         async function fetchUser() {
             console.log("Attempting to fetch user...");
             try {
@@ -956,14 +954,15 @@ body {
                 return;
             }
             try {
-                const balanceUrl = `${javaURI}/api/crypto/balance?email=${encodeURIComponent(userEmail)}`;
+                // Use the mining-status endpoint which returns the correct balance from Person table
+                const balanceUrl = `${javaURI}/api/mining/mining-status`;
                 console.log("Fetching balance from:", balanceUrl);
                 const response = await fetch(balanceUrl, fetchOptions);
                 console.log("Balance fetch response status:", response.status);
                 if (!response.ok) throw new Error(`Failed to fetch balance: ${response.status}`);
                 const balanceData = await response.json();
                 console.log("Received balance data:", balanceData);
-                updateBalance(balanceData.balance);
+                updateBalance(balanceData.userBalance);
             } catch (error) {
                 console.error("Error fetching balance:", error);
                 document.getElementById('user-balance').innerText = "Error";
@@ -1668,7 +1667,6 @@ body {
                 await buyGpu(purchase.gpuId, purchase.quantity);
             }
         };
-
         // Add sell functionality
         function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
             const modal = document.getElementById('sellModal');
@@ -1703,17 +1701,14 @@ body {
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
             updateSellTotal(sellPrice);
         }
-
         window.updateSellTotal = function(sellPrice) {
             const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
             const total = (sellPrice * quantity).toFixed(2);
             document.getElementById('totalSellValue').textContent = total;
         };
-
         window.closeSellModal = function() {
             document.getElementById('sellModal').style.display = 'none';
         };
-
         // Update the confirmSell function with proper headers
         window.confirmSell = async function(gpuId) {
             const quantity = parseInt(document.getElementById('sellQuantity').value);
@@ -1727,7 +1722,6 @@ body {
                     credentials: 'include',
                     body: JSON.stringify({ quantity: quantity })
                 });
-                
                 const result = await response.json();
                 if (result.success) {
                     window.showNotification(result.message);
@@ -1743,7 +1737,6 @@ body {
                 window.showNotification('Error selling GPU: ' + error.message, true);
             }
         };
-
         // Make functions globally available
         window.showSellModal = showSellModal;
         window.updateSellTotal = updateSellTotal;
