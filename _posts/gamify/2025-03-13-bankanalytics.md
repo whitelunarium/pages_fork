@@ -110,9 +110,6 @@ permalink: /gamify/bankanalytics
 </div>
 </div>
 
-<!-- Bootstrap JS Bundle (optional for components that require JavaScript) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script type="module">
 import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
