@@ -5,6 +5,62 @@ active_tab: profile
 ---
 
 <style>
+        /* Base styles for the switch */
+    .switch {
+      display: inline-block;
+      position: relative;
+      width: 50px;
+      height: 25px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 25px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 19px;
+      width: 19px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    
+    input:checked + .slider.green {
+      background-color: #4CAF50;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(25px);
+    }
+    
+    .label-text {
+      margin-left: 10px;
+      font-size: 16px;
+      vertical-align: middle;
+    }
+
     @media (min-width: 1400PX) {
     .cards { grid-template-columns: repeat(2, 1fr); }
     }
@@ -422,9 +478,12 @@ active_tab: profile
         <div class="userPanel_kasm">
             <h2 id="kasm">Kasm</h2>
             <form>
-                <label class="container-checkbox" style="white-space: nowrap;">Kasm server needed.
-                    <input type="checkbox" checked="checked" id="kasmChange-checkbox" onchange="window.changeKasmServerStatus(event)">
-                    <span class="checkmark"></span>
+                <label class="switch">
+                    <span class="toggle">
+                        <input type="checkbox" id="kasmNeeded" onchange="changeKasmServerStatus(event)">
+                        <span class="slider"></span>
+                    </span>
+                    <span class="label-text">Kasm Server</span>
                 </label>
             </form>
         </div>
@@ -455,17 +514,63 @@ active_tab: profile
     import { putUpdate, postUpdate, deleteData, logoutUserJava } from "{{site.baseurl}}/assets/js/api/profile.js";
 
     // this runs on page load
-    document.addEventListener('DOMContentLoaded', async function () {
-        console.log("Page loaded. Initializing user data...");
-
+    document.addEventListener("DOMContentLoaded", async () => {
         try {
-            console.log("Initializing user data...");
-            await loadUserData();
-            console.log("User data loaded successfully.");
+            await window.loadUserData();
         } catch (error) {
-            console.error('Initialization error:', error.message);
+            console.error("Error initializing user data:", error.message);
         }
     });
+
+        // Function to continuously fetch user data until all values are loaded
+    async function continuouslyLoadUserData() {
+        const nameInput = document.getElementById("nameChangeInput");
+        const uidInput = document.getElementById("uidChangeInput");
+        const emailInput = document.getElementById("emailChangeInput");
+    
+        // Helper function to check if all values are loaded
+        function isDataLoaded() {
+            return (
+                nameInput.value !== "Loading name..." &&
+                uidInput.value !== "Loading UID..." &&
+                emailInput.value !== "Loading email..."
+            );
+        }
+    
+        // Retry logic
+        async function fetchAndUpdateData() {
+            try {
+                // Fetch name and UID from Python backend
+                const name = await window.fetchName();
+                const uid = await window.fetchUid();
+    
+                // Fetch email from Java backend
+                const email = await window.fetchEmail();
+    
+                // Update placeholders if data is available
+                if (name) nameInput.value = name;
+                if (uid) uidInput.value = uid;
+                if (email) emailInput.value = email;
+    
+                // Log success if all data is loaded
+                if (isDataLoaded()) {
+                    console.log("All user data loaded successfully.");
+                    return; // Stop retrying
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error.message);
+            }
+    
+            // Retry after 3 seconds if data is still not fully loaded
+            setTimeout(fetchAndUpdateData, 3000);
+        }
+    
+        // Start the first fetch attempt
+        fetchAndUpdateData();
+    }
+    
+    // Call the function on page load
+    document.addEventListener("DOMContentLoaded", continuouslyLoadUserData);
 
     // make it run constantly to check for esc key press
     document.addEventListener('keydown', function (event) {
@@ -489,7 +594,6 @@ active_tab: profile
     // loading the user data to display
     window.loadUserData = async function () {
         try {
-            console.log("Loading user data...");
             // Fetch name and UID from Python backend
             const name = await window.fetchName();
             const uid = await window.fetchUid();
@@ -498,48 +602,37 @@ active_tab: profile
             const email = await window.fetchEmail();
             const kasm = await window.fetchKasmStatus();
     
-            // Update the name and UID input fields
+            // Update the name and UID placeholders
             const nameInput = document.getElementById("nameChangeInput");
             const uidInput = document.getElementById("uidChangeInput");
             const emailInput = document.getElementById("emailChangeInput");
     
             if (name) {
-                document.getElementById("name").textContent = name;
-                console.log("Fun feature" + name);
-                nameInput.value = name; // Set the value to the fetched name
+                nameInput.placeholder = name;
             } else {
-                document.getElementById("name").textContent = "Failed to load. Are you logged in?";
-                nameInput.value = "Failed to load name";
+                nameInput.placeholder = "Failed to load name";
             }
     
             if (uid) {
-                document.getElementById("uid").textContent = uid;
-                console.log(uid);
-                uidInput.value = uid; // Set the value to the fetched UID
+                uidInput.placeholder = uid;
             } else {
-                document.getElementById("uid").textContent = "Failed to load. Are you logged in?";
-                uidInput.value = "Failed to load UID";
+                uidInput.placeholder = "Failed to load UID";
             }
     
-            // Update the email input field
             if (email) {
-                document.getElementById("email").textContent = email;
-                emailInput.value = email; // Set the value to the fetched email
+                emailInput.placeholder = email;
             } else {
-                document.getElementById("email").textContent = "Failed to load. Are you logged in?";
-                emailInput.value = "Failed to load email";
-                console.log("Failed to load email, check Java account status.");
+                emailInput.placeholder = "Failed to load email";
             }
     
             // Update the Kasm status
-            if (kasm == null) {
-                document.getElementById("kasm").textContent = "Failed to load. Are you logged in?";
-            }
+            const kasmCheckbox = document.getElementById("kasmNeeded");
+            fetchKasmStatus(kasmCheckbox);
         } catch (error) {
-            console.error("Error setting input field values:", error.message);
+            console.error("Error setting placeholders:", error.message);
         }
     };
-
+    
     // FETCH COMMANDS ========
     window.fetchName = async function () {
         const URL = pythonURI + "/api/id"; // Adjusted endpoint
@@ -611,11 +704,11 @@ active_tab: profile
             // Update checkbox state based on fetched value
             if (kasmServerNeeded) {
                 document.getElementById("kasm").textContent = "Kasm Enabled";
-                document.getElementById('kasmChange-checkbox').checked = kasmServerNeeded;
+                document.getElementById("kasmNeeded").checked = true; // Set checkbox to checked
             }
             else {
                 document.getElementById("kasm").textContent = "Kasm Disabled";
-                document.getElementById('kasmChange-checkbox').checked = kasmServerNeeded;
+                document.getElementById("kasmNeeded").checked = false; // Set checkbox to unchecked
             }
 
             return kasmServerNeeded;
