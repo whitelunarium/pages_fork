@@ -5,6 +5,7 @@ import GameControl from './GameControl.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
 import GameLevelParadise from './GameLevelWallstreet.js';
 import Game from './Game.js';
+import GameLevelWallstreet from './GameLevelWallstreet.js';
 class GameLevelRetro {
   /**
    * Properties and methods to define a game level
@@ -66,11 +67,11 @@ class GameLevelRetro {
       },
       interact: async function () {
         const personId = Game.id; 
-        const transitionAllowed = await Game.transitionToParadise(personId);
+        const transitionAllowed = await Game.transitionToWallstreet(personId);
       
         if (transitionAllowed) {
           let primaryGame = gameEnv.gameControl;
-          let levelArray = [GameLevelParadise];
+          let levelArray = [GameLevelWallstreet];
           let gameInGame = new GameControl(gameEnv.game, levelArray);
       
           primaryGame.pause();

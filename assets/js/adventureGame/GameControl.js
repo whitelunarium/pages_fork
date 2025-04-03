@@ -20,6 +20,7 @@ class GameControl {
         this.gameLoopCounter = 0;
         this.isPaused = false;
         this.exitKeyListener = this.handleExitKey.bind(this);
+        this.nextLevelKeyListener = this.handleNextLevelKey.bind(this);
         this.gameOver = null; // Callback for when the game is over 
         this.savedCanvasState = []; // Save the current levels game elements 
         this.canvasContexts = new Map(); // Store canvas contexts
@@ -138,15 +139,30 @@ class GameControl {
         }
     }
 
+    handleNextLevelKey(event) {
+        if (event.key.toLowerCase() === 't') {
+            if (this.currentLevelIndex < this.levelClasses.length - 1) {
+                console.log("Hotkey 't' pressed: Transitioning to next level.");
+                this.currentLevel.continue = false;
+            } else {
+                alert("🎉 You're on the final level! There are no more levels to transition to.");
+            }
+        }
+    }
+    
     // Helper method to add exit key listener
     addExitKeyListener() {
         document.addEventListener('keydown', this.exitKeyListener);
+        document.addEventListener('keydown', this.nextLevelKeyListener);
     }
+    
 
     // Helper method to remove exit key listener
     removeExitKeyListener() {
         document.removeEventListener('keydown', this.exitKeyListener);
+        document.removeEventListener('keydown', this.nextLevelKeyListener);
     }
+    
 
     // Helper method to get or create canvas context
     getCanvasContext(canvas) {
