@@ -43,13 +43,19 @@ show_reading_time: false
 </style>
 
 <div class="login-container">
-    <h1>Facial Recognition Login</h1>
+    <h1>Video display</h1>
     <video id="video" width="320" height="240" autoplay></video>
     <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
     <img id="capturedImage" style="display: none; margin-top: 10px; border-radius: 10px;" width="320" height="240">
     <button class="capture-button" onclick="captureImage()">Capture Image</button>
-    <button class="submit-button" onclick="submitImage()" disabled>Submit</button>
+    <button class="submit-button" onclick="submitImage()" disabled>Login</button>
 </div>
+
+<style>
+    video {
+        transform: scaleX(-1); /* Mirror live preview */
+    }
+</style>
 
 <script>
     const video = document.getElementById('video');
@@ -67,7 +73,13 @@ show_reading_time: false
 
     function captureImage() {
         const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Invert the image during capture (store it non-mirrored)
+        context.save();
+        context.scale(-1, 1);
+        context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+        context.restore();
+
         const imageData = canvas.toDataURL('image/png');
         capturedImage.src = imageData;
         capturedImage.style.display = 'block';
