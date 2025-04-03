@@ -136,7 +136,7 @@ permalink: /student/seedtracker
         <h1>Weekly Project Submission</h1>
         <div class="form-group">
             <label for="studentId">Student ID</label>
-            <input type="number" id="studentId" placeholder="Enter your Student ID" required>
+            <input type="text" id="studentId" placeholder="Enter your Student ID" required>
         </div>
         <div class="form-group">
             <label for="studentName">Student Name</label>
