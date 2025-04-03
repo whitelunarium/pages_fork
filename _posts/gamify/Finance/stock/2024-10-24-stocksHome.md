@@ -337,7 +337,6 @@ try {
     return null;
 }
 }
-
 async function getUserStocks() {
 try {
     const credentials = await getCredentialsJava(); // Get user data
