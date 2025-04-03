@@ -392,6 +392,18 @@ active_tab: profile
         justify-content: flex-start;
         gap: 30px;
     }
+
+    .kasm-toggle-container {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adjust spacing between the toggle and the text */
+    }
+    
+    .kasm-toggle-container .label-text {
+        margin: 0; /* Remove any default margin */
+        font-size: 16px; /* Ensure consistent font size */
+        vertical-align: middle; /* Align text vertically with the toggle */
+    }
 </style>
 
 <!-- change class box -->
@@ -477,14 +489,14 @@ active_tab: profile
         </div>
         <div class="userPanel_kasm">
             <h2 id="kasm">Kasm</h2>
-            <form>
+            <form class="kasm-toggle-container">
                 <label class="switch">
                     <span class="toggle">
                         <input type="checkbox" id="kasmNeeded" onchange="changeKasmServerStatus(event)">
                         <span class="slider"></span>
                     </span>
-                    <span class="label-text">Kasm Server</span>
                 </label>
+                <span class="label-text">Kasm Server</span>
             </form>
         </div>
         <div class="userPanel_class">
