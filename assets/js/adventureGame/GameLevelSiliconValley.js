@@ -4,7 +4,6 @@ import Player from './Player.js';
 import GameControl from './GameControl.js';
 import Quiz from './Quiz.js';
 import GameLevelRetro from './GameLevelRetro.js';
-import GameLevelFinancialLiteracy from './GameLevelFinancialLiteracy.js';
 import Game from './Game.js';
 import StockMoodModal from './StockMoodModal.js';
 import Market from './Market.js';
@@ -126,7 +125,7 @@ class GameLevelSiliconValley {
     };
 
     const sprite_src_owl = path + "/images/gamify/owl.png";
-    const sprite_greet_owl = "Hoot! I'm the Tech Owl. Want to play a fun game? Press 'E' to start!";
+    const sprite_greet_owl = "Hoot! I'm the Tech Owl. Let me show you the latest market news!";
     const sprite_data_owl = {
       id: 'Tech Owl',
       greeting: sprite_greet_owl,
@@ -141,14 +140,116 @@ class GameLevelSiliconValley {
       reaction: function () {
         alert(sprite_greet_owl);
       },
-      interact: function () {
-        let primaryGame = gameEnv.gameControl;
-        let levelArray = [GameLevelFinancialLiteracy];
-        let gameInGame = new GameControl(gameEnv.game, levelArray);
-        primaryGame.pause();
-        gameInGame.start();
-        gameInGame.gameOver = function () {
-          primaryGame.resume();
+      interact: async function () {
+        try {
+          const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=LIMANRBUDM0ZN7LE`);
+          const data = await response.json();
+          
+          if (data.feed && data.feed.length > 0) {
+            // Create modal container
+            const modalContainer = document.createElement('div');
+            modalContainer.style.cssText = `
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: rgba(0, 0, 0, 0.95);
+              padding: 20px;
+              border-radius: 10px;
+              color: white;
+              z-index: 1000;
+              max-width: 800px;
+              width: 90%;
+              max-height: 80vh;
+              box-shadow: 0 0 20px rgba(0,0,0,0.5);
+              display: flex;
+              flex-direction: column;
+            `;
+
+            // Create header
+            const header = document.createElement('div');
+            header.style.cssText = `
+              margin-bottom: 15px;
+              padding-bottom: 10px;
+              border-bottom: 1px solid #4CAF50;
+            `;
+            header.innerHTML = `
+              <h2 style="color: #4CAF50; margin: 0;">Latest Market News</h2>
+              <p style="color: #888; margin: 5px 0 0 0;">${data.feed.length} articles found</ >
+            `;
+
+            // Create scrollable news container
+            const newsContainer = document.createElement('div');
+            newsContainer.style.cssText = `
+              overflow-y: auto;
+              flex-grow: 1;
+              margin: 0 -10px;
+              padding: 0 10px;
+            `;
+
+            // Add all news articles
+            const newsContent = data.feed.map((article, index) => `
+              <div style="
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+                border-bottom: ${index !== data.feed.length - 1 ? '1px solid #333' : 'none'};
+              ">
+                <h3 style="color: #2196F3; margin-bottom: 10px; font-size: 1.1em;">${article.title}</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.9em; color: #888;">
+                  <span>Source: ${article.source}</span>
+                  <span>|</span>
+                  <span>${new Date(article.time_published).toLocaleDateString()}</span>
+                </div>
+                <p style="line-height: 1.6; margin-bottom: 10px;">${article.summary}</p>
+                <a href="${article.url}" target="_blank" style="
+                  color: #4CAF50;
+                  text-decoration: none;
+                  font-size: 0.9em;
+                ">Read full article →</a>
+              </div>
+            `).join('');
+
+            newsContainer.innerHTML = newsContent;
+
+            // Create footer with close button
+            const footer = document.createElement('div');
+            footer.style.cssText = `
+              margin-top: 15px;
+              padding-top: 15px;
+              border-top: 1px solid #333;
+              text-align: right;
+            `;
+            footer.innerHTML = `
+              <button style="
+                background: #4CAF50;
+                border: none;
+                padding: 10px 20px;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+              ">Close</button>
+            `;
+
+            // Assemble modal
+            modalContainer.appendChild(header);
+            modalContainer.appendChild(newsContainer);
+            modalContainer.appendChild(footer);
+
+            // Add to document
+            document.body.appendChild(modalContainer);
+
+            // Add click handler to close
+            const closeButton = modalContainer.querySelector('button');
+            closeButton.onclick = () => {
+              document.body.removeChild(modalContainer);
+            };
+
+          } else {
+            alert('Unable to fetch market news at this time.');
+          }
+        } catch (error) {
+          console.error('Error fetching news:', error);
+          alert('Error loading financial news. Please try again later.');
         }
       }
     };
