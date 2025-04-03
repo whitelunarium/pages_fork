@@ -11,17 +11,7 @@ permalink: /student/seedtracker
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Weekly Project Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
         .container {
-            background-color: #ffffff;
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
@@ -32,7 +22,6 @@ permalink: /student/seedtracker
         .container h1 {
             font-size: 26px;
             margin-bottom: 20px;
-            color: #374785;
         }
         .form-group {
             margin-bottom: 18px;
@@ -42,42 +31,15 @@ permalink: /student/seedtracker
             display: block;
             font-weight: bold;
             margin-bottom: 8px;
-            color: #24305e;
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .form-group textarea {
-            resize: vertical;
-        }
-        .form-group button {
-            background-color: #ff6b6b;
-            color: #ffffff;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            border: none;
-        }
-        .form-group button:hover {
-            background-color: #ff4b4b;
         }
         .range-value {
             font-weight: bold;
             font-size: 18px;
-            color: #ff6b6b;
             text-align: center;
             margin-top: 8px;
         }
         .message {
             font-size: 14px;
-            color: #374785;
             margin-top: 15px;
         }
 
@@ -110,7 +72,6 @@ permalink: /student/seedtracker
         .modal-header {
             font-size: 20px;
             font-weight: bold;
-            color: #374785;
             margin-bottom: 16px;
         }
 
@@ -131,7 +92,6 @@ permalink: /student/seedtracker
         }
 
         .increment-button {
-            background-color: #ff6b6b;
             color: white;
             border: none;
             border-radius: 6px;
@@ -141,12 +101,7 @@ permalink: /student/seedtracker
             transition: background-color 0.3s;
         }
 
-        .increment-button:hover {
-            background-color: #ff4b4b;
-        }
-
         .score-button {
-            background-color: #ff6b6b;
             color: white;
             border: none;
             border-radius: 50%;
@@ -161,7 +116,6 @@ permalink: /student/seedtracker
         }
 
         .score-button:hover {
-            background-color: #ff4b4b;
         }
 
         .score-button:disabled {
@@ -172,13 +126,11 @@ permalink: /student/seedtracker
         .score-display {
             font-size: 24px;
             font-weight: bold;
-            color: #374785;
             min-width: 60px;
             text-align: center;
         }
 
         .close {
-            color: #ff6b6b;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
@@ -221,15 +173,15 @@ permalink: /student/seedtracker
         </div>
         <div class="form-group">
             <label for="activityLog">Weekly Activity Log</label>
-            <textarea id="activityLog" rows="4" placeholder="Describe what you did this week..." required></textarea>
+            <textarea id="activityLog" rows="4" placeholder="Describe what you did this week..." required class="smallInput"></textarea>
         </div>
         
         <div class="form-group">
-            <button onclick="openModal('seedStarterModal')">Seed Starter</button>
-            <button onclick="openModal('classroomConductModal')">Classroom Conduct</button>
-            <button onclick="openModal('ecEventModal')">EC Event</button>
-            <button onclick="openModal('ecAssignmentModal')">EC Assignment</button>
-            <button onclick="openModal('attendanceModal')">Attendance</button>
+            <button class="large primary" onclick="openModal('seedStarterModal')">Seed Starter</button>
+            <button class="large primary" onclick="openModal('classroomConductModal')">Classroom Conduct</button>
+            <button class="large primary" onclick="openModal('ecEventModal')">EC Event</button>
+            <button class="large primary" onclick="openModal('ecAssignmentModal')">EC Assignment</button>
+            <button class="large primary" onclick="openModal('attendanceModal')">Attendance</button>
         </div>
         
         <div class="form-group">
@@ -237,9 +189,9 @@ permalink: /student/seedtracker
         </div>
         
         <div class="form-group">
-            <button onclick="submitEntry()">Submit Entry</button>
+            <button class="large filledHighlight primary" onclick="submitEntry()">Submit Entry</button>
         </div>
-        <div class="message" id="message"></div>
+        <div class="message" id="message"></div>fi
     </div>
 
     <!-- Modals -->
