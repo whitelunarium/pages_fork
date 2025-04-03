@@ -1,51 +1,74 @@
 ---
 layout: base
 ---
-<nav class="bank-nav">
-  <div class="nav-container">
-    <div class="dropdown">
-      <button class="nav-link dropdown-toggle" onclick="toggleDropdown(event)">Bank</button>
-      <div class="dropdown-menu">
-        <a class="nav-link" href="{{ site.baseurl }}/gamify/bankanalytics">Analytics</a>
-        <a class="nav-link" href="{{ site.baseurl }}/leaderboard/overall-leaderboard">Leaderboard</a>
-        <a class="nav-link" href="{{ site.baseurl }}/gamify/loan">Loans</a>
-      </div>
-    </div>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     
-    <!-- Casino Dropdown -->
-    <div class="dropdown">
-      <button class="nav-link dropdown-toggle" onclick="toggleDropdown(event)">Casino</button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ site.baseurl }}/gamify/blackjack">Blackjack</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/gamify/dices">Dice</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/gamify/mines">Mines</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/gamify/poker">Poker</a>
-      </div>
-    </div>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
+      <ul class="navbar-nav gap-2">
+        <!-- Bank Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="bankDropdown" role="button" data-bs-toggle="dropdown" 
+            aria-expanded="false">
+            Bank
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="bankDropdown">
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/gamify/bankanalytics">Analytics</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/leaderboard/overall-leaderboard">Leaderboard</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/gamify/loan">Loans</a></li>
+          </ul>
+        </li>
 
-    <!-- Stocks Dropdown -->
-    <div class="dropdown">
-      <button class="nav-link dropdown-toggle" onclick="toggleDropdown(event)">Stocks</button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ site.baseurl }}/stocks/home">Home</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/stocks/viewer">Viewer</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/stocks/buysell">Buy/Sell</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/stocks/game">Simulation</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/stocks/portfolio">Portfolio</a>
-      </div>
-    </div>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="casinoDropdown" role="button" data-bs-toggle="dropdown" 
+            aria-expanded="false">
+            Casino
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="casinoDropdown">
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/gamify/blackjack">Blackjack</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/gamify/dices">Dice</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/gamify/mines">Mines</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/gamify/poker">Poker</a></li>
+          </ul>
+        </li>
 
-    <a class="nav-link" href="{{ site.baseurl }}/media">Media Bias Game</a>
-    <a class="nav-link" href="{{ site.baseurl }}/gamify/adventureGame">Adventure Game</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="stocksDropdown" role="button" data-bs-toggle="dropdown" 
+            aria-expanded="false">
+            Stocks
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="stocksDropdown">
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/stocks/home">Home</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/stocks/viewer">Viewer</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/stocks/buysell">Buy/Sell</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/stocks/game">Simulation</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/stocks/portfolio">Portfolio</a></li>
+          </ul>
+        </li>
 
-    <!-- Crypto Dropdown -->
-    <div class="dropdown">
-      <button class="nav-link dropdown-toggle" onclick="toggleDropdown(event)">Crypto</button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ site.baseurl }}/crypto/portfolio">Portfolio</a>
-        <a class="dropdown-item" href="{{ site.baseurl }}/crypto/mining">Mining</a>
-      </div>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ site.baseurl }}/media">Media Bias Game</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ site.baseurl }}/gamify/adventureGame">Adventure Game</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="cryptoDropdown" role="button" data-bs-toggle="dropdown" 
+            aria-expanded="false">
+            Crypto
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="cryptoDropdown">
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/crypto/portfolio">Portfolio</a></li>
+            <li><a class="dropdown-item" href="{{ site.baseurl }}/crypto/mining">Mining</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
@@ -53,110 +76,17 @@ layout: base
 {{ content }}
 
 <style>
-  .bank-nav {
-    background-color: #1c1c1c;
-    padding: 0.75rem 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  }
-  
-  .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .nav-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 15px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    white-space: nowrap;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .nav-link:hover {
-    background-color: #ff9800;
-    color: #1c1c1c;
-    transform: scale(1.05);
-  }
-  
-  /* Dropdown styles */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    background-color: #1c1c1c;
-  }
-  
-  .dropdown-toggle {
-    background-color: #1c1c1c;
-    display: inline-block;
-    border-radius: 6px;
-  }
-  
   .dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: #1c1c1c;
-    min-width: 160px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 1;
-    flex-direction: column;
-    margin-top: 8px;
-    border-radius: 6px;
-    overflow: hidden;
+    background-color: #1c1c1c !important;
+    border: none;
   }
-  
+
   .dropdown-item {
-    color: #ffffff;
-    padding: 8px 15px;
-    text-decoration: none;
-    display: block;
-    font-size: 14px;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-    background-color: #1c1c1c;
-    border-radius: 6px;
+    color: #ffffff !important;
   }
-  
+
   .dropdown-item:hover {
-    background-color: #ff9800;
-    color: #1c1c1c;
-    transform: scale(1.05);
-  }
-  
-  .dropdown.open .dropdown-menu {
-    display: flex;
+    background-color: #ff9800 !important;
+    color: #1c1c1c !important;
   }
 </style>
-
-<script>
-  function toggleDropdown(event) {
-    event.stopPropagation();
-    let dropdown = event.currentTarget.parentElement;
-    dropdown.classList.toggle("open");
-
-    // Close other open dropdowns
-    document.querySelectorAll(".dropdown").forEach(function (otherDropdown) {
-      if (otherDropdown !== dropdown) {
-        otherDropdown.classList.remove("open");
-      }
-    });
-  }
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", function (event) {
-    document.querySelectorAll(".dropdown").forEach(function (dropdown) {
-      if (!dropdown.contains(event.target)) {
-        dropdown.classList.remove("open");
-      }
-    });
-  });
-</script>
