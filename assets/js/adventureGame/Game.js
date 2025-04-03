@@ -1,10 +1,13 @@
 import GameControl from './GameControl.js';
 import GameLevelWater from "./GameLevelWater.js";
 import GameLevelDesert from "./GameLevelDesert.js";
+
+import GameLevelSquares from './GameLevelSquares.js';
+
+
 class Game {
     // initialize user and launch GameControl 
     static main(environment) {
-
         // setting Web Application path
         this.path = environment.path;
 
@@ -19,13 +22,98 @@ class Game {
 
         // prepare user data for scoring and stats 
         this.uid;
+        
         this.id;
         this.initUser();
         this.initStatsUI();
+
+        this.gname = null;
         
+
         // start the game
-        const gameLevelClasses = [GameLevelDesert, GameLevelWater]
+        const gameLevelClasses = [GameLevelDesert, GameLevelWater, GameLevelSquares]
         new GameControl(this, gameLevelClasses).start();
+
+        // Show instructions before starting the game
+        this.showInstructions(() => {
+            // start the game after instructions are closed
+            const gameLevelClasses = [GameLevelDesert, GameLevelWater]
+            new GameControl(this, gameLevelClasses).start();
+        });
+    }
+
+    static showInstructions(callback) {
+        // Create the instructions popup
+        const instructionsDiv = document.createElement('div');
+        instructionsDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            max-width: 600px;
+            width: 90%;
+            font-family: 'Press Start 2P', cursive;
+            border: 3px solid #f5c207;
+            box-shadow: 0 0 20px rgba(245, 194, 7, 0.5);
+        `;
+
+        // Create the content
+        instructionsDiv.innerHTML = `
+            <h2 style="color: #f5c207; margin-bottom: 15px; text-align: center;">Welcome!</h2>
+            <div style="margin-bottom: 15px;">
+                <h3 style="color: #f5c207;">Controls:</h3>
+                <p>• WASD - Move</p>
+                <p>• E/U - Interact with NPCs</p>
+                <p>• ESC - Exit mini-games</p>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <h3 style="color: #f5c207;">NPCs:</h3>
+                <p>• Robot - Meteor Blaster game</p>
+                <p>• R2D2 - Star Wars game</p>
+                <p>• Tux/Octocat - Quizzes</p>
+                <p>• Stock Guy - Stock Market</p>
+                <p>• Bitcoin - Casino</p>
+            </div>
+            <div style="text-align: center;">
+                <button id="startGameBtn" style="
+                    background: #f5c207;
+                    color: black;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-family: 'Press Start 2P', cursive;
+                    font-size: 12px;
+                    transition: all 0.3s ease;
+                ">Start Game</button>
+            </div>
+        `;
+
+        // Add the popup to the document
+        document.body.appendChild(instructionsDiv);
+
+        // Add click handler for the start button
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            instructionsDiv.remove();
+            if (callback) callback();
+        });
+
+        // Add hover effect to the button
+        const startButton = document.getElementById('startGameBtn');
+        startButton.addEventListener('mouseover', () => {
+            startButton.style.transform = 'scale(1.1)';
+            startButton.style.boxShadow = '0 0 15px #f5c207';
+        });
+        startButton.addEventListener('mouseout', () => {
+            startButton.style.transform = 'scale(1)';
+            startButton.style.boxShadow = 'none';
+        });
+
     }
 
     static initUser() {
@@ -81,32 +169,123 @@ class Game {
                 .catch(err => console.error(`Error fetching ${key}:`, err));
         }
     }
-    // called to update scoreboard and player stats
-    static updateStats(content, questionId, personId) {
+
+    static async createStats(stats, gname, uid) {
         try {
-            const response = fetch(this.javaURI + '/rpg_answer/submitAnswer', {
+            const response = await fetch(`${this.javaURI}/createStats`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    content: content,
-                    questionId: questionId,
-                    personId: personId
+                    uid: uid,
+                    gname: gname,
+                    stats: stats
                 })
             });
-
-            if (!response.ok) throw new Error("Network response was not ok");
-
-            const data = response.json();
-
-            return data.score || "Error scoring answer"; // Return score
-
+     
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+    
+            const data = await response.json();
+            return data; // returns the stats JSON
         } catch (error) {
-            console.error("Error submitting answer:", error);
-            return "Error submitting answer";
+            console.error("Error creating stats:", error);
+            return "Error creating stats";
         }
     }
+    
+    static async getStats(uid) {
+        try {
+            const response = await fetch(`${this.javaURI}/getStats/${uid}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching stats:", error);
+            return "Error fetching stats";
+        }
+    }
+    
+    static async updateStats(stats, gname, uid) {
+        try {
+            const response = await fetch(`${this.javaURI}/updateStats`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    uid: uid,
+                    gname: gname,
+                    stats: stats
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+    
+            const data = await response.json();
+            return data; 
+        } catch (error) {
+            console.error("Error updating stats:", error);
+            return "Error updating stats";
+        }
+    }
+    
+    
+    static async fetchQuestionByCategory(category) {
+        try {
+
+            const response = await fetch(`${this.javaURI}/rpg_answer/getQuestion?category=${category}`, this.fetchOptions);
+            if (!response.ok) {
+                throw new Error("Failed to fetch questions");
+            }
+            
+            const questions = await response.json();
+            console.log(questions);
+            return questions;
+        } catch (error) {
+            console.error("Error fetching question by category:", error);
+            return null;
+        }
+    }
+
+    static async updateStatsMCQ(questionId, choiceId, personId) {
+        try {
+            const response = await fetch(this.javaURI + '/rpg_answer/submitMCQAnswer', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    questionId: questionId,
+                    personId: personId,
+                    choiceId: choiceId
+                })
+            });
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            // You can decide what to return – here we assume the response includes a score or a confirmation.
+            return data.score || "Answer submitted";
+        } catch (error) {
+            console.error("Error submitting MCQ answer:", error);
+            throw error;
+        }
+    }
+
 
     static initStatsUI() {
         const statsContainer = document.createElement('div');
