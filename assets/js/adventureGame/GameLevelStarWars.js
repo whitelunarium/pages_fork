@@ -1,4 +1,4 @@
-import Background from './Background.js';
+import GameEnvBackground from './GameEnvBackground.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
 import Projectile from './Projectile.js';
@@ -103,7 +103,7 @@ class GameLevelStarWars {
 
     // List of objects definitions for this level
     this.classes = [
-      { class: Background, data: image__data_atat },
+      { class: GameEnvBackground, data: image__data_atat },
       { class: Player, data: sprite_data_snowspeeder },
       { class: Npc, data: sprite_data_turret },
       { class: Projectile, data: sprite_data_laser1 },
