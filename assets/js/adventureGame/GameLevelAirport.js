@@ -132,21 +132,21 @@ class GameLevelAirport {
       }
     };
 
-    const sprite_src_owl = path + "/images/gamify/owl.png";
-    const sprite_greet_owl = "Hoot! I'm the Tech Owl. Let me show you the latest market news!";
-    const sprite_data_owl = {
-      id: 'Tech Owl',
-      greeting: sprite_greet_owl,
-      src: sprite_src_owl,
-      SCALE_FACTOR: 4.5,
+    const sprite_src_computer = path + "/images/gamify/stockupdatepc.png";
+    const sprite_greet_computer = "*Computer Fan Whirs* Let me show you the latest market news!";
+    const sprite_data_computer = {
+      id: 'Market Computer',
+      greeting: sprite_greet_computer,
+      src: sprite_src_computer,
+      SCALE_FACTOR: 1.5,
       ANIMATION_RATE: 50,
       pixels: { height: 1068, width: 1078 },
-      INIT_POSITION: { x: width * 0.85, y: height * 0.5 },
+      INIT_POSITION: { x: width * 0.5, y: height * 0.865 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function () {
-        alert(sprite_greet_owl);
+        alert(sprite_greet_computer);
       },
       interact: async function () {
         try {
@@ -206,7 +206,7 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_worker },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
-      { class: Npc, data: sprite_data_owl },
+      { class: Npc, data: sprite_data_computer },
     ];
 
     document.addEventListener('keydown', (e) => {
