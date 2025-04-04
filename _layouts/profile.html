@@ -603,6 +603,43 @@ active_tab: profile
         }
     };
 
+    window.changeSteve = async function () {
+        const name = await window.fetchName();
+        if (/steve/i.test(name)) {
+            const profileImageBox = document.getElementById('headerPfp');
+            const currentProfilePicture = profileImageBox.querySelector('img')?.src;
+
+            // Check if the profile picture is already set to steve.jpeg
+            if (!currentProfilePicture || !currentProfilePicture.includes('steve.png')) {
+                // Set the profile picture to steve.jpeg
+                const steveImagePath = "{{site.baseurl}}/images/jokes/steve.png";
+                profileImageBox.innerHTML = `<img src="${steveImagePath}" alt="Profile Picture">`;
+
+                // Save the profile picture to the database
+                await window.changeProfilePictureWithPath(steveImagePath);
+                //reload the page
+                location.reload();
+            }
+        }
+    }
+
+    window.changeProfilePictureWithPath = async function (imagePath) {
+        try {
+            // Fetch the image and convert it to a Blob
+            const response = await fetch(imagePath);
+            const blob = await response.blob();
+    
+            // Convert the Blob to a base64 string
+            const base64String = await convertToBase64(blob);
+    
+            // Send the base64 image to the backend
+            await sendProfilePicture(base64String);
+            console.log('Profile picture updated to steve.png successfully!');
+        } catch (error) {
+            console.error('Error updating profile picture to steve.png:', error.message);
+        }
+    };
+
     // loading the user data to display
     window.loadUserData = async function () {
         try {
@@ -620,7 +657,8 @@ active_tab: profile
             const emailInput = document.getElementById("emailChangeInput");
     
             if (name) {
-                nameInput.placeholder = name;
+                nameInput.value = name;
+                await window.changeSteve();
             } else {
                 nameInput.placeholder = "Failed to load name";
             }
@@ -639,7 +677,12 @@ active_tab: profile
     
             // Update the Kasm status
             const kasmCheckbox = document.getElementById("kasmNeeded");
-            fetchKasmStatus(kasmCheckbox);
+            if (kasmCheckbox) { // Ensure the checkbox exists
+                kasmCheckbox.checked = kasm; // Set the checkbox state directly
+                document.getElementById("kasm").textContent = kasm ? "Kasm Enabled" : "Kasm Disabled"; // Update the label
+            } else {
+                console.error("Kasm checkbox not found in the DOM.");
+            }
         } catch (error) {
             console.error("Error setting placeholders:", error.message);
         }
@@ -921,20 +964,18 @@ active_tab: profile
     }
 
     // helper function to convert a file to base64 for payload
-    async function convertToBase64(file) {
+    async function convertToBase64(fileOrBlob) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result.split(',')[1]);
             reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(fileOrBlob);
         });
     }
 
-
-    // helper function to send the new pfp given the base64 data
     async function sendProfilePicture(base64String) {
         const URL = javaURI + "/api/person/update"; // Adjust endpoint as needed
-
+    
         // Create options object for PUT request
         const options = {
             URL,
@@ -942,10 +983,9 @@ active_tab: profile
             message: 'profile-message', // Adjust the message area as needed
             callback: () => {
                 console.log('Profile picture uploaded successfully!');
-                // Handle success response as needed
             }
         };
-
+    
         try {
             await postUpdate(options);
         } catch (error) {

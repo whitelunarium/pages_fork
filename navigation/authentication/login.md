@@ -136,20 +136,16 @@ show_reading_time: false
         const loginURL = `${javaURI}/authenticate`;
         const databaseURL = `${javaURI}/api/person/get`;
         const signupURL = `${javaURI}/api/person/create`;
-
         const userCredentials = JSON.stringify({
             uid: document.getElementById("uid").value,
             password: document.getElementById("password").value,
         });
-
         const loginOptions = {
             ...fetchOptions,
             method: "POST",
             body: userCredentials,
         };
-
         console.log("Attempting Java login...");
-
         fetch(loginURL, loginOptions)
             .then(response => {
                 if (!response.ok) {
@@ -159,7 +155,6 @@ show_reading_time: false
             })
             .then(data => {
                 console.log("Login successful!", data);
-
                 // Fetch database after login success using fetchOptions
                 return fetch(databaseURL, fetchOptions);
             })
@@ -174,11 +169,9 @@ show_reading_time: false
             })
             .catch(error => {
                 console.error("Login failed:", error.message);
-
                 // If login fails, attempt account creation
                 if (error.message === "Invalid login") {
                     alert("Login for Spring failed. Creating a new Java account...");
-
                     const signupData = JSON.stringify({
                         uid: document.getElementById("uid").value,
                         email: document.getElementById("uid").value + "@gmail.com",
@@ -187,13 +180,11 @@ show_reading_time: false
                         password: document.getElementById("password").value,
                         kasmServerNeeded: false,
                     });
-
                     const signupOptions = {
                         ...fetchOptions,
                         method: "POST",
                         body: signupData,
                     };
-
                     fetch(signupURL, signupOptions)
                         .then(signupResponse => {
                             if (!signupResponse.ok) {
@@ -204,7 +195,6 @@ show_reading_time: false
                         .then(signupResult => {
                             console.log("Account creation successful!", signupResult);
                             alert("Account Creation Successful. Logging you into Flask/Spring!");
-
                             // Retry login after account creation
                             return fetch(loginURL, loginOptions);
                         })
@@ -213,7 +203,6 @@ show_reading_time: false
                                 throw new Error("Login failed after account creation");
                             }
                             console.log("Login successful after account creation!");
-
                             // Fetch database after successful login
                             return fetch(databaseURL, fetchOptions);
                         })
@@ -234,7 +223,6 @@ show_reading_time: false
                 }
             });
     };
-
     // Function to fetch and display Python data
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
@@ -252,7 +240,6 @@ show_reading_time: false
                 document.getElementById("message").textContent = `Error: ${error.message}`;
             });
     }
-
     window.signup = function () {
         const signupButton = document.querySelector(".signup-card button");
         // Disable the button and change its color
@@ -295,7 +282,6 @@ show_reading_time: false
                 signupButton.style.backgroundColor = ''; // Reset to default color
             });
     }
-
     function javaDatabase() {
         const URL = `${javaURI}/api/person/get`;
         fetch(URL, fetchOptions)
