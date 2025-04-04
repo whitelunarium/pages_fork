@@ -7,6 +7,7 @@ import GameControl from './GameControl.js';
 import GameLevelStarWars from './GameLevelStarWars.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
 import GameLevelMinesweeper from './GameLevelMinesweeper.js';
+import GameLevelEnd from './GameLevelEnd.js';
 
 class GameLevelDesert {
   constructor(gameEnv) {
@@ -159,20 +160,20 @@ class GameLevelDesert {
             },
             /* Interact function
             *  This function is called when the player interacts with the NPC
-            *  It pauses the main game, creates a new GameControl instance with the StarWars level,
+            *  It pauses the main game, creates a new GameControl instance with the End level,
             */
             interact: function() {
               // Set a primary game reference from the game environment
               let primaryGame = gameEnv.gameControl;
               // Define the game in game level
               let levelArray = [GameLevelEnd];
-              // Define a new GameControl instance with the StarWars level
-              let gameInGame = new GameControl(gameEnv.game,levelArray);
+              // Define a new GameControl instance with the End level
+              let gameInGame = new GameControl(gameEnv.game, levelArray);
               // Pause the primary game 
               primaryGame.pause();
               // Start the game in game
               gameInGame.start();
-              // Setup "callback" function to allow transition from game in gaame to the underlying game
+              // Setup "callback" function to allow transition from game in game to the underlying game
               gameInGame.gameOver = function() {
                 // Call .resume on primary game
                 primaryGame.resume();
@@ -433,7 +434,8 @@ class GameLevelDesert {
       { class: Npc, data: sprite_data_r2d2 },
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_crypto },
-      { class: Npc, data: sprite_data_minesweeper }  // Added Minesweeper NPC
+      { class: Npc, data: sprite_data_minesweeper },
+      { class: Npc, data: sprite_data_endportal }  // Added End Portal NPC
     ];
   }
 
