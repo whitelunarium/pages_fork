@@ -4,7 +4,7 @@ import Player from './Player.js';
 import GameControl from './GameControl.js';
 import GameLevelSiliconValley from './GameLevelSiliconValley.js';
 import HelpPanel from './HelpPanel.js';
-import Game from './Game.js';
+import Game from './game.js';
 import Quiz from './Quiz.js';
 
 class GameLevelAirport {
@@ -59,16 +59,25 @@ class GameLevelAirport {
       reaction: () => {
         alert(sprite_data_pilot.greeting);
       },
-      interact: () => {
-        let primaryGame = gameEnv.gameControl;
-        let levelArray = [GameLevelSiliconValley];
-        let gameInGame = new GameControl(gameEnv.game, levelArray);
-        primaryGame.pause();
-        gameInGame.start();
-        gameInGame.gameOver = function () {
-          primaryGame.resume();
-        };
-      }
+      interact: async function () {
+        const personId = Game.id; 
+        const transitionAllowed = await Game.transitionToWallstreet(personId);
+      
+        if (transitionAllowed) {
+          let primaryGame = gameEnv.gameControl;
+          let levelArray = [GameLevelWallstreet];
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+      
+          primaryGame.pause();
+          gameInGame.start();
+      
+          gameInGame.gameOver = function () {
+            primaryGame.resume();
+          };
+        } else {
+          alert("You need to answer all the questions before accessing Wallstreet. Keep exploring!");
+        }
+      },
     };
 
     const sprite_src_worker = path + "/images/gamify/worker.png";

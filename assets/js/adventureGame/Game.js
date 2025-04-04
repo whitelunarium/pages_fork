@@ -41,7 +41,7 @@ class Game {
         this.gname = null;
 
         // start the game immediately
-        const gameLevelClasses = [GameLevelAirport, GameLevelSiliconValley, GameLevelWallstreet];
+        const gameLevelClasses = [GameLevelAirport, GameLevelWallstreet];
         new GameControl(this, gameLevelClasses).start();
     }
 
@@ -245,30 +245,14 @@ class Game {
         }
     }
 
-    static async transitionToRetro(personId) {
+    static async transitionToWallstreet(personId) {
         try {
-            const response = await fetch(`${this.javaURI}/question/transitionToRetro/${personId}`, this.fetchOptions);
+            const response = await fetch(`${this.javaURI}/question/transitionToWallstreet/${personId}`, this.fetchOptions);
             if (!response.ok) {
                 throw new Error("Failed to fetch questions");
             }
             const questionsAnswered = await response.json();
-            console.log(questionsAnswered);
-            return questionsAnswered >= 9;
-        } catch (error) {
-            console.error("Error transitioning to Silicon Valley:", error);
-            return null;
-        }
-    }
-
-    static async transitionToParadise(personId) {
-        try {
-            const response = await fetch(`${this.javaURI}/question/transitionToParadise/${personId}`, this.fetchOptions);
-            if (!response.ok) {
-                throw new Error("Failed to fetch questions");
-            }
-            const boolean = await response.json();
-            console.log(boolean);
-            return boolean;
+            return questionsAnswered >=12;
         } catch (error) {
             console.error("Error transitioning to Paradise:", error);
             return null;
@@ -357,5 +341,3 @@ class Game {
         this.giveItem('roi_calculator', 1);     // 1 ROI Calculator
     }
 }
-
-export default Game;
