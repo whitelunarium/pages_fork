@@ -53,17 +53,6 @@ code {
     color: $med-emph;
 }
 
-table th {
-    background-color: $overlay;
-    border-color: $overlay-light;
-    color: $high-emph;
-}
-
-table td {
-    background-color: $dark-grey;
-    border-color: $overlay-light;
-    color: $med-emph;
-}
 
 .flash {
     color: $dark-grey !important;
@@ -78,21 +67,4 @@ canvas {
     box-shadow: none !important;
     background-color: $overlay;
     border: none !important;
-}
-
-li .post-meta-description {
-    color: $med-emph !important;
-}
-
-.search-result-preview {
-    color: lightgray !important;
-}
-
-.search-result-highlight {
-    color: yellow !important;
-    font-weight: bold !important;
-}
-
-.search-results-list-item .search-result-title {
-    color: cornflowerblue !important;
 }

@@ -16,7 +16,7 @@ $spacing-unit: 2rem;
     padding: 10px;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: $border-size;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -60,7 +60,7 @@ $spacing-unit: 2rem;
     margin: auto auto;
     height: calc(867px);
     border: var(--border);
-    border-radius: 5px;
+    border-radius: $border-size;
     background: var(--msger-bg);
     box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
 }
@@ -116,7 +116,7 @@ $spacing-unit: 2rem;
 .msg-bubble {
     max-width: 450px;
     padding: 15px;
-    border-radius: 15px;
+    border-radius: $border-size;
     background: var(--left-msg-bg);
 }
 
@@ -164,7 +164,7 @@ $spacing-unit: 2rem;
 .msger-inputarea * {
     padding: 10px;
     border: none;
-    border-radius: 3px;
+    border-radius: $border-size;
     font-size: 1em;
 }
 

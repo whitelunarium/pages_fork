@@ -1,10 +1,11 @@
+@import "../../materials/main.scss";
 @import "states.scss";
 @import "common.scss";
 
 // FILLED BUTTONS =========
 button, .primary {
     // this is the default button style
-    color: white;
+    color: $white1;
     background-color: rgba(80, 80, 80, 0.7);
 
     @include hover-darken(rgba(80, 80, 80, 0.7));

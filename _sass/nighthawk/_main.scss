@@ -8,6 +8,7 @@
 @import "navbar";
 @import "bathroom";
 @import "hallpass";
+@import "search";
 
 // aesthetihawk stuff
 @import "materials/main.scss";
@@ -20,4 +21,8 @@ input,
 textarea,
 select {
     background-color: $background;
+}
+
+ul, ol {
+    margin-left: 0px !important;
 }
