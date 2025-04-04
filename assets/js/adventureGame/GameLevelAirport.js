@@ -132,6 +132,73 @@ class GameLevelAirport {
       }
     };
 
+    const sprite_src_owl = path + "/images/gamify/owl.png";
+    const sprite_greet_owl = "Hoot! I'm the Tech Owl. Let me show you the latest market news!";
+    const sprite_data_owl = {
+      id: 'Tech Owl',
+      greeting: sprite_greet_owl,
+      src: sprite_src_owl,
+      SCALE_FACTOR: 4.5,
+      ANIMATION_RATE: 50,
+      pixels: { height: 1068, width: 1078 },
+      INIT_POSITION: { x: width * 0.85, y: height * 0.5 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        alert(sprite_greet_owl);
+      },
+      interact: async function () {
+        try {
+          const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=LIMANRBUDM0ZN7LE`);
+          const data = await response.json();
+
+          if (data.feed && data.feed.length > 0) {
+            const modalContainer = document.createElement('div');
+            modalContainer.style.cssText = `
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: rgba(0, 0, 0, 0.95);
+              padding: 20px;
+              border-radius: 10px;
+              color: white;
+              z-index: 1000;
+              max-width: 800px;
+              width: 90%;
+              max-height: 80vh;
+              box-shadow: 0 0 20px rgba(0,0,0,0.5);
+              display: flex;
+              flex-direction: column;
+            `;
+
+            modalContainer.innerHTML = `
+              <h2 style="color: #4CAF50;">Latest Market News</h2>
+              <div style="overflow-y: auto; flex-grow: 1; margin-top: 10px;">
+                ${data.feed.map(article => `
+                  <div style="margin-bottom: 20px;">
+                    <h3 style="color: #2196F3;">${article.title}</h3>
+                    <p style="color: #ccc;">${article.summary}</p>
+                    <a href="${article.url}" target="_blank" style="color: #4CAF50;">Read more →</a>
+                  </div>
+                `).join('')}
+              </div>
+              <button style="margin-top: 20px; align-self: flex-end; background: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Close</button>
+            `;
+
+            document.body.appendChild(modalContainer);
+            modalContainer.querySelector('button').onclick = () => modalContainer.remove();
+          } else {
+            alert('Unable to fetch market news at this time.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Error loading news. Try again later.');
+        }
+      }
+    };
+
     this.classes = [
       { class: GameEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
@@ -139,6 +206,7 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_worker },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
+      { class: Npc, data: sprite_data_owl },
     ];
 
     document.addEventListener('keydown', (e) => {
