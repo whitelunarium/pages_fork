@@ -73,7 +73,7 @@ class GameLevelAirport {
     const sprite_src_worker = path + "/images/gamify/worker.png";
     const sprite_data_worker = {
         id: 'Worker',
-        greeting: "Hey! You look like you're a chill guy! The plane on the runway leaves to Silicon Valley soon. Better catch it! Press 'E' when you talk to the pilot and other people you meet. Safe travels!",
+        greeting: "Hey! You look like you're a chill guy! The plane on the runway leaves to Silicon Valley soon. Better catch it! Press 'E' when you talk to the pilot and other people you meet. If you need help, you can press 'h' at anytime. Safe travels!",
         src: sprite_src_worker,
         SCALE_FACTOR: 3.5,
         ANIMATION_RATE: 50,
@@ -91,29 +91,11 @@ class GameLevelAirport {
         }
     };
 
-    const sprite_src_helpicon = path + "/images/gamify/helpbutton.png";
-    const sprite_data_helpicon = {
-        id: 'HelpIcon',
-        greeting: "",
-        src: sprite_src_helpicon,
-        SCALE_FACTOR: 14,
-        ANIMATION_RATE: 50,
-        pixels: { height: 201, width: 158 },
-        INIT_POSITION: { x: width * 0.01, y: height * 0.91 },
-        orientation: { rows: 1, columns: 1 },
-        down: { row: 0, start: 0, columns: 1 },
-        hitbox: { widthPercentage: 0, heightPercentage: 0 },
-        interact: () => {
-            HelpPanel.toggle();
-        }
-    };
-
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_pilot },
       { class: Npc, data: sprite_data_worker },
-      { class: Npc, data: sprite_data_helpicon }
     ];
 
     document.addEventListener('keydown', (e) => {
