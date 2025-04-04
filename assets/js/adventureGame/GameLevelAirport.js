@@ -73,12 +73,12 @@ class GameLevelAirport {
     const sprite_src_worker = path + "/images/gamify/worker.png";
     const sprite_data_worker = {
         id: 'Worker',
-        greeting: "Hey! You look like you're a chill guy! The plane on the runway leaves to Silicon Valley soon. Better catch it! Press 'E' when you talk to the pilot and other people you meet. If you need help, you can press 'h' at anytime. Safe travels!",
+        greeting: "Hey! You look like you're a chill guy! The plane on the runway leaves to Silicon Valley soon. Better catch it! First, press 'E' and talk to other people around the airport. If you need help, you can press 'h' at anytime. Safe travels!",
         src: sprite_src_worker,
         SCALE_FACTOR: 3.5,
         ANIMATION_RATE: 50,
         pixels: {height: 400, width: 400},
-        INIT_POSITION: { x: width * 0.6, y: height * 0.7 },
+        INIT_POSITION: { x: width * 0.3, y: height * 0.85 },
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1},
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },

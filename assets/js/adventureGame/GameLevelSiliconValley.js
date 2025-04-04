@@ -254,23 +254,6 @@ class GameLevelSiliconValley {
       }
     };
 
-    const sprite_src_helpicon = path + "/images/gamify/helpbutton.png";
-    const sprite_data_helpicon = {
-      id: 'HelpIcon',
-      greeting: "",
-      src: sprite_src_helpicon,
-      SCALE_FACTOR: 14,
-      ANIMATION_RATE: 50,
-      pixels: { height: 201, width: 158 },
-      INIT_POSITION: { x: width * 0.01, y: height * 0.91 },
-      orientation: { rows: 1, columns: 1 },
-      down: { row: 0, start: 0, columns: 1 },
-      hitbox: { widthPercentage: 0, heightPercentage: 0 },
-      interact: function () {
-        HelpPanel2.toggle();
-      }
-    };
-
     new StockMoodModal();
     new Market(1500);
 
@@ -281,7 +264,6 @@ class GameLevelSiliconValley {
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
       { class: Npc, data: sprite_data_owl },
-      { class: Npc, data: sprite_data_helpicon }
     ];
 
     document.addEventListener('keydown', (e) => {
