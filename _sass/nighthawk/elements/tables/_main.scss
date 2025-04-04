@@ -52,6 +52,15 @@ table tr:last-child td:first-child {
     border-bottom-left-radius: $border-size;
 }
 
+/* Handle single-row tables */
+table tr:first-child td:first-child {
+    border-top-left-radius: $border-size;
+}
+
+table tr:first-child td:last-child {
+    border-top-right-radius: $border-size;
+}
+
 
 /* Apply a border to the bottom of all but the last row */
 table>thead>tr:not(:last-child)>th,
