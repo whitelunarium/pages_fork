@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Crypto Mining Simulator
-type: issues
+type: issueshen i
 permalink: /crypto/mining
 ---
 
@@ -131,6 +131,20 @@ body {
 }
 .navbar .nav-buttons a:hover {
     background-color: #ff8c00;
+}
+.navbar .balance-display {
+    background-color: #ff8c00;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: #fff;
+    font-size: 0.99em; 
+}
+
+.navbar .balance-display #user-balance {
+    font-size: 0.99em;
+    margin-left: 3px;
 }
 body {
     font-family: Arial, sans-serif;
@@ -724,6 +738,8 @@ body {
                 <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
                 <a href="{{site.baseurl}}/stocks/game">Game</a>
                 <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
+                <div class="balance-display">Balance: $<span id="user-balance">Loading...</span></div>
+              
             </div>
         </nav>
         <div class="container mx-auto">
@@ -895,7 +911,68 @@ body {
         <div id="sellModalContent"></div>
     </div>
     <script type="module">
-        import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js'; 
+        import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+        let userEmail = "";
+        let userBalance = localStorage.getItem("userBalance");
+        // Define showNotification globally at the top of your script
+        window.showNotification = function(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-4 py-2 rounded shadow-lg`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        };
+        async function fetchUser() {
+            console.log("Attempting to fetch user...");
+            try {
+                const response = await fetch(javaURI + `/api/person/get`, fetchOptions);
+                console.log("User fetch response status:", response.status);
+                if (response.ok) {
+                    const userInfo = await response.json();
+                    userEmail = userInfo.email;
+                    console.log("Successfully fetched user email:", userEmail);
+                    localStorage.setItem("userEmail", userEmail);
+                    fetchUserBalance(); // Fetch balance after getting the email
+                } else if (response.status === 401 || response.status === 201) {
+                    console.log("Guest user detected");
+                    document.getElementById('user-balance').innerText = "0.00";
+                }
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        }
+        function updateBalance(balance) {
+            const formattedBalance = parseFloat(balance).toFixed(2);
+            document.getElementById('user-balance').innerText = formattedBalance;
+            localStorage.setItem("userBalance", formattedBalance);
+        }
+        async function fetchUserBalance() {
+            console.log("Attempting to fetch balance for email:", userEmail);
+            if (!userEmail) {
+                console.error("User email not found, skipping balance fetch.");
+                return;
+            }
+            try {
+                // Use the mining-status endpoint which returns the correct balance from Person table
+                const balanceUrl = `${javaURI}/api/mining/mining-status`;
+                console.log("Fetching balance from:", balanceUrl);
+                const response = await fetch(balanceUrl, fetchOptions);
+                console.log("Balance fetch response status:", response.status);
+                if (!response.ok) throw new Error(`Failed to fetch balance: ${response.status}`);
+                const balanceData = await response.json();
+                console.log("Received balance data:", balanceData);
+                updateBalance(balanceData.userBalance);
+            } catch (error) {
+                console.error("Error fetching balance:", error);
+                document.getElementById('user-balance').innerText = "Error";
+            }
+        }
+        // Update balance every 5 seconds
+        setInterval(fetchUserBalance, 5000);
+        // Initial fetch
+        fetchUser();
         // Make functions globally available
         window.openActiveGPUsModal = function() {
             const modal = document.getElementById('active-gpus-modal');
@@ -1541,16 +1618,6 @@ body {
                 e.target.classList.add('hidden');
             }
         });
-        function showNotification(message) {
-            console.log('Notification:', message);
-            const notificationElement = document.createElement('div');
-            notificationElement.textContent = message;
-            notificationElement.className = 'notification';
-            document.body.appendChild(notificationElement);
-            setTimeout(() => {
-                document.body.removeChild(notificationElement);
-            }, 3000);
-        }
         function stopPeriodicUpdates() {
             if (updateInterval) {
                 clearInterval(updateInterval);
@@ -1601,6 +1668,184 @@ body {
                 await buyGpu(purchase.gpuId, purchase.quantity);
             }
         };
+        // Add sell functionality
+        function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
+            const modal = document.getElementById('sellModal');
+            const modalContent = document.getElementById('sellModalContent');
+            modalContent.innerHTML = `
+                <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
+                    <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
+                    <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
+                    <div class="mb-4">
+                        <label class="text-gray-300 block mb-2">Quantity:</label>
+                        <input type="number" id="sellQuantity" 
+                               min="1" max="${maxQuantity}" value="1" 
+                               class="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                               onchange="updateSellTotal(${sellPrice})">
+                    </div>
+                    <p class="text-lg text-green-400 mb-4">
+                        Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
+                    </p>
+                    <div class="flex justify-end gap-4">
+                        <button onclick="closeSellModal()"
+                                class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
+                            Cancel
+                        </button>
+                        <button onclick="confirmSell(${gpuId})"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                            Confirm Sale
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            updateSellTotal(sellPrice);
+        }
+        window.updateSellTotal = function(sellPrice) {
+            const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
+            const total = (sellPrice * quantity).toFixed(2);
+            document.getElementById('totalSellValue').textContent = total;
+        };
+        window.closeSellModal = function() {
+            document.getElementById('sellModal').style.display = 'none';
+        };
+        // Update the confirmSell function with proper headers
+        window.confirmSell = async function(gpuId) {
+            const quantity = parseInt(document.getElementById('sellQuantity').value);
+            try {
+                const response = await fetch(`${javaURI}/api/mining/gpu/sell/${gpuId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...fetchOptions.headers
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ quantity: quantity })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    window.showNotification(result.message);
+                    closeSellModal();
+                    await updateMiningStats();
+                    // Update user balance
+                    await fetchUserBalance();
+                } else {
+                    window.showNotification(result.message || 'Failed to sell GPU', true);
+                }
+            } catch (error) {
+                console.error('Error selling GPU:', error);
+                window.showNotification('Error selling GPU: ' + error.message, true);
+            }
+        };
+        // Make functions globally available
+        window.showSellModal = showSellModal;
+        window.updateSellTotal = updateSellTotal;
+        window.closeSellModal = closeSellModal;
+        window.confirmSell = confirmSell;
+    </script>
+    <script>
+    // Add tutorial initialization code
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Check login status first
+        try {
+            const response = await fetch(`${javaURI}/api/auth/status`, {
+                ...fetchOptions,
+                method: 'GET'
+            });
+            const data = await response.json();
+            if (!data.isLoggedIn) {
+                showNotification('Please log in to access the tutorial');
+                return;
+            }
+            // Check if user has seen the tutorial
+            const lastLogin = localStorage.getItem('lastLogin');
+            const now = new Date().getTime();
+            const oneWeek = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+            // Show tutorial if:
+            // 1. Tutorial has never been seen, or
+            // 2. Last login was more than a week ago, or
+            // 3. User hasn't chosen to never show it
+            if (!localStorage.getItem('tutorialSeen') || 
+                (lastLogin && (now - parseInt(lastLogin)) > oneWeek)) {
+                if (!localStorage.getItem('neverShowTutorial')) {
+                    document.getElementById('tutorial-welcome').classList.remove('hidden');
+                }
+            }
+        } catch (error) {
+            console.error('Error checking login status:', error);
+            showNotification('Error checking login status');
+        }
+    });
+    function startTutorial() {
+        document.getElementById('tutorial-welcome').classList.add('hidden');
+        introJs().setOptions({
+            steps: [
+                {
+                    title: 'Wallet Overview',
+                    intro: 'Your wallet shows your BTC balance, pending rewards, and USD value. The minimum payout is 0.001 BTC.',
+                    element: document.querySelector('.dashboard-card:nth-child(1)'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Mining Statistics',
+                    intro: 'Track your mining performance with hashrate and shares. Higher hashrate means more mining power!',
+                    element: document.querySelector('.dashboard-card:nth-child(2)'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Hardware Status',
+                    intro: 'Monitor your GPU temperature and power consumption. Keep your hardware cool for optimal performance!',
+                    element: document.querySelector('.dashboard-card:nth-child(3)'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Profitability',
+                    intro: 'See your daily revenue and power costs. This helps you calculate your mining profitability.',
+                    element: document.querySelector('.dashboard-card:nth-child(4)'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Mining Control',
+                    intro: 'Click here to start/stop mining. Watch your hashrate and earnings grow!',
+                    element: document.getElementById('start-mining'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'GPU Management',
+                    intro: 'Visit the GPU Shop to upgrade your mining power. Better GPUs = Higher hashrate!',
+                    element: document.getElementById('gpu-shop'),
+                    position: 'left'
+                },
+                {
+                    title: 'Performance Monitoring',
+                    intro: 'Monitor your mining performance and earnings with real-time charts.',
+                    element: document.querySelector('.chart-container'),
+                    position: 'top'
+                }
+            ],
+            showProgress: true,
+            showBullets: true,
+            exitOnOverlayClick: false,
+            exitOnEsc: false,
+            nextLabel: 'Next →',
+            prevLabel: '← Back',
+            skipLabel: 'Skip',
+            doneLabel: 'Got it!',
+            tooltipClass: 'customTooltip'
+        }).start();
+    }
+    function skipTutorial() {
+        document.getElementById('tutorial-welcome').classList.add('hidden');
+        localStorage.setItem('tutorialSeen', 'true');
+        localStorage.setItem('lastLogin', new Date().getTime().toString());
+    }
+    function neverShowTutorial() {
+        document.getElementById('tutorial-welcome').classList.add('hidden');
+        localStorage.setItem('tutorialSeen', 'true');
+        localStorage.setItem('neverShowTutorial', 'true');
+        localStorage.setItem('lastLogin', new Date().getTime().toString());
+    }
     </script>
     <script>
     // Add tutorial initialization code
