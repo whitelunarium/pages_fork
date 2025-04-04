@@ -341,3 +341,4 @@ class Game {
         this.giveItem('roi_calculator', 1);     // 1 ROI Calculator
     }
 }
+export default Game;
