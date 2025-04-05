@@ -141,7 +141,6 @@ body {
     color: #fff;
     font-size: 0.99em; 
 }
-
 .navbar .balance-display #user-balance {
     font-size: 0.99em;
     margin-left: 3px;
@@ -711,6 +710,57 @@ body {
 .tutorial-help-button button:hover {
     transform: scale(1.1);
 }
+/* Custom scrollbar for crypto modal */
+#crypto-balances-container::-webkit-scrollbar,
+#crypto-selection-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+#crypto-balances-container::-webkit-scrollbar-track,
+#crypto-selection-container::-webkit-scrollbar-track {
+    background: #1F2937;
+    border-radius: 3px;
+}
+
+#crypto-balances-container::-webkit-scrollbar-thumb,
+#crypto-selection-container::-webkit-scrollbar-thumb {
+    background-color: #4B5563;
+    border-radius: 3px;
+}
+
+/* Smooth scrolling */
+#crypto-balances-container,
+#crypto-selection-container {
+    scroll-behavior: smooth;
+}
+
+/* Force scrolling for the crypto modal content */
+#crypto-details-modal .overflow-y-auto {
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(80vh - 70px); /* Account for header */
+}
+
+/* Improved scrollbar styles */
+#crypto-details-modal .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+#crypto-details-modal .overflow-y-auto::-webkit-scrollbar-track {
+    background: #1F2937;
+    border-radius: 4px;
+}
+
+#crypto-details-modal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: #4B5563;
+    border-radius: 4px;
+    border: 2px solid #1F2937;
+}
+
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
 </style>
 <body>
     <div id="notification" class="notification"></div>
@@ -739,7 +789,6 @@ body {
                 <a href="{{site.baseurl}}/stocks/game">Game</a>
                 <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
                 <div class="balance-display">Balance: $<span id="user-balance">Loading...</span></div>
-              
             </div>
         </nav>
         <div class="container mx-auto">
@@ -750,12 +799,13 @@ body {
                     <h2>Wallet</h2>
                     <div class="grid gap-2">
                         <div>
-                            <div class="stat-label">BTC Balance</div>
+                            <div class="stat-label">Crypto Balance</div>
                             <div class="stat-value" id="btc-balance">0.00000000</div>
                         </div>
                         <div>
-                            <div class="stat-label">Pending BTC</div>
+                            <div class="stat-label">Pending Crypto Balance</div>
                             <div class="stat-value text-yellow-400" id="pending-balance">0.00000000</div>
+                            <span class="text-sm text-blue-400 cursor-pointer hover:underline mt-1 inline-block" onclick="openCryptoDetailsModal()">View all crypto balances &rarr;</span>
                         </div>
                         <div>
                             <div class="stat-label">USD Value</div>
@@ -909,6 +959,47 @@ body {
     </div>
     <div id="sellModal">
         <div id="sellModalContent"></div>
+    </div>
+    <!-- Replace the entire crypto-details-modal div with this updated version -->
+    <div id="crypto-details-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-lg w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-white">Your Cryptocurrency Balances</h2>
+                <button onclick="closeCryptoDetailsModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <!-- Main content - scrollable -->
+            <div class="overflow-y-auto flex-grow p-4" style="overflow-y: auto !important;">
+                <div id="crypto-balances-container">
+                    <!-- Crypto balances will be loaded here dynamically -->
+                    <div class="animate-pulse">
+                        <div class="h-8 bg-gray-700 rounded w-1/3 mb-4"></div>
+                        <div class="h-24 bg-gray-800 rounded mb-4"></div>
+                        <div class="h-24 bg-gray-800 rounded mb-4"></div>
+                        <div class="h-24 bg-gray-800 rounded mb-4"></div>
+                    </div>
+                </div>
+                <!-- Cryptocurrency selection -->
+                <div class="mt-8 border-t border-gray-700 pt-4">
+                    <h3 class="text-xl font-bold text-white mb-4">Change Mining Cryptocurrency</h3>
+                    <div id="crypto-selection-container" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <!-- Cryptocurrency options will be loaded here dynamically -->
+                        <div class="animate-pulse">
+                            <div class="h-16 bg-gray-800 rounded"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-16 bg-gray-800 rounded"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-16 bg-gray-800 rounded"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-16 bg-gray-800 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script type="module">
         import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
@@ -1171,25 +1262,24 @@ body {
             updateInterval = setInterval(async () => {
                 await updateMiningStats();
             }, 5000);
-            // 添加options定义
             const options = {
                 ...fetchOptions,
                 method: 'GET',
                 cache: 'no-cache'
             };
-            // 实时监控
+            // Real time monitor
             setInterval(async () => {
                 try {
                     const response = await fetch(`${javaURI}/api/mining/stats`, options);
                     const stats = await response.json();
-                    console.log('实时监控:', {
+                    console.log('Real time monitor:', {
                         time: new Date().toLocaleTimeString(),
                         pending: stats.pendingBalance,
                         hashrate: stats.hashrate,
                         activeGPUs: stats.activeGPUs?.length || 0
                     });
                 } catch (error) {
-                    console.error('监控请求失败:', error);
+                    console.error('Real time monitor **FAILED**:', error);
                 }
             }, 5000);
         }
@@ -1231,7 +1321,6 @@ body {
                         button.className = `w-full ${result.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} 
                             px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2`;
                     }
-                    // 只更新统计数字，不重新渲染整个列表
                     await updateMiningStats();
                 } else {
                     showNotification(result.message || 'Failed to toggle GPU');
@@ -1264,6 +1353,10 @@ body {
             }
         }
         async function updateMiningStats() {
+            // Get current cryptocurrency from localStorage or default to BTC
+            let currentSymbol = localStorage.getItem('currentMiningCrypto') || 'BTC';
+            // Update the pool info with the current cryptocurrency
+            document.getElementById('pool-info').textContent = `Mining: ${currentSymbol}`;
             try {
                 const options = {
                     ...fetchOptions,
@@ -1275,7 +1368,7 @@ body {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const stats = await response.json();
-                console.log('完整统计信息:', {
+                console.log('Full info:', {
                     pendingBalance: stats.pendingBalance,
                     shares: stats.shares,
                     hashrate: stats.hashrate,
@@ -1848,197 +1941,300 @@ body {
     }
     </script>
     <script>
-    // Add tutorial initialization code
-    document.addEventListener('DOMContentLoaded', async function() {
-        // Check login status first
-        try {
-            const response = await fetch(`${javaURI}/api/auth/status`, {
-                ...fetchOptions,
-                method: 'GET'
-            });
-            const data = await response.json();
-            if (!data.isLoggedIn) {
-                showNotification('Please log in to access the tutorial');
-                return;
-            }
-            // Check if user has seen the tutorial
-            const lastLogin = localStorage.getItem('lastLogin');
-            const now = new Date().getTime();
-            const oneWeek = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-            // Show tutorial if:
-            // 1. Tutorial has never been seen, or
-            // 2. Last login was more than a week ago, or
-            // 3. User hasn't chosen to never show it
-            if (!localStorage.getItem('tutorialSeen') || 
-                (lastLogin && (now - parseInt(lastLogin)) > oneWeek)) {
-                if (!localStorage.getItem('neverShowTutorial')) {
-                    document.getElementById('tutorial-welcome').classList.remove('hidden');
-                }
-            }
-        } catch (error) {
-            console.error('Error checking login status:', error);
-            showNotification('Error checking login status');
-        }
-    });
-    function startTutorial() {
-        document.getElementById('tutorial-welcome').classList.add('hidden');
-        introJs().setOptions({
-            steps: [
+    // Function to open the cryptocurrency details modal
+    function openCryptoDetailsModal() {
+        const modal = document.getElementById('crypto-details-modal');
+        modal.classList.remove('hidden');
+        document.body.classList.add('modal-open'); // Add class to body
+        loadCryptoBalances();
+        loadAvailableCryptocurrencies();
+    }
+    // Function to close the cryptocurrency details modal
+    function closeCryptoDetailsModal() {
+        const modal = document.getElementById('crypto-details-modal');
+        modal.classList.add('hidden');
+        document.body.classList.remove('modal-open'); // Remove class from body
+    }
+    // Function to load cryptocurrency balances
+    function loadCryptoBalances() {
+        console.log('Fetching crypto balances from: http://localhost:8085/api/mining/balances');
+        // Get currently selected cryptocurrency from localStorage or default to BTC
+        const currentMining = localStorage.getItem('currentMiningCrypto') || 'BTC';
+        // Sample data to display when backend is unavailable
+        const sampleData = {
+            balances: [
                 {
-                    title: 'Wallet Overview',
-                    intro: 'Your wallet shows your BTC balance, pending rewards, and USD value. The minimum payout is 0.001 BTC.',
-                    element: document.querySelector('.dashboard-card:nth-child(1)'),
-                    position: 'bottom'
+                    name: "Bitcoin",
+                    symbol: "BTC",
+                    logoUrl: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                    price: 45000.0,
+                    confirmedBalance: "0.00025000",
+                    pendingBalance: "0.00010000",
+                    confirmedUSD: "11.25",
+                    pendingUSD: "4.50",
+                    totalUSD: "15.75",
+                    algorithm: "SHA-256",
+                    difficulty: "Very High",
+                    minPayout: 0.001,
+                    blockReward: 6.25
                 },
                 {
-                    title: 'Mining Statistics',
-                    intro: 'Track your mining performance with hashrate and shares. Higher hashrate means more mining power!',
-                    element: document.querySelector('.dashboard-card:nth-child(2)'),
-                    position: 'bottom'
+                    name: "Ethereum",
+                    symbol: "ETH",
+                    logoUrl: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+                    price: 3000.0,
+                    confirmedBalance: "0.00300000",
+                    pendingBalance: "0.00050000",
+                    confirmedUSD: "9.00",
+                    pendingUSD: "1.50",
+                    totalUSD: "10.50",
+                    algorithm: "Ethash",
+                    difficulty: "High",
+                    minPayout: 0.01,
+                    blockReward: 2.0
                 },
                 {
-                    title: 'Hardware Status',
-                    intro: 'Monitor your GPU temperature and power consumption. Keep your hardware cool for optimal performance!',
-                    element: document.querySelector('.dashboard-card:nth-child(3)'),
-                    position: 'bottom'
+                    name: "Litecoin",
+                    symbol: "LTC",
+                    logoUrl: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+                    price: 80.0,
+                    confirmedBalance: "0.15000000",
+                    pendingBalance: "0.05000000",
+                    confirmedUSD: "12.00",
+                    pendingUSD: "4.00",
+                    totalUSD: "16.00",
+                    algorithm: "Scrypt",
+                    difficulty: "Medium",
+                    minPayout: 0.02,
+                    blockReward: 12.5
                 },
                 {
-                    title: 'Profitability',
-                    intro: 'See your daily revenue and power costs. This helps you calculate your mining profitability.',
-                    element: document.querySelector('.dashboard-card:nth-child(4)'),
-                    position: 'bottom'
-                },
-                {
-                    title: 'Mining Control',
-                    intro: 'Click here to start/stop mining. Watch your hashrate and earnings grow!',
-                    element: document.getElementById('start-mining'),
-                    position: 'bottom'
-                },
-                {
-                    title: 'GPU Management',
-                    intro: 'Visit the GPU Shop to upgrade your mining power. Better GPUs = Higher hashrate!',
-                    element: document.getElementById('gpu-shop'),
-                    position: 'left'
-                },
-                {
-                    title: 'Performance Monitoring',
-                    intro: 'Monitor your mining performance and earnings with real-time charts.',
-                    element: document.querySelector('.chart-container'),
-                    position: 'top'
+                    name: "Monero",
+                    symbol: "XMR",
+                    logoUrl: "https://cryptologos.cc/logos/monero-xmr-logo.png",
+                    price: 170.0,
+                    confirmedBalance: "0.01000000",
+                    pendingBalance: "0.00500000",
+                    confirmedUSD: "1.70",
+                    pendingUSD: "0.85",
+                    totalUSD: "2.55",
+                    algorithm: "RandomX",
+                    difficulty: "Medium",
+                    minPayout: 0.01,
+                    blockReward: 0.6
                 }
             ],
-            showProgress: true,
-            showBullets: true,
-            exitOnOverlayClick: false,
-            exitOnEsc: false,
-            nextLabel: 'Next →',
-            prevLabel: '← Back',
-            skipLabel: 'Skip',
-            doneLabel: 'Got it!',
-            tooltipClass: 'customTooltip'
-        }).start();
+            totalUSD: "44.80",
+            currentMining: currentMining // Use the saved cryptocurrency
+        };
+        // Try to fetch from the API first
+        fetch('http://localhost:8085/api/mining/balances')
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Received balances data:', data);
+                displayCryptoBalances(data);
+            })
+            .catch(error => {
+                console.error('Error loading crypto balances:', error);
+                // Display sample data instead
+                console.log('Using sample data instead');
+                displayCryptoBalances(sampleData);
+            });
     }
-    function skipTutorial() {
-        document.getElementById('tutorial-welcome').classList.add('hidden');
-        localStorage.setItem('tutorialSeen', 'true');
-        localStorage.setItem('lastLogin', new Date().getTime().toString());
-    }
-    function neverShowTutorial() {
-        document.getElementById('tutorial-welcome').classList.add('hidden');
-        localStorage.setItem('tutorialSeen', 'true');
-        localStorage.setItem('neverShowTutorial', 'true');
-        localStorage.setItem('lastLogin', new Date().getTime().toString());
-    }
-    </script>
-    <script>
-    // Add these functions for selling functionality
-    function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
-        // Ensure sellPrice is a valid number
-        sellPrice = parseFloat(sellPrice) || 0;
-        const modal = document.getElementById('sellModal');
-        const modalContent = document.getElementById('sellModalContent');
-        modalContent.innerHTML = `
-            <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
-                <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
-                <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
-                <div class="mb-4">
-                    <label class="text-gray-300 block mb-2">Quantity:</label>
-                    <input type="number" id="sellQuantity" 
-                           min="1" max="${maxQuantity}" value="1" 
-                           class="bg-gray-700 text-white px-3 py-2 rounded w-full"
-                           onchange="updateSellTotal(${sellPrice})">
+    // Function to display cryptocurrency balances
+    function displayCryptoBalances(data) {
+        const container = document.getElementById('crypto-balances-container');
+        if (!data.balances || data.balances.length === 0) {
+            container.innerHTML = '<p class="text-gray-400">No cryptocurrency balances found.</p>';
+            return;
+        }
+        let html = '';
+        // Current mining
+        const currentMining = data.currentMining || 'BTC';
+        html += `<p class="text-sm text-blue-400 mb-4">Currently mining: <span class="font-bold">${currentMining}</span></p>`;
+        // Total value
+        html += `<p class="text-xl mb-6">Total value: <span class="font-bold text-green-400">$${data.totalUSD}</span></p>`;
+        // Individual balances
+        data.balances.forEach(balance => {
+            html += `
+            <div class="bg-gray-800 rounded-lg p-4 mb-4 border border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img src="${balance.logoUrl}" alt="${balance.symbol}" class="w-10 h-10 mr-3" onerror="this.src='https://via.placeholder.com/40'">
+                        <div>
+                            <h3 class="text-lg font-semibold">${balance.name} (${balance.symbol})</h3>
+                            <p class="text-gray-400">$${typeof balance.price === 'number' ? balance.price.toLocaleString() : balance.price}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold">${balance.confirmedBalance} ${balance.symbol}</p>
+                        <p class="text-yellow-400">${balance.pendingBalance} ${balance.symbol} pending</p>
+                        <p class="text-green-400">$${balance.totalUSD}</p>
+                    </div>
                 </div>
-                <p class="text-lg text-green-400 mb-4">
-                    Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
-                </p>
-                <div class="flex justify-end gap-4">
-                    <button onclick="closeSellModal()"
-                            class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
-                        Cancel
-                    </button>
-                    <button onclick="confirmSell(${gpuId})"
-                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
-                        Confirm Sale
-                    </button>
+                <!-- Pool Info Section -->
+                <div class="mt-3 pt-3 border-t border-gray-700 grid grid-cols-4 gap-2 text-sm">
+                    <div>
+                        <p class="text-gray-400">Algorithm</p>
+                        <p>${balance.algorithm}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Difficulty</p>
+                        <p>${balance.difficulty}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Min Payout</p>
+                        <p>${balance.minPayout} ${balance.symbol}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">Block Reward</p>
+                        <p>${balance.blockReward} ${balance.symbol}</p>
+                    </div>
                 </div>
             </div>
-        `;
-        modal.style.display = 'flex';
-        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        // Initialize the total value
-        updateSellTotal(sellPrice);
+            `;
+        });
+        container.innerHTML = html;
     }
-    // Make these functions global
-    window.updateSellTotal = function(sellPrice) {
-        const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
-        const total = (sellPrice * quantity).toFixed(2);
-        document.getElementById('totalSellValue').textContent = total;
-    };
-    window.closeSellModal = function() {
-        document.getElementById('sellModal').style.display = 'none';
-    };
-    // Update the confirmSell function to use the correct URI
-    window.confirmSell = async function(gpuId) {
-        const quantity = parseInt(document.getElementById('sellQuantity').value);
-        try {
-            // Use the correct URI from your config
-            const response = await fetch(`/api/mining/gpu/sell/${gpuId}`, {
-                ...window.fetchOptions,
-                method: 'POST',
-                body: JSON.stringify({ quantity })
-            });
-            const result = await response.json();
-            if (result.success) {
-                window.showNotification(result.message);
-                closeSellModal();
-                updateMiningStats();
-            } else {
-                window.showNotification(result.message || 'Failed to sell GPU', true);
+    // Function to load available cryptocurrencies
+    function loadAvailableCryptocurrencies() {
+        console.log('Fetching cryptocurrencies from: http://localhost:8085/api/mining/cryptocurrencies');
+        // Sample cryptocurrency data to display when backend is unavailable
+        const sampleCryptos = [
+            {
+                id: 1,
+                name: "Bitcoin",
+                symbol: "BTC",
+                price: 45000.0,
+                logoUrl: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                algorithm: "SHA-256",
+                blockReward: 6.25,
+                difficulty: "Very High",
+                minPayout: 0.001
+            },
+            {
+                id: 2,
+                name: "Ethereum",
+                symbol: "ETH",
+                price: 3000.0,
+                logoUrl: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+                algorithm: "Ethash",
+                blockReward: 2.0,
+                difficulty: "High",
+                minPayout: 0.01
+            },
+            {
+                id: 3,
+                name: "Litecoin",
+                symbol: "LTC",
+                price: 80.0,
+                logoUrl: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+                algorithm: "Scrypt",
+                blockReward: 12.5,
+                difficulty: "Medium",
+                minPayout: 0.02
+            },
+            {
+                id: 4,
+                name: "Monero",
+                symbol: "XMR",
+                price: 170.0,
+                logoUrl: "https://cryptologos.cc/logos/monero-xmr-logo.png",
+                algorithm: "RandomX",
+                blockReward: 0.6,
+                difficulty: "Medium",
+                minPayout: 0.01
             }
-        } catch (error) {
-            window.showNotification('Error selling GPU: ' + error.message, true);
+        ];
+        // Try to fetch from the API first
+        fetch('http://localhost:8085/api/mining/cryptocurrencies')
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(cryptos => {
+                console.log('Received cryptocurrencies data:', cryptos);
+                displayCryptocurrencies(cryptos);
+            })
+            .catch(error => {
+                console.error('Error loading cryptocurrencies:', error);
+                // Display sample data instead
+                console.log('Using sample cryptocurrency data instead');
+                displayCryptocurrencies(sampleCryptos);
+            });
+    }
+    // Function to display cryptocurrencies
+    function displayCryptocurrencies(cryptos) {
+        const container = document.getElementById('crypto-selection-container');
+        if (!cryptos || cryptos.length === 0) {
+            container.innerHTML = '<p class="text-gray-400">No cryptocurrencies available.</p>';
+            return;
         }
-    };
-    </script>
-    <script>
-    // Define these at the very top of your first script tag
-    const showNotification = (message, isError = false) => {
-        const notification = document.getElementById('notification');
-        notification.textContent = message;
-        notification.className = `notification ${isError ? 'bg-red-500' : 'bg-green-500'} text-white px-4 py-2 rounded shadow-lg`;
-        notification.style.display = 'block';
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 3000);
-    };
-    // Make it globally available
-    window.showNotification = showNotification;
-    // Also define fetchOptions globally if not already defined
-    window.fetchOptions = {
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
+        let html = '';
+        cryptos.forEach(crypto => {
+            html += `
+            <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 cursor-pointer hover:bg-gray-700 transition-colors"
+                 onclick="selectCryptocurrency('${crypto.symbol}')">
+                <div class="flex items-center">
+                    <img src="${crypto.logoUrl}" alt="${crypto.symbol}" class="w-8 h-8 mr-2" onerror="this.src='https://via.placeholder.com/32'">
+                    <div>
+                        <h4 class="font-semibold">${crypto.symbol}</h4>
+                        <p class="text-xs text-gray-400">${crypto.name}</p>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+    // Function to select a cryptocurrency for mining
+    function selectCryptocurrency(symbol) {
+        console.log(`Selecting cryptocurrency: ${symbol}`);
+        // Save the selected cryptocurrency to localStorage
+        localStorage.setItem('currentMiningCrypto', symbol);
+        // Try to call the API first
+        fetch(`http://localhost:8085/api/mining/crypto/select/${symbol}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Received selection response:', data);
+            if (data.success) {
+                showNotification(`Now mining ${symbol}`, 'success');
+                loadCryptoBalances(); // Refresh the balances display
+                updateMiningStats(); // Refresh mining stats
+            } else {
+                showNotification(`Failed to select ${symbol}`, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error selecting cryptocurrency:', error);
+            // Simulate success even if the API call failed
+            showNotification(`Now mining ${symbol} (simulated)`, 'success');
+            // Manually update the UI with the new cryptocurrency
+            document.getElementById('crypto-balances-container').querySelectorAll('.text-blue-400').forEach(el => {
+                if (el.textContent.includes('Currently mining:')) {
+                    el.innerHTML = `Currently mining: <span class="font-bold">${symbol}</span>`;
+                }
+            });
+            // Update mining stats
+            updateMiningStats();
+        });
+    }
     </script>
 </body>
