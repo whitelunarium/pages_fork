@@ -4,8 +4,8 @@ import GameLevel from "./GameLevel.js";
 class GameControl {
     /**
      * GameControl class to manage the game levels and transitions
-     * @param {*} path - The path to the game assets
-     * @param {*} levelClasses - The classes of for each game level
+     * @param {*} game - The Game object that holds environment variables
+     * @param {*} levelClasses - The classes for each game level
      */
     constructor(game, levelClasses) {
         // GameControl properties
@@ -21,6 +21,18 @@ class GameControl {
         this.exitKeyListener = this.handleExitKey.bind(this);
         this.gameOver = null; // Callback for when the game is over 
         this.savedCanvasState = []; // Save the current levels game elements 
+        
+        console.log(`GameControl initialized with ${levelClasses.length} level classes`);
+        // Check if levelClasses is an array and contains valid constructors
+        if (!Array.isArray(levelClasses) || levelClasses.length === 0) {
+            console.error('LevelClasses must be a non-empty array', levelClasses);
+        } else {
+            levelClasses.forEach((levelClass, index) => {
+                if (typeof levelClass !== 'function') {
+                    console.error(`LevelClass at index ${index} is not a constructor`, levelClass);
+                }
+            });
+        }
     }
 
     /**
@@ -40,10 +52,27 @@ class GameControl {
      * 3. Starting the game loop
      */ 
     transitionToLevel() {
-        const GameLevelClass = this.levelClasses[this.currentLevelIndex];
-        this.currentLevel = new GameLevel(this);
-        this.currentLevel.create(GameLevelClass);
-        this.gameLoop();
+        try {
+            if (this.currentLevelIndex >= this.levelClasses.length) {
+                console.error('Level index out of bounds:', this.currentLevelIndex);
+                return;
+            }
+            
+            const GameLevelClass = this.levelClasses[this.currentLevelIndex];
+            
+            if (typeof GameLevelClass !== 'function') {
+                console.error('Invalid GameLevelClass:', GameLevelClass);
+                return;
+            }
+            
+            console.log(`Transitioning to level ${this.currentLevelIndex}: ${GameLevelClass.name}`);
+            
+            this.currentLevel = new GameLevel(this);
+            this.currentLevel.create(GameLevelClass);
+            this.gameLoop();
+        } catch (error) {
+            console.error('Error in transitionToLevel:', error);
+        }
     }
 
     /**
@@ -92,13 +121,21 @@ class GameControl {
         } else {
             alert("All levels completed.");
         }
-        this.currentLevel.destroy();
+        
+        if (this.currentLevel) {
+            this.currentLevel.destroy();
+        }
+        
         // Call the gameOver callback if it exists
         if (this.gameOver) {
             this.gameOver();
         } else {
             this.currentLevelIndex++;
-            this.transitionToLevel();
+            if (this.currentLevelIndex < this.levelClasses.length) {
+                this.transitionToLevel();
+            } else {
+                console.log("All levels completed, no more levels to transition to.");
+            }
         }
     }
 
