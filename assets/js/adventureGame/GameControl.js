@@ -5,8 +5,8 @@ import Inventory from "./Inventory.js";
 class GameControl {
     /**
      * GameControl class to manage the game levels and transitions
-     * @param {*} path - The path to the game assets
-     * @param {*} levelClasses - The classes of for each game level
+     * @param {*} game - The Game object that holds environment variables
+     * @param {*} levelClasses - The classes for each game level
      */
     constructor(game, levelClasses) {
         // GameControl properties
@@ -119,13 +119,21 @@ class GameControl {
         } else {
             alert("All levels completed.");
         }
-        this.currentLevel.destroy();
+        
+        if (this.currentLevel) {
+            this.currentLevel.destroy();
+        }
+        
         // Call the gameOver callback if it exists
         if (this.gameOver) {
             this.gameOver();
         } else {
             this.currentLevelIndex++;
-            this.transitionToLevel();
+            if (this.currentLevelIndex < this.levelClasses.length) {
+                this.transitionToLevel();
+            } else {
+                console.log("All levels completed, no more levels to transition to.");
+            }
         }
     }
 

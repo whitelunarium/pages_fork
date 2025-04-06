@@ -49,6 +49,10 @@ export class Background extends GameObject {
     alignCanvas() {
         // align the canvas to the gameCanvas, Layered
         const gameCanvas = document.getElementById("gameCanvas");
+        if (!gameCanvas) {
+            console.error("Game canvas not found");
+            return;
+        }
         this.canvas.width = gameCanvas.width;
         this.canvas.height = gameCanvas.height;
         this.canvas.style.left = gameCanvas.style.left;
@@ -75,7 +79,15 @@ export class Background extends GameObject {
         const canvasWidth = this.canvas.width;
         const canvasHeight = this.canvas.height;
         this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        this.ctx.drawImage(this.image, 0, 0, canvasWidth, canvasWidth);
+        
+        if (this.image) {
+            // Draw the background image
+            this.ctx.drawImage(this.image, 0, 0, canvasWidth, canvasHeight);
+        } else {
+            // Default fill color if no image is provided
+            this.ctx.fillStyle = this.data.color || '#242435';
+            this.ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        }
     }
     
     /**
@@ -84,6 +96,22 @@ export class Background extends GameObject {
     resize() {
         this.alignCanvas(); // Align the canvas to the gameCanvas
         this.draw(); // Redraw the canvas after resizing
+    }
+    
+    /**
+     * Destroy method is called to clean up resources
+     */
+    destroy() {
+        if (this.canvas && this.canvas.parentNode) {
+            this.canvas.parentNode.removeChild(this.canvas);
+        }
+        
+        if (this.gameEnv && this.gameEnv.gameObjects) {
+            const index = this.gameEnv.gameObjects.indexOf(this);
+            if (index !== -1) {
+                this.gameEnv.gameObjects.splice(index, 1);
+            }
+        }
     }
 }
 

@@ -15,14 +15,36 @@ class GameLevel {
   create(GameLevelClass) {
     this.continue = true
     this.gameEnv.create()
-    this.gameLevel = new GameLevelClass(this.gameEnv)
-    this.gameObjectClasses = this.gameLevel.classes
-
-    for (let gameObjectClass of this.gameObjectClasses) {
-      if (!gameObjectClass.data) gameObjectClass.data = {}
-      let gameObject = new gameObjectClass.class(gameObjectClass.data, this.gameEnv)
-      this.gameEnv.gameObjects.push(gameObject)
+    
+    // Check if GameLevelClass is a valid constructor
+    if (typeof GameLevelClass !== 'function') {
+      console.error('GameLevelClass is not a constructor', GameLevelClass);
+      throw new Error('GameLevelClass is not a constructor');
     }
+    
+    try {
+      this.gameLevel = new GameLevelClass(this.gameEnv)
+      
+      // Check if classes property exists
+      if (!this.gameLevel.classes || !Array.isArray(this.gameLevel.classes)) {
+        console.error('GameLevel classes array is invalid', this.gameLevel);
+        throw new Error('GameLevel classes array is invalid');
+      }
+      
+      this.gameObjectClasses = this.gameLevel.classes
+
+      for (let gameObjectClass of this.gameObjectClasses) {
+        if (!gameObjectClass.data) gameObjectClass.data = {}
+        
+        // Check if class property is a constructor
+        if (typeof gameObjectClass.class !== 'function') {
+          console.error('GameObject class is not a constructor', gameObjectClass);
+          continue; // Skip this object but don't crash the level
+        }
+        
+        let gameObject = new gameObjectClass.class(gameObjectClass.data, this.gameEnv)
+        this.gameEnv.gameObjects.push(gameObject)
+      }
 
     if (typeof this.gameLevel.initialize === "function") {
       console.log('Calling initialize on game level...');
@@ -30,11 +52,16 @@ class GameLevel {
       console.log('Game level initialization complete');
     }
 
-    window.addEventListener("resize", this.resize.bind(this))
+      window.addEventListener("resize", this.resize.bind(this))
+      
+    } catch (error) {
+      console.error('Error creating game level:', error);
+      this.continue = false;
+    }
   }
 
   destroy() {
-    if (typeof this.gameLevel.destroy === "function") {
+    if (typeof this.gameLevel?.destroy === "function") {
       this.gameLevel.destroy()
     }
 
@@ -51,7 +78,7 @@ class GameLevel {
       gameObject.update()
     }
 
-    if (typeof this.gameLevel.update === "function") {
+    if (typeof this.gameLevel?.update === "function") {
       this.gameLevel.update()
     }
   }
@@ -65,4 +92,3 @@ class GameLevel {
 }
 
 export default GameLevel
-
