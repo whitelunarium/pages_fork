@@ -6,7 +6,9 @@ import PlayerTwo from './PlayerTwo.js';
 // Complete implementation with all required methods
 class GameLevelSquares {
   constructor(gameEnv) {
+
     console.log('GameLevelSquares constructor called');
+
     
     // Store reference to game environment
     this.gameEnv = gameEnv;
@@ -24,6 +26,7 @@ class GameLevelSquares {
         name: 'squares-background',
         greeting: "Welcome to Squares Level!",
         color: '#242435', // Use a color instead of src
+
     };
     
     // Player One data
@@ -56,8 +59,10 @@ class GameLevelSquares {
         keypress: { up: 73, left: 74, down: 75, right: 76 } // I, J, K, L
     };
 
+
     console.log("Setting up classes for GameLevelSquares");
     
+
     this.classes = [      
       { class: Background, data: background_data },
       { class: PlayerOne, data: player_one_data },
@@ -68,18 +73,21 @@ class GameLevelSquares {
     this.instances = [];
     
     console.log("GameLevelSquares constructor finished");
+
   }
 
   // Implementation of required methods for compatibility
   initialize() {
     console.log("GameLevelSquares initialize called");
     
+
     // Store references to the instances for later access
     if (this.gameEnv && this.gameEnv.gameObjects) {
       this.instances = [...this.gameEnv.gameObjects];
       console.log(`GameLevelSquares initialized with ${this.instances.length} game objects`);
     } else {
       console.warn("gameEnv or gameObjects is undefined in initialize");
+
     }
   }
   
@@ -87,7 +95,7 @@ class GameLevelSquares {
     // Level-specific update logic
     // Check for collisions between PlayerOne and PlayerTwo
     // this just serves as an example and does nothing special
-  }
+
   
   destroy() {
     console.log("GameLevelSquares destroy called");
