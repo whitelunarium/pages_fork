@@ -409,23 +409,16 @@ active_tab: profile
 <!-- change class box -->
 <div id="change-class" class="change-info-card" style="visibility: hidden;">
     <ion-icon name="school-outline" size="large"></ion-icon>
-    <h1>Class Info</h1>
-    <form onsubmit="return changeClass(event)">
-        <select id="classInput" name="class">
-            <option value="CSA">Computer Science Advanced</option>
-            <option value="CSP">Computer Science Principles</option>
-            <option value="CSSE">Computer Science and Software Engineering</option>
-            <option value="Robotics">Engineering Robotics</option>
-        </select>
-
-        <input type="text" id="classInputYear" placeholder="Enter class year (YYYY).">
-
+    <h1>Student Id</h1>
+    <form onsubmit="return changeSid(event)">
+        <input type="text" id="sidInput" placeholder="Enter new Student Id">
         <input type="submit" value="Save changes">
     </form>
-    <div class="close" onclick="document.getElementById('change-class').style.visibility = 'hidden'">
+    <div class="close" onclick="document.getElementById('change-password').style.visibility = 'hidden'">
         <ion-icon name="close-outline" size="large" class="close"></ion-icon>
     </div>
 </div>
+
 
 <!-- change profile pic box -->
 <div id="change-pfp" class="change-info-card" style="visibility: hidden;">
@@ -440,7 +433,6 @@ active_tab: profile
         </label>
         <input type="submit" value="Save changes">
         <br>
-        <p><em>Note: you will have to reload the page after uploading the file.</em></p>
     </form>
     <div class="close" onclick="document.getElementById('change-pfp').style.visibility = 'hidden'">
         <ion-icon name="close-outline" size="large" class="close"></ion-icon>
@@ -723,6 +715,23 @@ active_tab: profile
         }
     };
 
+    window.fetchUid = async function () {
+        const URL = pythonURI + "/api/id"; // Adjusted endpoint
+
+        try {
+            const response = await fetch(URL, fetchOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch UID: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.uid;
+        } catch (error) {
+            console.error('Error fetching UID:', error.message);
+            return null;
+        }
+    };
+
     window.fetchEmail = async function () {
         const URL = javaURI + "/api/person/get"; // Adjusted endpoint
 
@@ -837,9 +846,10 @@ active_tab: profile
                 document.getElementById('uid-message').textContent = 'Error updating UID: ' + error.message;
             }
         }
-
         document.getElementById("uid").textContent = uid; //reload the content
+
     }
+
 
     window.changeEmail = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page

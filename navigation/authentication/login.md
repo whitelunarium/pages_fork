@@ -265,7 +265,7 @@ show_reading_time: false
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Signup failed: ${response.status}`);
+                    throw new Error(`Signup failed on one or both backends: ${response.status}`);
                 }
                 return response.json();
             })

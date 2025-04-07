@@ -463,28 +463,35 @@ class Quiz {
     openPanel(npc) {
         const promptDropDown = document.querySelector('.promptDropDown');
         const promptTitle = document.getElementById("promptTitle");
-
+    
         if (this.isOpen) {
             this.backgroundDim.remove();
         }
-
+    
+        // Reset the styles to ensure the panel is visible
+        promptDropDown.style.width = "50%";
+        promptDropDown.style.top = "15%";
+        promptDropDown.style.left = "50%";
+        promptDropDown.style.transition = "none"; // Reset transition if necessary
+    
         this.currentNpc = npc;
         this.isOpen = true;
         promptDropDown.innerHTML = "";
-
+    
         promptTitle.style.display = "block";
         promptTitle.innerHTML = npc?.title || "Quiz Time!";
         promptDropDown.appendChild(promptTitle);
-
+    
         /* Wrap the entire content in a "scroll-edge" container for theming */
         const scrollEdge = document.createElement("div");
         scrollEdge.className = "scroll-edge";
         scrollEdge.appendChild(this.updateTable());
         promptDropDown.appendChild(scrollEdge);
-
+    
         this.backgroundDim.create();
         promptDropDown.classList.add("quiz-popup");
     }
+    
 
     initialize() {
         const promptTitle = document.createElement("div");
