@@ -5,7 +5,7 @@ permalink: /gamify/bankanalytics
 ---
 <html lang="en">
 
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     /* Your existing styles remain the same */
@@ -115,32 +115,44 @@ import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js'
 // Global variables
 let userId = null;
 let balanceChart = null;
+let totalTransactions = 0; // Track total transactions across all categories
 
 async function fetchUserDetails() {
     try {
-        // Since we're not using the person endpoint anymore, we'll need another way to get user ID
-        // For now, we'll assume userId is known (7 as shown in your endpoint examples)
-        userId = 7; // This should be dynamically set based on logged in user
+        // Fetch user data from person endpoint (from old code)
+        const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+        if (!response.ok) throw new Error("Failed to fetch user data");
+        const userData = await response.json();
         
-        // For demo purposes, we'll set some user details
-        document.querySelector('.name').textContent = "Thomas Edison";
-        document.querySelector('.balance').textContent = "$40000.00";
+        // Store user ID for later use
+        userId = userData.id;
         
-        // Add event listener to dropdown
-        document.getElementById('categorySelect').addEventListener('change', (e) => {
-            if (e.target.value) {
-                fetchProfitData(e.target.value);
-            } else {
-                clearChart();
-            }
-        });
+        // Update user details section (from old code)
+        document.querySelector('.name').textContent = userData.uid || "Unknown";
+        document.querySelector('.balance').textContent = `$${Number(userData.balance).toFixed(2)}`;
+        
+        // Initialize category dropdown
+        initCategoryDropdown();
         
         // Load initial data (poker by default)
         fetchProfitData('poker');
     } catch (error) {
-        console.error("Error initializing user data:", error);
+        console.error("Error fetching user data:", error);
         document.querySelector('.name').textContent = "Error loading user";
     }
+}
+
+function initCategoryDropdown() {
+    const categorySelect = document.getElementById('categorySelect');
+    
+    // Add change event listener to dropdown
+    categorySelect.addEventListener('change', (e) => {
+        if (e.target.value) {
+            fetchProfitData(e.target.value);
+        } else {
+            clearChart();
+        }
+    });
 }
 
 async function fetchProfitData(category) {
@@ -159,9 +171,6 @@ async function fetchProfitData(category) {
         if (!response.ok) throw new Error(`Failed to fetch ${category} data`);
         const transactions = await response.json();
         
-        // Update total transactions count
-        document.querySelector('.total-transactions').textContent = transactions.length;
-        
         // Update the chart with the new data
         updateChart(category, transactions);
     } catch (error) {
@@ -175,6 +184,9 @@ function updateChart(category, transactions) {
         clearChart();
         return;
     }
+    
+    // Update total transactions count for this category
+    document.querySelector('.total-transactions').textContent = transactions.length;
     
     // Prepare data for chart
     const timestamps = [];
