@@ -86,6 +86,9 @@ class GameLevelSquares {
   update() {
     // Level-specific update logic
     // Check for collisions between PlayerOne and PlayerTwo
+
+    // this just serves as an example and does nothing special
+
     if (this.instances.length >= 3) { // Background, PlayerOne, PlayerTwo
       const playerOne = this.instances[1];
       const playerTwo = this.instances[2];
