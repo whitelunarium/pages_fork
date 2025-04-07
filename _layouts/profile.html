@@ -5,64 +5,66 @@ active_tab: profile
 ---
 
 <style>
-        /* Base styles for the switch */
+    /* Base styles for the switch */
     .switch {
-      display: inline-block;
-      position: relative;
-      width: 50px;
-      height: 25px;
+        display: inline-block;
+        position: relative;
+        width: 50px;
+        height: 25px;
     }
-    
+
     .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
+        opacity: 0;
+        width: 0;
+        height: 0;
     }
-    
+
     .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 25px;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 25px;
     }
-    
+
     .slider:before {
-      position: absolute;
-      content: "";
-      height: 19px;
-      width: 19px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
+        position: absolute;
+        content: "";
+        height: 19px;
+        width: 19px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
     }
-    
-    input:checked + .slider {
-      background-color: #2196F3;
+
+    input:checked+.slider {
+        background-color: #2196F3;
     }
-    
-    input:checked + .slider.green {
-      background-color: #4CAF50;
+
+    input:checked+.slider.green {
+        background-color: #4CAF50;
     }
-    
-    input:checked + .slider:before {
-      transform: translateX(25px);
+
+    input:checked+.slider:before {
+        transform: translateX(25px);
     }
-    
+
     .label-text {
-      margin-left: 10px;
-      font-size: 16px;
-      vertical-align: middle;
+        margin-left: 10px;
+        font-size: 16px;
+        vertical-align: middle;
     }
 
     @media (min-width: 1400PX) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
+        .cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     .header {
@@ -373,17 +375,28 @@ active_tab: profile
     /* fancy user panel css */
     .userPanel {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 columns of equal width */
-        grid-template-rows: repeat(3, auto); /* 3 rows with height based on content */
-        gap: 20px; /* Adjust spacing between items */
-        grid-auto-flow: row; /* Fill rows first */
-        justify-content: center; /* Center the grid horizontally */
-        align-items: start; /* Align items to the top */
-        border: 2px solid hsla(240, 6%, 30%, 0.63); /* Add a visible border */
-        border-radius: 15px; /* Rounded corners */
-        background-color: hsla(240, 3%, 20%, 0.5); /* Subtle background */
-        padding: 20px; /* Some space inside */
-        margin-top: 20px; /* Spacing from other content */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns of equal width */
+        grid-template-rows: repeat(3, auto);
+        /* 3 rows with height based on content */
+        gap: 20px;
+        /* Adjust spacing between items */
+        grid-auto-flow: row;
+        /* Fill rows first */
+        justify-content: center;
+        /* Center the grid horizontally */
+        align-items: start;
+        /* Align items to the top */
+        border: 2px solid hsla(240, 6%, 30%, 0.63);
+        /* Add a visible border */
+        border-radius: 15px;
+        /* Rounded corners */
+        background-color: hsla(240, 3%, 20%, 0.5);
+        /* Subtle background */
+        padding: 20px;
+        /* Some space inside */
+        margin-top: 20px;
+        /* Spacing from other content */
     }
 
     .class-actions {
@@ -396,13 +409,17 @@ active_tab: profile
     .kasm-toggle-container {
         display: flex;
         align-items: center;
-        gap: 10px; /* Adjust spacing between the toggle and the text */
+        gap: 10px;
+        /* Adjust spacing between the toggle and the text */
     }
-    
+
     .kasm-toggle-container .label-text {
-        margin: 0; /* Remove any default margin */
-        font-size: 16px; /* Ensure consistent font size */
-        vertical-align: middle; /* Align text vertically with the toggle */
+        margin: 0;
+        /* Remove any default margin */
+        font-size: 16px;
+        /* Ensure consistent font size */
+        vertical-align: middle;
+        /* Align text vertically with the toggle */
     }
 </style>
 
@@ -449,7 +466,7 @@ active_tab: profile
             more.</p>
     </div>
 
-     <!-- Fancy total panel  -->
+    <!-- Fancy total panel  -->
     <div class="userPanel">
         <div class="userPanel_name">
             <h2 id="name">Name</h2>
@@ -497,7 +514,8 @@ active_tab: profile
                 <div class="class-details">
                     <a id="classDisplayedInfo">CSA 2025</a>
                 </div>
-                <input type="submit" value="Change class" onclick="document.getElementById('change-class').style.visibility = 'visible'">
+                <input type="submit" value="Change class"
+                    onclick="document.getElementById('change-class').style.visibility = 'visible'">
             </div>
         </div>
     </div>
@@ -526,12 +544,12 @@ active_tab: profile
         }
     });
 
-        // Function to continuously fetch user data until all values are loaded
+    // Function to continuously fetch user data until all values are loaded
     async function continuouslyLoadUserData() {
         const nameInput = document.getElementById("nameChangeInput");
         const uidInput = document.getElementById("uidChangeInput");
         const emailInput = document.getElementById("emailChangeInput");
-    
+
         // Helper function to check if all values are loaded
         function isDataLoaded() {
             return (
@@ -540,22 +558,22 @@ active_tab: profile
                 emailInput.value !== "Loading email..."
             );
         }
-    
+
         // Retry logic
         async function fetchAndUpdateData() {
             try {
                 // Fetch name and UID from Python backend
                 const name = await window.fetchName();
                 const uid = await window.fetchUid();
-    
+
                 // Fetch email from Java backend
                 const email = await window.fetchEmail();
-    
+
                 // Update placeholders if data is available
                 if (name) nameInput.value = name;
                 if (uid) uidInput.value = uid;
                 if (email) emailInput.value = email;
-    
+
                 // Log success if all data is loaded
                 if (isDataLoaded()) {
                     console.log("All user data loaded successfully.");
@@ -564,15 +582,15 @@ active_tab: profile
             } catch (error) {
                 console.error("Error fetching user data:", error.message);
             }
-    
+
             // Retry after 3 seconds if data is still not fully loaded
             setTimeout(fetchAndUpdateData, 3000);
         }
-    
+
         // Start the first fetch attempt
         fetchAndUpdateData();
     }
-    
+
     // Call the function on page load
     document.addEventListener("DOMContentLoaded", continuouslyLoadUserData);
 
@@ -620,10 +638,10 @@ active_tab: profile
             // Fetch the image and convert it to a Blob
             const response = await fetch(imagePath);
             const blob = await response.blob();
-    
+
             // Convert the Blob to a base64 string
             const base64String = await convertToBase64(blob);
-    
+
             // Send the base64 image to the backend
             await sendProfilePicture(base64String);
             console.log('Profile picture updated to steve.png successfully!');
@@ -638,35 +656,35 @@ active_tab: profile
             // Fetch name and UID from Python backend
             const name = await window.fetchName();
             const uid = await window.fetchUid();
-    
+
             // Fetch email and Kasm status from Java backend
             const email = await window.fetchEmail();
             const kasm = await window.fetchKasmStatus();
-    
+
             // Update the name and UID placeholders
             const nameInput = document.getElementById("nameChangeInput");
             const uidInput = document.getElementById("uidChangeInput");
             const emailInput = document.getElementById("emailChangeInput");
-    
+
             if (name) {
                 nameInput.value = name;
                 await window.changeSteve();
             } else {
                 nameInput.placeholder = "Failed to load name";
             }
-    
+
             if (uid) {
                 uidInput.placeholder = uid;
             } else {
                 uidInput.placeholder = "Failed to load UID";
             }
-    
+
             if (email) {
                 emailInput.placeholder = email;
             } else {
                 emailInput.placeholder = "Failed to load email";
             }
-    
+
             // Update the Kasm status
             const kasmCheckbox = document.getElementById("kasmNeeded");
             if (kasmCheckbox) { // Ensure the checkbox exists
@@ -679,7 +697,7 @@ active_tab: profile
             console.error("Error setting placeholders:", error.message);
         }
     };
-    
+
     // FETCH COMMANDS ========
     window.fetchName = async function () {
         const URL = pythonURI + "/api/id"; // Adjusted endpoint
@@ -791,7 +809,7 @@ active_tab: profile
             console.error("Input element not found.");
             return;
         }
-    
+
         // Get value from the input field
         const name = nameChangeInput.value.trim(); // Trim to remove accidental spaces
         if (!name) {
@@ -942,7 +960,7 @@ active_tab: profile
         const classDisplayedInfo = document.getElementById("classDisplayedInfo");
         classDisplayedInfo.textContent = classInput + " " + classInputYear;
     }
-    
+
 
     window.changeProfilePicture = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page
@@ -985,7 +1003,7 @@ active_tab: profile
 
     async function sendProfilePicture(base64String) {
         const URL = javaURI + "/api/person/update"; // Adjust endpoint as needed
-    
+
         // Create options object for PUT request
         const options = {
             URL,
@@ -995,7 +1013,7 @@ active_tab: profile
                 console.log('Profile picture uploaded successfully!');
             }
         };
-    
+
         try {
             await postUpdate(options);
         } catch (error) {

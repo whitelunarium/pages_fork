@@ -7,8 +7,8 @@
     list-style-type: none !important;
     list-style: none !important;
     background-color: #1e1e1e !important;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: $border-size;
+    border-bottom-right-radius: $border-size;
 
     padding-bottom: 10px;
     padding-left: 10px;
@@ -26,8 +26,8 @@
     // the title
     color: $white1 !important;
     list-style-type: none !important;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-top-left-radius: $border-size;
+    border-top-right-radius: $border-size;
     background-color: #1e1e1e !important;
 
     padding: 10px;
