@@ -95,7 +95,7 @@ class GameLevelSquares {
     // Level-specific update logic
     // Check for collisions between PlayerOne and PlayerTwo
     // this just serves as an example and does nothing special
-
+  }
   
   destroy() {
     console.log("GameLevelSquares destroy called");
