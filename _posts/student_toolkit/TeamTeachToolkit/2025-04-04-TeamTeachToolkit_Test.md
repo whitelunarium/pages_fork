@@ -9,188 +9,188 @@ description: Sign up for team teach topics
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Team Teach Toolkit Signup</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+</style>
 
 <div class="team-teach-section">
-    <div class="container text-center text-white bg-dark py-4">
-        <div class="d-flex justify-content-center gap-3 mb-3">
-            <button class="btn btn-outline-light">Home</button>
-            <button class="btn btn-outline-light">Grader</button>
-            <button class="btn btn-outline-light">Generator</button>
-            <button class="btn btn-outline-light">Review</button>
-        </div>
-        <p id="loggedInStudent">Fetching student info...</p>
-        <div class="border border-light rounded p-4 mt-4">
-            <h2>TEAM TEACH SIGNUP</h2>
-            <div class="mb-3">
-                <input type="text" id="name" class="form-control mb-2" placeholder="Enter Team Teach Topic">
-                <input type="date" id="dueDate" class="form-control mb-3">
-                <button class="btn btn-outline-light" id="addTopicBtn">Add Topic</button>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-dark table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Topic</th>
-                            <th>Date</th>
-                            <th>Signed Up</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="topicsList"></tbody>
-                </table>
-            </div>
-        </div>
+  <div class="max-w-5xl mx-auto text-white bg-gray-900 py-10 px-4">
+    <!-- Nav Buttons -->
+    <div class="flex justify-center gap-4 mb-6">
+      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Home</button>
+      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Grader</button>
+      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Generator</button>
+      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Review</button>
     </div>
+    <p id="loggedInStudent" class="mb-4 text-center text-sm">Fetching student info...</p>
+    <!-- Form and Table Section -->
+    <div class="border border-white rounded p-6">
+      <h2 class="text-2xl font-bold mb-4 text-center">TEAM TEACH SIGNUP</h2>
+      <!-- Input Form -->
+      <div class="mb-6">
+        <input type="text" id="name" placeholder="Enter Team Teach Topic"
+          class="w-full mb-3 px-3 py-2 bg-gray-700 text-white rounded outline-none placeholder-gray-300">
+        <input type="date" id="dueDate"
+          class="w-full mb-3 px-3 py-2 bg-gray-700 text-white rounded outline-none">
+        <button id="addTopicBtn"
+          class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
+      </div>
+      <!-- Topics Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-white text-sm text-left">
+          <thead class="bg-gray-800 text-white">
+            <tr>
+              <th class="px-4 py-2 border border-white">Topic</th>
+              <th class="px-4 py-2 border border-white">Date</th>
+              <th class="px-4 py-2 border border-white">Signed Up</th>
+              <th class="px-4 py-2 border border-white">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="topicsList" class="text-white"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="module">
-    import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+  import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    let loggedInStudent = null;
-    let userId = -1;
-    let StuName = "";
+  let loggedInStudent = null;
+  let userId = -1;
+  let StuName = "";
 
-    async function getUserId(){
-        const url_persons = `${javaURI}/api/person/get`;
-        await fetch(url_persons, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                userId = data.id;
-                StuName = data.name;
-                document.getElementById("loggedInStudent").innerText = `Logged in as: ${StuName}`;
-                fetchTopics();
-            })
-            .catch(error => {
-                console.error("Java Database Error:", error);
-                document.getElementById("loggedInStudent").innerText = "Error fetching student info.";
-            });
+  async function getUserId() {
+    const url_persons = `${javaURI}/api/person/get`;
+    await fetch(url_persons, fetchOptions)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Spring server response: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        userId = data.id;
+        StuName = data.name;
+        document.getElementById("loggedInStudent").innerText = `Logged in as: ${StuName}`;
+        fetchTopics();
+      })
+      .catch(error => {
+        console.error("Java Database Error:", error);
+        document.getElementById("loggedInStudent").innerText = "Error fetching student info.";
+      });
+  }
+
+  async function fetchTopics() {
+    try {
+      let response = await fetch(`${javaURI}/api/assignments/debug`, fetchOptions);
+      let topics = await response.json();
+      let filteredTopics = topics.filter(topic => topic.type === "teamteach");
+
+      let topicsList = document.getElementById("topicsList");
+      topicsList.innerHTML = "";
+
+      filteredTopics.forEach(topic => {
+        let studentsText = "None";
+        if (Array.isArray(topic.students)) {
+          studentsText = topic.students.map(s => `${s.name} (${s.uid})`).join(', ');
+        } else if (topic.students && typeof topic.students === 'string') {
+          studentsText = topic.students.split(',').join(', ');
+        }
+
+        let row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td class="border border-white px-4 py-2">${topic.name}</td>
+          <td class="border border-white px-4 py-2">${topic.dueDate}</td>
+          <td class="border border-white px-4 py-2">${studentsText}</td>
+          <td class="border border-white px-4 py-2">
+            <button class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition text-sm" data-topic-id="${topic.id}">
+              Sign Up
+            </button>
+          </td>
+        `;
+
+        row.querySelector("button").addEventListener("click", function () {
+          signUpForTopic(topic.id);
+        });
+
+        topicsList.appendChild(row);
+      });
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+    }
+  }
+
+  async function addTopic() {
+    let name = document.getElementById("name").value;
+    let dueDate = document.getElementById("dueDate").value;
+
+    if (!name || !dueDate) {
+      alert("Please fill in all fields.");
+      return;
     }
 
-    async function fetchTopics() {
-        try {
-            let response = await fetch(`${javaURI}/api/assignments/debug`, fetchOptions);
-            let topics = await response.json();
+    const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=test&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
 
-            // FILTER TO ONLY TEAMTEACH TYPE
-            let filteredTopics = topics.filter(topic => topic.type === "teamteach");
-
-            let topicsList = document.getElementById("topicsList");
-            topicsList.innerHTML = "";
-
-            filteredTopics.forEach(topic => {
-                let studentsText = "None";
-                if (Array.isArray(topic.students)) {
-                    studentsText = topic.students.map(s => `${s.name} (${s.uid})`).join(', ');
-                } else if (topic.students && typeof topic.students === 'string') {
-                    studentsText = topic.students.split(',').join(', ');
-                }
-
-                let row = document.createElement("tr");
-
-                let nameCell = document.createElement("td");
-                nameCell.innerText = topic.name;
-
-                let dueDateCell = document.createElement("td");
-                dueDateCell.innerText = topic.dueDate;
-
-                let studentsCell = document.createElement("td");
-                studentsCell.innerText = studentsText;
-
-                let actionsCell = document.createElement("td");
-                let signUpBtn = document.createElement("button");
-                signUpBtn.classList.add("btn", "btn-outline-light", "btn-sm");
-                signUpBtn.setAttribute("data-topic-id", topic.id);
-                signUpBtn.innerText = "Sign Up";
-                signUpBtn.addEventListener("click", function () {
-                    signUpForTopic(topic.id);
-                });
-                actionsCell.appendChild(signUpBtn);
-
-                row.appendChild(nameCell);
-                row.appendChild(dueDateCell);
-                row.appendChild(studentsCell);
-                row.appendChild(actionsCell);
-
-                topicsList.appendChild(row);
-            });
-        } catch (error) {
-            console.error("Error fetching topics:", error);
+    try {
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         }
+      });
+
+      if (response.ok) {
+        document.getElementById("name").value = "";
+        document.getElementById("dueDate").value = "";
+        fetchTopics();
+      } else {
+        console.error("Failed to add topic");
+      }
+    } catch (error) {
+      console.error("Error adding topic:", error);
+    }
+  }
+
+  async function signUpForTopic(id) {
+    if (userId === -1) {
+      alert("Please login first");
+      return;
     }
 
-    async function addTopic() {
-        let name = document.getElementById("name").value;
-        let dueDate = document.getElementById("dueDate").value;
+    const content = "test";
+    const comment = "";
+    const isLate = false;
 
-        if (!name || !dueDate) {
-            alert("Please fill in all fields.");
-            return;
-        }
+    const url = `${javaURI}/api/submissions/submit/${id}?studentId=${userId}&content=${encodeURIComponent(content)}&comment=${encodeURIComponent(comment)}&isLate=${isLate}`;
 
-        // Construct the URL with parameters
-        const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=test&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
+    try {
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: fetchOptions
+      });
 
-        try {
-            let response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-
-            if (response.ok) {
-                document.getElementById("name").value = "";
-                document.getElementById("dueDate").value = "";
-                fetchTopics();
-            } else {
-                console.error("Failed to add topic");
-            }
-        } catch (error) {
-            console.error("Error adding topic:", error);
-        }
+      if (response.ok) {
+        fetchTopics();
+      } else {
+        console.error("Failed to sign up for topic");
+        alert("Failed to sign up. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error signing up for topic:", error);
+      alert("Error signing up. Please try again.");
     }
+  }
 
-    async function signUpForTopic(id) {
-        if (userId === -1) {
-            alert("Please login first");
-            return;
-        }
-
-        // Prepare the necessary data for the submission
-        const content = "test"; // Replace with the actual content if needed
-        const comment = "";     // Replace with the actual comment if needed
-        const isLate = false;   // Modify based on the due date logic if necessary
-
-        // Construct the URL based on the provided format
-        const url = `${javaURI}/api/submissions/submit/${id}?studentId=${userId}&content=${encodeURIComponent(content)}&comment=${encodeURIComponent(comment)}&isLate=${isLate}`;
-
-        try {
-            let response = await fetch(url, {
-                method: "PUT",  // Ensure the correct method (PUT) is used
-                headers: fetchOptions
-            });
-
-            if (response.ok) {
-                fetchTopics();
-            } else {
-                console.error("Failed to sign up for topic");
-                alert("Failed to sign up. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error signing up for topic:", error);
-            alert("Error signing up. Please try again.");
-        }
-    }
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-        getUserId();
-        document.getElementById("addTopicBtn").addEventListener("click", addTopic);
-    });
+  document.addEventListener("DOMContentLoaded", () => {
+    getUserId();
+    document.getElementById("addTopicBtn").addEventListener("click", addTopic);
+  });
 </script>
