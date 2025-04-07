@@ -91,16 +91,62 @@ class GameLevelWallstreet {
             alert(sprite_greet_stocks);
         },
         // Interact when player presses "E"
-        interact: function() {
-            const confirmTeleport = window.confirm("Teleport to the stock market?");
-            if (confirmTeleport) {
-                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home"; // Replace with your link
+        interact: function () {
+            // Check if the modal already exists
+            if (document.getElementById('stockModal')) {
+                document.getElementById('stockModal').style.display = 'block';
+                // Reset iframe to reload the stocks viewer
+                const iframe = document.querySelector('#stockModal iframe');
+                iframe.src = '';  // Clear the source
+                iframe.src = 'https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer'; // Set it again to force reload
+                return;
             }
-        }
+            
+            // Create modal container
+            const modal = document.createElement('div');
+            modal.id = 'stockModal';
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = '#fff';
+            modal.style.border = '2px solid #444';
+            modal.style.padding = '0';
+            modal.style.zIndex = '1000';
+            modal.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+            modal.style.borderRadius = '12px';
+            modal.style.width = '90%';
+            modal.style.maxWidth = '1000px';
+            modal.style.height = '80vh';
+            
+            // Responsive iframe wrapper
+            modal.innerHTML = `
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <iframe 
+                        src="https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;"
+                        allowfullscreen
+                        loading="lazy"
+                    ></iframe>
+                    <button id="closeStockModal" 
+                        style="position: absolute; top: 10px; right: 10px; z-index: 10; background: #ff5252; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                        ✖
+                    </button>
+                </div>
+            `;
+            
+            // Append modal to body
+            document.body.appendChild(modal);
+            
+            // Close button functionality
+            document.getElementById('closeStockModal').onclick = () => {
+                modal.style.display = 'none';
+            };
+        }        
     };
     
     const sprite_src_cryptoMining = path + "/images/gamify/mining.png"; // Path to the NPC sprite
-    const sprite_greet_cryptoMining = "Teleport to the crypto mining hub?";
+    const sprite_greet_cryptoMining = "Teleport to the cryptocurrency mining hub?";
     
     const sprite_data_cryptoMining = {
         id: 'CryptoMining-NPC',
