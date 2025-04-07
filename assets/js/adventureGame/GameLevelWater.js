@@ -1,4 +1,4 @@
-import Background from './Background.js';
+import GameEnvBackground from './GameEnvBackground.js';
 import Npc from './Npc.js';
 import Player from './Player.js';
 import GameControl from './GameControl.js';
@@ -86,7 +86,7 @@ class GameLevelWater {
 
     // List of classes and supporting definitions to create the game level
     this.classes = [
-      { class: Background, data: image_data_water },
+      { class: GameEnvBackground, data: image_data_water },
       { class: Player, data: sprite_data_octopus },
       { class: Npc, data: sprite_data_nomad },
     ];

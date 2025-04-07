@@ -131,7 +131,7 @@ class GameObject {
         const touchPoints = {
             this: {
                 id: this.canvas.id,
-                greet: this.spriteData.greeting,
+                greet: this.spriteData?.greeting || 'Hello',
                 top: thisBottom > otherTop && thisTop < otherTop,
                 bottom: thisTop < otherBottom && thisBottom > otherBottom,
                 left: thisRight > otherLeft && thisLeft < otherLeft,
@@ -139,8 +139,8 @@ class GameObject {
             },
             other: {
                 id: other.canvas.id,
-                greet: other.spriteData.greeting,
-                reaction: other.spriteData.reaction,
+                greet: other.spriteData?.greeting || 'Hello',
+                reaction: other.spriteData?.reaction || null,
                 top: otherBottom > thisTop && otherTop < thisTop,
                 bottom: otherTop < thisBottom && otherBottom > thisBottom,
                 left: otherRight > thisLeft && otherLeft < thisLeft,

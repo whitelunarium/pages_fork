@@ -12,7 +12,7 @@ show_reading_time: false
         color: black;
         border: none;
         border-radius: 10px;
-        font-size: 1rem;
+        font-   ze: 1rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -536,15 +536,16 @@ show_reading_time: false
         }
     }
 
-    // Function to convert file to base64
+
     async function convertToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split[','](1)); // Remove the prefix part of the result
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
-        });
-    }
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]); // Corrected split method
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
+
 
     // Function to send profile picture to server
     async function sendProfilePicture(base64String) {
@@ -595,7 +596,7 @@ show_reading_time: false
                     alert("You updated your Github ID, so you will automatically be logged out. Be sure to remember your new github id to log in!");
                     console.log('UID updated successfully!');
                     window.updateUidField(uid);
-                    window.location.href = '{{site.baseurl}}/duallogin'
+                    window.location.href = '{{site.baseurl}}/login'
                 }
             };
 
