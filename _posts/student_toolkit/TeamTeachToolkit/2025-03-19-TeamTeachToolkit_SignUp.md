@@ -14,11 +14,11 @@ description: Sign up for team teach topics
 <div class="team-teach-section">
     <div class="container text-center text-white bg-dark py-4">
         <div class="d-flex justify-content-center gap-3 mb-3">
-            <button class="btn btn-outline-light">Home</button>
-            <button class="btn btn-outline-light">Grader</button>
-            <button class="btn btn-outline-light">Generator</button>
-            <button class="btn btn-outline-light">Review</button>
-        </div>
+            <button class="btn btn-outline-light" onclick="location.href='{{site.baseurl}}/student/TeamTeachToolkit/'">Home</button>
+            <button class="btn btn-outline-light" onclick="location.href='{{site.baseurl}}/student/TeamTeachToolkit/grader'">Grader</button>
+            <button class="btn btn-outline-light" onclick="location.href='{{site.baseurl}}/student/TeamTeachToolkit/generator'">Generator</button>
+            <button class="btn btn-outline-light" onclick="location.href='{{site.baseurl}}/student/TeamTeachToolkit/review'">Review</button>
+    </div>
         <p id="loggedInStudent">Fetching student info...</p>
         <div class="border border-light rounded p-4 mt-4">
             <h2>TEAM TEACH SIGNUP</h2>

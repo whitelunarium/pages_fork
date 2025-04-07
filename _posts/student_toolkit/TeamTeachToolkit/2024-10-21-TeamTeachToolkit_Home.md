@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Team Teach Toolkit
-description: Grade popcorn hacks, generate hacks, or review team teach units here
+description: Grade popcorn hacks, generate hacks, review team teach units, or sign up for team teaches here
 permalink: /student/TeamTeachToolkit
 ---
 

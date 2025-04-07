@@ -134,9 +134,10 @@ description: Grade hacks on a 0.55 scale while also providing feedback
 
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/generator"><button>Generator</button></a>
         <a href="{{site.baseurl}}/student/TeamTeachToolkit/review"><button>Review</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/signup"><button>Sign Up</button></a>
     </div>
 
     <!-- Main Grader section -->
