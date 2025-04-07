@@ -48,125 +48,131 @@ description: Sign up for team teach topics
     import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     let loggedInStudent = null;
+    let userId = -1;
+    let StuName = "";
 
-    async function fetchLoggedInStudent() {
-        try {
-            const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
-            const data = await response.json();
-
-            console.log("Logged-in student data:", data);
-
-            if (data && data.name) {
-                loggedInStudent = data.name;
-                document.getElementById("loggedInStudent").innerText = `Logged in as: ${loggedInStudent}`;
+    async function getUserId(){
+        const url_persons = `${javaURI}/api/person/get`;
+        await fetch(url_persons, fetchOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Spring server response: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                userId = data.id;
+                StuName = data.name;
+                document.getElementById("loggedInStudent").innerText = `Logged in as: ${StuName}`;
                 fetchTopics();
-            } else {
-                document.getElementById("loggedInStudent").innerText = "Sign in to view page.";
-            }
-        } catch (error) {
-            console.error("Error fetching logged-in student:", error);
-            document.getElementById("loggedInStudent").innerText = "Error fetching student info.";
-        }
-    }
-
-async function fetchTopics() {
-    try {
-        let response = await fetch(`${javaURI}/api/assignments/debug`, fetchOptions);
-        let topics = await response.json();
-
-        // FILTER TO ONLY TEAMTEACH TYPE
-        let filteredTopics = topics.filter(topic => topic.type === "teamteach");
-
-        let topicsList = document.getElementById("topicsList");
-        topicsList.innerHTML = "";
-
-        filteredTopics.forEach(topic => {
-            let studentsText = "None";
-            if (Array.isArray(topic.students)) {
-                studentsText = topic.students.map(s => `${s.name} (${s.uid})`).join(', ');
-            } else if (topic.students && typeof topic.students === 'string') {
-                studentsText = topic.students.split(',').join(', ');
-            }
-
-            let row = document.createElement("tr");
-
-            let nameCell = document.createElement("td");
-            nameCell.innerText = topic.name;
-
-            let dueDateCell = document.createElement("td");
-            dueDateCell.innerText = topic.dueDate;
-
-            let studentsCell = document.createElement("td");
-            studentsCell.innerText = studentsText;
-
-            let actionsCell = document.createElement("td");
-            let signUpBtn = document.createElement("button");
-            signUpBtn.classList.add("btn", "btn-outline-light", "btn-sm");
-            signUpBtn.setAttribute("data-topic-id", topic.id);
-            signUpBtn.innerText = "Sign Up";
-            signUpBtn.addEventListener("click", function () {
-                signUpForTopic(topic.id);
+            })
+            .catch(error => {
+                console.error("Java Database Error:", error);
+                document.getElementById("loggedInStudent").innerText = "Error fetching student info.";
             });
-            actionsCell.appendChild(signUpBtn);
-
-            row.appendChild(nameCell);
-            row.appendChild(dueDateCell);
-            row.appendChild(studentsCell);
-            row.appendChild(actionsCell);
-
-            topicsList.appendChild(row);
-        });
-
-    } catch (error) {
-        console.error("Error fetching topics:", error);
-    }
-}
-
-
-
-async function addTopic() {
-    let name = document.getElementById("name").value;
-    let dueDate = document.getElementById("dueDate").value;
-
-    if (!name || !dueDate) {
-        alert("Please fill in all fields.");
-        return;
     }
 
-    // Construct the URL with parameters
-    const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=test&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
+    async function fetchTopics() {
+        try {
+            let response = await fetch(`${javaURI}/api/assignments/debug`, fetchOptions);
+            let topics = await response.json();
 
-    try {
-        let response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+            // FILTER TO ONLY TEAMTEACH TYPE
+            let filteredTopics = topics.filter(topic => topic.type === "teamteach");
 
-        if (response.ok) {
-            document.getElementById("name").value = "";
-            document.getElementById("dueDate").value = "";
-            fetchTopics();
-        } else {
-            console.error("Failed to add topic");
+            let topicsList = document.getElementById("topicsList");
+            topicsList.innerHTML = "";
+
+            filteredTopics.forEach(topic => {
+                let studentsText = "None";
+                if (Array.isArray(topic.students)) {
+                    studentsText = topic.students.map(s => `${s.name} (${s.uid})`).join(', ');
+                } else if (topic.students && typeof topic.students === 'string') {
+                    studentsText = topic.students.split(',').join(', ');
+                }
+
+                let row = document.createElement("tr");
+
+                let nameCell = document.createElement("td");
+                nameCell.innerText = topic.name;
+
+                let dueDateCell = document.createElement("td");
+                dueDateCell.innerText = topic.dueDate;
+
+                let studentsCell = document.createElement("td");
+                studentsCell.innerText = studentsText;
+
+                let actionsCell = document.createElement("td");
+                let signUpBtn = document.createElement("button");
+                signUpBtn.classList.add("btn", "btn-outline-light", "btn-sm");
+                signUpBtn.setAttribute("data-topic-id", topic.id);
+                signUpBtn.innerText = "Sign Up";
+                signUpBtn.addEventListener("click", function () {
+                    signUpForTopic(topic.id);
+                });
+                actionsCell.appendChild(signUpBtn);
+
+                row.appendChild(nameCell);
+                row.appendChild(dueDateCell);
+                row.appendChild(studentsCell);
+                row.appendChild(actionsCell);
+
+                topicsList.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Error fetching topics:", error);
         }
-    } catch (error) {
-        console.error("Error adding topic:", error);
     }
-}
 
+    async function addTopic() {
+        let name = document.getElementById("name").value;
+        let dueDate = document.getElementById("dueDate").value;
 
-
-    async function signUpForTopic(topicId) {
-        if (!loggedInStudent) {
-            alert("Sign in to view page");
+        if (!name || !dueDate) {
+            alert("Please fill in all fields.");
             return;
         }
 
+        // Construct the URL with parameters
+        const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=test&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
+
         try {
-            let response = await fetch(`${javaURI}/api/topics/${topicId}/signup?studentName=${encodeURIComponent(loggedInStudent)}`, {
-                method: "PUT",
+            let response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.ok) {
+                document.getElementById("name").value = "";
+                document.getElementById("dueDate").value = "";
+                fetchTopics();
+            } else {
+                console.error("Failed to add topic");
+            }
+        } catch (error) {
+            console.error("Error adding topic:", error);
+        }
+    }
+
+    async function signUpForTopic(id) {
+        if (userId === -1) {
+            alert("Please login first");
+            return;
+        }
+
+        // Prepare the necessary data for the submission
+        const content = "test"; // Replace with the actual content if needed
+        const comment = "";     // Replace with the actual comment if needed
+        const isLate = false;   // Modify based on the due date logic if necessary
+
+        // Construct the URL based on the provided format
+        const url = `${javaURI}/api/submissions/submit/${id}?studentId=${userId}&content=${encodeURIComponent(content)}&comment=${encodeURIComponent(comment)}&isLate=${isLate}`;
+
+        try {
+            let response = await fetch(url, {
+                method: "PUT",  // Ensure the correct method (PUT) is used
                 headers: fetchOptions
             });
 
@@ -182,8 +188,9 @@ async function addTopic() {
         }
     }
 
+
     document.addEventListener("DOMContentLoaded", () => {
-        fetchLoggedInStudent();
+        getUserId();
         document.getElementById("addTopicBtn").addEventListener("click", addTopic);
     });
 </script>
