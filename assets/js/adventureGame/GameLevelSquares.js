@@ -6,7 +6,9 @@ import PlayerTwo from './PlayerTwo.js';
 // Complete implementation with all required methods
 class GameLevelSquares {
   constructor(gameEnv) {
-    console.log('GameLevelSquares initialized');
+
+    console.log('GameLevelSquares constructor called');
+
     
     // Store reference to game environment
     this.gameEnv = gameEnv;
@@ -16,11 +18,15 @@ class GameLevelSquares {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     
+    console.log(`Game environment dimensions: ${width}x${height}`);
+    
     // Background data
     const background_data = {
+        id: 'squares-background',
         name: 'squares-background',
         greeting: "Welcome to Squares Level!",
-        // No src means it will use a default color fill
+        color: '#242435', // Use a color instead of src
+
     };
     
     // Player One data
@@ -53,6 +59,10 @@ class GameLevelSquares {
         keypress: { up: 73, left: 74, down: 75, right: 76 } // I, J, K, L
     };
 
+
+    console.log("Setting up classes for GameLevelSquares");
+    
+
     this.classes = [      
       { class: Background, data: background_data },
       { class: PlayerOne, data: player_one_data },
@@ -61,42 +71,39 @@ class GameLevelSquares {
     
     // Track instances of created objects for easier cleanup
     this.instances = [];
+    
+    console.log("GameLevelSquares constructor finished");
+
   }
 
   // Implementation of required methods for compatibility
   initialize() {
     console.log("GameLevelSquares initialize called");
     
-    // Any additional initialization needed
-    // This is called by GameLevel.create() after all game objects are created
-    
+
     // Store references to the instances for later access
     if (this.gameEnv && this.gameEnv.gameObjects) {
       this.instances = [...this.gameEnv.gameObjects];
+      console.log(`GameLevelSquares initialized with ${this.instances.length} game objects`);
+    } else {
+      console.warn("gameEnv or gameObjects is undefined in initialize");
+
     }
   }
   
   update() {
     // Level-specific update logic
-    // For example, you could implement collision detection between PlayerOne and PlayerTwo
-    // or add win/lose conditions
-    
-    // This method is called by GameLevel.update() in the game loop
-  }
+    // Check for collisions between PlayerOne and PlayerTwo
+    // this just serves as an example and does nothing special
+
   
   destroy() {
     console.log("GameLevelSquares destroy called");
     
-    // Clean up any level-specific resources
-    // The game objects themselves are cleaned up by GameLevel.destroy()
-    
-    // If you've created any DOM elements directly (not through GameObject classes),
-    // clean them up here
-    
-    // Remove any event listeners specific to this level
-    
     // Clear instances array
     this.instances = [];
+    
+    console.log("GameLevelSquares destroy finished");
   }
 }
 
