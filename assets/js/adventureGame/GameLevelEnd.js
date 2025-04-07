@@ -53,30 +53,55 @@ class GameLevelEnd {
         zIndex: 5  // Higher z-index to appear above parallax
     };
 
-    const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
-    const CHILLGUY_SCALE_FACTOR = 5;
+    const sprite_src_chillguy = path + "/images/gamify/Steve.png";
+    const CHILLGUY_SCALE_FACTOR =7;
     const sprite_data_chillguy = {
         id: 'Chill Guy',
         greeting: "Hi, I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
         src: sprite_src_chillguy,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
-        ANIMATION_RATE: 50,
+        ANIMATION_RATE: 25, 
         INIT_POSITION: { x: width/16, y: height/2 },
-        pixels: {height: 384, width: 512},
-        orientation: {rows: 3, columns: 4 },
-        down: {row: 0, start: 0, columns: 3 },
-        downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/8 },
-        downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/8 },
-        left: {row: 2, start: 0, columns: 3 },
-        right: {row: 1, start: 0, columns: 3 },
-        up: {row: 3, start: 0, columns: 3 },
-        upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/8 },
-        upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/8 },
+        pixels: {height: 256, width: 128},
+        orientation: {rows: 8, columns: 4 },
+        down: {row: 1, start: 0, columns: 4 },
+        downRight: {row: 7, start: 0, columns: 4, rotate: Math.PI/8 },
+        downLeft: {row: 5, start: 0, columns: 4, rotate: -Math.PI/8 },
+        left: {row: 5, start: 0, columns: 4 },
+        right: {row: 7, start: 0, columns: 4 },
+        up: {row: 3, start: 0, columns: 4 },
+        upLeft: {row: 5, start: 0, columns: 4, rotate: Math.PI/8 },
+        upRight: {row: 7, start: 0, columns: 4, rotate: -Math.PI/8 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-        keypress: { up: 87, left: 65, down: 83, right: 68 },
-        zIndex: 10  // Even higher z-index to appear above background
+        keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
+
+    const sprite_src_alex = path + "/images/gamify/Alex.png";
+    const alex_SCALE_FACTOR = 7;
+    const sprite_data_alex = {
+        id: 'Chill Guy',
+        greeting: "Hi, I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
+        src: sprite_src_alex,
+        SCALE_FACTOR: alex_SCALE_FACTOR,
+        STEP_FACTOR: 1000,
+        ANIMATION_RATE: 25, 
+        INIT_POSITION: { x: width/16, y: height/2 },
+        pixels: {height: 256, width: 128},
+        orientation: {rows: 8, columns: 4 },
+        down: {row: 1, start: 0, columns: 4 },
+        downRight: {row: 7, start: 0, columns: 4, rotate: Math.PI/8 },
+        downLeft: {row: 5, start: 0, columns: 4, rotate: -Math.PI/8 },
+        left: {row: 5, start: 0, columns: 4 },
+        right: {row: 7, start: 0, columns: 4 },
+        up: {row: 3, start: 0, columns: 4 },
+        upLeft: {row: 5, start: 0, columns: 4, rotate: Math.PI/8 },
+        upRight: {row: 7, start: 0, columns: 4, rotate: -Math.PI/8 },
+        hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+        keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Chill Guy
+    };
+    
+  
 
     const sprite_src_tux = path + "/images/gamify/tux.png";
     const sprite_greet_tux = "THIS IS HOW IT ENDS - Tejo :P";
@@ -113,7 +138,8 @@ class GameLevelEnd {
       { class: BackgroundParallax, data: image_data_parallax },  // Add parallax background first
       { class: GamEnvBackground, data: image_data_end },         // Then regular background
       { class: Player, data: sprite_data_chillguy },
-      { class: Npc, data: sprite_data_tux }
+      { class: Npc, data: sprite_data_tux },
+      { class: Player, data: sprite_data_alex }
     ];
     console.log("Classes array created with", this.classes.length, "items");
   }
