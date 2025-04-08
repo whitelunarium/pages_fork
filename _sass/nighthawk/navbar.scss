@@ -13,10 +13,14 @@
 }
 
 .site-nav .page-link {
-    color: white !important;
+    color: $white1 !important;
     line-height: 1.5;
     padding: 5px 10px;
     margin-left: 20px;
+}
+
+.site-title {
+    color: $white1 !important;
 }
 
 .site-nav .page-link:not(:last-child) {
@@ -31,5 +35,5 @@
 .site-title:visited,
 .site-nav,
 .page-link {
-    font-weight: bolder
+    font-weight: bolder;
 }
