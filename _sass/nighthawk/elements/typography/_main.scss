@@ -1,14 +1,8 @@
 @import "../../materials/main.scss";
+@import "colors.scss";
+@import "sizes.scss";
 
 h1 h2 h3 h4 p {
-    color: $white1;
-    font-family: Verdana, sans-serif;
+    font-family: Verdana, sans-serif !important;
 }
 
-a {
-    color: $lightBlue1 !important;
-
-    &:hover {
-        color: $white2 !important;
-    }
-}

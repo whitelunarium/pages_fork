@@ -91,7 +91,7 @@
             {%- assign default_paths = site.pages | map: "path" -%}
             {%- assign page_paths = site.header_pages | default: default_paths -%}
             {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-            <a class="site-title glitch" rel="author" href="{{ "{{site.baseurl}}/" | relative_url }}"
+            <a class="site-title" rel="author" href="{{ "{{site.baseurl}}/" | relative_url }}"
                 data-value="{{ site.title | escape }}">
                 {{ site.title | escape }}
             </a>
@@ -122,10 +122,5 @@
         </div>
     </header>
 
-    <script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>
-
-    
+    <script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>    
 </body>
-
-<script type="module" src="{{ site.baseurl }}/assets/js/api/login.js"></script>
-<!-- http://localhost:4100/portfolio_2025/student/ -->
