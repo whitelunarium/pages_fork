@@ -323,7 +323,7 @@ search_exclude: true
                 // Redirect to the student calendar after successful data fetch
                 sessionStorage.setItem("loggedIn", "true");
                 setTimeout(() => {
-                    window.location.href = "{{ site.baseurl }}/profilejava";
+                    window.location.href = "{{ site.baseurl }}/profile";
                 }, 5000);
             })
             .catch(error => {
