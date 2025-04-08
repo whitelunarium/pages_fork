@@ -9,7 +9,6 @@ title: Team Selection
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Viewer</title>
-    <link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* General Styles */

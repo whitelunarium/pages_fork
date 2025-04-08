@@ -5,7 +5,6 @@ title: Leaderboard
 ---
 
 <title>Leaderboard</title>
-<link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   /* General Styles */

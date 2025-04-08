@@ -8,133 +8,101 @@ permalink: /gamify/bankanalytics
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    /* Your existing styles remain the same */
     .nav-link-custom {
-    transition: transform 0.3s;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 6px;
+        transition: transform 0.3s;
+        font-size: 16px;
+        padding: 10px 20px;
+        border-radius: 6px;
     }
     .nav-link-custom:hover {
-    background-color: #ff9800;
-    transform: scale(1.1);
+        background-color: #ff9800;
+        transform: scale(1.1);
     }
     th.custom-th {
-    background-color: #ff9800;
-    color: #000;
-    text-transform: uppercase;
-    font-size: 14px;
+        background-color: #ff9800;
+        color: #000;
+        text-transform: uppercase;
+        font-size: 14px;
     }
     td.custom-td {
-    background-color: #2a2a2a;
-    border-bottom: 1px solid #444;
-    transition: background 0.3s;
+        background-color: #2a2a2a;
+        border-bottom: 1px solid #444;
+        transition: background 0.3s;
     }
     tr:hover td.custom-td {
-    background-color: #ff22a6;
-    color: #fff;
+        background-color: #ff22a6;
+        color: #fff;
     }
 </style>
 <body class="m-0 p-0" style="font-family: 'Poppins', sans-serif; background-color: #121212; color: #fff;">
 
-
 <br>
 <h1 class="text-center">Bank Analytics</h1>
 
-<!-- Dashboard Content - Same as before -->
 <div class="container my-4">
-<div class="row g-4">
-    <!-- Left Section - User Details -->
-    <div class="col-md">
-    <div class="p-4 rounded shadow" style="background-color: #1f1f1f;">
-        <div class="mb-4 text-start">
-        <h2 class="mb-3" style="color: #ff9800;">User Analytics</h2>
-        <div class="p-3 rounded" style="background-color: #2a2a2a;">
-            <div class="mb-3" style="font-size: 18px;">
-            <span style="color: #ff9800; margin-right: 10px;">Username:</span>
-            <span class="name">Loading...</span>
-            </div>
-            <div class="mb-3" style="font-size: 18px;">
-            <span style="color: #ff9800; margin-right: 10px;">Account Balance:</span>
-            <span class="balance">Loading...</span>
-            </div>
-            <div class="mb-3" style="font-size: 18px;">
-            <span style="color: #ff9800; margin-right: 10px;">Total Transactions:</span>
-            <span class="total-transactions">0</span>
+    <div class="row g-4">
+        <!-- User Details Section -->
+        <div class="col-md">
+            <div class="p-4 rounded shadow" style="background-color: #1f1f1f;">
+                <div class="mb-4 text-start">
+                    <h2 class="mb-3" style="color: #ff9800;">User Analytics</h2>
+                    <div class="p-3 rounded" style="background-color: #2a2a2a;">
+                        <div class="mb-3" style="font-size: 18px;">
+                            <span style="color: #ff9800; margin-right: 10px;">Username:</span>
+                            <span class="name">Loading...</span>
+                        </div>
+                        <div class="mb-3" style="font-size: 18px;">
+                            <span style="color: #ff9800; margin-right: 10px;">Account Balance:</span>
+                            <span class="balance">Loading...</span>
+                        </div>
+                        <div class="mb-3" style="font-size: 18px;">
+                            <span style="color: #ff9800; margin-right: 10px;">Total Transactions:</span>
+                            <span class="total-transactions">0</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
     </div>
-    </div>
-    <!-- Right Section - Leaderboard -->
-    <div class="col-md-auto" style="min-width: 400px;">
-    <h1 class="mb-3 text-uppercase fw-bold" style="background: linear-gradient(90deg, #ff8c00, #ff22a6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding-bottom: 10px; border-bottom: 3px solid #ff22a6; letter-spacing: 2px;">
-        Top 10 Users
-    </h1>
-    <div class="table-responsive">
-        <table class="table mb-0" style="background-color: #1f1f1f; border-collapse: collapse; border-radius: 8px; box-shadow: 0 0 15px rgba(255,136,0,0.5); overflow: hidden;">
-        <thead>
-            <tr>
-            <th class="custom-th" style="width:15%;">Rank</th>
-            <th class="custom-th" style="width:55%;">Name</th>
-            <th class="custom-th" style="width:30%;">Balance</th>
-            </tr>
-        </thead>
-        <tbody id="top-users-table">
-            <!-- Leaderboard Data Populated Here -->
-        </tbody>
-        </table>
-    </div>
-    </div>
-</div>
 </div>
 
 <!-- Balance Chart Section -->
 <div class="container my-4">
-<div class="p-4 rounded shadow" style="background-color: #1f1f1f;">
-    <h2 class="mb-3" style="color: #ff9800;">Balance Change History</h2>
-    <div class="p-3 mb-3 rounded" style="background-color: #2a2a2a;">
-    <label for="categorySelect" class="me-2">Select Category:</label>
-    <select id="categorySelect" class="form-select d-inline-block w-auto" style="background-color: #3a3a3a; border: 1px solid #ff9800; color: #fff;">
-        <option value="">Select a category</option>
-        <option value="poker">Poker</option>
-        <option value="blackjack">Blackjack</option>
-        <option value="dices">Dices</option>
-        <!-- Add more categories as needed -->
-    </select>
+    <div class="p-4 rounded shadow" style="background-color: #1f1f1f;">
+        <h2 class="mb-3" style="color: #ff9800;">Balance Change History</h2>
+        <div class="p-3 mb-3 rounded" style="background-color: #2a2a2a;">
+            <label for="categorySelect" class="me-2">Select Category:</label>
+            <select id="categorySelect" class="form-select d-inline-block w-auto" style="background-color: #3a3a3a; border: 1px solid #ff9800; color: #fff;">
+                <option value="">Select a category</option>
+                <option value="poker">Poker</option>
+                <option value="blackjack">Blackjack</option>
+                <option value="dices">Dices</option>
+            </select>
+        </div>
+        <div class="chart-container" style="height: 400px;">
+            <canvas id="balanceChart"></canvas>
+        </div>
     </div>
-    <div class="chart-container" style="height: 400px;">
-    <canvas id="balanceChart"></canvas>
-    </div>
-</div>
 </div>
 
 <script type="module">
 import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-// Global variables
 let userId = null;
 let balanceChart = null;
-let totalTransactions = 0; // Track total transactions across all categories
 
 async function fetchUserDetails() {
     try {
-        // Fetch user data from person endpoint (from old code)
         const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
         if (!response.ok) throw new Error("Failed to fetch user data");
         const userData = await response.json();
         
-        // Store user ID for later use
         userId = userData.id;
         
-        // Update user details section (from old code)
         document.querySelector('.name').textContent = userData.uid || "Unknown";
         document.querySelector('.balance').textContent = `$${Number(userData.balance).toFixed(2)}`;
         
-        // Initialize category dropdown
         initCategoryDropdown();
-        
-        // Load initial data (poker by default)
         fetchProfitData('poker');
     } catch (error) {
         console.error("Error fetching user data:", error);
@@ -144,8 +112,6 @@ async function fetchUserDetails() {
 
 function initCategoryDropdown() {
     const categorySelect = document.getElementById('categorySelect');
-    
-    // Add change event listener to dropdown
     categorySelect.addEventListener('change', (e) => {
         if (e.target.value) {
             fetchProfitData(e.target.value);
@@ -156,13 +122,9 @@ function initCategoryDropdown() {
 }
 
 async function fetchProfitData(category) {
-    if (!userId) {
-        console.error("Cannot fetch profit data: User ID is missing");
-        return;
-    }
+    if (!userId) return;
 
     try {
-        // Get the profit data for the specific category
         const response = await fetch(`${javaURI}/bank/${userId}/profitmap/${category}`, {
             ...fetchOptions,
             method: 'GET'
@@ -170,8 +132,6 @@ async function fetchProfitData(category) {
         
         if (!response.ok) throw new Error(`Failed to fetch ${category} data`);
         const transactions = await response.json();
-        
-        // Update the chart with the new data
         updateChart(category, transactions);
     } catch (error) {
         console.error(`Error fetching ${category} data:`, error);
@@ -185,25 +145,20 @@ function updateChart(category, transactions) {
         return;
     }
     
-    // Update total transactions count for this category
     document.querySelector('.total-transactions').textContent = transactions.length;
     
-    // Prepare data for chart
     const timestamps = [];
     const profits = [];
     
     transactions.forEach(transaction => {
         if (Array.isArray(transaction) && transaction.length >= 2) {
-            // Handle timestamp (index 0)
             let timestamp;
             try {
                 timestamp = new Date(transaction[0]).toLocaleDateString();
             } catch (e) {
-                console.warn("Invalid date format:", transaction[0]);
                 timestamp = new Date().toLocaleDateString();
             }
             
-            // Handle profit amount (index 1)
             let profit = 0;
             if (typeof transaction[1] === 'number') {
                 profit = transaction[1];
@@ -216,7 +171,6 @@ function updateChart(category, transactions) {
         }
     });
     
-    // Calculate cumulative balance
     const cumulativeBalance = [];
     let balance = 0;
     for (const profit of profits) {
@@ -306,30 +260,8 @@ function clearChart() {
     }
 }
 
-async function fetchLeaderboard() {
-    try {
-        const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
-        if (!response.ok) throw new Error("Failed to fetch leaderboard data");
-        const data = await response.json();
-        const topUsersTable = document.querySelector("#top-users-table");
-        topUsersTable.innerHTML = "";
-        data.forEach((user, index) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-            <td class="custom-td fw-bold" style="color: #ffcc00;">${index + 1}</td>
-            <td class="custom-td fw-bold">${user.name}</td>
-            <td class="custom-td fw-bold" style="color: #00ff7f;">$${Number(user.balance).toFixed(2)}</td>
-            `;
-            topUsersTable.appendChild(row);
-        });
-    } catch (error) {
-        console.error("Error fetching leaderboard data:", error);
-    }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     fetchUserDetails();
-    fetchLeaderboard();
 });
 </script>
 </body>
