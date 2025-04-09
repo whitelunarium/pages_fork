@@ -1171,7 +1171,10 @@ body.modal-open {
         function updateActiveGPUsList() {
             const container = document.getElementById('active-gpus-list');
             container.innerHTML = '';
-            if (!window.stats || !window.stats.gpus) return;
+            if (!window.stats || !window.stats.gpus) {
+                container.innerHTML = '<p class="text-gray-400 text-center">No active GPUs found</p>';
+                return;
+            }
             // Group GPUs by ID
             const gpuGroups = {};
             window.stats.gpus.forEach(gpu => {
@@ -1179,11 +1182,18 @@ body.modal-open {
                     if (!gpuGroups[gpu.id]) {
                         gpuGroups[gpu.id] = {
                             ...gpu,
-                            quantity: gpu.quantity
+                            quantity: gpu.quantity || 0,
+                            hashrate: gpu.hashrate || 0,
+                            power: gpu.power || 0,
+                            temp: gpu.temp || 0
                         };
                     }
                 }
             });
+            if (Object.keys(gpuGroups).length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-center">No active GPUs found</p>';
+                return;
+            }
             Object.values(gpuGroups).forEach(gpu => {
                 const card = document.createElement('div');
                 card.className = 'gpu-card';
@@ -1191,7 +1201,7 @@ body.modal-open {
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-xl font-bold text-blue-400">${gpu.name}</h3>
+                                <h3 class="text-xl font-bold text-blue-400">${gpu.name || 'Unknown GPU'}</h3>
                                 <span class="text-green-400 text-lg font-bold">x${gpu.quantity}</span>
                             </div>
                             <div class="grid grid-cols-2 gap-6">
