@@ -2060,7 +2060,7 @@ body.modal-open {
                 {
                     name: "Bitcoin",
                     symbol: "BTC",
-                    logoUrl: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                    logoUrl: "https://i.ibb.co/DgwJM9TQ/image.png",
                     price: 45000.0,
                     confirmedBalance: "0.00025000",
                     pendingBalance: "0.00010000",
@@ -2075,7 +2075,7 @@ body.modal-open {
                 {
                     name: "Ethereum",
                     symbol: "ETH",
-                    logoUrl: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+                    logoUrl: "https://i.ibb.co/v6Z6bsVK/image.png",
                     price: 3000.0,
                     confirmedBalance: "0.00300000",
                     pendingBalance: "0.00050000",
@@ -2090,7 +2090,7 @@ body.modal-open {
                 {
                     name: "Litecoin",
                     symbol: "LTC",
-                    logoUrl: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+                    logoUrl: "https://i.ibb.co/ZpBmmZrN/image.png",
                     price: 80.0,
                     confirmedBalance: "0.15000000",
                     pendingBalance: "0.05000000",
@@ -2105,7 +2105,7 @@ body.modal-open {
                 {
                     name: "Monero",
                     symbol: "XMR",
-                    logoUrl: "https://cryptologos.cc/logos/monero-xmr-logo.png",
+                    logoUrl: "https://i.ibb.co/m5yHc70m/image.png",
                     price: 170.0,
                     confirmedBalance: "0.01000000",
                     pendingBalance: "0.00500000",
@@ -2160,7 +2160,7 @@ body.modal-open {
             <div class="bg-gray-800 rounded-lg p-4 mb-4 border border-gray-700">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <img src="${balance.logoUrl}" alt="${balance.symbol}" class="w-10 h-10 mr-3" onerror="this.src='https://via.placeholder.com/40'">
+                        <img src="${balance.logoUrl}" alt="${balance.symbol}" class="w-10 h-10 mr-3">
                         <div>
                             <h3 class="text-lg font-semibold">${balance.name} (${balance.symbol})</h3>
                             <p class="text-gray-400">$${typeof balance.price === 'number' ? balance.price.toLocaleString() : balance.price}</p>
@@ -2206,7 +2206,7 @@ body.modal-open {
                 name: "Bitcoin",
                 symbol: "BTC",
                 price: 45000.0,
-                logoUrl: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                logoUrl: "https://i.ibb.co/DgwJM9TQ/image.png",
                 algorithm: "SHA-256",
                 blockReward: 6.25,
                 difficulty: "Very High",
@@ -2217,7 +2217,7 @@ body.modal-open {
                 name: "Ethereum",
                 symbol: "ETH",
                 price: 3000.0,
-                logoUrl: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+                logoUrl: "https://i.ibb.co/v6Z6bsVK/image.png",
                 algorithm: "Ethash",
                 blockReward: 2.0,
                 difficulty: "High",
@@ -2228,7 +2228,7 @@ body.modal-open {
                 name: "Litecoin",
                 symbol: "LTC",
                 price: 80.0,
-                logoUrl: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+                logoUrl: "https://i.ibb.co/ZpBmmZrN/image.png",
                 algorithm: "Scrypt",
                 blockReward: 12.5,
                 difficulty: "Medium",
@@ -2239,7 +2239,7 @@ body.modal-open {
                 name: "Monero",
                 symbol: "XMR",
                 price: 170.0,
-                logoUrl: "https://cryptologos.cc/logos/monero-xmr-logo.png",
+                logoUrl: "https://i.ibb.co/m5yHc70m/image.png",
                 algorithm: "RandomX",
                 blockReward: 0.6,
                 difficulty: "Medium",
@@ -2275,11 +2275,29 @@ body.modal-open {
         }
         let html = '';
         cryptos.forEach(crypto => {
+            // Use the same image URLs as the balance display section
+            let logoUrl;
+            switch(crypto.symbol) {
+                case 'BTC':
+                    logoUrl = 'https://i.ibb.co/DgwJM9TQ/image.png';
+                    break;
+                case 'ETH':
+                    logoUrl = 'https://i.ibb.co/v6Z6bsVK/image.png';
+                    break;
+                case 'LTC':
+                    logoUrl = 'https://i.ibb.co/ZpBmmZrN/image.png';
+                    break;
+                case 'XMR':
+                    logoUrl = 'https://i.ibb.co/m5yHc70m/image.png';
+                    break;
+                default:
+                    logoUrl = crypto.logoUrl;
+            }
             html += `
             <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 cursor-pointer hover:bg-gray-700 transition-colors"
                  onclick="selectCryptocurrency('${crypto.symbol}')">
                 <div class="flex items-center">
-                    <img src="${crypto.logoUrl}" alt="${crypto.symbol}" class="w-8 h-8 mr-2" onerror="this.src='https://via.placeholder.com/32'">
+                    <img src="${logoUrl}" alt="${crypto.symbol}" class="w-8 h-8 mr-2">
                     <div>
                         <h4 class="font-semibold">${crypto.symbol}</h4>
                         <p class="text-xs text-gray-400">${crypto.name}</p>
