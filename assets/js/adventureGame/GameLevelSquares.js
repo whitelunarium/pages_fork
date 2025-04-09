@@ -1,11 +1,13 @@
 // To build GameLevels, each contains GameObjects from below imports
+import GameObject from './GameObject.js';
 import Background from './Background.js';
 import PlayerOne from './PlayerOne.js';
 import PlayerTwo from './PlayerTwo.js';
 
 // Complete implementation with all required methods
-class GameLevelSquares {
+class GameLevelSquares extends GameObject {
   constructor(gameEnv) {
+    super(gameEnv);
     console.log('GameLevelSquares constructor called');
     
     // Store reference to game environment
@@ -87,6 +89,16 @@ class GameLevelSquares {
     // Level-specific update logic
     // Check for collisions between PlayerOne and PlayerTwo
     // this just serves as an example and does nothing special
+  }
+  
+  draw() {
+    // Level-specific drawing logic
+    // The background and players handle their own drawing
+  }
+  
+  resize() {
+    // Level-specific resize logic
+    // The background and players handle their own resizing
   }
   
   destroy() {
