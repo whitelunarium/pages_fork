@@ -88,6 +88,12 @@ show_reading_time: false
                 <input type="text" id="signupUid" placeholder="GitHub ID" required>
             </div>
             <div class="form-group">
+                <input type="text" id="signupSid" placeholder="Student ID" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="signupEmail" placeholder="Email" required>
+            </div>
+            <div class="form-group">
                 <input type="password" id="signupPassword" placeholder="Password" required>
             </div>
             <p>
@@ -134,96 +140,20 @@ show_reading_time: false
     }
     // Function to handle Java login
     window.javaLogin = function () {
-        const loginURL = `${javaURI}/authenticate`;
-        const databaseURL = `${javaURI}/api/person/get`;
-        const signupURL = `${javaURI}/api/person/create`;
-        const userCredentials = JSON.stringify({
-            uid: document.getElementById("uid").value,
-            password: document.getElementById("password").value,
-        });
-        const loginOptions = {
-            ...fetchOptions,
+        const options = {
+            URL: `${javaURI}/authenticate`,
+            callback: javaDatabase,
+            message: "java-message",
             method: "POST",
-            body: userCredentials,
+            cache: "no-cache",
+            body: {
+                uid: document.getElementById("uid").value,
+                password: document.getElementById("password").value,
+            },
         };
-        console.log("Attempting Java login...");
-        fetch(loginURL, loginOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Invalid login");
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Login successful!", data);
-                // Fetch database after login success using fetchOptions
-                return fetch(databaseURL, fetchOptions);
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Spring server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Java database response:", data);
-            })
-            .catch(error => {
-                console.error("Login failed:", error.message);
-                // If login fails, attempt account creation
-                if (error.message === "Invalid login") {
-                    alert("Login for Spring failed. Creating a new Java account...");
-                    const signupData = JSON.stringify({
-                        uid: document.getElementById("uid").value,
-                        email: document.getElementById("uid").value + "@gmail.com",
-                        dob: "11-01-2024", // Static date, can be modified
-                        name: document.getElementById("uid").value,
-                        password: document.getElementById("password").value,
-                        kasmServerNeeded: false,
-                    });
-                    const signupOptionsJava = {
-                        ...fetchOptions,
-                        method: "POST",
-                        body: signupData,
-                    };
-                    fetch(signupURL, signupOptionsJava)
-                        .then(signupResponse => {
-                            if (!signupResponse.ok) {
-                                throw new Error("Account creation failed!");
-                            }
-                            return signupResponse.json();
-                        })
-                        .then(signupResult => {
-                            console.log("Account creation successful!", signupResult);
-                            alert("Account Creation Successful. Logging you into Flask/Spring!");
-                            // Retry login after account creation
-                            return fetch(loginURL, loginOptions);
-                        })
-                        .then(newLoginResponse => {
-                            if (!newLoginResponse.ok) {
-                                throw new Error("Login failed after account creation");
-                            }
-                            console.log("Login successful after account creation!");
-                            // Fetch database after successful login
-                            return fetch(databaseURL, fetchOptions);
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`Spring server response: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log("Java database response:", data);
-                        })
-                        .catch(newLoginError => {
-                            console.error("Error after account creation:", newLoginError.message);
-                        });
-                } else {
-                    console.log("Logged in!");
-                }
-            });
+        login(options);
     };
+
     // Function to fetch and display Python data
     function pythonDatabase() {
         const URL = `${pythonURI}/api/id`;
@@ -268,6 +198,9 @@ show_reading_time: false
             }),
             body: JSON.stringify({
                 uid: document.getElementById("signupUid").value,
+                sid: document.getElementById("signupSid").value,
+                email: document.getElementById("signupEmail").value,
+                dob: "11-01-2024",  // Static date for now, you can modify this
                 name: document.getElementById("name").value,
                 password: document.getElementById("signupPassword").value,
                 kasmServerNeeded: document.getElementById("kasmNeeded").checked,
@@ -317,8 +250,15 @@ show_reading_time: false
 
 
 
+    // Function to fetch and display Java data
     function javaDatabase() {
         const URL = `${javaURI}/api/person/get`;
+        const loginForm = document.getElementById('javaForm');
+        const dataTable = document.getElementById('javaTable');
+        const dataButton = document.getElementById('javaButton');
+        const resultContainer = document.getElementById("javaResult");
+        resultContainer.innerHTML = '';
+
         fetch(URL, fetchOptions)
             .then(response => {
                 if (!response.ok) {
@@ -326,8 +266,53 @@ show_reading_time: false
                 }
                 return response.json();
             })
+            .then(data => {
+                // Check if email ends with "@gmail.com" and prompt user to update profile
+                if (data.email === `${data.uid}@gmail.com`) {
+                    alert('You need to update your name and email in the profile page to complete account setup.');
+                }
+
+                loginForm.style.display = 'none';
+                dataTable.style.display = 'block';
+                dataButton.style.display = 'block';
+
+                const tr = document.createElement("tr");
+                const name = document.createElement("td");
+                const ghid = document.createElement("td");
+                const id = document.createElement("td");
+                const age = document.createElement("td");
+                const roles = document.createElement("td");
+
+                name.textContent = data.name;
+                ghid.textContent = data.uid;
+                //store ghid in localStorage
+                localStorage.setItem("ghid", data.uid);
+                id.textContent = data.email;
+                age.textContent = data.age;
+                roles.textContent = data.roles.map(role => role.name).join(', ');
+
+                tr.appendChild(name);
+                tr.appendChild(ghid);
+                tr.appendChild(id);
+                tr.appendChild(age);
+                tr.appendChild(roles);
+                resultContainer.appendChild(tr);
+
+                // Redirect to the student calendar after successful data fetch
+                sessionStorage.setItem("loggedIn", "true");
+                setTimeout(() => {
+                    window.location.href = "{{ site.baseurl }}/profile";
+                }, 5000);
+            })
             .catch(error => {
                 console.error("Java Database Error:", error);
+                const errorMsg = `Java Database Error: ${error.message}`;
+                const tr = document.createElement("tr");
+                const td = document.createElement("td");
+                td.textContent = errorMsg;
+                td.colSpan = 4;
+                tr.appendChild(td);
+                resultContainer.appendChild(tr);
             });
     }
 </script>
