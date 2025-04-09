@@ -402,23 +402,16 @@ active_tab: profile
 <!-- change class box -->
 <div id="change-class" class="change-info-card" style="visibility: hidden;">
     <ion-icon name="school-outline" size="large"></ion-icon>
-    <h1>Class Info</h1>
-    <form onsubmit="return changeClass(event)">
-        <select id="classInput" name="class">
-            <option value="CSA">Computer Science Advanced</option>
-            <option value="CSP">Computer Science Principles</option>
-            <option value="CSSE">Computer Science and Software Engineering</option>
-            <option value="Robotics">Engineering Robotics</option>
-        </select>
-
-        <input type="text" id="classInputYear" placeholder="Enter class year (YYYY).">
-
+    <h1>Student Id</h1>
+    <form onsubmit="return changeSid(event)">
+        <input type="text" id="sidInput" placeholder="Enter new Student Id">
         <input type="submit" value="Save changes">
     </form>
-    <div class="close" onclick="document.getElementById('change-class').style.visibility = 'hidden'">
+    <div class="close" onclick="document.getElementById('change-password').style.visibility = 'hidden'">
         <ion-icon name="close-outline" size="large" class="close"></ion-icon>
     </div>
 </div>
+
 
 <!-- change profile pic box -->
 <div id="change-pfp" class="change-info-card" style="visibility: hidden;">
@@ -433,7 +426,6 @@ active_tab: profile
         </label>
         <input type="submit" value="Save changes">
         <br>
-        <p><em>Note: you will have to reload the page after uploading the file.</em></p>
     </form>
     <div class="close" onclick="document.getElementById('change-pfp').style.visibility = 'hidden'">
         <ion-icon name="close-outline" size="large" class="close"></ion-icon>
@@ -514,8 +506,8 @@ active_tab: profile
     <div class="class-info card" onclick="document.getElementById('change-class').style.visibility = 'visible'"
         data-tilt data-tilt-reverse="true" data-tilt-perspective="10000" data-tilt-glare data-tilt-max-glare="0.5">
         <div class="class-details">
-            <h3>Class Info</h3>
-            <p>CSA 2025</p>
+            <h3>Student Id</h3>
+            <p id="sid"></p>
         </div>
         <div class="class-icon">
             <ion-icon name="school-outline" size="large"></ion-icon>
@@ -565,6 +557,7 @@ active_tab: profile
             const uid = await window.fetchUid();
             const email = await window.fetchEmail();
             const kasm = await window.fetchKasmStatus();
+            const sid  = await window.fetchSid();
 
             // if the fetch failed, set that as the text content; otherwise show
             if (name == null) {
@@ -584,6 +577,12 @@ active_tab: profile
             }
             else {
                 document.getElementById("email").textContent = email;
+            }
+            if (sid == null) {
+                document.getElementById("sid").textContent = "Failed to load. Are you logged in?";
+            }
+            else {
+                document.getElementById("sid").textContent = sid;
             }
             if (kasm == null) {
                 document.getElementById("kasm").textContent = "Failed to load. Are you logged in?";
@@ -606,6 +605,26 @@ active_tab: profile
 
             const data = await response.json();
             return data.name;
+        }
+        catch (error) {
+            document.getElementById("name").textContent = "Failed to load. Are you logged in?";
+            console.error('Error fetching Name:', error.message);
+            return null;
+        }
+    };
+
+    window.fetchSid = async function () {
+        const URL = javaURI + "/api/person/get"; // Adjusted endpoint
+
+        try {
+            const response = await fetch(URL, fetchOptions);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch Name: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.sid;
         }
         catch (error) {
             document.getElementById("name").textContent = "Failed to load. Are you logged in?";
@@ -709,6 +728,32 @@ active_tab: profile
 
         document.getElementById("name").textContent = name; //reload the content
     }
+   
+    window.changeSid = async function (event) {
+        event.preventDefault(); // Prevent the form from refreshing the page
+
+        const sid = document.getElementById("sidInput").value.trim(); // Get and trim input value
+
+        // send the post request
+        if (sid) {
+            const URL = javaURI + "/api/person/update";
+            const options = {
+                URL,
+                body: { sid },
+                callback: () => {
+                    console.log('Sid updated successfully!');
+                }
+            };
+            try {
+                await postUpdate(options);
+            } catch (error) {
+                console.error('Error updating Name:', error.message);
+            }
+        }
+
+        document.getElementById("sid").textContent = sid; //reload the content
+    }
+
 
     window.changeUid = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page
@@ -731,9 +776,10 @@ active_tab: profile
                 console.error('Error updating uid:', error.message);
             }
         }
-
         document.getElementById("uid").textContent = uid; //reload the content
+
     }
+
 
     window.changeEmail = async function (event) {
         event.preventDefault(); // Prevent the form from refreshing the page

@@ -147,10 +147,22 @@ async function fetchLeaderboard() {
       `;
       topUsersTable.appendChild(row);
     });
-  } catch (error) {
-    console.error("Error fetching leaderboard data:", error);
   }
-}
 
-document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+  function getStaticLeaderboard() {
+    return [
+      { name: "Alice", balance: 5000.75 },
+      { name: "Bob", balance: 4500.50 },
+      { name: "Charlie", balance: 4000.25 },
+      { name: "Dave", balance: 3500.00 },
+      { name: "Eve", balance: 3000.75 },
+      { name: "Frank", balance: 2750.60 },
+      { name: "Grace", balance: 2500.40 },
+      { name: "Hank", balance: 2250.30 },
+      { name: "Ivy", balance: 2000.10 },
+      { name: "Jack", balance: 1750.00 }
+    ];
+  }
+
+  document.addEventListener("DOMContentLoaded", fetchLeaderboard);
 </script>

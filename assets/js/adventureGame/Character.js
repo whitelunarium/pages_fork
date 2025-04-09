@@ -200,6 +200,7 @@ class Character extends GameObject {
         this.canvas.style.position = 'absolute';
         this.canvas.style.left = `${this.position.x}px`;
         this.canvas.style.top = `${this.gameEnv.top + this.position.y}px`;
+        this.canvas.style.zIndex = this.data?.zIndex || 0;
     }
 
     /**
