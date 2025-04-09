@@ -21,6 +21,7 @@ class Game {
     // initialize user and launch GameControl 
     static main(environment) {
         // setting Web Application path
+        this.environment = environment;
         this.path = environment.path;
 
         // setting Element IDs
@@ -41,7 +42,7 @@ class Game {
         this.gname = null;
 
         // start the game immediately
-        const gameLevelClasses = [GameLevelAirport, GameLevelWallstreet];
+        const gameLevelClasses = environment.gameLevelClasses;
         new GameControl(this, gameLevelClasses).start();
     }
 
