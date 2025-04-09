@@ -107,12 +107,13 @@ show_reading_time: false
         </form>
     </div>
 </div>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script type="module">
+    console.log("TESTING");
+
     import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Function to handle both Python and Java login simultaneously
     window.loginBoth = function () {
+        console.log("STARTED LOGIN PROTCOL");
         javaLogin();  // Call Java login
         pythonLogin();
     };
@@ -180,12 +181,12 @@ show_reading_time: false
                         password: document.getElementById("password").value,
                         kasmServerNeeded: false,
                     });
-                    const signupOptions = {
+                    const signupOptionsJava = {
                         ...fetchOptions,
                         method: "POST",
                         body: signupData,
                     };
-                    fetch(signupURL, signupOptions)
+                    fetch(signupURL, signupOptionsJava)
                         .then(signupResponse => {
                             if (!signupResponse.ok) {
                                 throw new Error("Account creation failed!");
@@ -244,8 +245,9 @@ show_reading_time: false
         const signupButton = document.querySelector(".signup-card button");
         // Disable the button and change its color
         signupButton.disabled = true;
-        signupButton.style.backgroundColor = '#d3d3d3'; // Light gray to indicate disabled state
-        const signupOptions = {
+        signupButton.classList.add("disabled");
+
+        const signupOptionsPython = {
             URL: `${pythonURI}/api/user`,
             method: "POST",
             cache: "no-cache",
@@ -256,12 +258,42 @@ show_reading_time: false
                 kasm_server_needed: document.getElementById("kasmNeeded").checked,
             }
         };
-        fetch(signupOptions.URL, {
-            method: signupOptions.method,
+
+        const signupOptionsJava = {
+            URL: `${javaURI}/api/person/create`,
+            method: "POST",
+            cache: "no-cache",
+            headers: new Headers({
+                "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+                uid: document.getElementById("signupUid").value,
+                name: document.getElementById("name").value,
+                password: document.getElementById("signupPassword").value,
+                kasmServerNeeded: document.getElementById("kasmNeeded").checked,
+            })
+        };
+
+        fetch(signupOptionsJava.URL, signupOptionsJava)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("signupMessage").innerText = "Sign up successful!";
+                } else {
+                    document.getElementById("signupMessage").innerText = "Sign up failed: " + data.message;
+                }
+            })
+            .catch(error => {
+                document.getElementById("signupMessage").innerText = "Error: " + error.message;
+                console.error('Error during signup:', error);
+            });
+
+        fetch(signupOptionsPython.URL, {
+            method: signupOptionsPython.method,
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(signupOptions.body)
+            body: JSON.stringify(signupOptionsPython.body)
         })
             .then(response => {
                 if (!response.ok) {
@@ -282,6 +314,9 @@ show_reading_time: false
                 signupButton.style.backgroundColor = ''; // Reset to default color
             });
     }
+
+
+
     function javaDatabase() {
         const URL = `${javaURI}/api/person/get`;
         fetch(URL, fetchOptions)
