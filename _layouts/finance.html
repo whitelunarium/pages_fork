@@ -3,6 +3,7 @@ layout: base
 ---
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
@@ -10,8 +11,8 @@ layout: base
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-      <ul class="navbar-nav gap-2">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+      <ul class="navbar-nav">
         <!-- Bank Dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="bankDropdown" role="button" data-bs-toggle="dropdown" 
@@ -52,7 +53,6 @@ layout: base
           </ul>
         </li>
 
-
         <li class="nav-item">
           <a class="nav-link" href="{{ site.baseurl }}/gamify/adventureGame">Adventure Game</a>
         </li>
@@ -70,6 +70,20 @@ layout: base
           </ul>
         </li>
       </ul>
+
+      <!-- User Info Section -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item px-3">
+          <div class="d-flex align-items-center text-light">
+          </div>
+        </li>
+        <li class="nav-item px-3">
+          <div class="d-flex align-items-center text-light">
+            <i class="bi bi-coin me-2"></i>
+            <span id="navbarBalance" class="balance-info">$---.--</span>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
@@ -77,6 +91,28 @@ layout: base
 {{ content }}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module">
+import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+// Fetch and display user info in navbar
+async function loadUserInfo() {
+  try {
+    const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+    if (!response.ok) throw new Error("Failed to fetch user data");
+    const userData = await response.json();
+    
+    document.getElementById('navbarUsername').textContent = userData.uid || "Guest";
+    document.getElementById('navbarBalance').textContent = `$${Number(userData.balance).toFixed(2)}`;
+  } catch (error) {
+    console.error("Error loading user info:", error);
+    document.getElementById('navbarUsername').textContent = "Error";
+    document.getElementById('navbarBalance').textContent = "$0.00";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadUserInfo);
+</script>
+
 <style>
   .dropdown-menu {
     background-color: #1c1c1c !important;
@@ -85,10 +121,27 @@ layout: base
 
   .dropdown-item {
     color: #ffffff !important;
+    transition: all 0.3s ease;
   }
 
   .dropdown-item:hover {
     background-color: #ff9800 !important;
     color: #1c1c1c !important;
+    transform: translateX(5px);
+  }
+
+  /* User Info Styling */
+  #navbarUsername, #navbarBalance {
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .nav-item:hover #navbarUsername,
+  .nav-item:hover #navbarBalance {
+    color: #ff9800 !important;
+  }
+
+  .bi-person-circle, .bi-coin {
+    font-size: 1.2rem;
   }
 </style>
