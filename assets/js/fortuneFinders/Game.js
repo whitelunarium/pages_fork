@@ -189,20 +189,6 @@ class Game {
         }
     }
     
-    static async getIncorrectQuestionsByCategory(personId, category) {
-        try {
-            const response = await fetch(
-                `${this.javaURI}/rpg_answer/getIncorrectQuestions/${personId}/${category}`,
-                this.fetchOptions
-            );
-            if (!response.ok) throw new Error("Failed to fetch incorrect questions");
-            const data = await response.json();
-            return data.questions || [];
-        } catch (error) {
-            console.error("Error fetching incorrect questions:", error);
-            return [];
-        }
-    }
     static async attemptQuizForNpc(npcCategory, callback = null) {
         const personId = this.id;
     
