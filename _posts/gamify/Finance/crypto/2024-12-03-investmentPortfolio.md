@@ -1,11 +1,10 @@
 ---
-layout: base
+layout: finance
 title: Crypto Portfolio
 type: issues
 permalink: /crypto/portfolio
 ---
 
-<link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -194,19 +193,6 @@ permalink: /crypto/portfolio
     }
 </style>
 
-<!-- Navigation Bar -->
-<nav class="navbar">
-    <div class="nav-buttons">
-        <a href="{{site.baseurl}}/stocks/home">Home</a>
-        <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-        <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-        <a href="{{site.baseurl}}/crypto/mining">Mining</a>
-        <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-        <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/stocks/game">Game</a>
-        <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-    </div>
-</nav>
 
 <div class="container">
     <div class="balance-container">
