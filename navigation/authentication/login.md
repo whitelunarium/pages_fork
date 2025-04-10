@@ -64,7 +64,7 @@ show_reading_time: false
     <div class="login-card">
         <h1 id="pythonTitle">User Login</h1>
         <hr>
-        <form id="pythonForm" onsubmit="loginBoth(); return false;">
+        <form id="pythonForm" onsubmit="loginBoth(event);">
             <div class="form-group">
                 <input type="text" id="uid" placeholder="GitHub ID" required>
             </div>
@@ -118,10 +118,76 @@ show_reading_time: false
 
     import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
     // Function to handle both Python and Java login simultaneously
-    window.loginBoth = function () {
-        console.log("STARTED LOGIN PROTCOL");
-        javaLogin();  // Call Java login
-        pythonLogin();
+    window.loginBoth = async function (event) {
+        // Prevent the form from refreshing the page
+        if (event) {
+            event.preventDefault();
+        }
+    
+        console.log("STARTED LOGIN PROTOCOL");
+        document.getElementById("message").textContent = "Logging in...";
+        document.getElementById("message").style.color = "orange";
+    
+        const loginButton = document.querySelector(".login-card button");
+        loginButton.disabled = true;
+    
+        try {
+            const uid = document.getElementById("uid").value;
+            const password = document.getElementById("password").value;
+    
+            if (!uid || !password) {
+                throw new Error("Please enter both GitHub ID and password");
+            }
+    
+            // Create both login requests but don't execute yet
+            const pythonLoginRequest = fetch(`${pythonURI}/api/authenticate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid, password }),
+                credentials: 'include'
+            });
+    
+            const javaLoginRequest = fetch(`${javaURI}/authenticate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid, password }),
+                credentials: 'include'
+            });
+    
+            // Execute both requests in parallel
+            const [pythonResponse, javaResponse] = await Promise.all([
+                pythonLoginRequest,
+                javaLoginRequest
+            ]);
+    
+            // Check responses
+            if (!pythonResponse.ok) {
+                throw new Error(`Python login failed: ${pythonResponse.status}`);
+            }
+    
+            if (!javaResponse.ok) {
+                throw new Error(`Java login failed: ${javaResponse.status}`);
+            }
+    
+            // Both logins successful
+            document.getElementById("message").textContent = "Login successful! Redirecting...";
+            document.getElementById("message").style.color = "green";
+    
+            // Redirect to profile page
+            console.log("Login successful, redirecting to profile...");
+            setTimeout(() => {
+                window.location.href = '{{site.baseurl}}/profile';
+            }, 1000); // Short delay to show success message
+    
+        } catch (error) {
+            console.error("Login Error:", error);
+            document.getElementById("message").textContent = `Error: ${error.message}`;
+            document.getElementById("message").style.color = "red";
+            loginButton.disabled = false;
+        }
+    
+        // Prevent form submission
+        return false;
     };
     // Function to handle Python login
     window.pythonLogin = function () {
