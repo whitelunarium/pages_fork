@@ -15,6 +15,7 @@ export class Background extends GameObject {
             throw new Error('Background requires a src property in data');
         }
 
+        this.data = data;
         // Set the properties of the background
         this.image = new Image();
         this.image.src = data.src;
@@ -29,6 +30,7 @@ export class Background extends GameObject {
             // Create the canvas element and context
             this.canvas = document.createElement("canvas");
             this.canvas.style.position = "absolute";
+            this.canvas.style.zIndex = this.data.zIndex || "0";
             this.canvas.id = data.id || "background";
             this.ctx = this.canvas.getContext("2d", { willReadFrequently: true });
             

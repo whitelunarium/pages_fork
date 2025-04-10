@@ -1,7 +1,7 @@
 ---
 layout: base
-title: RPG Baseline with Squares 
-permalink: /gamify/squares
+title: Adventure Game
+permalink: /gamify/adventureGame
 ---
 
 <div id="gameContainer">
@@ -12,10 +12,11 @@ permalink: /gamify/squares
 <script type="module">
     // Adnventure Game assets locations
     import Game from "{{site.baseurl}}/assets/js/adventureGame/Game.js";
-    import GameLevelSquares from "{{site.baseurl}}/assets/js/adventureGame/GameLevelSquares.js";
+    import GameLevelWater from "{{site.baseurl}}/assets/js/adventureGame/GameLevelWater.js";
+    import GameLevelDesert from "{{site.baseurl}}/assets/js/adventureGame/GameLevelDesert.js";
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    const gameLevelClasses = [GameLevelSquares];
+    const gameLevelClasses = [GameLevelDesert, GameLevelWater];
 
     const instructionsStyle = `
         position: fixed;
@@ -42,6 +43,14 @@ permalink: /gamify/squares
             <p>• WASD - Move</p>
             <p>• E/U - Interact with NPCs</p>
             <p>• ESC - Exit mini-games</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <h3 style="color: #f5c207;">NPCs:</h3>
+            <p>• Robot - Meteor Blaster game</p>
+            <p>• R2D2 - Star Wars game</p>
+            <p>• Tux/Octocat - Quizzes</p>
+            <p>• Stock Guy - Stock Market</p>
+            <p>• Bitcoin - Casino</p>
         </div>
         <div style="text-align: center;">
             <button id="startGameBtn" style="
