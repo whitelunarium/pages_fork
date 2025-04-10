@@ -220,22 +220,25 @@ show_reading_time: false
         login(options);
     };
 
+    
+
     // Function to fetch and display Python data
     function pythonDatabase() {
-        const URL = `${pythonURI}/api/id`;
-        fetch(URL, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Flask server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                window.location.href = '{{site.baseurl}}/profile';
-            })
-            .catch(error => {
-                document.getElementById("message").textContent = `Error: ${error.message}`;
-            });
+        // const URL = `${pythonURI}/api/id`;
+        // fetch(URL, fetchOptions)
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error(`Flask server response: ${response.status}`);
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         window.location.href = '{{site.baseurl}}/profile';
+        //     })
+        //     .catch(error => {
+        //         document.getElementById("message").textContent = `Error: ${error.message}`;
+        //     });
+        console.log("temp disabled");
     }
     window.signup = function () {
         const signupButton = document.querySelector(".signup-card button");
