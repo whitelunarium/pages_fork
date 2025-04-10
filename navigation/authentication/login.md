@@ -64,7 +64,7 @@ show_reading_time: false
     <div class="login-card">
         <h1 id="pythonTitle">User Login</h1>
         <hr>
-        <form id="pythonForm" onsubmit="loginBoth(); return false;">
+        <form id="pythonForm" onsubmit="loginBoth();">
             <div class="form-group">
                 <input type="text" id="uid" placeholder="GitHub ID" required>
             </div>
@@ -120,8 +120,8 @@ show_reading_time: false
     // Function to handle both Python and Java login simultaneously
     window.loginBoth = function () {
         console.log("STARTED LOGIN PROTCOL");
-        javaLogin();  // Call Java login
         pythonLogin();
+        javaLogin();  // Call Java login
     };
     // Function to handle Python login
     window.pythonLogin = function () {
@@ -154,22 +154,25 @@ show_reading_time: false
         login(options);
     };
 
+    
+
     // Function to fetch and display Python data
     function pythonDatabase() {
-        const URL = `${pythonURI}/api/id`;
-        fetch(URL, fetchOptions)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Flask server response: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                window.location.href = '{{site.baseurl}}/profile';
-            })
-            .catch(error => {
-                document.getElementById("message").textContent = `Error: ${error.message}`;
-            });
+        // const URL = `${pythonURI}/api/id`;
+        // fetch(URL, fetchOptions)
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error(`Flask server response: ${response.status}`);
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         window.location.href = '{{site.baseurl}}/profile';
+        //     })
+        //     .catch(error => {
+        //         document.getElementById("message").textContent = `Error: ${error.message}`;
+        //     });
+        console.log("temp disabled");
     }
     window.signup = function () {
         const signupButton = document.querySelector(".signup-card button");
