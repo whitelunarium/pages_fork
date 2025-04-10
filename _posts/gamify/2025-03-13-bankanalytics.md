@@ -49,7 +49,7 @@ permalink: /gamify/bankanalytics
                 <option value="">Select a category</option>
                 <option value="poker">Poker</option>
                 <option value="blackjack">Blackjack</option>
-                <option value="dices">Dices</option>
+                <option value="dice">Dices</option>
             </select>
         </div>
         <div class="chart-container" style="height: 400px;">
