@@ -39,33 +39,6 @@ permalink: /gamify/bankanalytics
 <br>
 <h1 class="text-center">Bank Analytics</h1>
 
-<div class="container my-4">
-    <div class="row g-4">
-        <!-- User Details Section -->
-        <div class="col-md">
-            <div class="p-4 rounded shadow" style="background-color: #1f1f1f;">
-                <div class="mb-4 text-start">
-                    <h2 class="mb-3" style="color: #ff9800;">User Analytics</h2>
-                    <div class="p-3 rounded" style="background-color: #2a2a2a;">
-                        <div class="mb-3" style="font-size: 18px;">
-                            <span style="color: #ff9800; margin-right: 10px;">Username:</span>
-                            <span class="name">Loading...</span>
-                        </div>
-                        <div class="mb-3" style="font-size: 18px;">
-                            <span style="color: #ff9800; margin-right: 10px;">Account Balance:</span>
-                            <span class="balance">Loading...</span>
-                        </div>
-                        <div class="mb-3" style="font-size: 18px;">
-                            <span style="color: #ff9800; margin-right: 10px;">Total Transactions:</span>
-                            <span class="total-transactions">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Balance Chart Section -->
 <div class="container my-4">
     <div class="p-4 rounded shadow" style="background-color: #1f1f1f;">
