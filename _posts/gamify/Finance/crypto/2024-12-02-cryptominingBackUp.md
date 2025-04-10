@@ -576,14 +576,32 @@ body {
     color: white;
     border: 1px solid #374151;
 }
+.introjs-tooltip-header {
+    display: none !important;
+}
 .introjs-button {
     background-color: #3b82f6;
     color: white;
     border: none;
     text-shadow: none;
+    white-space: nowrap;
+    margin: 0 2px;
 }
-.introjs-button:hover {
-    background-color: #2563eb;
+.introjs-skipbutton {
+    color: #9ca3af;
+    float: left !important;
+    position: relative !important;
+    width: auto !important;
+    text-align: center;
+    margin-right: 5px;
+}
+.introjs-skipbutton:hover {
+    color: white;
+}
+.introjs-tooltipbuttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .introjs-helperLayer {
     background-color: rgba(59, 130, 246, 0.1);
@@ -596,12 +614,6 @@ body {
     background-color: #3b82f6;
     border-radius: 2px;
 }
-.introjs-skipbutton {
-    color: #9ca3af;
-}
-.introjs-skipbutton:hover {
-    color: white;
-}
 /* Tutorial welcome modal */
 .tutorial-welcome {
     position: fixed;
@@ -613,8 +625,8 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    max-width: 500px;
-    width: 90%;
+    max-width: 600px;
+    width: 95%;
     text-align: center;
 }
 .tutorial-welcome h2 {
@@ -631,6 +643,7 @@ body {
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 .tutorial-button {
     padding: 0.5rem 1rem;
@@ -639,7 +652,7 @@ body {
     cursor: pointer;
     transition: all 0.2s;
     font-size: 0.875rem;
-    min-width: 100px;
+    min-width: 120px;
     height: 36px;
     display: inline-flex;
     align-items: center;
@@ -647,7 +660,7 @@ body {
     background-color: #374151;
     color: white;
     border: none;
-    margin: 0 0.25rem;
+    margin: 0.25rem;
 }
 .tutorial-button:hover {
     background-color: #4b5563;
@@ -1003,7 +1016,7 @@ body.modal-open {
         <p>Would you like to take a quick tour of the mining interface?</p>
         <div class="tutorial-buttons">
             <button class="tutorial-button tutorial-button-primary" onclick="startTutorial()">Start Tour</button>
-            <button class="tutorial-button tutorial-button-tertiary" onclick="skipTutorial()">Skip</button>
+            <button class="tutorial-button tutorial-button-tertiary" onclick="skipTutorial()">SKIP</button>
             <button class="tutorial-button tutorial-button-tertiary" onclick="neverShowTutorial()">Never Show</button>
         </div>
     </div>
@@ -1976,11 +1989,11 @@ body.modal-open {
     });
     function startTutorial() {
         document.getElementById('tutorial-welcome').classList.add('hidden');
-        introJs().setOptions({
+        const tour = introJs().setOptions({
             steps: [
                 {
                     title: 'Wallet Overview',
-                    intro: 'Your wallet shows your BTC balance, pending rewards, and USD value. The minimum payout is 0.001 BTC.',
+                    intro: 'Your wallet shows your crypto balance, pending rewards, and USD value. Click "View all crypto balances" to see all your cryptocurrencies.',
                     element: document.querySelector('.dashboard-card:nth-child(1)'),
                     position: 'bottom'
                 },
@@ -2000,6 +2013,24 @@ body.modal-open {
                     title: 'Profitability',
                     intro: 'See your daily revenue and power costs. This helps you calculate your mining profitability.',
                     element: document.querySelector('.dashboard-card:nth-child(4)'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Cryptocurrency Selection',
+                    intro: 'Click here to view and switch between different cryptocurrencies. Each cryptocurrency has different mining characteristics and rewards.',
+                    element: document.querySelector('.text-blue-400.cursor-pointer'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Energy Plan',
+                    intro: 'View your current energy plan details and efficiency metrics. A good energy plan can significantly impact your mining profitability.',
+                    element: document.querySelector('a[href*="energy"]'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Energy Store',
+                    intro: 'Visit the Energy Store to purchase different energy plans from various suppliers. Choose plans with better efficiency to maximize your mining profits.',
+                    element: document.querySelector('a[href*="energy-store"]'),
                     position: 'bottom'
                 },
                 {
@@ -2025,12 +2056,33 @@ body.modal-open {
             showBullets: true,
             exitOnOverlayClick: false,
             exitOnEsc: false,
-            nextLabel: 'Next →',
             prevLabel: '← Back',
-            skipLabel: 'Skip',
+            nextLabel: 'Next →',
             doneLabel: 'Got it!',
-            tooltipClass: 'customTooltip'
-        }).start();
+            tooltipClass: 'customTooltip',
+            showButtons: true,
+            showStepNumbers: false,
+            showCloseButton: false
+        });
+        // Add the skip button before starting the tour
+        tour.onbeforechange(function() {
+            setTimeout(() => {
+                const tooltipButtons = document.querySelector('.introjs-tooltipbuttons');
+                if (tooltipButtons && !document.querySelector('.custom-skip-button')) {
+                    const skipButton = document.createElement('a');
+                    skipButton.className = 'introjs-button custom-skip-button';
+                    skipButton.innerHTML = 'Skip';
+                    skipButton.onclick = function() {
+                        tour.exit();
+                    };
+                    const nextButton = tooltipButtons.querySelector('.introjs-nextbutton');
+                    if (nextButton) {
+                        tooltipButtons.insertBefore(skipButton, nextButton);
+                    }
+                }
+            }, 0);
+        });
+        tour.start();
     }
     function skipTutorial() {
         document.getElementById('tutorial-welcome').classList.add('hidden');

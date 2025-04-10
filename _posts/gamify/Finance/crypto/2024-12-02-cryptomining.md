@@ -9,16 +9,860 @@ permalink: /crypto/mining
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Mining Simulator</title>
+    <title>Crypto Mining Simulator BACKUP</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 </head>
-
-<link rel="stylesheet" href="crypto.scss">
-
+<style>
+/* Reset base styles */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    min-height: 100vh;
+}
+/* Main content area */
+.main-content {
+    padding: 1rem;
+    position: relative;
+    z-index: 1; /* Keep all content at a lower z-index */
+}
+/* Title styles */
+.page-title {
+    color: #60A5FA;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+/* Tutorial button container */
+.tutorial-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+/* Modal and notification z-index control */
+.modal-container,
+.gpu-shop-modal,
+.active-gpus-modal,
+.tutorial-welcome,
+.notification {
+    z-index: 1; /* Keep all modals at a lower z-index */
+}
+.notification { /* This entire style, ".notification", is what makes the notification pops out from the top right! */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000; // Ensure it appears above other elements
+}
+.shadow-red-glow {
+    box-shadow: 0 4px 15px -3px rgba(239, 68, 68, 0.3);
+}
+.shadow-green-glow {
+    box-shadow: 0 4px 15px -3px rgba(16, 185, 129, 0.3);
+}
+/* GPU Inventory Styles */
+.dashboard-card {
+    @apply bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.dashboard-card h2 {
+    @apply text-xl font-bold mb-4 text-blue-400;
+    border-bottom: 2px solid rgba(59, 130, 246, 0.2);
+    padding-bottom: 0.5rem;
+}
+.stat-label {
+    @apply text-gray-400 text-sm font-medium mb-1;
+}
+.stat-value {
+    @apply text-2xl font-bold;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+#gpu-inventory {
+    @apply mt-4;
+    min-height: 200px; /* Ensure minimum height even when empty */
+}
+.gpu-card {
+    @apply bg-gray-800 rounded-lg p-4 shadow-lg mb-4;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* Updated Navigation Bar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #001f3f;
+    color: #fff;
+    width: 100%;
+    z-index: 1; 
+}
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-right: 20px; /* Add margin to separate logo from nav buttons */
+}
+.navbar .nav-buttons {
+    display: flex;
+    gap: 15px; /* Reduced gap between buttons */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    align-items: center;
+}
+.navbar .nav-buttons a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px; /* Slightly smaller font size */
+    padding: 6px 12px; /* Reduced padding */
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+.navbar .nav-buttons a:hover {
+    background-color: #ff8c00;
+}
+.navbar .balance-display {
+    background-color: #ff8c00;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: #fff;
+    font-size: 0.99em; 
+}
+.navbar .balance-display #user-balance {
+    font-size: 0.99em;
+    margin-left: 3px;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #001f3f;
+    color: #fff;
+}
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.navbar .nav-buttons {
+    display: flex;
+    gap: 20px;
+}
+.navbar .nav-buttons a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+.navbar .nav-buttons a:hover {
+    background-color: #ff8c00;
+}
+.dashboard {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+}
+.dashboard-content {
+    width: 70%;
+}
+.sidebar {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.stock-table, .your-stocks {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.your-stocks, .stock-table {
+    height: full;
+}
+.stock-table table, .your-stocks table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.stock-table table, th, td, .your-stocks table, th, td {
+    border: none;
+}
+.stock-table th, td, .your-stocks th, td {
+    padding: 10px;
+    text-align: left;
+}
+.stock-table th, .your-stocks th {
+    background-color: #f2f2f2;
+}
+.welcome {
+    font-size: 24px;
+    font-weight: bold;
+}
+.summary-cards {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+.card {
+    padding: 0px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    text-align: center;
+    color: #fff;
+    padding-bottom: -40px;
+}
+.card-orange {
+    background-color: #FF8C00;
+}
+.card-purple {
+    background-color: #6A0DAD;
+}
+.card-darkblue {
+    background-color: #001f3f;
+}
+.card h2 {
+    font-size: 20px;
+}
+.card p {
+    font-size: 36px;
+    font-weight: bold;
+}
+.chart-container {
+    @apply bg-gray-800 rounded-lg p-6 border border-gray-700;
+    height: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.chart {
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #999;
+    flex: 1;
+}
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+}
+.search-container input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+}
+.search-button {
+    background-color: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+.search-button:hover {
+    background-color: #e07b00;
+}
+/* ===== Mining Button Effects ===== */
+#start-mining {
+    background: linear-gradient(135deg, 
+        rgba(147, 51, 234, 0.1) 0%,    /* Purple */
+        rgba(59, 130, 246, 0.1) 50%,  /* Blue */
+        rgba(239, 68, 68, 0.1) 100%   /* Red */
+    );
+    border: 2px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(
+        45deg,
+        #9333ea,  /* Purple */
+        #3b82f6,  /* Blue */
+        #ef4444   /* Red */
+    );
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+/* Hover effect with chromatic aberration */
+#start-mining:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 25px rgba(147, 51, 234, 0.4),
+                0 0 15px rgba(59, 130, 246, 0.4),
+                0 0 5px rgba(239, 68, 68, 0.4);
+}
+/* Active state with particle effect */
+#start-mining.active {
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.2) 0%,
+        rgba(59, 130, 246, 0.2) 50%,
+        rgba(239, 68, 68, 0.2) 100%
+    );
+    box-shadow: 0 0 40px rgba(147, 51, 234, 0.6),
+                inset 0 0 20px rgba(59, 130, 246, 0.4);
+}
+/* RGB Cyclic Animation */
+@keyframes chromatic-pulse {
+    0% {
+        border-color: #9333ea;  /* Purple */
+        box-shadow: 0 0 15px rgba(147, 51, 234, 0.4);
+    }
+    33% {
+        border-color: #3b82f6;   /* Blue */
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+    66% {
+        border-color: #ef4444;  /* Red */
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+    100% {
+        border-color: #9333ea;  /* Purple */
+        box-shadow: 0 0 15px rgba(147, 51, 234, 0.4);
+    }
+}
+#start-mining:not(.active) {
+    animation: chromatic-pulse 3s ease-in-out infinite;
+}
+/* Holographic overlay effect */
+#start-mining::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(147, 51, 234, 0.1) 33%,
+        rgba(59, 130, 246, 0.1) 66%,
+        transparent 75%
+    );
+    transform: rotate(45deg);
+    animation: prismatic-flow 4s infinite linear;
+    mix-blend-mode: screen;
+}
+@keyframes prismatic-flow {
+    0% { transform: translateX(-150%) rotate(45deg); }
+    100% { transform: translateX(150%) rotate(45deg); }
+}
+/* Text glow with color transition */
+#start-mining span {
+    position: relative;
+    z-index: 2;
+    animation: text-glow 2s ease-in-out infinite alternate;
+}
+@keyframes text-glow {
+    from {
+        text-shadow: 0 0 5px rgba(147, 51, 234, 0.5),
+                     0 0 10px rgba(59, 130, 246, 0.5),
+                     0 0 15px rgba(239, 68, 68, 0.5);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(147, 51, 234, 0.8),
+                     0 0 20px rgba(59, 130, 246, 0.8),
+                     0 0 30px rgba(239, 68, 68, 0.8);
+    }
+}
+/* GPU Shop Modal */
+.gpu-shop-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+/* GPU Shop Content */
+.gpu-shop-content {
+    background-color: #1F2937;
+    width: 90%;
+    max-width: 900px;
+    max-height: 80vh;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    position: relative;
+}
+/* GPU List Container (with scrollbar) */
+.gpu-list-container {
+    overflow-y: auto;
+    max-height: calc(80vh - 4rem);
+    padding-right: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #4B5563 #1F2937;
+}
+/* Scrollbar Style */
+.gpu-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+.gpu-list-container::-webkit-scrollbar-track {
+    background: #1F2937;
+}
+.gpu-list-container::-webkit-scrollbar-thumb {
+    background-color: #4B5563;
+    border-radius: 4px;
+}
+/* GPU Card Base Style */
+.gpu-card {
+    background: rgba(26, 31, 46, 0.95);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    backdrop-filter: blur(5px);
+}
+/* Different price GPU Hover Effect */
+.gpu-card.starter:hover { /* Free GPU */
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    border-color: rgba(34, 197, 94, 0.5);
+}
+.gpu-card.budget:hover { /* Entry-level */
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    border-color: rgba(59, 130, 246, 0.5);
+}
+.gpu-card.mid-range:hover { /* Mid-range */
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+    border-color: rgba(147, 51, 234, 0.5);
+}
+.gpu-card.high-end:hover { /* High-end */
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.3);
+    border-color: rgba(251, 146, 60, 0.5);
+}
+.gpu-card.premium:hover { /* Premium */
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+/* difference color = different category */
+.gpu-card.starter h3 { color: #22C55E; }  /* Green */
+.gpu-card.budget h3 { color: #3B82F6; }   /* Blue */
+.gpu-card.mid-range h3 { color: #9333EA; } /* Purple */
+.gpu-card.high-end h3 { color: #FB923C; } /* Orange */
+.gpu-card.premium h3 { color: #EF4444; }  /* Red */
+/* Buy Button Style */
+.gpu-card button {
+    background: rgba(39, 39, 42, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+}
+.gpu-card button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px currentColor;
+}
+/* Performance Metrics Style */
+.gpu-card .performance-metrics {
+    color: #A1A1AA;
+    font-size: 0.875rem;
+}
+.gpu-card .performance-metrics span {
+    color: white;
+    font-weight: 500;
+}
+/* ROI Display Style */
+.gpu-card .roi-indicator {
+    color: #FACC15;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(250, 204, 21, 0.3);
+}
+/* Update the active-gpus-modal styles to match GPU Shop */
+.active-gpus-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+}
+.active-gpus-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1f2937;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 900px;
+    max-height: 80vh;
+}
+#active-gpus-list {
+    overflow-y: auto;
+    max-height: calc(80vh - 120px);
+    padding-right: 1rem;
+    margin-right: -1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #1f2937;
+}
+#active-gpus-list::-webkit-scrollbar {
+    width: 8px;
+}
+#active-gpus-list::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+#active-gpus-list::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 4px;
+}
+/* Update the GPU cards style */
+#active-gpus-list .gpu-card {
+    background: rgba(17, 24, 39, 0.95);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    transition: all 0.2s ease-in-out;
+}
+#active-gpus-list .gpu-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+@keyframes rainbow-breathe {
+    0% { background-position: 0% 50%; text-shadow: 0 0 10px #ff0000; }
+    25% { background-position: 100% 50%; text-shadow: 0 0 10px #00ff00; }
+    50% { background-position: 0% 50%; text-shadow: 0 0 10px #0000ff; }
+    75% { background-position: 100% 50%; text-shadow: 0 0 10px #ff00ff; }
+    100% { background-position: 0% 50%; text-shadow: 0 0 10px #ff0000; }
+}
+@keyframes rgb-border-breathe {
+    0% { border-color: rgba(255, 0, 0, 0.7); box-shadow: 0 -4px 15px -3px rgba(255, 0, 0, 0.4); }
+    33% { border-color: rgba(0, 255, 0, 0.7); box-shadow: 0 -4px 15px -3px rgba(0, 255, 0, 0.4); }
+    66% { border-color: rgba(0, 0, 255, 0.7); box-shadow: 0 -4px 15px -3px rgba(0, 0, 255, 0.4); }
+    100% { border-color: rgba(255, 0, 0, 0.7); box-shadow: 0 -4px 15px -3px rgba(255, 0, 0, 0.4); }
+}
+/* Add tutorial styles */
+.introjs-tooltip {
+    background-color: #1f2937;
+    color: white;
+    border: 1px solid #374151;
+}
+.introjs-tooltip-header {
+    display: none !important;
+}
+.introjs-button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    text-shadow: none;
+    white-space: nowrap;
+    margin: 0 2px;
+}
+.introjs-skipbutton {
+    color: #9ca3af;
+    float: left !important;
+    position: relative !important;
+    width: auto !important;
+    text-align: center;
+    margin-right: 5px;
+}
+.introjs-skipbutton:hover {
+    color: white;
+}
+.introjs-tooltipbuttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.introjs-helperLayer {
+    background-color: rgba(59, 130, 246, 0.1);
+    border: 2px solid #3b82f6;
+}
+.introjs-progress {
+    background-color: #374151;
+}
+.introjs-progressbar {
+    background-color: #3b82f6;
+    border-radius: 2px;
+}
+/* Tutorial welcome modal */
+.tutorial-welcome {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1f2937;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 600px;
+    width: 95%;
+    text-align: center;
+}
+.tutorial-welcome h2 {
+    color: #3b82f6;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+.tutorial-welcome p {
+    color: #9ca3af;
+    margin-bottom: 1.5rem;
+}
+.tutorial-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.tutorial-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+    min-width: 120px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #374151;
+    color: white;
+    border: none;
+    margin: 0.25rem;
+}
+.tutorial-button:hover {
+    background-color: #4b5563;
+}
+.tutorial-button-primary {
+    background-color: #3b82f6;
+}
+.tutorial-button-primary:hover {
+    background-color: #2563eb;
+}
+.tutorial-button-tertiary {
+    background-color: #1f2937;
+    color: #9ca3af;
+    border: 1px solid #374151;
+}
+.tutorial-button-tertiary:hover {
+    background-color: #374151;
+    color: white;
+}
+/* Tutorial button in the main page */
+.tutorial-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+.tutorial-button-container button {
+    background: linear-gradient(to right, #3b82f6, #6366f1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.85;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.tutorial-button-container button:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.tutorial-button-container button span:first-child {
+    font-size: 1.25rem;
+}
+/* Tutorial Help Button */
+.tutorial-help-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+.tutorial-help-button button {
+    font-weight: bold;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+}
+.tutorial-help-button button:hover {
+    transform: scale(1.1);
+}
+/* Custom scrollbar for crypto modal */
+#crypto-balances-container::-webkit-scrollbar,
+#crypto-selection-container::-webkit-scrollbar {
+    width: 6px;
+}
+#crypto-balances-container::-webkit-scrollbar-track,
+#crypto-selection-container::-webkit-scrollbar-track {
+    background: #1F2937;
+    border-radius: 3px;
+}
+#crypto-balances-container::-webkit-scrollbar-thumb,
+#crypto-selection-container::-webkit-scrollbar-thumb {
+    background-color: #4B5563;
+    border-radius: 3px;
+}
+/* Smooth scrolling */
+#crypto-balances-container,
+#crypto-selection-container {
+    scroll-behavior: smooth;
+}
+/* Force scrolling for the crypto modal content */
+#crypto-details-modal .overflow-y-auto {
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(80vh - 70px); /* Account for header */
+}
+/* Improved scrollbar styles */
+#crypto-details-modal .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+#crypto-details-modal .overflow-y-auto::-webkit-scrollbar-track {
+    background: #1F2937;
+    border-radius: 4px;
+}
+#crypto-details-modal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: #4B5563;
+    border-radius: 4px;
+    border: 2px solid #1F2937;
+}
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+/* Add these new styles for the energy buttons */
+.mining-button.energy-plan {
+    background: linear-gradient(135deg, 
+        rgba(34, 197, 94, 0.1) 0%,    /* Green */
+        rgba(16, 185, 129, 0.1) 50%,  /* Emerald */
+        rgba(5, 150, 105, 0.1) 100%   /* Teal */
+    );
+    border: 2px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(
+        45deg,
+        #22c55e,  /* Green */
+        #10b981,  /* Emerald */
+        #059669   /* Teal */
+    );
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    text-decoration: none;
+}
+.mining-button.energy-store {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%,    /* Blue */
+        rgba(37, 99, 235, 0.1) 50%,    /* Indigo */
+        rgba(29, 78, 216, 0.1) 100%    /* Dark Blue */
+    );
+    border-image-source: linear-gradient(
+        45deg,
+        #3b82f6,  /* Blue */
+        #2563eb,  /* Indigo */
+        #1d4ed8   /* Dark Blue */
+    );
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    text-decoration: none;
+}
+/* Hover effects for energy buttons */
+.mining-button.energy-plan:hover,
+.mining-button.energy-store:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.4),
+                0 0 15px rgba(16, 185, 129, 0.4),
+                0 0 5px rgba(5, 150, 105, 0.4);
+}
+/* Text glow for energy buttons */
+.mining-button.energy-plan span,
+.mining-button.energy-store span {
+    animation: text-glow-green 2s ease-in-out infinite alternate;
+}
+@keyframes text-glow-green {
+    from {
+        text-shadow: 0 0 5px rgba(34, 197, 94, 0.5),
+                     0 0 10px rgba(16, 185, 129, 0.5),
+                     0 0 15px rgba(5, 150, 105, 0.5);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(34, 197, 94, 0.8),
+                     0 0 20px rgba(16, 185, 129, 0.8),
+                     0 0 30px rgba(5, 150, 105, 0.8);
+    }
+}
+@keyframes text-glow-blue {
+    from {
+        text-shadow: 0 0 5px rgba(59, 130, 246, 0.5),
+                     0 0 10px rgba(37, 99, 235, 0.5),
+                     0 0 15px rgba(29, 78, 216, 0.5);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8),
+                     0 0 20px rgba(37, 99, 235, 0.8),
+                     0 0 30px rgba(29, 78, 216, 0.8);
+    }
+}
+@keyframes text-glow {
+    from {
+        text-shadow: 0 0 5px rgba(147, 51, 234, 0.5),
+                     0 0 10px rgba(59, 130, 246, 0.5),
+                     0 0 15px rgba(239, 68, 68, 0.5);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(147, 51, 234, 0.8),
+                     0 0 20px rgba(59, 130, 246, 0.8),
+                     0 0 30px rgba(239, 68, 68, 0.8);
+    }
+}
+</style>
 <body>
     <div id="notification" class="notification"></div>
     <div class="main-content">
@@ -44,8 +888,6 @@ permalink: /crypto/mining
                 <a href="{{site.baseurl}}/crypto/mining">Mining</a>
                 <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
                 <a href="{{site.baseurl}}/stocks/game">Game</a>
-                <a href="{{site.baseurl}}/crypto/energy">Energy Plan</a>
-                <a href="{{site.baseurl}}/crypto/energy-store">Energy Store</a>
                 <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
                 <div class="balance-display">Balance: $<span id="user-balance">Loading...</span></div>
             </div>
@@ -128,10 +970,16 @@ permalink: /crypto/mining
             </div>
             <!-- Mining Controls -->
             <div class="flex justify-center mt-8 mb-8">
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center gap-4">
+                    <a href="{{site.baseurl}}/crypto/energy" class="mining-button energy-plan">
+                        <span>Energy Plan</span>
+                    </a>
                     <button id="start-mining" onclick="toggleMining()">
                         <span>Start Mining</span>
                     </button>
+                    <a href="{{site.baseurl}}/crypto/energy-store" class="mining-button energy-store">
+                        <span>Energy Store</span>
+                    </a>
                 </div>
             </div>
             <!-- Performance Charts -->
@@ -168,7 +1016,7 @@ permalink: /crypto/mining
         <p>Would you like to take a quick tour of the mining interface?</p>
         <div class="tutorial-buttons">
             <button class="tutorial-button tutorial-button-primary" onclick="startTutorial()">Start Tour</button>
-            <button class="tutorial-button tutorial-button-tertiary" onclick="skipTutorial()">Skip</button>
+            <button class="tutorial-button tutorial-button-tertiary" onclick="skipTutorial()">SKIP</button>
             <button class="tutorial-button tutorial-button-tertiary" onclick="neverShowTutorial()">Never Show</button>
         </div>
     </div>
@@ -336,7 +1184,10 @@ permalink: /crypto/mining
         function updateActiveGPUsList() {
             const container = document.getElementById('active-gpus-list');
             container.innerHTML = '';
-            if (!window.stats || !window.stats.gpus) return;
+            if (!window.stats || !window.stats.gpus) {
+                container.innerHTML = '<p class="text-gray-400 text-center">No active GPUs found</p>';
+                return;
+            }
             // Group GPUs by ID
             const gpuGroups = {};
             window.stats.gpus.forEach(gpu => {
@@ -344,11 +1195,18 @@ permalink: /crypto/mining
                     if (!gpuGroups[gpu.id]) {
                         gpuGroups[gpu.id] = {
                             ...gpu,
-                            quantity: gpu.quantity
+                            quantity: gpu.quantity || 0,
+                            hashrate: gpu.hashrate || 0,
+                            power: gpu.power || 0,
+                            temp: gpu.temp || 0
                         };
                     }
                 }
             });
+            if (Object.keys(gpuGroups).length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-center">No active GPUs found</p>';
+                return;
+            }
             Object.values(gpuGroups).forEach(gpu => {
                 const card = document.createElement('div');
                 card.className = 'gpu-card';
@@ -356,7 +1214,7 @@ permalink: /crypto/mining
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-xl font-bold text-blue-400">${gpu.name}</h3>
+                                <h3 class="text-xl font-bold text-blue-400">${gpu.name || 'Unknown GPU'}</h3>
                                 <span class="text-green-400 text-lg font-bold">x${gpu.quantity}</span>
                             </div>
                             <div class="grid grid-cols-2 gap-6">
@@ -1131,11 +1989,11 @@ permalink: /crypto/mining
     });
     function startTutorial() {
         document.getElementById('tutorial-welcome').classList.add('hidden');
-        introJs().setOptions({
+        const tour = introJs().setOptions({
             steps: [
                 {
                     title: 'Wallet Overview',
-                    intro: 'Your wallet shows your BTC balance, pending rewards, and USD value. The minimum payout is 0.001 BTC.',
+                    intro: 'Your wallet shows your crypto balance, pending rewards, and USD value. Click "View all crypto balances" to see all your cryptocurrencies.',
                     element: document.querySelector('.dashboard-card:nth-child(1)'),
                     position: 'bottom'
                 },
@@ -1155,6 +2013,24 @@ permalink: /crypto/mining
                     title: 'Profitability',
                     intro: 'See your daily revenue and power costs. This helps you calculate your mining profitability.',
                     element: document.querySelector('.dashboard-card:nth-child(4)'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Cryptocurrency Selection',
+                    intro: 'Click here to view and switch between different cryptocurrencies. Each cryptocurrency has different mining characteristics and rewards.',
+                    element: document.querySelector('.text-blue-400.cursor-pointer'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Energy Plan',
+                    intro: 'View your current energy plan details and efficiency metrics. A good energy plan can significantly impact your mining profitability.',
+                    element: document.querySelector('a[href*="energy"]'),
+                    position: 'bottom'
+                },
+                {
+                    title: 'Energy Store',
+                    intro: 'Visit the Energy Store to purchase different energy plans from various suppliers. Choose plans with better efficiency to maximize your mining profits.',
+                    element: document.querySelector('a[href*="energy-store"]'),
                     position: 'bottom'
                 },
                 {
@@ -1180,12 +2056,33 @@ permalink: /crypto/mining
             showBullets: true,
             exitOnOverlayClick: false,
             exitOnEsc: false,
-            nextLabel: 'Next →',
             prevLabel: '← Back',
-            skipLabel: 'Skip',
+            nextLabel: 'Next →',
             doneLabel: 'Got it!',
-            tooltipClass: 'customTooltip'
-        }).start();
+            tooltipClass: 'customTooltip',
+            showButtons: true,
+            showStepNumbers: false,
+            showCloseButton: false
+        });
+        // Add the skip button before starting the tour
+        tour.onbeforechange(function() {
+            setTimeout(() => {
+                const tooltipButtons = document.querySelector('.introjs-tooltipbuttons');
+                if (tooltipButtons && !document.querySelector('.custom-skip-button')) {
+                    const skipButton = document.createElement('a');
+                    skipButton.className = 'introjs-button custom-skip-button';
+                    skipButton.innerHTML = 'Skip';
+                    skipButton.onclick = function() {
+                        tour.exit();
+                    };
+                    const nextButton = tooltipButtons.querySelector('.introjs-nextbutton');
+                    if (nextButton) {
+                        tooltipButtons.insertBefore(skipButton, nextButton);
+                    }
+                }
+            }, 0);
+        });
+        tour.start();
     }
     function skipTutorial() {
         document.getElementById('tutorial-welcome').classList.add('hidden');
@@ -1225,7 +2122,7 @@ permalink: /crypto/mining
                 {
                     name: "Bitcoin",
                     symbol: "BTC",
-                    logoUrl: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                    logoUrl: "https://i.ibb.co/DgwJM9TQ/image.png",
                     price: 45000.0,
                     confirmedBalance: "0.00025000",
                     pendingBalance: "0.00010000",
@@ -1240,7 +2137,7 @@ permalink: /crypto/mining
                 {
                     name: "Ethereum",
                     symbol: "ETH",
-                    logoUrl: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+                    logoUrl: "https://i.ibb.co/v6Z6bsVK/image.png",
                     price: 3000.0,
                     confirmedBalance: "0.00300000",
                     pendingBalance: "0.00050000",
@@ -1255,7 +2152,7 @@ permalink: /crypto/mining
                 {
                     name: "Litecoin",
                     symbol: "LTC",
-                    logoUrl: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+                    logoUrl: "https://i.ibb.co/ZpBmmZrN/image.png",
                     price: 80.0,
                     confirmedBalance: "0.15000000",
                     pendingBalance: "0.05000000",
@@ -1270,7 +2167,7 @@ permalink: /crypto/mining
                 {
                     name: "Monero",
                     symbol: "XMR",
-                    logoUrl: "https://cryptologos.cc/logos/monero-xmr-logo.png",
+                    logoUrl: "https://i.ibb.co/m5yHc70m/image.png",
                     price: 170.0,
                     confirmedBalance: "0.01000000",
                     pendingBalance: "0.00500000",
@@ -1325,7 +2222,7 @@ permalink: /crypto/mining
             <div class="bg-gray-800 rounded-lg p-4 mb-4 border border-gray-700">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <img src="${balance.logoUrl}" alt="${balance.symbol}" class="w-10 h-10 mr-3" onerror="this.src='https://via.placeholder.com/40'">
+                        <img src="${balance.logoUrl}" alt="${balance.symbol}" class="w-10 h-10 mr-3">
                         <div>
                             <h3 class="text-lg font-semibold">${balance.name} (${balance.symbol})</h3>
                             <p class="text-gray-400">$${typeof balance.price === 'number' ? balance.price.toLocaleString() : balance.price}</p>
@@ -1371,7 +2268,7 @@ permalink: /crypto/mining
                 name: "Bitcoin",
                 symbol: "BTC",
                 price: 45000.0,
-                logoUrl: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+                logoUrl: "https://i.ibb.co/DgwJM9TQ/image.png",
                 algorithm: "SHA-256",
                 blockReward: 6.25,
                 difficulty: "Very High",
@@ -1382,7 +2279,7 @@ permalink: /crypto/mining
                 name: "Ethereum",
                 symbol: "ETH",
                 price: 3000.0,
-                logoUrl: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+                logoUrl: "https://i.ibb.co/v6Z6bsVK/image.png",
                 algorithm: "Ethash",
                 blockReward: 2.0,
                 difficulty: "High",
@@ -1393,7 +2290,7 @@ permalink: /crypto/mining
                 name: "Litecoin",
                 symbol: "LTC",
                 price: 80.0,
-                logoUrl: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+                logoUrl: "https://i.ibb.co/ZpBmmZrN/image.png",
                 algorithm: "Scrypt",
                 blockReward: 12.5,
                 difficulty: "Medium",
@@ -1404,7 +2301,7 @@ permalink: /crypto/mining
                 name: "Monero",
                 symbol: "XMR",
                 price: 170.0,
-                logoUrl: "https://cryptologos.cc/logos/monero-xmr-logo.png",
+                logoUrl: "https://i.ibb.co/m5yHc70m/image.png",
                 algorithm: "RandomX",
                 blockReward: 0.6,
                 difficulty: "Medium",
@@ -1440,11 +2337,29 @@ permalink: /crypto/mining
         }
         let html = '';
         cryptos.forEach(crypto => {
+            // Use the same image URLs as the balance display section
+            let logoUrl;
+            switch(crypto.symbol) {
+                case 'BTC':
+                    logoUrl = 'https://i.ibb.co/DgwJM9TQ/image.png';
+                    break;
+                case 'ETH':
+                    logoUrl = 'https://i.ibb.co/v6Z6bsVK/image.png';
+                    break;
+                case 'LTC':
+                    logoUrl = 'https://i.ibb.co/ZpBmmZrN/image.png';
+                    break;
+                case 'XMR':
+                    logoUrl = 'https://i.ibb.co/m5yHc70m/image.png';
+                    break;
+                default:
+                    logoUrl = crypto.logoUrl;
+            }
             html += `
             <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 cursor-pointer hover:bg-gray-700 transition-colors"
                  onclick="selectCryptocurrency('${crypto.symbol}')">
                 <div class="flex items-center">
-                    <img src="${crypto.logoUrl}" alt="${crypto.symbol}" class="w-8 h-8 mr-2" onerror="this.src='https://via.placeholder.com/32'">
+                    <img src="${logoUrl}" alt="${crypto.symbol}" class="w-8 h-8 mr-2">
                     <div>
                         <h4 class="font-semibold">${crypto.symbol}</h4>
                         <p class="text-xs text-gray-400">${crypto.name}</p>
