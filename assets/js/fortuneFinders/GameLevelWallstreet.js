@@ -123,7 +123,7 @@ class GameLevelWallstreet {
             modal.innerHTML = `
                 <div style="position: relative; width: 100%; height: 100%;">
                     <iframe 
-                        src="https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer"
+                        src="http://127.0.0.1:4100/portfolio_2025/stocks/viewer"
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;"
                         allowfullscreen
                         loading="lazy"
