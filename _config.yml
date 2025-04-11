@@ -1,4 +1,4 @@
-title: Nighthawk Pages 
+title: Open Coding 
 description: "Class of 2025"
 owner_name: John Mortensen
 github_username: nighthawkcoders
@@ -25,4 +25,3 @@ header_pages:
   - navigation/blog.md
   - navigation/search.md
   - navigation/logintoolkit.md
-#use_tailwind: true
