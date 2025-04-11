@@ -65,7 +65,7 @@ class GameLevelWallstreet {
         },
         // Interact when player presses "E"
         interact: function() {
-            const confirmTeleport = window.confirm("Teleport to sin city?");
+            const confirmTeleport = window.confirm("Teleport to the casino?");
             if (confirmTeleport) {
                 window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage"; // Replace with your link
             }
