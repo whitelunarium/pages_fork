@@ -1,8 +1,7 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameObject from './GameObject.js';
 import Background from './Background.js';
-import PlayerOne from './PlayerOne.js';
-import PlayerTwo from './PlayerTwo.js';
+import Player from './Player.js';
 
 // Complete implementation with all required methods
 class GameLevelSquares extends GameObject {
@@ -62,8 +61,8 @@ class GameLevelSquares extends GameObject {
     
     this.classes = [      
       { class: Background, data: background_data },
-      { class: PlayerOne, data: player_one_data },
-      { class: PlayerTwo, data: player_two_data }
+      { class: Player, data: player_one_data },
+      { class: Player, data: player_two_data }
     ];
     
     // Track instances of created objects for easier cleanup

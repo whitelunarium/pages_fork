@@ -73,7 +73,7 @@ class GameLevelEnd {
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 25,
         
-        INIT_POSITION: { x: width/16, y: height/2 },
+        INIT_POSITION: { x: 0, y: height/2 },
         pixels: {height: 256, width: 128},
         orientation: {rows: 8, columns: 4 },
         down: {row: 1, start: 0, columns: 4 },
