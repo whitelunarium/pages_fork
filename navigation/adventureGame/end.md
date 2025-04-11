@@ -38,7 +38,8 @@ permalink: /gamify/end
         <h2 style="color: purple; margin-bottom: 15px; text-align: center;">Welcome to the END!!!!</h2>
         <div style="margin-bottom: 15px;">
             <h3 style="color: purple;">Controls:</h3>
-            <p>• WASD - Move</p>
+            <p>• WASD - Move (Steve)</p>
+            <p>• IJKL - Move (Alex)</p>
             <p>• E/U - Interact with NPCs</p>
             <p>• ESC - Exit mini-games/End the level (no pun intended)</p>
         </div>
