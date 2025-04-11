@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: post
 title: Aesthetihawk Guide - Typography
 permalink: /aesthetihawk-guide-typography
 author: Aashray Reddy

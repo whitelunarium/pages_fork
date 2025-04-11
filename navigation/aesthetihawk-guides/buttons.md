@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: post
 title: Aesthetihawk Guide - Buttons
 permalink: /aesthetihawk-guide-buttons
 author: Aashray Reddy

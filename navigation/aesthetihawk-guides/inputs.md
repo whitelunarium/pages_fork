@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: post
 title: Aesthetihawk Guide - Inputs
 permalink: /aesthetihawk-guide-inputs
 author: Aashray Reddy
