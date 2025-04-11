@@ -57,12 +57,16 @@ show_reading_time: false
     }
 </style>
 
-<script>
+<script type="module">
+import { pythonURI } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+window.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const capturedImage = document.getElementById('capturedImage');
     const submitButton = document.querySelector('.submit-button');
 
+    // Start webcam
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
@@ -74,7 +78,7 @@ show_reading_time: false
     function captureImage() {
         const context = canvas.getContext('2d');
 
-        // Invert the image during capture (store it non-mirrored)
+        // Flip image horizontally
         context.save();
         context.scale(-1, 1);
         context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
@@ -88,22 +92,32 @@ show_reading_time: false
 
     function submitImage() {
         const imageData = canvas.toDataURL('image/png');
-        fetch('/api/facial-login', {
+
+        fetch(`${pythonURI}/facial/login`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include', // Send JWT cookie
             body: JSON.stringify({ image: imageData })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Login successful!');
-                window.location.href = '/dashboard';
+                alert(`Welcome back, ${data.user.name}!`);
+                window.location.href = '/gamify';
             } else {
-                alert('Login failed! Please try again.');
+                alert('Face not recognized. Please try again.');
             }
         })
         .catch(error => {
             console.error('Error submitting image:', error);
+            alert('Something went wrong. Please try again.');
         });
     }
+
+    // Expose functions globally for onclick attributes
+    window.captureImage = captureImage;
+    window.submitImage = submitImage;
+});
 </script>
