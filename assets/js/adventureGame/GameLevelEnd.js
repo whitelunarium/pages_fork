@@ -41,8 +41,8 @@ class GameLevelEnd {
     const sprite_src_chillguy = path + "/images/gamify/Steve.png";
     const CHILLGUY_SCALE_FACTOR = 7;
     const sprite_data_chillguy = {
-        id: 'Chill Guy',
-        greeting: "Hi, I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
+        id: 'Steve',
+        greeting: "Hi, I am Steve.",
         src: sprite_src_chillguy,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
@@ -66,8 +66,8 @@ class GameLevelEnd {
     const sprite_src_alex = path + "/images/gamify/Alex.png";
     const alex_SCALE_FACTOR = 7;
     const sprite_data_alex = {
-        id: 'Chill Guy',
-        greeting: "Hi, I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
+        id: 'Alex',
+        greeting: "Hi, I am Alex",
         src: sprite_src_alex,
         SCALE_FACTOR: alex_SCALE_FACTOR,
         STEP_FACTOR: 1000,
@@ -85,7 +85,7 @@ class GameLevelEnd {
         upLeft: {row: 5, start: 0, columns: 4, rotate: Math.PI/8 },
         upRight: {row: 7, start: 0, columns: 4, rotate: -Math.PI/8 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-        keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Chill Guy
+        keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
         
     const sprite_src_tux = path + "/images/gamify/tux.png";
