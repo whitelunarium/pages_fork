@@ -17,7 +17,8 @@ class GameLevelSquares {
       { class: Player, data: {id: "player1", zIndex: 3} }, // wasd is default
       { class: Player, data: {
         id: "player2", 
-        zIndex: 3, 
+        zIndex: 3,
+        fillStyle: "blue", 
         INIT_POSITION: { x: 0, y: height/2 }, 
         keypress: {up: 73, left: 74, down: 75, right: 76 }} // Using IJKL
       }

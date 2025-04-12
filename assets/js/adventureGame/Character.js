@@ -185,7 +185,7 @@ class Character extends GameObject {
      * Draws a default red square on the canvas.
      */
     drawDefaultSquare() {
-        this.ctx.fillStyle = 'red';
+        this.ctx.fillStyle = this.data?.fillStyle || 'red';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
