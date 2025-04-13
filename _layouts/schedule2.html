@@ -1,0 +1,97 @@
+---
+layout: post 
+---
+
+{%comment%} 
+Setup course data
+{%endcomment%}
+
+{% assign course = site.data[page.course] %} <!-- Load YML data -->
+{% assign units = page.units | split: ',' %}
+
+{%comment%} 
+Load all posts
+{%endcomment%}
+
+{% assign posts = null | compact %}
+{% assign posts = posts | concat:site.posts | concat:site.pages %}
+
+{%comment%} 
+<!-- Iterate through Course Units -->
+{%endcomment%}
+
+{% for unit in units %}
+{% assign unitKey = "Sprint" | append: unit %}
+{% assign unitData = course[unitKey] %}
+<h2>
+  {{ unitKey }}: {{ unitData.title }}
+</h2>
+<p>  {{ unitData.description }} </p>
+
+{% if unitData.illustration %}
+<details>
+  <summary>Illustration</summary>
+
+  <pre>
+    <p>{{ unitData.illustration }}</p>
+  </pre>
+</details>
+<br/>
+{% endif %}
+
+{% assign start = unitData.start %}
+{% assign end = unitData.end %}
+
+{%comment%} 
+<!-- Column Headings for Blogs -->
+{%endcomment%}
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Type</th>
+  </tr>
+
+  {% for index in (start..end) -%}
+    {% assign entries = null | compact %}
+
+    {% for post in posts %}
+      {% if post.courses[page.course] %} <!-- Ensure filtering by page.course -->
+        {% assign week = post.courses[page.course].week | plus: 0 %}
+        {% assign title = post.title | compact %}
+        {% assign url = post.url | compact %}
+        {% assign type = post.type | capitalize %}
+
+        {% if week == index %}
+          {% assign entries = entries | unshift: type | unshift: title | unshift: url %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <tr>
+      <td>
+        {% assign tempEntries = entries %}
+        {% for i in (0..100) -%}
+          {% if tempEntries.size == 0 %}
+            {% break %}
+          {% else %}
+            <a href="{{site.baseurl}}{{tempEntries[0]}}">{{tempEntries[1]}}</a> <br/>
+            {% assign tempEntries = tempEntries | shift | shift | shift %}
+          {% endif %}
+        {% endfor %}
+      </td>
+      <td>
+        {% assign tempEntries = entries %}
+        {% for i in (0..100) -%}
+          {% if tempEntries.size == 0 %}
+            {% break %}
+          {% else %}
+            {{ tempEntries[2] }} <br/>
+            {% assign tempEntries = tempEntries | shift | shift | shift %}
+          {% endif %}
+        {% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+{% endfor %}
