@@ -51,47 +51,36 @@ Load all posts
     <th>Title</th>
     <th>Type</th>
   </tr>
+  {% assign unitKey = "Sprint" | append: unit %}
+  {% assign unitData = course[unitKey] %}
+  {% assign start = unitData.start %}
+  {% assign end = unitData.end %}
 
   {% for index in (start..end) -%}
     {% assign entries = null | compact %}
 
     {% for post in posts %}
-      {% if post.courses[page.course] %} <!-- Ensure filtering by page.course -->
+      {% if post.courses[page.course] %}
         {% assign week = post.courses[page.course].week | plus: 0 %}
-        {% assign title = post.title | compact %}
-        {% assign url = post.url | compact %}
-        {% assign type = post.type | capitalize %}
 
         {% if week == index %}
-          {% assign entries = entries | unshift: type | unshift: title | unshift: url %}
+          {% assign entry = post.title | append: "||" | append: post.url | append: "||" | append: post.type %}
+          {% assign entries = entries | push: entry %}
         {% endif %}
       {% endif %}
     {% endfor %}
 
-    <tr>
-      <td>
-        {% assign tempEntries = entries %}
-        {% for i in (0..100) -%}
-          {% if tempEntries.size == 0 %}
-            {% break %}
-          {% else %}
-            <a href="{{site.baseurl}}{{tempEntries[0]}}">{{tempEntries[1]}}</a> <br/>
-            {% assign tempEntries = tempEntries | shift | shift | shift %}
-          {% endif %}
-        {% endfor %}
-      </td>
-      <td>
-        {% assign tempEntries = entries %}
-        {% for i in (0..100) -%}
-          {% if tempEntries.size == 0 %}
-            {% break %}
-          {% else %}
-            {{ tempEntries[2] }} <br/>
-            {% assign tempEntries = tempEntries | shift | shift | shift %}
-          {% endif %}
-        {% endfor %}
-      </td>
-    </tr>
+    {% for entry in entries %}
+      {% assign parts = entry | split: "||" %}
+      <tr>
+        <td>
+          <a href="{{site.baseurl}}{{parts[1]}}">{{parts[0]}}</a>
+        </td>
+        <td>
+          {{ parts[2] }}
+        </td>
+      </tr>
+    {% endfor %}
   {% endfor %}
 </table>
 {% endfor %}
