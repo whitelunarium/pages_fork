@@ -10,9 +10,8 @@ Setup course data
 {% assign units = page.units | split: ',' %}
 
 {%comment%} 
-Load all posts
+<!-- Load all posts -->
 {%endcomment%}
-
 {% assign posts = null | compact %}
 {% assign posts = posts | concat:site.posts | concat:site.pages %}
 
@@ -23,9 +22,9 @@ Load all posts
 {% for unit in units %}
 {% assign unitKey = "Sprint" | append: unit %}
 {% assign unitData = course[unitKey] %}
-<h2>
-  {{ unitKey }}: {{ unitData.title }}
-</h2>
+<h2> {{ unitKey }}: {{ unitData.title }} </h2>
+<h3> Weeks: {{ unitData.start }} - {{ unitData.end }} </h3>
+
 <p>  {{ unitData.description }} </p>
 
 {% if unitData.illustration %}
