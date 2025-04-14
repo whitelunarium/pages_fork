@@ -43,7 +43,7 @@ introduction_tools: &introduction_tools |
 # CSSE course meta data
 Sprint1:
   title: Tools and Software Development Processes
-  description: By the end of Weeks 0-3, students will have gained practical experience in blogging, coding with Jupyter Notebooks, and GitHub Pages; learning will begin with Linux, Markdown, HTML, and JavaScript. Students will establish a foundation using essential tools and software development processes to support their coding journey.  Weeks 0-3 will provide a quick foundation,  prior to students starting their College Articulation Credit and Game Development journey.
+  description: By the end of the Sprint, students will have gained practical experience in blogging, coding with Jupyter Notebooks, and GitHub Pages; learning will begin with Linux, Markdown, HTML, and JavaScript. Students will establish a foundation using essential tools and software development processes to support their coding journey.
   illustration: *introduction_tools
   start: 0
   end: 3
