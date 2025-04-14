@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Pair Showcase
-description: Anytime in Sprint 1 is time to show accomplishments to teacher. The last week of the Spring there will be a formal live review meeting.
+title: Live Review (Pair/Trio/Group)
+description: Anytime during a Sprint is an opportunity to showcase accomplishments to the teacher. The last week of the Sprint includes a formal live review meeting.
 categories: ['Collaboration']
 courses: {'csse': {'week': 3}, 'csp': {'week': 3}, 'csa': {'week': 2}}
 menu: nav/pair_programming.html
@@ -10,25 +10,51 @@ type: collab
 comments: True
 ---
 
-## Showcase Overview
-This will be a Live Review!  A Live Review is where Students present to a Teacher.   The Students share accomplishments from the Sprint with the Teacher.  The review will highlight elements from the sprint.
+## Live Review (Checkpoint/Final)
 
-Work is performed daily in class, expectations are 2 hours of outside work weekly for CSSE, 3 hours for CSP and CSA.  A Showcase for a Sprint is where you, and in this case your pair, have progressed working on provided Assignments and Hacks in the time provided until you reach the scheduled Showcase.  Everything is iterative, so there is no such thing as extended time in a Sprint Showcase.  Everyday you should be adding work and make blog updates to prepare for the Showcase. 
+A Live Review is an opportunity for students to present their progress to the teacher. This is an iterative process, meaning there is no extended time provided for a Live Review.  
+
+Work is performed daily in class, and a Live Review serves as a progress check that reflects your accomplishments at that moment in time.  
+
+AP students are expected to average 2+ hours of homework each week.
+
+### Types of Reviews
+
+- **Checkpoint**: Periodic weekly or bi-weekly reviews within the Sprint.
+- **Showcase**: A formal end-of-Sprint review summarizing Sprint objectives. This is where you, along with your pair or trio, demonstrate progress on provided assignments and hacks.
+
+---
 
 ## Showcase Requirements
-This is a culmination of all activities in a Sprint.
-    - Review Sprint Information.
-    - Be sure to open and review Sprint Illustration.
 
+The Showcase is a time to review all requirements for the Sprint:
 
-During the Sprint there is always time to preview, communcate, or checkoff progress with the Teacher; if you have  shared progress during the sprint, be sure to highlight success to jog Teachers memory.  Never, never expect the Teacher to remember something you did.  The Showcase is time for you to shine, impress, and recap journey.
+- Review Sprint Posts.
+- Review Sprint Illustration.
+- Review any Issues or Timelines.
 
+During the Sprint, there are opportunities to preview, communicate, or check off burndown progress with the teacher. If you have shared progress during a Checkpoint, ensure you capture that success for the Showcase. Do not expect the teacher to remember your work—maintain burndown lists and show assets to provide evidence. The final Showcase is your chance to shine, impress, and recap your journey.
 
-- Format of Showcase.   This is a pair event.  This Sprint is focused on Pair Programming and Work, not Individual.   In a class, live reviews for this Showcase will be done in pairs or trios (rare, 3 or less per class) for this event.
-    - Make sure work is polished and reviewed.  Part of working with a pair is preparation, review, and testing prior to presenting to Teacher.  In the Tech world, quality presentations of Tech are as important as the Tech itself.  Never share work that has not be previewed or share buggy work in a Showcase.  This lacks professionalism.
-    - Google or Microsoft Docs, Sheets, Presentations are frowned upon and will result in significant deduction.  It is expected that you will be <b>showing materials from your personal Student blog</b>.  The Teacher believes using a blog is helping with your ability to design, organize, and code.
-    - Pair work can be shared, but both people should be able to talk about anything they expect to be counted toward their personal credit.  If you did not participate or carry your own load on a topic, be honest, don't fake accomplishments.  
-    - Attempts to get credit by claiming falsely or coat tailing is frowned upon.  
-- Preparation and Time.  The Showcase requires preparation.  At this event, it would be a mistake to ask "what do you want to show?". This type of question should be asked before the showcase.".  Additionally, there are many sources that have been provided to answer that question.
-    - Spring Blogs. The hacks within the blogs contain requirements and extras that should/could be incorporated into the materials you present in the Showcase.
+### Key Expectations
 
+1. **Format of Showcase**:
+   - Showcases are typically multi-person events. This Sprint focuses on Pair/Trio/Group Programming and collaborative work, not individual efforts.
+   - Ensure your work is polished and reviewed. Preparation, review, and testing are essential before presenting to the teacher. In the tech world, quality presentations are as important as the tech itself. Avoid sharing unpolished or buggy work during a Showcase, as it reflects poorly on professionalism.
+
+2. **Use of Blogs**:
+   - Google or Microsoft Docs, Sheets, and Presentations are discouraged and will result in significant deductions. It is expected that you present materials from your personal student blog or group project. Using a blog helps develop your ability to design, organize, and code.
+
+3. **Collaboration and Accountability**:
+   - Work can be shared, but all participants should be able to discuss any aspect of the work they expect to be credited for. If you did not contribute to a topic, be honest and do not attempt to claim false accomplishments.
+   - Attempts to gain credit falsely or by "coat-tailing" are strongly discouraged.
+
+4. **Preparation and Time**:
+   - Each Showcase requires preparation. Avoid asking, "What do you want to show?" during the event. This type of question should be addressed beforehand.
+   - Many resources have been provided to guide your preparation. Use them effectively.
+
+5. **Sprint Blogs**:
+   - The hacks and requirements outlined in the teacher's blogs and presentations should be incorporated into the materials you present during the Showcase.
+
+---
+
+By following these guidelines, you will ensure a professional and impactful Showcase that highlights your progress and collaboration effectively.

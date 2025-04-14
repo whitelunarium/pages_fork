@@ -4,7 +4,7 @@ comments: True
 layout: post
 title: Tools and Equipment
 description: Tech has reshaped our lives, from the internet to the smartphone in your phone pocket, or the advent of AI.  This course is opening new technology possibilities, by equipping you with the developer tools that are the keys to boundless technology possibilities.
-courses: {'csse': {'week': 0}, 'csp': {'week': 0}, 'csa': {'week': 0}}
+courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
 type: ccc
 categories: ['DevOps']
 permalink: /devops/tools/home
