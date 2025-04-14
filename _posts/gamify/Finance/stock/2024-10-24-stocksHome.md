@@ -324,17 +324,13 @@ try {
         console.error("HTTP status code: " + response.status);
         return null;
     }
-
     const data = await response.json();
     if (!data) return null;
-
     console.log("User Data:", data);
-
     // Store user email for later use
     if (data.email) {
         localStorage.setItem("userEmail", data.email);
     }
-
     return data;
 } catch (err) {
     console.error("Fetch error: ", err);
