@@ -6,7 +6,7 @@ categories: ['Collaboration']
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
 menu: nav/pair_programming.html
 permalink: /pair/programming
-type: collab
+type: milestone 
 ---
 
 ## Pair/Trio Programming Overview
@@ -104,7 +104,6 @@ Use the table below to evaluate your pair/trio programming habits. These example
 - **2** = 0.75
 - **3** = 0.85
 - **4** = 0.90
-- **4+Mastered (Y)** = 0.93
 
 | Skill          | Mastered (Y/N) | Rank (1-4)   | Ratio | Notes |
 |----------------|----------------|--------------|-------|-------|
@@ -119,5 +118,5 @@ Use the table below to evaluate your pair/trio programming habits. These example
 | Pair Testing   | [ ]            | 0            | 0.0   |       |
 | Debugging      | [ ]            | 0            | 0.0   |       |
 | Code Review    | [ ]            | 0            | 0.0   |       |
-| **Total**      |                |              | 0.0   |       |
-| **Average**    |                |              | 0.0   |       |
+| **Total**      |  0             | 0            | 0.0   |       |
+| **Average**    |                | 0.0          | 0.0   |       |
