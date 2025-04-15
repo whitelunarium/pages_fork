@@ -8,6 +8,15 @@ layout: base
       {% include {{page.menu}} html=content %}
     {%- endif -%}
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    {% if page.breadcrumbs %}
+      <a class="category-tags-link" href="{{ site.baseurl }}/">{{ site.baseurl }}/</a>
+      {% for topic in site.data.tools.Topics %}
+        {% if page.permalink == topic.link %}
+          &raquo; <a class="category-tags-link" href="{{ site.baseurl }}{{ topic.parent }}">{{ topic.parent }}</a>
+          &raquo; <span class="font-bold">{{ topic.title }}</span>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
     {%- if page.description -%}
       {%- if site.html_escape.description -%}
         <p class="page-description">{{ page.description | escape }}</p>
@@ -59,6 +68,7 @@ layout: base
         </div>
       {% endif -%}
     {% endif -%}
+
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">

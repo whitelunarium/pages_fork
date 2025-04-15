@@ -1,14 +1,12 @@
 ---
+toc: True
+breadcrumbs: true
 layout: post
 title: Operating System and Tools Setup 
 description: Significant setup is required for development tools to support the Operating System, JavaScript, Python, Java, Jupyter Notebooks, and more. This is the first step in the development process.
 categories: ['DevOps']
-permalink: /tools/setup
+permalink: /tools/os
 author: Lily Wu
-menu: nav/tools_setup.html
-toc: True
-comments: True
-sticky_rank: 2
 ---
 
 ## Installation Hack
