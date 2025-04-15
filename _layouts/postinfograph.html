@@ -1,0 +1,50 @@
+---
+layout: post
+---
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Load YML page data file from _data folder -->
+{% assign info = site.data[page.data] %}
+
+<!-- Tailwind-styled content -->
+<div>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="p-6 rounded-lg shadow-md">
+      <h1 class="text-5xl mb-4">{{ info.Title }}</h1>
+      <p class="text-lg mb-4">
+        {{ info.Description }}
+      </p>
+    </div>
+
+    <!-- Rows Section -->
+    <div id="rows" class="grid gap-4 p-6">
+      {% for topic in info.Topics %}
+        <div class="grid grid-cols-3 gap-4 items-center p-4 rounded-lg shadow-md">
+          <!-- Image Column -->
+          <div class="text-center">
+            <img src="{{ site.baseurl }}/images/{{ topic.image }}" alt="{{ topic.alt }}" class="rounded-lg mx-auto h-40 object-cover">
+          </div>
+          <!-- Key Points Column -->
+          <div>
+            <h2 class="text-xl font-semibold mb-2">{{ topic.title }}</h2>
+            <ul class="list-disc list-inside">
+              {% for point in topic.keyPoints %}
+                <li>{{ point }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- Description Column -->
+          <div>
+            <h2 class="text-xl font-semibold mb-2">{{ topic.subtitle }}</h2>
+            <p class="text-sm">{{ topic.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Page Content -->
+{{ content }}
