@@ -3,7 +3,7 @@ layout: post
 title: Tools Play using JavaScript
 description: JavaScript, HTML, CSS and Markdown are the primary coding languages used by bloggers when developing in the GitHub Pages system. Student developers can learn functionality while adding functionality to their GitHub pages website.
 categories: ['JavaScript']
-permalink: /devops/github/pages/play
+permalink: /github/pages/play
 menu: nav/tools_setup.html
 toc: True
 comments: True
