@@ -7,7 +7,7 @@ description: Tech has reshaped our lives, from the internet to the smartphone in
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
 type: ccc
 categories: ['DevOps']
-permalink: /devops/tools/
+permalink: /tools/
 ---
 
 

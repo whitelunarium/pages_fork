@@ -15,7 +15,7 @@ Topics:
     description: "Significant setup is required for development tools to support JavaScript, Python, Java, Jupyter Notebooks, and more. This is the first step in the development process."
   - title: "VS Code"
     image: "/tools/vscode.png"
-    link: "/tools/setup"
+    link: "/tools/vscode"
     alt: "VS Code"
     keyPoints:
       - "Write code"
