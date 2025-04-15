@@ -10,7 +10,8 @@ layout: base
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
     {% if page.breadcrumbs %}
       <a class="category-tags-link" href="{{ site.baseurl }}/">{{ site.baseurl }}/</a>
-      {% for topic in site.data.tools.Topics %}
+      {% assign data = site.data[page.data] %}
+      {% for topic in data.Topics %}
         {% if page.permalink == topic.link %}
           &raquo; <a class="category-tags-link" href="{{ site.baseurl }}{{ topic.parent }}">{{ topic.parent }}</a>
           &raquo; <span class="font-bold">{{ topic.title }}</span>
