@@ -4,6 +4,7 @@ Description: "The essentials of development begin by understanding the need for 
 Topics:
   - title: "Operating Systems (OS)"
     image: "/tools/os.png"
+    link: "/tools/os"
     alt: "Operating Systems"
     keyPoints:
       - "WSL for Windows"
@@ -14,6 +15,7 @@ Topics:
     description: "Significant setup is required for development tools to support JavaScript, Python, Java, Jupyter Notebooks, and more. This is the first step in the development process."
   - title: "VS Code"
     image: "/tools/vscode.png"
+    link: "/tools/os"
     alt: "VS Code"
     keyPoints:
       - "Write code"
@@ -24,6 +26,7 @@ Topics:
     description: "Writing code starts in an editor. VS Code and its extensions streamline the software development process, enabling the Software Development Lifecycle (SDLC)."
   - title: "GitHub"
     image: "/tools/github.png"
+    link: "/tools/github"
     alt: "GitHub Repository"
     keyPoints:
       - "Manage repositories"
@@ -33,6 +36,7 @@ Topics:
     description: "The GitHub cloud allows developers to set up repositories to store code. This enables developers to share code and collaborate on projects."
   - title: "GitHub Pages"
     image: "/tools/github_pages.png"
+    link: "/tools/github_pages"
     alt: "GitHub Pages"
     keyPoints:
       - "Write Markdown, HTML, Javascript"

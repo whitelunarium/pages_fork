@@ -1,14 +1,13 @@
 ---
 layout: post
 ---
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
 <!-- Load YML page data file from _data folder -->
 {% assign info = site.data[page.data] %}
 
 <!-- Tailwind-styled content -->
 <div>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
   <div class="container">
     <!-- Header Section -->
     <div class="p-6 rounded-lg shadow-md">
@@ -24,7 +23,9 @@ layout: post
         <div class="grid grid-cols-3 gap-4 items-center p-4 rounded-lg shadow-md">
           <!-- Image Column -->
           <div class="text-center">
-            <img src="{{ site.baseurl }}/images/{{ topic.image }}" alt="{{ topic.alt }}" class="rounded-lg mx-auto h-40 object-cover">
+            <a href="{{ topic.link }}">
+              <img src="{{ site.baseurl }}/images/{{ topic.image }}" alt="{{ topic.alt }}" class="rounded-lg mx-auto h-40 object-cover">
+            </a>
           </div>
           <!-- Key Points Column -->
           <div>
