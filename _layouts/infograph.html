@@ -1,12 +1,13 @@
 ---
 layout: post
 ---
-<!-- Tailwind CSS -->
+<!-- Tailwind CSS include -->
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- Load YML page data file from _data folder -->
+
+<!-- Load YML data -->
 {% assign info = site.data[page.data] %}
 
-<!-- Tailwind-styled content -->
+<!-- HTML section with Tailwind class definitions -->
 <div>
   <div class="container">
     <!-- Header Section -->
@@ -19,6 +20,7 @@ layout: post
 
     <!-- Rows Section -->
     <div id="rows" class="grid gap-4 p-6">
+      <!-- Loop through Topics -->
       {% for topic in info.Topics %}
         <div class="grid grid-cols-3 gap-4 items-center p-4 rounded-lg shadow-md">
           <!-- Image Column -->
@@ -31,6 +33,7 @@ layout: post
           <div>
             <h2 class="text-xl font-semibold mb-2">{{ topic.title }}</h2>
             <ul class="list-disc list-inside">
+              <!-- Loop through kepoints within Topic -->
               {% for point in topic.keyPoints %}
                 <li>{{ point }}</li>
               {% endfor %}
@@ -46,5 +49,6 @@ layout: post
     </div>
   </div>
 </div>
-<!-- Page Content -->
+
+<!-- Inherit Page Content -->
 {{ content }}
