@@ -1,5 +1,5 @@
 // GameLevel.js
-import GameEnv from "./GameEnv.js"
+import GameEnv from "./GameEngine/GameEnv.js"
 
 class GameLevel {
 

@@ -1,4 +1,4 @@
-import GameEnvBackground from './GameEnvBackground.js';
+import GameEnvBackground from './GameEngine/GameEnvBackground.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
 import Projectile from './Projectile.js';

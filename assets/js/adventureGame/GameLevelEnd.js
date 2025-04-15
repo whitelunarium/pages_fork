@@ -1,9 +1,9 @@
-import GamEnvBackground from './GameEnvBackground.js';
-import BackgroundParallax from './BackgroundParallax.js';
+import GamEnvBackground from './GameEngine/GameEnvBackground.js';
+import BackgroundParallax from './GameEngine/BackgroundParallax.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
 import Quiz from './Quiz.js';
-import GameControl from './GameControl.js';
+
 
 class GameLevelEnd {
   constructor(gameEnv) {
