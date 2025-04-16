@@ -1,6 +1,5 @@
 ---
 toc: True
-breadcrumb: True
 layout: post
 data: tools
 title: VSCode Setup 
@@ -8,6 +7,7 @@ description: A key to learning in this class is understanding how to make a GitH
 categories: ['DevOps']
 author: Lily Wu
 permalink: /tools/vscode
+breadcrumb: /tools 
 breadcrumbs: true
 ---
 

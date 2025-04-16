@@ -13,10 +13,10 @@ Topics:
       - "Tool compatibility"
     subtitle: "Tools Setup"
     description: "Significant setup is required for development tools to support JavaScript, Python, Java, Jupyter Notebooks, and more. This is the first step in the development process."
-  - title: "VS Code"
+  - title: "VSCode"
     image: "/tools/vscode.png"
     link: "/tools/vscode"
-    alt: "VS Code"
+    alt: "VSCode"
     keyPoints:
       - "Write code"
       - "Build and test"
