@@ -1,14 +1,14 @@
 ---
+toc: True
+breadcrumb: True
 layout: post
-title: Tools Setup
+data: tools
+title: GitHub Pages Setup 
 description: A key to learning in this class is understanding how to make a GitHub Pages project.  This guide will setup and run the project.  At the end, you will have a student Website that can be used for blogging classroom learnings and progress.
 categories: ['DevOps']
-permalink: /tools/setup
 author: Lily Wu
-menu: nav/tools_setup.html
-toc: True
-comments: True
-sticky_rank: 2
+permalink: /tools/github_pages
+breadcrumbs: True 
 ---
 
 ## Installation Hack

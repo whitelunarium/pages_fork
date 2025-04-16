@@ -6,11 +6,10 @@ categories: ['Collaboration']
 courses: {'csse': {'week': 3}, 'csp': {'week': 3}, 'csa': {'week': 2}}
 menu: nav/pair_programming.html
 permalink: /pair/showcase
-type: collab
-comments: True
+type: retrospective
 ---
 
-## Live Review (Checkpoint/Final)
+## Live Review
 
 A Live Review is an opportunity for students to present their progress to the teacher. This is an iterative process, meaning there is no extended time provided for a Live Review.  
 
@@ -21,7 +20,7 @@ AP students are expected to average 2+ hours of homework each week.
 ### Types of Reviews
 
 - **Checkpoint**: Periodic weekly or bi-weekly reviews within the Sprint.
-- **Showcase**: A formal end-of-Sprint review summarizing Sprint objectives. This is where you, along with your pair or trio, demonstrate progress on provided assignments and hacks.
+- **Final**: A formal end-of-Sprint review summarizing Sprint objectives. This is where you, along with your pair or trio, demonstrate progress on provided assignments and hacks.
 
 ---
 
