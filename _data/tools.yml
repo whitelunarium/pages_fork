@@ -36,7 +36,7 @@ Topics:
     description: "The GitHub cloud allows developers to set up repositories to store code. This enables developers to share code and collaborate on projects."
   - title: "GitHub Pages"
     image: "/tools/github_pages.png"
-    link: "/tools/verify"
+    link: "/tools/github_pages"
     alt: "GitHub Pages"
     keyPoints:
       - "Write Markdown, HTML, Javascript"
