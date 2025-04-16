@@ -14,6 +14,7 @@ class GameLevel {
 
   create(GameLevelClass) {
     this.continue = true
+    this.restart = false
     this.gameEnv.create()
     
     // Check if GameLevelClass is a valid constructor
@@ -47,9 +48,8 @@ class GameLevel {
       }
 
     if (typeof this.gameLevel.initialize === "function") {
-      console.log('Calling initialize on game level...');
-      this.gameLevel.initialize();
-      console.log('Game level initialization complete');
+      this.gameLevel.initialize()
+
     }
 
       window.addEventListener("resize", this.resize.bind(this))

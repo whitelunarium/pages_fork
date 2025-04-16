@@ -86,6 +86,10 @@ class GameControl {
         if (this.isPaused) {
             return;
         }
+        if (this.currentLevel.restart) {
+            this.restartLevel();
+            return;
+        }
         // Level updates
         this.currentLevel.update();
         this.handleInLevelLogic();
@@ -243,6 +247,14 @@ class GameControl {
         this.addExitKeyListener();
         this.showCanvasState();
         this.gameLoop();
+    }
+
+    restartLevel() {
+        if (this.currentLevel) { //checks if theres a current level, if so, then..
+            this.currentLevel.destroy(); //destroys the current level 
+        }
+        this.gameLoopCounter = 0; //resets the game loops counter 
+        this.transitionToLevel(); //transitions to the same level its currently in 
     }
 }
 
