@@ -8,12 +8,21 @@ layout: base
       {% include {{page.menu}} html=content %}
     {%- endif -%}
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    {% if page.breadcrumbs %}
+    {% if page.categories.size > 0 %}
+      Categories:
+      {% for category in  page.categories  %}
+        {%- assign prefix = category | slice: 0 -%}
+        <a class="category-tags-link" href="{{site.baseurl}}/search/#{{category|slugize}}">{{category}}</a>
+        {% unless forloop.last %}&nbsp;{% endunless %}
+      {% endfor %}
+    {% endif %}
+    {% if page.breadcrumb %}
+      Breadcrumbs:
       <a class="category-tags-link" href="{{ site.baseurl }}/">{{ site.baseurl }}/</a>
+      &raquo; <a class="category-tags-link" href="{{ site.baseurl }}{{ page.breadcrumb }}">{{ page.breadcrumb }}</a>
       {% assign data = site.data[page.data] %}
       {% for topic in data.Topics %}
         {% if page.permalink == topic.link %}
-          &raquo; <a class="category-tags-link" href="{{ site.baseurl }}{{ topic.parent }}">{{ topic.parent }}</a>
           &raquo; <span class="font-bold">{{ topic.title }}</span>
         {% endif %}
       {% endfor %}
@@ -48,16 +57,6 @@ layout: base
        • {% include reading_time.html -%}
       {%- endif %}
     </p>
-
-    {% if page.categories.size > 0 %}
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
-      {% for category in  page.categories  %}
-        {%- assign prefix = category | slice: 0 -%}
-        <a class="category-tags-link" href="{{site.baseurl}}/search/#{{category|slugize}}">{{category}}</a>
-        {% unless forloop.last %}&nbsp;{% endunless %}
-      {% endfor %}
-      </p>
-    {% endif %}
 
     {% if page.layout == 'notebook' %}
       {% if page.badges or page.badges == nil %}

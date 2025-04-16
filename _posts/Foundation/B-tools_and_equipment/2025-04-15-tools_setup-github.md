@@ -1,12 +1,12 @@
 ---
 toc: True
-breadcrumbs: true
 layout: post
 data: tools
 title: GitHub Setup 
 description: This class will require you to make a Portfolio 2025 Web Site, a GitHub Account, a Slack Account, and as part of final exam will require you update your LinkedIn account.
 categories: ['DevOps']
 permalink: /tools/accounts
+breadcrumb: /tools
 ---
 
 ## Personal Identifiable Information (PII)
