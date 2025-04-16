@@ -31,9 +31,8 @@ layout: base
           {% endif %}
         {% endunless %}
       {% endfor %}
-      Breadcrumbs:
-      <a class="category-tags-link" href="{{ site.baseurl }}/">{{ site.baseurl }}/</a>
-      &raquo; <a class="category-tags-link" href="{{ site.baseurl }}/{{ parent_parts }}">/{{ parent_parts }}</a>
+      Breadcrumb:
+      <a class="category-tags-link" href="{{ site.baseurl }}/{{ parent_parts }}">/{{ parent_parts }}</a>
       {% assign data = site.data[page.data] %}
       {% for topic in data.Topics %}
         {% if page.permalink == topic.link %}
@@ -41,13 +40,6 @@ layout: base
         {% endif %}
       {% endfor %}
     {% endif %}
-    {%- if page.description -%}
-      {%- if site.html_escape.description -%}
-        <p class="page-description">{{ page.description | escape }}</p>
-      {%- else -%}
-        <p class="page-description">{{ page.description }}</p>
-      {%- endif -%}
-    {%- endif -%}
     <p class="post-meta post-meta-title">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
@@ -71,18 +63,14 @@ layout: base
        • {% include reading_time.html -%}
       {%- endif %}
     </p>
-
-    {% if page.layout == 'notebook' %}
-      {% if page.badges or page.badges == nil %}
-        <div class="pb-5 d-flex flex-justify-center">
-          {% unless page.hide_github_badge or site.default_badges.github != true %}{% include notebook_github_link.html %}{% endunless %}
-          {% unless page.hide_binder_badge or site.default_badges.binder != true  %}{% include notebook_binder_link.html %}{% endunless %}
-          {% unless page.hide_colab_badge or site.default_badges.colab != true %}{% include notebook_colab_link.html %}{% endunless %}
-          {% unless page.hide_deepnote_badge or site.default_badges.deepnote != true %}{% include notebook_deepnote_link.html %}{% endunless %}
-        </div>
-      {% endif -%}
-    {% endif -%}
-
+    <br>
+    {%- if page.description -%}
+      {%- if site.html_escape.description -%}
+        <p class="page-description">{{ page.description | escape }}</p>
+      {%- else -%}
+        <p class="page-description">{{ page.description }}</p>
+      {%- endif -%}
+    {%- endif -%}
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">

@@ -31,7 +31,7 @@ layout: post
           </div>
           <!-- Key Points Column -->
           <div>
-            <h2 class="text-xl font-semibold mb-2">{{ topic.title }}</h2>
+            <h3 class="text-xl font-semibold mb-2">{{ topic.title }}</h3>
             <ul class="list-disc list-inside">
               <!-- Loop through kepoints within Topic -->
               {% for point in topic.keyPoints %}
@@ -41,7 +41,7 @@ layout: post
           </div>
           <!-- Description Column -->
           <div>
-            <h2 class="text-xl font-semibold mb-2">{{ topic.subtitle }}</h2>
+            <h3 class="text-xl font-semibold mb-2">{{ topic.subtitle }}</h3>
             <p class="text-sm">{{ topic.description }}</p>
           </div>
         </div>
