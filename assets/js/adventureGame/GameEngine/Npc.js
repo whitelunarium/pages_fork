@@ -1,4 +1,4 @@
-import Character from "./GameEngine/Character.js";
+import Character from "./Character.js";
 
 class Npc extends Character {
     constructor(data = null, gameEnv = null) {

@@ -1,6 +1,6 @@
 import GameEnvBackground from './GameEngine/GameEnvBackground.js';
-import Npc from './Npc.js';
-import Player from './Player.js';
+import Npc from './GameEngine/Npc.js';
+import Player from './GameEngine/Player.js';
 
 class GameLevelWallstreet {
   /**

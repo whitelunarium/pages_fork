@@ -1,7 +1,7 @@
 import GamEnvBackground from './GameEngine/GameEnvBackground.js';
 import BackgroundParallax from './GameEngine/BackgroundParallax.js';
-import Player from './Player.js';
-import Npc from './Npc.js';
+import Player from './GameEngine/Player.js';
+import Npc from './GameEngine/Npc.js';
 import Quiz from './Quiz.js';
 
 

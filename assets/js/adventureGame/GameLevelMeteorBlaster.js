@@ -1,5 +1,5 @@
 import GameEnvBackground from "./GameEngine/GameEnvBackground.js"
-import Player from "./Player.js"
+import Player from "./GameEngine/Player.js"
 import Meteor from "./Meteor.js"
 import Character from "./GameEngine/Character.js";
 import Quiz from "./Quiz.js"

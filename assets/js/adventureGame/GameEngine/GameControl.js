@@ -1,5 +1,5 @@
 // GameControl.js
-import GameLevel from "../GameLevel.js";
+import GameLevel from "./GameLevel.js";
 import Inventory from "../Inventory.js";
 
 class GameControl {
