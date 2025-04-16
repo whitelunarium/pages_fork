@@ -7,7 +7,7 @@ description: Significant setup is required for development tools to support the 
 categories: ['DevOps']
 author: Lily Wu
 permalink: /tools/os
-breadcrumb: /tools
+breadcrumb: True 
 ---
 
 ## Installation Hack

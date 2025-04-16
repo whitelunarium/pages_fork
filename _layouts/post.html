@@ -17,9 +17,23 @@ layout: base
       {% endfor %}
     {% endif %}
     {% if page.breadcrumb %}
+      <!-- Locate Parent Path -->
+      {% assign parts = page.permalink | split: '/' %}
+      {% assign num_parts = parts.size | minus: 1 %}
+      <!-- Remove last part of path -->
+      {% assign parent_parts = '' %}
+      {% for i in (0..num_parts) %}
+        {% unless forloop.last %}
+          {% if parent_parts == '' %}
+            {% assign parent_parts = parts[i] %}
+          {% else %}
+            {% assign parent_parts = parent_parts | append: '/' | append: parts[i] %}
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
       Breadcrumbs:
       <a class="category-tags-link" href="{{ site.baseurl }}/">{{ site.baseurl }}/</a>
-      &raquo; <a class="category-tags-link" href="{{ site.baseurl }}{{ page.breadcrumb }}">{{ page.breadcrumb }}</a>
+      &raquo; <a class="category-tags-link" href="{{ site.baseurl }}/{{ parent_parts }}">/{{ parent_parts }}</a>
       {% assign data = site.data[page.data] %}
       {% for topic in data.Topics %}
         {% if page.permalink == topic.link %}

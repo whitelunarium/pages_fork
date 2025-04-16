@@ -8,7 +8,7 @@ categories: ['DevOps']
 author: Lily Wu
 permalink: /tools/vscode
 breadcrumb: /tools 
-breadcrumbs: true
+breadcrumbs: True 
 ---
 
 ## Git Identification

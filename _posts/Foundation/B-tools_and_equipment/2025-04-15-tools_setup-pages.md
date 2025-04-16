@@ -8,7 +8,7 @@ description: A key to learning in this class is understanding how to make a GitH
 categories: ['DevOps']
 author: Lily Wu
 permalink: /tools/github_pages
-breadcrumbs: /tools 
+breadcrumbs: True 
 ---
 
 ## Installation Hack
