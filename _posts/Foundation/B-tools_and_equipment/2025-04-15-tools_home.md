@@ -1,7 +1,6 @@
 ---
 toc: False 
-layout: infograph
-data: tools
+layout: tailwind
 title: Tools and Equipment
 description: Tech has reshaped our lives, from the internet to the smartphone in your pocket, or the advent of AI. This course is opening new technology possibilities by equipping you with the developer tools that are the keys to boundless technology possibilities.
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
@@ -10,6 +9,9 @@ categories: [Foundation]
 permalink: /tools/
 ---
 
+<!-- Info Graphic -->
+{% assign infoGraph = site.data[tools] %}
+{%- include tailwind/infograph.html -%}
 
 ## Why Development Tools Matter
 
@@ -17,7 +19,7 @@ Development tools are the foundation of modern software engineering. They enable
 
 ## Hacks
 
-<!-- The infograph template enables Tailwind support -->
+<!-- The tailwind layout enables Tailwind support -->
 <ol class="list-decimal list-inside ml-4">
   <li><strong>Tools Familiarity</strong>: Review the infographic to familiarize yourself with the tools and their key features.</li>
   <li><strong>Tools Setup</strong>: Set up your development environment by following the instructions provided in infographic links.</li>

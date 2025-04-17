@@ -1,27 +1,18 @@
----
-layout: post
----
-<!-- Tailwind CSS include -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Load YML data -->
-{% assign info = site.data[page.data] %}
-
 <!-- HTML section with Tailwind class definitions -->
 <div>
   <div class="container">
     <!-- Header Section -->
     <div class="p-6 rounded-lg shadow-md">
-      <h1 class="text-5xl mb-4">{{ info.Title }}</h1>
+      <h1 class="text-5xl mb-4">{{ infoGraph.Title }}</h1>
       <p class="text-lg mb-4">
-        {{ info.Description }}
+        {{ infoGraph.Description }}
       </p>
     </div>
 
     <!-- Rows Section -->
     <div id="rows" class="grid gap-4 p-6">
       <!-- Loop through Topics -->
-      {% for topic in info.Topics %}
+      {% for topic in infoGraph.Topics %}
         <div class="grid grid-cols-3 gap-4 items-center p-4 rounded-lg shadow-md">
           <!-- Image Column -->
           <div class="text-center">
@@ -49,6 +40,3 @@ layout: post
     </div>
   </div>
 </div>
-
-<!-- Inherit Page Content -->
-{{ content }}
