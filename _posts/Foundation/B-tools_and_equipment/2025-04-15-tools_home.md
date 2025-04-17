@@ -17,13 +17,64 @@ permalink: /tools/
 
 Development tools are the foundation of modern software engineering. They enable collaboration, streamline workflows, and make coding more efficient. In this course, you'll learn to use tools like GitHub, Visual Studio Code, and Jupyter Notebooks to build, test, and share your projects. These tools will not only help you succeed in this class but also prepare you for real-world software development.
 
-## Hacks
+<!-- Question Container -->
+<div id="questions-container" class="space-y-6 border-t pt-6"></div>
+<!-- Question Data -->
+<script>
+// JSON for questions
+const questionsData = [
+    {
+        id: "tools-familiarity",
+        title: "Tools Familiarity",
+        question: "What are the key tools in the infographic?  List it's purpose in your own words."
+    },
+    {
+        id: "tools-bunrdown-link",
+        title: "Issue and Burndown List",
+        question: "Provide a link to your GitHub Issue."
+    },
+    {
+        id: "tools-setup-time",
+        title: "Tools Setup and Time",
+        question: "How long did it take? Write down your biggest success and biggest challenge."
+    },
+    {
+        id: "tools-version-checks",
+        title: "Version Checks",
+        question: "Capture text output of your version checks.  Why do you think it is correct?"
+    },
+    {
+        id: "tools-vscode-make",
+        title: "VSCode ",
+        question: "Capture text output of your VSCode make with link to localhost IP address.  Why do you think it is correct?"
+    }
+];
 
-<!-- The tailwind layout enables Tailwind support -->
-<ol class="list-decimal list-inside ml-4">
-  <li><strong>Tools Familiarity</strong>: Review the infographic to familiarize yourself with the tools and their key features.</li>
-  <li><strong>Tools Setup</strong>: Set up your development environment by following the instructions provided in infographic links.</li>
-  <li><strong>Make a Work Plan</strong>: Use GitHub Issues to create a checklist (burndown) for your Tools and Equipment explorations.</li>
-  <li><strong>Tinkering Activity</strong>: Experiment with GitHub, Visual Studio Code, and Jupyter Notebooks. Update your GitHub Issue as you progress.</li>
-  <li><strong>Share Personal Progress</strong>: Record daily updates, including problems and successes. Ask questions in Slack #coding to stay connected with peers and your instructor.</li>
-</ol>
+// Render questions
+function renderQuestions() {
+    const questionsContainer = document.getElementById("questions-container");
+    questionsData.forEach(question => {
+        const savedResponse = localStorage.getItem(question.id) || "";
+        const questionHTML = `
+            <div class="p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold mb-2">${question.title}</h3>
+                <p class="text-sm mb-4">${question.question}</p>
+                <textarea id="${question.id}" class="w-full border rounded-lg p-2 text-sm" rows="2" placeholder="Write your response here...">${savedResponse}</textarea>
+            </div>
+        `;
+        questionsContainer.innerHTML += questionHTML;
+    });
+
+    // Add event listeners to save responses
+    questionsData.forEach(question => {
+        const textarea = document.getElementById(question.id);
+        textarea.addEventListener("input", () => {
+            localStorage.setItem(question.id, textarea.value);
+        });
+    });
+}
+// Initialize the page
+document.addEventListener("DOMContentLoaded", () => {
+    renderQuestions();
+});
+</script>
