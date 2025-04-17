@@ -1,3 +1,12 @@
+---
+layout: post
+---
+<!-- Tailwind CSS include -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Load YML data -->
+{% assign info = site.data[page.data] %}
+
 <!-- HTML section with Tailwind class definitions -->
 <div>
   <div class="container">
@@ -40,3 +49,6 @@
     </div>
   </div>
 </div>
+
+<!-- Inherit Page Content -->
+{{ content }}

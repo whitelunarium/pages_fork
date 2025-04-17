@@ -1,6 +1,7 @@
 ---
 toc: False 
-layout: tailwind
+layout: tailwindIG
+data: tools
 title: Tools and Equipment
 description: Tech has reshaped our lives, from the internet to the smartphone in your pocket, or the advent of AI. This course is opening new technology possibilities by equipping you with the developer tools that are the keys to boundless technology possibilities.
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
@@ -9,13 +10,9 @@ categories: [Foundation]
 permalink: /tools/
 ---
 
-<!-- Info Graphic -->
-{% assign infoGraph = site.data[tools] %}
-{%- include tailwind/infograph.html -%}
-
 ## Why Development Tools Matter
 
-Development tools are the foundation of modern software engineering. They enable collaboration, streamline workflows, and make coding more efficient. In this course, you'll learn to use tools like GitHub, Visual Studio Code, and Jupyter Notebooks to build, test, and share your projects. These tools will not only help you succeed in this class but also prepare you for real-world software development.
+Development tools are the foundation of modern software engineering. They enable collaboration, streamline workflows, and make coding more efficient. These develpment tools will not only help you succeed in this class but also prepare you for real-world software development.
 
 <!-- Question Container -->
 <div id="questions-container" class="space-y-6 border-t pt-6"></div>
