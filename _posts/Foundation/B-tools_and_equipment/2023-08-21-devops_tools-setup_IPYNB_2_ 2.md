@@ -8,7 +8,6 @@ author: Lily Wu
 menu: nav/tools_setup.html
 toc: True
 comments: True
-sticky_rank: 2
 ---
 
 ## Installation Hack

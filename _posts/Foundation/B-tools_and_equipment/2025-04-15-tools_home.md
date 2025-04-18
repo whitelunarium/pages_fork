@@ -9,6 +9,7 @@ courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
 type: ccc
 categories: [DevOps]
 permalink: /tools/
+sticky_rank: 1
 ---
 
 <!-- Infographic - this depends on page.infoGraph frontmatter being set -->
