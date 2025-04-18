@@ -1,0 +1,14 @@
+---
+layout: post
+---
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Tailwind CSS include -->
+{%- if page.infoGraph -%}
+  {% assign info = site.data[page.infoGraph] %}
+  {%- include tailwind/infograph.html -%}
+{%- endif -%}
+
+<!-- Inherit Page Content -->
+{{ content }}
