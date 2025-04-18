@@ -1,0 +1,10 @@
+<!-- filepath: /Users/johnmortensen/nighthawk/portfolio_2025/_includes/tools_questions.html -->
+<div class="space-y-6 border-t pt-6">
+  {% for question in site.data.tools_questions.questions %}
+    <div class="p-4 rounded-lg shadow-md">
+      <h3 class="text-lg font-semibold mb-2">{{ question.title }}</h3>
+      <p class="text-sm mb-4">{{ question.question }}</p>
+      <textarea id="{{ question.id }}" class="w-full border rounded-lg p-2 text-sm" rows="2" placeholder="Write your response here..."></textarea>
+    </div>
+  {% endfor %}
+</div>
