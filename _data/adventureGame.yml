@@ -1,6 +1,6 @@
 # course illustrations
-Title: "Adventure Game Development"
-Description: "The Adventure Game Help System and Notebooks guide future developers through the steps of creating key components of the game. The help system is organized into various categories, each focusing on a specific aspect of the game and offering hacks for deeper learning. By the end of these topics, you will have a solid understanding of the game components and be inspired to extend the game further.."
+Title: "Adventure Game Help"
+Description: "This help guides developers through the steps of creating key elements of the game. This infographic includes visuals and topic highlights, with clickable images that lead to deeper learning and helpful hacks."
 Topics:
   - title: "Background"
     image: "/adventureGame/background.jpg"
