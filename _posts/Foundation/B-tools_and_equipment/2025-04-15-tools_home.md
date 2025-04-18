@@ -18,8 +18,7 @@ Development tools are the foundation of modern software engineering. They enable
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // Load saved responses from localStorage
-    const json = {{site.data[page.questions]  | jsonify }};
-    const questions = json.questions;
+    const questions = {{site.data[page.questions].questions  | jsonify }};
     questions.forEach(question => {
       const textarea = document.getElementById(question.id);
       if (textarea) {
