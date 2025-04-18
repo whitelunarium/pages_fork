@@ -11,26 +11,12 @@ categories: [Foundation]
 permalink: /tools/
 ---
 
+<!-- Infographic - this depends on page.infoGraph frontmatter being set -->
+{%- include tailwind/infograph.html -%}
+
 ## Why Development Tools Matter
 
 Development tools are the foundation of modern software engineering. They enable collaboration, streamline workflows, and make coding more efficient. These develpment tools will not only help you succeed in this class but also prepare you for real-world software development.
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Load saved responses from localStorage
-    const questions = {{site.data[page.questions].questions  | jsonify }};
-    questions.forEach(question => {
-      const textarea = document.getElementById(question.id);
-      if (textarea) {
-        // Load saved response
-        const savedResponse = localStorage.getItem(question.id) || "";
-        textarea.value = savedResponse;
-
-        // Save response on input
-        textarea.addEventListener("input", () => {
-          localStorage.setItem(question.id, textarea.value);
-        });
-      }
-    });
-  });
-</script>
+<!-- Questions with localstorage - this depends on page.questions frontmatter being set -->
+{%- include tailwind/questions.html -%}
