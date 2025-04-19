@@ -28,6 +28,13 @@ permalink: /gamify/bankanalytics
         border-left: 4px solid #ff9800;
         padding-left: 1rem;
     }
+    .toggle-container {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .toggle-container button {
+        margin: 0.2rem;
+    }
 </style>
 <body class="m-0 p-0" style="font-family: 'Poppins', sans-serif; background-color: #121212; color: #fff;">
 
@@ -44,6 +51,12 @@ permalink: /gamify/bankanalytics
 <div class="container my-4">
     <div class="game-card p-3">
         <h3 class="game-title">All Games Combined</h3>
+        <div class="toggle-container">
+            <button class="btn btn-sm btn-outline-warning" onclick="window.toggleDataset('Poker')">Poker</button>
+            <button class="btn btn-sm btn-outline-info" onclick="window.toggleDataset('Blackjack')">Blackjack</button>
+            <button class="btn btn-sm btn-outline-light" onclick="window.toggleDataset('Dice')">Dice</button>
+            <button class="btn btn-sm btn-outline-primary" onclick="window.toggleDataset('Mines')">Mines</button>
+        </div>
         <div class="combined-chart-container mt-3">
             <canvas id="combinedChart"></canvas>
         </div>
@@ -104,11 +117,14 @@ async function initializeCharts() {
                 ...fetchOptions,
                 method: 'GET'
             });
+            const result = response.ok ? await response.json() : [];
+            console.log(`Fetched ${game} data:`, result);
             return {
                 game,
-                data: response.ok ? await response.json() : []
+                data: result
             };
         } catch (error) {
+            console.error(`Failed to fetch ${game}:`, error);
             return { game, data: [] };
         }
     }));
@@ -135,8 +151,8 @@ function renderChartCard(game) {
 
 function createChart(game, transactions) {
     const processed = processChartData(game, transactions);
+    if (!processed) return;
     const ctx = document.getElementById(`${game}Chart`).getContext('2d');
-
     if (charts[game]) charts[game].destroy();
     charts[game] = new Chart(ctx, {
         type: 'line',
@@ -146,30 +162,41 @@ function createChart(game, transactions) {
 }
 
 function createCombinedChart(gameData) {
-    const labels = Array.from(new Set(gameData.flatMap(({ data }) => data.map(t => new Date(t[0]).toLocaleDateString())))).sort();
+    const labelSet = new Set();
+    gameData.forEach(({ data }) => {
+        data.forEach(([date]) => {
+            labelSet.add(new Date(date).toLocaleDateString());
+        });
+    });
+    const labels = Array.from(labelSet).sort((a, b) => new Date(a) - new Date(b));
 
     const datasets = gameData.map(({ game, data }) => {
-        let balance = 0;
-        const balanceMap = {};
+        const dailyMap = {};
+        let cumBal = 0;
+
         data.forEach(([time, profit]) => {
             const key = new Date(time).toLocaleDateString();
-            balance += parseFloat(profit) || 0;
-            balanceMap[key] = balance;
+            const value = parseFloat(profit) || 0;
+            cumBal += value;
+            dailyMap[key] = cumBal;
         });
-        const filled = labels.map(label => balanceMap[label] || null);
+
+        const points = labels.map(label => dailyMap[label] ?? null);
 
         return {
             label: gameMap[game],
-            data: filled,
+            data: points,
             borderColor: gameColors[game],
             backgroundColor: `${gameColors[game]}30`,
             tension: 0.2,
-            fill: false
+            fill: false,
+            spanGaps: true,
+            hidden: false
         };
     });
 
-    if (combinedChart) combinedChart.destroy();
     const ctx = document.getElementById('combinedChart').getContext('2d');
+    if (combinedChart) combinedChart.destroy();
     combinedChart = new Chart(ctx, {
         type: 'line',
         data: { labels, datasets },
@@ -177,7 +204,16 @@ function createCombinedChart(gameData) {
     });
 }
 
+window.toggleDataset = function(label) {
+    const ds = combinedChart.data.datasets.find(d => d.label === label);
+    if (ds) {
+        ds.hidden = !ds.hidden;
+        combinedChart.update();
+    }
+};
+
 function processChartData(game, transactions) {
+    if (!Array.isArray(transactions) || transactions.length === 0) return null;
     const labels = [];
     const profits = [];
     let balance = 0;
@@ -201,16 +237,19 @@ function processChartData(game, transactions) {
                 data: profits,
                 borderColor: gameColors[game],
                 backgroundColor: `${gameColors[game]}30`,
+                borderDash: [5, 5],
                 tension: 0.2,
-                fill: true
+                fill: false,
+                spanGaps: true
             },
             {
                 label: 'Cumulative Balance',
                 data: cumulative,
                 borderColor: gameColors[game],
-                backgroundColor: `${gameColors[game]}30`,
+                backgroundColor: `${gameColors[game]}10`,
                 tension: 0.2,
-                fill: true
+                fill: true,
+                spanGaps: true
             }
         ]
     };
