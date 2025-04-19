@@ -12,7 +12,7 @@ Topics:
       - "Linux/KASM for Chromebook"
       - "Tool compatibility"
     subtitle: "Tools Setup"
-    description: "Significant setup is required for development tools to support JavaScript, Python, Java, Jupyter Notebooks, and more. This is the first step in the development process."
+    description: "Coders require a cyber understand of linux, scripts, and packages to enable devlopment of JavaScript, Python, Java, Jupyter Notebooks, and more. Installing tools on a linux OS is a standard for developers throughout the world."
   - title: "VSCode"
     image: "/tools/vscode.png"
     link: "/tools/vscode"
