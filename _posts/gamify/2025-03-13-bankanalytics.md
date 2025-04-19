@@ -80,6 +80,9 @@ let userId = null;
 const charts = {};
 let combinedChart = null;
 
+/**
+ * Mapping of internal game keys to display labels.
+ */
 const gameMap = {
     poker: 'Poker',
     blackjack: 'Blackjack',
@@ -87,6 +90,9 @@ const gameMap = {
     casino_mines: 'Mines'
 };
 
+/**
+ * Color palette for game charts.
+ */
 const gameColors = {
     poker: '#FF6384',
     blackjack: '#4BC0C0',
@@ -94,6 +100,10 @@ const gameColors = {
     casino_mines: '#9966FF'
 };
 
+/**
+ * Fetch the current user's profile data and trigger chart initialization.
+ * Updates DOM with UID and balance.
+ */
 async function fetchUserDetails() {
     try {
         const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
@@ -108,6 +118,9 @@ async function fetchUserDetails() {
     }
 }
 
+/**
+ * Initialize all game charts by fetching transaction history.
+ */
 async function initializeCharts() {
     const games = Object.keys(gameMap);
 
@@ -137,6 +150,10 @@ async function initializeCharts() {
     createCombinedChart(gameData);
 }
 
+/**
+ * Render chart HTML card for an individual game.
+ * @param {string} game - Game key name.
+ */
 function renderChartCard(game) {
     const containerId = `${game}ChartContainer`;
     document.getElementById(containerId).innerHTML = `
@@ -149,6 +166,11 @@ function renderChartCard(game) {
     `;
 }
 
+/**
+ * Create a line chart for a specific game using Chart.js.
+ * @param {string} game - Game key.
+ * @param {Array} transactions - List of [timestamp, profit] pairs.
+ */
 function createChart(game, transactions) {
     const processed = processChartData(game, transactions);
     if (!processed) return;
@@ -161,6 +183,10 @@ function createChart(game, transactions) {
     });
 }
 
+/**
+ * Build a combined chart showing cumulative balances across all games.
+ * @param {Array} gameData - Array of game and data pairs.
+ */
 function createCombinedChart(gameData) {
     const labelSet = new Set();
     gameData.forEach(({ data }) => {
@@ -204,6 +230,10 @@ function createCombinedChart(gameData) {
     });
 }
 
+/**
+ * Globally accessible toggle for hiding/showing datasets in the combined chart.
+ * @param {string} label - The display name of the game.
+ */
 window.toggleDataset = function(label) {
     const ds = combinedChart.data.datasets.find(d => d.label === label);
     if (ds) {
@@ -212,6 +242,12 @@ window.toggleDataset = function(label) {
     }
 };
 
+/**
+ * Transform transaction data into chart-ready datasets.
+ * @param {string} game - Game key.
+ * @param {Array} transactions - Raw transaction array.
+ * @returns {object} Chart.js compatible data object.
+ */
 function processChartData(game, transactions) {
     if (!Array.isArray(transactions) || transactions.length === 0) return null;
     const labels = [];
@@ -255,6 +291,11 @@ function processChartData(game, transactions) {
     };
 }
 
+/**
+ * Returns a Chart.js configuration object.
+ * @param {string} game - Game key (used for styling).
+ * @returns {object} Chart options.
+ */
 function getChartOptions(game) {
     return {
         responsive: true,
