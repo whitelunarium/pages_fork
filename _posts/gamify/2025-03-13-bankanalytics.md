@@ -12,6 +12,9 @@ permalink: /gamify/bankanalytics
         height: 300px;
         position: relative;
     }
+    .combined-chart-container {
+        height: 400px;
+    }
     .game-card {
         background-color: #1f1f1f;
         border-radius: 8px;
@@ -31,38 +34,29 @@ permalink: /gamify/bankanalytics
 <br>
 <h1 class="text-center">Game Analytics</h1>
 
+<!-- User Info -->
+<div class="container text-center my-4">
+    <h4>User ID: <span class="name">Loading...</span></h4>
+    <h4>Current Balance: $<span class="balance">0.00</span></h4>
+</div>
+
+<!-- Combined Chart -->
+<div class="container my-4">
+    <div class="game-card p-3">
+        <h3 class="game-title">All Games Combined</h3>
+        <div class="combined-chart-container mt-3">
+            <canvas id="combinedChart"></canvas>
+        </div>
+    </div>
+</div>
+
 <!-- Charts Grid -->
 <div class="container my-4">
     <div class="row g-4">
-        <!-- Poker Chart -->
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="game-card p-3 h-100">
-                <h3 class="game-title">Poker</h3>
-                <div class="chart-container mt-3">
-                    <canvas id="pokerChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Blackjack Chart -->
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="game-card p-3 h-100">
-                <h3 class="game-title">Blackjack</h3>
-                <div class="chart-container mt-3">
-                    <canvas id="blackjackChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dice Chart -->
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="game-card p-3 h-100">
-                <h3 class="game-title">Dice</h3>
-                <div class="chart-container mt-3">
-                    <canvas id="diceChart"></canvas>
-                </div>
-            </div>
-        </div>
+        <div class="col-12 col-md-6 col-lg-3" id="pokerChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-3" id="blackjackChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-3" id="diceChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-3" id="casino_minesChartContainer"></div>
     </div>
 </div>
 
@@ -71,94 +65,150 @@ import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js'
 
 let userId = null;
 const charts = {};
+let combinedChart = null;
+
+const gameMap = {
+    poker: 'Poker',
+    blackjack: 'Blackjack',
+    dice: 'Dice',
+    casino_mines: 'Mines'
+};
+
+const gameColors = {
+    poker: '#FF6384',
+    blackjack: '#4BC0C0',
+    dice: '#FFCE56',
+    casino_mines: '#9966FF'
+};
 
 async function fetchUserDetails() {
     try {
         const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
-        if (!response.ok) throw new Error("Failed to fetch user data");
         const userData = await response.json();
         userId = userData.id;
+        document.querySelector('.name').textContent = userData.uid || "Unknown";
+        document.querySelector('.balance').textContent = Number(userData.balance).toFixed(2);
         initializeCharts();
     } catch (error) {
         console.error("Error fetching user data:", error);
+        document.querySelector('.name').textContent = "Error";
     }
 }
 
 async function initializeCharts() {
-    const games = ['poker', 'blackjack', 'dice'];
-    
-    await Promise.all(games.map(async (game) => {
+    const games = Object.keys(gameMap);
+
+    const gameData = await Promise.all(games.map(async (game) => {
         try {
             const response = await fetch(`${javaURI}/bank/${userId}/profitmap/${game}`, {
                 ...fetchOptions,
                 method: 'GET'
             });
-            
-            if (!response.ok) throw new Error(`Failed to fetch ${game} data`);
-            const transactions = await response.json();
-            createChart(game, transactions);
+            return {
+                game,
+                data: response.ok ? await response.json() : []
+            };
         } catch (error) {
-            console.error(`Error fetching ${game} data:`, error);
-            createChart(game, []); // Create empty chart
+            return { game, data: [] };
         }
     }));
+
+    gameData.forEach(({ game, data }) => {
+        renderChartCard(game);
+        createChart(game, data);
+    });
+
+    createCombinedChart(gameData);
+}
+
+function renderChartCard(game) {
+    const containerId = `${game}ChartContainer`;
+    document.getElementById(containerId).innerHTML = `
+        <div class="game-card p-3 h-100">
+            <h3 class="game-title">${gameMap[game]}</h3>
+            <div class="chart-container mt-3">
+                <canvas id="${game}Chart"></canvas>
+            </div>
+        </div>
+    `;
 }
 
 function createChart(game, transactions) {
-    const processedData = processChartData(game, transactions);
+    const processed = processChartData(game, transactions);
     const ctx = document.getElementById(`${game}Chart`).getContext('2d');
-    
-    if (charts[game]) {
-        charts[game].destroy();
-    }
 
+    if (charts[game]) charts[game].destroy();
     charts[game] = new Chart(ctx, {
         type: 'line',
-        data: processedData,
+        data: processed,
         options: getChartOptions(game)
     });
 }
 
+function createCombinedChart(gameData) {
+    const labels = Array.from(new Set(gameData.flatMap(({ data }) => data.map(t => new Date(t[0]).toLocaleDateString())))).sort();
+
+    const datasets = gameData.map(({ game, data }) => {
+        let balance = 0;
+        const balanceMap = {};
+        data.forEach(([time, profit]) => {
+            const key = new Date(time).toLocaleDateString();
+            balance += parseFloat(profit) || 0;
+            balanceMap[key] = balance;
+        });
+        const filled = labels.map(label => balanceMap[label] || null);
+
+        return {
+            label: gameMap[game],
+            data: filled,
+            borderColor: gameColors[game],
+            backgroundColor: `${gameColors[game]}30`,
+            tension: 0.2,
+            fill: false
+        };
+    });
+
+    if (combinedChart) combinedChart.destroy();
+    const ctx = document.getElementById('combinedChart').getContext('2d');
+    combinedChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets },
+        options: getChartOptions('combined')
+    });
+}
+
 function processChartData(game, transactions) {
-    const timestamps = [];
+    const labels = [];
     const profits = [];
-    let cumulativeBalance = 0;
+    let balance = 0;
 
     transactions.forEach(transaction => {
-        if (Array.isArray(transaction) && transaction.length >= 2) {
-            try {
-                const timestamp = new Date(transaction[0]).toLocaleDateString();
-                const profit = parseFloat(transaction[1]) || 0;
-                
-                timestamps.push(timestamp);
-                profits.push(profit);
-            } catch (e) {
-                console.warn('Invalid transaction format:', transaction);
-            }
+        if (Array.isArray(transaction)) {
+            const date = new Date(transaction[0]).toLocaleDateString();
+            const profit = parseFloat(transaction[1]) || 0;
+            labels.push(date);
+            profits.push(profit);
         }
     });
 
-    const cumulativeData = profits.map(p => {
-        cumulativeBalance += p;
-        return cumulativeBalance;
-    });
+    const cumulative = profits.map(p => (balance += p));
 
     return {
-        labels: timestamps,
+        labels,
         datasets: [
             {
                 label: 'Profit/Loss',
                 data: profits,
-                borderColor: '#FF6384',
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: gameColors[game],
+                backgroundColor: `${gameColors[game]}30`,
                 tension: 0.2,
                 fill: true
             },
             {
                 label: 'Cumulative Balance',
-                data: cumulativeData,
-                borderColor: '#36A2EB',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                data: cumulative,
+                borderColor: gameColors[game],
+                backgroundColor: `${gameColors[game]}30`,
                 tension: 0.2,
                 fill: true
             }
@@ -171,25 +221,19 @@ function getChartOptions(game) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: {
-                labels: { color: '#fff' }
-            },
+            legend: { labels: { color: '#fff' } },
             tooltip: {
                 callbacks: {
-                    label: (context) => 
-                        `${context.dataset.label}: $${context.raw.toFixed(2)}`
+                    label: (ctx) => `${ctx.dataset.label}: $${ctx.raw?.toFixed(2)}`
                 }
             }
         },
         scales: {
-            x: {
-                ticks: { color: '#fff' },
-                grid: { color: 'rgba(255,255,255,0.1)' }
-            },
+            x: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
             y: {
-                ticks: { 
+                ticks: {
                     color: '#fff',
-                    callback: (value) => `$${value.toFixed(2)}`
+                    callback: (val) => `$${val.toFixed(2)}`
                 },
                 grid: { color: 'rgba(255,255,255,0.1)' }
             }
@@ -197,9 +241,7 @@ function getChartOptions(game) {
     };
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetchUserDetails();
-});
+document.addEventListener("DOMContentLoaded", fetchUserDetails);
 </script>
 </body>
 </html>
