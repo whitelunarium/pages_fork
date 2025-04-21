@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Hacks Grader
-permalink: /student/TeamTeachToolkit/grader
+permalink: /student/SAGAI/grader
 description: Grade hacks on a 0.55 scale while also providing feedback
 ---
 
@@ -12,34 +12,6 @@ description: Grade hacks on a 0.55 scale while also providing feedback
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacks Grader</title>
 <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        h1, h2 {
-            margin-top: 10px;
-        }
-        .nav-buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .nav-buttons button {
-            background-color: black;
-            color: white;
-            border: 1px solid white;
-            padding: 10px 20px;
-            margin: 0 10px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .nav-buttons button:hover {
-            background-color: gray;
-        }
         .signout {
             text-align: right;
             padding: 10px;
@@ -67,17 +39,6 @@ description: Grade hacks on a 0.55 scale while also providing feedback
             color: white;
             resize: none;
             overflow: hidden;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: black;
-            border: 1px solid white;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: gray;
         }
         .question {
             background-color: #222;
@@ -133,10 +94,10 @@ description: Grade hacks on a 0.55 scale while also providing feedback
 <body>
 
     <!-- Navigation buttons -->
-    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/generator"><button>Generator</button></a>
-        <a href="{{site.baseurl}}/student/TeamTeachToolkit/review"><button>Review</button></a>
+    <div class="nav-buttons" style="text-align: center">
+      <a href="{{site.baseurl}}/student/SAGAI"><button style="large primary">Home</button></a>
+      <a href="{{site.baseurl}}/student/SAGAI/generator"><button style="large primary">Generator</button></a>
+        <a href="{{site.baseurl}}/student/SAGAI/review"><button style="large primary">Review</button></a>
     </div>
 
     <!-- Main Grader section -->
@@ -149,7 +110,7 @@ description: Grade hacks on a 0.55 scale while also providing feedback
             <label for="code">Code:</label>
             <textarea id="code" placeholder="Insert your code here" oninput="adjustTextareaHeight(this)"></textarea>
             
-            <button class="submit-btn" onclick="submitCode()">Submit Requirement and Code</button>
+            <button class="large filledHighlight primary" onclick="submitCode()">Submit Requirement and Code</button>
 
             <!-- Displayed output -->
             <div class="output">
