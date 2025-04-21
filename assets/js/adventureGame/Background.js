@@ -41,6 +41,36 @@ export class Background extends GameObject {
             // No image, we'll use a color fill
             this.image = null;
         }
+<<<<<<< HEAD
+=======
+
+        this.data = data;
+        // Set the properties of the background
+        this.image = new Image();
+        this.image.src = data.src;
+        this.isInitialized = false; // Flag to track initialization
+
+        // Finish initializing the background after the image loads 
+        this.image.onload = () => {
+            // Width and height come from the image
+            this.width = this.image.width;
+            this.height = this.image.height;
+
+            // Create the canvas element and context
+            this.canvas = document.createElement("canvas");
+            this.canvas.style.position = "absolute";
+            this.canvas.style.zIndex = this.data.zIndex || "0";
+            this.canvas.id = data.id || "background";
+            this.ctx = this.canvas.getContext("2d", { willReadFrequently: true });
+            
+            // Align the canvas size to the gameCanvas
+            this.alignCanvas();
+
+            // Append the canvas to the DOM
+            document.getElementById("gameContainer").appendChild(this.canvas);
+            this.isInitialized = true; // Mark as initialized
+        };
+>>>>>>> 37003ec34b9048f3dda1e311082dff21ab156c29
     }
 
     /**

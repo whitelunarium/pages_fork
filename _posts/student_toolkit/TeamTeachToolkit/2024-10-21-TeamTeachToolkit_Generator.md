@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Hacks Generator
-permalink: /student/TeamTeachToolkit/generator
+permalink: /student/SAGAI/generator
 description: Generate MC or FRQ hacks based on specific units
 ---
 <head>
@@ -236,9 +236,9 @@ description: Generate MC or FRQ hacks based on specific units
 <body>
    <!-- Navigation buttons -->
    <div class="nav-buttons">
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/grader"><button>Grader</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/review"><button>Review</button></a>
+      <a href="{{site.baseurl}}/student/SAGAI"><button>Home</button></a>
+      <a href="{{site.baseurl}}/student/SAGAI/grader"><button>Grader</button></a>
+      <a href="{{site.baseurl}}/student/SAGAI/review"><button>Review</button></a>
    </div>
    <!-- Main Generator Section -->
    <div class="container">

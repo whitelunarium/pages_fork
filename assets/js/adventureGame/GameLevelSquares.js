@@ -88,6 +88,7 @@ class GameLevelSquares extends GameObject {
   update() {
     // Level-specific update logic
     // Check for collisions between PlayerOne and PlayerTwo
+<<<<<<< HEAD
     if (this.instances.length >= 3) { // Background, PlayerOne, PlayerTwo
       const playerOne = this.instances[1];
       const playerTwo = this.instances[2];
@@ -106,6 +107,9 @@ class GameLevelSquares extends GameObject {
       obj1.position.y < obj2.position.y + obj2.height &&
       obj1.position.y + obj1.height > obj2.position.y
     );
+=======
+    // this just serves as an example and does nothing special
+>>>>>>> 37003ec34b9048f3dda1e311082dff21ab156c29
   }
   
   draw() {

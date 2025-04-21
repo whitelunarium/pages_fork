@@ -32,6 +32,7 @@ class GameLevel {
       }
       
       this.gameObjectClasses = this.gameLevel.classes
+<<<<<<< HEAD
 
       for (let gameObjectClass of this.gameObjectClasses) {
         if (!gameObjectClass.data) gameObjectClass.data = {}
@@ -56,6 +57,34 @@ class GameLevel {
       console.error('Error creating game level:', error);
       this.continue = false;
     }
+=======
+
+      for (let gameObjectClass of this.gameObjectClasses) {
+        if (!gameObjectClass.data) gameObjectClass.data = {}
+        
+        // Check if class property is a constructor
+        if (typeof gameObjectClass.class !== 'function') {
+          console.error('GameObject class is not a constructor', gameObjectClass);
+          continue; // Skip this object but don't crash the level
+        }
+        
+        let gameObject = new gameObjectClass.class(gameObjectClass.data, this.gameEnv)
+        this.gameEnv.gameObjects.push(gameObject)
+      }
+
+    if (typeof this.gameLevel.initialize === "function") {
+      console.log('Calling initialize on game level...');
+      this.gameLevel.initialize();
+      console.log('Game level initialization complete');
+    }
+
+      window.addEventListener("resize", this.resize.bind(this))
+      
+    } catch (error) {
+      console.error('Error creating game level:', error);
+      this.continue = false;
+    }
+>>>>>>> 37003ec34b9048f3dda1e311082dff21ab156c29
   }
 
   destroy() {
