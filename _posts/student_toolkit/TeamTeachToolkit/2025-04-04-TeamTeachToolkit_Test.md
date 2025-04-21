@@ -105,42 +105,59 @@ description: Sign up for team teach topics
   }
 
   async function fetchAssignTopics(topic) {
-    try {
-      let response = await fetch(`${javaURI}/api/submissions/assignment/${topic.id}`, fetchOptions);
-      let assignments = await response.json();
-       let studentsText = "None";
-       assignments.forEach(assignment => {
-            if (Array.isArray(assignment.students)) {
-              studentsText += assignment.students.map(s => `${s.name} (${s.id})`).join(', ');
-            } else if (assignment.students && typeof assignment.students === 'string') {
-              studentsText += assignment.students.split(',').join(', ');
-            }
-       });
+  try {
+    let response = await fetch(`${javaURI}/api/submissions/assignment/${topic.id}`, fetchOptions);
+    let assignments = await response.json();
 
-          let row = document.createElement("tr");
+    let studentsSet = new Set();
+    let studentsTextArray = [];
 
-        row.innerHTML = `
-          <td class="border border-white px-4 py-2">${topic.name}</td>
-          <td class="border border-white px-4 py-2">${topic.dueDate}</td>
-          <td class="border border-white px-4 py-2">${studentsText}</td>
-          <td class="border border-white px-4 py-2">
-            <button class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition text-sm" data-topic-id="${topic.id}">
-              Sign Up
-            </button>
-          </td>
-        `;
-        row.querySelector("button").addEventListener("click", function () {
-          signUpForTopic(topic.id);
+    assignments.forEach(assignment => {
+      if (Array.isArray(assignment.students)) {
+        assignment.students.forEach(s => {
+          if (!studentsSet.has(s.id)) {
+            studentsSet.add(s.id);
+            studentsTextArray.push(`${s.name} (${s.id})`);
+          }
         });
+      } else if (assignment.students && typeof assignment.students === 'string') {
+        let names = assignment.students.split(',');
+        names.forEach(name => {
+          if (!studentsSet.has(name.trim())) {
+            studentsSet.add(name.trim());
+            studentsTextArray.push(name.trim());
+          }
+        });
+      }
+    });
 
-        topicsList.appendChild(row);
-    } catch (error) {
-      console.error("Error fetching topics:", error);
+    const studentsText = studentsTextArray.length > 0 ? studentsTextArray.join(', ') : "None";
+    const alreadySignedUp = studentsSet.has(userId);
+
+    let row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td class="border border-white px-4 py-2">${topic.name}</td>
+      <td class="border border-white px-4 py-2">${topic.dueDate}</td>
+      <td class="border border-white px-4 py-2">${studentsText}</td>
+      <td class="border border-white px-4 py-2">
+        <button class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition text-sm" data-topic-id="${topic.id}" ${alreadySignedUp ? 'disabled class="opacity-50 cursor-not-allowed"' : ''}>
+          ${alreadySignedUp ? 'Signed Up' : 'Sign Up'}
+        </button>
+      </td>
+    `;
+
+    if (!alreadySignedUp) {
+      row.querySelector("button").addEventListener("click", function () {
+        signUpForTopic(topic.id);
+      });
     }
+
+    topicsList.appendChild(row);
+  } catch (error) {
+    console.error("Error fetching topics:", error);
   }
-
-
-
+}
 
   async function addTopic() {
     let name = document.getElementById("name").value;
