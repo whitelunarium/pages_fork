@@ -97,14 +97,27 @@ description: Sign up for team teach topics
       topicsList.innerHTML = "";
 
       filteredTopics.forEach(topic => {
-        let studentsText = "None";
-        if (Array.isArray(topic.students)) {
-          studentsText = topic.students.map(s => `${s.name} (${s.uid})`).join(', ');
-        } else if (topic.students && typeof topic.students === 'string') {
-          studentsText = topic.students.split(',').join(', ');
-        }
+            fetchAssignTopics(topic);
+      });
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+    }
+  }
 
-        let row = document.createElement("tr");
+  async function fetchAssignTopics(topic) {
+    try {
+      let response = await fetch(`${javaURI}/api/submissions/assignment/${topic.id}`, fetchOptions);
+      let assignments = await response.json();
+       let studentsText = "None";
+       assignments.forEach(assignment => {
+            if (Array.isArray(assignment.students)) {
+              studentsText += assignment.students.map(s => `${s.name} (${s.id})`).join(', ');
+            } else if (assignment.students && typeof assignment.students === 'string') {
+              studentsText += assignment.students.split(',').join(', ');
+            }
+       });
+
+          let row = document.createElement("tr");
 
         row.innerHTML = `
           <td class="border border-white px-4 py-2">${topic.name}</td>
@@ -116,17 +129,18 @@ description: Sign up for team teach topics
             </button>
           </td>
         `;
-
         row.querySelector("button").addEventListener("click", function () {
           signUpForTopic(topic.id);
         });
 
         topicsList.appendChild(row);
-      });
     } catch (error) {
       console.error("Error fetching topics:", error);
     }
   }
+
+
+
 
   async function addTopic() {
     let name = document.getElementById("name").value;
