@@ -169,12 +169,24 @@ description: Sign up for team teach topics
     const comment = "";
     const isLate = false;
 
-    const url = `${javaURI}/api/submissions/submit/${id}?studentId=${userId}&content=${encodeURIComponent(content)}&comment=${encodeURIComponent(comment)}&isLate=${isLate}`;
+    const url = `${javaURI}/api/submissions/submit/${id}`;
+  
+    const data = {
+            assignmentId: id,
+            studentIds:[userId],
+            content: content,
+            comment:comment,
+            isLate:isLate
+        };
+     const jsonData = JSON.stringify(data);
 
     try {
       let response = await fetch(url, {
-        method: "PUT",
-        headers: fetchOptions
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: jsonData
       });
 
       if (response.ok) {
