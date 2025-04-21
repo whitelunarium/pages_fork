@@ -1,7 +1,3 @@
-@import "mixins";
-@import "profile";
-@import "login";
-@import "calculator-button";
 @import "platformer-game";
 @import "chatbot";
 @import "hacks";
@@ -21,8 +17,4 @@ input,
 textarea,
 select {
     background-color: $background;
-}
-
-ul, ol {
-    margin-left: 0px !important;
 }

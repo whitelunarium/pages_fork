@@ -1,4 +1,4 @@
-@import "materials/main"; 
+@import "materials/main";
 @import "elements/buttons/main";
 
 .hallpass-container {
@@ -10,7 +10,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
     border: 2px solid $gray3;
-    @extend .glass; 
+    @extend .glass;
 }
 
 .hallpass-header {

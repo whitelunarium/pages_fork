@@ -15,13 +15,6 @@
             background-color: transparent;
         }
 
-        .site-nav .page-link {
-            color: white;
-            line-height: 1.5;
-            padding: 5px 10px;
-            margin-left: 20px;
-        }
-
         .site-nav .page-link:not(:last-child) {
             margin-right: 0;
         }
@@ -380,10 +373,14 @@
             font-weight: bold;
         }
 
-        @media screen and (max-width: 800px) {
+        @media screen and (max-width: fit-content) {
             .site-title {
                 padding-right: 45px;
             }
+        }
+
+        .site-header .wrapper {
+            max-width: fit-content !important;
         }
 
         .site-title,

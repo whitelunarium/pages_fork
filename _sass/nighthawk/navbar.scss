@@ -13,10 +13,14 @@
 }
 
 .site-nav .page-link {
-    color: white;
+    color: $white1 !important;
     line-height: 1.5;
     padding: 5px 10px;
     margin-left: 20px;
+}
+
+.site-title {
+    color: $white1 !important;
 }
 
 .site-nav .page-link:not(:last-child) {
@@ -31,5 +35,15 @@
 .site-title:visited,
 .site-nav,
 .page-link {
-    font-weight: bolder
+    font-weight: bolder;
+}
+
+@media screen and (max-width: fit-content) {
+    .site-title {
+        padding-right: 45px;
+    }
+}
+
+.site-header .wrapper {
+    max-width: fit-content !important;
 }
