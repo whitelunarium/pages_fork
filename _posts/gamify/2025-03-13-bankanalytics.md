@@ -41,12 +41,6 @@ permalink: /gamify/bankanalytics
 <br>
 <h1 class="text-center">Game Analytics</h1>
 
-<!-- User Info -->
-<div class="container text-center my-4">
-    <h4>User ID: <span class="name">Loading...</span></h4>
-    <h4>Current Balance: $<span class="balance">0.00</span></h4>
-</div>
-
 <!-- Combined Chart -->
 <div class="container my-4">
     <div class="game-card p-3">
