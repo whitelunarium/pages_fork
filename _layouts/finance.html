@@ -101,12 +101,26 @@ async function loadUserInfo() {
     if (!response.ok) throw new Error("Failed to fetch user data");
     const userData = await response.json();
     
-    document.getElementById('navbarUsername').textContent = userData.uid || "Guest";
-    document.getElementById('navbarBalance').textContent = `$${Number(userData.balance).toFixed(2)}`;
+    const usernameElement = document.getElementById('navbarUsername');
+    const balanceElement = document.getElementById('navbarBalance');
+    
+    if (usernameElement) {
+      usernameElement.textContent = userData.uid || "Guest";
+    }
+    if (balanceElement) {
+      balanceElement.textContent = `$${Number(userData.balance).toFixed(2)}`;
+    }
   } catch (error) {
     console.error("Error loading user info:", error);
-    document.getElementById('navbarUsername').textContent = "Error";
-    document.getElementById('navbarBalance').textContent = "$0.00";
+    const usernameElement = document.getElementById('navbarUsername');
+    const balanceElement = document.getElementById('navbarBalance');
+    
+    if (usernameElement) {
+      usernameElement.textContent = "Error";
+    }
+    if (balanceElement) {
+      balanceElement.textContent = "$0.00";
+    }
   }
 }
 
