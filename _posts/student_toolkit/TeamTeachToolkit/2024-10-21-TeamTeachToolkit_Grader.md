@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Hacks Grader
-permalink: /student/TeamTeachToolkit/grader
+permalink: /student/SAGAI/grader
 description: Grade hacks on a 0.55 scale while also providing feedback
 ---
 

@@ -24,9 +24,9 @@ class Player extends Character {
     constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
         this.keypress = data?.keypress || {up: 87, left: 65, down: 83, right: 68};
+        this.pressedKeys = {}; // active keys array
         this.bindMovementKeyListners();
     }
-
 
     /**
      * Binds key event listeners to handle object movement.
@@ -35,29 +35,21 @@ class Player extends Character {
      * The .bind(this) method ensures that 'this' refers to the object object.
      */
     bindMovementKeyListners() {
-        addEventListener('keydown', this.handleKeyDown.bind(this));
-        addEventListener('keyup', this.handleKeyUp.bind(this));
+        // Only add event listeners if we're in a game environment
+        if (this.gameEnv) {
+            addEventListener('keydown', this.handleKeyDown.bind(this));
+            addEventListener('keyup', this.handleKeyUp.bind(this));
+        }
     }
 
     handleKeyDown({ keyCode }) {
-        switch (keyCode) {
-            case this.keypress.up:
-                this.velocity.y -= this.yVelocity;
-                this.direction = 'up';
-                break;
-            case this.keypress.left:
-                this.velocity.x -= this.xVelocity;
-                this.direction = 'left';
-                break;
-            case this.keypress.down:
-                this.velocity.y += this.yVelocity;
-                this.direction = 'down';
-                break;
-            case this.keypress.right:
-                this.velocity.x += this.xVelocity;
-                this.direction = 'right';
-                break;
-        }
+        // Only handle key events if we're in a game environment
+        if (!this.gameEnv) return;
+        
+        // capture the pressed key in the active keys array
+        this.pressedKeys[keyCode] = true;
+        // set the velocity and direction based on the newly pressed key
+        this.updateVelocityAndDirection();
     }
 
     /**
@@ -68,21 +60,70 @@ class Player extends Character {
      * @param {Object} event - The keyup event object.
      */
     handleKeyUp({ keyCode }) {
-        switch (keyCode) {
-            case this.keypress.up:
-                this.velocity.y = 0;
-                break;
-            case this.keypress.left:
-                this.velocity.x = 0;
-                break;
-            case this.keypress.down: 
-                this.velocity.y = 0;
-                break;
-            case this.keypress.right: 
-                this.velocity.x = 0;
-                break;
+        // Only handle key events if we're in a game environment
+        if (!this.gameEnv) return;
+        
+        // remove the lifted key from the active keys array
+        if (keyCode in this.pressedKeys) {
+            delete this.pressedKeys[keyCode];
+        }
+        // adjust the velocity and direction based on the remaining keys
+        this.updateVelocityAndDirection();
+    }
+
+    /**
+     * Update the player's velocity and direction based on the pressed keys.
+     */
+    updateVelocityAndDirection() {
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
+        // Multi-key movements (diagonals: upLeft, upRight, downLeft, downRight)
+        if (this.pressedKeys[this.keypress.up] && this.pressedKeys[this.keypress.left]) {
+            this.velocity.y -= this.yVelocity;
+            this.velocity.x -= this.xVelocity;
+            this.direction = 'upLeft';
+        } else if (this.pressedKeys[this.keypress.up] && this.pressedKeys[this.keypress.right]) {
+            this.velocity.y -= this.yVelocity;
+            this.velocity.x += this.xVelocity;
+            this.direction = 'upRight';
+        } else if (this.pressedKeys[this.keypress.down] && this.pressedKeys[this.keypress.left]) {
+            this.velocity.y += this.yVelocity;
+            this.velocity.x -= this.xVelocity;
+            this.direction = 'downLeft';
+        } else if (this.pressedKeys[this.keypress.down] && this.pressedKeys[this.keypress.right]) {
+            this.velocity.y += this.yVelocity;
+            this.velocity.x += this.xVelocity;
+            this.direction = 'downRight';
+        // Single key movements (left, right, up, down) 
+        } else if (this.pressedKeys[this.keypress.up]) {
+            this.velocity.y -= this.yVelocity;
+            this.direction = 'up';
+        } else if (this.pressedKeys[this.keypress.left]) {
+            this.velocity.x -= this.xVelocity;
+            this.direction = 'left';
+        } else if (this.pressedKeys[this.keypress.down]) {
+            this.velocity.y += this.yVelocity;
+            this.direction = 'down';
+        } else if (this.pressedKeys[this.keypress.right]) {
+            this.velocity.x += this.xVelocity;
+            this.direction = 'right';
         }
     }
+
+    /**
+     * Overrides the reaction to the collision to handle
+     *  - clearing the pressed keys array
+     *  - stopping the player's velocity
+     *  - updating the player's direction   
+     * @param {*} other - The object that the player is colliding with
+     */
+    handleCollisionReaction(other) {    
+        this.pressedKeys = {};
+        this.updateVelocityAndDirection();
+        super.handleCollisionReaction(other);
+    }
+
 
 }
 

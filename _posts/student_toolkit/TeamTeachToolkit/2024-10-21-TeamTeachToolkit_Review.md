@@ -3,7 +3,7 @@ toc: false
 layout: post
 title: Review Page
 description: Post questions and get replies from peers
-permalink: /student/TeamTeachToolkit/review
+permalink: /student/SAGAI/review
 ---
 
 <html lang="en">

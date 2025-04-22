@@ -132,7 +132,7 @@ show_reading_time: false
          pythonDatabase();
     };
 </script>
-
+ 
 <script type="module">
   import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
 window.signup = function(){
@@ -182,4 +182,54 @@ window.signup = function(){
     tr.appendChild(td);
     document.getElementById("login-container").appendChild(tr);
   }
+</script>
+
+<script type="module">
+  import { javaURI, pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+  window.login = function() {
+    const loginUid = document.getElementById("signupUid").value;
+    const loginPassword = document.getElementById("signupPassword").value;
+
+    // Define login options for both Python and Java backends
+    const pythonLoginOptions = {
+      URL: `${pythonURI}/api/login`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid: loginUid, password: loginPassword }),
+    };
+
+    const javaLoginOptions = {
+      URL: `${javaURI}/api/person/login`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: loginUid, password: loginPassword }),
+    };
+
+    // Perform both login requests simultaneously
+    Promise.all([
+      fetch(pythonLoginOptions.URL, pythonLoginOptions).then(response => {
+        if (!response.ok) throw new Error(`Python login failed: ${response.status}`);
+        return response.json();
+      }),
+      fetch(javaLoginOptions.URL, javaLoginOptions).then(response => {
+        if (!response.ok) throw new Error(`Java login failed: ${response.status}`);
+        return response.json();
+      }),
+    ])
+      .then(([pythonData, javaData]) => {
+        // Set JWT cookie from Python backend
+        document.cookie = `jwt=${pythonData.token}; path=/; secure; HttpOnly`;
+
+        // Optionally handle Java backend response if needed
+        console.log("Java login successful:", javaData);
+
+        // Redirect user to profile page
+        window.location.href = '{{site.baseurl}}/profile';
+      })
+      .catch(error => {
+        console.error("Login Error:", error);
+        document.getElementById("signupMessage").textContent = `Login Error: ${error.message}`;
+      });
+  };
 </script>

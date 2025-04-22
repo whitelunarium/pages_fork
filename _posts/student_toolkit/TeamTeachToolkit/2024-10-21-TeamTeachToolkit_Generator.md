@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Hacks Generator
-permalink: /student/TeamTeachToolkit/generator
+permalink: /student/SAGAI/generator
 description: Generate MC or FRQ hacks based on specific units
 ---
 
@@ -21,6 +21,7 @@ description: Generate MC or FRQ hacks based on specific units
       <h2 class="mb-3">Generate a Hack</h2>
       <div class="mb-3">
         <input type="text" class="form-control" id="topicInput" placeholder="Insert topic here">
+
       </div>
       <div class="mb-3">
         <input type="text" class="form-control" id="requirementsInput" placeholder="MC, FRQ, or other instructions">

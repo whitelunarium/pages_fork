@@ -11,6 +11,7 @@
  * consistency and simplifies the management of shared resources like the canvas and its dimensions.
  * 
  * @class GameEnv
+ * @property {Object} container - The DOM element that contains the game.
  * @property {Object} canvas - The canvas element.
  * @property {Object} ctx - The 2D rendering context of the canvas.
  * @property {number} innerWidth - The inner width of the game area.
@@ -20,6 +21,7 @@
  */
 class GameEnv {
     constructor() {
+        this.container = null;
         this.canvas = null;
         this.ctx = null;
         this.innerWidth = 0;
@@ -28,6 +30,7 @@ class GameEnv {
         this.bottom = 0;
         /* Below properties are not part of is-A or has-A relationships,
         *  they are references for easy accessibility in game objects */
+        this.game = null; // Reference to the Game static environment variables
         this.path = ''; // Reference to the resource path
         this.gameControl = null; // Reference to the GameControl instance
         this.gameObjects = []; // Reference list of game objects instancces    
@@ -54,7 +57,7 @@ class GameEnv {
      */
     setCanvas() {
         this.canvas = document.getElementById('gameCanvas');
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
     }
 
     /**
