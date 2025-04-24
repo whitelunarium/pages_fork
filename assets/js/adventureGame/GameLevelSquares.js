@@ -1,11 +1,11 @@
 // To build GameLevels, each contains GameObjects from below imports
-import GameObject from './GameObject.js';
+import GameEnvBackground from './GameEnvBackground.js';
 import Background from './Background.js';
-import PlayerOne from './PlayerOne.js';
-import PlayerTwo from './PlayerTwo.js';
+import BackgroundParallax from './BackgroundParallax.js';
+import Player from './Player.js';
 
-// Complete implementation with all required methods
-class GameLevelSquares extends GameObject {
+// Minimal Definition
+class GameLevelSquares {
   constructor(gameEnv) {
     let path = gameEnv.path;
     let height = gameEnv.innerHeight;
