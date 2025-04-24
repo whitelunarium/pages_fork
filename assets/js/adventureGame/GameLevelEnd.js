@@ -126,10 +126,10 @@ class GameLevelEnd {
         id: 'Eye of Ender',
         greeting: `Press E to claim this Eye of Ender.`,
         src: sprite_src_eye,
-        SCALE_FACTOR: 15,
+        SCALE_FACTOR: 20,
         ANIMATION_RATE: 9007199254740991,
         pixels: {height: 16, width: 16},
-        INIT_POSITION: { x: (width / 3), y: (height / 2) },
+        INIT_POSITION: { x: (Math.random()*width/2.6)+width/19, y: (Math.random()*height/3.5)+height/2.7 },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 0 },
         hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
@@ -144,6 +144,7 @@ class GameLevelEnd {
             // Add logic to allow the player to escape
           } else {
             alert(`You collected an Eye of Ender! You need ${12 - eyesCollected} more to escape.`);
+            this.INIT_POSITION = { x: (Math.random()*width), y: (height / 2) };
           }
         }
     };
