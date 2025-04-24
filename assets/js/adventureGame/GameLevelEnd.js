@@ -144,7 +144,7 @@ class GameLevelEnd {
             // Add logic to allow the player to escape
           } else {
             alert(`You collected an Eye of Ender! You need ${12 - eyesCollected} more to escape.`);
-            this.INIT_POSITION = { x: (Math.random()*width), y: (height / 2) };
+            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
           }
         }
     };

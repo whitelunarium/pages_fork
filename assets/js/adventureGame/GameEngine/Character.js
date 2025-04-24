@@ -250,7 +250,15 @@ class Character extends GameObject {
      * This method changes the object's position based on its velocity and ensures that the object
      * stays within the boundaries of the canvas.
      */
-    move() {
+    move(x, y) {
+
+        if(x != undefined){
+            this.position.x = x;
+        }
+        if(x != undefined){
+            this.position.y = y;
+        }
+        
         // Update or change position according to velocity events
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
