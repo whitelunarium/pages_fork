@@ -6,6 +6,7 @@ title: Leaderboard
 
 <title>Leaderboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
   /* General Styles */
   body {
@@ -45,7 +46,7 @@ title: Leaderboard
       padding: 40px;
       text-align: center;
   }
-  /* Title Button Effect */
+  /* Title Styling */
   .leaderboard-title {
       font-size: 32px;
       font-weight: bold;
@@ -58,6 +59,27 @@ title: Leaderboard
       border-bottom: 3px solid #ff22a6;
       letter-spacing: 2px;
       margin-bottom: 20px;
+  }
+  /* Search Box Styling */
+  .search-container {
+      max-width: 800px;
+      margin: 0 auto 25px;
+      position: relative;
+  }
+  #leaderboard-search {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 6px;
+      border: 2px solid #ff9800;
+      background-color: #2a2a2a;
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s;
+  }
+  #leaderboard-search:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+      border-color: #ffcc00;
   }
   /* Leaderboard Table */
   .leaderboard-table {
@@ -90,7 +112,7 @@ title: Leaderboard
       background-color: #ff22a6;
       color: #ffffff;
   }
-  /* Rank, Balance & Name Effects */
+  /* Cell Specific Styling */
   .rank {
       font-weight: bold;
       color: #ffcc00;
@@ -103,10 +125,51 @@ title: Leaderboard
       font-weight: bold;
       color: #ffffff;
   }
+  /* Loading and Error States */
+  .loading-message, .error-message {
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+  }
+  .loading-message {
+      color: #ff9800;
+  }
+  .error-message {
+      color: #ff4444;
+  }
+  .no-results {
+      text-align: center;
+      color: #ff9800;
+      padding: 20px;
+      font-style: italic;
+  }
+  /* Loading Animation */
+  @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+  .loading-spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid #ff9800;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+  }
 </style>
+
 <!-- Dashboard -->
 <div class="dashboard">
-  <h1 class="leaderboard-title">Top 10 Users by Balance</h1>
+  <h1 class="leaderboard-title">Banking Leaderboard</h1>
+  
+  <!-- Search Box -->
+  <div class="search-container">
+    <input type="text" id="leaderboard-search" placeholder="Search by username..." aria-label="Search users">
+    <div id="search-status"></div>
+  </div>
+  
+  <!-- Leaderboard Table -->
   <table class="leaderboard-table">
     <thead>
       <tr>
@@ -116,7 +179,12 @@ title: Leaderboard
       </tr>
     </thead>
     <tbody id="top-users-table">
-      <!-- Leaderboard Data Populated Here -->
+      <tr>
+        <td colspan="3" class="loading-message">
+          <div class="loading-spinner"></div>
+          Loading leaderboard data...
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
@@ -124,44 +192,103 @@ title: Leaderboard
 <script type="module">
 import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-async function fetchLeaderboard() {
-  try {
-    const response = await fetch(`${javaURI}/bank/leaderboard`, fetchOptions);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch leaderboard data: ${response.status}`);
-    }
-    
-    const result = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error("Invalid data format received from API");
-    }
-    
-    const topUsersTable = document.querySelector("#top-users-table");
-    topUsersTable.innerHTML = "";
-    
-    result.data.forEach(entry => {
-      const displayName = entry.username && entry.username !== "undefined" ? entry.username : `User ${entry.userId}`;
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="rank">${entry.rank}</td>
-        <td class="balance">$${Number(entry.balance).toFixed(2)}</td>
-        <td class="name">${displayName}</td>
-      `;
-      topUsersTable.appendChild(row);
-    });
-    
-  } catch (error) {
-    console.error("Error fetching or displaying leaderboard:", error);
-    document.querySelector("#top-users-table").innerHTML = `
-      <tr>
-        <td colspan="3" style="text-align: center; color: #ff4444;">
-          Failed to load leaderboard data. Please try again later.
-        </td>
-      </tr>
-    `;
-  }
+// Debounce function to limit API calls during typing
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
 }
-// Load leaderboard when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+// Display loading state
+function showLoading() {
+    $('#top-users-table').html(`
+        <tr>
+            <td colspan="3" class="loading-message">
+                <div class="loading-spinner"></div>
+                Loading data...
+            </td>
+        </tr>
+    `);
+}
+// Main function to fetch and display leaderboard data
+async function fetchLeaderboard(searchQuery = '') {
+    showLoading();
+    try {
+        let url = `${javaURI}/bank/leaderboard`;
+        if (searchQuery) {
+            url = `${javaURI}/bank/leaderboard/search?query=${encodeURIComponent(searchQuery)}`;
+            $('#search-status').html(`<small>Searching for: "${searchQuery}"</small>`).css('color', '#ff9800');
+        } else {
+            $('#search-status').empty();
+        }
+
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok) throw new Error(`Server responded with status ${response.status}`);
+        
+        const result = await response.json();
+        
+        if (!result.success || !result.data) {
+            throw new Error("Invalid data format received from server");
+        }
+        
+        const $topUsersTable = $('#top-users-table');
+        $topUsersTable.empty();
+        
+        if (result.data.length === 0) {
+            $topUsersTable.append(`
+                <tr>
+                    <td colspan="3" class="no-results">
+                        No users found matching "${searchQuery}"
+                    </td>
+                </tr>
+            `);
+            return;
+        }
+        
+        result.data.forEach(entry => {
+            const displayName = entry.username && entry.username !== "undefined" 
+                ? entry.username 
+                : `User ${entry.userId}`;
+                
+            const row = `
+                <tr>
+                    <td class="rank">${entry.rank}</td>
+                    <td class="balance">$${Number(entry.balance).toFixed(2)}</td>
+                    <td class="name">${displayName}</td>
+                </tr>
+            `;
+            $topUsersTable.append(row);
+        });
+        
+    } catch (error) {
+        console.error("Error fetching leaderboard:", error);
+        $('#top-users-table').html(`
+            <tr>
+                <td colspan="3" class="error-message">
+                    Error loading data: ${error.message}
+                </td>
+            </tr>
+        `);
+    }
+}
+// Initialize when DOM is ready
+$(document).ready(function() {
+    // Initial load
+    fetchLeaderboard();
+    
+    // Search functionality with debounce (350ms delay)
+    $('#leaderboard-search').on('input', debounce(function() {
+        const searchQuery = $(this).val().trim();
+        fetchLeaderboard(searchQuery);
+    }, 350));
+    
+    // Clear search when clicking 'x' in search field (IE/Edge support)
+    $('#leaderboard-search').on('search', function() {
+        if ($(this).val() === '') {
+            fetchLeaderboard();
+        }
+    });
+});
 </script>
