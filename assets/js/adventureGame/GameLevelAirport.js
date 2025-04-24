@@ -206,15 +206,15 @@ class GameLevelAirport {
       }
     };
 
-    const sprite_src_investor = path + "/images/gamify/invest.png";
+    const sprite_src_investor = path + "/images/gamify/bizguys.png";
     const sprite_greet_investor = "Welcome to Silicon Valley Trading! Ready to invest in some hot tech stocks?";
     const sprite_data_investor = {
       id: 'Investor',
       greeting: sprite_greet_investor,
       src: sprite_src_investor,
-      SCALE_FACTOR: 15,
+      SCALE_FACTOR: 10,
       ANIMATION_RATE: 50,
-      pixels: { height: 1024, width: 600 },
+      pixels: { height: 535, width: 466 },
       INIT_POSITION: { x: width * 0.4, y: height * 0.6 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
