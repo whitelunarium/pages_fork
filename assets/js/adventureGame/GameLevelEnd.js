@@ -120,6 +120,25 @@ class GameLevelEnd {
           quiz.openPanel(sprite_data_tux);
         }
     };
+     
+    const sprite_src_box = path + "/images/gamify/collisionBox.png";
+    const sprite_greet_box = "I don't wanna fall off the edge. Thank goodness for these invisible barriers!";
+    const sprite_data_box = {
+        id: 'Collsion Box Test',
+        greeting: sprite_greet_box,
+        src: sprite_src_box,
+        SCALE_FACTOR: 4,
+        ANIMATION_RATE: 1000000,
+        pixels: {height: 256, width: 256},
+        INIT_POSITION: { x: (width / 2), y: (height * 3 / 4) },
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 0 },
+        hitbox: { widthPercentage: 0.05, heightPercentage: 0.05 },
+        zIndex: 10,  // Same z-index as player
+        reaction: function() {
+          alert(sprite_greet_box);
+        }
+    };
 
     const sprite_src_eye = path + "/images/gamify/eyeOfEnder.png";
     const sprite_data_eye = {
@@ -132,7 +151,7 @@ class GameLevelEnd {
         INIT_POSITION: { x: (Math.random()*width/2.6)+width/19, y: (Math.random()*height/3.5)+height/2.7 },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 0 },
-        hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+        hitbox: { widthPercentage: 0.05, heightPercentage: 0.05 },
         zIndex: 10,  // Same z-index as player
         reaction: function() {
           alert(`Press E to claim this Eye of Ender.`);
@@ -154,6 +173,7 @@ class GameLevelEnd {
       { class: GamEnvBackground, data: image_data_end },         // Then regular background
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
+      { class: Npc, data: sprite_data_box },
       { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex }
     ];
