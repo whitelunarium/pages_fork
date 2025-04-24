@@ -124,6 +124,12 @@ title: Leaderboard
   .name {
       font-weight: bold;
       color: #ffffff;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color 0.2s;
+  }
+  .name:hover {
+      color: #ff9800;
   }
   /* Loading and Error States */
   .loading-message, .error-message {
@@ -212,9 +218,14 @@ function showLoading() {
         </tr>
     `);
 }
+// Redirect to bank analytics page
+function redirectToAnalytics(userId) {
+    window.location.href = `/portfolio_2025/gamify/bankanalytics?userId=${userId}`;
+}
 // Main function to fetch and display leaderboard data
 async function fetchLeaderboard(searchQuery = '') {
     showLoading();
+    
     try {
         let url = `${javaURI}/bank/leaderboard`;
         if (searchQuery) {
@@ -256,7 +267,10 @@ async function fetchLeaderboard(searchQuery = '') {
                 <tr>
                     <td class="rank">${entry.rank}</td>
                     <td class="balance">$${Number(entry.balance).toFixed(2)}</td>
-                    <td class="name">${displayName}</td>
+                    <td class="name" onclick="redirectToAnalytics(${entry.userId})" 
+                        title="View ${displayName}'s analytics">
+                        ${displayName}
+                    </td>
                 </tr>
             `;
             $topUsersTable.append(row);
@@ -273,6 +287,7 @@ async function fetchLeaderboard(searchQuery = '') {
         `);
     }
 }
+
 // Initialize when DOM is ready
 $(document).ready(function() {
     // Initial load
@@ -290,5 +305,8 @@ $(document).ready(function() {
             fetchLeaderboard();
         }
     });
+    
+    // Make redirect function available globally
+    window.redirectToAnalytics = redirectToAnalytics;
 });
 </script>
