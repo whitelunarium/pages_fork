@@ -8,7 +8,7 @@ layout: base
   body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
   main.page-content > div.wrapper {
     margin: 0;
@@ -26,7 +26,7 @@ layout: base
     {% include toolkit/sidebar.html %}
   </div>
 
-  <main class="flex-1 p-8">
+  <main class="flex-1 p-8 overflow-auto">
     {{ content }}
   </main>
 </div>
