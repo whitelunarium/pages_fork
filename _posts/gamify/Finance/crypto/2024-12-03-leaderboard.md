@@ -112,7 +112,7 @@ title: Leaderboard
       <tr>
         <th>Rank</th>
         <th>Balance</th>
-        <th>User ID</th>
+        <th>Username</th>
       </tr>
     </thead>
     <tbody id="top-users-table">
@@ -141,11 +141,12 @@ async function fetchLeaderboard() {
     topUsersTable.innerHTML = "";
     
     result.data.forEach(entry => {
+      const displayName = entry.username && entry.username !== "undefined" ? entry.username : `User ${entry.userId}`;
       const row = document.createElement("tr");
       row.innerHTML = `
         <td class="rank">${entry.rank}</td>
         <td class="balance">$${Number(entry.balance).toFixed(2)}</td>
-        <td class="name">User ${entry.userId}</td>
+        <td class="name">${displayName}</td>
       `;
       topUsersTable.appendChild(row);
     });
