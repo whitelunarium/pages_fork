@@ -103,23 +103,19 @@ async function loadUserBalance() {
 
     const userData = await response.json();
     
-    const usernameElement = document.getElementById('navbarUsername');
+    // Ensure the balance element exists
     const balanceElement = document.getElementById('navbarBalance');
+    if (!balanceElement) {
+      throw new Error("Balance element not found in DOM");
+    }
     
-    if (usernameElement) {
-      usernameElement.textContent = userData.uid || "Guest";
-    }
-    if (balanceElement) {
-      balanceElement.textContent = `$${Number(userData.balance).toFixed(2)}`;
-    }
+    // Format balance with proper decimal places
+    const balance = Number(userData.balance).toFixed(2);
+    balanceElement.textContent = `$${balance}`;
+    
   } catch (error) {
-    console.error("Error loading user info:", error);
-    const usernameElement = document.getElementById('navbarUsername');
+    console.error("Error loading balance:", error);
     const balanceElement = document.getElementById('navbarBalance');
-    
-    if (usernameElement) {
-      usernameElement.textContent = "Error";
-    }
     if (balanceElement) {
       balanceElement.textContent = "$0.00";
     }
