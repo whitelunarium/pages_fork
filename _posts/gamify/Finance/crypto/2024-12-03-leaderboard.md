@@ -15,7 +15,6 @@ title: Leaderboard
       margin: 0;
       padding: 0;
   }
-
   /* Navigation Bar */
   .navbar {
       display: flex;
@@ -41,13 +40,11 @@ title: Leaderboard
       background-color: #ff9800;
       transform: scale(1.1);
   }
-
   /* Leaderboard Container */
   .dashboard {
       padding: 40px;
       text-align: center;
   }
-
   /* Title Button Effect */
   .leaderboard-title {
       font-size: 32px;
@@ -62,7 +59,6 @@ title: Leaderboard
       letter-spacing: 2px;
       margin-bottom: 20px;
   }
-
   /* Leaderboard Table */
   .leaderboard-table {
       width: 100%;
@@ -94,7 +90,6 @@ title: Leaderboard
       background-color: #ff22a6;
       color: #ffffff;
   }
-
   /* Rank, Balance & Name Effects */
   .rank {
       font-weight: bold;
@@ -109,7 +104,6 @@ title: Leaderboard
       color: #ffffff;
   }
 </style>
-
 <!-- Dashboard -->
 <div class="dashboard">
   <h1 class="leaderboard-title">Top 10 Users by Balance</h1>
@@ -118,7 +112,7 @@ title: Leaderboard
       <tr>
         <th>Rank</th>
         <th>Balance</th>
-        <th>Name</th>
+        <th>User ID</th>
       </tr>
     </thead>
     <tbody id="top-users-table">
@@ -132,37 +126,41 @@ import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js'
 
 async function fetchLeaderboard() {
   try {
-    const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
-    if (!response.ok) throw new Error("Failed to fetch leaderboard data");
-    const data = await response.json();
+    const response = await fetch(`${javaURI}/bank/leaderboard`, fetchOptions);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch leaderboard data: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    
+    if (!result.success || !result.data) {
+      throw new Error("Invalid data format received from API");
+    }
+    
     const topUsersTable = document.querySelector("#top-users-table");
     topUsersTable.innerHTML = "";
-
-    data.forEach((user, index) => {
+    
+    result.data.forEach(entry => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td class="rank">${index + 1}</td>
-        <td class="balance">$${Number(user.balance).toFixed(2)}</td>
-        <td class="name">${user.name}</td>
+        <td class="rank">${entry.rank}</td>
+        <td class="balance">$${Number(entry.balance).toFixed(2)}</td>
+        <td class="name">User ${entry.userId}</td>
       `;
       topUsersTable.appendChild(row);
     });
+    
+  } catch (error) {
+    console.error("Error fetching or displaying leaderboard:", error);
+    document.querySelector("#top-users-table").innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align: center; color: #ff4444;">
+          Failed to load leaderboard data. Please try again later.
+        </td>
+      </tr>
+    `;
   }
-
-  function getStaticLeaderboard() {
-    return [
-      { name: "Alice", balance: 5000.75 },
-      { name: "Bob", balance: 4500.50 },
-      { name: "Charlie", balance: 4000.25 },
-      { name: "Dave", balance: 3500.00 },
-      { name: "Eve", balance: 3000.75 },
-      { name: "Frank", balance: 2750.60 },
-      { name: "Grace", balance: 2500.40 },
-      { name: "Hank", balance: 2250.30 },
-      { name: "Ivy", balance: 2000.10 },
-      { name: "Jack", balance: 1750.00 }
-    ];
-  }
-
-  document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+}
+// Load leaderboard when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", fetchLeaderboard);
 </script>
