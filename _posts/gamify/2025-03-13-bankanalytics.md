@@ -9,19 +9,23 @@ permalink: /gamify/bankanalytics
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     .chart-container {
-        height: 300px;
+        height: 500px;
         position: relative;
+        overflow: visible;
     }
     .combined-chart-container {
-        height: 400px;
+        height: 600px;
     }
     .game-card {
         background-color: #1f1f1f;
         border-radius: 8px;
         transition: transform 0.3s;
+        position: relative;
+        z-index: 1;
     }
     .game-card:hover {
         transform: translateY(-5px);
+        z-index: 1000;
     }
     .game-title {
         color: #ff9800;
@@ -35,11 +39,24 @@ permalink: /gamify/bankanalytics
     .toggle-container button {
         margin: 0.2rem;
     }
+    .chart-container canvas {
+        transition: transform 0.3s ease;
+    }
+    .game-card:hover .chart-container canvas {
+        transform: scale(1.8);
+        transform-origin: center center;
+    }
 </style>
 <body class="m-0 p-0" style="font-family: 'Poppins', sans-serif; background-color: #121212; color: #fff;">
 
 <br>
 <h1 class="text-center">Game Analytics</h1>
+
+<!-- User Info -->
+<div class="container text-center my-4">
+    <h4>User ID: <span class="name">Loading...</span></h4>
+    <h4>Current Balance: $<span class="balance">0.00</span></h4>
+</div>
 
 <!-- Combined Chart -->
 <div class="container my-4">
@@ -60,10 +77,10 @@ permalink: /gamify/bankanalytics
 <!-- Charts Grid -->
 <div class="container my-4">
     <div class="row g-4">
-        <div class="col-12 col-md-6 col-lg-3" id="pokerChartContainer"></div>
-        <div class="col-12 col-md-6 col-lg-3" id="blackjackChartContainer"></div>
-        <div class="col-12 col-md-6 col-lg-3" id="diceChartContainer"></div>
-        <div class="col-12 col-md-6 col-lg-3" id="casino_minesChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-6" id="pokerChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-6" id="blackjackChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-6" id="diceChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-6" id="casino_minesChartContainer"></div>
     </div>
 </div>
 
@@ -74,9 +91,6 @@ let userId = null;
 const charts = {};
 let combinedChart = null;
 
-/**
- * Mapping of internal game keys to display labels.
- */
 const gameMap = {
     poker: 'Poker',
     blackjack: 'Blackjack',
@@ -84,9 +98,6 @@ const gameMap = {
     casino_mines: 'Mines'
 };
 
-/**
- * Color palette for game charts.
- */
 const gameColors = {
     poker: '#FF6384',
     blackjack: '#4BC0C0',
@@ -94,10 +105,6 @@ const gameColors = {
     casino_mines: '#9966FF'
 };
 
-/**
- * Fetch the current user's profile data and trigger chart initialization.
- * Updates DOM with UID and balance.
- */
 async function fetchUserDetails() {
     try {
         const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
@@ -112,24 +119,18 @@ async function fetchUserDetails() {
     }
 }
 
-/**
- * Initialize all game charts by fetching transaction history.
- */
 async function initializeCharts() {
     const games = Object.keys(gameMap);
 
     const gameData = await Promise.all(games.map(async (game) => {
         try {
-            const response = await fetch(`${javaURI}/bank/${userId}/profitmap/${game}`, {
-                ...fetchOptions,
-                method: 'GET'
-            });
+            const endpoint = game === 'casino_mines' ? 
+                `${javaURI}/api/casino/mines/history/${userId}` :
+                `${javaURI}/bank/${userId}/profitmap/${game}`;
+
+            const response = await fetch(endpoint, { ...fetchOptions, method: 'GET' });
             const result = response.ok ? await response.json() : [];
-            console.log(`Fetched ${game} data:`, result);
-            return {
-                game,
-                data: result
-            };
+            return { game, data: result };
         } catch (error) {
             console.error(`Failed to fetch ${game}:`, error);
             return { game, data: [] };
@@ -144,10 +145,6 @@ async function initializeCharts() {
     createCombinedChart(gameData);
 }
 
-/**
- * Render chart HTML card for an individual game.
- * @param {string} game - Game key name.
- */
 function renderChartCard(game) {
     const containerId = `${game}ChartContainer`;
     document.getElementById(containerId).innerHTML = `
@@ -160,11 +157,6 @@ function renderChartCard(game) {
     `;
 }
 
-/**
- * Create a line chart for a specific game using Chart.js.
- * @param {string} game - Game key.
- * @param {Array} transactions - List of [timestamp, profit] pairs.
- */
 function createChart(game, transactions) {
     const processed = processChartData(game, transactions);
     if (!processed) return;
@@ -173,20 +165,14 @@ function createChart(game, transactions) {
     charts[game] = new Chart(ctx, {
         type: 'line',
         data: processed,
-        options: getChartOptions(game)
+        options: { ...getChartOptions(game), maintainAspectRatio: false }
     });
 }
 
-/**
- * Build a combined chart showing cumulative balances across all games.
- * @param {Array} gameData - Array of game and data pairs.
- */
 function createCombinedChart(gameData) {
     const labelSet = new Set();
     gameData.forEach(({ data }) => {
-        data.forEach(([date]) => {
-            labelSet.add(new Date(date).toLocaleDateString());
-        });
+        data.forEach(([date]) => labelSet.add(new Date(date).toLocaleDateString()));
     });
     const labels = Array.from(labelSet).sort((a, b) => new Date(a) - new Date(b));
 
@@ -196,21 +182,16 @@ function createCombinedChart(gameData) {
 
         data.forEach(([time, profit]) => {
             const key = new Date(time).toLocaleDateString();
-            const value = parseFloat(profit) || 0;
-            cumBal += value;
+            cumBal += parseFloat(profit) || 0;
             dailyMap[key] = cumBal;
         });
 
-        const points = labels.map(label => dailyMap[label] ?? null);
-
         return {
             label: gameMap[game],
-            data: points,
+            data: labels.map(label => dailyMap[label] ?? null),
             borderColor: gameColors[game],
             backgroundColor: `${gameColors[game]}30`,
             tension: 0.2,
-            fill: false,
-            spanGaps: true,
             hidden: false
         };
     });
@@ -224,10 +205,6 @@ function createCombinedChart(gameData) {
     });
 }
 
-/**
- * Globally accessible toggle for hiding/showing datasets in the combined chart.
- * @param {string} label - The display name of the game.
- */
 window.toggleDataset = function(label) {
     const ds = combinedChart.data.datasets.find(d => d.label === label);
     if (ds) {
@@ -236,16 +213,9 @@ window.toggleDataset = function(label) {
     }
 };
 
-/**
- * Transform transaction data into chart-ready datasets.
- * @param {string} game - Game key.
- * @param {Array} transactions - Raw transaction array.
- * @returns {object} Chart.js compatible data object.
- */
 function processChartData(game, transactions) {
     if (!Array.isArray(transactions) || transactions.length === 0) return null;
-    const labels = [];
-    const profits = [];
+    const labels = [], profits = [];
     let balance = 0;
 
     transactions.forEach(transaction => {
@@ -267,29 +237,19 @@ function processChartData(game, transactions) {
                 data: profits,
                 borderColor: gameColors[game],
                 backgroundColor: `${gameColors[game]}30`,
-                borderDash: [5, 5],
-                tension: 0.2,
-                fill: false,
-                spanGaps: true
+                tension: 0.2
             },
             {
                 label: 'Cumulative Balance',
                 data: cumulative,
                 borderColor: gameColors[game],
                 backgroundColor: `${gameColors[game]}10`,
-                tension: 0.2,
-                fill: true,
-                spanGaps: true
+                tension: 0.2
             }
         ]
     };
 }
 
-/**
- * Returns a Chart.js configuration object.
- * @param {string} game - Game key (used for styling).
- * @returns {object} Chart options.
- */
 function getChartOptions(game) {
     return {
         responsive: true,
