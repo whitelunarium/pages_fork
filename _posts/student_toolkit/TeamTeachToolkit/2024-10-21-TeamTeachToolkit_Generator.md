@@ -1,6 +1,6 @@
 ---
-toc: false
-layout: post
+layout: toolkit
+active_tab: teamteach
 title: Hacks Generator
 permalink: /student/SAGAI/generator
 description: Generate MC or FRQ hacks based on specific units
