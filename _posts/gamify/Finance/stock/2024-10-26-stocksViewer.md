@@ -24,6 +24,7 @@ title: Stocks Viewer
       justify-content: space-between;
       align-items: center;
       padding: 10px 20px;
+      width:1000px;
       background-color: #001f3f; /* Dark blue background */
       color: #fff;
     }
@@ -49,6 +50,7 @@ title: Stocks Viewer
     }
     .container {
       display: flex;
+      width:1000px;
       height: 92vh; /* Adjusted height for navbar */
     }
     .sidebar {
