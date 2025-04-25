@@ -81,6 +81,14 @@ permalink: /gamify/bankanalytics
         <div class="col-12 col-md-6 col-lg-6" id="blackjackChartContainer"></div>
         <div class="col-12 col-md-6 col-lg-6" id="diceChartContainer"></div>
         <div class="col-12 col-md-6 col-lg-6" id="casino_minesChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="game-card p-3 h-100">
+                <h3 class="game-title">Crypto Portfolio</h3>
+                <div class="chart-container mt-3">
+                    <canvas id="cryptoPortfolioGraph"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -113,6 +121,7 @@ async function fetchUserDetails() {
         document.querySelector('.name').textContent = userData.uid || "Unknown";
         document.querySelector('.balance').textContent = Number(userData.balance).toFixed(2);
         initializeCharts();
+        buildCryptoPortfolioChart(userData.email);
     } catch (error) {
         console.error("Error fetching user data:", error);
         document.querySelector('.name').textContent = "Error";
@@ -273,6 +282,51 @@ function getChartOptions(game) {
             }
         }
     };
+}
+
+// -------------------- CRYPTO CHART --------------------
+async function buildCryptoPortfolioChart(email) {
+    try {
+        const holdingsRes = await fetch(`${javaURI}/api/crypto/holdings?email=${encodeURIComponent(email)}`, fetchOptions);
+        if (!holdingsRes.ok) return;
+
+        const holdingsData = await holdingsRes.json();
+        const holdingsRaw = holdingsData.holdings.split(",");
+        const holdings = {};
+        holdingsRaw.forEach(entry => {
+            const [symbol, amt] = entry.split(":");
+            holdings[symbol.trim().toUpperCase()] = parseFloat(amt.trim());
+        });
+
+        const totalPortfolio = Array(7).fill(0);
+        for (const [symbol, amount] of Object.entries(holdings)) {
+            const trendRes = await fetch(`${javaURI}/api/crypto/trend?cryptoId=${encodeURIComponent(symbol)}&days=7`, fetchOptions);
+            if (!trendRes.ok) continue;
+            const trendData = await trendRes.json();
+            for (let i = 0; i < 7; i++) {
+                totalPortfolio[i] += (trendData[i] || 0) * amount;
+            }
+        }
+
+        const ctx = document.getElementById("cryptoPortfolioGraph").getContext("2d");
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: ["6d ago", "5d", "4d", "3d", "2d", "1d", "Today"],
+                datasets: [{
+                    label: "Portfolio Value ($)",
+                    data: totalPortfolio.map(v => v.toFixed(2)),
+                    borderColor: "rgba(0, 255, 255, 0.9)",
+                    backgroundColor: "rgba(0, 255, 255, 0.1)",
+                    fill: true,
+                    tension: 0.2
+                }]
+            },
+            options: getChartOptions('crypto')
+        });
+    } catch (e) {
+        console.error("Crypto graph error:", e);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", fetchUserDetails);
