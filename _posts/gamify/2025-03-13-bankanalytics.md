@@ -79,7 +79,7 @@ permalink: /gamify/bankanalytics
         <div class="col-12 col-md-6 col-lg-6" id="pokerChartContainer"></div>
         <div class="col-12 col-md-6 col-lg-6" id="blackjackChartContainer"></div>
         <div class="col-12 col-md-6 col-lg-6" id="diceChartContainer"></div>
-        <div class="col-12 col-md-6 col-lg-6" id="casino_minesChartContainer"></div>
+        <div class="col-12 col-md-6 col-lg-6" id="minesChartContainer"></div>
         <div class="col-12 col-md-6 col-lg-6">
             <div class="game-card p-3 h-100">
                 <h3 class="game-title">Crypto Portfolio</h3>
@@ -110,14 +110,14 @@ const gameMap = {
     poker: 'Poker',
     blackjack: 'Blackjack',
     dice: 'Dice',
-    casino_mines: 'Mines'
+    mines: 'Mines'
 };
 
 const gameColors = {
     poker: '#FF6384',
     blackjack: '#4BC0C0',
     dice: '#FFCE56',
-    casino_mines: '#9966FF',
+    mines: '#9966FF',
     crypto: '#00FFFF',
     stocks: '#28a745'
 };
@@ -134,7 +134,7 @@ async function fetchUserDetails() {
 async function initializeCharts(email) {
     const games = Object.keys(gameMap);
     const gameData = await Promise.all(games.map(async (game) => {
-        const endpoint = game === 'casino_mines' ? `${javaURI}/api/casino/mines/history/${userId}` : `${javaURI}/bank/${userId}/profitmap/${game}`;
+        const endpoint = `${javaURI}/bank/${userId}/profitmap/${game}`;
         const response = await fetch(endpoint, { ...fetchOptions, method: 'GET' });
         const result = response.ok ? await response.json() : [];
         return { game, data: result };
