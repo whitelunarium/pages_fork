@@ -8,7 +8,6 @@ layout: base
   body {
     margin: 0;
     padding: 0;
-    /* overflow: hidden; */
   }
   main.page-content > div.wrapper {
     margin: 0;
@@ -26,7 +25,21 @@ layout: base
     {% include toolkit/sidebar.html %}
   </div>
 
-  <main class="flex-1 p-8 overflow-auto">
-    {{ content }}
+  <main class="flex-1 p-8">
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl font-bold">{{ page.title }}</h1>
+      {% if page.subtitle %}
+      <p class="text-gray-600">{{ page.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="overflow-auto"> {{ content }}
+    </div>
+
+    {% if page.pagination %}
+    <div class="mt-8 flex justify-center">
+      {{ page.pagination }}
+    </div>
+    {% endif %}
   </main>
 </div>

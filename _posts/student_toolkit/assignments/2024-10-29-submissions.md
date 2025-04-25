@@ -5,181 +5,26 @@ active_tab: submissions
 permalink: /student/submissions
 ---
 
-<style>
-    #searchBar,
-    #rowsPerPage {
-        width: auto;
-        /* Automatically adjust to content size */
-        max-width: 250px;
-        /* Limit max width */
-    }
-
-    /* Container for search bar and rows per page */
-    #search-container {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    /* Adjust submission section size */
-    #submission-section {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    /* For the buttons and table in the student section */
-    #namesTableBody {
-        width: 75%;
-        max-height: 50px;
-        overflow-y: auto;
-    }
-
-    #timer-container {
-        text-align: center;
-        font-size: 24px;
-        font-family: Arial, sans-serif;
-        margin-top: 20px;
-    }
-
-    #time-left {
-        font-weight: bold;
-        transition: color 0.3s ease;
-    }
-
-    select,
-    input[type="url"],
-    textarea,
-    button {
-        width: 100%;
-        padding: 15px;
-        font-size: 18px;
-        margin: 12px 0;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    textarea {
-        resize: vertical;
-        min-height: 150px;
-    }
-
-    .modal-content h2 {
-        font-size: 28px;
-        color: white;
-        margin-bottom: 20px;
-    }
-
-    .output-box {
-        margin-top: 15px;
-        font-size: 30px;
-        color: #ffffff;
-        animation: moving-glow2 2s infinite;
-    }
-
-    .Assignment-Name {
-        font-size: 20px;
-        color: white;
-    }
-
-    .Assignment-Content {
-        font-size: 16px;
-        color: white;
-    }
-
-    @keyframes moving-glow {
-        0% {
-            box-shadow: 0 0 10px rgba(81, 0, 255, 0.8);
-        }
-
-        50% {
-            box-shadow: 0 0 30px rgba(81, 0, 255, 0.8);
-        }
-
-        100% {
-            box-shadow: 0 0 10px rgba(81, 0, 255, 0.8);
-        }
-    }
-
-    @keyframes moving-glow2 {
-        0% {
-            box-shadow: 0 0 10px rgba(0, 255, 162, 0.8);
-        }
-
-        50% {
-            box-shadow: 0 0 30px rgba(0, 255, 162, 0.8);
-        }
-
-        100% {
-            box-shadow: 0 0 10px rgba(0, 255, 162, 0.8);
-        }
-    }
-
-    @keyframes shake {
-
-        0%,
-        100% {
-            transform: translateX(0);
-        }
-
-        10%,
-        30%,
-        50%,
-        70%,
-        90% {
-            transform: translateX(-5px);
-        }
-
-        20%,
-        40%,
-        60%,
-        80% {
-            transform: translateX(5px);
-        }
-    }
-
-    .shake {
-        animation: shake 0.5s infinite;
-    }
-
-    .message {
-        font-size: 15px;
-    }
-</style>
-
-<!-- toggle switch -->
-<div class="toggle-container">
-    <label class="switch">
-        <span class="toggle">
-            <input type="checkbox" id="myToggle">
-            <span class="slider"></span>
-        </span>
-        <span class="label-text">Enable group submissions</span>
+<div>
+    <label>
+        <input type="checkbox" id="myToggle">
+        <span>Enable group submissions</span>
     </label>
 </div>
 
-<!-- submission form -->
-
-<div id="modal" class="modal">
-    <!-- assignment select -->
-    <div class="modal-content">
+<div id="modal">
+    <div>
         <h2>Submit here</h2>
         <select id="assignment-select">
             <option value="" disabled selected>Select a Assignment</option>
         </select>
     </div>
-    <div class="Assignment-Content" id="Assignment-Content">Assignment-Content</div>
-
-    <!-- time left -->
+    <div id="Assignment-Content">Assignment-Content</div>
     <div id="timer-container">
         <p id="time-left"></p>
     </div>
     <br><br>
-
-    <!-- group submitting -->
-    <div class="Group Submit" id="Group Submit">
+    <div id="Group Submit">
         <div>
             <input type="text" id="searchBar" placeholder="Search for a name..." onkeyup="filterNames()">
         </div>
@@ -205,40 +50,29 @@ permalink: /student/submissions
             </thead>
             <tbody id="namesTableBody"></tbody>
         </table>
-        <!-- <div id="pagination-container">
-            <button id="prevPage" onclick="changePage(-1)">Previous</button>
-            <span id="pageInfo">Page 1 of 10</span>
-            <button id="nextPage" onclick="changePage(1)">Next</button>
-        </div> -->
-        <div class="Review-Group" id="Review-Group">Group Members: </div>
+        <div id="Review-Group">Group Members: </div>
         <br><br><br>
     </div>
-
-    <!-- submission contents (ex: link) -->
     <div>
-        <label for="submissionContent" style="font-size: 18px;">Submission Content:</label>
-        <input type="url" id="submissionContent" required />
+        <label for="submissionContent">Submission Content:</label>
+        <textarea id="submissionContent" rows="5" required></textarea>
+    </div>
+    <br><br>
+    <div>
+        <label for="comments">Comments:</label>
+        <textarea id="comments" rows="5"></textarea>
     </div>
     <br><br>
 
-    <!-- comments you might have -->
-    <div>
-        <label for="comments" style="font-size: 18px;">Comments:</label>
-        <textarea id="comments" rows="4" style="width: 100%;"></textarea>
-    </div>
+    <button id="submit-assignment">Submit Assignment</button>
+    <br><br>
+    <div id="outputBox"></div>
     <br><br>
 
-    <!-- submit it -->
-    <button id="submit-assignment" class="large filledHighlight primary">Submit Assignment</button>
-    <br><br>
-    <div class="output-box" id="outputBox"></div>
-    <br><br>
-
-    <!-- previous submissions -->
     <h1>Previous Submissions for: </h1>
-    <div class="Assignment-Name" id="Assignment-name">Assignment-Content</div>
+    <div id="Assignment-name">Assignment-Content</div>
     <br><br>
-    <table id="submissions-table" style="width: 100%; margin-top: 20px;">
+    <table id="submissions-table">
         <thead>
             <tr>
                 <th>Submisssion Content</th>
@@ -246,11 +80,10 @@ permalink: /student/submissions
                 <th>Feedback</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="submissions-tbody">
             <!-- Submissions will be populated here -->
         </tbody>
     </table>
-
 </div>
 
 <script type="module">
@@ -271,11 +104,9 @@ permalink: /student/submissions
     document.getElementById("myToggle").addEventListener("change", function () {
         if (this.checked) {
             console.log("Toggle is ON");
-            // Perform action when toggled ON
             document.getElementById("Group Submit").style.display = "block";
         } else {
             console.log("Toggle is OFF");
-            // Perform action when toggled OFF
             document.getElementById("Group Submit").style.display = "none";
         }
     });
@@ -302,19 +133,12 @@ permalink: /student/submissions
         console.log(deadlineDate - now);
 
         console.log(listofpeopleIds);
-        // const dataRequest = {
-        //     "studentId":studentId,
-        //     "content": submissionContent,
-        //     "comment": comment,
-        //     "isLate": deadlineDate - now < 0
-        // };
         const formData = new FormData();
         formData.append('studentId', studentId);
         formData.append('content', submissionContent);
         formData.append('comment', comment);
         formData.append('isLate', deadlineDate - now < 0);
 
-        // const data;
         console.log(Array.from(listofpeopleIds));
         const submissionData = {
             assignmentId: assigmentId,
@@ -324,8 +148,6 @@ permalink: /student/submissions
             isLate: deadlineDate - now < 0
         };
         console.log(JSON.stringify(submissionData));
-
-        // console.log(dataRequest);
 
         fetch(urllink_submit, {
             ...fetchOptions,
@@ -479,7 +301,8 @@ permalink: /student/submissions
 
     function populateSubmissionsTable(submissionsJson) {
         const submissions = JSON.parse(submissionsJson);
-        const tableBody = document.getElementById('submissions-table').getElementsByTagName['tbody'](0);
+        // Fix: Use getElementById instead of getElementsByTagName
+        const tableBody = document.getElementById('submissions-tbody');
         tableBody.innerHTML = '';
 
         submissions.forEach(submission => {
@@ -502,9 +325,9 @@ permalink: /student/submissions
 
                 tableBody.appendChild(row);
             }
-
         });
     }
+    
     window.filterNames = function filterNames() {
         const searchTerm = document.getElementById("searchBar").value.toLowerCase();
         filteredPeople = people.filter(person => person.name.toLowerCase().includes(searchTerm));
@@ -547,22 +370,13 @@ permalink: /student/submissions
         populateTable(filteredPeople.slice(startIdx, endIdx));
     };
 
-    // window.changePage = function changePage(direction) {
-    //     if (direction === 'prev' && currentPage > 1) {
-    //         currentPage--;
-    //     } else if (direction === 'next' && currentPage < totalPages) {
-    //         currentPage++;
-    //     }
-    //     const startIdx = (currentPage - 1) * rowsPerPage;
-    //     const endIdx = startIdx + rowsPerPage;
-    //     populateTable(filteredPeople.slice(startIdx, endIdx));
-    // };
-
     window.updatePageInfo = function updatePageInfo() {
         const pageInfo = document.getElementById("pageInfo");
-        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-        document.getElementById("prevPage").disabled = currentPage === 1;
-        document.getElementById("nextPage").disabled = currentPage === totalPages;
+        if (pageInfo) {
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById("prevPage").disabled = currentPage === 1;
+            document.getElementById("nextPage").disabled = currentPage === totalPages;
+        }
     };
 
     function populateTable(names) {
@@ -585,5 +399,4 @@ permalink: /student/submissions
         await fetchSubmissions();
         await fetchAssignments();
     });
-
 </script>
