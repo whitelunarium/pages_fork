@@ -525,33 +525,26 @@ try {
         console.warn("User email not found in localStorage.");
         return;
     }
-
     console.log(`Fetching transaction history for email: ${email}`);
-
     const response = await fetch(javaURI + `/api/crypto/history?email=${encodeURIComponent(email)}`);
     if (!response.ok) {
         throw new Error(`Error fetching transaction history: ${response.statusText}`);
     }
-
     const transactionData = await response.json();
     console.log("Transaction History Response:", transactionData);
-
     let cryptoHistoryString = transactionData.cryptoHistory;
     if (!cryptoHistoryString || cryptoHistoryString.trim() === "") {
         console.warn("No transaction history found.");
         return;
     }
-
     const transactionHistory = cryptoHistoryString.split("\n").filter(entry => entry.trim() !== "");
     console.log("Parsed Transaction History:", transactionHistory);
-
     const table = document.getElementById("cryptoHistoryTable");
     const fullTable = document.getElementById("fullCryptoHistoryTable");
     if (!table || !fullTable) {
         console.error("Table elements not found.");
         return;
     }
-
     // Clear existing table rows (except header)
     table.innerHTML = `
         <tr>
@@ -561,12 +554,10 @@ try {
             <th>Timestamp</th>
         </tr>`;
     fullTable.innerHTML = table.innerHTML; // Clone structure for modal
-
     // 🟢 **Balance Tracking Fix**
     let runningBalance = 100000; // ✅ Start at $100,000
     let labels = [];
     let balances = [];
-
     transactionHistory.forEach(transaction => {
         const rowData = parseTransaction(transaction);
         if (rowData) {
