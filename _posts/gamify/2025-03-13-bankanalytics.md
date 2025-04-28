@@ -144,7 +144,7 @@ async function initializeCharts(email) {
     const gameData = await Promise.all(games.map(async (game) => {
         try {
             const endpoint = game === 'casino_mines' 
-                ? `${javaURI}/api/casino/mines/history/${userId}`
+                ? `${javaURI}/bank/${userId}/profitmap/casino_mines`
                 : `${javaURI}/bank/${userId}/profitmap/${game}`;
                 
             const response = await fetch(endpoint, { ...fetchOptions, method: 'GET' });
