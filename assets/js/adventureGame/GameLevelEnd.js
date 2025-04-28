@@ -2,6 +2,7 @@ import GamEnvBackground from './GameEngine/GameEnvBackground.js';
 import BackgroundParallax from './GameEngine/BackgroundParallax.js';
 import Player from './GameEngine/Player.js';
 import Npc from './GameEngine/Npc.js';
+import Collectible from './GameEngine/Collectible.js';
 import Quiz from './Quiz.js';
 
 
@@ -12,6 +13,7 @@ class GameLevelEnd {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
+    let eyesCollected = 0;
     
     // Parallax background configuration
     const image_src_parallax = path + "/images/gamify/parallaxbg.png";
@@ -47,6 +49,7 @@ class GameLevelEnd {
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 25,
+        
         
         INIT_POSITION: { x: width/16, y: height/2 },
         pixels: {height: 256, width: 128},
@@ -117,12 +120,42 @@ class GameLevelEnd {
           quiz.openPanel(sprite_data_tux);
         }
     };
+
+    const sprite_src_eye = path + "/images/gamify/eyeOfEnder.png";
+    const sprite_data_eye = {
+        id: 'Eye of Ender',
+        greeting: `Press E to claim this Eye of Ender.`,
+        src: sprite_src_eye,
+        SCALE_FACTOR: 20,
+        ANIMATION_RATE: 9007199254740991,
+        pixels: {height: 16, width: 16},
+        INIT_POSITION: { x: (Math.random()*width/2.6)+width/19, y: (Math.random()*height/3.5)+height/2.7 },
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 0 },
+        hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+        zIndex: 10,  // Same z-index as player
+        reaction: function() {
+          alert(`Press E to claim this Eye of Ender.`);
+        },
+        interact: function() {
+          eyesCollected ++;
+          balance += 100;
+          if (eyesCollected >= 12) {
+            alert("You have collected all the Eyes of Ender! You can now escape!");
+            // Add logic to allow the player to escape
+          } else {
+            alert(`You collected an Eye of Ender! You need ${12 - eyesCollected} more to escape.`);
+            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
+          }
+        }
+    };
     
     this.classes = [
       { class: BackgroundParallax, data: image_data_parallax },  // Add parallax background first
       { class: GamEnvBackground, data: image_data_end },         // Then regular background
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
+      { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex }
     ];
   }
