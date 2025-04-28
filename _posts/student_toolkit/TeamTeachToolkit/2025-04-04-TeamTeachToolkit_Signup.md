@@ -6,8 +6,6 @@ permalink: /student/TeamTeachToolkit/signup
 description: Sign up for team teach topics
 ---
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Team Teach Toolkit Signup</title>
 
 <!-- Tailwind CDN -->
@@ -19,28 +17,33 @@ description: Sign up for team teach topics
   }
 </style>
 
-<div class="team-teach-section">
-  <div class="max-w-5xl mx-auto text-white bg-gray-900 py-10 px-4">
+<div class="min-h-screen bg-gray-900 text-white">
+  <div class="max-w-5xl mx-auto py-10 px-4">
     <!-- Nav Buttons -->
-    <div class="flex justify-center gap-4 mb-6">
+    <div class="flex justify-center gap-4 mb-6 flex-wrap">
       <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Home</button>
       <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Grader</button>
       <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Generator</button>
       <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Review</button>
     </div>
-    <p id="loggedInStudent" class="mb-4 text-center text-sm">Fetching student info...</p>
-    <!-- Form and Table Section -->
-    <div class="border border-white rounded p-6">
-      <h2 class="text-2xl font-bold mb-4 text-center">TEAM TEACH SIGNUP</h2>
+
+    <!-- Logged-in Student Info -->
+    <p id="loggedInStudent" class="mb-6 text-center text-sm">Fetching student info...</p>
+
+    <!-- Signup Form and Table -->
+    <div class="border border-white rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-6 text-center">TEAM TEACH SIGNUP</h2>
+
       <!-- Input Form -->
-      <div class="mb-6">
+      <div class="flex flex-col gap-4 mb-6">
         <input type="text" id="name" placeholder="Enter Team Teach Topic"
-          class="w-full mb-3 px-3 py-2 bg-gray-700 text-white rounded outline-none placeholder-gray-300">
+          class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
         <input type="date" id="dueDate"
-          class="w-full mb-3 px-3 py-2 bg-gray-700 text-white rounded outline-none">
+          class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
         <button id="addTopicBtn"
-          class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
+          class="w-full border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
       </div>
+
       <!-- Topics Table -->
       <div class="overflow-x-auto">
         <table class="min-w-full border border-white text-sm text-left">
@@ -68,23 +71,18 @@ description: Sign up for team teach topics
 
   async function getUserId() {
     const url_persons = `${javaURI}/api/person/get`;
-    await fetch(url_persons, fetchOptions)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Spring server response: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        userId = data.id;
-        StuName = data.name;
-        document.getElementById("loggedInStudent").innerText = `Logged in as: ${StuName}`;
-        fetchTopics();
-      })
-      .catch(error => {
-        console.error("Java Database Error:", error);
-        document.getElementById("loggedInStudent").innerText = "Error fetching student info.";
-      });
+    try {
+      const response = await fetch(url_persons, fetchOptions);
+      if (!response.ok) throw new Error(`Spring server response: ${response.status}`);
+      const data = await response.json();
+      userId = data.id;
+      StuName = data.name;
+      document.getElementById("loggedInStudent").innerText = `Logged in as: ${StuName}`;
+      fetchTopics();
+    } catch (error) {
+      console.error("Java Database Error:", error);
+      document.getElementById("loggedInStudent").innerText = "Error fetching student info.";
+    }
   }
 
   async function fetchTopics() {
@@ -97,7 +95,7 @@ description: Sign up for team teach topics
       topicsList.innerHTML = "";
 
       filteredTopics.forEach(topic => {
-            fetchAssignTopics(topic);
+        fetchAssignTopics(topic);
       });
     } catch (error) {
       console.error("Error fetching topics:", error);
@@ -105,59 +103,62 @@ description: Sign up for team teach topics
   }
 
   async function fetchAssignTopics(topic) {
-  try {
-    let response = await fetch(`${javaURI}/api/submissions/assignment/${topic.id}`, fetchOptions);
-    let assignments = await response.json();
+    try {
+      let response = await fetch(`${javaURI}/api/submissions/assignment/${topic.id}`, fetchOptions);
+      let assignments = await response.json();
 
-    let studentsSet = new Set();
-    let studentsTextArray = [];
+      let studentsSet = new Set();
+      let studentsTextArray = [];
 
-    assignments.forEach(assignment => {
-      if (Array.isArray(assignment.students)) {
-        assignment.students.forEach(s => {
-          if (!studentsSet.has(s.id)) {
-            studentsSet.add(s.id);
-            studentsTextArray.push(`${s.name} (${s.id})`);
-          }
-        });
-      } else if (assignment.students && typeof assignment.students === 'string') {
-        let names = assignment.students.split(',');
-        names.forEach(name => {
-          if (!studentsSet.has(name.trim())) {
-            studentsSet.add(name.trim());
-            studentsTextArray.push(name.trim());
-          }
+      assignments.forEach(assignment => {
+        if (Array.isArray(assignment.students)) {
+          assignment.students.forEach(s => {
+            if (!studentsSet.has(s.id)) {
+              studentsSet.add(s.id);
+              studentsTextArray.push(`${s.name} (${s.id})`);
+            }
+          });
+        } else if (assignment.students && typeof assignment.students === 'string') {
+          assignment.students.split(',').forEach(name => {
+            if (!studentsSet.has(name.trim())) {
+              studentsSet.add(name.trim());
+              studentsTextArray.push(name.trim());
+            }
+          });
+        }
+      });
+
+      const studentsText = studentsTextArray.length > 0 ? studentsTextArray.join(', ') : "None";
+      const alreadySignedUp = studentsSet.has(userId);
+
+      let row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="border border-white px-4 py-2">${topic.name}</td>
+        <td class="border border-white px-4 py-2">${topic.dueDate}</td>
+        <td class="border border-white px-4 py-2">${studentsText}</td>
+        <td class="border border-white px-4 py-2">
+          <button 
+            class="border border-white px-3 py-1 rounded text-sm transition ${alreadySignedUp ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:text-black'}" 
+            data-topic-id="${topic.id}"
+            ${alreadySignedUp ? 'disabled' : ''}
+          >
+            ${alreadySignedUp ? 'Signed Up' : 'Sign Up'}
+          </button>
+        </td>
+      `;
+
+      if (!alreadySignedUp) {
+        row.querySelector("button").addEventListener("click", function () {
+          signUpForTopic(topic.id);
         });
       }
-    });
 
-    const studentsText = studentsTextArray.length > 0 ? studentsTextArray.join(', ') : "None";
-    const alreadySignedUp = studentsSet.has(userId);
+      document.getElementById("topicsList").appendChild(row);
 
-    let row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td class="border border-white px-4 py-2">${topic.name}</td>
-      <td class="border border-white px-4 py-2">${topic.dueDate}</td>
-      <td class="border border-white px-4 py-2">${studentsText}</td>
-      <td class="border border-white px-4 py-2">
-        <button class="border border-white px-3 py-1 rounded hover:bg-white hover:text-black transition text-sm" data-topic-id="${topic.id}" ${alreadySignedUp ? 'disabled class="opacity-50 cursor-not-allowed"' : ''}>
-          ${alreadySignedUp ? 'Signed Up' : 'Sign Up'}
-        </button>
-      </td>
-    `;
-
-    if (!alreadySignedUp) {
-      row.querySelector("button").addEventListener("click", function () {
-        signUpForTopic(topic.id);
-      });
+    } catch (error) {
+      console.error("Error fetching topic assignments:", error);
     }
-
-    topicsList.appendChild(row);
-  } catch (error) {
-    console.error("Error fetching topics:", error);
   }
-}
 
   async function addTopic() {
     let name = document.getElementById("name").value;
@@ -196,28 +197,21 @@ description: Sign up for team teach topics
       return;
     }
 
-    const content = "test";
-    const comment = "";
-    const isLate = false;
-
-    const url = `${javaURI}/api/submissions/submit/${id}`;
-  
     const data = {
-            assignmentId: id,
-            studentIds:[userId],
-            content: content,
-            comment:comment,
-            isLate:isLate
-        };
-     const jsonData = JSON.stringify(data);
+      assignmentId: id,
+      studentIds: [userId],
+      content: "test",
+      comment: "",
+      isLate: false
+    };
 
     try {
-      let response = await fetch(url, {
+      let response = await fetch(`${javaURI}/api/submissions/submit/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: jsonData
+        body: JSON.stringify(data)
       });
 
       if (response.ok) {
