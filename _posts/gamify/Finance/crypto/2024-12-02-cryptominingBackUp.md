@@ -147,7 +147,7 @@ body {
 }
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color:rgb(32, 32, 46);
     margin: 0;
     padding: 0;
 }
@@ -294,109 +294,89 @@ body {
 .search-button:hover {
     background-color: #e07b00;
 }
-/* ===== Mining Button Effects ===== */
-#start-mining {
-    background: linear-gradient(135deg, 
-        rgba(147, 51, 234, 0.1) 0%,    /* Purple */
-        rgba(59, 130, 246, 0.1) 50%,  /* Blue */
-        rgba(239, 68, 68, 0.1) 100%   /* Red */
-    );
-    border: 2px solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(
-        45deg,
-        #9333ea,  /* Purple */
-        #3b82f6,  /* Blue */
-        #ef4444   /* Red */
-    );
-    color: white;
+/* Unified Mining Button Effects */
+/* Base Button */
+.mining-button {
+    background: #0a0f2c; /* Default dark background */
+    color: white; /* Default text color */
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 12px;
     font-weight: bold;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(8px);
+    border: 2px solid transparent;
+    text-decoration: none;
 }
-/* Hover effect with chromatic aberration */
-#start-mining:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 25px rgba(147, 51, 234, 0.4),
-                0 0 15px rgba(59, 130, 246, 0.4),
-                0 0 5px rgba(239, 68, 68, 0.4);
+/* Start Mining (Red) */
+.mining-button.start-mining {
+    background: #2c0a0a; /* Dark red */
+    border-color: #ef4444; /* Bright red border */
+    color: #ef4444; /* Bright red text */
 }
-/* Active state with particle effect */
-#start-mining.active {
-    background: linear-gradient(135deg,
-        rgba(147, 51, 234, 0.2) 0%,
-        rgba(59, 130, 246, 0.2) 50%,
-        rgba(239, 68, 68, 0.2) 100%
-    );
-    box-shadow: 0 0 40px rgba(147, 51, 234, 0.6),
-                inset 0 0 20px rgba(59, 130, 246, 0.4);
+/* Energy Plan (Green) */
+.mining-button.energy-plan {
+    background: #0a2c1a; /* Dark green */
+    border-color: #22c55e; /* Bright green border */
+    color: #22c55e; /* Bright green text */
 }
-/* RGB Cyclic Animation */
-@keyframes chromatic-pulse {
-    0% {
-        border-color: #9333ea;  /* Purple */
-        box-shadow: 0 0 15px rgba(147, 51, 234, 0.4);
-    }
-    33% {
-        border-color: #3b82f6;   /* Blue */
-        box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
-    }
-    66% {
-        border-color: #ef4444;  /* Red */
-        box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-    }
-    100% {
-        border-color: #9333ea;  /* Purple */
-        box-shadow: 0 0 15px rgba(147, 51, 234, 0.4);
-    }
+/* Energy Store (Blue) */
+.mining-button.energy-store {
+    background: #0a0f2c; /* Dark navy blue */
+    border-color: #3b82f6; /* Bright blue border */
+    color: #3b82f6; /* Bright blue text */
 }
-#start-mining:not(.active) {
-    animation: chromatic-pulse 3s ease-in-out infinite;
+/* Start Mining (Red Hover) */
+.mining-button.start-mining:hover,
+.mining-button.start-mining:active span {
+    background: #2c0a0a; /* Keep background */
+    box-shadow: 0 0 12px #ef4444, 0 0 24px #ef4444, 0 0 36px #ef4444;
+    transform: translateY(-3px) scale(1.05);
 }
-/* Holographic overlay effect */
-#start-mining::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent 25%,
-        rgba(147, 51, 234, 0.1) 33%,
-        rgba(59, 130, 246, 0.1) 66%,
-        transparent 75%
-    );
-    transform: rotate(45deg);
-    animation: prismatic-flow 4s infinite linear;
-    mix-blend-mode: screen;
+/* Energy Plan (Green Hover) */
+.mining-button.energy-plan:hover,
+.mining-button.energy-plan:active span {
+    background: #0a2c1a; /* Keep background */
+    box-shadow: 0 0 12px #22c55e, 0 0 24px #22c55e, 0 0 36px #22c55e;
+    transform: translateY(-3px) scale(1.05);
 }
-@keyframes prismatic-flow {
-    0% { transform: translateX(-150%) rotate(45deg); }
-    100% { transform: translateX(150%) rotate(45deg); }
+/* Energy Store (Blue Hover) */
+.mining-button.energy-store:hover,
+.mining-button.energy-store:active span {
+    background: #0a0f2c; /* Keep background */
+    box-shadow: 0 0 12px #3b82f6, 0 0 24px #3b82f6, 0 0 36px #3b82f6;
+    transform: translateY(-3px) scale(1.05);
 }
-/* Text glow with color transition */
-#start-mining span {
+/* Span inside Button */
+.mining-button span {
+    color: inherit;
     position: relative;
     z-index: 2;
-    animation: text-glow 2s ease-in-out infinite alternate;
 }
-@keyframes text-glow {
-    from {
-        text-shadow: 0 0 5px rgba(147, 51, 234, 0.5),
-                     0 0 10px rgba(59, 130, 246, 0.5),
-                     0 0 15px rgba(239, 68, 68, 0.5);
-    }
-    to {
-        text-shadow: 0 0 10px rgba(147, 51, 234, 0.8),
-                     0 0 20px rgba(59, 130, 246, 0.8),
-                     0 0 30px rgba(239, 68, 68, 0.8);
-    }
+/* Text Glow Animations */
+.mining-button.start-mining span {
+    animation: text-glow-red 2s ease-in-out infinite alternate;
+}
+@keyframes text-glow-red {
+    from { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+    to { text-shadow: 0 0 15px rgba(239, 68, 68, 0.8); }
+}
+/* Green Glow */
+.mining-button.energy-plan span {
+    animation: text-glow-green 2s ease-in-out infinite alternate;
+}
+@keyframes text-glow-green {
+    from { text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
+    to { text-shadow: 0 0 15px rgba(34, 197, 94, 0.8); }
+}
+/* Blue Glow */
+.mining-button.energy-store span {
+    animation: text-glow-blue 2s ease-in-out infinite alternate;
+}
+@keyframes text-glow-blue {
+    from { text-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+    to { text-shadow: 0 0 15px rgba(59, 130, 246, 0.8); }
 }
 /* GPU Shop Modal */
 .gpu-shop-modal {
@@ -767,112 +747,19 @@ body.modal-open {
     overflow: hidden;
 }
 /* Add these new styles for the energy buttons */
-.mining-button.energy-plan {
-    background: linear-gradient(135deg, 
-        rgba(34, 197, 94, 0.1) 0%,    /* Green */
-        rgba(16, 185, 129, 0.1) 50%,  /* Emerald */
-        rgba(5, 150, 105, 0.1) 100%   /* Teal */
-    );
-    border: 2px solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(
-        45deg,
-        #22c55e,  /* Green */
-        #10b981,  /* Emerald */
-        #059669   /* Teal */
-    );
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(8px);
-    text-decoration: none;
-}
-.mining-button.energy-store {
-    background: linear-gradient(135deg, 
-        rgba(59, 130, 246, 0.1) 0%,    /* Blue */
-        rgba(37, 99, 235, 0.1) 50%,    /* Indigo */
-        rgba(29, 78, 216, 0.1) 100%    /* Dark Blue */
-    );
-    border-image-source: linear-gradient(
-        45deg,
-        #3b82f6,  /* Blue */
-        #2563eb,  /* Indigo */
-        #1d4ed8   /* Dark Blue */
-    );
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(8px);
-    text-decoration: none;
-}
-/* Hover effects for energy buttons */
-.mining-button.energy-plan:hover,
-.mining-button.energy-store:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 25px rgba(34, 197, 94, 0.4),
-                0 0 15px rgba(16, 185, 129, 0.4),
-                0 0 5px rgba(5, 150, 105, 0.4);
-}
 /* Text glow for energy buttons */
-.mining-button.energy-plan span,
-.mining-button.energy-store span {
-    animation: text-glow-green 2s ease-in-out infinite alternate;
-}
-@keyframes text-glow-green {
-    from {
-        text-shadow: 0 0 5px rgba(34, 197, 94, 0.5),
-                     0 0 10px rgba(16, 185, 129, 0.5),
-                     0 0 15px rgba(5, 150, 105, 0.5);
-    }
-    to {
-        text-shadow: 0 0 10px rgba(34, 197, 94, 0.8),
-                     0 0 20px rgba(16, 185, 129, 0.8),
-                     0 0 30px rgba(5, 150, 105, 0.8);
-    }
-}
-@keyframes text-glow-blue {
-    from {
-        text-shadow: 0 0 5px rgba(59, 130, 246, 0.5),
-                     0 0 10px rgba(37, 99, 235, 0.5),
-                     0 0 15px rgba(29, 78, 216, 0.5);
-    }
-    to {
-        text-shadow: 0 0 10px rgba(59, 130, 246, 0.8),
-                     0 0 20px rgba(37, 99, 235, 0.8),
-                     0 0 30px rgba(29, 78, 216, 0.8);
-    }
-}
-@keyframes text-glow {
-    from {
-        text-shadow: 0 0 5px rgba(147, 51, 234, 0.5),
-                     0 0 10px rgba(59, 130, 246, 0.5),
-                     0 0 15px rgba(239, 68, 68, 0.5);
-    }
-    to {
-        text-shadow: 0 0 10px rgba(147, 51, 234, 0.8),
-                     0 0 20px rgba(59, 130, 246, 0.8),
-                     0 0 30px rgba(239, 68, 68, 0.8);
-    }
-}
+/* Red Text Glow */
 </style>
 <body>
     <div id="notification" class="notification"></div>
     <div class="main-content">
         <!-- Tutorial Help Button -->
-        <div class="tutorial-help-button" title="Interactive Tutorial">
+        <div class="tutorial-help-button fixed top-6 right-6 z-50" title="Interactive Tutorial">
             <button onclick="startTutorial()" class="bg-gray-800 hover:bg-gray-700 text-green-500 w-8 h-8 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 border border-green-500/30">
                 <span class="text-lg font-bold">?</span>
             </button>
         </div>
-        <div class="container mx-auto">
+        <div class="container mx-auto pt-24">
             <!-- Core Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Wallet -->
@@ -881,7 +768,7 @@ body.modal-open {
                     <div class="grid gap-2">
                         <div>
                             <div class="stat-label">Crypto Balance</div>
-                            <div class="stat-value" id="btc-balance">0.00000000</div>
+                            <div class="stat-value text-yellow-400" id="btc-balance">0.00000000</div>
                         </div>
                         <div>
                             <div class="stat-label">Pending Crypto Balance</div>
@@ -890,10 +777,11 @@ body.modal-open {
                         </div>
                         <div>
                             <div class="stat-label">USD Value</div>
-                            <div class="stat-value" id="usd-value">$0.00</div>
+                            <div class="stat-value text-yellow-400" id="usd-value">$0.00</div>
                         </div>
                         <div>
-                            <div class="stat-label" id="pool-info">Min. Payout: 0.001 BTC</div>
+                            <div class="stat-label" id="pool-info">Min. Payout</div>
+                            <div class="stat-value text-yellow-400" id="pool-info">0.001 BTC</div>
                         </div>
                     </div>
                 </div>
@@ -903,11 +791,11 @@ body.modal-open {
                     <div class="grid gap-2">
                         <div>
                             <div class="stat-label">Hashrate</div>
-                            <div class="stat-value" id="hashrate">0 MH/s</div>
+                            <div class="stat-value text-purple-400" id="hashrate">0 MH/s</div>
                         </div>
                         <div>
                             <div class="stat-label">Shares</div>
-                            <div class="stat-value" id="shares">0</div>
+                            <div class="stat-value text-purple-400" id="shares">0</div>
                         </div>
                     </div>
                 </div>
@@ -925,11 +813,11 @@ body.modal-open {
                         </div>
                         <div>
                             <div class="stat-label">GPU Temperature</div>
-                            <div class="stat-value" id="gpu-temp">0°C</div>
+                            <div class="stat-value text-blue-400" id="gpu-temp">0°C</div>
                         </div>
                         <div>
                             <div class="stat-label">Power Draw</div>
-                            <div class="stat-value" id="power-draw">0W</div>
+                            <div class="stat-value text-blue-400" id="power-draw">0W</div>
                         </div>
                     </div>
                 </div>
@@ -939,7 +827,7 @@ body.modal-open {
                     <div class="grid gap-2">
                         <div>
                             <div class="stat-label">24h Revenue</div>
-                            <div class="stat-value" id="daily-revenue">$0.00</div>
+                            <div class="stat-value text-red-400" id="daily-revenue">$0.00</div>
                         </div>
                         <div>
                             <div class="stat-label">Power Cost</div>
@@ -954,9 +842,9 @@ body.modal-open {
                     <a href="{{site.baseurl}}/crypto/energy" class="mining-button energy-plan">
                         <span>Energy Plan</span>
                     </a>
-                    <button id="start-mining" onclick="toggleMining()">
+                    <a href="{{site.baseurl}}/crypto/energy" class="mining-button start-mining" onclick="toggleMining()">
                         <span>Start Mining</span>
-                    </button>
+                    </a>
                     <a href="{{site.baseurl}}/crypto/energy-store" class="mining-button energy-store">
                         <span>Energy Store</span>
                     </a>
