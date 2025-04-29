@@ -295,88 +295,74 @@ body {
     background-color: #e07b00;
 }
 /* Unified Mining Button Effects */
-/* Base Button */
 .mining-button {
-    background: #0a0f2c; /* Default dark background */
-    color: white; /* Default text color */
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-weight: bold;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(8px);
-    border: 2px solid transparent;
-    text-decoration: none;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #0a0f2c; /* Default Navy */
+  border: 2px solid transparent;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+.mining-button span {
+  display: inline-block;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
 /* Start Mining (Red) */
 .mining-button.start-mining {
-    background: #2c0a0a; /* Dark red */
-    border-color: #ef4444; /* Bright red border */
-    color: #ef4444; /* Bright red text */
+  background: #2c0a0a;
+  border-color: #ef4444;
+}
+.mining-button.start-mining span {
+  color: #ef4444;
+  animation: text-glow-red 2s ease-in-out infinite alternate;
+}
+.mining-button.start-mining:hover {
+  box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 30px #ef4444;
 }
 /* Energy Plan (Green) */
 .mining-button.energy-plan {
-    background: #0a2c1a; /* Dark green */
-    border-color: #22c55e; /* Bright green border */
-    color: #22c55e; /* Bright green text */
+  background: #0a2c1a;
+  border-color: #22c55e;
+}
+.mining-button.energy-plan span {
+  color: #22c55e;
+  animation: text-glow-green 2s ease-in-out infinite alternate;
+}
+.mining-button.energy-plan:hover {
+  box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e, 0 0 30px #22c55e;
 }
 /* Energy Store (Blue) */
 .mining-button.energy-store {
-    background: #0a0f2c; /* Dark navy blue */
-    border-color: #3b82f6; /* Bright blue border */
-    color: #3b82f6; /* Bright blue text */
+  background: #0a0f2c;
+  border-color: #3b82f6;
 }
-/* Start Mining (Red Hover) */
-.mining-button.start-mining:hover,
-.mining-button.start-mining:active span {
-    background: #2c0a0a; /* Keep background */
-    box-shadow: 0 0 12px #ef4444, 0 0 24px #ef4444, 0 0 36px #ef4444;
-    transform: translateY(-3px) scale(1.05);
+.mining-button.energy-store span {
+  color: #3b82f6;
+  animation: text-glow-blue 2s ease-in-out infinite alternate;
 }
-/* Energy Plan (Green Hover) */
-.mining-button.energy-plan:hover,
-.mining-button.energy-plan:active span {
-    background: #0a2c1a; /* Keep background */
-    box-shadow: 0 0 12px #22c55e, 0 0 24px #22c55e, 0 0 36px #22c55e;
-    transform: translateY(-3px) scale(1.05);
-}
-/* Energy Store (Blue Hover) */
-.mining-button.energy-store:hover,
-.mining-button.energy-store:active span {
-    background: #0a0f2c; /* Keep background */
-    box-shadow: 0 0 12px #3b82f6, 0 0 24px #3b82f6, 0 0 36px #3b82f6;
-    transform: translateY(-3px) scale(1.05);
-}
-/* Span inside Button */
-.mining-button span {
-    color: inherit;
-    position: relative;
-    z-index: 2;
+.mining-button.energy-store:hover {
+  box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
 }
 /* Text Glow Animations */
-.mining-button.start-mining span {
-    animation: text-glow-red 2s ease-in-out infinite alternate;
-}
 @keyframes text-glow-red {
-    from { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
-    to { text-shadow: 0 0 15px rgba(239, 68, 68, 0.8); }
-}
-/* Green Glow */
-.mining-button.energy-plan span {
-    animation: text-glow-green 2s ease-in-out infinite alternate;
+  from { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+  to   { text-shadow: 0 0 15px rgba(239, 68, 68, 0.8); }
 }
 @keyframes text-glow-green {
-    from { text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
-    to { text-shadow: 0 0 15px rgba(34, 197, 94, 0.8); }
-}
-/* Blue Glow */
-.mining-button.energy-store span {
-    animation: text-glow-blue 2s ease-in-out infinite alternate;
+  from { text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
+  to   { text-shadow: 0 0 15px rgba(34, 197, 94, 0.8); }
 }
 @keyframes text-glow-blue {
-    from { text-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
-    to { text-shadow: 0 0 15px rgba(59, 130, 246, 0.8); }
+  from { text-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+  to   { text-shadow: 0 0 15px rgba(59, 130, 246, 0.8); }
 }
 /* GPU Shop Modal */
 .gpu-shop-modal {
