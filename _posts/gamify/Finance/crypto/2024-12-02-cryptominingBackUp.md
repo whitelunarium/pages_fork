@@ -828,7 +828,7 @@ body.modal-open {
                     <a href="{{site.baseurl}}/crypto/energy" class="mining-button energy-plan">
                         <span>Energy Plan</span>
                     </a>
-                    <a href="{{site.baseurl}}/crypto/energy" class="mining-button start-mining" onclick="toggleMining()">
+                    <a class="mining-button start-mining" onclick="toggleMining()">
                         <span>Start Mining</span>
                     </a>
                     <a href="{{site.baseurl}}/crypto/energy-store" class="mining-button energy-store">
