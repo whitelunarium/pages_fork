@@ -139,7 +139,6 @@ class GameLevelEnd {
         },
         interact: function() {
           eyesCollected ++;
-          balance += 100;
           if (eyesCollected >= 12) {
             alert("You have collected all the Eyes of Ender! You can now escape!");
             // Add logic to allow the player to escape
