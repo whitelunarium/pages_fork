@@ -1,4 +1,7 @@
 // Function to open the cryptocurrency details modal
+
+console.log("portfolio.js is loaded.");
+
 function openCryptoDetailsModal() {
     const modal = document.getElementById('crypto-details-modal');
     modal.classList.remove('hidden');

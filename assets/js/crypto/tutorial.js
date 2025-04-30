@@ -1,3 +1,5 @@
+console.log("tutorial.js is loaded.");
+
 document.addEventListener('DOMContentLoaded', async function() {
     // Check login status first
     try {

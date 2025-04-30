@@ -1,4 +1,4 @@
-import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+import { login, pythonURI, javaURI, fetchOptions } from '../api/config.js';
 
 console.log("front.js is loaded.");
 

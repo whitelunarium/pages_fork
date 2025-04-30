@@ -246,7 +246,6 @@ permalink: /crypto/miningbackup
                 </div>
             </div>
         </div>
+        <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js""></script>
     </div>
-    <script type="module" src="{{site.baseurl}}/assets/js/crypto/front.js"/></script>
-    <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js""></script>
 </body>
