@@ -89,9 +89,18 @@ function fetchPeople() {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
+                return response.text(); // Get raw text instead of trying to parse JSON directly
             })
-            .then(data => {
+            .then(rawText => {
+                // Attempt to clean malformed JSON: trim after last valid closing bracket
+                const fixedText = rawText.slice(0, rawText.lastIndexOf(']') + 1);
+                let data;
+                try {
+                    data = JSON.parse(fixedText);
+                } catch (parseError) {
+                    throw new Error('Failed to parse fixed JSON');
+                }
+
                 allPeople = data;
                 dataLoaded.people = true;
                 renderPeopleList();
