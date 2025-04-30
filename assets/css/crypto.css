@@ -42,7 +42,7 @@ body {
     color: white;
     padding: 10px;
     border-radius: 5px;
-    z-index: 1000; // Ensure it appears above other elements
+    z-index: 1000; 
 }
 .shadow-red-glow {
     box-shadow: 0 4px 15px -3px rgba(239, 68, 68, 0.3);
@@ -278,7 +278,9 @@ body {
 }
 /* Unified Mining Button Effects */
 .mining-button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 24px;
   background-color: #0a0f2c; /* Default Navy */
   border: 2px solid transparent;
@@ -288,6 +290,14 @@ body {
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
 }
 .mining-button span {
   display: inline-block;
@@ -296,6 +306,7 @@ body {
   z-index: 2;
   transition: all 0.3s ease;
   font-size: 1rem;
+  text-decoration: none;
 }
 /* Start Mining (Red) */
 .mining-button.start-mining {
@@ -303,11 +314,20 @@ body {
   border-color: #ef4444;
 }
 .mining-button.start-mining span {
-  color: #ef4444;
+  color: #ef4444 !important;
   animation: text-glow-red 2s ease-in-out infinite alternate;
 }
 .mining-button.start-mining:hover {
   box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 30px #ef4444;
+}
+/* Active state for mining button */
+.mining-button.start-mining.active {
+  background: #3c0a0a;
+  border-color: #ff4444;
+}
+.mining-button.start-mining.active span {
+  color: #ff4444 !important;
+  animation: text-glow-red 2s ease-in-out infinite alternate;
 }
 /* Energy Plan (Green) */
 .mining-button.energy-plan {

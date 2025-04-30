@@ -37,9 +37,12 @@ async function fetchUser() {
 }
 
 function updateBalance(balance) {
-  const formattedBalance = parseFloat(balance).toFixed(2);
-  document.getElementById('user-balance').innerText = formattedBalance;
-  localStorage.setItem("userBalance", formattedBalance);
+  const balanceElement = document.getElementById('user-balance');
+  if (balanceElement) {
+    const formattedBalance = parseFloat(balance).toFixed(2);
+    balanceElement.innerText = formattedBalance;
+    localStorage.setItem("userBalance", formattedBalance);
+  }
 }
 
 async function fetchUserBalance() {
@@ -499,14 +502,14 @@ function renderGpuInventory(stats) {
         gpuCard.className = 'bg-gray-800 rounded-xl p-6 shadow-2xl transform transition-all duration-300 hover:scale-[1.02] border border-gray-700';
         gpuCard.dataset.gpuId = gpu.id;
         // Fix property names to match the backend data
-        const hashrate = parseFloat(gpu.hashRate) || 0;  // Changed from hashrate to hashRate
-        const power = parseFloat(gpu.powerConsumption) || 0;  // Changed from power to powerConsumption
+        const hashrate = parseFloat(gpu.hashrate) || 0;
+        const power = parseFloat(gpu.power) || 0;
         const temp = parseFloat(gpu.temp) || 0;
         const price = parseFloat(gpu.price) || 0;
         const dailyRevenue = hashrate * 86400 * 0.00000001;
         const dailyPowerCost = (power * 24 / 1000 * 0.12);
         const dailyProfit = dailyRevenue - dailyPowerCost;
-        const sellPrice = (price * 0.8).toFixed(2);
+        const sellPrice = (price * 0.8).toFixed(2); // Calculate 80% of original price
         gpuCard.innerHTML = `
                     <div class="flex flex-col h-full">
                         <div class="flex-1">
@@ -589,16 +592,25 @@ function updateCharts(stats) {
 }
 function updateMiningButton(isActive) {
     const button = document.getElementById('start-mining');
-    if (isActive) {
-        button.textContent = 'Stop Mining';
-        button.className = 'mining-button active';
+    if (button) {
+        if (isActive) {
+            button.textContent = 'Stop Mining';
+            button.className = 'mining-button start-mining active';
+        } else {
+            button.textContent = 'Start Mining';
+            button.className = 'mining-button start-mining';
+        }
     } else {
-        button.textContent = 'Start Mining';
-        button.className = 'mining-button';
+        console.error('Mining button not found');
     }
 }
 function renderGpuShop(gpus) {
     const gpuListElement = document.getElementById('gpu-list');
+    if (!gpuListElement) {
+        console.error('GPU list element not found');
+        return;
+    }
+    
     gpuListElement.innerHTML = '';
     // Group GPUs by category
     const categories = {
@@ -608,12 +620,15 @@ function renderGpuShop(gpus) {
         'High-End GPUs ($50000-100000)': gpus.filter(gpu => gpu.price > 50000 && gpu.price <= 100000),
         'Premium GPUs ($100000+)': gpus.filter(gpu => gpu.price > 100000)
     };
+
     Object.entries(categories).forEach(([category, categoryGpus]) => {
         if (categoryGpus.length === 0) return;
+        
         const categoryHeader = document.createElement('div');
         categoryHeader.className = `text-xl font-bold mb-4 mt-6 ${getCategoryColor(category)}`;
         categoryHeader.textContent = category;
         gpuListElement.appendChild(categoryHeader);
+        
         categoryGpus.forEach(gpu => {
             const gpuCard = createGpuCard(gpu, category);
             gpuListElement.appendChild(gpuCard);
@@ -719,12 +734,12 @@ function getCategoryClass(category) {
 function openGpuShop() {
     const modal = document.getElementById('gpu-shop-modal');
     modal.classList.remove('hidden');
+    loadGPUs(); // Load GPUs when opening the shop
 }
-// Add close shop functionality
-document.getElementById('close-shop').addEventListener('click', () => {
+window.closeGpuShop = function() {
     const modal = document.getElementById('gpu-shop-modal');
     modal.classList.add('hidden');
-});
+};
 // Close modal when clicking outside
 document.getElementById('gpu-shop-modal').addEventListener('click', (e) => {
     if (e.target.id === 'gpu-shop-modal') {
@@ -786,43 +801,43 @@ function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
     const modal = document.getElementById('sellModal');
     const modalContent = document.getElementById('sellModalContent');
     modalContent.innerHTML = `
-                <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
-                    <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
-                    <p class="text-gray-300 mb-4">Sell price: $${sellPrice.toFixed(2)} each</p>
-                    <div class="mb-4">
-                        <label class="text-gray-300 block mb-2">Quantity:</label>
-                        <input type="number" id="sellQuantity" 
-                               min="1" max="${maxQuantity}" value="1" 
-                               class="bg-gray-700 text-white px-3 py-2 rounded w-full"
-                               onchange="updateSellTotal(${sellPrice})">
-                    </div>
-                    <p class="text-lg text-green-400 mb-4">
-                        Total value: $<span id="totalSellValue">${sellPrice.toFixed(2)}</span>
-                    </p>
-                    <div class="flex justify-end gap-4">
-                        <button onclick="closeSellModal()"
-                                class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
-                            Cancel
-                        </button>
-                        <button onclick="confirmSell(${gpuId})"
-                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
-                            Confirm Sale
-                        </button>
-                    </div>
-                </div>
-            `;
+        <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
+            <h2 class="text-2xl font-bold text-white mb-4">Sell ${gpuName}</h2>
+            <p class="text-gray-300 mb-4">Sell price: $${sellPrice} each</p>
+            <div class="mb-4">
+                <label class="text-gray-300 block mb-2">Quantity:</label>
+                <input type="number" id="sellQuantity" 
+                       min="1" max="${maxQuantity}" value="1" 
+                       class="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                       onchange="updateSellTotal(${sellPrice})">
+            </div>
+            <p class="text-lg text-green-400 mb-4">
+                Total value: $<span id="totalSellValue">${sellPrice}</span>
+            </p>
+            <div class="flex justify-end gap-4">
+                <button onclick="closeSellModal()"
+                        class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
+                    Cancel
+                </button>
+                <button onclick="confirmSell(${gpuId})"
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                    Confirm Sale
+                </button>
+            </div>
+        </div>
+    `;
     modal.style.display = 'flex';
     modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     updateSellTotal(sellPrice);
 }
-window.updateSellTotal = function (sellPrice) {
+function updateSellTotal(sellPrice) {
     const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
     const total = (sellPrice * quantity).toFixed(2);
     document.getElementById('totalSellValue').textContent = total;
-};
-window.closeSellModal = function () {
+}
+function closeSellModal() {
     document.getElementById('sellModal').style.display = 'none';
-};
+}
 // Update the confirmSell function with proper headers
 window.confirmSell = async function (gpuId) {
     const quantity = parseInt(document.getElementById('sellQuantity').value);

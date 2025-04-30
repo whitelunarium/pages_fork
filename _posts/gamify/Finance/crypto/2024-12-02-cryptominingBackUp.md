@@ -37,7 +37,7 @@ permalink: /crypto/miningbackup
                     <div class="grid gap-2">
                         <div>
                             <div class="stat-label">Crypto Balance</div>
-                            <div class="stat-value text-yellow-400" id="btc-balance">0.00000000</div>
+                            <div class="stat-value text-green-400" id="btc-balance">0.00000000</div>
                         </div>
                         <div>
                             <div class="stat-label">Pending Crypto Balance</div>
@@ -46,7 +46,7 @@ permalink: /crypto/miningbackup
                         </div>
                         <div>
                             <div class="stat-label">USD Value</div>
-                            <div class="stat-value text-yellow-400" id="usd-value">$0.00</div>
+                            <div class="stat-value text-green-400" id="usd-value">$0.00</div>
                         </div>
                         <div>
                             <div class="stat-label" id="pool-info">Min. Payout</div>
@@ -112,9 +112,9 @@ permalink: /crypto/miningbackup
                         <span>Energy Plan</span>
                     </a>
                     <script type="module" src="{{site.baseurl}}/assets/js/crypto/front.js"/></script>
-                    <a class="mining-button start-mining" onclick="toggleMining()">
+                    <button id="start-mining" class="mining-button start-mining" onclick="toggleMining()">
                         <span>Start Mining</span>
-                    </a>
+                    </button>
                     <a href="{{site.baseurl}}/crypto/energy-store" class="mining-button energy-store">
                         <span>Energy Store</span>
                     </a>
@@ -165,7 +165,7 @@ permalink: /crypto/miningbackup
                     bg-gray-800 rounded-lg p-6 w-11/12 max-w-4xl max-h-[80vh] overflow-hidden">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl font-bold">GPU Shop</h2>
-                <button id="close-shop" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+                <button onclick="closeGpuShop()" class="text-gray-400 hover:text-white text-3xl">&times;</button>
             </div>
             <div class="overflow-y-auto pr-2" style="max-height: calc(80vh - 100px);">
                 <div id="gpu-list" class="grid gap-4">
@@ -246,6 +246,6 @@ permalink: /crypto/miningbackup
                 </div>
             </div>
         </div>
-        <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js""></script>
+        <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js"></script>
     </div>
 </body>

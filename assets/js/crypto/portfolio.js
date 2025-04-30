@@ -2,19 +2,22 @@
 
 console.log("portfolio.js is loaded.");
 
-function openCryptoDetailsModal() {
+// Expose functions to global scope
+window.openCryptoDetailsModal = function() {
     const modal = document.getElementById('crypto-details-modal');
     modal.classList.remove('hidden');
     document.body.classList.add('modal-open'); // Add class to body
     loadCryptoBalances();
     loadAvailableCryptocurrencies();
-}
+};
+
 // Function to close the cryptocurrency details modal
-function closeCryptoDetailsModal() {
+window.closeCryptoDetailsModal = function() {
     const modal = document.getElementById('crypto-details-modal');
     modal.classList.add('hidden');
     document.body.classList.remove('modal-open'); // Remove class from body
-}
+};
+
 // Function to load cryptocurrency balances
 function loadCryptoBalances() {
     console.log('Fetching crypto balances from: http://localhost:8085/api/mining/balances');
