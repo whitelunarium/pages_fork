@@ -1,3 +1,10 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #121212;
+}
 .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -7,7 +14,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.page-content h1 {
+h1 {
     text-align: center;
     color: #333;
 }
@@ -56,6 +63,8 @@ label {
     font-weight: bold;
 }
 
+input, select {
+    width: 100%;
 input:not(input[type="checkbox"]), select {
     width: 100%;
 }
@@ -67,7 +76,7 @@ input, select {
     box-sizing: border-box;
 }
 
-.page-content button {
+button {
     padding: 10px 15px;
     background-color: #4CAF50;
     color: white;
@@ -77,7 +86,7 @@ input, select {
     margin-right: 10px;
 }
 
-.page-content button:hover {
+button:hover {
     background-color: #45a049;
 }
 
