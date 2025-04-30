@@ -84,7 +84,7 @@ function fetchCurrentUser() {
 // Fetch people from API
 function fetchPeople() {
     return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/peopleget`)
+        fetch(`${javaURI}/api/people/get`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
