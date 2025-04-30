@@ -103,7 +103,7 @@ async function captureScreen() {
         return mediaStream;
     } catch (ex) {
         console.log("Error occurred", ex);
-        document.getElementById("endBroadcastButton").style.display = "none";
+        // document.getElementById("endBroadcastButton").style.display = "none";
     }
 }
 
