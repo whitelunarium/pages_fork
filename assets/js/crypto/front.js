@@ -386,21 +386,49 @@ async function updateMiningStats() {
             method: 'GET',
             cache: 'no-cache'
         };
-        const response = await fetch(`${javaURI}/api/mining/stats`, options);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        
+        // First fetch the stats
+        const statsResponse = await fetch(`${javaURI}/api/mining/stats`, options);
+        if (!statsResponse.ok) {
+            throw new Error(`Failed to fetch stats: ${statsResponse.status}`);
         }
-        const stats = await response.json();
-        console.log('Full info:', {
-            pendingBalance: stats.pendingBalance,
-            shares: stats.shares,
-            hashrate: stats.hashrate,
-            activeGPUs: stats.activeGPUs
-        });
-        if (!stats.gpus) {
-            console.warn('API response missing gpus field', stats);
-            stats.gpus = []; // Set default
+        const stats = await statsResponse.json();
+        
+        // Try to fetch GPU shop data, but don't fail if it errors
+        let gpuPriceMap = {};
+        try {
+            const gpusResponse = await fetch(`${javaURI}/api/mining/shop`, options);
+            if (gpusResponse.ok) {
+                const gpus = await gpusResponse.json();
+                console.log('Shop GPUs:', gpus);
+                // Create a map of GPU prices
+                gpus.forEach(gpu => {
+                    gpuPriceMap[gpu.id] = gpu.price;
+                    console.log(`GPU ${gpu.id} (${gpu.name}) price: ${gpu.price}`);
+                });
+            } else {
+                console.warn('Failed to fetch GPU shop data:', gpusResponse.status);
+            }
+        } catch (shopError) {
+            console.warn('Error fetching GPU shop data:', shopError);
         }
+        
+        // Add prices to the stats.gpus array
+        if (stats.gpus) {
+            stats.gpus = stats.gpus.map(gpu => {
+                const price = gpuPriceMap[gpu.id] || gpu.price || 0; // Use existing price if available
+                console.log(`Merging GPU ${gpu.id} (${gpu.name}) with price: ${price}`);
+                return {
+                    ...gpu,
+                    price: price
+                };
+            });
+        } else {
+            stats.gpus = [];
+        }
+        
+        console.log('Final Stats GPUs with Prices:', stats.gpus);
+        
         updateDisplay(stats);
         renderGpuInventory(stats);
         updateCharts(stats);
