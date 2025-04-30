@@ -183,7 +183,7 @@ const fetchOptions2 = {
     ...fetchOptions,
     credentials: 'omit',
 }
-let teacherEmail = "jmort1021@gmail.com";
+let teacherEmail = localStorage.getItem('teacherEmail');
 const tinkleURL = javaURI + '/api/tinkle/add';
 // Load users from localStorage
 function loadUsers() {
@@ -258,7 +258,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (response.ok) {
                             console.log("Time added to database");
                         } else {
-                            alert("Failed to add time to database.");
+                            //alert("Failed to add time to database.");
+                            console.log("Failed to add time to database.");
                         }
                     })
                 }

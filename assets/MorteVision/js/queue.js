@@ -16,25 +16,53 @@ let queueUpdateInterval;
 const URL = javaURI + "/api/assignments/"
 console.log(URL)
 
-// timer function to start countdown for person
 function startTimer() {
+    const waitingList = document.getElementById('waitingList');
+    const firstInQueue = waitingList.children[0]?.textContent;
+
+    // If person is not at the front or not part of the first group, block the timer
+    if (!firstInQueue || (!firstInQueue.includes(person) && person !== firstInQueue)) {
+        alert("You must be at the front of the queue to start the timer.");
+        return;
+    }
+    
     let time = timerlength;
-    document.getElementById('beginTimer').style.display = 'none';
+    const timerButton = document.getElementById('beginTimer');
+    timerButton.textContent = 'End Timer';
+
+    // Change the click behavior to END the timer
+    timerButton.removeEventListener('click', startTimer);
+    timerButton.addEventListener('click', endTimerEarly);
+    
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         document.getElementById('timerDisplay').textContent =
             `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        document.title = "" + `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} | Presentation Queue`;
+        document.title = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} | Presentation Queue`;
         time--;
         if (time < 0) {
             clearInterval(timerInterval);
             moveToDoneQueue();
-            alert("Timer is up! Your presentation is over.")
-            document.getElementById('beginTimer').style.display = 'block';
-            document.title = "Presentation Queue | Nighthawk Pages"
+            alert("Timer is up! Your presentation is over.");
+            resetTimerButton();
         }
     }, 1000);
+}
+
+function endTimerEarly() {
+    clearInterval(timerInterval);
+    moveToDoneQueue();
+    alert("Timer ended early.");
+    resetTimerButton();
+}
+
+function resetTimerButton() {
+    const timerButton = document.getElementById('beginTimer');
+    timerButton.textContent = 'Begin Timer';
+    timerButton.removeEventListener('click', endTimerEarly);
+    timerButton.addEventListener('click', startTimer);
+    document.title = "Presentation Queue | Nighthawk Pages";
 }
 
 // ensure accessible outside of current module
@@ -151,10 +179,6 @@ async function toggleGroupInQueue() {
     // Refresh the queue display
     fetchQueue();
 }
-
-// Attach event listener to the toggle button
-document.getElementById('customToggleBtn').addEventListener('click', toggleGroupInQueue);
-
 
 // update display - ran periodically
 function updateQueueDisplay(queue) {
