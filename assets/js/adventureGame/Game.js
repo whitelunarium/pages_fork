@@ -256,7 +256,6 @@ class Game {
     static gameSteps = [
         { id: 'start', text: 'Start Adventure', completed: true },
         { id: 'talk_npcs', text: 'Talk to NPCs', completed: false },
-        { id: 'meteor_key', text: 'Get Meteor Key', completed: false },
         { id: 'complete_quizzes', text: 'Complete Quizzes', completed: false },
         { id: 'reach_paradise', text: 'Reach Paradise', completed: false }
     ];
@@ -308,10 +307,8 @@ class Game {
         this.gameSteps[1].completed = this.npcInteractions.size > 0;
         this.gameSteps[3].completed = this.npcInteractions.size >= this.totalNpcs;
 
-        // Check for meteor key
-        const cookies = document.cookie.split(';');
-        const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-        this.gameSteps[2].completed = !!gameKeyCookie;
+
+
 
         // Check for paradise
         const paradiseCookie = cookies.some(c => c.trim().startsWith('paradise_'));
@@ -502,7 +499,7 @@ class Game {
 
         const cookies = document.cookie.split(';');
         const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-        const meteorKeyStatus = gameKeyCookie ? '✅ Meteor Key Earned' : '❌ Meteor Key Not Earned';
+        
 
         // Calculate initial progress
         if (gameKeyCookie) {
@@ -515,7 +512,7 @@ class Game {
         statsContainer.innerHTML = `
             <div style="margin-bottom: 10px;">Balance: <span id="balance" style="color: #ffd700;">0</span></div>
             <div style="margin-bottom: 10px;">Accuracy: <span id="questionAccuracy" style="color: #ffd700;">0%</span></div>
-            <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
+            
             
             <div class="stats-divider"></div>
             
