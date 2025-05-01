@@ -261,6 +261,68 @@ class Game {
         { id: 'reach_paradise', text: 'Reach Paradise', completed: false }
     ];
 
+    static setCookie(name, value, days = 365) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    static getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    static loadProgressFromCookies() {
+        // Load NPC interactions
+        const npcCookie = this.getCookie('npc_interactions');
+        if (npcCookie) {
+            this.npcInteractions = new Set(JSON.parse(npcCookie));
+        }
+
+        // Load game steps
+        const stepsCookie = this.getCookie('game_steps');
+        if (stepsCookie) {
+            const savedSteps = JSON.parse(stepsCookie);
+            this.gameSteps.forEach((step, index) => {
+                if (savedSteps[index]) {
+                    step.completed = savedSteps[index].completed;
+                }
+            });
+        }
+
+        // Check for meteor key
+        const gameKeyCookie = this.getCookie('gameKey');
+        if (gameKeyCookie) {
+            this.gameSteps[2].completed = true;
+        }
+
+        // Check for paradise
+        const paradiseCookie = this.getCookie('paradise_reached');
+        if (paradiseCookie) {
+            this.gameSteps[4].completed = true;
+        }
+
+        // Update talk_npcs step based on NPC interactions
+        this.gameSteps[1].completed = this.npcInteractions.size > 0;
+        this.gameSteps[3].completed = this.npcInteractions.size >= this.totalNpcs;
+    }
+
+    static saveProgressToCookies() {
+        // Save NPC interactions
+        this.setCookie('npc_interactions', JSON.stringify([...this.npcInteractions]));
+
+        // Save game steps
+        this.setCookie('game_steps', JSON.stringify(this.gameSteps));
+
+        // Save paradise progress if completed
+        if (this.gameSteps[4].completed) {
+            this.setCookie('paradise_reached', 'true');
+        }
+    }
+
     static getNextStep() {
         // If no NPCs talked to yet, direct to first NPC
         if (this.npcInteractions.size === 0) {
@@ -316,6 +378,9 @@ class Game {
         // Check for paradise
         const paradiseCookie = cookies.some(c => c.trim().startsWith('paradise_'));
         this.gameSteps[4].completed = paradiseCookie;
+
+        // Save progress to cookies
+        this.saveProgressToCookies();
 
         // Update the UI
         this.updateProgressUI();
@@ -429,6 +494,9 @@ class Game {
     }
 
     static initStatsUI() {
+        // Load saved progress before initializing UI
+        this.loadProgressFromCookies();
+
         const statsContainer = document.createElement('div');
         statsContainer.id = 'stats-container';
         statsContainer.style.position = 'fixed';
