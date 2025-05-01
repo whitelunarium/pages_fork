@@ -51,6 +51,12 @@ const socket = new WebSocket(mvURI);
 let videoStreamGlobal;
 let globalPeer;
 
+async function broadcast() {
+    const stream = await captureScreen();
+    videoStreamGlobal = stream;
+    document.getElementById("mortStream").srcObject = stream;
+    sendMessage({ context: "broadcastRequest" });
+}
 
 
 socket.onmessage = async function (event) {
@@ -127,12 +133,6 @@ async function captureScreen() {
     }
 }
 
-async function broadcast() {
-    const stream = await captureScreen();
-    videoStreamGlobal = stream;
-    document.getElementById("mortStream").srcObject = stream;
-    sendMessage({ context: "broadcastRequest" });
-}
 
 function viewerAcceptServer(messageData) {
     let remotedesc = new RTCSessionDescription({
