@@ -438,16 +438,116 @@ class Game {
         statsContainer.style.color = 'white';
         statsContainer.style.padding = '10px';
         statsContainer.style.borderRadius = '5px';
-    
+        statsContainer.style.minWidth = '200px';
+        statsContainer.style.fontFamily = "'Press Start 2P', monospace";
+        statsContainer.style.fontSize = '10px';
+        statsContainer.style.border = '2px solid #ffd700';
+        statsContainer.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
+
+        // Inject progress bar styles
+        if (!document.getElementById('progress-bar-styles')) {
+            const styleSheet = document.createElement('style');
+            styleSheet.id = 'progress-bar-styles';
+            styleSheet.textContent = `
+                .progress-container {
+                    margin: 8px 0;
+                }
+                .progress-label {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 4px;
+                    font-size: 8px;
+                    color: #ffd700;
+                }
+                .progress-bar {
+                    width: 100%;
+                    height: 8px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+                .progress-fill {
+                    height: 100%;
+                    background: #ffd700;
+                    transition: width 0.3s ease;
+                    border-radius: 4px;
+                }
+                .stats-divider {
+                    height: 1px;
+                    background: rgba(255, 215, 0, 0.3);
+                    margin: 8px 0;
+                }
+                .game-step {
+                    font-size: 8px;
+                    color: #fff;
+                    margin: 4px 0;
+                    opacity: 0.7;
+                    transition: all 0.3s ease;
+                }
+                .game-step.completed {
+                    color: #ffd700;
+                    opacity: 1;
+                }
+                .game-step:before {
+                    content: '○';
+                    margin-right: 5px;
+                }
+                .game-step.completed:before {
+                    content: '●';
+                    color: #ffd700;
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+
         const cookies = document.cookie.split(';');
         const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
         const meteorKeyStatus = gameKeyCookie ? '✅ Meteor Key Earned' : '❌ Meteor Key Not Earned';
-    
+
+        // Calculate initial progress
+        if (gameKeyCookie) {
+            this.gameSteps[2].completed = true;
+        }
+
+        const completedSteps = this.gameSteps.filter(step => step.completed).length;
+        const npcCount = this.npcInteractions.size;
+
         statsContainer.innerHTML = `
-            <div>Balance: <span id="balance">0</span></div>
-            <div>Question Accuracy: <span id="questionAccuracy">0%</span></div>
+            <div style="margin-bottom: 10px;">Balance: <span id="balance" style="color: #ffd700;">0</span></div>
+            <div style="margin-bottom: 10px;">Accuracy: <span id="questionAccuracy" style="color: #ffd700;">0%</span></div>
             <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
+            
+            <div class="stats-divider"></div>
+            
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>NPCs Interacted</span>
+                    <span class="npc-count">${npcCount}/${this.totalNpcs}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill npc-progress-fill" style="width: ${(npcCount / this.totalNpcs) * 100}%"></div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Game Progress</span>
+                    <span class="game-count">${completedSteps}/${this.gameSteps.length}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill game-progress-fill" style="width: ${(completedSteps / this.gameSteps.length) * 100}%"></div>
+                </div>
+            </div>
+
+            <div class="stats-divider"></div>
+            
+            ${this.gameSteps.map(step => `
+                <div class="game-step ${step.completed ? 'completed' : ''}">
+                    ${step.text}
+                </div>
+            `).join('')}
         `;
+
         document.body.appendChild(statsContainer);
 
         // Show initial guidance
