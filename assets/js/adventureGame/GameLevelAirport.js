@@ -215,7 +215,7 @@ class GameLevelAirport {
     };
 
     const sprite_src_investor = path + "/images/gamify/bizguys.png";
-    const sprite_greet_investor = "Welcome to Wallstreet Trading! Ready to invest in some hot tech stocks?";
+    const sprite_greet_investor = "Welcome to quick-trading! Ready to invest in some hot tech stocks?";
     const sprite_data_investor = {
       id: 'Investor',
       greeting: sprite_greet_investor,
