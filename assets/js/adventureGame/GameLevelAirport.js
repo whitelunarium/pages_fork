@@ -4,7 +4,15 @@ import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
 import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
-
+let socketURI
+let javaURI
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    javaURI = "http://localhost:8085";
+    socketURI = "ws://localhost:8085/websocket";
+} else {
+    javaURI = "https://spring2025.nighthawkcodingsociety.com";
+    socketURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
+}
 class GameLevelAirport {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
@@ -45,7 +53,7 @@ class GameLevelAirport {
     const sprite_src_pilot = path + "/images/gamify/pilot.png";
     const sprite_data_pilot = {
       id: 'Pilot',
-      greeting: "Greetings passenger! Ready to travel to Silicon Valley?",
+      greeting: "Greetings passenger! Ready to travel to Wallstreet?",
       src: sprite_src_pilot,
       SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
@@ -54,9 +62,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      reaction: () => {
-        alert(sprite_data_pilot.greeting);
-      },
       interact: async function () {
         const personId = Game.id; 
         const transitionAllowed = await Game.transitionToWallstreet(personId);
@@ -81,7 +86,7 @@ class GameLevelAirport {
     const sprite_src_worker = path + "/images/gamify/worker.png";
     const sprite_data_worker = {
       id: 'Worker',
-      greeting: "Hey! You look like you're a chill guy! The plane on the runway leaves to Silicon Valley soon. Better catch it! First, press 'E' and talk to other people/visit companies around the airport. If you need help, you can press 'h, or e+h' at anytime. Safe travels!",
+      greeting: "Hey! You look like you're a chill guy! Board the plane to Wallstreet, & press 'h' for help at anytime!",
       src: sprite_src_worker,
       SCALE_FACTOR: 3.5,
       ANIMATION_RATE: 50,
@@ -90,9 +95,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      reaction: () => {
-        alert(sprite_data_worker.greeting);
-      },
       interact: () => {
         const panel = document.getElementById('worker-instructions-panel');
         if (panel) panel.style.display = 'block';
@@ -111,9 +113,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_data_fidelity.greeting);
-      },
       interact: function () {
         Game.attemptQuizForNpc(sprite_data_fidelity.id);
       }
@@ -131,9 +130,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_data_schwab.greeting);
-      },
       interact: function () {
         Game.attemptQuizForNpc(sprite_data_schwab.id);
       }
@@ -148,13 +144,10 @@ class GameLevelAirport {
       SCALE_FACTOR: 1.5,
       ANIMATION_RATE: 50,
       pixels: { height: 1068, width: 1078 },
-      INIT_POSITION: { x: width * 0.5, y: height * 0.865 },
+      INIT_POSITION: { x: width * 0.7, y: height * 0.7 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_greet_computer);
-      },
       interact: async function () {
         try {
           const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=LIMANRBUDM0ZN7LE`);
@@ -206,22 +199,19 @@ class GameLevelAirport {
       }
     };
 
-    const sprite_src_investor = path + "/images/gamify/invest.png";
-    const sprite_greet_investor = "Welcome to Silicon Valley Trading! Ready to invest in some hot tech stocks?";
+    const sprite_src_investor = path + "/images/gamify/bizguys.png";
+    const sprite_greet_investor = "Welcome to quick-trading! Ready to invest in some hot tech stocks?";
     const sprite_data_investor = {
       id: 'Investor',
       greeting: sprite_greet_investor,
       src: sprite_src_investor,
-      SCALE_FACTOR: 15,
+      SCALE_FACTOR: 10,
       ANIMATION_RATE: 50,
-      pixels: { height: 1024, width: 600 },
-      INIT_POSITION: { x: width * 0.4, y: height * 0.6 },
+      pixels: { height: 535, width: 466 },
+      INIT_POSITION: { x: width * 0.5, y: height * 0.8 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_greet_investor);
-      },
       interact: function () {
         showInvestmentModal();
       }
@@ -499,7 +489,7 @@ class GameLevelAirport {
       // Function to fetch current stats
       async function fetchStats() {
         try {
-          const response = await fetch('http://localhost:8085/rpg_answer/market-stats', {
+          const response = await fetch(javaURI + `/rpg_answer/market-stats`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -509,19 +499,22 @@ class GameLevelAirport {
           });
           
           if (!response.ok) {
+            console.error('Server response:', await response.text());
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const stats = await response.json();
           updateStats(stats);
         } catch (error) {
           console.error('Error fetching stats:', error);
+          // More descriptive error message for debugging
+          const errorMessage = error.message || 'Network error - server may be down';
           document.getElementById('bullishPercentage').textContent = 'N/A';
           document.getElementById('bearishPercentage').textContent = 'N/A';
           document.getElementById('totalVotes').textContent = '0';
           document.getElementById('voteHistory').innerHTML = `
             <div class="alert alert-danger">
-              Unable to load market data. Please try again later.
-              ${error.message ? `<br><small>${error.message}</small>` : ''}
+              Unable to load market data: ${errorMessage}
+              <br><small>Please check server connection and try again.</small>
             </div>
           `;
         }
@@ -544,7 +537,7 @@ class GameLevelAirport {
         };
 
         try {
-          const response = await fetch('http://localhost:8085/rpg_answer/market-sentiment', {
+          const response = await fetch(javaURI + `/rpg_answer/market-sentiment`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

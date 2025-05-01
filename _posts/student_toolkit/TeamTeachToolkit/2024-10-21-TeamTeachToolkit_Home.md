@@ -1,13 +1,13 @@
 ---
 toc: false
 layout: post
+active_tab: teamteach
 title: Team Teach Toolkit
 description: Grade popcorn hacks, generate hacks, review team teach units, or sign up for team teaches here
 permalink: /student/TeamTeachToolkit
 ---
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Team Teach Toolkit</title>
 
 <div class="bg-black text-white font-sans text-center min-h-screen">
