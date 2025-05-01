@@ -20,16 +20,15 @@ layout: base
   }
 
   [x-cloak] {
-    /* basically it just hides the elmenet until alpine loads bc alpine does the showing/hiding logic */
+    /* basically it just hides the element until alpine loads bc alpine does the showing/hiding logic */
     display: none !important;
   }
-
 </style>
-
 
 <!-- the alpine x-data and :class stuff is a little goofy but it just makes it easier for 
 me to easily change things based on just the state of the sidebarOpen variable -->
 <div x-data="{ sidebarOpen: false }" class="flex relative min-h-screen">
+  
   <!-- hamburger/x button for mobile so it isn't cluttered -->
   <button
     @click.stop="sidebarOpen = !sidebarOpen"
@@ -52,7 +51,6 @@ me to easily change things based on just the state of the sidebarOpen variable -
     </svg>
   </button>
 
-
   <div
     :class="{
       'translate-x-0': sidebarOpen,
@@ -66,8 +64,7 @@ me to easily change things based on just the state of the sidebarOpen variable -
     {% include toolkit/sidebar.html %}
   </div>
 
-
-  <!-- this is the black overlay on mobile when the sidebar is open -->
+  <!-- black overlay on mobile when sidebar is open -->
   <div
     x-show="sidebarOpen"
     x-transition
@@ -76,22 +73,22 @@ me to easily change things based on just the state of the sidebarOpen variable -
     x-cloak
   ></div>
 
-
   <main class="flex-1 p-8">
     <div class="mb-8 text-center">
       <h1 class="text-3xl font-bold">{{ page.title }}</h1>
       {% if page.subtitle %}
-      <p class="text-gray-600">{{ page.subtitle }}</p>
+        <p class="text-gray-600">{{ page.subtitle }}</p>
       {% endif %}
     </div>
 
-    <div class="overflow-auto"> {{ content }}
+    <div class="overflow-auto"> 
+      {{ content }}
     </div>
 
     {% if page.pagination %}
-    <div class="mt-8 flex justify-center">
-      {{ page.pagination }}
-    </div>
+      <div class="mt-8 flex justify-center">
+        {{ page.pagination }}
+      </div>
     {% endif %}
   </main>
 </div>
