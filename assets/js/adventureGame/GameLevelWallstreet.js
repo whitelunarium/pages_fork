@@ -333,7 +333,7 @@ class GameLevelWallstreet {
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_crypto },
       { class: Npc, data: sprite_data_bank },
-      {class: Npc, data: spriteBank},
+      // {class: Npc, data: spriteBank},
     ];
   }
 }
