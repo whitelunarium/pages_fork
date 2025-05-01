@@ -256,6 +256,7 @@ class Game {
     static gameSteps = [
         { id: 'start', text: 'Start Adventure', completed: true },
         { id: 'talk_npcs', text: 'Talk to NPCs', completed: false },
+        { id: 'meteor_key', text: 'Get Meteor Key', completed: false },
         { id: 'complete_quizzes', text: 'Complete Quizzes', completed: false },
         { id: 'reach_paradise', text: 'Reach Paradise', completed: false }
     ];
@@ -406,26 +407,31 @@ class Game {
     static updateProgress(npcId) {
         console.log('Updating progress for NPC:', npcId);
         
-        // Add NPC to interactions set
-        this.npcInteractions.add(npcId);
-        console.log('Current NPC interactions:', [...this.npcInteractions]);
-        
-        // Update game steps
-        this.gameSteps[1].completed = this.npcInteractions.size > 0;
-        this.gameSteps[3].completed = this.npcInteractions.size >= this.totalNpcs;
+        // Add NPC to interactions set if not already added
+        if (!this.npcInteractions.has(npcId)) {
+            this.npcInteractions.add(npcId);
+            console.log('Current NPC interactions:', [...this.npcInteractions]);
+            
+            // Update game steps
+            if (this.gameSteps) {
+                const talkNpcsStep = this.gameSteps.find(step => step.id === 'talk_npcs');
+                const completeQuizzesStep = this.gameSteps.find(step => step.id === 'complete_quizzes');
+                
+                if (talkNpcsStep) talkNpcsStep.completed = true;
+                if (completeQuizzesStep) completeQuizzesStep.completed = this.npcInteractions.size >= this.totalNpcs;
 
-        // Check for paradise
-        const paradiseCookie = this.getCookie('paradise_reached');
-        this.gameSteps[4].completed = !!paradiseCookie;
+                // Save progress to cookies
+                this.saveProgressToCookies();
 
-        // Save progress to cookies
-        this.saveProgressToCookies();
+                // Update the UI
+                this.updateProgressUI();
 
-        // Update the UI
-        this.updateProgressUI();
-
-        // Show next step guidance
-        this.showNextStepGuidance();
+                // Show next step guidance
+                this.showNextStepGuidance();
+            } else {
+                console.error('Game steps not properly initialized');
+            }
+        }
     }
 
     static showNextStepGuidance() {

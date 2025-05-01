@@ -19,7 +19,7 @@ class Npc extends Character {
 
     checkIfNextTarget() {
         const nextStep = Game.getNextStep();
-        if (nextStep.target === this.spriteData.id) {
+        if (nextStep && nextStep.target === this.spriteData.id) {
             this.addHighlight();
         } else {
             this.removeHighlight();
@@ -29,29 +29,27 @@ class Npc extends Character {
     addHighlight() {
         if (!this.highlightEffect) {
             this.highlightEffect = document.createElement('div');
-            this.highlightEffect.style.cssText = `
-                position: absolute;
-                top: -10px;
-                left: -10px;
-                right: -10px;
-                bottom: -10px;
-                border: 3px solid #ffd700;
-                border-radius: 50%;
-                animation: pulse 2s infinite;
-                pointer-events: none;
-                z-index: -1;
-            `;
-            this.canvas.parentElement.appendChild(this.highlightEffect);
+            this.highlightEffect.style.position = 'absolute';
+            this.highlightEffect.style.border = '2px solid gold';
+            this.highlightEffect.style.borderRadius = '50%';
+            this.highlightEffect.style.animation = 'pulse 1.5s infinite';
+            this.highlightEffect.style.pointerEvents = 'none';
+            document.body.appendChild(this.highlightEffect);
+        }
+        this.updateHighlightPosition();
+    }
 
-            // Update highlight position when NPC moves
-            const updateHighlightPosition = () => {
-                if (this.highlightEffect) {
-                    this.highlightEffect.style.top = (this.position.y - 10) + 'px';
-                    this.highlightEffect.style.left = (this.position.x - 10) + 'px';
-                }
-                requestAnimationFrame(updateHighlightPosition);
-            };
-            updateHighlightPosition();
+    updateHighlightPosition() {
+        if (this.highlightEffect && this.canvas) {
+            const rect = this.canvas.getBoundingClientRect();
+            const scale = this.spriteData.SCALE_FACTOR || 1;
+            const width = (this.spriteData.pixels.width / scale) * 1.2;
+            const height = (this.spriteData.pixels.height / scale) * 1.2;
+            
+            this.highlightEffect.style.width = `${width}px`;
+            this.highlightEffect.style.height = `${height}px`;
+            this.highlightEffect.style.left = `${rect.left + this.position.x - width/4}px`;
+            this.highlightEffect.style.top = `${rect.top + this.position.y - height/4}px`;
         }
     }
 
@@ -244,31 +242,22 @@ class Npc extends Character {
         const hasInteract = this.interact !== undefined;
 
         if (players.length > 0 && hasInteract) {
-            if (!this.hasInteracted) {
-                console.log('First interaction with NPC:', this.spriteData.id);
-                this.hasInteracted = true;
-                // Update progress tracking
-                Game.updateProgress(this.spriteData.id);
-                // Remove highlight after interaction
-                this.removeHighlight();
-                // Update highlights for all NPCs
-                this.updateAllNpcHighlights();
-            }
-            // Call the interact function after updating progress
-            setTimeout(() => {
-                this.interact();
-            }, 100);
+            // Update progress before interaction
+            Game.updateProgress(this.spriteData.id);
+            
+            // Call the interact function
+            this.interact();
+            
+            // Update highlights for all NPCs
+            this.updateAllNpcHighlights();
         }
     }
 
     updateAllNpcHighlights() {
-        // Find all NPCs in the game
-        const npcs = this.gameEnv.gameObjects.filter(obj => obj instanceof Npc);
-        npcs.forEach(npc => {
-            if (npc !== this) {  // Don't check the current NPC
-                npc.checkIfNextTarget();
-            }
-        });
+        if (this.gameEnv) {
+            const npcs = this.gameEnv.gameObjects.filter(obj => obj instanceof Npc);
+            npcs.forEach(npc => npc.checkIfNextTarget());
+        }
     }
 
     destroy() {
