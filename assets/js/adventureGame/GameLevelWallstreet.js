@@ -40,16 +40,16 @@ class GameLevelWallstreet {
       keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
 
-    const sprite_src_casino = path + "/images/gamify/casino.png";
+    const sprite_src_casino = path + "/images/gamify/frankSinatra.png";
     const sprite_data_casino = {
       id: 'Casino-NPC',
       greeting: "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.",
       src: sprite_src_casino,
-      SCALE_FACTOR: 10,
+      SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
-      pixels: { height: 1920, width: 1861 },
-      INIT_POSITION: { x: width * 0.55, y: height * 0.6 },
-      orientation: { rows: 1, columns: 1 },
+      pixels: { height: 281, width: 280 },
+      INIT_POSITION: { x: width * 0.28, y: height * 0.82 },
+      orientation: { rows: 1, columns: 1 }, 
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function () {
@@ -226,15 +226,15 @@ class GameLevelWallstreet {
     };
 
     // === Fixed Bank NPC ===
-    const sprite_src_bank = path + "/images/gamify/bank.png";
+    const sprite_src_bank = path + "/images/gamify/janetYellen.png";
     const sprite_data_bank = {
       id: 'Bank-NPC',
       greeting: "Welcome, I'm Janet Yellen, Secretary of the Treasury.",
       src: sprite_src_bank,
-      SCALE_FACTOR: 10,
+      SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
-      pixels: { height: 270, width: 377 },
-      INIT_POSITION: { x: width * 0.6, y: height * 0.4 },
+      pixels: { height: 282, width: 268 },
+      INIT_POSITION: { x: width * 0.6, y: height * 0.41 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
