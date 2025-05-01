@@ -4,7 +4,15 @@ import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
 import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
-
+let socketURI
+let javaURI
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    javaURI = "http://localhost:8085";
+    socketURI = "ws://localhost:8085/websocket";
+} else {
+    javaURI = "https://spring2025.nighthawkcodingsociety.com";
+    socketURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
+}
 class GameLevelAirport {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
@@ -499,7 +507,7 @@ class GameLevelAirport {
       // Function to fetch current stats
       async function fetchStats() {
         try {
-          const response = await fetch('http://localhost:8085/rpg_answer/market-stats', {
+          const response = await fetch(javaURI + `/rpg_answer/market-stats`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -509,19 +517,22 @@ class GameLevelAirport {
           });
           
           if (!response.ok) {
+            console.error('Server response:', await response.text());
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const stats = await response.json();
           updateStats(stats);
         } catch (error) {
           console.error('Error fetching stats:', error);
+          // More descriptive error message for debugging
+          const errorMessage = error.message || 'Network error - server may be down';
           document.getElementById('bullishPercentage').textContent = 'N/A';
           document.getElementById('bearishPercentage').textContent = 'N/A';
           document.getElementById('totalVotes').textContent = '0';
           document.getElementById('voteHistory').innerHTML = `
             <div class="alert alert-danger">
-              Unable to load market data. Please try again later.
-              ${error.message ? `<br><small>${error.message}</small>` : ''}
+              Unable to load market data: ${errorMessage}
+              <br><small>Please check server connection and try again.</small>
             </div>
           `;
         }
@@ -544,7 +555,7 @@ class GameLevelAirport {
         };
 
         try {
-          const response = await fetch('http://localhost:8085/rpg_answer/market-sentiment', {
+          const response = await fetch(javaURI + `/rpg_answer/market-sentiment`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
