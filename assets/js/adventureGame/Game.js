@@ -361,31 +361,6 @@ class Game {
         };
     }
 
-    static updateProgress(npcId) {
-        // Add NPC to interactions set
-        this.npcInteractions.add(npcId);
-        
-        // Update game steps
-        this.gameSteps[1].completed = this.npcInteractions.size > 0;
-        this.gameSteps[3].completed = this.npcInteractions.size >= this.totalNpcs;
-
-
-
-
-        // Check for paradise
-        const paradiseCookie = cookies.some(c => c.trim().startsWith('paradise_'));
-        this.gameSteps[4].completed = paradiseCookie;
-
-        // Save progress to cookies
-        this.saveProgressToCookies();
-
-        // Update the UI
-        this.updateProgressUI();
-
-        // Show next step guidance
-        this.showNextStepGuidance();
-    }
-
     static updateProgressUI() {
         const statsContainer = document.getElementById('stats-container');
         if (!statsContainer) return;
@@ -397,6 +372,7 @@ class Game {
             const progress = (this.npcInteractions.size / this.totalNpcs) * 100;
             npcProgressEl.style.width = `${progress}%`;
             npcCountEl.textContent = `${this.npcInteractions.size}/${this.totalNpcs}`;
+            console.log('Updating NPC progress:', this.npcInteractions.size, 'of', this.totalNpcs);
         }
 
         // Update game progress
@@ -420,6 +396,36 @@ class Game {
                 }
             }
         });
+
+        // Force a reflow to ensure the UI updates
+        statsContainer.style.display = 'none';
+        statsContainer.offsetHeight; // Force reflow
+        statsContainer.style.display = 'block';
+    }
+
+    static updateProgress(npcId) {
+        console.log('Updating progress for NPC:', npcId);
+        
+        // Add NPC to interactions set
+        this.npcInteractions.add(npcId);
+        console.log('Current NPC interactions:', [...this.npcInteractions]);
+        
+        // Update game steps
+        this.gameSteps[1].completed = this.npcInteractions.size > 0;
+        this.gameSteps[3].completed = this.npcInteractions.size >= this.totalNpcs;
+
+        // Check for paradise
+        const paradiseCookie = this.getCookie('paradise_reached');
+        this.gameSteps[4].completed = !!paradiseCookie;
+
+        // Save progress to cookies
+        this.saveProgressToCookies();
+
+        // Update the UI
+        this.updateProgressUI();
+
+        // Show next step guidance
+        this.showNextStepGuidance();
     }
 
     static showNextStepGuidance() {

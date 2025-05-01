@@ -245,6 +245,7 @@ class Npc extends Character {
 
         if (players.length > 0 && hasInteract) {
             if (!this.hasInteracted) {
+                console.log('First interaction with NPC:', this.spriteData.id);
                 this.hasInteracted = true;
                 // Update progress tracking
                 Game.updateProgress(this.spriteData.id);
@@ -253,19 +254,29 @@ class Npc extends Character {
                 // Update highlights for all NPCs
                 this.updateAllNpcHighlights();
             }
-            this.interact();
+            // Call the interact function after updating progress
+            setTimeout(() => {
+                this.interact();
+            }, 100);
         }
     }
 
     updateAllNpcHighlights() {
         // Find all NPCs in the game
         const npcs = this.gameEnv.gameObjects.filter(obj => obj instanceof Npc);
-        npcs.forEach(npc => npc.checkIfNextTarget());
+        npcs.forEach(npc => {
+            if (npc !== this) {  // Don't check the current NPC
+                npc.checkIfNextTarget();
+            }
+        });
     }
 
     destroy() {
         if (this.popup) {
             this.popup.remove();
+        }
+        if (this.highlightEffect) {
+            this.highlightEffect.remove();
         }
         super.destroy?.();
     }
