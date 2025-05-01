@@ -62,9 +62,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      reaction: () => {
-        alert(sprite_data_pilot.greeting);
-      },
       interact: async function () {
         const personId = Game.id; 
         const transitionAllowed = await Game.transitionToWallstreet(personId);
@@ -98,9 +95,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      reaction: () => {
-        alert(sprite_data_worker.greeting);
-      },
       interact: () => {
         const panel = document.getElementById('worker-instructions-panel');
         if (panel) panel.style.display = 'block';
@@ -119,9 +113,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_data_fidelity.greeting);
-      },
       interact: function () {
         Game.attemptQuizForNpc(sprite_data_fidelity.id);
       }
@@ -139,9 +130,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_data_schwab.greeting);
-      },
       interact: function () {
         Game.attemptQuizForNpc(sprite_data_schwab.id);
       }
@@ -160,9 +148,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_greet_computer);
-      },
       interact: async function () {
         try {
           const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=LIMANRBUDM0ZN7LE`);
@@ -227,9 +212,6 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      reaction: function () {
-        alert(sprite_greet_investor);
-      },
       interact: function () {
         showInvestmentModal();
       }
