@@ -235,7 +235,7 @@ class Game {
                 throw new Error("Failed to fetch questions");
             }
             const questionsAnswered = await response.json();
-            return questionsAnswered >=12;
+            return questionsAnswered >=6;
         } catch (error) {
             console.error("Error transitioning to Paradise:", error);
             return null;
@@ -245,23 +245,30 @@ class Game {
     static initStatsUI() {
         const statsContainer = document.createElement('div');
         statsContainer.id = 'stats-container';
-        statsContainer.style.position = 'fixed';
-        statsContainer.style.top = '75px';
-        statsContainer.style.right = '10px';
-        statsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        statsContainer.style.color = 'white';
-        statsContainer.style.padding = '10px';
-        statsContainer.style.borderRadius = '5px';
-    
-        const cookies = document.cookie.split(';');
-        const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-        const meteorKeyStatus = gameKeyCookie ? '✅ Meteor Key Earned' : '❌ Meteor Key Not Earned';
+        statsContainer.style.cssText = `
+            position: fixed;
+            top: 75px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 250px;
+            font-family: sans-serif;
+        `;
     
         statsContainer.innerHTML = `
             <div>Balance: <span id="balance">0</span></div>
             <div>Question Accuracy: <span id="questionAccuracy">0%</span></div>
-            <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
+            <div style="margin-top: 10px;">
+                <div style="font-weight: bold;">Level 1 Progress</div>
+                <div id="task-descriptions"></div>
+                <div style="background-color: #444; height: 20px; border-radius: 10px; margin-top: 5px;">
+                    <div id="progress-bar" style="height: 100%; width: 0%; background-color: limegreen; border-radius: 10px; transition: width 0.5s;"></div>
+                </div>
+            </div>
         `;
+        
         document.body.appendChild(statsContainer);
     }
 

@@ -53,7 +53,7 @@ class GameLevelAirport {
     const sprite_src_pilot = path + "/images/gamify/pilot.png";
     const sprite_data_pilot = {
       id: 'Pilot',
-      greeting: "Greetings passenger! Ready to travel to Silicon Valley?",
+      greeting: "Greetings passenger! Ready to travel to Wallstreet?",
       src: sprite_src_pilot,
       SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
@@ -215,7 +215,7 @@ class GameLevelAirport {
     };
 
     const sprite_src_investor = path + "/images/gamify/bizguys.png";
-    const sprite_greet_investor = "Welcome to Silicon Valley Trading! Ready to invest in some hot tech stocks?";
+    const sprite_greet_investor = "Welcome to Wallstreet Trading! Ready to invest in some hot tech stocks?";
     const sprite_data_investor = {
       id: 'Investor',
       greeting: sprite_greet_investor,
