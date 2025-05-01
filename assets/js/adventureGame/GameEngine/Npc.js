@@ -1,4 +1,5 @@
 import Character from "./Character.js";
+import Game from "../Game.js";
 
 class Npc extends Character {
     constructor(data = null, gameEnv = null) {
@@ -7,9 +8,58 @@ class Npc extends Character {
         this.currentQuestionIndex = 0;
         this.alertTimeout = null;
         this.proximityRadius = 150; // Distance in pixels to show popup
+        this.hasInteracted = false;
         this.bindInteractKeyListeners();
         this.injectStyles();
         this.createPopup();
+
+        // Add highlight effect if this is the next NPC to talk to
+        this.checkIfNextTarget();
+    }
+
+    checkIfNextTarget() {
+        const nextStep = Game.getNextStep();
+        if (nextStep.target === this.spriteData.id) {
+            this.addHighlight();
+        } else {
+            this.removeHighlight();
+        }
+    }
+
+    addHighlight() {
+        if (!this.highlightEffect) {
+            this.highlightEffect = document.createElement('div');
+            this.highlightEffect.style.cssText = `
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                border: 3px solid #ffd700;
+                border-radius: 50%;
+                animation: pulse 2s infinite;
+                pointer-events: none;
+                z-index: -1;
+            `;
+            this.canvas.parentElement.appendChild(this.highlightEffect);
+
+            // Update highlight position when NPC moves
+            const updateHighlightPosition = () => {
+                if (this.highlightEffect) {
+                    this.highlightEffect.style.top = (this.position.y - 10) + 'px';
+                    this.highlightEffect.style.left = (this.position.x - 10) + 'px';
+                }
+                requestAnimationFrame(updateHighlightPosition);
+            };
+            updateHighlightPosition();
+        }
+    }
+
+    removeHighlight() {
+        if (this.highlightEffect) {
+            this.highlightEffect.remove();
+            this.highlightEffect = null;
+        }
     }
 
     injectStyles() {
@@ -194,8 +244,23 @@ class Npc extends Character {
         const hasInteract = this.interact !== undefined;
 
         if (players.length > 0 && hasInteract) {
+            if (!this.hasInteracted) {
+                this.hasInteracted = true;
+                // Update progress tracking
+                Game.updateProgress(this.spriteData.id);
+                // Remove highlight after interaction
+                this.removeHighlight();
+                // Update highlights for all NPCs
+                this.updateAllNpcHighlights();
+            }
             this.interact();
         }
+    }
+
+    updateAllNpcHighlights() {
+        // Find all NPCs in the game
+        const npcs = this.gameEnv.gameObjects.filter(obj => obj instanceof Npc);
+        npcs.forEach(npc => npc.checkIfNextTarget());
     }
 
     destroy() {
