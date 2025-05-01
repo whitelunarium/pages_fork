@@ -143,34 +143,6 @@ body {
     margin: 0;
     padding: 0;
 }
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #001f3f;
-    color: #fff;
-}
-.navbar .logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-.navbar .nav-buttons {
-    display: flex;
-    gap: 20px;
-}
-.navbar .nav-buttons a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-.navbar .nav-buttons a:hover {
-    background-color: #ff8c00;
-}
 .dashboard {
     padding: 20px;
     display: flex;
@@ -860,6 +832,12 @@ body.modal-open {
     <div class="main-content">
         <!-- Page title -->
         <h1 class="page-title">Crypto Mining Simulator</h1>
+        <!-- Balance Display -->
+        <div class="text-right mb-4">
+            <div class="inline-block bg-orange-500 px-4 py-2 rounded-lg text-white font-bold">
+                Balance: $<span id="user-balance">Loading...</span>
+            </div>
+        </div>
         <!-- Warning messages -->
         <div class="text-center mb-4 text-yellow-400">
             *** note: If the stats number are not showing, try to stop the mining and start again... <br>
@@ -871,19 +849,6 @@ body.modal-open {
                 <span class="text-lg font-bold">?</span>
             </button>
         </div>
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <div class="nav-buttons">
-                <a href="{{site.baseurl}}/stocks/home">Home</a>
-                <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-                <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-                <a href="{{site.baseurl}}/crypto/mining">Mining</a>
-                <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-                <a href="{{site.baseurl}}/stocks/game">Game</a>
-                <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-                <div class="balance-display">Balance: $<span id="user-balance">Loading...</span></div>
-            </div>
-        </nav>
         <div class="container mx-auto">
             <!-- Core Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
