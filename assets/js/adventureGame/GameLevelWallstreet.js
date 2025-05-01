@@ -16,6 +16,23 @@ class GameLevelWallstreet {
       pixels: { height: 966, width: 654 }
     };
 
+
+    // const decorStatue = new Npc({
+    //   id: 'Statue',
+    //   src: image_src_statue,
+    //   SCALE_FACTOR: 4,
+    //   ANIMATION_RATE: 0,
+    //   pixels: { height: 300, width: 200 },
+    //   INIT_POSITION: { x: width * 0.4, y: height * 0.6 },
+    //   orientation: { rows: 1, columns: 1 },
+    //   down: { row: 0, start: 0, columns: 1 },
+    //   hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 }
+    //   // No 'reaction' or 'interact' functions
+    // });
+
+    // gameEnv.addObject(decorStatue);
+
+
     const sprite_src_chillguy = path + "/images/gamify/chillguy.png";
     const CHILLGUY_SCALE_FACTOR = 5;
     const sprite_data_chillguy = {
@@ -163,14 +180,14 @@ class GameLevelWallstreet {
       interact: function () { this.reaction(); }
     };
 
-    const sprite_src_crypto = path + "/images/gamify/bitcoin.png";
+    const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
     const sprite_data_crypto = {
       id: 'Crypto-NPC',
       greeting: "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.",
       src: sprite_src_crypto,
       SCALE_FACTOR: 10,
       ANIMATION_RATE: 50,
-      pixels: { height: 600, width: 600 },
+      pixels: { height: 282, width: 282 },
       INIT_POSITION: { x: width * 0.75, y: height * 0.6 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
@@ -224,6 +241,18 @@ class GameLevelWallstreet {
         this.reaction();
       }
     };
+
+    const image_src_bank = path + "/images/gamify/bank.png";
+
+    const spriteBank = {
+      id: 'bank',
+      src: image_src_bank,
+      SCALE_FACTOR: 4,
+      pixels: {height: 270, width: 377},
+      INIT_POSITION: { x: width * 0.6, y: height * 0.41 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      orientation: { rows: 1, columns: 1 },
+    }
 
     // === Fixed Bank NPC ===
     const sprite_src_bank = path + "/images/gamify/janetYellen.png";
@@ -304,11 +333,12 @@ class GameLevelWallstreet {
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_crypto },
       { class: Npc, data: sprite_data_bank },
+      {class: Npc, data: spriteBank},
     ];
   }
 }
 
-// Utility function for a modern, dark dialog box
+// Utility function for a modern, dark dialog box 
 function showDialogBox(title, message, options = []) {
   // Remove any existing dialog
   const oldDialog = document.getElementById('custom-dialog-box');
