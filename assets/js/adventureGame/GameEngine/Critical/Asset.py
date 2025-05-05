@@ -3,10 +3,10 @@
 
 # Verse 1
 # Hey there kiddos, i'm Mr. Mort
-# Better get to working on the 2025 port
+# Better get to working on the '25 port
 # Set up those tools, and don't forget node!
-# Better get Slacking, lemme hear you say 
-# CODE CODE CODE
+# Hope you're not slacking, lemme hear you say CODE, CODE, CODE!
+# 
 
 # Chorus
 
