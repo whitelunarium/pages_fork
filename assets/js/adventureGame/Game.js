@@ -2,7 +2,7 @@ import GameControl from './GameEngine/GameControl.js';
 import Quiz from './Quiz.js';
 import Inventory from "./Inventory.js";
 import { defaultItems } from "./items.js";
-
+import Scoreboard from './Scoreboard.js';
 class Game {
     constructor() {
         // initialize user and launch GameControl 
@@ -33,7 +33,8 @@ class Game {
         this.uid;
         this.id;
         this.initUser();
-        this.initStatsUI();
+        Scoreboard.initUI();
+
 
         this.gname = null;
 
@@ -77,27 +78,27 @@ class Game {
     }
 
     static fetchStats(personId) {
-        const endpoints = {
-            balance: this.javaURI + '/rpg_answer/getBalance/' + personId,
-            questionAccuracy: this.javaURI + '/rpg_answer/getQuestionAccuracy/' + personId
-        };
+        const balanceURL = this.javaURI + '/rpg_answer/getBalance/' + personId;
+        const accuracyURL = this.javaURI + '/rpg_answer/getQuestionAccuracy/' + personId;
     
-        for (let [key, url] of Object.entries(endpoints)) {
-            fetch(url, this.fetchOptions)
-                .then(response => response.json())
-                .then(data => {
-                    if (key === "questionAccuracy") {
-                        const accuracyPercent = Math.round((data ?? 0) * 100);
-                        document.getElementById(key).innerHTML = `${accuracyPercent}%`;
-                        localStorage.setItem(key, `${accuracyPercent}%`);
-                    } else {
-                        document.getElementById(key).innerHTML = data ?? 0;
-                        localStorage.setItem(key, data ?? 0);
-                    }
-                })
-                .catch(err => console.error(`Error fetching ${key}:`, err));
-        }
+        const updatedStats = {};
+    
+        fetch(balanceURL, this.fetchOptions)
+            .then(response => response.json())
+            .then(balanceData => {
+                updatedStats.balance = balanceData ?? 0;
+                return fetch(accuracyURL, this.fetchOptions);
+            })
+            .then(response => response.json())
+            .then(accuracyData => {
+                updatedStats.questionAccuracy = accuracyData ?? 0;
+                Scoreboard.update(updatedStats);
+            })
+            .catch(error => {
+                console.error("Error fetching stats:", error);
+            });
     }
+    
 
     static async createStats(stats, gname, uid) {
         try {
@@ -210,23 +211,26 @@ class Game {
     static async updateStatsMCQ(questionId, choiceId, personId) {
         try {
             console.log("Submitting answer with:", { questionId, choiceId, personId });
-
+    
             const response = await fetch(this.javaURI + '/rpg_answer/submitMCQAnswer', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ questionId, personId, choiceId })
             });
-
+    
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
-
+    
+            this.fetchStats(personId);
+    
             return response;
         } catch (error) {
             console.error("Error submitting MCQ answer:", error);
             throw error;
         }
     }
+    
 
     static async transitionToWallstreet(personId) {
         try {
@@ -242,28 +246,7 @@ class Game {
         }
     }
 
-    static initStatsUI() {
-        const statsContainer = document.createElement('div');
-        statsContainer.id = 'stats-container';
-        statsContainer.style.position = 'fixed';
-        statsContainer.style.top = '75px';
-        statsContainer.style.right = '10px';
-        statsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        statsContainer.style.color = 'white';
-        statsContainer.style.padding = '10px';
-        statsContainer.style.borderRadius = '5px';
-    
-        const cookies = document.cookie.split(';');
-        const gameKeyCookie = cookies.find(cookie => cookie.trim().startsWith('gameKey='));
-        const meteorKeyStatus = gameKeyCookie ? '✅ Meteor Key Earned' : '❌ Meteor Key Not Earned';
-    
-        statsContainer.innerHTML = `
-            <div>Balance: <span id="balance">0</span></div>
-            <div>Question Accuracy: <span id="questionAccuracy">0%</span></div>
-            <div style="color: ${gameKeyCookie ? '#00ff00' : '#ff4444'}">${meteorKeyStatus}</div>
-        `;
-        document.body.appendChild(statsContainer);
-    }
+
 
     // Add method to give items to player
     giveItem(itemId, quantity = 1) {
