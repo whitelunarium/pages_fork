@@ -17,6 +17,25 @@ document.addEventListener('DOMContentLoaded', function() {
 const javaURI = (location.hostname === "localhost" || location.hostname === "127.0.0.1") 
     ? "http://localhost:8085" 
     : "https://spring2025.nighthawkcodingsociety.com";
+    const baseFetchOptions = {
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Origin': 'client'
+        }
+    };
+    
+    const fetchOptions = {
+        ...baseFetchOptions,
+        method: 'GET'
+    };
+    
+    const fetchOptionsPost = {
+        ...baseFetchOptions,
+        method: 'POST'
+    };
 
 // Global variables
 let allPeople = [];
@@ -58,10 +77,7 @@ function initializeData() {
 // Fetch current user data
 function fetchCurrentUser() {
     return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/person/getuid`, {
-            method: 'GET',
-            credentials: 'include'
-        })
+        fetch(`${javaURI}/api/person/get`, fetchOptions)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Not authenticated or network response was not ok');
@@ -84,7 +100,7 @@ function fetchCurrentUser() {
 // Fetch people from API
 function fetchPeople() {
     return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/people/get`)
+        fetch(`${javaURI}/api/people`, fetchOptions)    
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -120,7 +136,7 @@ function fetchPeople() {
 // Fetch groups from API
 function fetchGroups() {
     return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/groups`)
+        fetch(`${javaURI}/api/groups`, fetchOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -275,10 +291,7 @@ function createGroup() {
     };
 
     fetch(`${javaURI}/api/groups`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        ...fetchOptionsPost,
         body: JSON.stringify(groupData)
     })
     .then(response => {
