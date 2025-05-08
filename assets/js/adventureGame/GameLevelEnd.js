@@ -95,18 +95,18 @@ class GameLevelEnd {
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
         
-    const sprite_src_tux = path + "/images/gamify/tux.png";
-    const sprite_greet_tux = "THIS IS HOW IT ENDS - Tejo :P";
-    const sprite_data_tux = {
-        id: 'Tux',
-        greeting: sprite_greet_tux,
-        src: sprite_src_tux,
-        SCALE_FACTOR: 8,
+    const sprite_src_endship = path + "/images/gamify/endship.png";
+    const sprite_greet_endship = "Find the elytra";
+    const sprite_data_endship = {
+        id: 'Endship',
+        greeting: sprite_greet_endship,
+        src: sprite_src_endship,
+        SCALE_FACTOR: 5,
         ANIMATION_RATE: 1000000,
-        pixels: {height: 256, width: 352},
+        pixels: {height: 982, width: 900},
         INIT_POSITION: { x: (width / 2), y: (height / 2) },
-        orientation: {rows: 8, columns: 11 },
-        down: {row: 5, start: 0, columns: 3 },
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
         quiz: {
@@ -116,12 +116,12 @@ class GameLevelEnd {
           ]
         },
         reaction: function() {
-          alert(sprite_greet_tux);
+          alert(sprite_greet_endship);
         },
         interact: function() {
           let quiz = new Quiz();
           quiz.initialize();
-          quiz.openPanel(sprite_data_tux);
+          quiz.openPanel(sprite_data_endship);
         }
     };
 
@@ -179,7 +179,7 @@ class GameLevelEnd {
       { class: BackgroundParallax, data: image_data_parallax },  // Add parallax background first
       { class: GamEnvBackground, data: image_data_end },         // Then regular background
       { class: Player, data: sprite_data_chillguy },
-      { class: Npc, data: sprite_data_tux },
+      { class: Npc, data: sprite_data_endship },
       { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex }
     ];
