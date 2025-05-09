@@ -115,7 +115,6 @@ class GameLevelAirport {
         alert(sprite_data_fidelity.greeting);
       },
       interact: function () {
-        // Use GameControl.gameInstance for access to current game
         const gameInstance = GameControl.gameInstance;
         if (gameInstance && typeof gameInstance.attemptQuizForNpc === 'function') {
           gameInstance.attemptQuizForNpc(sprite_data_fidelity.id);
@@ -142,7 +141,6 @@ class GameLevelAirport {
         alert(sprite_data_schwab.greeting);
       },
       interact: function () {
-        // Use GameControl.gameInstance for access to current game
         const gameInstance = GameControl.gameInstance;
         if (gameInstance && typeof gameInstance.attemptQuizForNpc === 'function') {
           gameInstance.attemptQuizForNpc(sprite_data_schwab.id);
@@ -264,7 +262,6 @@ class GameLevelAirport {
         <div class="container py-3">
           <h2 class="text-center mb-4" style="color: #4CAF50;">Market Sentiment Tracker</h2>
           
-          <!-- Submit Sentiment Form -->
           <div class="row justify-content-center mb-4">
             <div class="col-md-6">
               <div class="card" style="background: rgba(255,255,255,0.1); border: 1px solid #4CAF50;">
@@ -299,7 +296,6 @@ class GameLevelAirport {
             </div>
         </div>
 
-          <!-- Statistics Display -->
           <div class="row justify-content-center">
             <div class="col-md-8">
               <div class="stats-container" style="background: rgba(20, 23, 31, 0.95); border-radius: 10px; padding: 20px;">
@@ -308,13 +304,11 @@ class GameLevelAirport {
                   <span class="text-muted" style="font-size: 0.9rem;"><span id="totalVotes">0</span> votes</span>
                 </div>
 
-                <!-- Progress Bar Container -->
                 <div class="sentiment-progress-container mb-4" style="position: relative; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
                   <div id="bullishProgress" style="position: absolute; left: 0; top: 0; height: 100%; background: #00F7B1; transition: width 0.3s ease;"></div>
                   <div id="bearishProgress" style="position: absolute; right: 0; top: 0; height: 100%; background: #FF4976; transition: width 0.3s ease;"></div>
                 </div>
 
-                <!-- Percentages Display -->
                 <div class="d-flex justify-content-between mb-4">
                   <div class="d-flex align-items-center">
                     <span class="sentiment-arrow" style="color: #00F7B1; margin-right: 8px;">↗</span>
@@ -326,7 +320,6 @@ class GameLevelAirport {
                   </div>
                 </div>
 
-                <!-- Sentiment Buttons -->
                 <div class="d-flex gap-3 mb-4">
                   <button id="bullishBtn" class="btn w-50" style="
                     background: rgba(0, 247, 177, 0.1);
@@ -350,7 +343,6 @@ class GameLevelAirport {
                   </button>
                 </div>
 
-                <!-- Tab Navigation -->
                 <div class="d-flex mb-3">
                   <button class="btn btn-link px-3 active" style="
                     color: #fff;
@@ -368,9 +360,7 @@ class GameLevelAirport {
                   ">Latest</button>
                 </div>
 
-                <!-- Recent Votes History -->
                 <div class="vote-history" id="voteHistory" style="max-height: 300px; overflow-y: auto;">
-                  <!-- Vote history will be populated here -->
                 </div>
               </div>
             </div>
@@ -378,7 +368,6 @@ class GameLevelAirport {
         </div>
       `;
 
-      // Create modal with improved close functionality
       const modalOverlay = document.createElement('div');
       modalOverlay.style.cssText = `
         position: fixed;
@@ -406,7 +395,6 @@ class GameLevelAirport {
         box-shadow: 0 0 20px rgba(0,0,0,0.5);
       `;
 
-      // Add close button
       const closeButton = document.createElement('button');
       closeButton.className = 'btn-close btn-close-white position-absolute';
       closeButton.style.cssText = `
@@ -416,23 +404,19 @@ class GameLevelAirport {
       `;
       sentimentModal.appendChild(closeButton);
 
-      // Function to close modal
       function closeModal() {
         clearInterval(statsInterval);
         document.body.removeChild(modalOverlay);
       }
 
-      // Close on button click
       closeButton.onclick = closeModal;
 
-      // Close on overlay click
       modalOverlay.onclick = (e) => {
         if (e.target === modalOverlay) {
           closeModal();
         }
       };
 
-      // Close on escape key
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           closeModal();
@@ -442,7 +426,6 @@ class GameLevelAirport {
       modalOverlay.appendChild(sentimentModal);
       document.body.appendChild(modalOverlay);
 
-      // Function to update the UI with current stats
       function updateStats(stats) {
         const bullishPercentage = stats.bullishPercentage;
         const bearishPercentage = stats.bearishPercentage;
@@ -454,7 +437,6 @@ class GameLevelAirport {
         document.getElementById('bullishProgress').style.width = `${bullishPercentage}%`;
         document.getElementById('bearishProgress').style.width = `${bearishPercentage}%`;
 
-        // Add hover effects to sentiment buttons
         ['bullishBtn', 'bearishBtn'].forEach(btnId => {
           const btn = document.getElementById(btnId);
           if (btn) {
@@ -469,7 +451,6 @@ class GameLevelAirport {
           }
         });
 
-        // Update vote history with modern styling
         const voteHistory = document.getElementById('voteHistory');
         voteHistory.innerHTML = '';
         
@@ -510,7 +491,6 @@ class GameLevelAirport {
         }
       }
 
-      // Function to fetch current stats
       async function fetchStats() {
         try {
           const response = await fetch('http://localhost:8085/rpg_answer/market-stats', {
@@ -541,7 +521,6 @@ class GameLevelAirport {
         }
       }
 
-      // Handle form submission with real-time updates
       const sentimentForm = document.getElementById('sentimentForm');
       sentimentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -577,14 +556,12 @@ class GameLevelAirport {
           updateStats(stats);
           sentimentForm.reset();
           
-          // Show success message
           const successAlert = document.createElement('div');
           successAlert.className = 'alert alert-success mt-3';
           successAlert.textContent = 'Your vote has been submitted successfully!';
           sentimentForm.appendChild(successAlert);
           setTimeout(() => successAlert.remove(), 3000);
           
-          // Trigger an immediate stats refresh
           await fetchStats();
           
         } catch (error) {
@@ -602,10 +579,8 @@ class GameLevelAirport {
         }
       });
 
-      // Initial stats fetch
       fetchStats();
       
-      // Refresh stats more frequently (every 5 seconds)
       const statsInterval = setInterval(fetchStats, 5000);
     }
 

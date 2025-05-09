@@ -104,7 +104,7 @@ class StatsManager {
             const questionsAnswered = await response.json();
             return questionsAnswered >= 12;
         } catch (error) {
-            console.error("Error transitioning to Paradise:", error);
+            console.error("Error transitioning to Wallstreet:", error);
             return null;
         }
     }
@@ -248,9 +248,7 @@ class Game {
         new GameControl(this, gameLevelClasses).start();
     }
 
-    // Static method to maintain compatibility with the existing code
     static main(environment) {
-        // Create a new Game instance with the environment
         return new Game(environment);
     }
 
@@ -287,7 +285,6 @@ class Game {
             });
     }
 
-    // Public API methods for simplicity
     giveItem(itemId, quantity = 1) {
         return this.inventoryManager.giveItem(itemId, quantity);
     }
