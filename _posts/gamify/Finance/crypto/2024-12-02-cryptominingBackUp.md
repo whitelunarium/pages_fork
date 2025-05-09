@@ -42,7 +42,7 @@ permalink: /crypto/miningbackup
                         <div>
                             <div class="stat-label">Pending Crypto Balance</div>
                             <div class="stat-value text-yellow-400" id="pending-balance">0.00000000</div>
-                            <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js"></script>
+                            <script type="module" src="{{site.baseurl}}/assets/js/crypto/portfolio.js"></script>
                             <span class="text-sm text-blue-400 cursor-pointer hover:underline mt-1 inline-block" onclick="openCryptoDetailsModal()">View all crypto balances &rarr;</span>
                         </div>
                         <div>
