@@ -451,13 +451,17 @@ function updateDisplay(stats) {
     // Calculate and update USD value
     let usdValue;
     if (stats.totalBalanceUSD) {
-        // Use API-provided USD value if available
         usdValue = stats.totalBalanceUSD;
     } else {
-        // Calculate USD value using BTC_PRICE constant
         usdValue = (totalBTC * 45000).toFixed(2);
     }
     document.getElementById('usd-value').textContent = `$${usdValue}`;
+
+    // Calculate daily revenue based on hashrate
+    const hashrate = parseFloat(stats.hashrate) || 0;
+    const dailyRevenue = (hashrate * 86400 * 0.00000001 * 45000).toFixed(2); // Calculate based on hashrate
+    document.getElementById('daily-revenue').textContent = `$${dailyRevenue}`;
+    
     // Log the values being displayed
     console.log('Display values:', {
         btcBalance: btcBalance.toFixed(8),
@@ -479,7 +483,6 @@ function updateDisplay(stats) {
     document.getElementById('shares').textContent = stats.shares || 0;
     document.getElementById('gpu-temp').textContent = `${newTemp.toFixed(1)}°C`;
     document.getElementById('power-draw').textContent = `${newPower.toFixed(0)}W`;
-    document.getElementById('daily-revenue').textContent = `$${(typeof stats.dailyRevenue === 'number' ? stats.dailyRevenue : 0).toFixed(2)}`;
     document.getElementById('power-cost').textContent = `$${(typeof stats.powerCost === 'number' ? stats.powerCost : 0).toFixed(2)}`;
     // Update GPU count display
     if (stats.gpus && stats.gpus.length > 0) {
