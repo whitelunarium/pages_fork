@@ -3,12 +3,18 @@ import GameLevel from "./GameLevel.js";
 import Inventory from "../Inventory.js";
 
 class GameControl {
+    // Static property to store a reference to the current game instance
+    static gameInstance = null;
+
     /**
      * GameControl class to manage the game levels and transitions
      * @param {*} game - The Game object that holds environment variables
      * @param {*} levelClasses - The classes for each game level
      */
     constructor(game, levelClasses) {
+        // Set the static gameInstance reference
+        GameControl.gameInstance = game;
+        
         // GameControl properties
         this.game = game; // Reference required for game-in-game logic
         this.path = game.path;

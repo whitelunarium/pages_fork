@@ -115,7 +115,14 @@ class GameLevelAirport {
         alert(sprite_data_fidelity.greeting);
       },
       interact: function () {
-        Game.attemptQuizForNpc(sprite_data_fidelity.id);
+        // Use GameControl.gameInstance for access to current game
+        const gameInstance = GameControl.gameInstance;
+        if (gameInstance && typeof gameInstance.attemptQuizForNpc === 'function') {
+          gameInstance.attemptQuizForNpc(sprite_data_fidelity.id);
+        } else {
+          console.error("Game instance not available or quiz function not found");
+          alert("Quiz system is currently unavailable");
+        }
       }
     };
 
@@ -135,7 +142,14 @@ class GameLevelAirport {
         alert(sprite_data_schwab.greeting);
       },
       interact: function () {
-        Game.attemptQuizForNpc(sprite_data_schwab.id);
+        // Use GameControl.gameInstance for access to current game
+        const gameInstance = GameControl.gameInstance;
+        if (gameInstance && typeof gameInstance.attemptQuizForNpc === 'function') {
+          gameInstance.attemptQuizForNpc(sprite_data_schwab.id);
+        } else {
+          console.error("Game instance not available or quiz function not found");
+          alert("Quiz system is currently unavailable");
+        }
       }
     };
 
