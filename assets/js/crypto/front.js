@@ -527,7 +527,7 @@ function renderGpuInventory(stats) {
     container.className = 'grid grid-cols-1 gap-6 p-4';
     Object.values(gpuGroups).forEach(gpu => {
         const gpuCard = document.createElement('div');
-        gpuCard.className = 'bg-gray-800 rounded-xl p-6 shadow-2xl transform transition-all duration-300 hover:scale-[1.02] border border-gray-700';
+        gpuCard.className = 'bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 pb-12 shadow-2xl transform transition-all duration-300 hover:scale-[1.02] border border-gray-700/50 backdrop-blur-sm relative';
         gpuCard.dataset.gpuId = gpu.id;
         // Fix property names to match the backend data
         const hashrate = parseFloat(gpu.hashrate) || 0;
@@ -541,36 +541,36 @@ function renderGpuInventory(stats) {
         gpuCard.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-8">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">${gpu.name}</h3>
-                                <p class="text-blue-400 text-sm">${gpu.activeCount} of ${gpu.quantity} Active</p>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-white mb-1">${gpu.name}</h3>
+                                <p class="text-blue-400/80 text-sm">${gpu.activeCount} of ${gpu.quantity} Active</p>
                             </div>
-                            <div class="text-sm">
-                                <div class="text-blue-400 font-semibold mb-1">Performance</div>
-                                <p class="text-white">⚡ ${hashrate.toFixed(2)} MH/s</p>
-                                <p class="text-white">🔌 ${power.toFixed(0)}W</p>
-                                <p class="text-white">🌡️ ${temp.toFixed(1)}°C</p>
+                            <div class="text-sm bg-gray-800/50 p-3 rounded-lg">
+                                <div class="text-blue-400 font-semibold mb-2">Performance</div>
+                                <p class="text-white/90">⚡ ${hashrate.toFixed(2)} MH/s</p>
+                                <p class="text-white/90">🔌 ${power.toFixed(0)}W</p>
+                                <p class="text-white/90">🌡️ ${temp.toFixed(1)}°C</p>
                             </div>
-                            <div class="text-sm">
-                                <div class="text-green-400 font-semibold mb-1">Daily Estimates</div>
-                                <p class="text-green-400">💰 $${dailyRevenue.toFixed(2)}</p>
-                                <p class="text-red-400">💡 -$${dailyPowerCost.toFixed(2)}</p>
-                                <p class="text-blue-400">📈 $${dailyProfit.toFixed(2)}</p>
+                            <div class="text-sm bg-gray-800/50 p-3 rounded-lg">
+                                <div class="text-green-400 font-semibold mb-2">Daily Estimates</div>
+                                <p class="text-green-400/90">💰 $${dailyRevenue.toFixed(2)}</p>
+                                <p class="text-red-400/90">💡 -$${dailyPowerCost.toFixed(2)}</p>
+                                <p class="text-blue-400/90">📈 $${dailyProfit.toFixed(2)}</p>
                             </div>
-                            <div class="text-sm">
-                                <div class="text-purple-400 font-semibold mb-1">Total & Info</div>
-                                <p class="text-purple-400">Total: $${(dailyProfit * gpu.quantity).toFixed(2)}</p>
-                                <p class="text-yellow-400">Sell: $${sellPrice}</p>
-                                <p class="text-blue-400">Eff: ${(hashrate / power).toFixed(3)} MH/W</p>
+                            <div class="text-sm bg-gray-800/50 p-3 rounded-lg">
+                                <div class="text-purple-400 font-semibold mb-2">Total & Info</div>
+                                <p class="text-purple-400/90">Total: $${(dailyProfit * gpu.quantity).toFixed(2)}</p>
+                                <p class="text-yellow-400/90">Sell: $${sellPrice}</p>
+                                <p class="text-blue-400/90">Eff: ${(hashrate / power).toFixed(3)} MH/W</p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end space-y-2">
-                            <button onclick="showSellModal(${gpu.id}, '${gpu.name}', ${gpu.quantity}, ${sellPrice})"
-                                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
-                                Sell GPU
-                            </button>
-                            <span class="text-green-400 text-lg font-bold">x${gpu.quantity}</span>
-                        </div>
+                    </div>
+                    <div class="absolute bottom-4 right-6 flex items-center space-x-3">
+                        <span class="text-green-400/90 text-lg font-bold bg-gray-800/80 px-3 py-1 rounded-lg border border-gray-700/30">x${gpu.quantity}</span>
+                        <button onclick="showSellModal(${gpu.id}, '${gpu.name}', ${gpu.quantity}, ${sellPrice})"
+                                class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-red-500/20 transform hover:-translate-y-0.5">
+                            Sell GPU
+                        </button>
                     </div>
                 `;
         container.appendChild(gpuCard);
