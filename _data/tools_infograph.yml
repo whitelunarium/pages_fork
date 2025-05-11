@@ -3,7 +3,7 @@ Title: "Development Foundations"
 Description: "The essentials of development begin by understanding the need for tools and equipment. Illustrated are the core components you’ll need for a smooth entry into coding, collaboration, and project creation."
 Topics:
   - title: "Accounts"
-    image: "/tools/github.png"
+    image: "/tools/accounts.png"
     link: "/tools/accounts"
     alt: "Account Creation"
     keyPoints:
