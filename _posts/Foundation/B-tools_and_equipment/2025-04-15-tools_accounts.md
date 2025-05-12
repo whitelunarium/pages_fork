@@ -93,6 +93,18 @@ We suggest that you use a "common" email account for this platform. Don’t use 
 
 The email you make public should be in the same category as what you would share on more professional social media accounts, i.e., in the "common" email category.
 
+**Examples of Professional User IDs**:
+
+* **Good**:
+  * `john-doe`: Simple, professional, and easy to remember.
+  * `johndev`: Highlights your identity as a developer.
+  * `jdoe123`: A clean and professional option if your preferred username is already taken.
+
+* **Bad**:
+  * `coolguy123`: Unprofessional and does not reflect your identity as a coder.
+  * `john.doe2005`: Includes unnecessary personal information (e.g., birth year), which could compromise your privacy. The dot could be a problem on some platforms, stick to dash.  
+  * `ilovecodinglol`: Informal and not suitable for professional platforms.
+
 ### GitHub Pages
 
 We will ask you to publish a Student Portfolio using GitHub Pages. This will be a public website and will be indexed by Google and Google Analytics.
@@ -141,7 +153,7 @@ Use this checklist to track your progress as you create the required accounts:
 
 * **Email Account**: Create or use a personal email account (e.g., Gmail) for development and accessibility.  
   * **Sign Up**: [Create a Gmail Account](https://accounts.google.com/signup)  
-  * Many tools support logging in with Gmail, making it a convenient choice. Avoid using your school email for these accounts.
+  * Many tools support logging in with Gmail, making it a convenient choice. Avoid using your school email for these accounts. Since your Gmail prefix is unique in the world, it may be a good choice for User ID on other setups on this page.
 
 * **Slack Account**: Register for Slack using your personal email (e.g., Gmail).  
   * **Sign Up**: [Create a Slack Account](https://slack.com/get-started#/)
@@ -154,6 +166,6 @@ Use this checklist to track your progress as you create the required accounts:
   * **Learn More**: [GitHub Pages Documentation](https://pages.github.com/)  
   * This will be a public website indexed by Google and Google Analytics.
 
-* **Open Society Account**: Create an account on the course's Open Society platform using your GitHub ID.  
-  * This account will be used to build course lists, provide compute services (e.g., AWS, KASM), and aggregate analytics for your instructor.  
-  * **Sign Up**: *(Instructor to provide link)*
+* **Open Society Account**: Create an account on the course's Open Society platform  
+  * **Sign Up**: [Open Coding Society](https://nighthawkcoders.github.io/portfolio_2025/)
+  * Using your GitHub ID an account will be created to build course lists, provide compute services (e.g., AWS, KASM), and aggregate analytics for your instructor.
