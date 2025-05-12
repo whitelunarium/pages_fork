@@ -1,5 +1,5 @@
 ---
-layout: finance
+layout: fortunefinders
 permalink: /stocks/portfolio
 title: Stocks Portfolio
 ---

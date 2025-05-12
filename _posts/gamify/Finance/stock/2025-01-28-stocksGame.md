@@ -1,5 +1,5 @@
 ---
-layout: finance
+layout: fortunefinders
 permalink: /stocks/game
 title: Stocks Game
 ---
