@@ -139,21 +139,21 @@ As you create and manage your accounts, always be mindful of the information you
 
 Use this checklist to track your progress as you create the required accounts:
 
-* [ ] **Email Account**: Create or use a personal email account (e.g., Gmail) for development and accessibility.  
+* **Email Account**: Create or use a personal email account (e.g., Gmail) for development and accessibility.  
   * **Sign Up**: [Create a Gmail Account](https://accounts.google.com/signup)  
   * Many tools support logging in with Gmail, making it a convenient choice. Avoid using your school email for these accounts.
 
-* [ ] **Slack Account**: Register for Slack using your personal email (e.g., Gmail).  
+* **Slack Account**: Register for Slack using your personal email (e.g., Gmail).  
   * **Sign Up**: [Create a Slack Account](https://slack.com/get-started#/)
 
-* [ ] **GitHub Account**: Create a GitHub account using the same personal email.  
+* **GitHub Account**: Create a GitHub account using the same personal email.  
   * **Sign Up**: [Create a GitHub Account](https://github.com/signup)  
   * This account will serve as your professional social media account as a coder. Avoid using your school email, as GitHub will be useful beyond your time in school.
 
-* [ ] **GitHub Pages**: Publish a Student Portfolio using GitHub Pages.  
+* **GitHub Pages**: Publish a Student Portfolio using GitHub Pages.  
   * **Learn More**: [GitHub Pages Documentation](https://pages.github.com/)  
   * This will be a public website indexed by Google and Google Analytics.
 
-* [ ] **Open Society Account**: Create an account on the course's Open Society platform using your GitHub ID.  
+* **Open Society Account**: Create an account on the course's Open Society platform using your GitHub ID.  
   * This account will be used to build course lists, provide compute services (e.g., AWS, KASM), and aggregate analytics for your instructor.  
   * **Sign Up**: *(Instructor to provide link)*
