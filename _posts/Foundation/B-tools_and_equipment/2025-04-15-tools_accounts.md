@@ -2,11 +2,12 @@
 toc: True
 layout: post
 data: tools
-title: Accounts 
-description: This class will require you to make a Portfolio Web Site, a GitHub Account, a Slack Account, and as part of final exam will require you update your LinkedIn account.
+title: Account Creation
+description: Learn how to create and manage course-required accounts, including a Portfolio Website, GitHub, Slack, and LinkedIn, while protecting your Personal Identifiable Information (PII).
 categories: ['DevOps']
 permalink: /tools/accounts
-breadcrumb: True 
+breadcrumb: True
+author: John Mortensen
 ---
 
 ## Personal Identifiable Information (PII)

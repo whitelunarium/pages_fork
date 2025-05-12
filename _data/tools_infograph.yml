@@ -8,10 +8,10 @@ Topics:
     alt: "Account Creation"
     keyPoints:
       - "Create accounts"
-      - "Personal Indetifiable Information (PII)"
-      - "Communicate and collaborate"
+      - "Protect PII"
+      - "Collaborate online"
     subtitle: "Social Computing"
-    description: "Social computing is the use of social media and online platforms to communicate and collaborate with others. This includes creating accounts on platforms like GitHub and Slack."
+    description: "Manage accounts like GitHub and Slack to collaborate and build a professional digital presence while safeguarding PII."
   - title: "GitHub"
     image: "/tools/github.png"
     link: "/tools/accounts"
