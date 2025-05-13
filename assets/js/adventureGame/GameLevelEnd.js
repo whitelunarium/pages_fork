@@ -94,40 +94,9 @@ class GameLevelEnd {
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
-    
-    // Random dialogue system for endship
-    this.endshipDialogues = [
-      "This endship holds the secrets of ancient travelers. Find the elytra to soar like they once did.",
-      "The void whispers to those who listen. Twelve eyes will reveal the path forward.",
-      "An eternity of stars awaits beyond this vessel. Seek the elytra to journey among them.",
-      "The End is not the end, but a new beginning. Find what was left behind by those who came before.",
-      "This ship drifted through the void for eons. Its treasures await the worthy.",
-      "The elytra's wings will carry you beyond the boundaries of this realm.",
-      "Countless adventurers have sought what lies within this vessel. Will you succeed where they failed?",
-      "The End Dragons once guarded this ship. Now only echoes of their presence remain.",
-      "Time flows differently here. What feels like moments could be years in the overworld.",
-      "The void's pull is strong. Only with the elytra can you hope to escape its grasp."
-    ];
-    
-    // Random quiz questions
-    this.endshipQuizQuestions = [
-      "The void surrounds you. What will you do?\n1. Seek the ancient wings\n2. Turn back while you still can\n3. Listen to the whispers of the End\n4. Embrace the darkness",
-      
-      "The endship contains treasures beyond imagination. Choose wisely:\n1. The elytra of flight\n2. The dragon's egg of rebirth\n3. The shulker's box of holding\n4. The chorus fruit of teleportation",
-      
-      "The End is a realm of:\n1. Infinite darkness and floating islands\n2. Ancient civilizations and lost technology\n3. Dragons and their mysterious powers\n4. All of the above",
-      
-      "What brings you to this desolate place?\n1. The search for power\n2. Curiosity about what lies beyond\n3. Escaping the overworld's limitations\n4. Following the path of those who came before"
-    ];
         
     const sprite_src_endship = path + "/images/gamify/endship.png";
-    // Random endship greeting
-    const randomDialogueIndex = Math.floor(Math.random() * this.endshipDialogues.length);
-    const sprite_greet_endship = this.endshipDialogues[randomDialogueIndex];
-    
-    // Random quiz question
-    const randomQuizIndex = Math.floor(Math.random() * this.endshipQuizQuestions.length);
-    
+    const sprite_greet_endship = "Find the elytra";
     const sprite_data_endship = {
         id: 'Endship',
         greeting: sprite_greet_endship,
@@ -141,16 +110,15 @@ class GameLevelEnd {
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
         quiz: {
-          title: "The End Mysteries",
+          title: "Linux Command Quiz",
           questions: [
-            this.endshipQuizQuestions[randomQuizIndex]
+            "It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! \n1. huh\n2. what\n3. ...\n4. ok bye"
           ]
         },
-        reaction: () => {
-          // Custom alert for endship interaction
-          this.showCustomAlert(sprite_greet_endship, 'endship');
+        reaction: function() {
+          alert(sprite_greet_endship);
         },
-        interact: () => {
+        interact: function() {
           let quiz = new Quiz();
           quiz.initialize();
           quiz.openPanel(sprite_data_endship);
@@ -161,19 +129,9 @@ class GameLevelEnd {
     const self = this;
 
     const sprite_src_eye = path + "/images/gamify/eyeOfEnder.png";
-    const eyeGreetings = [
-      "Press E to claim this Eye of Ender. It pulses with mysterious energy.",
-      "This Eye of Ender seems to watch your every move. Press E to take it.",
-      "An Eye of Ender floats before you, glowing with power. Press E to collect it.",
-      "The Eye of Ender hovers, waiting for your touch. Press E to claim it.",
-      "This mystical Eye of Ender will help complete the portal. Press E to collect."
-    ];
-    
-    const randomEyeGreeting = eyeGreetings[Math.floor(Math.random() * eyeGreetings.length)];
-    
     const sprite_data_eye = {
         id: 'Eye of Ender',
-        greeting: randomEyeGreeting,
+        greeting: `Press E to claim this Eye of Ender.`,
         src: sprite_src_eye,
         SCALE_FACTOR: 20,
         ANIMATION_RATE: 9007199254740991,
@@ -184,8 +142,7 @@ class GameLevelEnd {
         hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
         reaction: function() {
-          // Custom alert for eye interaction
-          self.showCustomAlert(this.greeting, 'eye');
+          alert(`Press E to claim this Eye of Ender.`);
         },
         interact: function() {
           self.eyesCollected++;
@@ -197,68 +154,7 @@ class GameLevelEnd {
           self.updatePlayerBalance(100);
           
           if (self.eyesCollected >= 12) {
-            // Show the end portal now that all eyes are collected
-            self.showEndPortal();
-            
-            // Get new random greeting for next eye
-            const newGreeting = eyeGreetings[Math.floor(Math.random() * eyeGreetings.length)];
-            this.greeting = newGreeting;
-            
-            // Move the eye to a new random position
-            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
-            
-            // Show a custom collected message
-            self.showCustomAlert("All Eyes of Ender collected! The End Portal has appeared!", 'collect');
-          } else {
-            // Get new random greeting for next eye
-            const newGreeting = eyeGreetings[Math.floor(Math.random() * eyeGreetings.length)];
-            this.greeting = newGreeting;
-            
-            // Move the eye to a new random position
-            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
-            
-            // Show a custom collected message
-            self.showCustomAlert(`Eye of Ender collected! ${12 - self.eyesCollected} more to go.`, 'collect');
-          }
-        }
-    };
-    
-    // Define End Portal sprite data - Initially hidden
-    const sprite_src_portal = path + "/images/gamify/exitportalfull.png.png"; // Make sure this image exists
-    const portalGreetings = [
-      "The End Portal is now complete. Press E to enter the void beyond.",
-      "The ancient gateway stands before you. Press E to step through to The End.",
-      "The End Portal hums with cosmic energy. Press E to traverse the dimensions.",
-      "Darkness swirls within the portal frame. Press E to face your destiny.",
-      "The completed End Portal awaits. Press E to journey to the realm beyond."
-    ];
-    
-    const randomPortalGreeting = portalGreetings[Math.floor(Math.random() * portalGreetings.length)];
-    
-    const sprite_data_portal = {
-        id: 'End Portal',
-        greeting: randomPortalGreeting,
-        src: sprite_src_portal,
-        SCALE_FACTOR: 10,
-        ANIMATION_RATE: 15, // More frequent animation for the portal effect
-        pixels: {height: 2025, width: 2029}, // Adjust based on your actual image dimensions
-        INIT_POSITION: { x: width * 0.75, y: height * 0.6 },
-        orientation: {rows: 1, columns: 1 }, // Assuming a 4-frame animation
-        down: {row: 0, start: 0, columns: 1 },
-        hitbox: { widthPercentage: 0.9, heightPercentage: 0.9 },
-        zIndex: 9,  // Just below player
-        visible: false, // Initially hidden
-        reaction: function() {
-          // Custom alert for portal interaction
-          if (self.eyesCollected >= 12) {
-            self.showCustomAlert(this.greeting, 'portal');
-          } else {
-            self.showCustomAlert("The End Portal frame is empty. It needs 12 Eyes of Ender to activate.", 'portal');
-          }
-        },
-        interact: function() {
-          if (self.eyesCollected >= 12) {
-            // Record end time when player uses the portal
+            // Record end time when all eyes are collected
             self.endTime = Date.now();
             self.gameCompleted = true;
             
@@ -273,8 +169,8 @@ class GameLevelEnd {
             // Show success screen with time score
             self.showSuccessScreen(timeTaken);
           } else {
-            // Show message that more eyes are needed
-            self.showCustomAlert(`The portal requires 12 Eyes of Ender to activate. You have ${self.eyesCollected}.`, 'portal');
+            // Move the eye to a new random position
+            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
           }
         }
     };
@@ -285,236 +181,11 @@ class GameLevelEnd {
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_endship },
       { class: Collectible, data: sprite_data_eye },
-      { class: Player, data: sprite_data_alex },
-      { class: Npc, data: sprite_src_portal}
+      { class: Player, data: sprite_data_alex }
     ];
-    
-    // Store portal data for later use
-    this.portalData = sprite_data_portal;
     
     // Create eye counter UI
     this.createEyeCounter();
-    
-    // Create custom alert style
-    this.createCustomAlertStyle();
-  }
-  
-  // Method to show the end portal when all eyes are collected
-  showEndPortal() {
-    // Check if portal is already visible
-    if (this.portalData.visible) {
-      return;
-    }
-    
-    // Mark portal as visible
-    this.portalData.visible = true;
-    
-    // Find the game environment
-    const gameEnv = document.getElementById('gameContainer');
-    if (!gameEnv) {
-      console.error("Game container not found");
-      return;
-    }
-    
-    // Create and add the portal sprite
-    const portalInstance = new Npc(gameEnv, this.portalData);
-    
-    // Add a pulsing glow effect to make it more visible
-    const portalElement = document.getElementById('End Portal');
-    if (portalElement) {
-      // Apply pulsing glow effect
-      const glowStyle = document.createElement('style');
-      glowStyle.innerHTML = `
-        @keyframes portal-pulse {
-          0% { filter: drop-shadow(0 0 10px #8A2BE2); }
-          50% { filter: drop-shadow(0 0 30px #4a86e8); }
-          100% { filter: drop-shadow(0 0 10px #8A2BE2); }
-        }
-      `;
-      document.head.appendChild(glowStyle);
-      
-      portalElement.style.animation = 'portal-pulse 2s infinite';
-      
-      // Add a brief portal appearance effect
-      portalElement.style.opacity = '0';
-      portalElement.style.transform = 'scale(0.5)';
-      portalElement.style.transition = 'all 1.5s ease-out';
-      
-      setTimeout(() => {
-        portalElement.style.opacity = '1';
-        portalElement.style.transform = 'scale(1)';
-      }, 100);
-    }
-    
-    // Play a portal appearance sound if available
-    this.playPortalSound();
-  }
-  
-  // Play portal appearance sound effect
-  playPortalSound() {
-    try {
-      const portalSound = new Audio('./sounds/portal_appear.mp3');
-      portalSound.volume = 0.3;
-      portalSound.play().catch(e => console.log("Could not play portal sound:", e));
-    } catch (error) {
-      console.log("Sound not supported or file not available");
-    }
-  }
-  
-  // Create custom alert styles
-  createCustomAlertStyle() {
-    if (!document.getElementById('custom-alert-style')) {
-      const style = document.createElement('style');
-      style.id = 'custom-alert-style';
-      style.innerHTML = `
-        .custom-alert {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background: rgba(0, 0, 0, 0.85);
-          border-radius: 10px;
-          padding: 20px;
-          max-width: 400px;
-          z-index: 9999;
-          backdrop-filter: blur(5px);
-          animation: fade-in 0.3s ease-out;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-          text-align: center;
-          font-family: 'Press Start 2P', cursive;
-        }
-        
-        .custom-alert-endship {
-          border: 3px solid #8A2BE2;
-          box-shadow: 0 0 30px rgba(138, 43, 226, 0.7);
-        }
-        
-        .custom-alert-eye {
-          border: 3px solid #4a86e8;
-          box-shadow: 0 0 30px rgba(74, 134, 232, 0.7);
-        }
-        
-        .custom-alert-collect {
-          border: 3px solid #00FFFF;
-          box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
-        }
-        
-        .custom-alert-portal {
-          border: 3px solid #9932CC;
-          box-shadow: 0 0 30px rgba(153, 50, 204, 0.7);
-          background: rgba(0, 0, 0, 0.9);
-        }
-        
-        .custom-alert-content {
-          color: white;
-          font-size: 16px;
-          line-height: 1.5;
-          margin-bottom: 20px;
-        }
-        
-        .custom-alert-button {
-          background: linear-gradient(to bottom, #8A2BE2, #4a0082);
-          border: none;
-          color: white;
-          padding: 8px 16px;
-          border-radius: 20px;
-          cursor: pointer;
-          font-family: 'Press Start 2P', cursive;
-          font-size: 14px;
-          transition: all 0.2s;
-        }
-        
-        .custom-alert-button:hover {
-          transform: scale(1.05);
-          box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
-        }
-        
-        .custom-alert-endship .custom-alert-button {
-          background: linear-gradient(to bottom, #8A2BE2, #4a0082);
-        }
-        
-        .custom-alert-eye .custom-alert-button {
-          background: linear-gradient(to bottom, #4a86e8, #0043ce);
-        }
-        
-        .custom-alert-collect .custom-alert-button {
-          background: linear-gradient(to bottom, #00FFFF, #00CED1);
-          color: #333;
-        }
-        
-        .custom-alert-portal .custom-alert-button {
-          background: linear-gradient(to bottom, #9932CC, #4B0082);
-        }
-        
-        @keyframes fade-in {
-          from { opacity: 0; transform: translate(-50%, -60%); }
-          to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-        
-        @keyframes pulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  }
-  
-  // Custom alert function
-  showCustomAlert(message, type = 'endship') {
-    // Remove any existing alerts
-    const existingAlert = document.querySelector('.custom-alert');
-    if (existingAlert) {
-      existingAlert.remove();
-    }
-    
-    const alertBox = document.createElement('div');
-    alertBox.className = `custom-alert custom-alert-${type}`;
-    
-    // Add icon based on type
-    let icon = '🔮';
-    if (type === 'eye') icon = '👁️';
-    if (type === 'collect') icon = '✨';
-    if (type === 'portal') icon = '🌀';
-    
-    alertBox.innerHTML = `
-      <div style="font-size: 36px; margin-bottom: 15px; animation: pulse 1.5s infinite;">${icon}</div>
-      <div class="custom-alert-content">${message}</div>
-      <button class="custom-alert-button">OK</button>
-    `;
-    
-    document.body.appendChild(alertBox);
-    
-    // Focus the button
-    const button = alertBox.querySelector('button');
-    button.focus();
-    
-    // Add event listener to close
-    button.addEventListener('click', () => {
-      alertBox.style.animation = 'fade-in 0.3s ease-in reverse';
-      setTimeout(() => {
-        alertBox.remove();
-      }, 300);
-    });
-    
-    // Close on Escape key
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' || e.key === 'Enter') {
-        button.click();
-        document.removeEventListener('keydown', handleKeyDown);
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    
-    // Auto close after 3 seconds for collect messages
-    if (type === 'collect') {
-      setTimeout(() => {
-        if (document.body.contains(alertBox)) {
-          button.click();
-        }
-      }, 3000);
-    }
   }
   
   // Create a UI counter for the eyes
@@ -700,17 +371,6 @@ class GameLevelEnd {
     const milliseconds = Math.floor((timeTaken % 1) * 100);
     const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
     
-    // Success messages
-    const successMessages = [
-      "You've collected all the Eyes of Ender! The End awaits your journey!",
-      "Victory! All 12 Eyes of Ender are now yours. The portal can be opened!",
-      "Impressive! You've gathered all the Eyes of Ender before time ran out!",
-      "The void sings with your triumph! All Eyes of Ender collected!",
-      "A legendary achievement! All Eyes of Ender have been found!"
-    ];
-    
-    const randomSuccessMessage = successMessages[Math.floor(Math.random() * successMessages.length)];
-    
     // Create success container with cool styling
     const successDiv = document.createElement('div');
     successDiv.id = 'success-screen';
@@ -796,7 +456,6 @@ class GameLevelEnd {
     
     // Success content
     innerDiv.innerHTML = `
-        <div class="
         <div class="trophy">🏆</div>
         <h1 style="font-size: 48px; margin: 0; color: #8A2BE2; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">SUCCESS!</h1>
         <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">All 12 Eyes of Ender collected!</p>
