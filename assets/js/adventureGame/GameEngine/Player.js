@@ -123,6 +123,10 @@ class Player extends Character {
             this.time = 0;
         }
         }
+    move(x, y){
+        this.position.x = x;
+        this.position.y = y;
+    }
         
     /**
      * Overrides the reaction to the collision to handle
