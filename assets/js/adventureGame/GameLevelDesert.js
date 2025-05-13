@@ -138,9 +138,10 @@ class GameLevelDesert {
     }
     
           // NPC Data for End Portal
+
           const sprite_src_endportal = path + "/images/gamify/exitportalfull.png"; // be sure to include the path
           const sprite_greet_endportal = "Teleport to the End? Press E";
-          const sprite_data_endportal = {
+          let sprite_data_endportal = {
             id: 'End Portal',
             greeting: sprite_greet_endportal,
             src: sprite_src_endportal,
@@ -178,6 +179,7 @@ class GameLevelDesert {
                 // Call .resume on primary game
                 primaryGame.resume();
               }
+              this.move(100, 100);
             }
     
           };
