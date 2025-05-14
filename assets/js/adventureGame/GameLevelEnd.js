@@ -4,7 +4,7 @@ import Player from './GameEngine/Player.js';
 import Npc from './GameEngine/Npc.js';
 import Collectible from './GameEngine/Collectible.js';
 import Quiz from './Quiz.js';
-
+import Game from './Game.js';
 
 class GameLevelEnd {
   constructor(gameEnv) {
@@ -13,7 +13,12 @@ class GameLevelEnd {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
-    let eyesCollected = 0;
+    
+    // Track ender eyes collection
+    this.eyesCollected = 0;
+    this.endTime = null;
+    this.startTime = Date.now();
+    this.gameCompleted = false;
     
     // Parallax background configuration
     const image_src_parallax = path + "/images/gamify/parallaxbg.png";
@@ -49,7 +54,6 @@ class GameLevelEnd {
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 25,
-        
         
         INIT_POSITION: { x: width/16, y: height/2 },
         pixels: {height: 256, width: 128},
@@ -91,18 +95,18 @@ class GameLevelEnd {
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
         
-    const sprite_src_tux = path + "/images/gamify/tux.png";
-    const sprite_greet_tux = "THIS IS HOW IT ENDS - Tejo :P";
-    const sprite_data_tux = {
-        id: 'Tux',
-        greeting: sprite_greet_tux,
-        src: sprite_src_tux,
-        SCALE_FACTOR: 8,
+    const sprite_src_endship = path + "/images/gamify/endship.png";
+    const sprite_greet_endship = "Find the elytra";
+    const sprite_data_endship = {
+        id: 'Endship',
+        greeting: sprite_greet_endship,
+        src: sprite_src_endship,
+        SCALE_FACTOR: 5,
         ANIMATION_RATE: 1000000,
-        pixels: {height: 256, width: 352},
+        pixels: {height: 982, width: 900},
         INIT_POSITION: { x: (width / 2), y: (height / 2) },
-        orientation: {rows: 8, columns: 11 },
-        down: {row: 5, start: 0, columns: 3 },
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
         quiz: {
@@ -112,14 +116,17 @@ class GameLevelEnd {
           ]
         },
         reaction: function() {
-          alert(sprite_greet_tux);
+          alert(sprite_greet_endship);
         },
         interact: function() {
           let quiz = new Quiz();
           quiz.initialize();
-          quiz.openPanel(sprite_data_tux);
+          quiz.openPanel(sprite_data_endship);
         }
     };
+
+    // Store a reference to the current instance to use in closures
+    const self = this;
 
     const sprite_src_eye = path + "/images/gamify/eyeOfEnder.png";
     const sprite_data_eye = {
@@ -138,12 +145,31 @@ class GameLevelEnd {
           alert(`Press E to claim this Eye of Ender.`);
         },
         interact: function() {
-          eyesCollected ++;
-          if (eyesCollected >= 12) {
-            alert("You have collected all the Eyes of Ender! You can now escape!");
-            // Add logic to allow the player to escape
+          self.eyesCollected++;
+          
+          // Update the eye counter display
+          self.updateEyeCounter();
+          
+          // Update player's balance by 100 when collecting an eye
+          self.updatePlayerBalance(100);
+          
+          if (self.eyesCollected >= 12) {
+            // Record end time when all eyes are collected
+            self.endTime = Date.now();
+            self.gameCompleted = true;
+            
+            // Calculate time taken in seconds
+            const timeTaken = (self.endTime - self.startTime) / 1000;
+            
+            // Stop the game timer if it's running
+            if (Game.timerInterval) {
+              clearInterval(Game.timerInterval);
+            }
+            
+            // Show success screen with time score
+            self.showSuccessScreen(timeTaken);
           } else {
-            alert(`You collected an Eye of Ender! You need ${12 - eyesCollected} more to escape.`);
+            // Move the eye to a new random position
             this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
           }
         }
@@ -153,11 +179,450 @@ class GameLevelEnd {
       { class: BackgroundParallax, data: image_data_parallax },  // Add parallax background first
       { class: GamEnvBackground, data: image_data_end },         // Then regular background
       { class: Player, data: sprite_data_chillguy },
-      { class: Npc, data: sprite_data_tux },
+      { class: Npc, data: sprite_data_endship },
       { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex }
     ];
+    
+    // Create eye counter UI
+    this.createEyeCounter();
+  }
+  
+  // Create a UI counter for the eyes
+  createEyeCounter() {
+    const counterContainer = document.createElement('div');
+    counterContainer.id = 'eye-counter-container';
+    counterContainer.style.position = 'fixed';
+    counterContainer.style.top = '180px'; // Changed from 150px to 180px to position it lower
+    counterContainer.style.right = '10px';
+    counterContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    counterContainer.style.color = 'white';
+    counterContainer.style.padding = '10px';
+    counterContainer.style.borderRadius = '5px';
+    counterContainer.style.display = 'flex';
+    counterContainer.style.alignItems = 'center';
+    counterContainer.style.fontFamily = "'Minecraft', sans-serif";
+    counterContainer.style.zIndex = '1000';
+    counterContainer.style.border = '2px solid #4a86e8';
+    counterContainer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+    
+    // Load Minecraft-style font
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+    
+    // Create eye icon
+    const eyeIcon = document.createElement('div');
+    eyeIcon.style.width = '25px';
+    eyeIcon.style.height = '25px';
+    eyeIcon.style.backgroundImage = "url('./images/gamify/eyeOfEnder.png')";
+    eyeIcon.style.backgroundSize = 'contain';
+    eyeIcon.style.backgroundRepeat = 'no-repeat';
+    eyeIcon.style.marginRight = '10px';
+    
+    // Create counter text
+    const counterText = document.createElement('div');
+    counterText.id = 'eye-counter';
+    counterText.textContent = `0/12`;
+    counterText.style.fontSize = '18px';
+    counterText.style.color = '#4a86e8'; // Changed from #8A2BE2 to #4a86e8
+    counterText.style.textShadow = '0 0 5px rgba(74, 134, 232, 0.7)'; // Updated shadow to match new color
+    
+    // Assemble counter
+    counterContainer.appendChild(eyeIcon);
+    counterContainer.appendChild(counterText);
+    document.body.appendChild(counterContainer);
+  }
+  
+  // Update the eye counter display
+  updateEyeCounter() {
+    const counterText = document.getElementById('eye-counter');
+    if (counterText) {
+      counterText.textContent = `${this.eyesCollected}/12`;
+      
+      // Add visual feedback when collecting an eye
+      counterText.style.transform = 'scale(1.5)';
+      counterText.style.color = '#00FFFF';
+      
+      // Reset after animation
+      setTimeout(() => {
+        counterText.style.transform = 'scale(1)';
+        counterText.style.color = '#4a86e8'; // Changed from #8A2BE2 to #4a86e8
+      }, 300);
+    }
+  }
+  
+  // New method to update player's balance
+  updatePlayerBalance(amount) {
+    // Get the current balance from UI
+    const balanceElement = document.getElementById('balance');
+    if (!balanceElement) {
+      console.error("Balance element not found");
+      return;
+    }
+    
+    // Parse current balance
+    let currentBalance = parseInt(balanceElement.innerHTML) || 0;
+    
+    // Add amount to balance
+    const newBalance = currentBalance + amount;
+    
+    // Update UI
+    balanceElement.innerHTML = newBalance;
+    
+    // Store in localStorage
+    localStorage.setItem('balance', newBalance);
+    
+    // Visual feedback for balance change
+    balanceElement.style.transform = 'scale(1.5)';
+    balanceElement.style.color = '#00FFFF';
+    setTimeout(() => {
+      balanceElement.style.transform = 'scale(1)';
+      balanceElement.style.color = '#4a86e8';
+    }, 300);
+    
+    // If we have access to the Java API endpoint, update server-side balance
+    if (Game.id && Game.javaURI) {
+      this.updateServerBalance(Game.id, amount);
+    }
+    
+    // Show floating +100 text near the eye
+    this.showFloatingPoints(amount);
+  }
+  
+  // Update balance on server
+  updateServerBalance(personId, amount) {
+    // Check if Game and fetchOptions are available
+    if (!Game.javaURI || !Game.fetchOptions) {
+      console.error("Cannot update server balance - missing Game.javaURI or Game.fetchOptions");
+      return;
+    }
+    
+    // Endpoint for updating balance
+    const endpoint = `${Game.javaURI}/rpg_answer/updateBalance/${personId}/${amount}`;
+    
+    // Send request to update balance
+    fetch(endpoint, Game.fetchOptions)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to update balance: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Balance updated on server:", data);
+      })
+      .catch(error => {
+        console.error("Error updating balance on server:", error);
+      });
+  }
+  
+  // Show floating points animation
+  showFloatingPoints(amount) {
+    // Create floating text element
+    const floatingPoints = document.createElement('div');
+    floatingPoints.textContent = `+${amount}`;
+    floatingPoints.style.position = 'fixed';
+    floatingPoints.style.color = '#4a86e8';
+    floatingPoints.style.fontSize = '24px';
+    floatingPoints.style.fontWeight = 'bold';
+    floatingPoints.style.textShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+    floatingPoints.style.zIndex = '9999';
+    
+    // Get position of eye counter for reference
+    const eyeCounter = document.getElementById('eye-counter-container');
+    if (eyeCounter) {
+      const rect = eyeCounter.getBoundingClientRect();
+      floatingPoints.style.top = `${rect.top - 30}px`;
+      floatingPoints.style.left = `${rect.left + 20}px`;
+    } else {
+      // Fallback position
+      floatingPoints.style.top = '100px';
+      floatingPoints.style.right = '30px';
+    }
+    
+    // Create animation
+    floatingPoints.style.animation = 'float-up 1.5s ease-out forwards';
+    const style = document.createElement('style');
+    if (!document.getElementById('float-animation')) {
+      style.id = 'float-animation';
+      style.innerHTML = `
+        @keyframes float-up {
+          0% { transform: translateY(0); opacity: 1; }
+          100% { transform: translateY(-50px); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    // Add to document and remove after animation
+    document.body.appendChild(floatingPoints);
+    setTimeout(() => {
+      floatingPoints.remove();
+    }, 1500);
+  }
+  
+  // Show success screen when all eyes are collected
+  showSuccessScreen(timeTaken) {
+    // Format time nicely
+    const minutes = Math.floor(timeTaken / 60);
+    const seconds = Math.floor(timeTaken % 60);
+    const milliseconds = Math.floor((timeTaken % 1) * 100);
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+    
+    // Create success container with cool styling
+    const successDiv = document.createElement('div');
+    successDiv.id = 'success-screen';
+    successDiv.style.position = 'fixed';
+    successDiv.style.top = '0';
+    successDiv.style.left = '0';
+    successDiv.style.width = '100%';
+    successDiv.style.height = '100%';
+    successDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    successDiv.style.display = 'flex';
+    successDiv.style.flexDirection = 'column';
+    successDiv.style.justifyContent = 'center';
+    successDiv.style.alignItems = 'center';
+    successDiv.style.zIndex = '9999';
+    successDiv.style.backdropFilter = 'blur(10px)';
+    
+    // Add a pulsing border effect
+    const innerDiv = document.createElement('div');
+    innerDiv.style.padding = '40px';
+    innerDiv.style.borderRadius = '20px';
+    innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    innerDiv.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.7)';
+    innerDiv.style.border = '3px solid #8A2BE2';
+    innerDiv.style.textAlign = 'center';
+    innerDiv.style.animation = 'pulse-border 2s infinite alternate';
+    
+    // Create animation style
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes pulse-border {
+            from { box-shadow: 0 0 30px rgba(138, 43, 226, 0.7); }
+            to { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
+        }
+        
+        @keyframes slide-in {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(138, 43, 226, 0.7); }
+            to { text-shadow: 0 0 30px rgba(138, 43, 226, 0.9); }
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
+        }
+        
+        .restart-btn {
+            background: linear-gradient(to bottom, #9B30FF, #8A2BE2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            background: linear-gradient(to bottom, #B041FF, #9B30FF);
+        }
+        
+        .trophy {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: glow 2s infinite alternate;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Get final balance
+    const finalBalance = document.getElementById('balance')?.innerHTML || '0';
+    
+    // Success content
+    innerDiv.innerHTML = `
+        <div class="trophy">🏆</div>
+        <h1 style="font-size: 48px; margin: 0; color: #8A2BE2; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">SUCCESS!</h1>
+        <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">All 12 Eyes of Ender collected!</p>
+        <div style="margin: 20px 0; font-size: 24px; color: #00FFFF; animation: slide-in 0.5s ease-out 0.4s both; font-family: 'Press Start 2P', cursive;">
+            TIME: <span style="font-weight: bold;">${formattedTime}</span>
+        </div>
+        <div style="margin: 10px 0; font-size: 24px; color: #4a86e8; animation: slide-in 0.5s ease-out 0.5s both; font-family: 'Press Start 2P', cursive;">
+            BALANCE: <span style="font-weight: bold;">${finalBalance}</span>
+        </div>
+        <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
+            PLAY AGAIN
+        </button>
+    `;
+    
+    successDiv.appendChild(innerDiv);
+    document.body.appendChild(successDiv);
+    
+    // Create confetti effect
+    this.createConfetti(successDiv);
+    
+    // Add event listener to restart button
+    document.getElementById('restart-button').addEventListener('click', () => {
+        location.reload(); // Reload the page to restart the game
+    });
+  }
+  
+  // Show failure screen when time runs out
+  showFailureScreen() {
+    // Create failure container with styling
+    const failureDiv = document.createElement('div');
+    failureDiv.id = 'failure-screen';
+    failureDiv.style.position = 'fixed';
+    failureDiv.style.top = '0';
+    failureDiv.style.left = '0';
+    failureDiv.style.width = '100%';
+    failureDiv.style.height = '100%';
+    failureDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    failureDiv.style.display = 'flex';
+    failureDiv.style.flexDirection = 'column';
+    failureDiv.style.justifyContent = 'center';
+    failureDiv.style.alignItems = 'center';
+    failureDiv.style.zIndex = '9999';
+    failureDiv.style.backdropFilter = 'blur(10px)';
+    
+    // Add a pulsing border effect
+    const innerDiv = document.createElement('div');
+    innerDiv.style.padding = '40px';
+    innerDiv.style.borderRadius = '20px';
+    innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    innerDiv.style.boxShadow = '0 0 30px rgba(255, 0, 0, 0.7)';
+    innerDiv.style.border = '3px solid red';
+    innerDiv.style.textAlign = 'center';
+    innerDiv.style.animation = 'pulse-border 2s infinite alternate';
+    
+    // Create animation style
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes pulse-border {
+            from { box-shadow: 0 0 30px rgba(255, 0, 0, 0.7); }
+            to { box-shadow: 0 0 50px rgba(255, 0, 0, 0.9); }
+        }
+        
+        @keyframes slide-in {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+            to { text-shadow: 0 0 30px rgba(255, 0, 0, 0.9); }
+        }
+        
+        .restart-btn {
+            background: linear-gradient(to bottom, #ff3333, #cc0000);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            background: linear-gradient(to bottom, #ff5555, #ff0000);
+        }
+        
+        .womp-womp {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: glow 1.5s infinite alternate;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Get final balance
+    const finalBalance = document.getElementById('balance')?.innerHTML || '0';
+    
+    // Failure content
+    innerDiv.innerHTML = `
+        <div class="womp-womp">😢</div>
+        <h1 style="font-size: 48px; margin: 0; color: red; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">WOMP WOMP</h1>
+        <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">Time's up!</p>
+        <div style="margin: 20px 0; font-size: 24px; color: #cccccc; animation: slide-in 0.5s ease-out 0.4s both; font-family: 'Press Start 2P', cursive;">
+            Eyes collected: <span style="color: yellow; font-weight: bold;">${this.eyesCollected}/12</span>
+        </div>
+        <div style="margin: 10px 0; font-size: 24px; color: #4a86e8; animation: slide-in 0.5s ease-out 0.5s both; font-family: 'Press Start 2P', cursive;">
+            BALANCE: <span style="font-weight: bold;">${finalBalance}</span>
+        </div>
+        <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
+            TRY AGAIN
+        </button>
+    `;
+    
+    failureDiv.appendChild(innerDiv);
+    document.body.appendChild(failureDiv);
+    
+    // Add event listener to restart button
+    document.getElementById('restart-button').addEventListener('click', () => {
+        location.reload(); // Reload the page to restart the game
+    });
+  }
+  
+  // Create confetti animation for success screen
+  createConfetti(container) {
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.position = 'absolute';
+        confetti.style.width = `${Math.random() * 10 + 5}px`;
+        confetti.style.height = `${Math.random() * 10 + 5}px`;
+        confetti.style.backgroundColor = this.getRandomColor();
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.top = '-50px';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.opacity = '1';
+        confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
+        confetti.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(confetti);
+    }
+  }
+  
+  // Get random color for confetti
+  getRandomColor() {
+    const colors = ['#8A2BE2', '#9B30FF', '#7B68EE', '#6A5ACD', '#00FFFF', '#FFFF00', '#FF00FF', '#00FF00'];
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 }
+
+// Add static method to check if game should end due to time limit
+GameLevelEnd.checkTimeLimit = function(gameLevelInstance) {
+  const currentTime = Date.now();
+  const elapsedTime = (currentTime - gameLevelInstance.startTime) / 1000;
+  
+  if (elapsedTime >= 45 && !gameLevelInstance.gameCompleted) {
+    clearInterval(Game.timerInterval);
+    gameLevelInstance.showFailureScreen();
+    return true;
+  }
+  return false;
+};
 
 export default GameLevelEnd;
