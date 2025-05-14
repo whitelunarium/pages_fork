@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Sign Up Page
-permalink: /student/TeamTeachToolkit/SignUp
+permalink: /student/TeamTeachSignUp
 description: Sign up for team teach topics
 ---
 
