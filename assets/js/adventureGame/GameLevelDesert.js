@@ -8,6 +8,7 @@ import GameLevelStarWars from './GameLevelStarWars.js';
 import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
 import GameLevelMinesweeper from './GameLevelMinesweeper.js';
 import GameLevelEnd from './GameLevelEnd.js';
+import dialogueSystem from './DialogueSystem.js'; // Import the dialogue system
 
 class GameLevelDesert {
   constructor(gameEnv) {
@@ -56,7 +57,7 @@ class GameLevelDesert {
 
     // NPC data for Tux 
     const sprite_src_tux = path + "/images/gamify/tux.png"; // be sure to include the path
-    const sprite_greet_tux = "Hi I am Tux, the Linux mascot.  I am very happy to spend some linux shell time with you!";
+    const sprite_greet_tux = "Hi I am Tux, the Linux mascot. I am very happy to spend some linux shell time with you!";
     const sprite_data_tux = {
         id: 'Tux',
         greeting: sprite_greet_tux,
@@ -85,104 +86,103 @@ class GameLevelDesert {
           ] 
         },
         reaction: function() {
-          alert(sprite_greet_tux);
+          dialogueSystem.showDialogue('Tux', sprite_greet_tux);
         },
         interact: function() {
-          let quiz = new Quiz(); // Create a new Quiz instance
-          quiz.initialize();
-          quiz.openPanel(sprite_data_tux);
-          }
-    
-      };
+          dialogueSystem.showDialogue('Tux', "Want to test your Linux knowledge? Let's start a quiz!");
+          // Short delay before opening the quiz panel
+          setTimeout(() => {
+            let quiz = new Quiz(); // Create a new Quiz instance
+            quiz.initialize();
+            quiz.openPanel(sprite_data_tux);
+          }, 2000);
+        }
+    };
 
 
 
-      // NPC data for Octocat
-      const sprite_src_octocat = path + "/images/gamify/octocat.png"; // be sure to include the path
-      const sprite_greet_octocat = "Hi I am Octocat! I am the GitHub code code code collaboration mascot";
-      const sprite_data_octocat = {
-        id: 'Octocat',
-        greeting: sprite_greet_octocat,
-        src: sprite_src_octocat,
-        SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
-        ANIMATION_RATE: 50,
-        pixels: {height: 301, width: 801},
-        INIT_POSITION: { x: (width / 4), y: (height / 4)},
-        orientation: {rows: 1, columns: 4 },
-        down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
-        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-        // GitHub command quiz 
-        quiz: { 
-          title: "GitHub Command Quiz",
-          questions: [
-            "Which command is used to clone a repository?\n1. git clone\n2. git fork\n3. git copy\n4. git download",
-            "Which command is used to add changes to the staging area?\n1. git add\n2. git stage\n3. git commit\n4. git push",
-            "Which command is used to commit changes?\n1. git commit\n2. git add\n3. git save\n4. git push",
-            "Which command is used to push changes to a remote repository?\n1. git push\n2. git upload\n3. git send\n4. git commit",
-            "Which command is used to pull changes from a remote repository?\n1. git pull\n2. git fetch\n3. git receive\n4. git update",
-            "Which command is used to check the status of the working directory and staging area?\n1. git status\n2. git check\n3. git info\n4. git log",
-            "Which command is used to create a new branch?\n1. git branch\n2. git create-branch\n3. git new-branch\n4. git checkout",
-            "Which command is used to switch to a different branch?\n1. git checkout\n2. git switch\n3. git change-branch\n4. git branch",
-            "Which command is used to merge branches?\n1. git merge\n2. git combine\n3. git join\n4. git integrate",
-            "Which command is used to view the commit history?\n1. git log\n2. git history\n3. git commits\n4. git show"
-          ] 
-        },
-        reaction: function() {
-          alert(sprite_greet_octocat);
-        },
-        interact: function() {
+    // NPC data for Octocat
+    const sprite_src_octocat = path + "/images/gamify/octocat.png"; // be sure to include the path
+    const sprite_greet_octocat = "Hi I am Octocat! I am the GitHub code code code collaboration mascot";
+    const sprite_data_octocat = {
+      id: 'Octocat',
+      greeting: sprite_greet_octocat,
+      src: sprite_src_octocat,
+      SCALE_FACTOR: 10,  // Adjust this based on your scaling needs
+      ANIMATION_RATE: 50,
+      pixels: {height: 301, width: 801},
+      INIT_POSITION: { x: (width / 4), y: (height / 4)},
+      orientation: {rows: 1, columns: 4 },
+      down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+      // GitHub command quiz 
+      quiz: { 
+        title: "GitHub Command Quiz",
+        questions: [
+          "Which command is used to clone a repository?\n1. git clone\n2. git fork\n3. git copy\n4. git download",
+          "Which command is used to add changes to the staging area?\n1. git add\n2. git stage\n3. git commit\n4. git push",
+          "Which command is used to commit changes?\n1. git commit\n2. git add\n3. git save\n4. git push",
+          "Which command is used to push changes to a remote repository?\n1. git push\n2. git upload\n3. git send\n4. git commit",
+          "Which command is used to pull changes from a remote repository?\n1. git pull\n2. git fetch\n3. git receive\n4. git update",
+          "Which command is used to check the status of the working directory and staging area?\n1. git status\n2. git check\n3. git info\n4. git log",
+          "Which command is used to create a new branch?\n1. git branch\n2. git create-branch\n3. git new-branch\n4. git checkout",
+          "Which command is used to switch to a different branch?\n1. git checkout\n2. git switch\n3. git change-branch\n4. git branch",
+          "Which command is used to merge branches?\n1. git merge\n2. git combine\n3. git join\n4. git integrate",
+          "Which command is used to view the commit history?\n1. git log\n2. git history\n3. git commits\n4. git show"
+        ] 
+      },
+      reaction: function() {
+        dialogueSystem.showDialogue('Octocat', sprite_greet_octocat);
+      },
+      interact: function() {
+        dialogueSystem.showDialogue('Octocat', "Let's test your knowledge of Git commands! Ready for a challenge?");
+        setTimeout(() => {
           let quiz = new Quiz(); // Create a new Quiz instance
           quiz.initialize();
           quiz.openPanel(sprite_data_octocat);
-        }
-    }
+        }, 2000);
+      }
+    };
     
-          // NPC Data for End Portal
-          const sprite_src_endportal = path + "/images/gamify/exitportalfull.png"; // be sure to include the path
-          const sprite_greet_endportal = "Teleport to the End? Press E";
-          const sprite_data_endportal = {
-            id: 'End Portal',
-            greeting: sprite_greet_endportal,
-            src: sprite_src_endportal,
-            SCALE_FACTOR: 6,  // smaller = baller
-            ANIMATION_RATE: 100,
-            pixels: {width: 2029, height: 2025},
-            INIT_POSITION: { x: (width * 2 / 5), y: (height * 1 / 10)}, // Adjusted position
-            orientation: {rows: 1, columns: 1 },
-            down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
-            hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-            /* Reaction function
-            *  This function is called when the player collides with the NPC
-            *  It displays an alert with the greeting message
-            */
-            reaction: function() {
-              alert(sprite_greet_endportal);
-            },
-            /* Interact function
-            *  This function is called when the player interacts with the NPC
-            *  It pauses the main game, creates a new GameControl instance with the End level,
-            */
-            interact: function() {
-              // Set a primary game reference from the game environment
-              let primaryGame = gameEnv.gameControl;
-              // Define the game in game level
-              let levelArray = [GameLevelEnd];
-              // Define a new GameControl instance with the End level
-              let gameInGame = new GameControl(gameEnv.game, levelArray);
-              // Pause the primary game 
-              primaryGame.pause();
-              // Start the game in game
-              gameInGame.start();
-              // Setup "callback" function to allow transition from game in game to the underlying game
-              gameInGame.gameOver = function() {
-                // Call .resume on primary game
-                primaryGame.resume();
-              }
-            }
-    
-          };
-
-
+    // NPC Data for End Portal
+    const sprite_src_endportal = path + "/images/gamify/exitportalfull.png"; // be sure to include the path
+    const sprite_greet_endportal = "Teleport to the End? Press E";
+    const sprite_data_endportal = {
+      id: 'End Portal',
+      greeting: sprite_greet_endportal,
+      src: sprite_src_endportal,
+      SCALE_FACTOR: 6,  // smaller = baller
+      ANIMATION_RATE: 100,
+      pixels: {width: 2029, height: 2025},
+      INIT_POSITION: { x: (width * 2 / 5), y: (height * 1 / 10)}, // Adjusted position
+      orientation: {rows: 1, columns: 1 },
+      down: {row: 0, start: 0, columns: 1 },  // This is the stationary npc, down is default 
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function() {
+        dialogueSystem.showDialogue('End Portal', sprite_greet_endportal);
+      },
+      interact: function() {
+        dialogueSystem.showDialogue('End Portal', "Preparing teleportation sequence...");
+        // Short delay before transition
+        setTimeout(() => {
+          // Set a primary game reference from the game environment
+          let primaryGame = gameEnv.gameControl;
+          // Define the game in game level
+          let levelArray = [GameLevelEnd];
+          // Define a new GameControl instance with the End level
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+          // Pause the primary game 
+          primaryGame.pause();
+          // Start the game in game
+          gameInGame.start();
+          // Setup "callback" function to allow transition from game in game to the underlying game
+          gameInGame.gameOver = function() {
+            // Call .resume on primary game
+            primaryGame.resume();
+          }
+        }, 2000);
+      }
+    };
 
     const sprite_src_stocks = path + "/images/gamify/stockguy.png"; // Path to the NPC sprite
     const sprite_greet_stocks = "Darn it, I lost some money on the stock market.. come with me to help me out?";
@@ -198,16 +198,61 @@ class GameLevelDesert {
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-        // Reaction when player approaches NPC
         reaction: function() {
-            alert(sprite_greet_stocks);
+          dialogueSystem.showDialogue('Stock Guy', sprite_greet_stocks);
         },
-        // Interact when player presses "E"
         interact: function() {
-            const confirmTeleport = window.confirm("Teleport to the stock market?");
-            if (confirmTeleport) {
-                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home"; // Replace with your link
+          dialogueSystem.showDialogue('Stock Guy', "I need your help to recover my investments! Want to visit the stock market?");
+          
+          // Create custom buttons for dialogue choices
+          const choicesContainer = document.createElement('div');
+          Object.assign(choicesContainer.style, {
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '10px',
+            marginTop: '10px'
+          });
+          
+          const yesButton = document.createElement('button');
+          yesButton.textContent = "Yes";
+          Object.assign(yesButton.style, {
+            padding: '5px 15px',
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          });
+          
+          const noButton = document.createElement('button');
+          noButton.textContent = "No";
+          Object.assign(noButton.style, {
+            padding: '5px 15px',
+            backgroundColor: '#f44336',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          });
+          
+          choicesContainer.appendChild(yesButton);
+          choicesContainer.appendChild(noButton);
+          
+          // Add after a short delay to not interrupt typing animation
+          setTimeout(() => {
+            const dialogueContainer = document.getElementById('npc-dialogue-container');
+            if (dialogueContainer) {
+              dialogueContainer.appendChild(choicesContainer);
+              
+              yesButton.addEventListener('click', () => {
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home";
+              });
+              
+              noButton.addEventListener('click', () => {
+                dialogueSystem.hideDialogue();
+              });
             }
+          }, 2500);
         }
     };
 
@@ -225,21 +270,65 @@ class GameLevelDesert {
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-        // Reaction when player approaches NPC
         reaction: function() {
-            alert(sprite_greet_crypto);
+          dialogueSystem.showDialogue('Bitcoin', sprite_greet_crypto);
         },
-        // Interact when player presses "E"
         interact: function() {
-            const confirmTeleport = window.confirm("Teleport to gambling hub?");
-            if (confirmTeleport) {
-                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage"; // Replace with your lin
+          dialogueSystem.showDialogue('Bitcoin', "Feeling lucky? The casino awaits those seeking fortune!");
+          
+          // Create custom buttons for dialogue choices
+          const choicesContainer = document.createElement('div');
+          Object.assign(choicesContainer.style, {
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '10px',
+            marginTop: '10px'
+          });
+          
+          const yesButton = document.createElement('button');
+          yesButton.textContent = "Let's go!";
+          Object.assign(yesButton.style, {
+            padding: '5px 15px',
+            backgroundColor: '#FFD700',
+            color: 'black',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          });
+          
+          const noButton = document.createElement('button');
+          noButton.textContent = "Not now";
+          Object.assign(noButton.style, {
+            padding: '5px 15px',
+            backgroundColor: '#999999',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          });
+          
+          choicesContainer.appendChild(yesButton);
+          choicesContainer.appendChild(noButton);
+          
+          setTimeout(() => {
+            const dialogueContainer = document.getElementById('npc-dialogue-container');
+            if (dialogueContainer) {
+              dialogueContainer.appendChild(choicesContainer);
+              
+              yesButton.addEventListener('click', () => {
+                window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage";
+              });
+              
+              noButton.addEventListener('click', () => {
+                dialogueSystem.hideDialogue();
+              });
             }
+          }, 2500);
         }
     };
     
     const sprite_src_robot = path + "/images/gamify/robot.png"; // be sure to include the path
-    const sprite_greet_robot = "Hi I am Robot, the Jupyter Notebook mascot.  I am very happy to spend some linux shell time with you!";
+    const sprite_greet_robot = "Hi I am Robot, the Jupyter Notebook mascot. I am very happy to spend some linux shell time with you!";
     const sprite_data_robot = {
       id: 'Robot',
       greeting: sprite_greet_robot,
@@ -251,8 +340,6 @@ class GameLevelDesert {
       orientation: {rows: 3, columns: 6 },
       down: {row: 1, start: 0, columns: 6 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      // Linux command quiz
-
       quiz: { 
         title: "Jupyter Notebook Command Quiz",
         questions: [
@@ -269,33 +356,35 @@ class GameLevelDesert {
         ] 
       },
       reaction: function() {
-        alert(sprite_greet_robot);
+        dialogueSystem.showDialogue('Robot', sprite_greet_robot);
       },
-
       interact: function() {
-        // Set a primary game reference from the game environment
-        let primaryGame = gameEnv.gameControl;
-        // Define the game in game level
-        let levelArray = [GameLevelMeteorBlaster];
-        // Define a new GameControl instance with the StarWars level
-        let gameInGame = new GameControl(gameEnv.game, levelArray);
-        // Pause the primary game 
-        primaryGame.pause();
-        // Start the game in game
-        gameInGame.start();
-        // Setup "callback" function to allow transition from game in gaame to the underlying game
-        gameInGame.gameOver = function() {
-          // Call .resume on primary game
-          primaryGame.resume();
-        }
+        dialogueSystem.showDialogue('Robot', "Want to try your skills in the Meteor Blaster game? Destroy incoming space rocks!");
+        setTimeout(() => {
+          // Set a primary game reference from the game environment
+          let primaryGame = gameEnv.gameControl;
+          // Define the game in game level
+          let levelArray = [GameLevelMeteorBlaster];
+          // Define a new GameControl instance with the MeteorBlaster level
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+          // Pause the primary game 
+          primaryGame.pause();
+          // Start the game in game
+          gameInGame.start();
+          // Setup "callback" function to allow transition from game in game to the underlying game
+          gameInGame.gameOver = function() {
+            // Call .resume on primary game
+            primaryGame.resume();
+          }
+        }, 2500);
       }
-    }
+    };
 
     // NPC Data for R2D2
     const sprite_src_r2d2 = path + "/images/gamify/r2_idle.png"; // be sure to include the path
-    const sprite_greet_r2d2 = "Hi I am R2D2.  Leave this planet and help defent the rebel base on Hoth!";
+    const sprite_greet_r2d2 = "Hi I am R2D2. Leave this planet and help defend the rebel base on Hoth!";
     const sprite_data_r2d2 = {
-      id: 'StarWarsR2D2',
+      id: 'R2D2',
       greeting: sprite_greet_r2d2,
       src: sprite_src_r2d2,
       SCALE_FACTOR: 8,  // Adjust this based on your scaling needs
@@ -305,18 +394,12 @@ class GameLevelDesert {
       orientation: {rows: 1, columns: 3 },
       down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      /* Reaction function
-      *  This function is called when the player collides with the NPC
-      *  It displays an alert with the greeting message
-      */
       reaction: function() {
-        alert(sprite_greet_r2d2);
+        dialogueSystem.showDialogue('R2D2', sprite_greet_r2d2);
       },
-      /* Interact function
-      *  This function is called when the player interacts with the NPC
-      *  It pauses the main game, creates a new GameControl instance with the StarWars level,
-      */
       interact: function() {
+        dialogueSystem.showDialogue('R2D2', "*beep boop* Preparing hyperdrive for Hoth system...");
+        
         // Set a primary game reference from the game environment
         let primaryGame = gameEnv.gameControl;
         let levelArray = [GameLevelStarWars];
@@ -356,10 +439,11 @@ class GameLevelDesert {
     
         document.body.appendChild(fadeOverlay);
     
-        // Fade in
-        requestAnimationFrame(() => {
+        // Fade in after dialogue is shown
+        setTimeout(() => {
             fadeOverlay.style.opacity = '1';
-        });
+            dialogueSystem.hideDialogue(); // Hide dialogue when transition starts
+        }, 2000);
     
         // Simulate loading bar
         const totalDuration = 1000; // 1 second
@@ -367,13 +451,16 @@ class GameLevelDesert {
         const totalSteps = totalDuration / interval;
         let currentStep = 0;
     
-        const loadingInterval = setInterval(() => {
-            currentStep++;
-            loadingBar.textContent += '|';
-            if (currentStep >= totalSteps) {
-                clearInterval(loadingInterval);
-            }
-        }, interval);
+        // Start loading animation after fade-in begins
+        setTimeout(() => {
+            const loadingInterval = setInterval(() => {
+                currentStep++;
+                loadingBar.textContent += '|';
+                if (currentStep >= totalSteps) {
+                    clearInterval(loadingInterval);
+                }
+            }, interval);
+        }, 2000);
     
         // After loading and fade-in, start the mini-game
         setTimeout(() => {
@@ -391,15 +478,14 @@ class GameLevelDesert {
                 document.body.removeChild(fadeOverlay);
             }, 1000); // Wait for fade-out to finish
     
-        }, totalDuration + 200); // Delay a bit after loading bar finishes
-    }
-
+        }, 3500); // Delay after loading bar finishes
+      }
     };
 
     const sprite_src_minesweeper = path + "/images/gamify/robot.png"; // Using robot sprite for Minesweeper NPC
     const sprite_greet_minesweeper = "Want to play a game of Minesweeper? Right-click to flag mines!";
     const sprite_data_minesweeper = {
-      id: 'Minesweeper',
+      id: 'Minesweeper Bot',
       greeting: sprite_greet_minesweeper,
       src: sprite_src_minesweeper,
       SCALE_FACTOR: 10,
@@ -410,21 +496,24 @@ class GameLevelDesert {
       down: {row: 1, start: 0, columns: 6},
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function() {
-        alert(sprite_greet_minesweeper);
+        dialogueSystem.showDialogue('Minesweeper Bot', sprite_greet_minesweeper);
       },
       interact: function() {
-        let primaryGame = gameEnv.gameControl;
-        let levelArray = [GameLevelMinesweeper];
-        let gameInGame = new GameControl(gameEnv.game, levelArray);
-        primaryGame.pause();
-        gameInGame.start();
-        gameInGame.gameOver = function() {
-          primaryGame.resume();
-        }
+        dialogueSystem.showDialogue('Minesweeper Bot', "Let's test your logic skills with a game of Minesweeper! Be careful where you click!");
+        setTimeout(() => {
+          let primaryGame = gameEnv.gameControl;
+          let levelArray = [GameLevelMinesweeper];
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+          primaryGame.pause();
+          gameInGame.start();
+          gameInGame.gameOver = function() {
+            primaryGame.resume();
+          }
+        }, 2500);
       }
     };
 
-    // List of objects defnitions for this level
+    // List of objects definitions for this level
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
@@ -435,10 +524,9 @@ class GameLevelDesert {
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_crypto },
       { class: Npc, data: sprite_data_minesweeper },
-      { class: Npc, data: sprite_data_endportal }  // Added End Portal NPC
+      { class: Npc, data: sprite_data_endportal }
     ];
   }
-
 }
 
 export default GameLevelDesert;
