@@ -91,7 +91,7 @@ class GameLevelEnd {
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
 
-    const sprite_src_enemy = path + "/images/gamify/enemy.png"; // Add your own image
+    const sprite_src_enemy = path + "/images/gamify/Enderman.webp"; // Add your own image
     const sprite_data_enemy = {
       id: 'Enemy',
       greeting: "You feel a dark presence...",
@@ -205,7 +205,7 @@ class GameLevelEnd {
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_tux },
       { class: Collectible, data: sprite_data_eye },
-      { class: Player, data: sprite_data_alex }
+      { class: Player, data: sprite_data_alex },
       { class: Npc, data: sprite_data_enemy }
     ];
   }
