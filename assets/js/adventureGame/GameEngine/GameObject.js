@@ -88,6 +88,7 @@ class GameObject {
             }
         }
 
+        // Reset collision events if no collisions detected
         if (!collisionDetected) {
             this.state.collisionEvents = [];
         }

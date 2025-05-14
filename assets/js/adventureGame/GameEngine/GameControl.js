@@ -1,4 +1,4 @@
-// GameControl.js
+// GameControl.js with improved level transition handling
 import GameLevel from "./GameLevel.js";
 
 class GameControl {
@@ -21,6 +21,9 @@ class GameControl {
         this.exitKeyListener = this.handleExitKey.bind(this);
         this.gameOver = null; // Callback for when the game is over 
         this.savedCanvasState = []; // Save the current levels game elements 
+        
+        // Capture all global interactions for cleaning up during transitions
+        this.globalInteractionHandlers = new Set();
     }
 
     /**
@@ -34,12 +37,47 @@ class GameControl {
     }
 
     /**
+     * Register a global interaction handler that will be cleaned up during transitions
+     * @param {Object} handler - Object with handleKeyDownBound and handleKeyUpBound methods
+     */
+    registerInteractionHandler(handler) {
+        if (handler) {
+            this.globalInteractionHandlers.add(handler);
+        }
+    }
+
+    /**
+     * Unregister a global interaction handler
+     * @param {Object} handler - Handler to remove
+     */
+    unregisterInteractionHandler(handler) {
+        if (handler) {
+            this.globalInteractionHandlers.delete(handler);
+        }
+    }
+
+    /**
+     * Clean up all registered global interaction handlers
+     */
+    cleanupInteractionHandlers() {
+        this.globalInteractionHandlers.forEach(handler => {
+            if (handler.removeInteractKeyListeners) {
+                handler.removeInteractKeyListeners();
+            }
+        });
+        this.globalInteractionHandlers.clear();
+    }
+
+    /**
      * Transitions to the next level in the level by
      * 1. Creating a new GameLevel instance
      * 2. Creating the level using the GameLevelClass
      * 3. Starting the game loop
      */ 
     transitionToLevel() {
+        // Clean up any lingering interaction handlers
+        this.cleanupInteractionHandlers();
+
         const GameLevelClass = this.levelClasses[this.currentLevelIndex];
         this.currentLevel = new GameLevel(this);
         this.currentLevel.create(GameLevelClass);
@@ -92,7 +130,12 @@ class GameControl {
         } else {
             alert("All levels completed.");
         }
+        
+        // Clean up any lingering interaction handlers
+        this.cleanupInteractionHandlers();
+        
         this.currentLevel.destroy();
+        
         // Call the gameOver callback if it exists
         if (this.gameOver) {
             this.gameOver();
@@ -169,6 +212,9 @@ class GameControl {
         this.removeExitKeyListener();
         this.saveCanvasState();
         this.hideCanvasState();
+        
+        // Also clean up interaction handlers
+        this.cleanupInteractionHandlers();
      }
 
      /**

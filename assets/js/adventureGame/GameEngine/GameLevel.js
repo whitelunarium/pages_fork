@@ -1,4 +1,4 @@
-// GameLevel.js
+// Updated GameLevel.js
 import GameEnv from "./GameEnv.js"
 
 class GameLevel {
@@ -26,7 +26,6 @@ class GameLevel {
 
     if (typeof this.gameLevel.initialize === "function") {
       this.gameLevel.initialize()
-
     }
 
     window.addEventListener("resize", this.resize.bind(this))
@@ -37,9 +36,15 @@ class GameLevel {
       this.gameLevel.destroy()
     }
 
+    // Properly clean up all game objects
     for (let index = this.gameEnv.gameObjects.length - 1; index >= 0; index--) {
+      // Make sure each object's destroy method is called to clean up event listeners
       this.gameEnv.gameObjects[index].destroy()
     }
+
+    // Clear out the game objects array
+    this.gameEnv.gameObjects = [];
+    
     window.removeEventListener("resize", this.resize.bind(this))
   }
 
@@ -64,4 +69,3 @@ class GameLevel {
 }
 
 export default GameLevel
-
