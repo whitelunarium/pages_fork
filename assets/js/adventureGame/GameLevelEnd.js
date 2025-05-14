@@ -5,6 +5,7 @@ import Npc from './GameEngine/Npc.js';
 import Collectible from './GameEngine/Collectible.js';
 import Quiz from './Quiz.js';
 import Game from './Game.js';
+import Enemy from './GameEngine/Enemy.js';
 
 class GameLevelEnd {
   constructor(gameEnv) {
@@ -232,7 +233,7 @@ class GameLevelEnd {
       { class: Npc, data: sprite_data_endship },
       { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex },
-      { class: Npc, data: sprite_data_enemy }
+      { class: Enemy, data: sprite_data_enemy }
     ];
     
     // Create eye counter UI
