@@ -2,7 +2,7 @@
 toc: false
 layout: post
 title: Sign Up Page
-permalink: /student/TeamTeachToolkit/signup
+permalink: /student/TeamTeachToolkit/SignUp
 description: Sign up for team teach topics
 ---
 
@@ -10,12 +10,6 @@ description: Sign up for team teach topics
 
 <!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-  body {
-    font-family: Arial, sans-serif;
-  }
-</style>
 
 <div class="min-h-screen bg-gray-900 text-white">
   <div class="max-w-5xl mx-auto py-10 px-4">
@@ -69,6 +63,11 @@ description: Sign up for team teach topics
   let userId = -1;
   let StuName = "";
 
+  function formatDateToMMDDYYYY(dateStr) {
+    const [year, month, day] = dateStr.split("-");
+    return `${month}/${day}/${year}`;
+  }
+
   async function getUserId() {
     const url_persons = `${javaURI}/api/person/get`;
     try {
@@ -92,11 +91,11 @@ description: Sign up for team teach topics
       let filteredTopics = topics.filter(topic => topic.type === "teamteach");
 
       let topicsList = document.getElementById("topicsList");
-      topicsList.innerHTML = "";
+      topicsList.innerHTML = ""; // Clear previous topics
 
-      filteredTopics.forEach(topic => {
-        fetchAssignTopics(topic);
-      });
+      // Wait for all fetchAssignTopics calls to complete
+      await Promise.all(filteredTopics.map(topic => fetchAssignTopics(topic)));
+
     } catch (error) {
       console.error("Error fetching topics:", error);
     }
@@ -105,7 +104,8 @@ description: Sign up for team teach topics
   async function fetchAssignTopics(topic) {
     try {
       let response = await fetch(`${javaURI}/api/submissions/assignment/${topic.id}`, fetchOptions);
-      let assignments = await response.json();
+      let data = await response.json();
+      let assignments = Array.isArray(data) ? data : [];
 
       let studentsSet = new Set();
       let studentsTextArray = [];
@@ -140,8 +140,7 @@ description: Sign up for team teach topics
           <button 
             class="border border-white px-3 py-1 rounded text-sm transition ${alreadySignedUp ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:text-black'}" 
             data-topic-id="${topic.id}"
-            ${alreadySignedUp ? 'disabled' : ''}
-          >
+            ${alreadySignedUp ? 'disabled' : ''}>
             ${alreadySignedUp ? 'Signed Up' : 'Sign Up'}
           </button>
         </td>
@@ -162,12 +161,14 @@ description: Sign up for team teach topics
 
   async function addTopic() {
     let name = document.getElementById("name").value;
-    let dueDate = document.getElementById("dueDate").value;
+    let rawDate = document.getElementById("dueDate").value;
 
-    if (!name || !dueDate) {
+    if (!name || !rawDate) {
       alert("Please fill in all fields.");
       return;
     }
+
+    let dueDate = formatDateToMMDDYYYY(rawDate);
 
     const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=test&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
 
@@ -182,7 +183,7 @@ description: Sign up for team teach topics
       if (response.ok) {
         document.getElementById("name").value = "";
         document.getElementById("dueDate").value = "";
-        fetchTopics();
+        fetchTopics(); // Refresh list
       } else {
         console.error("Failed to add topic");
       }
