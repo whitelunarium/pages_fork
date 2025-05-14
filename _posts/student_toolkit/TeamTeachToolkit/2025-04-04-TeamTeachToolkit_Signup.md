@@ -13,13 +13,6 @@ description: Sign up for team teach topics
 
 <div class="min-h-screen bg-gray-900 text-white">
   <div class="max-w-5xl mx-auto py-10 px-4">
-    <!-- Nav Buttons -->
-    <div class="flex justify-center gap-4 mb-6 flex-wrap">
-      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Home</button>
-      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Grader</button>
-      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Generator</button>
-      <button class="border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Review</button>
-    </div>
 
     <!-- Logged-in Student Info -->
     <p id="loggedInStudent" class="mb-6 text-center text-sm">Fetching student info...</p>
