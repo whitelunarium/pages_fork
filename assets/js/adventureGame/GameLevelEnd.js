@@ -90,6 +90,56 @@ class GameLevelEnd {
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
+
+    const sprite_src_enemy = path + "/images/gamify/enemy.png"; // Add your own image
+    const sprite_data_enemy = {
+      id: 'Enemy',
+      greeting: "You feel a dark presence...",
+      src: sprite_src_enemy,
+      SCALE_FACTOR: 7,
+      ANIMATION_RATE: 0,
+      pixels: {height: 256, width: 128},
+      INIT_POSITION: { x: width / 2, y: height / 4 },
+      orientation: {rows: 1, columns: 1},
+      down: {row: 0, start: 0, columns: 1},
+      hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
+      zIndex: 10,
+      update: function(players, stopGameLoop) {
+        // Follow nearest player
+        let nearest = players[0];
+        let minDist = Infinity;
+
+        for (const p of players) {
+          const dx = p.x - this.x;
+          const dy = p.y - this.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < minDist) {
+            minDist = dist;
+            nearest = p;
+          }
+        }
+
+        // Move towards nearest player
+        const speed = 1.5;
+        const dx = nearest.x - this.x;
+        const dy = nearest.y - this.y;
+        const angle = Math.atan2(dy, dx);
+        this.x += Math.cos(angle) * speed;
+        this.y += Math.sin(angle) * speed;
+
+        // Collision check
+        for (const p of players) {
+          if (
+           Math.abs(p.x - this.x) < this.width * this.hitbox.widthPercentage &&
+            Math.abs(p.y - this.y) < this.height * this.hitbox.heightPercentage
+          ) {
+            stopGameLoop();
+            alert("Game Over! You were caught by the enemy!");
+          }
+        }
+      }
+    };
+
         
     const sprite_src_tux = path + "/images/gamify/tux.png";
     const sprite_greet_tux = "THIS IS HOW IT ENDS - Tejo :P";
@@ -156,6 +206,7 @@ class GameLevelEnd {
       { class: Npc, data: sprite_data_tux },
       { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex }
+      { class: Npc, data: sprite_data_enemy }
     ];
   }
 }
