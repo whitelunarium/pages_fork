@@ -5,6 +5,7 @@ import Npc from './GameEngine/Npc.js';
 import Collectible from './GameEngine/Collectible.js';
 import Quiz from './Quiz.js';
 import Game from './Game.js';
+import DialogueSystem from './DialogueSystem.js';
 
 class GameLevelEnd {
   constructor(gameEnv) {
@@ -19,6 +20,9 @@ class GameLevelEnd {
     this.endTime = null;
     this.startTime = Date.now();
     this.gameCompleted = false;
+    
+    // Initialize the dialogue system
+    this.dialogueSystem = new DialogueSystem();
     
     // Parallax background configuration
     const image_src_parallax = path + "/images/gamify/parallaxbg.png";
@@ -97,6 +101,10 @@ class GameLevelEnd {
         
     const sprite_src_endship = path + "/images/gamify/endship.png";
     const sprite_greet_endship = "Find the elytra";
+    
+    // Store a reference to the dialogueSystem for use in sprite data
+    const dialogueSystem = this.dialogueSystem;
+    
     const sprite_data_endship = {
         id: 'Endship',
         greeting: sprite_greet_endship,
@@ -116,7 +124,7 @@ class GameLevelEnd {
           ]
         },
         reaction: function() {
-          alert(sprite_greet_endship);
+          dialogueSystem.showRandomDialogue(); // Using DialogueSystem instead of alert
         },
         interact: function() {
           let quiz = new Quiz();
