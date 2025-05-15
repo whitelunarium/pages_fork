@@ -6,26 +6,59 @@ class Npc extends Character {
         this.interact = data?.interact; // Interact function
         this.currentQuestionIndex = 0;
         this.alertTimeout = null;
+        this.isInteracting = false; // Flag to track if currently interacting
+        this.handleKeyDownBound = this.handleKeyDown.bind(this);
+        this.handleKeyUpBound = this.handleKeyUp.bind(this);
         this.bindInteractKeyListeners();
+        
+        // Register with game control for cleanup during transitions
+        if (gameEnv && gameEnv.gameControl) {
+            gameEnv.gameControl.registerInteractionHandler(this);
+        }
     }
 
     update() {
         this.draw();
+        // Check if player is still in collision
+        const players = this.gameEnv.gameObjects.filter(
+            obj => obj.state.collisionEvents.includes(this.spriteData.id)
+        );
+        
+        // Reset interaction state if player moved away
+        if (players.length === 0 && this.isInteracting) {
+            this.isInteracting = false;
+        }
     }
 
     bindInteractKeyListeners() {
-        addEventListener('keydown', this.handleKeyDown.bind(this));
-        addEventListener('keyup', this.handleKeyUp.bind(this));
+        // Add event listeners for keydown and keyup
+        document.addEventListener('keydown', this.handleKeyDownBound);
+        document.addEventListener('keyup', this.handleKeyUpBound);
     }
 
-    handleKeyDown({ key }) {
-        if (key === 'e' || key === 'u') {
+    removeInteractKeyListeners() {
+        // Remove event listeners to prevent memory leaks
+        document.removeEventListener('keydown', this.handleKeyDownBound);
+        document.removeEventListener('keyup', this.handleKeyUpBound);
+        
+        // Clear any pending timeouts
+        if (this.alertTimeout) {
+            clearTimeout(this.alertTimeout);
+            this.alertTimeout = null;
+        }
+        
+        // Reset interaction state
+        this.isInteracting = false;
+    }
+
+    handleKeyDown(event) {
+        if (event.key === 'e' || event.key === 'u') {
             this.handleKeyInteract();
         }
     }
 
-    handleKeyUp({ key }) {
-        if (key === 'e' || key === 'u') {
+    handleKeyUp(event) {
+        if (event.key === 'e' || event.key === 'u') {
             if (this.alertTimeout) {
                 clearTimeout(this.alertTimeout);
                 this.alertTimeout = null;
@@ -34,14 +67,51 @@ class Npc extends Character {
     }
 
     handleKeyInteract() {
+        // Check if game is active - don't allow interactions during transitions
+        if (this.gameEnv.gameControl && this.gameEnv.gameControl.isPaused) {
+            return;
+        }
+        
         const players = this.gameEnv.gameObjects.filter(
             obj => obj.state.collisionEvents.includes(this.spriteData.id)
         );
         const hasInteract = this.interact !== undefined;
 
-        if (players.length > 0 && hasInteract) {
-            this.interact();
+        // Only trigger interaction if:
+        // 1. Player is in collision with this NPC
+        // 2. NPC has an interact function
+        // 3. Not already interacting
+        if (players.length > 0 && hasInteract && !this.isInteracting) {
+            this.isInteracting = true;
+            
+            // Store a reference to this NPC's interact function
+            const originalInteract = this.interact;
+            
+            // Execute the interact function
+            originalInteract.call(this);
+            
+            // Check if we're still in the same game level after interaction
+            // This is important for transitions to other levels
+            if (this.gameEnv && this.gameEnv.gameControl && 
+                !this.gameEnv.gameControl.isPaused) {
+                // Reset interaction state after a short delay
+                // This prevents multiple rapid interactions
+                setTimeout(() => {
+                    this.isInteracting = false;
+                }, 500);
+            }
         }
+    }
+
+    // Clean up event listeners when NPC is destroyed
+    destroy() {
+        // Unregister from game control
+        if (this.gameEnv && this.gameEnv.gameControl) {
+            this.gameEnv.gameControl.unregisterInteractionHandler(this);
+        }
+        
+        this.removeInteractKeyListeners();
+        super.destroy();
     }
 }
 

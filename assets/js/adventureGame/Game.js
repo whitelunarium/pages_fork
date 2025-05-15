@@ -168,7 +168,7 @@ class StatsManager {
         stopwatchContainer.style.padding = '12px 25px';
         stopwatchContainer.style.boxShadow = `0 0 15px ${themeShadow}`;
         stopwatchContainer.style.zIndex = '1000';
-        stopwatchContainer.style.display = 'flex';
+        stopwatchContainer.style.display = 'none'; // Start hidden, will be shown in GameLevelEnd
         stopwatchContainer.style.flexDirection = 'column';
         stopwatchContainer.style.alignItems = 'center';
         stopwatchContainer.style.justifyContent = 'center';
@@ -183,28 +183,27 @@ class StatsManager {
         timerDisplay.style.fontWeight = 'bold';
         timerDisplay.style.color = themeColor;
         timerDisplay.style.textShadow = `0 0 10px ${themeShadow}`;
-        timerDisplay.textContent = '00:00';
+        timerDisplay.textContent = '00:00.0';
         
-        // Create the progress bar
-        const progressBarContainer = document.createElement('div');
-        progressBarContainer.style.width = '100%';
-        progressBarContainer.style.height = '8px';
-        progressBarContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-        progressBarContainer.style.borderRadius = '5px';
-        progressBarContainer.style.margin = '8px 0 0 0';
-        progressBarContainer.style.overflow = 'hidden';
+        // Create a small container for best time display
+        const bestTimeContainer = document.createElement('div');
+        bestTimeContainer.id = 'best-time-container';
+        bestTimeContainer.style.fontSize = '12px';
+        bestTimeContainer.style.color = '#cccccc';
+        bestTimeContainer.style.marginTop = '5px';
         
-        const progressBar = document.createElement('div');
-        progressBar.id = 'timer-progress';
-        progressBar.style.height = '100%';
-        progressBar.style.width = '0%';
-        progressBar.style.backgroundColor = themeColor;
-        progressBar.style.borderRadius = '5px';
-        progressBar.style.transition = 'width 0.5s ease';
+        // Get best time from localStorage
+        const bestTime = localStorage.getItem('bestCompletionTime');
+        if (bestTime) {
+            const formattedBestTime = this.formatTime(parseFloat(bestTime));
+            bestTimeContainer.textContent = `BEST: ${formattedBestTime}`;
+        } else {
+            bestTimeContainer.textContent = 'BEST: --:--.-';
+        }
         
         // Label for the stopwatch
         const timerLabel = document.createElement('div');
-        timerLabel.textContent = 'TIME ATTACK';
+        timerLabel.textContent = 'TIME';
         timerLabel.style.fontSize = '12px';
         timerLabel.style.fontWeight = 'bold';
         timerLabel.style.color = 'white';
@@ -218,11 +217,18 @@ class StatsManager {
         document.head.appendChild(fontLink);
         
         // Assemble the stopwatch
-        progressBarContainer.appendChild(progressBar);
         stopwatchContainer.appendChild(timerLabel);
         stopwatchContainer.appendChild(timerDisplay);
-        stopwatchContainer.appendChild(progressBarContainer);
+        stopwatchContainer.appendChild(bestTimeContainer);
         document.body.appendChild(stopwatchContainer);
+    }
+    
+    // Helper method to format time consistently
+    formatTime(time) {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        const tenths = Math.floor((time * 10) % 10);
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
     }
 }
 
@@ -232,30 +238,64 @@ class TimeManager {
         this.gameTimer = 0;
         this.timerInterval = null;
         this.currentLevelInstance = null;
+        this.isStopwatch = true;
+        this.isActive = false; // Track if timer is active
     }
 
     setCurrentLevelInstance(instance) {
         this.currentLevelInstance = instance;
         console.log("Current level instance set:", instance);
+        
+        // Check if we're in the GameLevelEnd level
+        if (instance && instance.constructor.name === 'GameLevelEnd') {
+            // Only start the timer in GameLevelEnd level
+            this.startStopwatch();
+        } else {
+            // Stop timer in other levels
+            this.stopStopwatch(false); // false = don't show success screen
+        }
     }
     
-    // Game timer functionality
+    // Start the stopwatch - only called for GameLevelEnd
+        
     startStopwatch() {
-        // Theme colors
-        const themeColor = '#4a86e8';
-        const themeShadow = 'rgba(74, 134, 232, 0.7)';
-        const warningColor = '#f6b26b'; // Orange
-        const warningShadow = 'rgba(246, 178, 107, 0.7)';
-        const dangerColor = '#ff5252'; // Red
-        const dangerShadow = 'rgba(255, 82, 82, 0.7)';
+        console.log("Starting stopwatch in GameLevelEnd");
         
         // Get the elements
         const timerDisplay = document.getElementById('timer-display');
-        const progressBar = document.getElementById('timer-progress');
-        if (!timerDisplay || !progressBar) {
+        const stopwatchContainer = document.getElementById('stopwatch-container');
+        
+        if (!timerDisplay || !stopwatchContainer) {
             console.error("Timer elements not found in the DOM");
-            return;
+            console.log("Creating stopwatch elements directly");
+            
+            // Create stopwatch container if it doesn't exist
+            const newStopwatchContainer = document.createElement('div');
+            newStopwatchContainer.id = 'stopwatch-container';
+            newStopwatchContainer.style.position = 'fixed';
+            newStopwatchContainer.style.top = '10px';
+            newStopwatchContainer.style.left = '50%';
+            newStopwatchContainer.style.transform = 'translateX(-50%)';
+            newStopwatchContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            newStopwatchContainer.style.color = 'white';
+            newStopwatchContainer.style.padding = '10px 20px';
+            newStopwatchContainer.style.borderRadius = '10px';
+            newStopwatchContainer.style.zIndex = '9999';
+            newStopwatchContainer.style.fontFamily = 'monospace';
+            newStopwatchContainer.style.fontSize = '20px';
+            newStopwatchContainer.style.fontWeight = 'bold';
+            newStopwatchContainer.style.border = '2px solid #4a86e8';
+            newStopwatchContainer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+            newStopwatchContainer.textContent = '00:00.0';
+            document.body.appendChild(newStopwatchContainer);
+            
+            // Use this new container
+            stopwatchContainer = newStopwatchContainer;
+            timerDisplay = newStopwatchContainer;
         }
+        
+        // Make stopwatch visible - use inline style to override any CSS
+        stopwatchContainer.style.display = 'block';
         
         // Clear any existing interval
         if (this.timerInterval) {
@@ -264,69 +304,56 @@ class TimeManager {
         
         // Set timer to 0
         this.gameTimer = 0;
-        this.updateTimerDisplay(timerDisplay, this.gameTimer);
-        progressBar.style.width = '0%';
-        
-        // Start the stopwatch (updating every 100ms for smoother progress bar)
-        this.timerInterval = setInterval(() => {
-            this.gameTimer += 0.1;
-            
-            // Update timer display every 100ms
+        if (timerDisplay !== stopwatchContainer) {
             this.updateTimerDisplay(timerDisplay, this.gameTimer);
-            
-            // Update progress bar (0-45 seconds = 0-100%)
-            const progressPercentage = (this.gameTimer / 45) * 100;
-            progressBar.style.width = `${progressPercentage}%`;
-            
-            // Change color as time progresses
-            if (this.gameTimer > 30) {
-                progressBar.style.backgroundColor = dangerColor; // Red for last 15 seconds
-                progressBar.style.boxShadow = `0 0 10px ${dangerShadow}`;
-                timerDisplay.style.color = dangerColor;
-                timerDisplay.style.textShadow = `0 0 10px ${dangerShadow}`;
-            } else if (this.gameTimer > 15) {
-                progressBar.style.backgroundColor = warningColor; // Orange for middle 15 seconds
-                progressBar.style.boxShadow = `0 0 10px ${warningShadow}`;
-                timerDisplay.style.color = warningColor;
-                timerDisplay.style.textShadow = `0 0 10px ${warningShadow}`;
-            }
-            
-            // Add pulsing effect in the last 5 seconds
-            if (this.gameTimer > 40) {
-                const stopwatchContainer = document.getElementById('stopwatch-container');
-                stopwatchContainer.style.animation = 'pulse 0.5s infinite alternate';
-                if (!document.getElementById('pulse-animation')) {
-                    const style = document.createElement('style');
-                    style.id = 'pulse-animation';
-                    style.innerHTML = `
-                        @keyframes pulse {
-                            from { transform: translateX(-50%) scale(1); }
-                            to { transform: translateX(-50%) scale(1.05); }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-            }
-            
-            // Check if we're in the end level and the time limit has been reached
-            if (this.currentLevelInstance && 
-                this.currentLevelInstance.constructor.name === 'GameLevelEnd') {
-                // Check time limit using GameLevelEnd's static method
-                const gameEnded = GameLevelEnd.checkTimeLimit(this.currentLevelInstance);
+        } else {
+            stopwatchContainer.textContent = '00:00.0';
+        }
+        
+        // Mark timer as active
+        this.isActive = true;
+        
+        // Start the stopwatch (updating every 100ms for smoother display)
+        this.timerInterval = setInterval(() => {
+            if (this.isActive) {
+                this.gameTimer += 0.1;
                 
-                // If the game has ended due to time limit, stop the timer
-                if (gameEnded) {
-                    clearInterval(this.timerInterval);
+                // Update timer display every 100ms
+                if (timerDisplay !== stopwatchContainer) {
+                    this.updateTimerDisplay(timerDisplay, this.gameTimer);
+                } else {
+                    const minutes = Math.floor(this.gameTimer / 60);
+                    const seconds = Math.floor(this.gameTimer % 60);
+                    const tenths = Math.floor((this.gameTimer * 10) % 10);
+                    stopwatchContainer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
                 }
             }
-            
-            // When timer reaches 45 seconds, stop the game if we're not in the end level
-            if (this.gameTimer >= 45 && 
-                (!this.currentLevelInstance || 
-                this.currentLevelInstance.constructor.name !== 'GameLevelEnd')) {
-                this.stopGame();
+        }, 100);
+    }
+    
+    // Stop the stopwatch
+    stopStopwatch(completed = true) {
+        // Clear the timer interval
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+        
+        // Mark timer as inactive
+        this.isActive = false;
+        
+        // Hide stopwatch if not in GameLevelEnd
+        if (!completed && this.currentLevelInstance?.constructor.name !== 'GameLevelEnd') {
+            const stopwatchContainer = document.getElementById('stopwatch-container');
+            if (stopwatchContainer) {
+                stopwatchContainer.style.display = 'none';
             }
-        }, 100); // Update every 100ms for smoother animation
+        }
+        
+        // If completed, save the time
+        if (completed) {
+            this.saveCompletionTime(this.gameTimer);
+        }
     }
     
     updateTimerDisplay(display, time) {
@@ -337,145 +364,37 @@ class TimeManager {
         display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
     }
     
-    stopGame() {
-        // Clear the timer interval
-        clearInterval(this.timerInterval);
+    saveCompletionTime(time) {
+        // Get the current best time from localStorage
+        const currentBestTime = localStorage.getItem('bestCompletionTime');
         
-        // Stop the game
-        if (this.game.gameControl && typeof this.game.gameControl.stop === 'function') {
-            // Stop all game mechanics, animations, and inputs
-            this.game.gameControl.stop();
+        // If there's no current best time or the new time is better, save it
+        if (!currentBestTime || time < parseFloat(currentBestTime)) {
+            localStorage.setItem('bestCompletionTime', time.toString());
+            console.log(`New best time saved: ${time} seconds`);
+            
+            // Return true if this is a new best time
+            return true;
         }
         
-        // Create explosion effect
-        this.createExplosionEffect();
-        
-        // Show game over screen after a brief delay for the explosion effect
-        setTimeout(() => {
-            this.showGameOverScreen();
-        }, 1000);
+        // Return false if this is not a new best time
+        return false;
     }
     
-    createExplosionEffect() {
-        // Create a full-screen explosion effect
-        const explosion = document.createElement('div');
-        explosion.style.position = 'fixed';
-        explosion.style.top = '0';
-        explosion.style.left = '0';
-        explosion.style.width = '100%';
-        explosion.style.height = '100%';
-        explosion.style.backgroundColor = 'white';
-        explosion.style.opacity = '0';
-        explosion.style.zIndex = '9999';
-        explosion.style.transition = 'opacity 0.1s ease-in';
-        document.body.appendChild(explosion);
+    getFormattedBestTime() {
+        const bestTime = localStorage.getItem('bestCompletionTime');
+        if (!bestTime) return 'None';
         
-        // Flash the screen
-        setTimeout(() => {
-            explosion.style.opacity = '1';
-            setTimeout(() => {
-                explosion.style.opacity = '0';
-                setTimeout(() => {
-                    explosion.remove();
-                }, 500);
-            }, 100);
-        }, 0);
+        const time = parseFloat(bestTime);
+        return this.formatTime(time);
     }
     
-    showGameOverScreen() {
-        // Use theme colors for consistent design
-        const themeColor = '#4a86e8';
-        const themeShadow = 'rgba(74, 134, 232, 0.7)';
+    formatTime(time) {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        const tenths = Math.floor((time * 10) % 10);
         
-        // Create game over container with cool styling
-        const gameOverDiv = document.createElement('div');
-        gameOverDiv.id = 'game-over';
-        gameOverDiv.style.position = 'fixed';
-        gameOverDiv.style.top = '0';
-        gameOverDiv.style.left = '0';
-        gameOverDiv.style.width = '100%';
-        gameOverDiv.style.height = '100%';
-        gameOverDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-        gameOverDiv.style.display = 'flex';
-        gameOverDiv.style.flexDirection = 'column';
-        gameOverDiv.style.justifyContent = 'center';
-        gameOverDiv.style.alignItems = 'center';
-        gameOverDiv.style.zIndex = '1000';
-        gameOverDiv.style.backdropFilter = 'blur(10px)';
-        gameOverDiv.style.fontFamily = "'Montserrat', sans-serif";
-        
-        // Add a pulsing border effect
-        const innerDiv = document.createElement('div');
-        innerDiv.style.padding = '40px';
-        innerDiv.style.borderRadius = '20px';
-        innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        innerDiv.style.boxShadow = `0 0 30px ${themeShadow}`;
-        innerDiv.style.border = `3px solid ${themeColor}`;
-        innerDiv.style.textAlign = 'center';
-        innerDiv.style.animation = 'pulse-border 2s infinite alternate';
-        
-        // Create animation style
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes pulse-border {
-                from { box-shadow: 0 0 30px ${themeShadow}; }
-                to { box-shadow: 0 0 50px ${themeShadow}; }
-            }
-            
-            @keyframes slide-in {
-                from { transform: translateY(-50px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-            
-            @keyframes glow {
-                from { text-shadow: 0 0 10px ${themeShadow}; }
-                to { text-shadow: 0 0 30px ${themeShadow}; }
-            }
-            
-            .restart-btn {
-                background: linear-gradient(to bottom, ${themeColor}, #2b5797);
-                color: white;
-                border: none;
-                padding: 15px 30px;
-                font-size: 18px;
-                border-radius: 30px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin-top: 30px;
-                font-weight: bold;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                font-family: 'Montserrat', sans-serif;
-            }
-            
-            .restart-btn:hover {
-                transform: scale(1.05);
-                box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-                background: linear-gradient(to bottom, #5a96f8, ${themeColor});
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Game over content
-        innerDiv.innerHTML = `
-            <h1 style="font-size: 60px; margin: 0; color: ${themeColor}; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out;">TIME'S UP!</h1>
-            <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both;">Your 45-second challenge has ended</p>
-            <div style="margin: 20px 0; font-size: 18px; color: #cccccc; animation: slide-in 0.5s ease-out 0.4s both;">
-                Final score: <span style="color: ${themeColor}; font-weight: bold;">${document.getElementById('balance')?.innerHTML || '0'}</span>
-            </div>
-            <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
-                PLAY AGAIN
-            </button>
-        `;
-        
-        gameOverDiv.appendChild(innerDiv);
-        document.body.appendChild(gameOverDiv);
-        
-        // Add event listener to restart button
-        document.getElementById('restart-button').addEventListener('click', () => {
-            location.reload(); // Reload the page to restart the game
-        });
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
     }
 }
 
@@ -628,13 +547,19 @@ class Game {
         // Initialize user and game components
         this.initUser();
         
+        // Initialize the Game static reference
+        this.initialize();
+        
         // Start the game
         const gameLevelClasses = environment.gameLevelClasses;
         this.gameControl = new GameControl(this, gameLevelClasses);
         this.gameControl.start();
-        
-        // Start the stopwatch
-        this.timeManager.startStopwatch();
+    }
+    
+    // Initialize static reference for GameLevelEnd to access
+    initialize() {
+        // Create a reference to timeManager that GameLevelEnd can access
+        Game.timeManager = this.timeManager;
     }
 
     // Initialize user data
@@ -680,8 +605,8 @@ class Game {
     }
 
     static setCurrentLevelInstance(instance) {
-        if (this.timeManager) {
-            this.timeManager.setCurrentLevelInstance(instance);
+        if (Game.timeManager) {
+            Game.timeManager.setCurrentLevelInstance(instance);
         }
     }
 
