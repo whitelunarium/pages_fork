@@ -106,14 +106,14 @@ class GameLevelEnd {
     // Store a reference to the current instance to use in closures
     const self = this;
 
-    const sprite_src_enemy = path + "/images/gamify/ederman.png";
+    const sprite_src_enemy = path + "/images/gamify/enderman.png";
     const sprite_data_enemy = {
         id: 'Enderman',
         greeting: "You feel a dark presence...",
         src: sprite_src_enemy,
-        SCALE_FACTOR: 7,
+        SCALE_FACTOR: 10,
         ANIMATION_RATE: 50,
-        pixels: {height: 128, width: 64},
+        pixels: {height: 1504, width: 574},
         INIT_POSITION: { x: width / 2, y: height / 4 },
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1},
