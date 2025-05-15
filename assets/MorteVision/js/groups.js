@@ -22,11 +22,9 @@ const javaURI = (location.hostname === "localhost" || location.hostname === "127
 let allPeople = [];
 let selectedPeople = [];
 let allGroups = [];
-let currentUserData = null;
 let dataLoaded = {
     people: false,
-    groups: false,
-    currentUser: false
+    groups: false
 };
 
 // Initialize data loading on page load - no matter which tab is active
@@ -46,39 +44,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize data loading
 function initializeData() {
     // Load current user, people, and groups regardless of active tab
-    Promise.all([fetchCurrentUser(), fetchPeople(), fetchGroups()])
+    Promise.all([fetchPeople(), fetchGroups()])
         .then(() => {
             console.log('All data loaded successfully');
         })
         .catch(error => {
             console.error('Error loading data:', error);
         });
-}
-
-// Fetch current user data
-function fetchCurrentUser() {
-    return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/person/getuid`, {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Not authenticated or network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            currentUserData = data;
-            dataLoaded.currentUser = true;
-            console.log('Current user loaded:', currentUserData);
-            resolve(data);
-        })
-        .catch(error => {
-            console.error('Error fetching current user:', error.message);
-            reject(error);
-        });
-    });
 }
 
 // Fetch people from API
@@ -89,9 +61,18 @@ function fetchPeople() {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
+                return response.text(); // Get raw text instead of trying to parse JSON directly
             })
-            .then(data => {
+            .then(rawText => {
+                // Attempt to clean malformed JSON: trim after last valid closing bracket
+                const fixedText = rawText.slice(0, rawText.lastIndexOf(']') + 1);
+                let data;
+                try {
+                    data = JSON.parse(fixedText);
+                } catch (parseError) {
+                    throw new Error('Failed to parse fixed JSON');
+                }
+
                 allPeople = data;
                 dataLoaded.people = true;
                 renderPeopleList();
@@ -147,9 +128,9 @@ function renderPeopleList() {
 
     personList.innerHTML = allPeople.map(person => `
         <div class="person-item">
-            <div>
+            <div class="flex items-center gap-2">
                 <input type="checkbox" class="person-checkbox" id="person-${person.id}" 
-                        data-id="${person.id}" data-uid="${person.uid}" data-name="${person.name}">
+                    data-id="${person.id}" data-uid="${person.uid}" data-name="${person.name}">
                 <label for="person-${person.id}">${person.name} (${person.email})</label>
             </div>
         </div>

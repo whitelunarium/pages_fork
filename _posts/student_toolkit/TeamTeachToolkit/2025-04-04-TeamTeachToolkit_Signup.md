@@ -4,7 +4,6 @@ layout: post
 title: Sign Up Page
 permalink: /student/TeamTeachSignUp
 description: Sign up for team teach topics
----
 
 <title>Team Teach Toolkit Signup</title>
 
@@ -88,7 +87,6 @@ description: Sign up for team teach topics
 
       // Wait for all fetchAssignTopics calls to complete
       await Promise.all(filteredTopics.map(topic => fetchAssignTopics(topic)));
-
     } catch (error) {
       console.error("Error fetching topics:", error);
     }
