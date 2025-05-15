@@ -50,6 +50,129 @@ class GameLevelAirport {
       keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
 
+    const sprite_src_casino = path + "/images/gamify/frankSinatra.png";
+    const sprite_data_casino = {
+      id: 'Casino-NPC',
+      greeting: "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.",
+      src: sprite_src_casino,
+      SCALE_FACTOR: 5,
+      ANIMATION_RATE: 50,
+      pixels: { height: 281, width: 280 },
+      INIT_POSITION: { x: width * 0.28, y: height * 0.82 },
+      orientation: { rows: 1, columns: 1 }, 
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          showDialogBox(
+            "Frank Sinatra",
+            "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.\nHere, you can test your luck on Blackjack, Poker, or the Minefield Challenge.\nBut remember: in gambling, the swing of fortune can be swift and brutal.\nWant a tip before you step in?",
+            [
+              { label: "Yes, give me advice", action: () => giveAdvice(), keepOpen: true },
+              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "No thanks", action: () => {} }
+            ]
+          );
+        }
+        function giveAdvice() {
+          const adviceList = [
+            "The house always has an edge, so play smart and know when to walk away.",
+            "Set a budget before you play, and never chase your losses.",
+            "Luck be a lady tonight, but skill keeps you in the game.",
+            "Sometimes the best bet is the one you don't make.",
+            "Enjoy the thrill, but remember: it's just a game."
+          ];
+          const advice = adviceList[Math.floor(Math.random() * adviceList.length)];
+          showDialogBox(
+            "Frank's Advice",
+            advice + "\nWant to answer a question before you go in?",
+            [
+              { label: "Sure, ask me!", action: () => askQuestion(), keepOpen: true },
+              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Another tip", action: () => giveAdvice(), keepOpen: true },
+              { label: "Maybe later", action: () => {} }
+            ]
+          );
+        }
+        function askQuestion() {
+          showDialogBox(
+            "Frank's Question",
+            "If you won a big jackpot tonight, what would you do with the money?",
+            [
+              { label: "Save it", action: () => frankResponse("Smart move, kid. Saving is always classy.") },
+              { label: "Spend it all!", action: () => frankResponse("Ha! Just don't spend it all in one place, capisce?") },
+              { label: "Invest it", action: () => frankResponse("Now that's the spirit of a true high roller!") },
+              { label: "Back", action: () => giveAdvice(), keepOpen: true }
+            ]
+          );
+        }
+        function frankResponse(response) {
+          showDialogBox(
+            "Frank Sinatra",
+            response + "\nReady to try your luck?",
+            [
+              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Back to advice", action: () => giveAdvice(), keepOpen: true },
+              { label: "Maybe later", action: () => {} }
+            ]
+          );
+        }
+        intro();
+      },
+      interact: function () {
+        this.reaction();
+      }
+    };
+
+    const sprite_src_stocks = path + "/images/gamify/stockguy.png";
+    const sprite_data_stocks = {
+      id: 'Stock-NPC',
+      greeting: "Good day, I am J.P. Morgan, financier of industry and architect of American banking.",
+      src: sprite_src_stocks,
+      SCALE_FACTOR: 10,
+      ANIMATION_RATE: 50,
+      pixels: { height: 441, width: 339 },
+      INIT_POSITION: { x: width / 3, y: height / 3 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          showDialogBox(
+            "J.P. Morgan",
+            "Good day, I am J.P. Morgan, financier of industry and architect of American banking.\nAre you ready to test your skills in the stock market?",
+            [
+              { label: "Yes", action: () => explainStocks(), keepOpen: true },
+              { label: "No", action: () => {} }
+            ]
+          );
+        }
+        function explainStocks() {
+          showDialogBox(
+            "J.P. Morgan",
+            "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
+            [
+              { label: "Take me to the Stock Exchange", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
+              { label: "Remind me what stocks are", action: () => whatAreStocks(), keepOpen: true },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
+        }
+        function whatAreStocks() {
+          showDialogBox(
+            "J.P. Morgan",
+            "Stocks represent ownership in a company. When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
+            [
+              { label: "Yes, let's invest", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
+              { label: "Back", action: () => explainStocks(), keepOpen: true }
+            ]
+          );
+        }
+        intro();
+      },
+      interact: function () { this.reaction(); }
+    };
+
     const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
     const sprite_data_crypto = {
       id: 'Crypto-NPC',
@@ -654,6 +777,8 @@ class GameLevelAirport {
       { class: GameEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
       {class: Npc, data: sprite_data_crypto },
+      {class: Npc, data: sprite_data_stocks},
+      {class: Npc, data: sprite_data_casino},
       { class: Npc, data: sprite_data_pilot },
       { class: Npc, data: sprite_data_worker },
       { class: Npc, data: sprite_data_fidelity },
