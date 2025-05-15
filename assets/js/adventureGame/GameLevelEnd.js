@@ -196,33 +196,42 @@ class GameLevelEnd {
           alert(`Press E to claim this Eye of Ender.`);
         },
         interact: function() {
-          self.eyesCollected++;
-          
-          // Update the eye counter display
-          self.updateEyeCounter();
-          
-          // Update player's balance by 100 when collecting an eye
-          self.updatePlayerBalance(100);
-          
-          if (self.eyesCollected >= 12) {
-            // Record end time when all eyes are collected
-            self.endTime = Date.now();
+        self.eyesCollected++;
+
+        //check to make sure timer is initializing DELETE LATER
+        if (Game.setCurrentLevelInstance) {
+                Game.setCurrentLevelInstance(this);
+            } else {
+                console.error("Game.setCurrentLevelInstance not available");
+            }
+        // Update the eye counter display
+        self.updateEyeCounter();
+
+        // Update player's balance by 100 when collecting an eye
+        self.updatePlayerBalance(100);
+
+        if (self.eyesCollected >= 12) {
+            // Record that the game is completed
             self.gameCompleted = true;
             
-            // Calculate time taken in seconds
-            const timeTaken = (self.endTime - self.startTime) / 1000;
-            
-            // Stop the game timer if it's running
-            if (Game.timerInterval) {
-              clearInterval(Game.timerInterval);
+            // Stop the timer
+            if (Game.timeManager) {
+                Game.timeManager.stopStopwatch(true);
+                
+                // Check if this is a new best time
+                const isNewBest = Game.timeManager.saveCompletionTime(Game.timeManager.gameTimer);
+                
+                // Create a notification about the completion
+                self.showCompletionNotification(isNewBest);
             }
             
-            // Show success screen with time score
-            self.showSuccessScreen(timeTaken);
-          } else {
+            // Spawn the portal NPC
+            self.spawnPortalNPC();
+            
+        } else {
             // Move the eye to a new random position
             this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
-          }
+        }
         }
     };
     
@@ -414,267 +423,163 @@ class GameLevelEnd {
       floatingPoints.remove();
     }, 1500);
   }
-  
-  // Show success screen when all eyes are collected
-  showSuccessScreen(timeTaken) {
-    // Format time nicely
-    const minutes = Math.floor(timeTaken / 60);
-    const seconds = Math.floor(timeTaken % 60);
-    const milliseconds = Math.floor((timeTaken % 1) * 100);
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
+  createAndStartStopwatch() {
+    console.log("Manually creating stopwatch in GameLevelEnd");
     
-    // Create success container with cool styling
-    const successDiv = document.createElement('div');
-    successDiv.id = 'success-screen';
-    successDiv.style.position = 'fixed';
-    successDiv.style.top = '0';
-    successDiv.style.left = '0';
-    successDiv.style.width = '100%';
-    successDiv.style.height = '100%';
-    successDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-    successDiv.style.display = 'flex';
-    successDiv.style.flexDirection = 'column';
-    successDiv.style.justifyContent = 'center';
-    successDiv.style.alignItems = 'center';
-    successDiv.style.zIndex = '9999';
-    successDiv.style.backdropFilter = 'blur(10px)';
+    // Create the stopwatch container
+    const stopwatchContainer = document.createElement('div');
+    stopwatchContainer.id = 'direct-stopwatch';
+    stopwatchContainer.style.position = 'fixed';
+    stopwatchContainer.style.top = '10px';
+    stopwatchContainer.style.left = '50%';
+    stopwatchContainer.style.transform = 'translateX(-50%)';
+    stopwatchContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    stopwatchContainer.style.color = 'white';
+    stopwatchContainer.style.padding = '10px 20px';
+    stopwatchContainer.style.borderRadius = '10px';
+    stopwatchContainer.style.zIndex = '9999';
+    stopwatchContainer.style.fontFamily = 'monospace';
+    stopwatchContainer.style.fontSize = '20px';
+    stopwatchContainer.style.fontWeight = 'bold';
+    stopwatchContainer.style.border = '2px solid #4a86e8';
+    stopwatchContainer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
     
-    // Add a pulsing border effect
-    const innerDiv = document.createElement('div');
-    innerDiv.style.padding = '40px';
-    innerDiv.style.borderRadius = '20px';
-    innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    innerDiv.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.7)';
-    innerDiv.style.border = '3px solid #8A2BE2';
-    innerDiv.style.textAlign = 'center';
-    innerDiv.style.animation = 'pulse-border 2s infinite alternate';
+    // Create title
+    const title = document.createElement('div');
+    title.textContent = 'TIME';
+    title.style.fontSize = '12px';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '5px';
+    stopwatchContainer.appendChild(title);
     
-    // Create animation style
-    const style = document.createElement('style');
-    style.innerHTML = `
-        @keyframes pulse-border {
-            from { box-shadow: 0 0 30px rgba(138, 43, 226, 0.7); }
-            to { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
+    // Create timer display
+    const timerDisplay = document.createElement('div');
+    timerDisplay.id = 'direct-timer-display';
+    timerDisplay.textContent = '00:00.0';
+    timerDisplay.style.textAlign = 'center';
+    stopwatchContainer.appendChild(timerDisplay);
+    
+    // Add to document
+    document.body.appendChild(stopwatchContainer);
+    
+    // Start timer
+    let startTime = Date.now();
+    let interval = setInterval(() => {
+        if (this.gameCompleted) {
+            clearInterval(interval);
+            return;
         }
         
-        @keyframes slide-in {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        const elapsed = (Date.now() - startTime) / 1000;
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = Math.floor(elapsed % 60);
+        const tenths = Math.floor((elapsed * 10) % 10);
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
         
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(138, 43, 226, 0.7); }
-            to { text-shadow: 0 0 30px rgba(138, 43, 226, 0.9); }
-        }
-        
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
-        }
-        
-        .restart-btn {
-            background: linear-gradient(to bottom, #9B30FF, #8A2BE2);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Press Start 2P', cursive;
-        }
-        
-        .restart-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            background: linear-gradient(to bottom, #B041FF, #9B30FF);
-        }
-        
-        .trophy {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: glow 2s infinite alternate;
-        }
-    `;
-    document.head.appendChild(style);
+        // Store current time for completion
+        this.currentTime = elapsed;
+    }, 100);
     
-    // Get final balance
-    const finalBalance = document.getElementById('balance')?.innerHTML || '0';
-    
-    // Success content
-    innerDiv.innerHTML = `
-        <div class="trophy">🏆</div>
-        <h1 style="font-size: 48px; margin: 0; color: #8A2BE2; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">SUCCESS!</h1>
-        <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">All 12 Eyes of Ender collected!</p>
-        <div style="margin: 20px 0; font-size: 24px; color: #00FFFF; animation: slide-in 0.5s ease-out 0.4s both; font-family: 'Press Start 2P', cursive;">
-            TIME: <span style="font-weight: bold;">${formattedTime}</span>
-        </div>
-        <div style="margin: 10px 0; font-size: 24px; color: #4a86e8; animation: slide-in 0.5s ease-out 0.5s both; font-family: 'Press Start 2P', cursive;">
-            BALANCE: <span style="font-weight: bold;">${finalBalance}</span>
-        </div>
-        <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
-            PLAY AGAIN
-        </button>
-    `;
-    
-    successDiv.appendChild(innerDiv);
-    document.body.appendChild(successDiv);
-    
-    // Create confetti effect
-    this.createConfetti(successDiv);
-    
-    // Add event listener to restart button
-    document.getElementById('restart-button').addEventListener('click', () => {
-        location.reload(); // Reload the page to restart the game
-    });
+    // Store interval for cleanup
+    this.timerInterval = interval;
   }
-  
-  // Show failure screen when time runs out
-  showFailureScreen() {
-    // Create failure container with styling
-    const failureDiv = document.createElement('div');
-    failureDiv.id = 'failure-screen';
-    failureDiv.style.position = 'fixed';
-    failureDiv.style.top = '0';
-    failureDiv.style.left = '0';
-    failureDiv.style.width = '100%';
-    failureDiv.style.height = '100%';
-    failureDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-    failureDiv.style.display = 'flex';
-    failureDiv.style.flexDirection = 'column';
-    failureDiv.style.justifyContent = 'center';
-    failureDiv.style.alignItems = 'center';
-    failureDiv.style.zIndex = '9999';
-    failureDiv.style.backdropFilter = 'blur(10px)';
-    
-    // Add a pulsing border effect
-    const innerDiv = document.createElement('div');
-    innerDiv.style.padding = '40px';
-    innerDiv.style.borderRadius = '20px';
-    innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    innerDiv.style.boxShadow = '0 0 30px rgba(255, 0, 0, 0.7)';
-    innerDiv.style.border = '3px solid red';
-    innerDiv.style.textAlign = 'center';
-    innerDiv.style.animation = 'pulse-border 2s infinite alternate';
-    
-    // Create animation style
-    const style = document.createElement('style');
-    style.innerHTML = `
-        @keyframes pulse-border {
-            from { box-shadow: 0 0 30px rgba(255, 0, 0, 0.7); }
-            to { box-shadow: 0 0 50px rgba(255, 0, 0, 0.9); }
-        }
-        
-        @keyframes slide-in {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
-            to { text-shadow: 0 0 30px rgba(255, 0, 0, 0.9); }
-        }
-        
-        .restart-btn {
-            background: linear-gradient(to bottom, #ff3333, #cc0000);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Press Start 2P', cursive;
-        }
-        
-        .restart-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            background: linear-gradient(to bottom, #ff5555, #ff0000);
-        }
-        
-        .womp-womp {
-            font-size: 60px;
-            margin-bottom: 20px;
-            animation: glow 1.5s infinite alternate;
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Get final balance
-    const finalBalance = document.getElementById('balance')?.innerHTML || '0';
-    
-    // Failure content
-    innerDiv.innerHTML = `
-        <div class="womp-womp">😢</div>
-        <h1 style="font-size: 48px; margin: 0; color: red; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">WOMP WOMP</h1>
-        <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">Time's up!</p>
-        <div style="margin: 20px 0; font-size: 24px; color: #cccccc; animation: slide-in 0.5s ease-out 0.4s both; font-family: 'Press Start 2P', cursive;">
-            Eyes collected: <span style="color: yellow; font-weight: bold;">${this.eyesCollected}/12</span>
-        </div>
-        <div style="margin: 10px 0; font-size: 24px; color: #4a86e8; animation: slide-in 0.5s ease-out 0.5s both; font-family: 'Press Start 2P', cursive;">
-            BALANCE: <span style="font-weight: bold;">${finalBalance}</span>
-        </div>
-        <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
-            TRY AGAIN
-        </button>
-    `;
-    
-    failureDiv.appendChild(innerDiv);
-    document.body.appendChild(failureDiv);
-    
-    // Add event listener to restart button
-    document.getElementById('restart-button').addEventListener('click', () => {
-        location.reload(); // Reload the page to restart the game
-    });
-  }
-  
-  // Create confetti animation for success screen
-  createConfetti(container) {
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.style.position = 'absolute';
-        confetti.style.width = `${Math.random() * 10 + 5}px`;
-        confetti.style.height = `${Math.random() * 10 + 5}px`;
-        confetti.style.backgroundColor = this.getRandomColor();
-        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        confetti.style.top = '-50px';
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.opacity = '1';
-        confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
-        confetti.style.animationDelay = `${Math.random() * 5}s`;
-        container.appendChild(confetti);
-    }
-  }
-  
-  // Get random color for confetti
-  getRandomColor() {
-    const colors = ['#8A2BE2', '#9B30FF', '#7B68EE', '#6A5ACD', '#00FFFF', '#FFFF00', '#FF00FF', '#00FF00'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
-}
 
-// Add static method to check if game should end due to time limit
-GameLevelEnd.checkTimeLimit = function(gameLevelInstance) {
-  const currentTime = Date.now();
-  const elapsedTime = (currentTime - gameLevelInstance.startTime) / 1000;
-  
-  if (elapsedTime >= 45 && !gameLevelInstance.gameCompleted) {
-    clearInterval(Game.timerInterval);
-    gameLevelInstance.showFailureScreen();
-    return true;
+  // Add a helper method to format time consistently
+  formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      const milliseconds = Math.floor((time % 1) * 100);
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
   }
-  return false;
-};
+
+interact = function() {
+    self.eyesCollected++;
+    
+    // Update the eye counter display
+    self.updateEyeCounter();
+    
+    // Update player's balance by 100 when collecting an eye
+    self.updatePlayerBalance(100);
+    
+    if (self.eyesCollected >= 12) {
+        // Record that the game is completed
+        self.gameCompleted = true;
+        
+        // Stop the timer
+        if (Game.timeManager) {
+            Game.timeManager.stopStopwatch(true);
+            
+            // Show a simple completion message
+            alert(`Congratulations! You collected all 12 Eyes of Ender in ${Game.timeManager.formatTime(Game.timeManager.gameTimer)}`);
+        }
+        
+        // Spawn the portal NPC
+        self.spawnPortalNPC();
+        
+    } else {
+        // Move the eye to a new random position
+        this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
+    }
+}
+  // Alternative Portal NPC Implementation with Direct Level Transition
+
+// This implementation doesn't use dynamic imports but relies on 
+// access to level classes through the GameControl's levelClasses property
+
+spawnPortalNPC() {
+    // Get game environment references
+    const gameEnv = this.gameEnv;
+    const width = gameEnv.innerWidth;
+    const height = gameEnv.innerHeight;
+    const path = gameEnv.path;
+    
+    // Portal NPC data - using exitportalfull.png which is already in your game
+    const sprite_src_portal = path + "/images/gamify/exitportalfull.png";
+    const sprite_data_portal = {
+        id: 'EndPortal',
+        greeting: "Portal to the Desert. Press E to enter.",
+        src: sprite_src_portal,
+        SCALE_FACTOR: 6,
+        ANIMATION_RATE: 10,
+        pixels: {height: 2025, width: 2029}, // Match your existing portal image dimensions
+        INIT_POSITION: { x: width / 2 - 100, y: height / 2 - 100 }, // Center of screen
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 1 },
+        hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+        zIndex: 15, // Make sure it appears on top
+        reaction: function() {
+            alert("Press E to return to the Desert");
+        },
+        interact: function() {
+            // Get the game control
+            const gameControl = gameEnv.gameControl;
+            
+            if (gameControl) {
+                // Set the level index to 0 (assuming Desert is the first level)
+                gameControl.currentLevelIndex = 0;
+                
+                // Tell the current level to end
+                gameControl.currentLevel.continue = false;
+                
+                // Alert the user
+                alert("Returning to the Desert...");
+            } else {
+                alert("Could not return to Desert. Reloading the game...");
+                location.reload();
+            }
+        }
+    };
+    
+    // Create the portal NPC
+    const Npc = gameEnv.gameObjects.find(obj => obj.constructor.name === 'Npc')?.constructor;
+    if (Npc) {
+        const portalNPC = new Npc(sprite_data_portal, gameEnv);
+        gameEnv.gameObjects.push(portalNPC);
+        console.log("Portal NPC added to the game");
+    } else {
+        console.error("Could not find Npc constructor to create portal");
+    }
+}
+}
 
 export default GameLevelEnd;
