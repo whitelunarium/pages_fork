@@ -1,6 +1,6 @@
 # Configuration, override port with usage: make PORT=4200
 PORT ?= 4100
-REPO_NAME ?= portfolio_2025
+REPO_NAME ?= Saaras_2025
 LOG_FILE = /tmp/jekyll$(PORT).log
 
 SHELL = /bin/bash -c
@@ -11,12 +11,10 @@ SHELL = /bin/bash -c
 
 # List all .ipynb files in the _notebooks directory
 NOTEBOOK_FILES := $(shell find _notebooks -name '*.ipynb')
-CSP_NOTEBOOK_FILES := $(shell find _notebooks/CSP -name '*.ipynb')
 
 # Specify the target directory for the converted Markdown files
 DESTINATION_DIRECTORY = _posts
 MARKDOWN_FILES := $(patsubst _notebooks/%.ipynb,$(DESTINATION_DIRECTORY)/%_IPYNB_2_.md,$(NOTEBOOK_FILES))
-CSP_MARKDOWN_FILES := $(patsubst _notebooks/CSP/%.ipynb,$(DESTINATION_DIRECTORY)/%_IPYNB_2_.md,$(CSP_NOTEBOOK_FILES))
 
 # Call server, then verify and start logging
 # ...
@@ -53,38 +51,6 @@ default: server
 	@# outputs startup log, removes last line ($$d) as ctl-c message is not applicable for background process
 	@sed '$$d' $(LOG_FILE)
 
-csp: cspserver
-	@echo "ONLY COMPILED CSP CONTENT"
-	@echo "Terminal logging starting, watching server..."
-	@# tail and awk work together to extract Jekyll regeneration messages
-	@# When a _notebook is detected in the log, call make convert in the background
-	@# Note: We use the "if ($$0 ~ /_notebooks\/.*\.ipynb/) { system(\"make convert &\") }" to call make convert
-	@(tail -f $(LOG_FILE) | awk '/Server address: http:\/\/127.0.0.1:$(PORT)\/$(REPO_NAME)\// { serverReady=1 } \
-	serverReady && /^ *Regenerating:/ { regenerate=1 } \
-	regenerate { \
-		if (/^[[:blank:]]*$$/) { regenerate=0 } \
-		else { \
-			print; \
-			if ($$0 ~ /_notebooks\/CSP\/.*\.ipynb/) { system("make convert &") } \
-		} \
-	}') 2>/dev/null &
-	@# start an infinite loop with timeout to check log status
-	@for ((COUNTER = 0; ; COUNTER++)); do \
-		if grep -q "Server address:" $(LOG_FILE); then \
-			echo "Server started in $$COUNTER seconds"; \
-			break; \
-		fi; \
-		if [ $$COUNTER -eq 60 ]; then \
-			echo "Server timed out after $$COUNTER seconds."; \
-			echo "Review errors from $(LOG_FILE)."; \
-			cat $(LOG_FILE); \
-			exit 1; \
-		fi; \
-		sleep 1; \
-	done
-	@# outputs startup log, removes last line ($$d) as ctl-c message is not applicable for background process
-	@sed '$$d' $(LOG_FILE)
-
 
 # Start the local web server
 server: stop convert
@@ -94,26 +60,14 @@ server: stop convert
 		echo "Server PID: $$PID"
 	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
 
-cspserver: stop cspconvert
-	@echo "Starting server..."
-	@@nohup bundle exec jekyll serve -H 127.0.0.1 -P $(PORT) > $(LOG_FILE) 2>&1 & \
-		PID=$$!; \
-		echo "Server PID: $$PID"
-	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
-
 # Convert .ipynb files to Markdown with front matter
 convert: $(MARKDOWN_FILES)
-cspconvert: $(CSP_MARKDOWN_FILES)
 
 # Convert .ipynb files to Markdown with front matter, preserving directory structure
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
-	@mkdir -p $(@D)
-	@python3 -c "from scripts.convert_notebooks import convert_notebooks; convert_notebooks()"
-
-$(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/CSP/%.ipynb
 	@echo "Converting source $< to destination $@"
 	@mkdir -p $(@D)
-	@python3 -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+	@python -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
 
 # Clean up project derived files, to avoid run issues stop is dependency
 clean: stop
@@ -139,14 +93,3 @@ stop:
 	@@ps aux | awk -v log_file=$(LOG_FILE) '$$0 ~ "tail -f " log_file { print $$2 }' | xargs kill >/dev/null 2>&1 || true
 	@# removes log
 	@rm -f $(LOG_FILE)
-
-# stops the server and reloads it
-reload:
-	@make stop
-	@make
-
-# stops server, cleans it, reloads it
-refresh:
-	@make stop
-	@make clean
-	@make
