@@ -1,4 +1,6 @@
+// Npc.js with DialogueSystem integration
 import Character from "./Character.js";
+import DialogueSystem from "../DialogueSystem.js";
 
 class Npc extends Character {
     constructor(data = null, gameEnv = null) {
@@ -10,6 +12,30 @@ class Npc extends Character {
         this.handleKeyDownBound = this.handleKeyDown.bind(this);
         this.handleKeyUpBound = this.handleKeyUp.bind(this);
         this.bindInteractKeyListeners();
+        
+        // IMPORTANT: Create a unique ID for each NPC to avoid conflicts
+        this.uniqueId = data?.id + "_" + Math.random().toString(36).substr(2, 9);
+        
+        // IMPORTANT: Create a local dialogue system for this NPC specifically
+        if (data?.dialogues) {
+            this.dialogueSystem = new DialogueSystem({
+                dialogues: data.dialogues,
+                // Pass unique ID to prevent conflicts
+                id: this.uniqueId
+            });
+        } else {
+            // Create a default dialogue system with a greeting based on NPC data
+            const greeting = data?.greeting || "Hello, traveler!";
+            this.dialogueSystem = new DialogueSystem({
+                dialogues: [
+                    greeting, 
+                    "Nice weather we're having, isn't it?",
+                    "I've been standing here for quite some time."
+                ],
+                // Pass unique ID to prevent conflicts
+                id: this.uniqueId
+            });
+        }
         
         // Register with game control for cleanup during transitions
         if (gameEnv && gameEnv.gameControl) {
@@ -47,6 +73,11 @@ class Npc extends Character {
             this.alertTimeout = null;
         }
         
+        // Close any open dialogue
+        if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+            this.dialogueSystem.closeDialogue();
+        }
+        
         // Reset interaction state
         this.isInteracting = false;
     }
@@ -69,6 +100,12 @@ class Npc extends Character {
     handleKeyInteract() {
         // Check if game is active - don't allow interactions during transitions
         if (this.gameEnv.gameControl && this.gameEnv.gameControl.isPaused) {
+            return;
+        }
+        
+        // Check if dialogue is already open - close it instead of opening new one
+        if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+            this.dialogueSystem.closeDialogue();
             return;
         }
         
@@ -101,6 +138,31 @@ class Npc extends Character {
                 }, 500);
             }
         }
+    }
+    
+    // Method for showing reaction dialogue
+    showReactionDialogue() {
+        if (!this.dialogueSystem) return;
+        
+        // Get NPC name and avatar if available
+        const npcName = this.spriteData?.id || "";
+        const npcAvatar = this.spriteData?.src || null;
+        
+        // Show dialogue with greeting message
+        const greeting = this.spriteData?.greeting || "Hello!";
+        this.dialogueSystem.showDialogue(greeting, npcName, npcAvatar);
+    }
+    
+    // Method for showing random interaction dialogue
+    showRandomDialogue() {
+        if (!this.dialogueSystem) return;
+        
+        // Get NPC name and avatar if available
+        const npcName = this.spriteData?.id || "";
+        const npcAvatar = this.spriteData?.src || null;
+        
+        // Show random dialogue
+        this.dialogueSystem.showRandomDialogue(npcName, npcAvatar);
     }
 
     // Clean up event listeners when NPC is destroyed
