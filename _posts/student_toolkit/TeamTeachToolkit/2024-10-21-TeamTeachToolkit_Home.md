@@ -8,8 +8,6 @@ permalink: /student/TeamTeachToolkit
 ---
 
 
-<title>Team Teach Toolkit</title>
-
 <div class="bg-black text-white font-sans text-center min-h-screen">
     <h1 class="mt-8 text-4xl">Team Teach Toolkit</h1>
     <h5 class="text-base mt-2">Grade popcorn hacks, generate hacks, review team teach units, or sign up for team teaches here</h5>
