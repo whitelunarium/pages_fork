@@ -325,6 +325,13 @@ class GameLevelEnd {
     const portal = document.createElement('div');
     portal.id = 'dom-portal';
     
+    // Add necessary properties for collision handling
+    portal.spriteData = {
+        id: 'End Portal',
+        greeting: "Return to Desert?",
+        src: "./images/gamify/exitportalfull.png"
+    };
+    
     // Position the portal at custom coordinates
     portal.style.position = 'fixed';
     portal.style.top = `${portalY}px`;

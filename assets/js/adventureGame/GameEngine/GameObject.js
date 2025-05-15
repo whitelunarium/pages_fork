@@ -178,7 +178,7 @@ class GameObject {
         }
         
         // If the object has a dialogueSystem, use it instead of console.log
-        if (other.id && other.greet) {
+        if (other.id) {
             // Try to find the object instance to use its dialogueSystem
             const targetObject = this.gameEnv.gameObjects.find(obj => 
                 obj.spriteData && obj.spriteData.id === other.id
@@ -188,9 +188,9 @@ class GameObject {
                 targetObject.showReactionDialogue();
             } else if (targetObject && targetObject.showItemMessage) {
                 targetObject.showItemMessage();
-            } else {
-                // Fallback to console.log
-                console.log(other.greet);
+            } else if (other.greeting) {
+                // Fallback to greeting if available
+                console.log(other.greeting);
             }
         }
     }
