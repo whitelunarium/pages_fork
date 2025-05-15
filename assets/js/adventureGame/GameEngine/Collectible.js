@@ -1,4 +1,6 @@
+// Collectible.js with DialogueSystem integration
 import Character from "./Character.js";
+import DialogueSystem from "../DialogueSystem.js";
 
 class Collectible extends Character {
     constructor(data = null, gameEnv = null) {
@@ -9,6 +11,20 @@ class Collectible extends Character {
         this.handleKeyDownBound = this.handleKeyDown.bind(this);
         this.handleKeyUpBound = this.handleKeyUp.bind(this);
         this.bindInteractKeyListeners();
+        
+        // Initialize dialogue system if needed
+        if (data?.dialogues) {
+            this.dialogueSystem = new DialogueSystem({
+                dialogues: data.dialogues,
+                enableSound: data.enableDialogueSound
+            });
+        } else {
+            // Create a default dialogue with the item greeting
+            const itemMessage = data?.greeting || "Press E to interact.";
+            this.dialogueSystem = new DialogueSystem({
+                dialogues: [itemMessage]
+            });
+        }
         
         // Register with game control for cleanup during transitions
         if (gameEnv && gameEnv.gameControl) {
@@ -26,6 +42,10 @@ class Collectible extends Character {
         // Reset interaction state if player moved away
         if (players.length === 0 && this.isInteracting) {
             this.isInteracting = false;
+            // Close dialogue if player moves away
+            if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+                this.dialogueSystem.closeDialogue();
+            }
         }
     }
 
@@ -44,6 +64,11 @@ class Collectible extends Character {
         if (this.alertTimeout) {
             clearTimeout(this.alertTimeout);
             this.alertTimeout = null;
+        }
+        
+        // Close any open dialogue
+        if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+            this.dialogueSystem.closeDialogue();
         }
         
         // Reset interaction state
@@ -71,30 +96,41 @@ class Collectible extends Character {
             return;
         }
         
+        // Find players in collision with this collectible
         const players = this.gameEnv.gameObjects.filter(
             obj => obj.state.collisionEvents.includes(this.spriteData.id)
         );
+        
+        // Check if this collectible has an interact function
         const hasInteract = this.interact !== undefined;
 
         // Only trigger interaction if:
         // 1. Player is in collision with this collectible
         // 2. Collectible has an interact function
-        // 3. Not already interacting
-        if (players.length > 0 && hasInteract && !this.isInteracting) {
-            this.isInteracting = true;
-            
+        if (players.length > 0 && hasInteract) {
             // Store a reference to this collectible's interact function
             const originalInteract = this.interact;
             
             // Execute the interact function
             originalInteract.call(this);
             
-            // For collectibles that should be interactable multiple times (like Eye of Ender),
-            // reset the interaction state after a short delay
-            setTimeout(() => {
-                this.isInteracting = false;
-            }, 300);
+            // IMPORTANT: Always reset the interaction state immediately
+            // This ensures we can interact multiple times with the same collectible
+            this.isInteracting = false;
         }
+    }
+    
+    // Method for showing item message
+    showItemMessage() {
+        if (!this.dialogueSystem) return;
+        
+        // Get item name and icon if available
+        const itemName = this.spriteData?.id || "";
+        const itemIcon = this.spriteData?.src || null;
+        
+        // Show dialogue with item message
+        const message = this.spriteData?.greeting || "Press E to interact.";
+        this.dialogueSystem.showDialogue(message, itemName, itemIcon);
     }
 
     // Clean up event listeners when Collectible is destroyed

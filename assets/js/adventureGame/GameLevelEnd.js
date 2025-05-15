@@ -1,5 +1,3 @@
-// Complete GameLevelEnd.js with all fixes implemented
-
 import GamEnvBackground from './GameEngine/GameEnvBackground.js';
 import BackgroundParallax from './GameEngine/BackgroundParallax.js';
 import Player from './GameEngine/Player.js';
@@ -169,12 +167,12 @@ class GameLevelEnd {
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
-        quiz: {
-          title: "Linux Command Quiz",
-          questions: [
-            "It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! \n1. huh\n2. what\n3. ...\n4. ok bye"
-          ]
-        },
+        dialogues: [
+          "The end ship looms before you...",
+          "The end ship seems to beckon you to loot the treasure within...",
+          "funny purple spaceship heheheheheh",
+          // Add more later?
+        ],
         reaction: function() {
           dialogueSystem.showRandomDialogue(); // Using Dialogue system instead of alert
         },
@@ -200,34 +198,73 @@ class GameLevelEnd {
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 0 },
         hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
-        zIndex: 10,  // Same z-index as player
+        zIndex: 10,
+        // Add eye-specific dialogues with varying collection messages
+        dialogues: [
+            "You found an Eye of Ender! These are crucial for activating the End Portal.",
+            "The Eye of Ender pulses with mysterious energy.",
+            "This Eye of Ender seems to be drawn toward something distant.",
+            "The Eye feels cold to the touch, yet somehow alive.",
+            "Ancient magic flows through this Eye of Ender.",
+            "This Eye of Ender whispers secrets of distant realms."
+        ],
         reaction: function() {
-          // Silent reaction
+            // Silent reaction - we'll handle dialogue in interact
         },
         interact: function() {
+            // Increment counter and update display
             self.eyesCollected++;
             self.updateEyeCounter();
             self.updatePlayerBalance(100);
             
+            // ALWAYS MOVE TO NEW POSITION IMMEDIATELY
+            this.move(
+                (Math.random() * width/2.6) + width/19, 
+                (Math.random() * height/3.5) + height/2.7
+            );
+            
+            // Show a quick message that doesn't block gameplay
+            if (this.dialogueSystem) {
+                // Close any existing dialogue first
+                this.dialogueSystem.closeDialogue();
+                
+                // Get a random message
+                let message = "Eye of Ender collected!";
+                if (this.dialogues && this.dialogues.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * this.dialogues.length);
+                    message = this.dialogues[randomIndex];
+                }
+                
+                // Show the message briefly
+                this.dialogueSystem.showDialogue(message, "Eye of Ender", this.spriteData.src);
+                
+                // Auto-close after a very short time
+                setTimeout(() => {
+                    if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+                        this.dialogueSystem.closeDialogue();
+                    }
+                }, 800);
+            }
+            
+            // Check for game completion
             if (self.eyesCollected >= 12) {
-                // Game completed
+                // Handle game completion logic
                 self.gameCompleted = true;
                 
-                // Stop timer
                 if (self.timerInterval) {
                     clearInterval(self.timerInterval);
                     
-                    // Calculate final time
+                    // Calculate and format final time
                     const finalTime = self.currentTime;
                     const formattedTime = self.formatTime(finalTime);
                     
-                    // Update timer with completion message
+                    // Update timer display
                     const timerDisplay = document.getElementById('game-timer');
                     if (timerDisplay) {
                         timerDisplay.innerHTML = `<span style="color: #00FFFF">COMPLETED: ${formattedTime}</span>`;
                     }
                     
-                    // Save best time
+                    // Check for new record
                     const bestTime = localStorage.getItem('bestTime');
                     let isNewRecord = false;
                     
@@ -235,7 +272,7 @@ class GameLevelEnd {
                         localStorage.setItem('bestTime', finalTime.toString());
                         isNewRecord = true;
                         
-                        // Flash new record animation on timer
+                        // Show new record animation
                         if (timerDisplay) {
                             timerDisplay.innerHTML = `<span style="color: gold">NEW RECORD! ${formattedTime}</span>`;
                             setTimeout(() => {
@@ -244,19 +281,14 @@ class GameLevelEnd {
                         }
                     }
                     
-                    // Update completed message on eye counter
+                    // Update UI with completion message
                     self.showCompletionMessage(isNewRecord);
                     
-                    // Create DOM portal directly because npc constructor is abt to make me end it
-                    // GET IT? END!!! LIKE GAME LEVEL END!!! AHAHAVYGFAJYGFCDu
-                    self.createDOMPortal();
+                    // Create the portal with slight delay
+                    setTimeout(() => {
+                        self.createDOMPortal();
+                    }, 1000);
                 }
-            } else {
-                // Move eye to new position
-                this.move(
-                    (Math.random() * width/2.6) + width/19, 
-                    (Math.random() * height/3.5) + height/2.7
-                );
             }
         }
     };
