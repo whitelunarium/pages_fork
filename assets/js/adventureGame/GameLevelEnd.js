@@ -1,7 +1,9 @@
+// Complete GameLevelEnd.js with all fixes implemented
+
 import GamEnvBackground from './GameEngine/GameEnvBackground.js';
 import BackgroundParallax from './GameEngine/BackgroundParallax.js';
 import Player from './GameEngine/Player.js';
-import Npc from './GameEngine/Npc.js';
+import Npc from './GameEngine/Npc.js';  // Direct import for portal creation
 import Collectible from './GameEngine/Collectible.js';
 import Quiz from './Quiz.js';
 import Game from './Game.js';
@@ -139,7 +141,6 @@ class GameLevelEnd {
             Math.abs(p.y - this.y) < this.height * this.hitbox.heightPercentage
           ) {
             stopGameLoop();
-            alert("Game Over! You were caught by the enemy!");
           }
         }
       }
@@ -167,7 +168,7 @@ class GameLevelEnd {
           ]
         },
         reaction: function() {
-          alert(sprite_greet_endship);
+          // Silent reaction
         },
         interact: function() {
           let quiz = new Quiz();
@@ -193,45 +194,62 @@ class GameLevelEnd {
         hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
         reaction: function() {
-          alert(`Press E to claim this Eye of Ender.`);
+          // Silent reaction
         },
         interact: function() {
-        self.eyesCollected++;
-
-        //check to make sure timer is initializing DELETE LATER
-        if (Game.setCurrentLevelInstance) {
-                Game.setCurrentLevelInstance(this);
+            self.eyesCollected++;
+            self.updateEyeCounter();
+            self.updatePlayerBalance(100);
+            
+            if (self.eyesCollected >= 12) {
+                // Game completed
+                self.gameCompleted = true;
+                
+                // Stop timer
+                if (self.timerInterval) {
+                    clearInterval(self.timerInterval);
+                    
+                    // Calculate final time
+                    const finalTime = self.currentTime;
+                    const formattedTime = self.formatTime(finalTime);
+                    
+                    // Update timer with completion message
+                    const timerDisplay = document.getElementById('game-timer');
+                    if (timerDisplay) {
+                        timerDisplay.innerHTML = `<span style="color: #00FFFF">COMPLETED: ${formattedTime}</span>`;
+                    }
+                    
+                    // Save best time
+                    const bestTime = localStorage.getItem('bestTime');
+                    let isNewRecord = false;
+                    
+                    if (!bestTime || finalTime < parseFloat(bestTime)) {
+                        localStorage.setItem('bestTime', finalTime.toString());
+                        isNewRecord = true;
+                        
+                        // Flash new record animation on timer
+                        if (timerDisplay) {
+                            timerDisplay.innerHTML = `<span style="color: gold">NEW RECORD! ${formattedTime}</span>`;
+                            setTimeout(() => {
+                                timerDisplay.innerHTML = `<span style="color: #00FFFF">COMPLETED: ${formattedTime}</span>`;
+                            }, 3000);
+                        }
+                    }
+                    
+                    // Update completed message on eye counter
+                    self.showCompletionMessage(isNewRecord);
+                    
+                    // Create DOM portal directly because npc constructor is abt to make me end it
+                    // GET IT? END!!! LIKE GAME LEVEL END!!! AHAHAVYGFAJYGFCDu
+                    self.createDOMPortal();
+                }
             } else {
-                console.error("Game.setCurrentLevelInstance not available");
+                // Move eye to new position
+                this.move(
+                    (Math.random() * width/2.6) + width/19, 
+                    (Math.random() * height/3.5) + height/2.7
+                );
             }
-        // Update the eye counter display
-        self.updateEyeCounter();
-
-        // Update player's balance by 100 when collecting an eye
-        self.updatePlayerBalance(100);
-
-        if (self.eyesCollected >= 12) {
-            // Record that the game is completed
-            self.gameCompleted = true;
-            
-            // Stop the timer
-            if (Game.timeManager) {
-                Game.timeManager.stopStopwatch(true);
-                
-                // Check if this is a new best time
-                const isNewBest = Game.timeManager.saveCompletionTime(Game.timeManager.gameTimer);
-                
-                // Create a notification about the completion
-                self.showCompletionNotification(isNewBest);
-            }
-            
-            // Spawn the portal NPC
-            self.spawnPortalNPC();
-            
-        } else {
-            // Move the eye to a new random position
-            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
-        }
         }
     };
     
@@ -247,6 +265,210 @@ class GameLevelEnd {
     
     // Create eye counter UI
     this.createEyeCounter();
+    
+    // Create the standalone stopwatch - wait for the stats container to be available
+    setTimeout(() => this.createStandaloneStopwatch(), 100);
+  }
+  
+  // frick the npc constructr this works for now
+  createDOMPortal() {
+    console.log("Creating DOM portal element");
+    
+    // Get screen dimensions
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    // Define portal position (customize to move it to end island)
+    const portalX = screenWidth * 0.85; // 80% from the left (right side)
+    const portalY = screenHeight * 0.45; // 30% from the top (upper area)
+    
+    const portal = document.createElement('div');
+    portal.id = 'dom-portal';
+    
+    // Position the portal at custom coordinates
+    portal.style.position = 'fixed';
+    portal.style.top = `${portalY}px`;
+    portal.style.left = `${portalX}px`;
+    portal.style.transform = 'translate(-50%, -50%)';
+    
+    portal.style.width = '50px';
+    portal.style.height = '50px';
+    portal.style.backgroundImage = "url('./images/gamify/exitportalfull.png')";
+    portal.style.backgroundSize = 'contain';
+    portal.style.backgroundRepeat = 'no-repeat';
+    portal.style.backgroundPosition = 'center';
+    portal.style.zIndex = '999';
+    portal.style.cursor = 'pointer';
+    
+    // Add an instruction overlay
+    const instructions = document.createElement('div');
+    instructions.style.position = 'absolute';
+    instructions.style.bottom = '-40px';
+    instructions.style.left = '0';
+    instructions.style.width = '100%';
+    instructions.style.textAlign = 'center';
+    instructions.style.color = 'white';
+    instructions.style.fontSize = '14px';
+    instructions.style.padding = '5px';
+    instructions.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    instructions.style.borderRadius = '5px';
+    instructions.textContent = 'Return to Desert';
+    
+    portal.appendChild(instructions);
+    
+    // Add click event to return to desert
+    portal.addEventListener('click', () => {
+        // Try to use gameControl if available
+        if (this.gameEnv && this.gameEnv.gameControl) {
+            this.gameEnv.gameControl.currentLevelIndex = 0;
+            this.gameEnv.gameControl.currentLevel.continue = false;
+        } else {
+            // Otherwise reload the page
+            location.reload();
+        }
+    });
+    
+    // Add portal appearance effect
+    portal.style.opacity = '0';
+    portal.style.transform = 'translate(-50%, -50%) scale(0.1)';
+    portal.style.transition = 'all 1s ease-out';
+    
+    document.body.appendChild(portal);
+    
+    // Animate portal appearance
+    setTimeout(() => {
+        portal.style.opacity = '1';
+        portal.style.transform = 'translate(-50%, -50%) scale(1)';
+        
+        // Add pulsating glow effect
+        const glowAnimation = document.createElement('style');
+        glowAnimation.innerHTML = `
+            @keyframes portalPulse {
+                0% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+                50% { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
+                100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+            }
+        `;
+        document.head.appendChild(glowAnimation);
+        
+        portal.style.animation = 'portalPulse 2s infinite';
+    }, 100);
+}
+  
+  // Show completion message on the eye counter
+  showCompletionMessage(isNewRecord) {
+    const counterContainer = document.getElementById('eye-counter-container');
+    const counterText = document.getElementById('eye-counter');
+    
+    if (counterContainer && counterText) {
+      // Update counter text
+      counterText.textContent = `12/12 - ALL COLLECTED!`;
+      counterText.style.color = '#00FFFF';
+      
+      // Add new record message if applicable
+      if (isNewRecord) {
+        const recordMsg = document.createElement('div');
+        recordMsg.textContent = "NEW RECORD!";
+        recordMsg.style.color = 'gold';
+        recordMsg.style.fontWeight = 'bold';
+        recordMsg.style.fontSize = '14px';
+        recordMsg.style.marginTop = '5px';
+        recordMsg.style.textAlign = 'center';
+        counterContainer.appendChild(recordMsg);
+        
+        // Animate the message
+        recordMsg.style.animation = 'blink 1s infinite';
+        const style = document.createElement('style');
+        if (!document.getElementById('blink-animation')) {
+          style.id = 'blink-animation';
+          style.innerHTML = `
+            @keyframes blink {
+              0% { opacity: 1; }
+              50% { opacity: 0.5; }
+              100% { opacity: 1; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+      
+      // Add instruction for portal
+      const portalMsg = document.createElement('div');
+      portalMsg.textContent = "Click portal to return";
+      portalMsg.style.color = 'white';
+      portalMsg.style.fontSize = '12px';
+      portalMsg.style.marginTop = '5px';
+      portalMsg.style.textAlign = 'center';
+      counterContainer.appendChild(portalMsg);
+    }
+  }
+  
+  // Create the standalone stopwatch - positioned to the left of balance container
+  createStandaloneStopwatch() {
+    console.log("Creating stopwatch");
+    
+    // Get the stats container to position timer relative to it
+    const statsContainer = document.getElementById('stats-container');
+    if (!statsContainer) {
+      console.error("Stats container not found, delaying timer creation");
+      setTimeout(() => this.createStandaloneStopwatch(), 200);
+      return;
+    }
+    
+    // Get the position of the stats container
+    const statsRect = statsContainer.getBoundingClientRect();
+    
+    // Create container
+    const timer = document.createElement('div');
+    timer.id = 'game-timer';
+    timer.style.position = 'fixed';
+    timer.style.top = `${statsRect.top}px`;  // Same top position as stats container
+    timer.style.right = `${window.innerWidth - statsRect.left + 10}px`;  // 10px to the left of stats container
+    timer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    timer.style.color = 'white';
+    timer.style.padding = '10px 20px';
+    timer.style.borderRadius = '10px';
+    timer.style.zIndex = '1000';
+    timer.style.fontSize = '20px';
+    timer.style.fontWeight = 'bold';
+    timer.style.border = '2px solid #4a86e8';
+    timer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+    
+    // Add label and time
+    const timerLabel = document.createElement('div');
+    timerLabel.textContent = 'TIME';
+    timerLabel.style.fontSize = '12px';
+    timerLabel.style.fontWeight = 'bold';
+    timerLabel.style.color = 'white';
+    timerLabel.style.marginBottom = '5px';
+    timerLabel.style.textAlign = 'center';
+    
+    const timerDisplay = document.createElement('div');
+    timerDisplay.textContent = '00:00.0';
+    timerDisplay.style.color = '#4a86e8';
+    timerDisplay.style.textAlign = 'center';
+    
+    timer.appendChild(timerLabel);
+    timer.appendChild(timerDisplay);
+    document.body.appendChild(timer);
+    
+    // Start timer
+    this.startTime = Date.now();
+    this.timerInterval = setInterval(() => {
+        if (this.gameCompleted) return;
+        
+        const elapsed = (Date.now() - this.startTime) / 1000;
+        timerDisplay.textContent = this.formatTime(elapsed);
+        this.currentTime = elapsed;
+    }, 100);
+  }
+  
+  // Format time as MM:SS.T
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    const tenths = Math.floor((seconds * 10) % 10);
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${tenths}`;
   }
   
   // Create a UI counter for the eyes
@@ -254,24 +476,32 @@ class GameLevelEnd {
     const counterContainer = document.createElement('div');
     counterContainer.id = 'eye-counter-container';
     counterContainer.style.position = 'fixed';
-    counterContainer.style.top = '180px'; // Changed from 150px to 180px to position it lower
+    counterContainer.style.top = '180px'; // Position it below the stats
     counterContainer.style.right = '10px';
     counterContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
     counterContainer.style.color = 'white';
     counterContainer.style.padding = '10px';
-    counterContainer.style.borderRadius = '5px';
+    counterContainer.style.borderRadius = '10px';
     counterContainer.style.display = 'flex';
+    counterContainer.style.flexDirection = 'column'; // Changed to column for adding messages
     counterContainer.style.alignItems = 'center';
     counterContainer.style.fontFamily = "'Minecraft', sans-serif";
     counterContainer.style.zIndex = '1000';
     counterContainer.style.border = '2px solid #4a86e8';
     counterContainer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+    counterContainer.style.minWidth = '150px'; // Ensure room for completion message
     
     // Load Minecraft-style font
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
+    
+    // Create eye counter row with icon and counter
+    const counterRow = document.createElement('div');
+    counterRow.style.display = 'flex';
+    counterRow.style.alignItems = 'center';
+    counterRow.style.width = '100%';
     
     // Create eye icon
     const eyeIcon = document.createElement('div');
@@ -287,12 +517,13 @@ class GameLevelEnd {
     counterText.id = 'eye-counter';
     counterText.textContent = `0/12`;
     counterText.style.fontSize = '18px';
-    counterText.style.color = '#4a86e8'; // Changed from #8A2BE2 to #4a86e8
-    counterText.style.textShadow = '0 0 5px rgba(74, 134, 232, 0.7)'; // Updated shadow to match new color
+    counterText.style.color = '#4a86e8';
+    counterText.style.textShadow = '0 0 5px rgba(74, 134, 232, 0.7)';
     
     // Assemble counter
-    counterContainer.appendChild(eyeIcon);
-    counterContainer.appendChild(counterText);
+    counterRow.appendChild(eyeIcon);
+    counterRow.appendChild(counterText);
+    counterContainer.appendChild(counterRow);
     document.body.appendChild(counterContainer);
   }
   
@@ -309,7 +540,7 @@ class GameLevelEnd {
       // Reset after animation
       setTimeout(() => {
         counterText.style.transform = 'scale(1)';
-        counterText.style.color = '#4a86e8'; // Changed from #8A2BE2 to #4a86e8
+        counterText.style.color = '#4a86e8';
       }, 300);
     }
   }
@@ -423,163 +654,6 @@ class GameLevelEnd {
       floatingPoints.remove();
     }, 1500);
   }
-  createAndStartStopwatch() {
-    console.log("Manually creating stopwatch in GameLevelEnd");
-    
-    // Create the stopwatch container
-    const stopwatchContainer = document.createElement('div');
-    stopwatchContainer.id = 'direct-stopwatch';
-    stopwatchContainer.style.position = 'fixed';
-    stopwatchContainer.style.top = '10px';
-    stopwatchContainer.style.left = '50%';
-    stopwatchContainer.style.transform = 'translateX(-50%)';
-    stopwatchContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    stopwatchContainer.style.color = 'white';
-    stopwatchContainer.style.padding = '10px 20px';
-    stopwatchContainer.style.borderRadius = '10px';
-    stopwatchContainer.style.zIndex = '9999';
-    stopwatchContainer.style.fontFamily = 'monospace';
-    stopwatchContainer.style.fontSize = '20px';
-    stopwatchContainer.style.fontWeight = 'bold';
-    stopwatchContainer.style.border = '2px solid #4a86e8';
-    stopwatchContainer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
-    
-    // Create title
-    const title = document.createElement('div');
-    title.textContent = 'TIME';
-    title.style.fontSize = '12px';
-    title.style.textAlign = 'center';
-    title.style.marginBottom = '5px';
-    stopwatchContainer.appendChild(title);
-    
-    // Create timer display
-    const timerDisplay = document.createElement('div');
-    timerDisplay.id = 'direct-timer-display';
-    timerDisplay.textContent = '00:00.0';
-    timerDisplay.style.textAlign = 'center';
-    stopwatchContainer.appendChild(timerDisplay);
-    
-    // Add to document
-    document.body.appendChild(stopwatchContainer);
-    
-    // Start timer
-    let startTime = Date.now();
-    let interval = setInterval(() => {
-        if (this.gameCompleted) {
-            clearInterval(interval);
-            return;
-        }
-        
-        const elapsed = (Date.now() - startTime) / 1000;
-        const minutes = Math.floor(elapsed / 60);
-        const seconds = Math.floor(elapsed % 60);
-        const tenths = Math.floor((elapsed * 10) % 10);
-        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
-        
-        // Store current time for completion
-        this.currentTime = elapsed;
-    }, 100);
-    
-    // Store interval for cleanup
-    this.timerInterval = interval;
-  }
-
-  // Add a helper method to format time consistently
-  formatTime(time) {
-      const minutes = Math.floor(time / 60);
-      const seconds = Math.floor(time % 60);
-      const milliseconds = Math.floor((time % 1) * 100);
-      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
-  }
-
-interact = function() {
-    self.eyesCollected++;
-    
-    // Update the eye counter display
-    self.updateEyeCounter();
-    
-    // Update player's balance by 100 when collecting an eye
-    self.updatePlayerBalance(100);
-    
-    if (self.eyesCollected >= 12) {
-        // Record that the game is completed
-        self.gameCompleted = true;
-        
-        // Stop the timer
-        if (Game.timeManager) {
-            Game.timeManager.stopStopwatch(true);
-            
-            // Show a simple completion message
-            alert(`Congratulations! You collected all 12 Eyes of Ender in ${Game.timeManager.formatTime(Game.timeManager.gameTimer)}`);
-        }
-        
-        // Spawn the portal NPC
-        self.spawnPortalNPC();
-        
-    } else {
-        // Move the eye to a new random position
-        this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
-    }
-}
-  // Alternative Portal NPC Implementation with Direct Level Transition
-
-// This implementation doesn't use dynamic imports but relies on 
-// access to level classes through the GameControl's levelClasses property
-
-spawnPortalNPC() {
-    // Get game environment references
-    const gameEnv = this.gameEnv;
-    const width = gameEnv.innerWidth;
-    const height = gameEnv.innerHeight;
-    const path = gameEnv.path;
-    
-    // Portal NPC data - using exitportalfull.png which is already in your game
-    const sprite_src_portal = path + "/images/gamify/exitportalfull.png";
-    const sprite_data_portal = {
-        id: 'EndPortal',
-        greeting: "Portal to the Desert. Press E to enter.",
-        src: sprite_src_portal,
-        SCALE_FACTOR: 6,
-        ANIMATION_RATE: 10,
-        pixels: {height: 2025, width: 2029}, // Match your existing portal image dimensions
-        INIT_POSITION: { x: width / 2 - 100, y: height / 2 - 100 }, // Center of screen
-        orientation: {rows: 1, columns: 1 },
-        down: {row: 0, start: 0, columns: 1 },
-        hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
-        zIndex: 15, // Make sure it appears on top
-        reaction: function() {
-            alert("Press E to return to the Desert");
-        },
-        interact: function() {
-            // Get the game control
-            const gameControl = gameEnv.gameControl;
-            
-            if (gameControl) {
-                // Set the level index to 0 (assuming Desert is the first level)
-                gameControl.currentLevelIndex = 0;
-                
-                // Tell the current level to end
-                gameControl.currentLevel.continue = false;
-                
-                // Alert the user
-                alert("Returning to the Desert...");
-            } else {
-                alert("Could not return to Desert. Reloading the game...");
-                location.reload();
-            }
-        }
-    };
-    
-    // Create the portal NPC
-    const Npc = gameEnv.gameObjects.find(obj => obj.constructor.name === 'Npc')?.constructor;
-    if (Npc) {
-        const portalNPC = new Npc(sprite_data_portal, gameEnv);
-        gameEnv.gameObjects.push(portalNPC);
-        console.log("Portal NPC added to the game");
-    } else {
-        console.error("Could not find Npc constructor to create portal");
-    }
-}
 }
 
 export default GameLevelEnd;
