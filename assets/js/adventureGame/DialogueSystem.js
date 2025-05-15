@@ -225,41 +225,41 @@ class DialogueSystem {
   
   // Add buttons to the dialogue
   addButtons(buttons) {
-    if (!this.isOpen || !buttons || !Array.isArray(buttons) || buttons.length === 0) return;
-    
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'space-between';
-    buttonContainer.style.marginTop = '10px';
-    
-    // Add each button
-    buttons.forEach(button => {
-      if (!button || !button.text) return;
+      if (!this.isOpen || !buttons || !Array.isArray(buttons) || buttons.length === 0) return;
       
-      const btn = document.createElement('button');
-      btn.textContent = button.text;
-      btn.style.padding = '8px 15px';
-      btn.style.background = button.primary ? '#4a86e8' : '#666';
-      btn.style.color = 'white';
-      btn.style.border = 'none';
-      btn.style.borderRadius = '5px';
-      btn.style.cursor = 'pointer';
-      btn.style.marginRight = '10px';
+      const buttonContainer = document.createElement('div');
+      buttonContainer.style.display = 'flex';
+      buttonContainer.style.justifyContent = 'space-between';
+      buttonContainer.style.marginTop = '10px';
       
-      // Add click handler
-      btn.onclick = () => {
-        if (button.action && typeof button.action === 'function') {
-          button.action();
-        }
-      };
+      // Add each button
+      buttons.forEach(button => {
+          if (!button || !button.text) return;
+          
+          const btn = document.createElement('button');
+          btn.textContent = button.text;
+          btn.style.padding = '8px 15px';
+          btn.style.background = button.primary ? '#4a86e8' : '#666';
+          btn.style.color = 'white';
+          btn.style.border = 'none';
+          btn.style.borderRadius = '5px';
+          btn.style.cursor = 'pointer';
+          btn.style.marginRight = '10px';
+          
+          // Add click handler
+          btn.onclick = () => {
+              if (button.action && typeof button.action === 'function') {
+                  button.action();
+              }
+          };
+          
+          buttonContainer.appendChild(btn);
+      });
       
-      buttonContainer.appendChild(btn);
-    });
-    
-    // Insert before the close button
-    if (buttonContainer.children.length > 0) {
-      this.dialogueBox.insertBefore(buttonContainer, this.closeBtn);
-    }
+      // Insert before the close button
+      if (buttonContainer.children.length > 0) {
+          this.dialogueBox.insertBefore(buttonContainer, this.closeBtn);
+      }
   }
 }
 

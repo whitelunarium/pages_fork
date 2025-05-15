@@ -321,108 +321,108 @@ class GameLevelEnd {
   
   // frick the npc constructr this works for now
   createDOMPortal() {
-    console.log("Creating DOM portal element");
-    
-    // Get screen dimensions
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    
-    // Define portal position (customize to move it to end island)
-    const portalX = screenWidth * 0.85; // 80% from the left (right side)
-    const portalY = screenHeight * 0.45; // 30% from the top (upper area)
-    
-    const portal = document.createElement('div');
-    portal.id = 'dom-portal';
-    
-    // Add necessary properties for collision handling
-    portal.spriteData = {
-        id: 'End Portal',
-        greeting: "Return to Desert?",
-        src: "./images/gamify/exitportalfull.png"
-    };
-    
-    // Position the portal at custom coordinates
-    portal.style.position = 'fixed';
-    portal.style.top = `${portalY}px`;
-    portal.style.left = `${portalX}px`;
-    portal.style.transform = 'translate(-50%, -50%)';
-    
-    portal.style.width = '50px';
-    portal.style.height = '50px';
-    portal.style.backgroundImage = "url('./images/gamify/exitportalfull.png')";
-    portal.style.backgroundSize = 'contain';
-    portal.style.backgroundRepeat = 'no-repeat';
-    portal.style.backgroundPosition = 'center';
-    portal.style.zIndex = '999';
-    portal.style.cursor = 'pointer';
-    
-    // Add an instruction overlay
-    const instructions = document.createElement('div');
-    instructions.style.position = 'absolute';
-    instructions.style.bottom = '-40px';
-    instructions.style.left = '0';
-    instructions.style.width = '100%';
-    instructions.style.textAlign = 'center';
-    instructions.style.color = 'white';
-    instructions.style.fontSize = '14px';
-    instructions.style.padding = '5px';
-    instructions.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    instructions.style.borderRadius = '5px';
-    instructions.textContent = 'Return to Desert';
-    
-    portal.appendChild(instructions);
-    
-    // Add click event to return to desert
-    portal.addEventListener('click', () => {
-        // Clean up any existing game objects
-        if (this.gameEnv) {
-            this.gameEnv.destroy();
-        }
-        
-        // Try to use gameControl if available
-        if (this.gameEnv && this.gameEnv.gameControl) {
-            // Set the level index to 0 (Desert level)
-            this.gameEnv.gameControl.currentLevelIndex = 0;
-            
-            // Stop the current game loop
-            if (this.gameEnv.gameControl.gameLoop) {
-                cancelAnimationFrame(this.gameEnv.gameControl.gameLoop);
-            }
-            
-            // Transition to the desert level
-            this.gameEnv.gameControl.transitionToLevel();
-        } else {
-            // Fallback: reload the page
-            location.reload();
-        }
-    });
-    
-    // Add portal appearance effect
-    portal.style.opacity = '0';
-    portal.style.transform = 'translate(-50%, -50%) scale(0.1)';
-    portal.style.transition = 'all 1s ease-out';
-    
-    document.body.appendChild(portal);
-    
-    // Animate portal appearance
-    setTimeout(() => {
-        portal.style.opacity = '1';
-        portal.style.transform = 'translate(-50%, -50%) scale(1)';
-        
-        // Add pulsating glow effect
-        const glowAnimation = document.createElement('style');
-        glowAnimation.innerHTML = `
-            @keyframes portalPulse {
-                0% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
-                50% { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
-                100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
-            }
-        `;
-        document.head.appendChild(glowAnimation);
-        
-        portal.style.animation = 'portalPulse 2s infinite';
-    }, 100);
-}
+      console.log("Creating DOM portal element");
+      
+      // Get screen dimensions
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      
+      // Define portal position (customize to move it to end island)
+      const portalX = screenWidth * 0.85; // 80% from the left (right side)
+      const portalY = screenHeight * 0.45; // 30% from the top (upper area)
+      
+      const portal = document.createElement('div');
+      portal.id = 'dom-portal';
+      
+      // Add necessary properties for collision handling
+      portal.spriteData = {
+          id: 'End Portal',
+          greeting: "Return to Desert?",
+          src: "./images/gamify/exitportalfull.png"
+      };
+      
+      // Position the portal at custom coordinates
+      portal.style.position = 'fixed';
+      portal.style.top = `${portalY}px`;
+      portal.style.left = `${portalX}px`;
+      portal.style.transform = 'translate(-50%, -50%)';
+      
+      portal.style.width = '50px';
+      portal.style.height = '50px';
+      portal.style.backgroundImage = `url('${path}/images/gamify/exitportalfull.png')`;
+      portal.style.backgroundSize = 'contain';
+      portal.style.backgroundRepeat = 'no-repeat';
+      portal.style.backgroundPosition = 'center';
+      portal.style.zIndex = '999';
+      portal.style.cursor = 'pointer';
+      
+      // Add an instruction overlay
+      const instructions = document.createElement('div');
+      instructions.style.position = 'absolute';
+      instructions.style.bottom = '-40px';
+      instructions.style.left = '0';
+      instructions.style.width = '100%';
+      instructions.style.textAlign = 'center';
+      instructions.style.color = 'white';
+      instructions.style.fontSize = '14px';
+      instructions.style.padding = '5px';
+      instructions.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      instructions.style.borderRadius = '5px';
+      instructions.textContent = 'Return to Desert';
+      
+      portal.appendChild(instructions);
+      
+      // Add click event to return to desert
+      portal.addEventListener('click', () => {
+          // Clean up any existing game objects
+          if (this.gameEnv) {
+              this.gameEnv.destroy();
+          }
+          
+          // Try to use gameControl if available
+          if (this.gameEnv && this.gameEnv.gameControl) {
+              // Set the level index to 0 (Desert level)
+              this.gameEnv.gameControl.currentLevelIndex = 0;
+              
+              // Stop the current game loop
+              if (this.gameEnv.gameControl.gameLoop) {
+                  cancelAnimationFrame(this.gameEnv.gameControl.gameLoop);
+              }
+              
+              // Transition to the desert level
+              this.gameEnv.gameControl.transitionToLevel();
+          } else {
+              // Fallback: reload the page
+              location.reload();
+          }
+      });
+      
+      // Add portal appearance effect
+      portal.style.opacity = '0';
+      portal.style.transform = 'translate(-50%, -50%) scale(0.1)';
+      portal.style.transition = 'all 1s ease-out';
+      
+      document.body.appendChild(portal);
+      
+      // Animate portal appearance
+      setTimeout(() => {
+          portal.style.opacity = '1';
+          portal.style.transform = 'translate(-50%, -50%) scale(1)';
+          
+          // Add pulsating glow effect
+          const glowAnimation = document.createElement('style');
+          glowAnimation.innerHTML = `
+              @keyframes portalPulse {
+                  0% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+                  50% { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
+                  100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+              }
+          `;
+          document.head.appendChild(glowAnimation);
+          
+          portal.style.animation = 'portalPulse 2s infinite';
+      }, 100);
+  }
   
   // Show completion message on the eye counter
   showCompletionMessage(isNewRecord) {
@@ -576,7 +576,7 @@ class GameLevelEnd {
     const eyeIcon = document.createElement('div');
     eyeIcon.style.width = '25px';
     eyeIcon.style.height = '25px';
-    eyeIcon.style.backgroundImage = "url('./images/gamify/eyeOfEnder.png')";
+    eyeIcon.style.backgroundImage = `url('${path}/images/gamify/eyeOfEnder.png')`;
     eyeIcon.style.backgroundSize = 'contain';
     eyeIcon.style.backgroundRepeat = 'no-repeat';
     eyeIcon.style.marginRight = '10px';

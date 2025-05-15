@@ -172,13 +172,14 @@ class GameObject {
      * @param {*} other 
      */
     handleCollisionReaction(other) {
-        if (other.reaction && typeof other.reaction === "function") {
+    // First check if reaction is a function that can be called
+        if (other && other.reaction && typeof other.reaction === "function") {
             other.reaction();
             return;
         }
         
         // If the object has a dialogueSystem, use it instead of console.log
-        if (other.id) {
+        if (other && other.id) {
             // Try to find the object instance to use its dialogueSystem
             const targetObject = this.gameEnv.gameObjects.find(obj => 
                 obj.spriteData && obj.spriteData.id === other.id

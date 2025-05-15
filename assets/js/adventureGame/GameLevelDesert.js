@@ -162,11 +162,10 @@ class GameLevelDesert {
                 "Prepare yourself. The journey beyond won't be easy."
             ],
             reaction: function() {
-              // Create a new DialogueSystem instance each time
-              const dialogueSystem = new DialogueSystem({
-                  dialogues: [this.spriteData.greeting]
-              });
-              dialogueSystem.showDialogue(this.spriteData.greeting, this.spriteData.id, this.spriteData.src);
+                // Make sure we use 'this' safely - if dialogueSystem is undefined, create it
+                const dialogueSystem = new DialogueSystem({
+                    dialogues: [this.spriteData?.greeting || "Portal to The End"]
+                });
             },
             interact: function() {
                 // For NPCs that should show random dialogue messages
@@ -194,103 +193,74 @@ class GameLevelDesert {
                         this.spriteData.src
                     );
                     
-                    // Add buttons directly to the dialogue box
-                    const dialogueBox = document.getElementById("custom-dialogue-box");
-                    if (dialogueBox) {
-                        const buttonContainer = document.createElement("div");
-                        buttonContainer.style.display = "flex";
-                        buttonContainer.style.justifyContent = "space-between";
-                        buttonContainer.style.marginTop = "10px";
-                        
-                        const enterButton = document.createElement("button");
-                        enterButton.textContent = "Enter Portal";
-                        enterButton.style.padding = "8px 15px";
-                        enterButton.style.background = "#4a86e8";
-                        enterButton.style.color = "white";
-                        enterButton.style.border = "none";
-                        enterButton.style.borderRadius = "5px";
-                        enterButton.style.cursor = "pointer";
-                        
-                        enterButton.onclick = () => {
-                            dialogueSystem.closeDialogue();
-                            
-                            // Clean up the current game state
-                            if (gameEnv && gameEnv.gameControl) {
-                                // Store reference to the current game control
-                                const currentGameControl = gameEnv.gameControl;
+                    // Add buttons directly to the dialogue
+                    dialogueSystem.addButtons([
+                        {
+                            text: "Enter Portal",
+                            primary: true,
+                            action: () => {
+                                dialogueSystem.closeDialogue();
                                 
-                                // Create fade overlay for transition
-                                const fadeOverlay = document.createElement('div');
-                                Object.assign(fadeOverlay.style, {
-                                    position: 'fixed',
-                                    top: '0',
-                                    left: '0',
-                                    width: '100%',
-                                    height: '100%',
-                                    backgroundColor: '#000',
-                                    opacity: '0',
-                                    transition: 'opacity 1s ease-in-out',
-                                    zIndex: '9999'
-                                });
-                                document.body.appendChild(fadeOverlay);
-                                
-                                // Fade in
-                                requestAnimationFrame(() => {
-                                    fadeOverlay.style.opacity = '1';
+                                // Clean up the current game state
+                                if (gameEnv && gameEnv.gameControl) {
+                                    // Store reference to the current game control
+                                    const currentGameControl = gameEnv.gameControl;
                                     
-                                    // After fade in, transition to End level
-                                    setTimeout(() => {
-                                        // Clean up current level
-                                        if (currentGameControl.currentLevel) {
-                                            currentGameControl.currentLevel.destroy();
-                                        }
+                                    // Create fade overlay for transition
+                                    const fadeOverlay = document.createElement('div');
+                                    Object.assign(fadeOverlay.style, {
+                                        position: 'fixed',
+                                        top: '0',
+                                        left: '0',
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundColor: '#000',
+                                        opacity: '0',
+                                        transition: 'opacity 1s ease-in-out',
+                                        zIndex: '9999'
+                                    });
+                                    document.body.appendChild(fadeOverlay);
+                                    
+                                    // Fade in
+                                    requestAnimationFrame(() => {
+                                        fadeOverlay.style.opacity = '1';
                                         
-                                        // Create new game control for End level
-                                        const levelArray = [GameLevelEnd];
-                                        const endGameControl = new GameControl(gameEnv.game, levelArray);
-                                        
-                                        // Start the End level
-                                        endGameControl.start();
-                                        
-                                        // Setup return to main game
-                                        endGameControl.gameOver = function() {
-                                            // Fade out
-                                            fadeOverlay.style.opacity = '0';
-                                            setTimeout(() => {
-                                                document.body.removeChild(fadeOverlay);
-                                                // Resume the main game
-                                                currentGameControl.resume();
-                                            }, 1000);
-                                        };
-                                    }, 1000);
-                                });
+                                        // After fade in, transition to End level
+                                        setTimeout(() => {
+                                            // Clean up current level
+                                            if (currentGameControl.currentLevel) {
+                                                currentGameControl.currentLevel.destroy();
+                                            }
+                                            
+                                            // Create new game control for End level
+                                            const levelArray = [GameLevelEnd];
+                                            const endGameControl = new GameControl(gameEnv.game, levelArray);
+                                            
+                                            // Start the End level
+                                            endGameControl.start();
+                                            
+                                            // Setup return to main game
+                                            endGameControl.gameOver = function() {
+                                                // Fade out
+                                                fadeOverlay.style.opacity = '0';
+                                                setTimeout(() => {
+                                                    document.body.removeChild(fadeOverlay);
+                                                    // Resume the main game
+                                                    currentGameControl.resume();
+                                                }, 1000);
+                                            };
+                                        }, 1000);
+                                    });
+                                }
                             }
-                        };
-                        
-                        const cancelButton = document.createElement("button");
-                        cancelButton.textContent = "Not Ready";
-                        cancelButton.style.padding = "8px 15px";
-                        cancelButton.style.background = "#666";
-                        cancelButton.style.color = "white";
-                        cancelButton.style.border = "none";
-                        cancelButton.style.borderRadius = "5px";
-                        cancelButton.style.cursor = "pointer";
-                        
-                        cancelButton.onclick = () => {
-                            dialogueSystem.closeDialogue();
-                        };
-                        
-                        buttonContainer.appendChild(enterButton);
-                        buttonContainer.appendChild(cancelButton);
-                        
-                        // Insert before existing close button
-                        const closeBtn = dialogueBox.querySelector("button");
-                        if (closeBtn) {
-                            dialogueBox.insertBefore(buttonContainer, closeBtn);
-                        } else {
-                            dialogueBox.appendChild(buttonContainer);
+                        },
+                        {
+                            text: "Not Ready",
+                            action: () => {
+                                dialogueSystem.closeDialogue();
+                            }
                         }
-                    }
+                    ]);
                 }
             }
         };
@@ -328,80 +298,87 @@ class GameLevelDesert {
               }
           },
           interact: function() {
-            // Clear any existing dialogue first
-            if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
-                this.dialogueSystem.closeDialogue();
-            }
-            
-            // Show a dialogue with buttons immediately
-            if (this.dialogueSystem) {
-                this.dialogueSystem.showDialogue(
-                    "I need help analyzing some stocks. Want to check out the market with me?",
-                    "Stock Trader",
-                    this.spriteData.src
-                );
-                
-                // Create the buttons container
-                const buttonContainer = document.createElement('div');
-                buttonContainer.style.display = 'flex';
-                buttonContainer.style.justifyContent = 'space-between';
-                buttonContainer.style.marginTop = '10px';
-                
-                // Create the Yes button
-                const yesButton = document.createElement('button');
-                yesButton.textContent = "Let's go!";
-                yesButton.style.padding = '8px 15px';
-                yesButton.style.background = '#4a86e8';
-                yesButton.style.color = 'white';
-                yesButton.style.border = 'none';
-                yesButton.style.borderRadius = '5px';
-                yesButton.style.cursor = 'pointer';
-                yesButton.style.marginRight = '10px';
-                
-                // Create the No button
-                const noButton = document.createElement('button');
-                noButton.textContent = "Not now";
-                noButton.style.padding = '8px 15px';
-                noButton.style.background = '#666';
-                noButton.style.color = 'white';
-                noButton.style.border = 'none';
-                noButton.style.borderRadius = '5px';
-                noButton.style.cursor = 'pointer';
-                
-                // Add button functionality
-                yesButton.onclick = () => {
-                    window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home";
-                };
-                
-                noButton.onclick = () => {
-                    if (this.dialogueSystem) {
-                        this.dialogueSystem.closeDialogue();
-                    }
-                };
-                
-                // Add buttons to container
-                buttonContainer.appendChild(yesButton);
-                buttonContainer.appendChild(noButton);
-                
-                // Add buttons to dialogue box RIGHT AWAY (no setTimeout)
-                const dialogueBox = document.getElementById('custom-dialogue-box');
-                if (dialogueBox) {
-                    // Find the close button to insert before it
-                    const closeBtn = dialogueBox.querySelector('button');
-                    if (closeBtn) {
-                        dialogueBox.insertBefore(buttonContainer, closeBtn);
-                    } else {
-                        dialogueBox.appendChild(buttonContainer);
-                    }
-                }
-            } else {
-                // Original functionality as fallback
-                const confirmTeleport = window.confirm("Teleport to the stock market?");
-                if (confirmTeleport) {
-                    window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home";
-                }
-            }
-        }
+              // Clear any existing dialogue first
+              if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+                  this.dialogueSystem.closeDialogue();
+              }
+              
+              // Show a dialogue with buttons immediately
+              if (this.dialogueSystem) {
+                  // Get a random dialogue message if available
+                  let message = "I need help analyzing some stocks. Want to check out the market with me?";
+                  if (this.spriteData.dialogues && this.spriteData.dialogues.length > 0) {
+                      const randomIndex = Math.floor(Math.random() * this.spriteData.dialogues.length);
+                      message = this.spriteData.dialogues[randomIndex];
+                  }
+                  
+                  this.dialogueSystem.showDialogue(
+                      message,
+                      "Stock Trader",
+                      this.spriteData.src
+                  );
+                  
+                  // Create the buttons container
+                  const buttonContainer = document.createElement('div');
+                  buttonContainer.style.display = 'flex';
+                  buttonContainer.style.justifyContent = 'space-between';
+                  buttonContainer.style.marginTop = '10px';
+                  
+                  // Create the Yes button
+                  const yesButton = document.createElement('button');
+                  yesButton.textContent = "Stocks";
+                  yesButton.style.padding = '8px 15px';
+                  yesButton.style.background = '#4a86e8';
+                  yesButton.style.color = 'white';
+                  yesButton.style.border = 'none';
+                  yesButton.style.borderRadius = '5px';
+                  yesButton.style.cursor = 'pointer';
+                  yesButton.style.marginRight = '10px';
+                  
+                  // Create the No button
+                  const noButton = document.createElement('button');
+                  noButton.textContent = "Not now";
+                  noButton.style.padding = '8px 15px';
+                  noButton.style.background = '#666';
+                  noButton.style.color = 'white';
+                  noButton.style.border = 'none';
+                  noButton.style.borderRadius = '5px';
+                  noButton.style.cursor = 'pointer';
+                  
+                  // Add button functionality
+                  yesButton.onclick = () => {
+                      window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home";
+                  };
+                  
+                  noButton.onclick = () => {
+                      if (this.dialogueSystem) {
+                          this.dialogueSystem.closeDialogue();
+                      }
+                  };
+                  
+                  // Add buttons to container
+                  buttonContainer.appendChild(yesButton);
+                  buttonContainer.appendChild(noButton);
+                  
+                  // Add buttons to dialogue box RIGHT AWAY (no setTimeout)
+                  const dialogueBox = document.getElementById('custom-dialogue-box-' + this.dialogueSystem.id);
+                  if (dialogueBox) {
+                      // Find the close button to insert before it
+                      const closeBtn = dialogueBox.querySelector('button');
+                      if (closeBtn) {
+                          dialogueBox.insertBefore(buttonContainer, closeBtn);
+                      } else {
+                          dialogueBox.appendChild(buttonContainer);
+                      }
+                  }
+              } else {
+                  // Original functionality as fallback
+                  const confirmTeleport = window.confirm("Teleport to the stock market?");
+                  if (confirmTeleport) {
+                      window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/home";
+                  }
+              }
+          }
       };
 
     const sprite_src_crypto = path + "/images/gamify/bitcoin.png";
@@ -437,80 +414,87 @@ class GameLevelDesert {
             }
         },
         interact: function() {
-          // Clear any existing dialogue first
-          if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
-              this.dialogueSystem.closeDialogue();
-          }
-          
-          // Show a dialogue with buttons immediately
-          if (this.dialogueSystem) {
-              this.dialogueSystem.showDialogue(
-                  "Feeling lucky? The casino awaits with games of chance and fortune!",
-                  "Bitcoin",
-                  this.spriteData.src
-              );
-              
-              // Create the buttons container
-              const buttonContainer = document.createElement('div');
-              buttonContainer.style.display = 'flex';
-              buttonContainer.style.justifyContent = 'space-between';
-              buttonContainer.style.marginTop = '10px';
-              
-              // Create the Yes button
-              const yesButton = document.createElement('button');
-              yesButton.textContent = "Let's gamble!";
-              yesButton.style.padding = '8px 15px';
-              yesButton.style.background = '#4a86e8';
-              yesButton.style.color = 'white';
-              yesButton.style.border = 'none';
-              yesButton.style.borderRadius = '5px';
-              yesButton.style.cursor = 'pointer';
-              yesButton.style.marginRight = '10px';
-              
-              // Create the No button
-              const noButton = document.createElement('button');
-              noButton.textContent = "Not today";
-              noButton.style.padding = '8px 15px';
-              noButton.style.background = '#666';
-              noButton.style.color = 'white';
-              noButton.style.border = 'none';
-              noButton.style.borderRadius = '5px';
-              noButton.style.cursor = 'pointer';
-              
-              // Add button functionality
-              yesButton.onclick = () => {
-                  window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage";
-              };
-              
-              noButton.onclick = () => {
-                  if (this.dialogueSystem) {
-                      this.dialogueSystem.closeDialogue();
-                  }
-              };
-              
-              // Add buttons to container
-              buttonContainer.appendChild(yesButton);
-              buttonContainer.appendChild(noButton);
-              
-              // Add buttons to dialogue box RIGHT AWAY (no setTimeout)
-              const dialogueBox = document.getElementById('custom-dialogue-box');
-              if (dialogueBox) {
-                  // Find the close button to insert before it
-                  const closeBtn = dialogueBox.querySelector('button');
-                  if (closeBtn) {
-                      dialogueBox.insertBefore(buttonContainer, closeBtn);
-                  } else {
-                      dialogueBox.appendChild(buttonContainer);
-                  }
-              }
-          } else {
-              // Original functionality as fallback
-              const confirmTeleport = window.confirm("Teleport to gambling hub?");
-              if (confirmTeleport) {
-                  window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage";
-              }
-          }
-      }
+            // Clear any existing dialogue first
+            if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+                this.dialogueSystem.closeDialogue();
+            }
+            
+            // Show a dialogue with buttons immediately
+            if (this.dialogueSystem) {
+                // Get a random dialogue message if available
+                let message = "Feeling lucky? The casino awaits with games of chance and fortune!";
+                if (this.spriteData.dialogues && this.spriteData.dialogues.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * this.spriteData.dialogues.length);
+                    message = this.spriteData.dialogues[randomIndex];
+                }
+                
+                this.dialogueSystem.showDialogue(
+                    message,
+                    "Bitcoin",
+                    this.spriteData.src
+                );
+                
+                // Create the buttons container
+                const buttonContainer = document.createElement('div');
+                buttonContainer.style.display = 'flex';
+                buttonContainer.style.justifyContent = 'space-between';
+                buttonContainer.style.marginTop = '10px';
+                
+                // Create the Yes button
+                const yesButton = document.createElement('button');
+                yesButton.textContent = "GAMBA !";
+                yesButton.style.padding = '8px 15px';
+                yesButton.style.background = '#4a86e8';
+                yesButton.style.color = 'white';
+                yesButton.style.border = 'none';
+                yesButton.style.borderRadius = '5px';
+                yesButton.style.cursor = 'pointer';
+                yesButton.style.marginRight = '10px';
+                
+                // Create the No button
+                const noButton = document.createElement('button');
+                noButton.textContent = "Not today";
+                noButton.style.padding = '8px 15px';
+                noButton.style.background = '#666';
+                noButton.style.color = 'white';
+                noButton.style.border = 'none';
+                noButton.style.borderRadius = '5px';
+                noButton.style.cursor = 'pointer';
+                
+                // Add button functionality
+                yesButton.onclick = () => {
+                    window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage";
+                };
+                
+                noButton.onclick = () => {
+                    if (this.dialogueSystem) {
+                        this.dialogueSystem.closeDialogue();
+                    }
+                };
+                
+                // Add buttons to container
+                buttonContainer.appendChild(yesButton);
+                buttonContainer.appendChild(noButton);
+                
+                // Add buttons to dialogue box RIGHT AWAY (no setTimeout)
+                const dialogueBox = document.getElementById('custom-dialogue-box-' + this.dialogueSystem.id);
+                if (dialogueBox) {
+                    // Find the close button to insert before it
+                    const closeBtn = dialogueBox.querySelector('button');
+                    if (closeBtn) {
+                        dialogueBox.insertBefore(buttonContainer, closeBtn);
+                    } else {
+                        dialogueBox.appendChild(buttonContainer);
+                    }
+                }
+            } else {
+                // Original functionality as fallback
+                const confirmTeleport = window.confirm("Teleport to gambling hub?");
+                if (confirmTeleport) {
+                    window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage";
+                }
+            }
+        }
 
     };
 
