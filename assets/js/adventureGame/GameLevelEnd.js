@@ -12,6 +12,9 @@ class GameLevelEnd {
   constructor(gameEnv) {
     console.log("Initializing GameLevelEnd...");
     
+    // Store the game environment reference
+    this.gameEnv = gameEnv;
+    
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
@@ -308,6 +311,12 @@ class GameLevelEnd {
     
     // Create the standalone stopwatch - wait for the stats container to be available
     setTimeout(() => this.createStandaloneStopwatch(), 100);
+    
+    // Make sure the game environment is properly set up
+    if (this.gameEnv) {
+        this.gameEnv.gameControl = gameEnv.gameControl;
+        this.gameEnv.game = gameEnv.game;
+    }
   }
   
   // frick the npc constructr this works for now
@@ -365,12 +374,25 @@ class GameLevelEnd {
     
     // Add click event to return to desert
     portal.addEventListener('click', () => {
+        // Clean up any existing game objects
+        if (this.gameEnv) {
+            this.gameEnv.destroy();
+        }
+        
         // Try to use gameControl if available
         if (this.gameEnv && this.gameEnv.gameControl) {
+            // Set the level index to 0 (Desert level)
             this.gameEnv.gameControl.currentLevelIndex = 0;
-            this.gameEnv.gameControl.currentLevel.continue = false;
+            
+            // Stop the current game loop
+            if (this.gameEnv.gameControl.gameLoop) {
+                cancelAnimationFrame(this.gameEnv.gameControl.gameLoop);
+            }
+            
+            // Transition to the desert level
+            this.gameEnv.gameControl.transitionToLevel();
         } else {
-            // Otherwise reload the page
+            // Fallback: reload the page
             location.reload();
         }
     });

@@ -214,15 +214,57 @@ class GameLevelDesert {
                         enterButton.onclick = () => {
                             dialogueSystem.closeDialogue();
                             
-                            // Launch End level
-                            let primaryGame = gameEnv.gameControl;
-                            let levelArray = [GameLevelEnd];
-                            let gameInGame = new GameControl(gameEnv.game, levelArray);
-                            primaryGame.pause();
-                            gameInGame.start();
-                            gameInGame.gameOver = function() {
-                                primaryGame.resume();
-                            };
+                            // Clean up the current game state
+                            if (gameEnv && gameEnv.gameControl) {
+                                // Store reference to the current game control
+                                const currentGameControl = gameEnv.gameControl;
+                                
+                                // Create fade overlay for transition
+                                const fadeOverlay = document.createElement('div');
+                                Object.assign(fadeOverlay.style, {
+                                    position: 'fixed',
+                                    top: '0',
+                                    left: '0',
+                                    width: '100%',
+                                    height: '100%',
+                                    backgroundColor: '#000',
+                                    opacity: '0',
+                                    transition: 'opacity 1s ease-in-out',
+                                    zIndex: '9999'
+                                });
+                                document.body.appendChild(fadeOverlay);
+                                
+                                // Fade in
+                                requestAnimationFrame(() => {
+                                    fadeOverlay.style.opacity = '1';
+                                    
+                                    // After fade in, transition to End level
+                                    setTimeout(() => {
+                                        // Clean up current level
+                                        if (currentGameControl.currentLevel) {
+                                            currentGameControl.currentLevel.destroy();
+                                        }
+                                        
+                                        // Create new game control for End level
+                                        const levelArray = [GameLevelEnd];
+                                        const endGameControl = new GameControl(gameEnv.game, levelArray);
+                                        
+                                        // Start the End level
+                                        endGameControl.start();
+                                        
+                                        // Setup return to main game
+                                        endGameControl.gameOver = function() {
+                                            // Fade out
+                                            fadeOverlay.style.opacity = '0';
+                                            setTimeout(() => {
+                                                document.body.removeChild(fadeOverlay);
+                                                // Resume the main game
+                                                currentGameControl.resume();
+                                            }, 1000);
+                                        };
+                                    }, 1000);
+                                });
+                            }
                         };
                         
                         const cancelButton = document.createElement("button");
