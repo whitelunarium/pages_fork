@@ -103,54 +103,176 @@ class GameLevelEnd {
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
 
-    const sprite_src_enemy = path + "/images/gamify/ederman.png"; // Add your own image
+    // Store a reference to the current instance to use in closures
+    const self = this;
+
+    const sprite_src_enemy = path + "/images/gamify/ederman.png";
     const sprite_data_enemy = {
-      id: 'Enemy',
-      greeting: "You feel a dark presence...",
-      src: sprite_src_enemy,
-      SCALE_FACTOR: 7,
-      ANIMATION_RATE: 0,
-      pixels: {height: 256, width: 128},
-      INIT_POSITION: { x: width / 2, y: height / 4 },
-      orientation: {rows: 1, columns: 1},
-      down: {row: 0, start: 0, columns: 1},
-      hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
-      zIndex: 10,
-      update: function(players, stopGameLoop) {
-        // Follow nearest player
-        let nearest = players[0];
-        let minDist = Infinity;
+        id: 'Enderman',
+        greeting: "You feel a dark presence...",
+        src: sprite_src_enemy,
+        SCALE_FACTOR: 7,
+        ANIMATION_RATE: 50,
+        pixels: {height: 64, width: 32},
+        INIT_POSITION: { x: width / 2, y: height / 4 },
+        orientation: {rows: 1, columns: 1},
+        down: {row: 0, start: 0, columns: 1},
+        hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
+        zIndex: 10,
+        isKilling: false, // Flag to prevent multiple kills
+        
+        // The update method with all functionality inline
+        update: function() {
+            // Skip update if already in killing process
+            if (this.isKilling) {
+                return;
+            }
+            
+            // Find all player objects
+            const players = this.gameEnv.gameObjects.filter(obj => 
+                obj.constructor.name === 'Player'
+            );
+            
+            if (players.length === 0) return;
+            
+            // Find nearest player
+            let nearest = players[0];
+            let minDist = Infinity;
 
-        for (const p of players) {
-          const dx = p.x - this.x;
-          const dy = p.y - this.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < minDist) {
-            minDist = dist;
-            nearest = p;
-          }
+            for (const player of players) {
+                const dx = player.position.x - this.position.x;
+                const dy = player.position.y - this.position.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = player;
+                }
+            }
+
+            // Move towards nearest player
+            const speed = 1.5; // Adjust speed as needed
+            const dx = nearest.position.x - this.position.x;
+            const dy = nearest.position.y - this.position.y;
+            const angle = Math.atan2(dy, dx);
+            
+            // Update position
+            this.position.x += Math.cos(angle) * speed;
+            this.position.y += Math.sin(angle) * speed;
+            
+            // Check for collision with any player
+            for (const player of players) {
+                // Calculate distance for hitbox collision
+                const playerX = player.position.x + player.width / 2;
+                const playerY = player.position.y + player.height / 2;
+                const enemyX = this.position.x + this.width / 2;
+                const enemyY = this.position.y + this.height / 2;
+                
+                const dx = playerX - enemyX;
+                const dy = playerY - enemyY;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                // Hitbox collision - adjust values as needed
+                const collisionThreshold = (player.width * player.hitbox.widthPercentage + 
+                                        this.width * this.hitbox.widthPercentage) / 2;
+                
+                if (distance < collisionThreshold) {
+                    // Set killing flag to prevent repeated kills
+                    this.isKilling = true;
+                    
+                    // === PLAYER DEATH: ALL FUNCTIONALITY INLINE ===
+                    
+                    // 1. Play death animation - particle effect
+                    const playerX = player.position.x;
+                    const playerY = player.position.y;
+                    
+                    // Create explosion effect
+                    for (let i = 0; i < 20; i++) {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'absolute';
+                        particle.style.width = '5px';
+                        particle.style.height = '5px';
+                        particle.style.backgroundColor = 'red';
+                        particle.style.left = `${playerX + player.width/2}px`;
+                        particle.style.top = `${playerY + player.height/2}px`;
+                        particle.style.zIndex = '9999';
+                        document.body.appendChild(particle);
+                        
+                        // Animate particles outward
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = Math.random() * 5 + 2;
+                        const distance = Math.random() * 100 + 50;
+                        
+                        const destX = Math.cos(angle) * distance;
+                        const destY = Math.sin(angle) * distance;
+                        
+                        particle.animate(
+                            [
+                                { transform: 'translate(0, 0)', opacity: 1 },
+                                { transform: `translate(${destX}px, ${destY}px)`, opacity: 0 }
+                            ],
+                            {
+                                duration: 1000,
+                                easing: 'ease-out',
+                                fill: 'forwards'
+                            }
+                        );
+                        
+                        // Remove particle after animation
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particle.parentNode.removeChild(particle);
+                            }
+                        }, 1000);
+                    }
+                    
+                    // 2. Show death message dialog
+                    const deathMessage = document.createElement('div');
+                    deathMessage.style.position = 'fixed';
+                    deathMessage.style.top = '50%';
+                    deathMessage.style.left = '50%';
+                    deathMessage.style.transform = 'translate(-50%, -50%)';
+                    deathMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    deathMessage.style.color = '#FF0000';
+                    deathMessage.style.padding = '30px';
+                    deathMessage.style.borderRadius = '10px';
+                    deathMessage.style.fontFamily = "'Press Start 2P', sans-serif";
+                    deathMessage.style.fontSize = '24px';
+                    deathMessage.style.textAlign = 'center';
+                    deathMessage.style.zIndex = '10000';
+                    deathMessage.style.border = '3px solid #FF0000';
+                    deathMessage.style.boxShadow = '0 0 20px rgba(255, 0, 0, 0.5)';
+                    deathMessage.style.width = '400px';
+                    deathMessage.innerHTML = `
+                        <div style="margin-bottom: 20px;">☠️ YOU DIED ☠️</div>
+                        <div style="font-size: 16px; margin-bottom: 20px;">The Enderman got you!</div>
+                        <div style="font-size: 14px;">Respawning in 2 seconds...</div>
+                    `;
+                    
+                    document.body.appendChild(deathMessage);
+                    
+                    // Remove message after delay
+                    setTimeout(() => {
+                        if (deathMessage.parentNode) {
+                            deathMessage.parentNode.removeChild(deathMessage);
+                        }
+                    }, 2000);
+                    
+                    // 3. Reset the level after a short delay using page reload for reliability
+                    setTimeout(() => {
+                        // Clean up any lingering resources before reload
+                        if (self && self.timerInterval) {
+                            clearInterval(self.timerInterval);
+                        }
+                        
+                        // Force a complete page reload - most reliable way to reset
+                        location.reload();
+                    }, 2000); // 2 second delay before reset
+                    
+                    break;
+                }
+            }
         }
-
-        // Move towards nearest player
-        const speed = 1.5;
-        const dx = nearest.x - this.x;
-        const dy = nearest.y - this.y;
-        const angle = Math.atan2(dy, dx);
-        this.x += Math.cos(angle) * speed;
-        this.y += Math.sin(angle) * speed;
-
-        // Collision check
-        for (const p of players) {
-          if (
-           Math.abs(p.x - this.x) < this.width * this.hitbox.widthPercentage &&
-            Math.abs(p.y - this.y) < this.height * this.hitbox.heightPercentage
-          ) {
-            stopGameLoop();
-          }
-        }
-      }
     };
-
         
     const sprite_src_endship = path + "/images/gamify/endship.png";
     const sprite_greet_endship = "Find the elytra";
@@ -186,9 +308,6 @@ class GameLevelEnd {
         }
     };
 
-    // Store a reference to the current instance to use in closures
-    const self = this;
-
     const sprite_src_eye = path + "/images/gamify/eyeOfEnder.png";
     const sprite_data_eye = {
         id: 'Eye of Ender',
@@ -215,6 +334,45 @@ class GameLevelEnd {
             // Silent reaction - we'll handle dialogue in interact
         },
         interact: function() {
+            // IMPORTANT: First check if the player is actually near the eye
+            // This uses the collision detection system that's already in place
+            
+            // Get all players from game objects
+            const players = this.gameEnv.gameObjects.filter(obj => 
+                obj.constructor.name === 'Player'
+            );
+            
+            // Check if any player is in collision range with this eye
+            let isPlayerNearby = false;
+            
+            for (const player of players) {
+                // Calculate distance between player and eye
+                const playerX = player.position.x + player.width / 2;
+                const playerY = player.position.y + player.height / 2;
+                const eyeX = this.position.x + this.width / 2;
+                const eyeY = this.position.y + this.height / 2;
+                
+                const dx = playerX - eyeX;
+                const dy = playerY - eyeY;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                // Calculate collision threshold based on hitboxes
+                const collisionThreshold = (player.width * player.hitbox.widthPercentage + 
+                                          this.width * this.hitbox.widthPercentage) * 1.5; // Slightly larger range
+                
+                if (distance < collisionThreshold) {
+                    isPlayerNearby = true;
+                    break;
+                }
+            }
+            
+            // Only collect the eye if a player is nearby
+            if (!isPlayerNearby) {
+                console.log("Eye is too far away to collect");
+                return; // Exit the method if no player is nearby
+            }
+            
+            // Only proceed with collection if player is nearby
             // Increment counter and update display
             self.eyesCollected++;
             self.updateEyeCounter();
@@ -319,110 +477,119 @@ class GameLevelEnd {
     }
   }
   
-  // frick the npc constructr this works for now
+  // Create portal to return to desert
   createDOMPortal() {
-      console.log("Creating DOM portal element");
-      
-      // Get screen dimensions
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      
-      // Define portal position (customize to move it to end island)
-      const portalX = screenWidth * 0.85; // 80% from the left (right side)
-      const portalY = screenHeight * 0.45; // 30% from the top (upper area)
-      
-      const portal = document.createElement('div');
-      portal.id = 'dom-portal';
-      
-      // Add necessary properties for collision handling
-      portal.spriteData = {
-          id: 'End Portal',
-          greeting: "Return to Desert?",
-          src: "./images/gamify/exitportalfull.png"
-      };
-      
-      // Position the portal at custom coordinates
-      portal.style.position = 'fixed';
-      portal.style.top = `${portalY}px`;
-      portal.style.left = `${portalX}px`;
-      portal.style.transform = 'translate(-50%, -50%)';
-      
-      portal.style.width = '50px';
-      portal.style.height = '50px';
-      portal.style.backgroundImage = `url('${path}/images/gamify/exitportalfull.png')`;
-      portal.style.backgroundSize = 'contain';
-      portal.style.backgroundRepeat = 'no-repeat';
-      portal.style.backgroundPosition = 'center';
-      portal.style.zIndex = '999';
-      portal.style.cursor = 'pointer';
-      
-      // Add an instruction overlay
-      const instructions = document.createElement('div');
-      instructions.style.position = 'absolute';
-      instructions.style.bottom = '-40px';
-      instructions.style.left = '0';
-      instructions.style.width = '100%';
-      instructions.style.textAlign = 'center';
-      instructions.style.color = 'white';
-      instructions.style.fontSize = '14px';
-      instructions.style.padding = '5px';
-      instructions.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-      instructions.style.borderRadius = '5px';
-      instructions.textContent = 'Return to Desert';
-      
-      portal.appendChild(instructions);
-      
-      // Add click event to return to desert
-      portal.addEventListener('click', () => {
-          // Clean up any existing game objects
-          if (this.gameEnv) {
-              this.gameEnv.destroy();
-          }
-          
-          // Try to use gameControl if available
-          if (this.gameEnv && this.gameEnv.gameControl) {
-              // Set the level index to 0 (Desert level)
-              this.gameEnv.gameControl.currentLevelIndex = 0;
-              
-              // Stop the current game loop
-              if (this.gameEnv.gameControl.gameLoop) {
-                  cancelAnimationFrame(this.gameEnv.gameControl.gameLoop);
-              }
-              
-              // Transition to the desert level
-              this.gameEnv.gameControl.transitionToLevel();
-          } else {
-              // Fallback: reload the page
-              location.reload();
-          }
-      });
-      
-      // Add portal appearance effect
-      portal.style.opacity = '0';
-      portal.style.transform = 'translate(-50%, -50%) scale(0.1)';
-      portal.style.transition = 'all 1s ease-out';
-      
-      document.body.appendChild(portal);
-      
-      // Animate portal appearance
-      setTimeout(() => {
-          portal.style.opacity = '1';
-          portal.style.transform = 'translate(-50%, -50%) scale(1)';
-          
-          // Add pulsating glow effect
-          const glowAnimation = document.createElement('style');
-          glowAnimation.innerHTML = `
-              @keyframes portalPulse {
-                  0% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
-                  50% { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
-                  100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
-              }
-          `;
-          document.head.appendChild(glowAnimation);
-          
-          portal.style.animation = 'portalPulse 2s infinite';
-      }, 100);
-  }
+        console.log("Creating DOM portal element");
+        
+        // Get screen dimensions
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        // Define portal position (customize to move it to end island)
+        const portalX = screenWidth * 0.85; // 80% from the left (right side)
+        const portalY = screenHeight * 0.45; // 30% from the top (upper area)
+        
+        const portal = document.createElement('div');
+        portal.id = 'dom-portal';
+        
+        // Add necessary properties for collision handling
+        portal.spriteData = {
+            id: 'End Portal',
+            greeting: "Return to Desert?",
+            src: "./images/gamify/exitportalfull.png"
+        };
+        
+        // Position the portal at custom coordinates
+        portal.style.position = 'fixed';
+        portal.style.top = `${portalY}px`;
+        portal.style.left = `${portalX}px`;
+        portal.style.transform = 'translate(-50%, -50%)';
+        
+        portal.style.width = '50px';
+        portal.style.height = '50px';
+        
+        // FIX: use this.gameEnv.path instead of path
+        if (this.gameEnv && this.gameEnv.path) {
+            portal.style.backgroundImage = `url('${this.gameEnv.path}/images/gamify/exitportalfull.png')`;
+        } else {
+            // Fallback to a relative path if gameEnv.path is not available
+            portal.style.backgroundImage = "url('./images/gamify/exitportalfull.png')";
+            console.warn("Warning: gameEnv.path is not available, using relative path");
+        }
+        
+        portal.style.backgroundSize = 'contain';
+        portal.style.backgroundRepeat = 'no-repeat';
+        portal.style.backgroundPosition = 'center';
+        portal.style.zIndex = '999';
+        portal.style.cursor = 'pointer';
+        
+        // Add an instruction overlay
+        const instructions = document.createElement('div');
+        instructions.style.position = 'absolute';
+        instructions.style.bottom = '-40px';
+        instructions.style.left = '0';
+        instructions.style.width = '100%';
+        instructions.style.textAlign = 'center';
+        instructions.style.color = 'white';
+        instructions.style.fontSize = '14px';
+        instructions.style.padding = '5px';
+        instructions.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        instructions.style.borderRadius = '5px';
+        instructions.textContent = 'Return to Desert';
+        
+        portal.appendChild(instructions);
+        
+        // Add click event to return to desert
+        portal.addEventListener('click', () => {
+            // Clean up any existing game objects
+            if (this.gameEnv) {
+                this.gameEnv.destroy();
+            }
+            
+            // Try to use gameControl if available
+            if (this.gameEnv && this.gameEnv.gameControl) {
+                // Set the level index to 0 (Desert level)
+                this.gameEnv.gameControl.currentLevelIndex = 0;
+                
+                // Stop the current game loop
+                if (this.gameEnv.gameControl.gameLoop) {
+                    cancelAnimationFrame(this.gameEnv.gameControl.gameLoop);
+                }
+                
+                // Transition to the desert level
+                this.gameEnv.gameControl.transitionToLevel();
+            } else {
+                // Fallback: reload the page
+                location.reload();
+            }
+        });
+        
+        // Add portal appearance effect
+        portal.style.opacity = '0';
+        portal.style.transform = 'translate(-50%, -50%) scale(0.1)';
+        portal.style.transition = 'all 1s ease-out';
+        
+        document.body.appendChild(portal);
+        
+        // Animate portal appearance
+        setTimeout(() => {
+            portal.style.opacity = '1';
+            portal.style.transform = 'translate(-50%, -50%) scale(1)';
+            
+            // Add pulsating glow effect
+            const glowAnimation = document.createElement('style');
+            glowAnimation.innerHTML = `
+                @keyframes portalPulse {
+                    0% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+                    50% { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
+                    100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+                }
+            `;
+            document.head.appendChild(glowAnimation);
+            
+            portal.style.animation = 'portalPulse 2s infinite';
+        }, 100);
+    }
   
   // Show completion message on the eye counter
   showCompletionMessage(isNewRecord) {
@@ -539,7 +706,6 @@ class GameLevelEnd {
     const tenths = Math.floor((seconds * 10) % 10);
     return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${tenths}`;
   }
-  
   // Create a UI counter for the eyes
   createEyeCounter() {
     const counterContainer = document.createElement('div');
@@ -572,11 +738,20 @@ class GameLevelEnd {
     counterRow.style.alignItems = 'center';
     counterRow.style.width = '100%';
     
-    // Create eye icon
+    // Create eye icon - FIX: use this.gameEnv.path instead of path
     const eyeIcon = document.createElement('div');
     eyeIcon.style.width = '25px';
     eyeIcon.style.height = '25px';
-    eyeIcon.style.backgroundImage = `url('${path}/images/gamify/eyeOfEnder.png')`;
+    
+    // Check if gameEnv exists before accessing path
+    if (this.gameEnv && this.gameEnv.path) {
+        eyeIcon.style.backgroundImage = `url('${this.gameEnv.path}/images/gamify/eyeOfEnder.png')`;
+    } else {
+        // Fallback to a relative path if gameEnv.path is not available
+        eyeIcon.style.backgroundImage = "url('./images/gamify/eyeOfEnder.png')";
+        console.warn("Warning: gameEnv.path is not available, using relative path");
+    }
+    
     eyeIcon.style.backgroundSize = 'contain';
     eyeIcon.style.backgroundRepeat = 'no-repeat';
     eyeIcon.style.marginRight = '10px';
