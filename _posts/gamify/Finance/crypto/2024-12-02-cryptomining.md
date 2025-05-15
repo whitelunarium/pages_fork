@@ -1,5 +1,9 @@
 ---
+
 layout: fortunefinders
+
+layout: finance
+
 title: Crypto Mining Simulator 
 type: issueshen i
 permalink: /crypto/mining

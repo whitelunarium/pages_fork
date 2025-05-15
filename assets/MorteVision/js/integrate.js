@@ -73,7 +73,7 @@ socket.onmessage = async function (event) {
 
 function sendMessage(message) {
     if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(message));
+        socket.send(JSON.stringify(message));   
     } else {
         console.error("WebSocket connection is not open.");
     }
@@ -117,12 +117,12 @@ async function captureScreen() {
         document.getElementById("mortStream").style.display = "block";
         document.getElementById("mortStream").srcObject = mediaStream;
         
-        document.getElementById("endBroadcastButton").style.display = "flex";
+        // document.getElementById("endBroadcastButton").style.display = "flex";
         
         return mediaStream;
     } catch (ex) {
-        console.log("Error occurred", ex);
-        document.getElementById("endBroadcastButton").style.display = "none";
+        // console.log("Error occurred", ex);
+        // document.getElementById("endBroadcastButton").style.display = "none";
     }
 }
 
@@ -220,7 +220,7 @@ function startTimer() {
     console.log(document.getElementById("presentation"))
     if (document.getElementById("presentation").value == 'presentation') {
         console.log("test")
-        broadcast()
+        broadcast();
     }
 
     let time = timerlength;
@@ -254,14 +254,14 @@ async function fetchQueue() {
 }
 
 async function fetchTimerLength() {
-    console.log("test")
-    const response = await fetch(URL + `getPresentationLength/${assignment}`);
-    if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        timerlength = data;
-        document.getElementById('timerDisplay').textContent = `${Math.floor(timerlength / 60).toString().padStart(2, '0')}:${(timerlength % 60).toString().padStart(2, '0')}`;
-    }
+    // console.log("test")
+    // const response = await fetch(URL + `getPresentationLength/${assignment}`);
+    // if (response.ok) {
+    //     const data = await response.json();
+    //     console.log(data);
+    //     timerlength = data;
+    //     document.getElementById('timerDisplay').textContent = `${Math.floor(timerlength / 60).toString().padStart(2, '0')}:${(timerlength % 60).toString().padStart(2, '0')}`;
+    // }
 }
 
 // add user to waiting
@@ -387,8 +387,8 @@ function startQueueUpdateInterval(intervalInSeconds) {
     if (queueUpdateInterval) clearInterval(queueUpdateInterval); // Clear existing interval if any
     queueUpdateInterval = setInterval(() => {
         console.log("Updating queue...");
-        fetchQueue();
-        fetchTimerLength();
+        // fetchQueue();
+        // fetchTimerLength();
     }, intervalInSeconds * 1000);
 }
 
