@@ -113,7 +113,7 @@ class GameLevelEnd {
         src: sprite_src_enemy,
         SCALE_FACTOR: 7,
         ANIMATION_RATE: 50,
-        pixels: {height: 64, width: 32},
+        pixels: {height: 128, width: 64},
         INIT_POSITION: { x: width / 2, y: height / 4 },
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1},
@@ -464,6 +464,11 @@ class GameLevelEnd {
       { class: Enemy, data: sprite_data_enemy }
     ];
     
+    if (this.gameEnv) {
+    console.log("Setting up gameEnv references in GameLevelEnd");
+    this.gameEnv.gameControl = gameEnv.gameControl;
+    this.gameEnv.game = gameEnv.game;
+    }
     // Create eye counter UI
     this.createEyeCounter();
     

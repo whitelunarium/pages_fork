@@ -204,7 +204,7 @@ class GameLevelDesert {
                                 // Clean up the current game state
                                 if (gameEnv && gameEnv.gameControl) {
                                     // Store reference to the current game control
-                                    const currentGameControl = gameEnv.gameControl;
+                                    const gameControl = gameEnv.gameControl;
                                     
                                     // Create fade overlay for transition
                                     const fadeOverlay = document.createElement('div');
@@ -221,34 +221,52 @@ class GameLevelDesert {
                                     });
                                     document.body.appendChild(fadeOverlay);
                                     
+                                    console.log("Starting End level transition...");
+                                    
                                     // Fade in
                                     requestAnimationFrame(() => {
                                         fadeOverlay.style.opacity = '1';
                                         
                                         // After fade in, transition to End level
                                         setTimeout(() => {
-                                            // Clean up current level
-                                            if (currentGameControl.currentLevel) {
-                                                currentGameControl.currentLevel.destroy();
+                                            // Clean up current level properly
+                                            if (gameControl.currentLevel) {
+                                                // Properly destroy the current level
+                                                console.log("Destroying current level...");
+                                                gameControl.currentLevel.destroy();
+                                                
+                                                // Force cleanup of any remaining canvases
+                                                const gameContainer = document.getElementById('gameContainer');
+                                                const oldCanvases = gameContainer.querySelectorAll('canvas:not(#gameCanvas)');
+                                                oldCanvases.forEach(canvas => {
+                                                    console.log("Removing old canvas:", canvas.id);
+                                                    canvas.parentNode.removeChild(canvas);
+                                                });
                                             }
                                             
-                                            // Create new game control for End level
-                                            const levelArray = [GameLevelEnd];
-                                            const endGameControl = new GameControl(gameEnv.game, levelArray);
+                                            console.log("Setting up End level...");
                                             
-                                            // Start the End level
-                                            endGameControl.start();
+                                            // IMPORTANT: Store the original level classes for return journey
+                                            gameControl._originalLevelClasses = gameControl.levelClasses;
                                             
-                                            // Setup return to main game
-                                            endGameControl.gameOver = function() {
-                                                // Fade out
+                                            // Change the level classes to GameLevelEnd
+                                            gameControl.levelClasses = [GameLevelEnd];
+                                            gameControl.currentLevelIndex = 0;
+                                            
+                                            // Make sure game is not paused
+                                            gameControl.isPaused = false;
+                                            
+                                            // Start the End level with the same control
+                                            console.log("Transitioning to End level...");
+                                            gameControl.transitionToLevel();
+                                            
+                                            // Fade out overlay
+                                            setTimeout(() => {
                                                 fadeOverlay.style.opacity = '0';
                                                 setTimeout(() => {
                                                     document.body.removeChild(fadeOverlay);
-                                                    // Resume the main game
-                                                    currentGameControl.resume();
                                                 }, 1000);
-                                            };
+                                            }, 500);
                                         }, 1000);
                                     });
                                 }
