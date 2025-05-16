@@ -1,6 +1,5 @@
 ---
-layout: toolkit
-active_tab: graderview
+layout: base
 title: Grader View
 type: issues
 permalink: /student/assign-grades
@@ -114,6 +113,8 @@ comments: false
     }
 </style>
 
+<h2>Assignments Grading</h2>
+<div class="container">
 <table id="assignmentTable">
     <thead>
     <tr>
@@ -129,9 +130,10 @@ comments: false
     <!-- Populated dynamically -->
     </tbody>
 </table>
+</div>
 
 <!-- Submissions Modal -->
-<div id="submissionsModal" class="modal" style="z-index: 100;">
+<div id="submissionsModal" class="modal">
 <div class="modal-content">
     <span class="close-btn">&times;</span>
     <h2 id="assignmentNameHeader">Submissions</h2>
@@ -274,8 +276,14 @@ comments: false
         console.log(studentIds);
 
         fetch(`${javaURI}/api/synergy/grades/requests/bulk`, {
-            ...fetchOptions
             method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Origin': 'client'
+            },
             body: JSON.stringify({
                 'studentIds': studentIds,
                 'assignmentId': assignmentId,
