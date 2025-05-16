@@ -58,6 +58,16 @@ async function broadcast() {
     sendMessage({ context: "broadcastRequest" });
 }
 
+async function stopBroadcast()
+{
+    if(!videoStreamGlobal)
+    {
+        return;
+    }
+    videoStreamGlobal.getTracks().forEach(track => track.stop())
+    sendMessage({context:"stopBroadcast"})
+}
+
 
 socket.onmessage = async function (event) {
     const messageData = JSON.parse(event.data);
@@ -243,7 +253,9 @@ function startTimer() {
         if (time < 0) {
             clearInterval(timerInterval);
             moveToDoneQueue();
+            stopBroadcast();
             alert("Timer is up! Your presentation is over.");
+
             resetTimerButton();
         }
     }, 1000);
