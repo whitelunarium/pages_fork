@@ -1,14 +1,19 @@
 import GamEnvBackground from './GameEngine/GameEnvBackground.js';
 import BackgroundParallax from './GameEngine/BackgroundParallax.js';
 import Player from './GameEngine/Player.js';
-import Npc from './GameEngine/Npc.js';
+import Npc from './GameEngine/Npc.js';  // Direct import for portal creation
 import Collectible from './GameEngine/Collectible.js';
 import Quiz from './Quiz.js';
 import Game from './Game.js';
+import Enemy from './GameEngine/Enemy.js';
+import DialogueSystem from './DialogueSystem.js';
 
 class GameLevelEnd {
   constructor(gameEnv) {
     console.log("Initializing GameLevelEnd...");
+    
+    // Store the game environment reference
+    this.gameEnv = gameEnv;
     
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
@@ -19,6 +24,9 @@ class GameLevelEnd {
     this.endTime = null;
     this.startTime = Date.now();
     this.gameCompleted = false;
+    
+    // Initialize the dialogue system
+    this.dialogueSystem = new DialogueSystem();
     
     // Parallax background configuration
     const image_src_parallax = path + "/images/gamify/parallaxbg.png";
@@ -67,7 +75,7 @@ class GameLevelEnd {
         upLeft: {row: 5, start: 0, columns: 4, rotate: Math.PI/8 },
         upRight: {row: 7, start: 0, columns: 4, rotate: -Math.PI/8 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-        keypress: { up: 87, left: 65, down: 83, right: 68 }
+        keypress: { up: 87, left: 65, down: 83, right: 68 } // Using W, A, S, D for Steve
     };
     
     const sprite_src_alex = path + "/images/gamify/Alex.png";
@@ -94,9 +102,184 @@ class GameLevelEnd {
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
         keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
     };
+
+    // Store a reference to the current instance to use in closures
+    const self = this;
+
+    const sprite_src_enemy = path + "/images/gamify/enderman.png";
+    const sprite_data_enemy = {
+        id: 'Enderman',
+        greeting: "You feel a dark presence...",
+        src: sprite_src_enemy,
+        SCALE_FACTOR: 10,
+        ANIMATION_RATE: 50,
+        pixels: {height: 1504, width: 574},
+        INIT_POSITION: { x: width / 2, y: height / 4 },
+        orientation: {rows: 1, columns: 1},
+        down: {row: 0, start: 0, columns: 1},
+        hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
+        zIndex: 10,
+        isKilling: false, // Flag to prevent multiple kills
+        
+        // The update method with all functionality inline
+        update: function() {
+            // Skip update if already in killing process
+            if (this.isKilling) {
+                return;
+            }
+            
+            // Find all player objects
+            const players = this.gameEnv.gameObjects.filter(obj => 
+                obj.constructor.name === 'Player'
+            );
+            
+            if (players.length === 0) return;
+            
+            // Find nearest player
+            let nearest = players[0];
+            let minDist = Infinity;
+
+            for (const player of players) {
+                const dx = player.position.x - this.position.x;
+                const dy = player.position.y - this.position.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = player;
+                }
+            }
+
+            // Move towards nearest player
+            const speed = 1.5; // Adjust speed as needed
+            const dx = nearest.position.x - this.position.x;
+            const dy = nearest.position.y - this.position.y;
+            const angle = Math.atan2(dy, dx);
+            
+            // Update position
+            this.position.x += Math.cos(angle) * speed;
+            this.position.y += Math.sin(angle) * speed;
+            
+            // Check for collision with any player
+            for (const player of players) {
+                // Calculate distance for hitbox collision
+                const playerX = player.position.x + player.width / 2;
+                const playerY = player.position.y + player.height / 2;
+                const enemyX = this.position.x + this.width / 2;
+                const enemyY = this.position.y + this.height / 2;
+                
+                const dx = playerX - enemyX;
+                const dy = playerY - enemyY;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                // Hitbox collision - adjust values as needed
+                const collisionThreshold = (player.width * player.hitbox.widthPercentage + 
+                                        this.width * this.hitbox.widthPercentage) / 2;
+                
+                if (distance < collisionThreshold) {
+                    // Set killing flag to prevent repeated kills
+                    this.isKilling = true;
+                    
+                    // === PLAYER DEATH: ALL FUNCTIONALITY INLINE ===
+                    
+                    // 1. Play death animation - particle effect
+                    const playerX = player.position.x;
+                    const playerY = player.position.y;
+                    
+                    // Create explosion effect
+                    for (let i = 0; i < 20; i++) {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'absolute';
+                        particle.style.width = '5px';
+                        particle.style.height = '5px';
+                        particle.style.backgroundColor = 'red';
+                        particle.style.left = `${playerX + player.width/2}px`;
+                        particle.style.top = `${playerY + player.height/2}px`;
+                        particle.style.zIndex = '9999';
+                        document.body.appendChild(particle);
+                        
+                        // Animate particles outward
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = Math.random() * 5 + 2;
+                        const distance = Math.random() * 100 + 50;
+                        
+                        const destX = Math.cos(angle) * distance;
+                        const destY = Math.sin(angle) * distance;
+                        
+                        particle.animate(
+                            [
+                                { transform: 'translate(0, 0)', opacity: 1 },
+                                { transform: `translate(${destX}px, ${destY}px)`, opacity: 0 }
+                            ],
+                            {
+                                duration: 1000,
+                                easing: 'ease-out',
+                                fill: 'forwards'
+                            }
+                        );
+                        
+                        // Remove particle after animation
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particle.parentNode.removeChild(particle);
+                            }
+                        }, 1000);
+                    }
+                    
+                    // 2. Show death message dialog
+                    const deathMessage = document.createElement('div');
+                    deathMessage.style.position = 'fixed';
+                    deathMessage.style.top = '50%';
+                    deathMessage.style.left = '50%';
+                    deathMessage.style.transform = 'translate(-50%, -50%)';
+                    deathMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    deathMessage.style.color = '#FF0000';
+                    deathMessage.style.padding = '30px';
+                    deathMessage.style.borderRadius = '10px';
+                    deathMessage.style.fontFamily = "'Press Start 2P', sans-serif";
+                    deathMessage.style.fontSize = '24px';
+                    deathMessage.style.textAlign = 'center';
+                    deathMessage.style.zIndex = '10000';
+                    deathMessage.style.border = '3px solid #FF0000';
+                    deathMessage.style.boxShadow = '0 0 20px rgba(255, 0, 0, 0.5)';
+                    deathMessage.style.width = '400px';
+                    deathMessage.innerHTML = `
+                        <div style="margin-bottom: 20px;">☠️ YOU DIED ☠️</div>
+                        <div style="font-size: 16px; margin-bottom: 20px;">The Enderman got you!</div>
+                        <div style="font-size: 14px;">Respawning in 2 seconds...</div>
+                    `;
+                    
+                    document.body.appendChild(deathMessage);
+                    
+                    // Remove message after delay
+                    setTimeout(() => {
+                        if (deathMessage.parentNode) {
+                            deathMessage.parentNode.removeChild(deathMessage);
+                        }
+                    }, 2000);
+                    
+                    // 3. Reset the level after a short delay using page reload for reliability
+                    setTimeout(() => {
+                        // Clean up any lingering resources before reload
+                        if (self && self.timerInterval) {
+                            clearInterval(self.timerInterval);
+                        }
+                        
+                        // Force a complete page reload - most reliable way to reset
+                        location.reload();
+                    }, 2000); // 2 second delay before reset
+                    
+                    break;
+                }
+            }
+        }
+    };
         
     const sprite_src_endship = path + "/images/gamify/endship.png";
     const sprite_greet_endship = "Find the elytra";
+    
+    // Store a reference to the dialogueSystem for use in sprite data
+    const dialogueSystem = this.dialogueSystem;
+    
     const sprite_data_endship = {
         id: 'Endship',
         greeting: sprite_greet_endship,
@@ -109,24 +292,19 @@ class GameLevelEnd {
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
-        quiz: {
-          title: "Linux Command Quiz",
-          questions: [
-            "It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! It's eternity in here! \n1. huh\n2. what\n3. ...\n4. ok bye"
-          ]
-        },
+        dialogues: [
+          "The end ship looms before you...",
+          "The end ship seems to beckon you to loot the treasure within...",
+          "funny purple spaceship heheheheheh",
+          // Add more later?
+        ],
         reaction: function() {
-          alert(sprite_greet_endship);
+          //sient reaction for interaction to work
         },
         interact: function() {
-          let quiz = new Quiz();
-          quiz.initialize();
-          quiz.openPanel(sprite_data_endship);
+          dialogueSystem.showRandomDialogue(); // Using Dialogue system instead of alert
         }
     };
-
-    // Store a reference to the current instance to use in closures
-    const self = this;
 
     const sprite_src_eye = path + "/images/gamify/eyeOfEnder.png";
     const sprite_data_eye = {
@@ -140,38 +318,137 @@ class GameLevelEnd {
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 0 },
         hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
-        zIndex: 10,  // Same z-index as player
+        zIndex: 10,
+        // Add eye-specific dialogues with varying collection messages
+        dialogues: [
+            "You found an Eye of Ender! These are crucial for activating the End Portal.",
+            "The Eye of Ender pulses with mysterious energy.",
+            "This Eye of Ender seems to be drawn toward something distant.",
+            "The Eye feels cold to the touch, yet somehow alive.",
+            "Ancient magic flows through this Eye of Ender.",
+            "This Eye of Ender whispers secrets of distant realms."
+        ],
         reaction: function() {
-          alert(`Press E to claim this Eye of Ender.`);
+            // Silent reaction, dialogue only apepars on interaction
         },
         interact: function() {
-          self.eyesCollected++;
-          
-          // Update the eye counter display
-          self.updateEyeCounter();
-          
-          // Update player's balance by 100 when collecting an eye
-          self.updatePlayerBalance(100);
-          
-          if (self.eyesCollected >= 12) {
-            // Record end time when all eyes are collected
-            self.endTime = Date.now();
-            self.gameCompleted = true;
+            // IMPORTANT: First check if the player is actually near the eye
+            // This uses the collision detection system that's already in place
             
-            // Calculate time taken in seconds
-            const timeTaken = (self.endTime - self.startTime) / 1000;
+            // Get all players from game objects
+            const players = this.gameEnv.gameObjects.filter(obj => 
+                obj.constructor.name === 'Player'
+            );
             
-            // Stop the game timer if it's running
-            if (Game.timerInterval) {
-              clearInterval(Game.timerInterval);
+            // Check if any player is in collision range with this eye
+            let isPlayerNearby = false;
+            
+            for (const player of players) {
+                // Calculate distance between player and eye
+                const playerX = player.position.x + player.width / 2;
+                const playerY = player.position.y + player.height / 2;
+                const eyeX = this.position.x + this.width / 2;
+                const eyeY = this.position.y + this.height / 2;
+                
+                const dx = playerX - eyeX;
+                const dy = playerY - eyeY;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                // Calculate collision threshold based on hitboxes
+                const collisionThreshold = (player.width * player.hitbox.widthPercentage + 
+                                          this.width * this.hitbox.widthPercentage) * 1.5; // Slightly larger range
+                
+                if (distance < collisionThreshold) {
+                    isPlayerNearby = true;
+                    break;
+                }
             }
             
-            // Show success screen with time score
-            self.showSuccessScreen(timeTaken);
-          } else {
-            // Move the eye to a new random position
-            this.move((Math.random()*width/2.6)+width/19, (Math.random()*height/3.5)+height/2.7);
-          }
+            // Only collect the eye if a player is nearby
+            if (!isPlayerNearby) {
+                console.log("Eye is too far away to collect");
+                return; // Exit the method if no player is nearby
+            }
+            
+            // Only proceed with collection if player is nearby
+            // Increment counter and update display
+            self.eyesCollected++;
+            self.updateEyeCounter();
+            self.updatePlayerBalance(100);
+            
+            // ALWAYS MOVE TO NEW POSITION IMMEDIATELY
+            this.move(
+                (Math.random() * width/2.6) + width/19, 
+                (Math.random() * height/3.5) + height/2.7
+            );
+            
+            // Show a quick message that doesn't block gameplay
+            if (this.dialogueSystem) {
+                // Close any existing dialogue first
+                this.dialogueSystem.closeDialogue();
+                
+                // Get a random message
+                let message = "Eye of Ender collected!";
+                if (this.dialogues && this.dialogues.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * this.dialogues.length);
+                    message = this.dialogues[randomIndex];
+                }
+                
+                // Show the message briefly
+                this.dialogueSystem.showDialogue(message, "Eye of Ender", this.spriteData.src);
+                
+                // Auto-close after a very short time
+                setTimeout(() => {
+                    if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+                        this.dialogueSystem.closeDialogue();
+                    }
+                }, 800);
+            }
+            
+            // Check for game completion
+            if (self.eyesCollected >= 12) {
+                // Handle game completion logic
+                self.gameCompleted = true;
+                
+                if (self.timerInterval) {
+                    clearInterval(self.timerInterval);
+                    
+                    // Calculate and format final time
+                    const finalTime = self.currentTime;
+                    const formattedTime = self.formatTime(finalTime);
+                    
+                    // Update timer display
+                    const timerDisplay = document.getElementById('game-timer');
+                    if (timerDisplay) {
+                        timerDisplay.innerHTML = `<span style="color: #00FFFF">COMPLETED: ${formattedTime}</span>`;
+                    }
+                    
+                    // Check for new record
+                    const bestTime = localStorage.getItem('bestTime');
+                    let isNewRecord = false;
+                    
+                    if (!bestTime || finalTime < parseFloat(bestTime)) {
+                        localStorage.setItem('bestTime', finalTime.toString());
+                        isNewRecord = true;
+                        
+                        // Show new record animation
+                        if (timerDisplay) {
+                            timerDisplay.innerHTML = `<span style="color: gold">NEW RECORD! ${formattedTime}</span>`;
+                            setTimeout(() => {
+                                timerDisplay.innerHTML = `<span style="color: #00FFFF">COMPLETED: ${formattedTime}</span>`;
+                            }, 3000);
+                        }
+                    }
+                    
+                    // Update UI with completion message
+                    self.showCompletionMessage(isNewRecord);
+                    
+                    // Create the portal with slight delay
+                    setTimeout(() => {
+                        self.createDOMPortal();
+                    }, 1000);
+                }
+            }
         }
     };
     
@@ -181,30 +458,276 @@ class GameLevelEnd {
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_endship },
       { class: Collectible, data: sprite_data_eye },
-      { class: Player, data: sprite_data_alex }
+      { class: Player, data: sprite_data_alex },
+      { class: Enemy, data: sprite_data_enemy }
     ];
     
+    if (this.gameEnv) {
+    console.log("Setting up gameEnv references in GameLevelEnd");
+    this.gameEnv.gameControl = gameEnv.gameControl;
+    this.gameEnv.game = gameEnv.game;
+    }
     // Create eye counter UI
     this.createEyeCounter();
+    
+    // Create the standalone stopwatch - wait for the stats container to be available
+    setTimeout(() => this.createStandaloneStopwatch(), 100);
+    
+    // Make sure the game environment is properly set up
+    if (this.gameEnv) {
+        this.gameEnv.gameControl = gameEnv.gameControl;
+        this.gameEnv.game = gameEnv.game;
+    }
   }
   
+  // Create portal to return to desert
+  createDOMPortal() {
+        console.log("Creating DOM portal element");
+        
+        // Get screen dimensions
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        // Define portal position (customize to move it to end island)
+        const portalX = screenWidth * 0.85; // 80% from the left (right side)
+        const portalY = screenHeight * 0.45; // 30% from the top (upper area)
+        
+        const portal = document.createElement('div');
+        portal.id = 'dom-portal';
+        
+        // Add necessary properties for collision handling
+        portal.spriteData = {
+            id: 'End Portal',
+            greeting: "Return to Desert?",
+            src: "./images/gamify/exitportalfull.png"
+        };
+        
+        // Position the portal at custom coordinates
+        portal.style.position = 'fixed';
+        portal.style.top = `${portalY}px`;
+        portal.style.left = `${portalX}px`;
+        portal.style.transform = 'translate(-50%, -50%)';
+        
+        portal.style.width = '50px';
+        portal.style.height = '50px';
+        
+        // FIX: use this.gameEnv.path instead of path
+        if (this.gameEnv && this.gameEnv.path) {
+            portal.style.backgroundImage = `url('${this.gameEnv.path}/images/gamify/exitportalfull.png')`;
+        } else {
+            // Fallback to a relative path if gameEnv.path is not available
+            portal.style.backgroundImage = "url('./images/gamify/exitportalfull.png')";
+            console.warn("Warning: gameEnv.path is not available, using relative path");
+        }
+        
+        portal.style.backgroundSize = 'contain';
+        portal.style.backgroundRepeat = 'no-repeat';
+        portal.style.backgroundPosition = 'center';
+        portal.style.zIndex = '999';
+        portal.style.cursor = 'pointer';
+        
+        // Add an instruction overlay
+        const instructions = document.createElement('div');
+        instructions.style.position = 'absolute';
+        instructions.style.bottom = '-40px';
+        instructions.style.left = '0';
+        instructions.style.width = '100%';
+        instructions.style.textAlign = 'center';
+        instructions.style.color = 'white';
+        instructions.style.fontSize = '14px';
+        instructions.style.padding = '5px';
+        instructions.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        instructions.style.borderRadius = '5px';
+        instructions.textContent = 'Return to Desert';
+        
+        portal.appendChild(instructions);
+        
+        // Add click event to return to desert
+        portal.addEventListener('click', () => {
+            // Clean up any existing game objects
+            if (this.gameEnv) {
+                this.gameEnv.destroy();
+            }
+            
+            // Try to use gameControl if available
+            if (this.gameEnv && this.gameEnv.gameControl) {
+                // Set the level index to 0 (Desert level)
+                this.gameEnv.gameControl.currentLevelIndex = 0;
+                
+                // Stop the current game loop
+                if (this.gameEnv.gameControl.gameLoop) {
+                    cancelAnimationFrame(this.gameEnv.gameControl.gameLoop);
+                }
+                
+                // Transition to the desert level
+                this.gameEnv.gameControl.transitionToLevel();
+            } else {
+                // Fallback: reload the page
+                location.reload();
+            }
+        });
+        
+        // Add portal appearance effect
+        portal.style.opacity = '0';
+        portal.style.transform = 'translate(-50%, -50%) scale(0.1)';
+        portal.style.transition = 'all 1s ease-out';
+        
+        document.body.appendChild(portal);
+        
+        // Animate portal appearance
+        setTimeout(() => {
+            portal.style.opacity = '1';
+            portal.style.transform = 'translate(-50%, -50%) scale(1)';
+            
+            // Add pulsating glow effect
+            const glowAnimation = document.createElement('style');
+            glowAnimation.innerHTML = `
+                @keyframes portalPulse {
+                    0% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+                    50% { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
+                    100% { box-shadow: 0 0 20px rgba(138, 43, 226, 0.7); }
+                }
+            `;
+            document.head.appendChild(glowAnimation);
+            
+            portal.style.animation = 'portalPulse 2s infinite';
+        }, 100);
+    }
+  
+  // Show completion message on the eye counter
+  showCompletionMessage(isNewRecord) {
+    const counterContainer = document.getElementById('eye-counter-container');
+    const counterText = document.getElementById('eye-counter');
+    
+    if (counterContainer && counterText) {
+      // Update counter text
+      counterText.textContent = `12/12 - ALL COLLECTED!`;
+      counterText.style.color = '#00FFFF';
+      
+      // Add new record message if applicable
+      if (isNewRecord) {
+        const recordMsg = document.createElement('div');
+        recordMsg.textContent = "NEW RECORD!";
+        recordMsg.style.color = 'gold';
+        recordMsg.style.fontWeight = 'bold';
+        recordMsg.style.fontSize = '14px';
+        recordMsg.style.marginTop = '5px';
+        recordMsg.style.textAlign = 'center';
+        counterContainer.appendChild(recordMsg);
+        
+        // Animate the message
+        recordMsg.style.animation = 'blink 1s infinite';
+        const style = document.createElement('style');
+        if (!document.getElementById('blink-animation')) {
+          style.id = 'blink-animation';
+          style.innerHTML = `
+            @keyframes blink {
+              0% { opacity: 1; }
+              50% { opacity: 0.5; }
+              100% { opacity: 1; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+      
+      // Add instruction for portal
+      const portalMsg = document.createElement('div');
+      portalMsg.textContent = "Click portal to return";
+      portalMsg.style.color = 'white';
+      portalMsg.style.fontSize = '12px';
+      portalMsg.style.marginTop = '5px';
+      portalMsg.style.textAlign = 'center';
+      counterContainer.appendChild(portalMsg);
+    }
+  }
+  
+  // Create the standalone stopwatch - positioned to the left of balance container
+  createStandaloneStopwatch() {
+    console.log("Creating stopwatch");
+    
+    // Get the stats container to position timer relative to it
+    const statsContainer = document.getElementById('stats-container');
+    if (!statsContainer) {
+      console.error("Stats container not found, delaying timer creation");
+      setTimeout(() => this.createStandaloneStopwatch(), 200);
+      return;
+    }
+    
+    // Get the position of the stats container
+    const statsRect = statsContainer.getBoundingClientRect();
+    
+    // Create container
+    const timer = document.createElement('div');
+    timer.id = 'game-timer';
+    timer.style.position = 'fixed';
+    timer.style.top = `${statsRect.top}px`;  // Same top position as stats container
+    timer.style.right = `${window.innerWidth - statsRect.left + 10}px`;  // 10px to the left of stats container
+    timer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    timer.style.color = 'white';
+    timer.style.padding = '10px 20px';
+    timer.style.borderRadius = '10px';
+    timer.style.zIndex = '1000';
+    timer.style.fontSize = '20px';
+    timer.style.fontWeight = 'bold';
+    timer.style.border = '2px solid #4a86e8';
+    timer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+    
+    // Add label and time
+    const timerLabel = document.createElement('div');
+    timerLabel.textContent = 'TIME';
+    timerLabel.style.fontSize = '12px';
+    timerLabel.style.fontWeight = 'bold';
+    timerLabel.style.color = 'white';
+    timerLabel.style.marginBottom = '5px';
+    timerLabel.style.textAlign = 'center';
+    
+    const timerDisplay = document.createElement('div');
+    timerDisplay.textContent = '00:00.0';
+    timerDisplay.style.color = '#4a86e8';
+    timerDisplay.style.textAlign = 'center';
+    
+    timer.appendChild(timerLabel);
+    timer.appendChild(timerDisplay);
+    document.body.appendChild(timer);
+    
+    // Start timer
+    this.startTime = Date.now();
+    this.timerInterval = setInterval(() => {
+        if (this.gameCompleted) return;
+        
+        const elapsed = (Date.now() - this.startTime) / 1000;
+        timerDisplay.textContent = this.formatTime(elapsed);
+        this.currentTime = elapsed;
+    }, 100);
+  }
+  
+  // Format time as MM:SS.T
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    const tenths = Math.floor((seconds * 10) % 10);
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${tenths}`;
+  }
   // Create a UI counter for the eyes
   createEyeCounter() {
     const counterContainer = document.createElement('div');
     counterContainer.id = 'eye-counter-container';
     counterContainer.style.position = 'fixed';
-    counterContainer.style.top = '180px'; // Changed from 150px to 180px to position it lower
+    counterContainer.style.top = '180px'; // Position it below the stats
     counterContainer.style.right = '10px';
     counterContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
     counterContainer.style.color = 'white';
     counterContainer.style.padding = '10px';
-    counterContainer.style.borderRadius = '5px';
+    counterContainer.style.borderRadius = '10px';
     counterContainer.style.display = 'flex';
+    counterContainer.style.flexDirection = 'column'; // Changed to column for adding messages
     counterContainer.style.alignItems = 'center';
     counterContainer.style.fontFamily = "'Minecraft', sans-serif";
     counterContainer.style.zIndex = '1000';
     counterContainer.style.border = '2px solid #4a86e8';
     counterContainer.style.boxShadow = '0 0 10px rgba(74, 134, 232, 0.7)';
+    counterContainer.style.minWidth = '150px'; // Ensure room for completion message
     
     // Load Minecraft-style font
     const fontLink = document.createElement('link');
@@ -212,11 +735,26 @@ class GameLevelEnd {
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
     
-    // Create eye icon
+    // Create eye counter row with icon and counter
+    const counterRow = document.createElement('div');
+    counterRow.style.display = 'flex';
+    counterRow.style.alignItems = 'center';
+    counterRow.style.width = '100%';
+    
+    // Create eye icon - FIX: use this.gameEnv.path instead of path
     const eyeIcon = document.createElement('div');
     eyeIcon.style.width = '25px';
     eyeIcon.style.height = '25px';
-    eyeIcon.style.backgroundImage = "url('./images/gamify/eyeOfEnder.png')";
+    
+    // Check if gameEnv exists before accessing path
+    if (this.gameEnv && this.gameEnv.path) {
+        eyeIcon.style.backgroundImage = `url('${this.gameEnv.path}/images/gamify/eyeOfEnder.png')`;
+    } else {
+        // Fallback to a relative path if gameEnv.path is not available
+        eyeIcon.style.backgroundImage = "url('./images/gamify/eyeOfEnder.png')";
+        console.warn("Warning: gameEnv.path is not available, using relative path");
+    }
+    
     eyeIcon.style.backgroundSize = 'contain';
     eyeIcon.style.backgroundRepeat = 'no-repeat';
     eyeIcon.style.marginRight = '10px';
@@ -226,12 +764,13 @@ class GameLevelEnd {
     counterText.id = 'eye-counter';
     counterText.textContent = `0/12`;
     counterText.style.fontSize = '18px';
-    counterText.style.color = '#4a86e8'; // Changed from #8A2BE2 to #4a86e8
-    counterText.style.textShadow = '0 0 5px rgba(74, 134, 232, 0.7)'; // Updated shadow to match new color
+    counterText.style.color = '#4a86e8';
+    counterText.style.textShadow = '0 0 5px rgba(74, 134, 232, 0.7)';
     
     // Assemble counter
-    counterContainer.appendChild(eyeIcon);
-    counterContainer.appendChild(counterText);
+    counterRow.appendChild(eyeIcon);
+    counterRow.appendChild(counterText);
+    counterContainer.appendChild(counterRow);
     document.body.appendChild(counterContainer);
   }
   
@@ -248,7 +787,7 @@ class GameLevelEnd {
       // Reset after animation
       setTimeout(() => {
         counterText.style.transform = 'scale(1)';
-        counterText.style.color = '#4a86e8'; // Changed from #8A2BE2 to #4a86e8
+        counterText.style.color = '#4a86e8';
       }, 300);
     }
   }
@@ -362,267 +901,6 @@ class GameLevelEnd {
       floatingPoints.remove();
     }, 1500);
   }
-  
-  // Show success screen when all eyes are collected
-  showSuccessScreen(timeTaken) {
-    // Format time nicely
-    const minutes = Math.floor(timeTaken / 60);
-    const seconds = Math.floor(timeTaken % 60);
-    const milliseconds = Math.floor((timeTaken % 1) * 100);
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
-    
-    // Create success container with cool styling
-    const successDiv = document.createElement('div');
-    successDiv.id = 'success-screen';
-    successDiv.style.position = 'fixed';
-    successDiv.style.top = '0';
-    successDiv.style.left = '0';
-    successDiv.style.width = '100%';
-    successDiv.style.height = '100%';
-    successDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-    successDiv.style.display = 'flex';
-    successDiv.style.flexDirection = 'column';
-    successDiv.style.justifyContent = 'center';
-    successDiv.style.alignItems = 'center';
-    successDiv.style.zIndex = '9999';
-    successDiv.style.backdropFilter = 'blur(10px)';
-    
-    // Add a pulsing border effect
-    const innerDiv = document.createElement('div');
-    innerDiv.style.padding = '40px';
-    innerDiv.style.borderRadius = '20px';
-    innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    innerDiv.style.boxShadow = '0 0 30px rgba(138, 43, 226, 0.7)';
-    innerDiv.style.border = '3px solid #8A2BE2';
-    innerDiv.style.textAlign = 'center';
-    innerDiv.style.animation = 'pulse-border 2s infinite alternate';
-    
-    // Create animation style
-    const style = document.createElement('style');
-    style.innerHTML = `
-        @keyframes pulse-border {
-            from { box-shadow: 0 0 30px rgba(138, 43, 226, 0.7); }
-            to { box-shadow: 0 0 50px rgba(138, 43, 226, 0.9); }
-        }
-        
-        @keyframes slide-in {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(138, 43, 226, 0.7); }
-            to { text-shadow: 0 0 30px rgba(138, 43, 226, 0.9); }
-        }
-        
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
-        }
-        
-        .restart-btn {
-            background: linear-gradient(to bottom, #9B30FF, #8A2BE2);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Press Start 2P', cursive;
-        }
-        
-        .restart-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            background: linear-gradient(to bottom, #B041FF, #9B30FF);
-        }
-        
-        .trophy {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: glow 2s infinite alternate;
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Get final balance
-    const finalBalance = document.getElementById('balance')?.innerHTML || '0';
-    
-    // Success content
-    innerDiv.innerHTML = `
-        <div class="trophy">🏆</div>
-        <h1 style="font-size: 48px; margin: 0; color: #8A2BE2; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">SUCCESS!</h1>
-        <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">All 12 Eyes of Ender collected!</p>
-        <div style="margin: 20px 0; font-size: 24px; color: #00FFFF; animation: slide-in 0.5s ease-out 0.4s both; font-family: 'Press Start 2P', cursive;">
-            TIME: <span style="font-weight: bold;">${formattedTime}</span>
-        </div>
-        <div style="margin: 10px 0; font-size: 24px; color: #4a86e8; animation: slide-in 0.5s ease-out 0.5s both; font-family: 'Press Start 2P', cursive;">
-            BALANCE: <span style="font-weight: bold;">${finalBalance}</span>
-        </div>
-        <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
-            PLAY AGAIN
-        </button>
-    `;
-    
-    successDiv.appendChild(innerDiv);
-    document.body.appendChild(successDiv);
-    
-    // Create confetti effect
-    this.createConfetti(successDiv);
-    
-    // Add event listener to restart button
-    document.getElementById('restart-button').addEventListener('click', () => {
-        location.reload(); // Reload the page to restart the game
-    });
-  }
-  
-  // Show failure screen when time runs out
-  showFailureScreen() {
-    // Create failure container with styling
-    const failureDiv = document.createElement('div');
-    failureDiv.id = 'failure-screen';
-    failureDiv.style.position = 'fixed';
-    failureDiv.style.top = '0';
-    failureDiv.style.left = '0';
-    failureDiv.style.width = '100%';
-    failureDiv.style.height = '100%';
-    failureDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-    failureDiv.style.display = 'flex';
-    failureDiv.style.flexDirection = 'column';
-    failureDiv.style.justifyContent = 'center';
-    failureDiv.style.alignItems = 'center';
-    failureDiv.style.zIndex = '9999';
-    failureDiv.style.backdropFilter = 'blur(10px)';
-    
-    // Add a pulsing border effect
-    const innerDiv = document.createElement('div');
-    innerDiv.style.padding = '40px';
-    innerDiv.style.borderRadius = '20px';
-    innerDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    innerDiv.style.boxShadow = '0 0 30px rgba(255, 0, 0, 0.7)';
-    innerDiv.style.border = '3px solid red';
-    innerDiv.style.textAlign = 'center';
-    innerDiv.style.animation = 'pulse-border 2s infinite alternate';
-    
-    // Create animation style
-    const style = document.createElement('style');
-    style.innerHTML = `
-        @keyframes pulse-border {
-            from { box-shadow: 0 0 30px rgba(255, 0, 0, 0.7); }
-            to { box-shadow: 0 0 50px rgba(255, 0, 0, 0.9); }
-        }
-        
-        @keyframes slide-in {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
-            to { text-shadow: 0 0 30px rgba(255, 0, 0, 0.9); }
-        }
-        
-        .restart-btn {
-            background: linear-gradient(to bottom, #ff3333, #cc0000);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Press Start 2P', cursive;
-        }
-        
-        .restart-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            background: linear-gradient(to bottom, #ff5555, #ff0000);
-        }
-        
-        .womp-womp {
-            font-size: 60px;
-            margin-bottom: 20px;
-            animation: glow 1.5s infinite alternate;
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Get final balance
-    const finalBalance = document.getElementById('balance')?.innerHTML || '0';
-    
-    // Failure content
-    innerDiv.innerHTML = `
-        <div class="womp-womp">😢</div>
-        <h1 style="font-size: 48px; margin: 0; color: red; font-weight: bold; animation: glow 1.5s infinite alternate, slide-in 0.5s ease-out; font-family: 'Press Start 2P', cursive;">WOMP WOMP</h1>
-        <p style="font-size: 24px; color: white; margin: 20px 0; animation: slide-in 0.5s ease-out 0.2s both; font-family: 'Press Start 2P', cursive;">Time's up!</p>
-        <div style="margin: 20px 0; font-size: 24px; color: #cccccc; animation: slide-in 0.5s ease-out 0.4s both; font-family: 'Press Start 2P', cursive;">
-            Eyes collected: <span style="color: yellow; font-weight: bold;">${this.eyesCollected}/12</span>
-        </div>
-        <div style="margin: 10px 0; font-size: 24px; color: #4a86e8; animation: slide-in 0.5s ease-out 0.5s both; font-family: 'Press Start 2P', cursive;">
-            BALANCE: <span style="font-weight: bold;">${finalBalance}</span>
-        </div>
-        <button id="restart-button" class="restart-btn" style="animation: slide-in 0.5s ease-out 0.6s both;">
-            TRY AGAIN
-        </button>
-    `;
-    
-    failureDiv.appendChild(innerDiv);
-    document.body.appendChild(failureDiv);
-    
-    // Add event listener to restart button
-    document.getElementById('restart-button').addEventListener('click', () => {
-        location.reload(); // Reload the page to restart the game
-    });
-  }
-  
-  // Create confetti animation for success screen
-  createConfetti(container) {
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.style.position = 'absolute';
-        confetti.style.width = `${Math.random() * 10 + 5}px`;
-        confetti.style.height = `${Math.random() * 10 + 5}px`;
-        confetti.style.backgroundColor = this.getRandomColor();
-        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        confetti.style.top = '-50px';
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.opacity = '1';
-        confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
-        confetti.style.animationDelay = `${Math.random() * 5}s`;
-        container.appendChild(confetti);
-    }
-  }
-  
-  // Get random color for confetti
-  getRandomColor() {
-    const colors = ['#8A2BE2', '#9B30FF', '#7B68EE', '#6A5ACD', '#00FFFF', '#FFFF00', '#FF00FF', '#00FF00'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
 }
-
-// Add static method to check if game should end due to time limit
-GameLevelEnd.checkTimeLimit = function(gameLevelInstance) {
-  const currentTime = Date.now();
-  const elapsedTime = (currentTime - gameLevelInstance.startTime) / 1000;
-  
-  if (elapsedTime >= 45 && !gameLevelInstance.gameCompleted) {
-    clearInterval(Game.timerInterval);
-    gameLevelInstance.showFailureScreen();
-    return true;
-  }
-  return false;
-};
 
 export default GameLevelEnd;
