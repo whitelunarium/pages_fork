@@ -4,6 +4,7 @@ import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
 import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
+import showDialogBox from './DialogBox.js';
 let socketURI
 let javaURI
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
@@ -18,6 +19,7 @@ class GameLevelAirport {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
+    window.gamePath = path;
 
     const image_src_desert = path + "/images/gamify/airport.jpg";
     const image_data_desert = {
@@ -266,24 +268,6 @@ class GameLevelAirport {
           alert("You need to answer all the questions before accessing Wallstreet. Keep exploring!");
         }
       },
-    };
-
-    const sprite_src_worker = path + "/images/gamify/worker.png";
-    const sprite_data_worker = {
-      id: 'Worker',
-      greeting: "Hey! You look like you're a chill guy! Board the plane to Wallstreet, & press 'h' for help at anytime!",
-      src: sprite_src_worker,
-      SCALE_FACTOR: 3.5,
-      ANIMATION_RATE: 50,
-      pixels: { height: 400, width: 400 },
-      INIT_POSITION: { x: width * 0.3, y: height * 0.85 },
-      orientation: { rows: 1, columns: 1 },
-      down: { row: 0, start: 0, columns: 1 },
-      hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      interact: () => {
-        const panel = document.getElementById('worker-instructions-panel');
-        if (panel) panel.style.display = 'block';
-      }
     };
 
     const sprite_src_fidelity = path + "/images/gamify/fidelity.png";
@@ -780,7 +764,6 @@ class GameLevelAirport {
       {class: Npc, data: sprite_data_stocks},
       {class: Npc, data: sprite_data_casino},
       { class: Npc, data: sprite_data_pilot },
-      { class: Npc, data: sprite_data_worker },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
       { class: Npc, data: sprite_data_computer },
@@ -796,3 +779,120 @@ class GameLevelAirport {
 }
 
 export default GameLevelAirport;
+
+// Waypoint Arrow Integration
+window.addEventListener('DOMContentLoaded', function() {
+  let gameCanvas = document.getElementById('gameCanvas');
+  let gameContainer = document.getElementById('gameContainer') || (gameCanvas && gameCanvas.parentNode);
+  if (!gameContainer) return;
+
+  // Define the order of NPCs for the arrow
+  const waypointIds = [
+    'Casino-NPC',        // Frank Sinatra
+    'Crypto-NPC',        // Satoshi Nakamoto
+    'Fidelity',          // Fidelity
+    'Schwab',            // Schwab
+    'Investor'           // Investor (finance dude)
+  ];
+
+  // Step state
+  let currentStep = 0;
+  function getCurrentStep() { return currentStep; }
+  function setCurrentStep(step) { currentStep = step; }
+
+  // Use robust PNG path (site root)
+  let arrowImg = document.createElement('img');
+  arrowImg.src = window.gamePath + "/images/gamify/redarrow1.png";
+  arrowImg.id = 'waypointArrow';
+  arrowImg.style.position = 'absolute';
+  arrowImg.style.zIndex = 2000;
+  arrowImg.style.width = '48px';
+  arrowImg.style.height = '48px';
+  arrowImg.style.pointerEvents = 'none'; // Not clickable for advancement
+  arrowImg.style.transition = 'top 0.3s, left 0.3s';
+  document.body.appendChild(arrowImg);
+
+  function getWaypointPosition(npcId) {
+    const width = gameCanvas ? gameCanvas.width : window.innerWidth;
+    const height = gameCanvas ? gameCanvas.height : window.innerHeight;
+    switch (npcId) {
+      case 'Casino-NPC': // Frank Sinatra
+        return { x: width * 0.28, y: height * 0.82 };
+      case 'Crypto-NPC': // Satoshi Nakamoto
+        return { x: width * 0.85, y: height * 0.6 };
+      case 'Fidelity':
+        return { x: width * 0.372, y: height * 0.25 };
+      case 'Schwab':
+        return { x: width * 0.665, y: height * 0.25 };
+      case 'Investor':
+        return { x: width * 0.5, y: height * 0.8 };
+      default:
+        return { x: width / 2, y: height / 2 };
+    }
+  }
+
+  function moveArrowToCurrentWaypoint() {
+    const step = getCurrentStep();
+    const npcId = waypointIds[step] || waypointIds[0];
+    const pos = getWaypointPosition(npcId);
+    arrowImg.style.left = (pos.x - 24) + 'px';
+    arrowImg.style.top = (pos.y - 64) + 'px';
+  }
+
+  // Right-click to reset
+  arrowImg.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    setCurrentStep(0);
+    moveArrowToCurrentWaypoint();
+  });
+
+  window.addEventListener('resize', moveArrowToCurrentWaypoint);
+  moveArrowToCurrentWaypoint();
+
+  // Listen for 'E' key to advance arrow if at correct NPC
+  document.addEventListener('keydown', function(e) {
+    if (e.key.toLowerCase() !== 'e') return;
+    try {
+      const step = getCurrentStep();
+      const npcId = waypointIds[step] || waypointIds[0];
+      const pos = getWaypointPosition(npcId);
+      let playerObj = null;
+      if (window.gameEnv && window.gameEnv.gameObjects) {
+        playerObj = window.gameEnv.gameObjects.find(obj => obj.constructor && obj.constructor.name === 'Player');
+      }
+      if (!playerObj) {
+        const playerCanvas = document.querySelector('canvas[id*="player" i]');
+        if (playerCanvas && playerCanvas.getBoundingClientRect) {
+          const rect = playerCanvas.getBoundingClientRect();
+          playerObj = {
+            position: { x: rect.left + rect.width/2, y: rect.top + rect.height/2 }
+          };
+        }
+      }
+      if (playerObj && playerObj.position) {
+        const px = playerObj.position.x;
+        const py = playerObj.position.y;
+        const dx = px - pos.x;
+        const dy = py - pos.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 80) {
+          if (step < waypointIds.length - 1) {
+            setCurrentStep(step + 1);
+            moveArrowToCurrentWaypoint();
+          }
+        }
+      } else {
+        if (step < waypointIds.length - 1) {
+          setCurrentStep(step + 1);
+          moveArrowToCurrentWaypoint();
+        }
+      }
+    } catch (err) {
+      const step = getCurrentStep();
+      if (step < waypointIds.length - 1) {
+        setCurrentStep(step + 1);
+        moveArrowToCurrentWaypoint();
+      }
+    }
+  });
+});
