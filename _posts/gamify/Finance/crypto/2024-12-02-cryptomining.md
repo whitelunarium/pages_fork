@@ -3,8 +3,7 @@
 layout: fortunefinders
 
 layout: finance
-
-title: Crypto Mining Simulator 
+title: Crypto Mining Simulator
 type: issueshen i
 permalink: /crypto/mining
 ---
@@ -13,7 +12,6 @@ permalink: /crypto/mining
 <!-- Any CSS or styling adjustments should be done @ {base}/assets/css/crypto.css  -->
 
 <html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,8 +20,6 @@ permalink: /crypto/mining
     <link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     <link rel="stylesheet" href="{{site.baseurl}}/assets/css/crypto.css"/>
-</head>
-<body>
     <div id="notification" class="notification"></div>
     <div class="main-content">
         <!-- Tutorial Help Button -->
@@ -252,4 +248,3 @@ permalink: /crypto/mining
         </div>
         <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js"></script>
     </div>
-</body>
