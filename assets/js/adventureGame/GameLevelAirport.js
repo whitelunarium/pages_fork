@@ -4,6 +4,17 @@ import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
 import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
+import MarketSentimentModal from './MarketSentimentModal.js';
+
+let socketURI
+let javaURI
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    javaURI = "http://localhost:8085";
+    socketURI = "ws://localhost:8085/websocket";
+} else {
+    javaURI = "https://spring2025.nighthawkcodingsociety.com";
+    socketURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
+}
 
 class GameLevelAirport {
   constructor(gameEnv) {
@@ -420,9 +431,37 @@ class GameLevelAirport {
       }
     };
 
+    // Add Bizguy NPC
+    const sprite_src_bizguy = path + "/images/gamify/bizguys.png";
+    const sprite_greet_bizguy = "Want to check the market sentiment?";
+    const sprite_data_bizguy = {
+      id: 'Bizguy-NPC',
+      greeting: sprite_greet_bizguy,
+      src: sprite_src_bizguy,
+      SCALE_FACTOR: 5,
+      ANIMATION_RATE: 50,
+      pixels: { height: 512, width: 512 },
+      INIT_POSITION: { x: width * 0.1, y: height * 0.3 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function() {
+        alert(this.greeting);
+      },
+      interact: function() {
+        showInvestmentModal();
+      }
+    };
+
+    function showInvestmentModal() {
+      const modal = new MarketSentimentModal(javaURI, Game);
+      modal.create();
+    }
+
     this.classes = [
       { class: GameEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
+      { class: Npc, data: sprite_data_bizguy },
       { class: Npc, data: sprite_data_stocks },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
