@@ -66,8 +66,8 @@ async function fetchUserBalance() {
   }
 }
 
-// Update balance every 5 seconds
-setInterval(fetchUserBalance, 5000);
+// Update balance every 15 minutes
+setInterval(fetchUserBalance, 900000);
 
 // Initial fetch
 fetchUser();
@@ -284,7 +284,7 @@ async function startPeriodicUpdates() {
     if (updateInterval) clearInterval(updateInterval);
     updateInterval = setInterval(async () => {
         await updateMiningStats();
-    }, 5000);
+    }, 900000);
     const options = {
         ...fetchOptions,
         method: 'GET',
@@ -304,7 +304,7 @@ async function startPeriodicUpdates() {
         } catch (error) {
             console.error('Real time monitor **FAILED**:', error);
         }
-    }, 5000);
+    }, 900000);
 }
 // API Calls
 async function loadGPUs() {
