@@ -50,6 +50,68 @@ class GameLevelAirport {
       keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
 
+    const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
+    const sprite_data_crypto = {
+      id: 'Crypto-NPC',
+      greeting: "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.",
+      src: sprite_src_crypto,
+      SCALE_FACTOR: 10,
+      ANIMATION_RATE: 50,
+      pixels: { height: 282, width: 282 },
+      INIT_POSITION: { x: width * 0.85, y: height * 0.6 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.\nAre you curious about Bitcoin or ready to explore the Crypto Hub?",
+            [
+              { label: "Tell me about Bitcoin", action: () => aboutBitcoin(), keepOpen: true },
+              { label: "Go to Crypto Hub", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio" },
+              { label: "Goodbye", action: () => {} }
+            ]
+          );
+        }
+        function aboutBitcoin() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Bitcoin is a decentralized digital currency, born from a desire for freedom and transparency. It operates without banks or governments.\nWould you like to know how to buy or mine Bitcoin?",
+            [
+              { label: "How do I buy Bitcoin?", action: () => howToBuy(), keepOpen: true },
+              { label: "How do I mine Bitcoin?", action: () => howToMine(), keepOpen: true },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
+        }
+        function howToBuy() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "To buy Bitcoin, you need a digital wallet and access to a crypto exchange. You can purchase fractions of a Bitcoin.\nWould you like to visit the Crypto Hub to start your journey?",
+            [
+              { label: "Yes, take me there", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio" },
+              { label: "Back", action: () => aboutBitcoin(), keepOpen: true }
+            ]
+          );
+        }
+        function howToMine() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Mining Bitcoin requires powerful computers to solve complex puzzles. Miners are rewarded with Bitcoin for verifying transactions.\nWould you like to try mining or learn more?",
+            [
+              { label: "Try Mining", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/mining" },
+              { label: "Back", action: () => aboutBitcoin(), keepOpen: true }
+            ]
+          );
+        }
+        intro();
+      },
+      interact: function () {
+        this.reaction();
+      }
+    };
+
     const sprite_src_pilot = path + "/images/gamify/pilot.png";
     const sprite_data_pilot = {
       id: 'Pilot',
@@ -591,6 +653,7 @@ class GameLevelAirport {
     this.classes = [
       { class: GameEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
+      {class: Npc, data: sprite_data_crypto },
       { class: Npc, data: sprite_data_pilot },
       { class: Npc, data: sprite_data_worker },
       { class: Npc, data: sprite_data_fidelity },

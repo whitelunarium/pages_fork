@@ -1,4 +1,3 @@
-// GameLevel.js
 import GameEnv from "./GameEnv.js"
 
 class GameLevel {
@@ -47,10 +46,9 @@ class GameLevel {
         this.gameEnv.gameObjects.push(gameObject)
       }
 
-    if (typeof this.gameLevel.initialize === "function") {
-      this.gameLevel.initialize()
-
-    }
+      if (typeof this.gameLevel.initialize === "function") {
+        this.gameLevel.initialize()
+      }
 
       window.addEventListener("resize", this.resize.bind(this))
       
@@ -61,32 +59,53 @@ class GameLevel {
   }
 
   destroy() {
-    if (typeof this.gameLevel?.destroy === "function") {
-      this.gameLevel.destroy()
+    // Check if gameLevel exists before trying to call destroy
+    if (this.gameLevel && typeof this.gameLevel.destroy === "function") {
+      this.gameLevel.destroy();
     }
 
-    for (let index = this.gameEnv.gameObjects.length - 1; index >= 0; index--) {
-      this.gameEnv.gameObjects[index].destroy()
+    // Safely remove all game objects
+    if (this.gameEnv && this.gameEnv.gameObjects) {
+      for (let index = this.gameEnv.gameObjects.length - 1; index >= 0; index--) {
+        if (this.gameEnv.gameObjects[index]) {
+          this.gameEnv.gameObjects[index].destroy();
+        }
+      }
     }
-    window.removeEventListener("resize", this.resize.bind(this))
+    
+    // Remove event listener
+    window.removeEventListener("resize", this.resize.bind(this));
   }
 
   update() {
-    this.gameEnv.clear()
+    if (!this.gameEnv) return;
+    
+    this.gameEnv.clear();
 
-    for (let gameObject of this.gameEnv.gameObjects) {
-      gameObject.update()
+    if (this.gameEnv.gameObjects) {
+      for (let gameObject of this.gameEnv.gameObjects) {
+        if (gameObject) {
+          gameObject.update();
+        }
+      }
     }
 
-    if (typeof this.gameLevel?.update === "function") {
-      this.gameLevel.update()
+    if (this.gameLevel && typeof this.gameLevel.update === "function") {
+      this.gameLevel.update();
     }
   }
 
   resize() {
-    this.gameEnv.resize()
-    for (let gameObject of this.gameEnv.gameObjects) {
-      gameObject.resize()
+    if (!this.gameEnv) return;
+    
+    this.gameEnv.resize();
+    
+    if (this.gameEnv.gameObjects) {
+      for (let gameObject of this.gameEnv.gameObjects) {
+        if (gameObject) {
+          gameObject.resize();
+        }
+      }
     }
   }
 }

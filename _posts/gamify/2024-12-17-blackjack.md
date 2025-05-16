@@ -1,5 +1,5 @@
 ---
-layout: finance
+layout: fortunefinders
 title: Blackjack
 permalink: /gamify/blackjack
 ---

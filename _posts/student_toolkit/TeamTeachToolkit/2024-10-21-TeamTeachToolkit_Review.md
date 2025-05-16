@@ -8,74 +8,75 @@ permalink: /student/SAGAI/review
 
 
 
-  <!-- Navigation buttons -->
-  <div class="nav-buttons">
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/grader"><button>Grader</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/generator"><button>Generator</button></a>
-      <a href="{{site.baseurl}}/student/TeamTeachToolkit/signup"><button>Sign Up</button></a>
-  </div>
-  <!-- Main Q&A Section -->
-  <div class="container">
-      <!-- Question submission section -->
-      <div id="ask-question">
-          <h2>Ask a Question:</h2>
-          <textarea id="question-input" placeholder="Insert questions, generated hacks, or responses here..."></textarea><br>
-          <!--Drop down menu-->
-            <select id="subject">
-            <option value="other" selected="selected">Other</option>
-            <option value="primitiveType">Primitive Type</option>
-            <option value="objects">Objects</option>
-            <option value="booleanAndIf">Boolean Expressions and if Statements</option>
-            <option value="iteration">Iteration</option>
-            <option value="classes">Classes</option>
-            <option value="array">Array</option>
-            <option value="arrayList">ArrayList</option>
-            <option value="2DArray">2D Array</option>
-            <option value="inheritance">Inheritance</option>
-            <option value="recursion">Recursion</option>
-          </select> <br>
-          <button id="submit-button">Submit Question</button>
-      </div>
-      <!-- Questions container -->
-      <div id="questions-container">
-          <h2>Questions</h2>
-          <!-- Questions will be dynamically inserted here -->
-      </div>
-      <div id="questions-container-other"  class="subject-container">
-          <h4>other</h4>
-      </div>
-        <div id="questions-container-primitiveType" class="subject-container">
-          <h4>primitive Type</h4>
-      </div>
-      <div id="questions-container-objects"   class="subject-container">
-          <h4>objects</h4>
-      </div>
-        <div id="questions-container-booleanAndIf"  class="subject-container">
-          <h4>boolean And If</h4>
-      </div>
-        <div id="questions-container-iteration"  class="subject-container">
-          <h4>iteration</h4>
-      </div>
-        <div id="questions-container-classes"  class="subject-container">
-          <h4>classes</h4>
-      </div>
-        <div id="questions-container-array"  class="subject-container">
-          <h4>array</h4>
-      </div>
-        <div id="questions-container-arrayList"  class="subject-container">
-          <h4>arrayList</h4>
-      </div>
-        <div id="questions-container-2DArray"  class="subject-container">
-          <h4>2DArray</h4>
-      </div>
-        <div id="questions-container-inheritance"  class="subject-container">
-          <h4>inheritance</h4>
-      </div>
-        <div id="questions-container-recursion"  class="subject-container">
-          <h4>recursion</h4>
-      </div>
-      <table>
+<body>
+    <!-- Navigation buttons -->
+    <div class="nav-buttons">
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit"><button>Home</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/grader"><button>Grader</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/generator"><button>Generator</button></a>
+        <a href="{{site.baseurl}}/student/TeamTeachToolkit/signup"><button>Sign Up</button></a>
+    </div>
+    <!-- Main Q&A Section -->
+    <div class="container">
+        <!-- Question submission section -->
+        <div id="ask-question">
+            <h2>Ask a Question:</h2>
+            <textarea id="question-input" placeholder="Insert questions, generated hacks, or responses here..."></textarea><br>
+            <!--Drop down menu-->
+              <select id="subject">
+              <option value="other" selected="selected">Other</option>
+              <option value="primitiveType">Primitive Type</option>
+              <option value="objects">Objects</option>
+              <option value="booleanAndIf">Boolean Expressions and if Statements</option>
+              <option value="iteration">Iteration</option>
+              <option value="classes">Classes</option>
+              <option value="array">Array</option>
+              <option value="arrayList">ArrayList</option>
+              <option value="2DArray">2D Array</option>
+              <option value="inheritance">Inheritance</option>
+              <option value="recursion">Recursion</option>
+            </select> <br>
+            <button id="submit-button">Submit Question</button>
+        </div>
+        <!-- Questions container -->
+        <div id="questions-container">
+            <h2>Questions</h2>
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+        <div id="questions-container-other"  class="subject-container">
+            <h4>other</h4>
+        </div>
+         <div id="questions-container-primitiveType" class="subject-container">
+            <h4>primitive Type</h4>
+        </div>
+        <div id="questions-container-objects"   class="subject-container">
+            <h4>objects</h4>
+        </div>
+          <div id="questions-container-booleanAndIf"  class="subject-container">
+            <h4>boolean And If</h4>
+        </div>
+          <div id="questions-container-iteration"  class="subject-container">
+            <h4>iteration</h4>
+        </div>
+          <div id="questions-container-classes"  class="subject-container">
+            <h4>classes</h4>
+        </div>
+          <div id="questions-container-array"  class="subject-container">
+            <h4>array</h4>
+        </div>
+          <div id="questions-container-arrayList"  class="subject-container">
+            <h4>arrayList</h4>
+        </div>
+          <div id="questions-container-2DArray"  class="subject-container">
+            <h4>2DArray</h4>
+        </div>
+         <div id="questions-container-inheritance"  class="subject-container">
+            <h4>inheritance</h4>
+        </div>
+         <div id="questions-container-recursion"  class="subject-container">
+            <h4>recursion</h4>
+        </div>
+        <table>
   <thead>
   </thead>
   <tbody id="result">
