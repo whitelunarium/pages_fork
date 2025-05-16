@@ -4,11 +4,6 @@ links:
     label: Submission Page
     icon: images/toolkit-nav-buttons/submissions.png
 
-  - id: graderview
-    href: student/assign-grades
-    label: Assign Grades
-    icon: images/toolkit-nav-buttons/submissions.png
-
   - id: bathroom
     href: hallpass 
     label: Bathroom System

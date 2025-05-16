@@ -220,7 +220,7 @@ function startTimer() {
     console.log(document.getElementById("presentation"))
     if (document.getElementById("presentation").value == 'presentation') {
         console.log("test")
-        broadcast();
+        broadcast()
     }
 
     let time = timerlength;

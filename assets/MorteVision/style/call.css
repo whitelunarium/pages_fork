@@ -2,19 +2,15 @@
 {
     width:650px;
     height:370px;
-    margin: auto;
-    padding: 10px;
     position: relative;
     background-color: #2a2828;
 }
 
 #streamOffline
 {
-    padding: 10px;
     width:100%;
     height:100%;
     background-color: #2a2828;
-    margin: auto;
 }
 
 #StreamOfflineMort
@@ -52,7 +48,6 @@
 
 #streamControl
 {
-    margin: auto;
     width: 650px;
     background-color: #5a5656;
     display: flex;
