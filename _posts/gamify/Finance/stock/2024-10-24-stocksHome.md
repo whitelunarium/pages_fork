@@ -7,15 +7,22 @@ title: Stocks Home
 <html lang="en">
 <title>Stock Market Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
     body {
+
       font-family: Arial, sans-serif;
       background-color: #0f0f0f;
       color: #fff;
       margin: 0;
       padding: 0;
     }
+
+            font-family: Arial, sans-serif;
+            background-color: #0f0f0f;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
 
     .navbar {
         display: flex;
@@ -59,9 +66,9 @@ title: Stocks Home
         display: flex;
         flex-direction: column;
         gap: 20px;
-        justify-content: space-between;
+        justify-content: space-between; 
         /*left: 50%;*/
-        position: relative;
+        position: relative; 
         background-color: #121212; /* Orange hover effect */
         padding: 20px; /* Add padding to the sidebar */
         box-sizing: border-box; /* Ensure padding doesn't overflow */
@@ -114,7 +121,7 @@ title: Stocks Home
         background-color: #001f3f; /* Dark blue color */
     }
     .card h2 {
-        margin-top: 2px;
+        margin-top: 2px; 
         font-size: 18px;
     }
     .card p {
@@ -132,9 +139,9 @@ title: Stocks Home
         gap: 20px;
     }
     .chart {
-        height: 100%;
-        width: 100%;
-        background-color: #fff;
+        height: 100%; 
+        width: 100%; 
+        background-color: #fff; 
         border-radius: 8px;
         display: flex;
         align-items: center;
@@ -156,10 +163,10 @@ title: Stocks Home
         font-size: 16px;
     }
     .search-button {
-        background-color: #ff8c00;
+        background-color: #ff8c00; 
         color: #fff;
         border: none;
-        border-radius: 0 4px 4px 0;
+        border-radius: 0 4px 4px 0; 
         padding: 12px 20px;
         cursor: pointer;
         font-size: 16px;
@@ -169,117 +176,126 @@ title: Stocks Home
         background-color: #e07b00;
     }
     /* Crypto History Table */
-
 .crypto-history table {
-width: 100%;
-border-collapse: collapse;
-table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 }
 .crypto-history th, .crypto-history td {
-padding: 12px;
-text-align: center;
+    padding: 12px;
+    text-align: center;
+    }
+    .crypto-chart-container h3 {
+        color: white;
+        margin-bottom: 10px;
+    }
+    /* 🔹 Crypto Chart Container */
+    .crypto-chart-container {
+        width: 100%; /* Ensures it doesn't overflow */
+        max-width: 700px; /* Limits the chart width */
+        height: 400px; /* Set a reasonable height */
+        margin: 0 auto; /* Centers the chart */
+        padding: 10px;
+        background-color: #121212;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    /* 🔹 Chart Canvas */
+    #cryptoBalanceChart {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .crypto-holdings {
+    background-color: #121212;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.crypto-chart-container h3 {
-color: white;
-margin-bottom: 10px;
-}
-/_ 🔹 Crypto Chart Container _/
-.crypto-chart-container {
-width: 100%; /_ Ensures it doesn't overflow _/
-max-width: 700px; /_ Limits the chart width _/
-height: 400px; /_ Set a reasonable height _/
-margin: 0 auto; /_ Centers the chart _/
-padding: 10px;
-background-color: #121212;
-border-radius: 10px;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-/_ 🔹 Chart Canvas _/
-#cryptoBalanceChart {
-width: 100% !important;
-height: 100% !important;
-}
-.crypto-holdings {
-background-color: #121212;
-padding: 20px;
-border-radius: 8px;
-margin-top: 20px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.crypto-holdings table {
-width: 100%;
-border-collapse: collapse;
-table-layout: fixed;
-}
-.crypto-holdings th, .crypto-holdings td {
-padding: 12px;
-text-align: center;
-border: 1px solid #444;
-word-wrap: break-word;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-}
-.crypto-holdings th {
-background-color: #222;
-font-weight: bold;
-}
-</style>
-
+    .crypto-holdings table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+    .crypto-holdings th, .crypto-holdings td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #444;
+        word-wrap: break-word;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .crypto-holdings th {
+        background-color: #222;
+        font-weight: bold;
+    }
+    </style>
 <body>
     <!-- Navigation Bar -->
     <!-- Dashboard -->
-    <div class="dashboard flex flex-col lg:flex-row">
-        <div class="dashboard-content lg:w-2/3">
+    <div class="dashboard">
+        <div class="dashboard-content">
             <h1 id="userIDName" class="welcome">Hi, Welcome Back</h1>
             <p>Invest your money today!</p>
+            <!-- <div class="search-container">
+                <input type="text" id="searchBar" placeholder="Search...">
+                <button class="search-button" onclick="getStockData()">Search</button>
+            </div> -->
+            <!-- <div class="chart-container" id="chartContainer">
+                <div class="chart" id="chart1">
+                    <canvas id="stockChart" width="475" height="375">[Graph Placeholder]</canvas>
+                </div>
+            </div> -->
             <div class="crypto-chart-container">
-                <h3>Portfolio Balance History</h3>
+                <h3> Portfolio Balance History</h3>
                 <canvas id="cryptoBalanceChart"></canvas>
             </div>
             <div id="output" style="color: red; padding-top: 10px;"></div>
         </div>
         <!-- Sidebar -->
-        <div class="sidebar lg:w-1/3">
-            <div class="your-stocks">
-                <h3>Your Stocks</h3>
-                <table id="yourStocksTable">
-                    <tr>
-                        <th>Stock</th>
-                        <th>Price</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="crypto-holdings">
-                <h3>Your Crypto Holdings</h3>
-                <table id="cryptoHoldingsTable">
-                    <tr>
-                        <th>Crypto</th>
-                        <th>Amount</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="crypto-history">
-                <h3>Recent Transactions</h3>
-                <button class="view-full-history-btn" onclick="openHistoryModal()">View Full History</button>
-            </div>
-        </div>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="your-stocks">
+        <h3>Your Stocks</h3>
+        <table id="yourStocksTable">
+            <tr>
+                <th>Stock</th>
+                <th>Price</th>
+            </tr>
+        </table>
     </div>
-    <!-- Modal for Full History -->
-    <div id="historyModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeHistoryModal()">&times;</span>
-            <h3>Full Crypto Transaction History</h3>
-            <table id="fullCryptoHistoryTable">
-                <tr>
-                    <th>Type</th>
-                    <th>Crypto Amount</th>
-                    <th>Dollar Value</th>
-                    <th>Timestamp</th>
-                </tr>
-            </table>
-        </div>
+    <!-- Add the Crypto Holdings section -->
+    <div class="crypto-holdings">
+        <h3>Your Crypto Holdings</h3>
+        <table id="cryptoHoldingsTable">
+            <tr>
+                <th>Crypto</th>
+                <th>Amount</th>
+            </tr>
+        </table>
     </div>
+    <!-- Move this to a modal only -->
+    <div class="crypto-history">
+        <h3>Recent Transactions</h3>
+        <button class="view-full-history-btn" onclick="openHistoryModal()">View Full History</button>
+    </div>
+</div>
+<!-- Modal for Full History -->
+<div id="historyModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeHistoryModal()">&times;</span>
+        <h3>Full Crypto Transaction History</h3>
+        <table id="fullCryptoHistoryTable">
+            <tr>
+                <th>Type</th>
+                <th>Crypto Amount</th>
+                <th>Dollar Value</th>
+                <th>Timestamp</th>
+            </tr>
+        </table>
+    </div>
+</div>
 </div>
 </div>
 <script type="module">
@@ -563,66 +579,66 @@ try {
     renderCryptoBalanceChart(labels, balances);
 
 } catch (error) {
-console.error("Error updating Crypto Transaction History:", error);
+    console.error("Error updating Crypto Transaction History:", error);
 }
 async function getStockPrice(stock) {
-try {
-const response = await fetch(javaURI + `/api/stocks/${stock}`);
-const data = await response.json();
-console.log(data);
-const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
-const outputElement = document.getElementById("output");
-if (price !== undefined) {
-//outputElement.textContent = `The price of ${stock} is: $${price}`;
-return(price)
-} else {
-outputElement.textContent = `Price not found for ${stock}.`;
-console.error(`Price not found for ${stock}. Response structure:`, data);
-}
-} catch (error) {
-console.error('Error fetching stock data:', error);
-document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
-}
+        try {
+            const response = await fetch(javaURI + `/api/stocks/${stock}`);
+            const data = await response.json();
+            console.log(data);
+            const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
+            const outputElement = document.getElementById("output");
+            if (price !== undefined) {
+                //outputElement.textContent = `The price of ${stock} is: $${price}`;
+                return(price)
+            } else {
+                outputElement.textContent = `Price not found for ${stock}.`;
+                console.error(`Price not found for ${stock}. Response structure:`, data);
+            }
+        } catch (error) {
+            console.error('Error fetching stock data:', error);
+            document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
+        }
 return new Promise((resolve) => {
-setTimeout(() => {
-resolve(prices[symbol]);
-}, 0); // Simulate network delay
-});
-}
-document.addEventListener("DOMContentLoaded", () => {
-getCredentialsJava();
-updateStockPrices(); // Call the function after DOM is fully loaded
-getPortfolioPerformance();
-//getUserIdFromAPI();
-});
+                setTimeout(() => {
+                    resolve(prices[symbol]);
+                }, 0); // Simulate network delay
+            }); 
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+            getCredentialsJava();
+            updateStockPrices(); // Call the function after DOM is fully loaded
+            getPortfolioPerformance();
+            //getUserIdFromAPI();
+        });
 async function updateStockPrices() {
-const stockSymbols = ['Spotify', 'Apple', 'Google', 'Facebook', 'Microsoft'];
-const tickerSymbols = ['SPOT', 'AAPL', 'GOOG', 'META', 'MSFT'];
-const tickerPrices = [];
-let counter = 0;
-for (const stock of tickerSymbols) {
-const price = await getStockPrice(stock);
-tickerPrices.push(price)  
- const priceElement = document.getElementById(stockSymbols[counter] + "Price");
-if (priceElement) {
-priceElement.textContent = `$${price}`;
-} else {
-console.error(`Element with ID ${stock + "Price"} not found.`);
-}
-counter++;  
- //console.log(price);
-//console.log(tickerPrices);
-//console.log(priceElement);
-//console.log(counter);
-}
-}
+            const stockSymbols = ['Spotify', 'Apple', 'Google', 'Facebook', 'Microsoft'];
+            const tickerSymbols = ['SPOT', 'AAPL', 'GOOG', 'META', 'MSFT'];
+            const tickerPrices = [];
+            let counter = 0; 
+            for (const stock of tickerSymbols) {
+                const price = await getStockPrice(stock);
+                tickerPrices.push(price)              
+                const priceElement = document.getElementById(stockSymbols[counter] + "Price");
+                if (priceElement) {
+                    priceElement.textContent = `$${price}`;
+                } else {
+                    console.error(`Element with ID ${stock + "Price"} not found.`);
+                }
+                counter++;                 
+                //console.log(price);
+                //console.log(tickerPrices);
+                //console.log(priceElement);
+                //console.log(counter);
+            }
+        }
 async function updateCryptoHistoryTable() {
-try {
-const email = localStorage.getItem("userEmail");
-if (!email) {
-console.warn("User email not found in localStorage.");
-return;
-}
+    try {
+        const email = localStorage.getItem("userEmail");
+        if (!email) {
+            console.warn("User email not found in localStorage.");
+            return;
+        }
 
         console.log(`Fetching transaction history for email: ${email}`);
 
@@ -685,62 +701,65 @@ return;
     } catch (error) {
         console.error("Error updating Crypto Transaction History:", error);
     }
-
 }
 
-/_ 🛠️ Function to Parse Transaction Details _/
+
+/* 🛠️ Function to Parse Transaction Details */
 function parseTransaction(transaction) {
 const regex = /(Bought|Sold)\s([\d.]+)\s([A-Z]+)\sfor\s\$([\d.]+)\sat\s([\d-:\s]+)/;
 const match = transaction.match(regex);
 
 if (match) {
-return {
-type: match[1],
-amount: match[2] + " " + match[3], // Example: "0.5 BTC"
-value: `$${parseFloat(match[4]).toFixed(2)}`, // Format dollar amount
-timestamp: match[5]
-};
+    return {
+        type: match[1],
+        amount: match[2] + " " + match[3], // Example: "0.5 BTC"
+        value: `$${parseFloat(match[4]).toFixed(2)}`, // Format dollar amount
+        timestamp: match[5]
+    };
 }
 return null;
 }
 
-/_ 🛠️ Function to Create Table Row _/
+/* 🛠️ Function to Create Table Row */
 function createTransactionRow({ type, amount, value, timestamp }) {
 const row = document.createElement("tr");
-row.innerHTML = `    <td>${type}</td>
+row.innerHTML = `
+    <td>${type}</td>
     <td>${amount}</td>
     <td>${value}</td>
-    <td>${timestamp}</td>`;
+    <td>${timestamp}</td>
+`;
 return row;
 }
 
-/_ 🖼️ Modal Functions _/
+/* 🖼️ Modal Functions */
 // Open Modal Function
 window.openHistoryModal = function() {
-document.getElementById("historyModal").style.display = "block";
-setTimeout(updateCryptoHistoryTable, 500); // Load history when modal opens
+    document.getElementById("historyModal").style.display = "block";
+    setTimeout(updateCryptoHistoryTable, 500); // Load history when modal opens
 };
 
 window.closeHistoryModal = function() {
-document.getElementById("historyModal").style.display = "none";
+    document.getElementById("historyModal").style.display = "none";
 };
+
 
 // ✅ Call function when page loads, ensuring tables exist
 document.addEventListener("DOMContentLoaded", () => {
-setTimeout(updateCryptoHistoryTable, 1000); // ✅ Wait 1 second to ensure elements are loaded
+    setTimeout(updateCryptoHistoryTable, 1000); // ✅ Wait 1 second to ensure elements are loaded
 });
 let liveBalanceChart;
 let balanceLabels = [];
 let balanceData = [];
 
 function getFormattedTime() {
-const now = new Date();
-return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const now = new Date();
+    return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
 async function fetchAndUpdateLiveBalanceChart() {
-const email = localStorage.getItem("userEmail");
-if (!email) return;
+    const email = localStorage.getItem("userEmail");
+    if (!email) return;
 
     try {
         const response = await fetch(javaURI + `/api/crypto/balance?email=${encodeURIComponent(email)}`);
@@ -766,11 +785,10 @@ if (!email) return;
     } catch (error) {
         console.error("Error updating live balance chart:", error);
     }
-
 }
 
 function updateLiveBalanceChart(labels, data) {
-const ctx = document.getElementById("cryptoBalanceChart").getContext("2d");
+    const ctx = document.getElementById("cryptoBalanceChart").getContext("2d");
 
     if (liveBalanceChart) {
         liveBalanceChart.data.labels = labels;
@@ -818,17 +836,17 @@ const ctx = document.getElementById("cryptoBalanceChart").getContext("2d");
             tooltip: { enabled: true, mode: "index", intersect: false }
         }
     }
-
 });
 }
 
+
 async function getCryptoHoldings() {
-try {
-const email = localStorage.getItem("userEmail");
-if (!email) {
-console.warn("User email not found in localStorage.");
-return [];
-}
+    try {
+        const email = localStorage.getItem("userEmail");
+        if (!email) {
+            console.warn("User email not found in localStorage.");
+            return [];
+        }
 
         console.log(`Fetching crypto holdings for email: ${email}`);
 
@@ -856,13 +874,12 @@ return [];
         console.error("Error fetching Crypto Holdings:", error);
         return [];
     }
-
 }
 
 async function updateCryptoHoldingsTable() {
-try {
-const holdings = await getCryptoHoldings();
-const table = document.getElementById("cryptoHoldingsTable");
+    try {
+        const holdings = await getCryptoHoldings();
+        const table = document.getElementById("cryptoHoldingsTable");
 
         if (!table) {
             console.error("🚨 Crypto holdings table not found!");
@@ -889,32 +906,34 @@ const table = document.getElementById("cryptoHoldingsTable");
     } catch (error) {
         console.error("🚨 Error updating crypto holdings:", error);
     }
-
 }
+
 
 // ✅ Call function when page loads
 document.addEventListener("DOMContentLoaded", () => {
-updateCryptoHoldingsTable();
+    updateCryptoHoldingsTable();
 });
 
 async function getCryptoPrice(cryptoId) {
-try {
-const response = await fetch(javaURI + `/api/crypto/price?cryptoId=${encodeURIComponent(cryptoId)}`);
-const data = await response.json();
-console.log(`Price for ${cryptoId}:`, data);
-return data?.price ?? 0; // Default to 0 if price is not found
-} catch (error) {
-console.error(`Error fetching price for ${cryptoId}:`, error);
-return 0;
-}
+    try {
+        const response = await fetch(javaURI + `/api/crypto/price?cryptoId=${encodeURIComponent(cryptoId)}`);
+        const data = await response.json();
+        console.log(`Price for ${cryptoId}:`, data);
+        return data?.price ?? 0; // Default to 0 if price is not found
+    } catch (error) {
+        console.error(`Error fetching price for ${cryptoId}:`, error);
+        return 0;
+    }
 }
 
 // ✅ Update crypto holdings table on page load
 document.addEventListener("DOMContentLoaded", () => {
-updateCryptoHoldingsTable();
+    updateCryptoHoldingsTable();
 });
 
-/_ 🖼️ Modal Functions _/
+
+
+/* 🖼️ Modal Functions */
 // Open Modal Function
 window.openHistoryModal = function() {
 document.getElementById("historyModal").style.display = "block";
@@ -932,91 +951,91 @@ updateCryptoHistoryTable();
 
 async function getPortfolioPerformance() {
 try {
-// Fetch user credentials
-const credentials = await getCredentialsJava();
-const email = credentials?.email;
-if (!email) {
-throw new Error("User email not found");
-}
-// Fetch user's stocks and portfolio value using the email
-const userStocks = await getUserStock(email);
-const userValue = await getUserValue(email);
-let totalGain = 0;
-let totalLatestValue = 0;
-let totalOldValue = 0;
-for (const { stockSymbol, quantity } of userStocks) {
-const latestPrice = await getStockPrice(stockSymbol);
-const oldPrice = await getOldStockPrice(stockSymbol);
-// Calculate gain for each stock
-const stockGain = (latestPrice - oldPrice) _ quantity;
-totalGain += stockGain;
-// Calculate total values for percent increase calculation
-totalLatestValue += latestPrice _ quantity;
-totalOldValue += oldPrice _ quantity;
-}
-// Calculate percent increase
-const percentIncrease = ((totalLatestValue - totalOldValue) / totalOldValue) _ 100;
-console.log(`Total increase: $${totalGain.toFixed(2)}, Percent increase: ${percentIncrease.toFixed(2)}%`);
-// Update UI elements
-document.getElementById("totalGain").textContent = `$${totalGain.toFixed(2)}`;
-document.getElementById("percentIncrease").textContent = `${percentIncrease.toFixed(2)}%`;
-document.getElementById("portfolioValue").textContent = `$${userValue.toFixed(2)}`;
+    // Fetch user credentials
+    const credentials = await getCredentialsJava();
+    const email = credentials?.email;
+    if (!email) {
+        throw new Error("User email not found");
+    }
+    // Fetch user's stocks and portfolio value using the email
+    const userStocks = await getUserStock(email);
+    const userValue = await getUserValue(email);
+    let totalGain = 0;
+    let totalLatestValue = 0;
+    let totalOldValue = 0;
+    for (const { stockSymbol, quantity } of userStocks) {
+        const latestPrice = await getStockPrice(stockSymbol);
+        const oldPrice = await getOldStockPrice(stockSymbol);
+        // Calculate gain for each stock
+        const stockGain = (latestPrice - oldPrice) * quantity;
+        totalGain += stockGain;
+        // Calculate total values for percent increase calculation
+        totalLatestValue += latestPrice * quantity;
+        totalOldValue += oldPrice * quantity;
+    }
+    // Calculate percent increase
+    const percentIncrease = ((totalLatestValue - totalOldValue) / totalOldValue) * 100;
+    console.log(`Total increase: $${totalGain.toFixed(2)}, Percent increase: ${percentIncrease.toFixed(2)}%`);
+    // Update UI elements
+    document.getElementById("totalGain").textContent = `$${totalGain.toFixed(2)}`;
+    document.getElementById("percentIncrease").textContent = `${percentIncrease.toFixed(2)}%`;
+    document.getElementById("portfolioValue").textContent = `$${userValue.toFixed(2)}`;
 } catch (error) {
-console.error("Error fetching portfolio performance:", error);
+    console.error("Error fetching portfolio performance:", error);
 }
 }
 async function getUserStock(user) {
-try {
-const response = await fetch(javaURI + `/stocks/table/getStocks?username=${user}`);
-const stocksData = await response.json();
-console.log(stocksData);
-return stocksData;
-} catch (error) {
-console.error("Error fetching user stocks:", error);
-return [];
-}
-}
+        try {
+            const response = await fetch(javaURI + `/stocks/table/getStocks?username=${user}`);
+            const stocksData = await response.json();
+            console.log(stocksData);
+            return stocksData;
+        } catch (error) {
+            console.error("Error fetching user stocks:", error);
+            return [];
+        }
+    }
 async function getOldStockPrice(stock) {
-try {
-const response = await fetch(javaURI + `/api/stocks/${stock}`);
-const data = await response.json();
-console.log(data);
-const oldPrice = data?.chart?.result?.[0]?.meta?.chartPreviousClose;
-const outputElement = document.getElementById("output");
-if (oldPrice !== undefined) {
-//outputElement.textContent = `The price of ${stock} is: $${price}`;
-console.log(`The previous close price of ${stock} is: $${oldPrice}`);
-return(oldPrice)
-} else {
-outputElement.textContent = `Price not found for ${stock}.`;
-console.error(`Price not found for ${stock}. Response structure:`, data);
-}
-} catch (error) {
-console.error('Error fetching stock data:', error);
-document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
-}
-}
+    try {
+        const response = await fetch(javaURI + `/api/stocks/${stock}`);
+        const data = await response.json();
+        console.log(data);
+        const oldPrice = data?.chart?.result?.[0]?.meta?.chartPreviousClose;
+        const outputElement = document.getElementById("output");
+        if (oldPrice !== undefined) {
+            //outputElement.textContent = `The price of ${stock} is: $${price}`;
+                console.log(`The previous close price of ${stock} is: $${oldPrice}`);
+            return(oldPrice)
+        } else {
+            outputElement.textContent = `Price not found for ${stock}.`;
+            console.error(`Price not found for ${stock}. Response structure:`, data);
+        }
+    } catch (error) {
+        console.error('Error fetching stock data:', error);
+        document.getElementById("output").textContent = "Error fetching stock data. Please try again later.";
+    }
+    }
 async function getUserValue(user) {
-try {
-const response = await fetch(javaURI + `/stocks/table/portfolioValue?username=${user}`);
-const stocksData = await response.json();
-console.log(stocksData);
-return stocksData;
-} catch (error) {
-console.error("Error fetching user stocks:", error);
-return [];
-}
-}
+        try {
+            const response = await fetch(javaURI + `/stocks/table/portfolioValue?username=${user}`);
+            const stocksData = await response.json();
+            console.log(stocksData);
+            return stocksData;
+        } catch (error) {
+            console.error("Error fetching user stocks:", error);
+            return [];
+        }
+    }
 function delay(ms) {
 return new Promise(resolve => setTimeout(resolve, ms));
 }
 document.addEventListener("DOMContentLoaded", () => {
-updateWelcomeMessage(); // Update the welcome message with the user's name
-updateYourStocksTable();
-updateStockPrices();
-getPortfolioPerformance();
-updateCryptoHoldingsTable();
-updateCryptoHistoryTable();
-setInterval(fetchAndUpdateLiveBalanceChart, 5000); // 🔁 every 5 second
-});
+        updateWelcomeMessage(); // Update the welcome message with the user's name
+        updateYourStocksTable();
+        updateStockPrices();
+        getPortfolioPerformance();
+        updateCryptoHoldingsTable();
+        updateCryptoHistoryTable();
+        setInterval(fetchAndUpdateLiveBalanceChart, 5000); // 🔁 every 5 second
+    });
 </script>
