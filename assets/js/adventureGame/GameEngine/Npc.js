@@ -4,7 +4,7 @@ import Game from "../Game.js";
 class Npc extends Character {
     constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
-        this.interact = data?.interact;
+        this.interact = data?.interact; // Interact function
         this.currentQuestionIndex = 0;
         this.alertTimeout = null;
         this.proximityRadius = 150; // Distance in pixels to show popup
@@ -248,12 +248,6 @@ class Npc extends Character {
             // Call the interact function
             this.interact();
             
-
-            if (this.spriteData && this.spriteData.id) {
-                this.markNpcInteracted(this.spriteData.id);
-                this.updateGameProgress();
-            }
-
             // Update highlights for all NPCs
             this.updateAllNpcHighlights();
         }
@@ -272,27 +266,8 @@ class Npc extends Character {
         }
         if (this.highlightEffect) {
             this.highlightEffect.remove();
-
         }
         super.destroy?.();
-    }
-    
-    markNpcInteracted(npcId) {
-        document.cookie = `npc_interacted_${npcId}=true;path=/;max-age=31536000`;
-    }
-    
-    hasBeenInteracted(npcId) {
-        const cookies = document.cookie.split(';');
-        return cookies.some(cookie => cookie.trim().startsWith(`npc_interacted_${npcId}=`));
-    }
-    
-    updateGameProgress() {
-        const cookies = document.cookie.split(';');
-        const interactedNpcs = cookies
-            .filter(cookie => cookie.trim().startsWith('npc_interacted_'))
-            .map(cookie => cookie.split('=')[0].trim().replace('npc_interacted_', ''));
-        
-        document.cookie = `game_progress=${interactedNpcs.length};path=/;max-age=31536000`;
     }
 }
 
