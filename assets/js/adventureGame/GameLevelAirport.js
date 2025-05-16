@@ -4,7 +4,11 @@ import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
 import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
+
 import MarketSentimentModal from './MarketSentimentModal.js';
+
+
+import showDialogBox from './DialogBox.js';
 
 let socketURI
 let javaURI
@@ -16,11 +20,14 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     socketURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
 }
 
+
+
 class GameLevelAirport {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
+    window.gamePath = path;
 
     const image_src_desert = path + "/images/gamify/airport.jpg";
     const image_data_desert = {
@@ -53,6 +60,7 @@ class GameLevelAirport {
       keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
 
+
     // Stock Simulation Game NPC
     const sprite_src_stocks = path + "/images/gamify/stockguy.png";
     const sprite_greet_stocks = "Teleport to the stock market?";
@@ -61,11 +69,205 @@ class GameLevelAirport {
       greeting: sprite_greet_stocks,
       src: sprite_src_stocks,
       SCALE_FACTOR: 10,
+
+    const sprite_src_casino = path + "/images/gamify/frankSinatra.png";
+    const sprite_data_casino = {
+      id: 'Casino-NPC',
+      greeting: "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.",
+      src: sprite_src_casino,
+      SCALE_FACTOR: 5,
+      ANIMATION_RATE: 50,
+      pixels: { height: 281, width: 280 },
+      INIT_POSITION: { x: width * 0.28, y: height * 0.82 },
+      orientation: { rows: 1, columns: 1 }, 
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          showDialogBox(
+            "Frank Sinatra",
+            "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.\nHere, you can test your luck on Blackjack, Poker, or the Minefield Challenge.\nBut remember: in gambling, the swing of fortune can be swift and brutal.\nWant a tip before you step in?",
+            [
+              { label: "Yes, give me advice", action: () => giveAdvice(), keepOpen: true },
+              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "No thanks", action: () => {} }
+            ]
+          );
+        }
+        function giveAdvice() {
+          const adviceList = [
+            "The house always has an edge, so play smart and know when to walk away.",
+            "Set a budget before you play, and never chase your losses.",
+            "Luck be a lady tonight, but skill keeps you in the game.",
+            "Sometimes the best bet is the one you don't make.",
+            "Enjoy the thrill, but remember: it's just a game."
+          ];
+          const advice = adviceList[Math.floor(Math.random() * adviceList.length)];
+          showDialogBox(
+            "Frank's Advice",
+            advice + "\nWant to answer a question before you go in?",
+            [
+              { label: "Sure, ask me!", action: () => askQuestion(), keepOpen: true },
+              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Another tip", action: () => giveAdvice(), keepOpen: true },
+              { label: "Maybe later", action: () => {} }
+            ]
+          );
+        }
+        function askQuestion() {
+          showDialogBox(
+            "Frank's Question",
+            "If you won a big jackpot tonight, what would you do with the money?",
+            [
+              { label: "Save it", action: () => frankResponse("Smart move, kid. Saving is always classy.") },
+              { label: "Spend it all!", action: () => frankResponse("Ha! Just don't spend it all in one place, capisce?") },
+              { label: "Invest it", action: () => frankResponse("Now that's the spirit of a true high roller!") },
+              { label: "Back", action: () => giveAdvice(), keepOpen: true }
+            ]
+          );
+        }
+        function frankResponse(response) {
+          showDialogBox(
+            "Frank Sinatra",
+            response + "\nReady to try your luck?",
+            [
+              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Back to advice", action: () => giveAdvice(), keepOpen: true },
+              { label: "Maybe later", action: () => {} }
+            ]
+          );
+        }
+        intro();
+      },
+      interact: function () {
+        this.reaction();
+      }
+    };
+
+    const sprite_src_stocks = path + "/images/gamify/stockguy.png";
+    const sprite_data_stocks = {
+      id: 'Stock-NPC',
+      greeting: "Good day, I am J.P. Morgan, financier of industry and architect of American banking.",
+      src: sprite_src_stocks,
+      SCALE_FACTOR: 10,
+      ANIMATION_RATE: 50,
+      pixels: { height: 441, width: 339 },
+      INIT_POSITION: { x: width / 3, y: height / 3 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          showDialogBox(
+            "J.P. Morgan",
+            "Good day, I am J.P. Morgan, financier of industry and architect of American banking.\nAre you ready to test your skills in the stock market?",
+            [
+              { label: "Yes", action: () => explainStocks(), keepOpen: true },
+              { label: "No", action: () => {} }
+            ]
+          );
+        }
+        function explainStocks() {
+          showDialogBox(
+            "J.P. Morgan",
+            "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
+            [
+              { label: "Take me to the Stock Exchange", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
+              { label: "Remind me what stocks are", action: () => whatAreStocks(), keepOpen: true },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
+        }
+        function whatAreStocks() {
+          showDialogBox(
+            "J.P. Morgan",
+            "Stocks represent ownership in a company. When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
+            [
+              { label: "Yes, let's invest", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
+              { label: "Back", action: () => explainStocks(), keepOpen: true }
+            ]
+          );
+        }
+        intro();
+      },
+      interact: function () { this.reaction(); }
+    };
+
+    const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
+    const sprite_data_crypto = {
+      id: 'Crypto-NPC',
+      greeting: "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.",
+      src: sprite_src_crypto,
+      SCALE_FACTOR: 10,
+      ANIMATION_RATE: 50,
+      pixels: { height: 282, width: 282 },
+      INIT_POSITION: { x: width * 0.85, y: height * 0.6 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.\nAre you curious about Bitcoin or ready to explore the Crypto Hub?",
+            [
+              { label: "Tell me about Bitcoin", action: () => aboutBitcoin(), keepOpen: true },
+              { label: "Go to Crypto Hub", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio" },
+              { label: "Goodbye", action: () => {} }
+            ]
+          );
+        }
+        function aboutBitcoin() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Bitcoin is a decentralized digital currency, born from a desire for freedom and transparency. It operates without banks or governments.\nWould you like to know how to buy or mine Bitcoin?",
+            [
+              { label: "How do I buy Bitcoin?", action: () => howToBuy(), keepOpen: true },
+              { label: "How do I mine Bitcoin?", action: () => howToMine(), keepOpen: true },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
+        }
+        function howToBuy() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "To buy Bitcoin, you need a digital wallet and access to a crypto exchange. You can purchase fractions of a Bitcoin.\nWould you like to visit the Crypto Hub to start your journey?",
+            [
+              { label: "Yes, take me there", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio" },
+              { label: "Back", action: () => aboutBitcoin(), keepOpen: true }
+            ]
+          );
+        }
+        function howToMine() {
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Mining Bitcoin requires powerful computers to solve complex puzzles. Miners are rewarded with Bitcoin for verifying transactions.\nWould you like to try mining or learn more?",
+            [
+              { label: "Try Mining", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/mining" },
+              { label: "Back", action: () => aboutBitcoin(), keepOpen: true }
+            ]
+          );
+        }
+        intro();
+      },
+      interact: function () {
+        this.reaction();
+      }
+    };
+
+    const sprite_src_pilot = path + "/images/gamify/pilot.png";
+    const sprite_data_pilot = {
+      id: 'Pilot',
+      greeting: "Greetings passenger! Ready to travel to Wallstreet?",
+      src: sprite_src_pilot,
+      SCALE_FACTOR: 5,
+
       ANIMATION_RATE: 50,
       pixels: { height: 441, width: 339 },
       INIT_POSITION: { x: width * 0.2, y: height * 0.3 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
+
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function() {
         alert(sprite_greet_stocks);
@@ -119,6 +321,30 @@ class GameLevelAirport {
     };
 
     // Keep existing Fidelity & Schwab NPCs
+
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+      interact: async function () {
+        const personId = Game.id; 
+        const transitionAllowed = await Game.transitionToWallstreet(personId);
+      
+        if (transitionAllowed) {
+          let primaryGame = gameEnv.gameControl;
+          let levelArray = [GameLevelWallstreet];
+          let gameInGame = new GameControl(gameEnv.game, levelArray);
+      
+          primaryGame.pause();
+          gameInGame.start();
+      
+          gameInGame.gameOver = function () {
+            primaryGame.resume();
+          };
+        } else {
+          alert("You need to answer all the questions before accessing Wallstreet. Keep exploring!");
+        }
+      },
+    };
+
+
     const sprite_src_fidelity = path + "/images/gamify/fidelity.png";
     const sprite_data_fidelity = {
       id: 'Fidelity',
@@ -131,6 +357,7 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+
       reaction: function() {
         alert(this.greeting);
       },
@@ -142,6 +369,10 @@ class GameLevelAirport {
           console.error("Game instance not available or quiz function not found");
           alert("Quiz system is currently unavailable");
         }
+
+      interact: function () {
+        Game.attemptQuizForNpc(sprite_data_fidelity.id);
+
       }
     };
 
@@ -185,6 +416,7 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+
       reaction: function() {
         alert(sprite_greet_crypto);
       },
@@ -233,6 +465,10 @@ class GameLevelAirport {
         document.getElementById('closeCryptoModal').onclick = () => {
           modal.style.display = 'none';
         };
+
+      interact: function () {
+        Game.attemptQuizForNpc(sprite_data_schwab.id);
+
       }
     };
 
@@ -335,6 +571,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 1.5,
       ANIMATION_RATE: 50,
       pixels: { height: 1068, width: 1078 },
+
       INIT_POSITION: { x: width * 0.8, y: height * 0.85 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
@@ -343,6 +580,13 @@ class GameLevelAirport {
         alert(this.greeting);
       },
       interact: async function() {
+
+      INIT_POSITION: { x: width * 0.7, y: height * 0.7 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      interact: async function () {
+
         try {
           const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=LIMANRBUDM0ZN7LE`);
           const data = await response.json();
@@ -392,6 +636,7 @@ class GameLevelAirport {
         }
       }
     };
+
 
     // Keep existing Pilot (but update position)
     const sprite_src_pilot = path + "/images/gamify/pilot.png";
@@ -449,20 +694,414 @@ class GameLevelAirport {
         alert(this.greeting);
       },
       interact: function() {
+
+    const sprite_src_investor = path + "/images/gamify/bizguys.png";
+    const sprite_greet_investor = "Welcome to quick-trading! Ready to invest in some hot tech stocks?";
+    const sprite_data_investor = {
+      id: 'Investor',
+      greeting: sprite_greet_investor,
+      src: sprite_src_investor,
+      SCALE_FACTOR: 10,
+      ANIMATION_RATE: 50,
+      pixels: { height: 535, width: 466 },
+      INIT_POSITION: { x: width * 0.5, y: height * 0.8 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      interact: function () {
+
         showInvestmentModal();
       }
     };
 
     function showInvestmentModal() {
+
       const modal = new MarketSentimentModal(javaURI, Game);
       modal.create();
+
+      const sentimentModal = document.createElement('div');
+      sentimentModal.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        z-index: 1000;
+        max-width: 800px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      `;
+
+      sentimentModal.innerHTML = `
+        <div class="container py-3">
+          <h2 class="text-center mb-4" style="color: #4CAF50;">Market Sentiment Tracker</h2>
+          
+          <!-- Submit Sentiment Form -->
+          <div class="row justify-content-center mb-4">
+            <div class="col-md-6">
+              <div class="card" style="background: rgba(255,255,255,0.1); border: 1px solid #4CAF50;">
+                <div class="card-body">
+                  <h5 class="card-title" style="color: #4CAF50;">Submit Your Market Sentiment</h5>
+                  <form id="sentimentForm">
+                    <div class="mb-3">
+                      <label class="form-label">Market Sentiment</label>
+                      <div class="d-flex gap-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="sentiment" id="bullish" value="bullish" required>
+                          <label class="form-check-label" for="bullish">
+                            Bullish 📈
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="sentiment" id="bearish" value="bearish" required>
+                          <label class="form-check-label" for="bearish">
+                            Bearish 📉
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="reasoning" class="form-label">Your Reasoning</label>
+                      <textarea class="form-control" id="reasoning" rows="3" required style="background: rgba(255,255,255,0.1); border: 1px solid #4CAF50; color: white;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit Vote</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+
+          <!-- Statistics Display -->
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="stats-container" style="background: rgba(20, 23, 31, 0.95); border-radius: 10px; padding: 20px;">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                  <h3 class="mb-0" style="color: #fff; font-size: 1.2rem;">Community sentiment</h3>
+                  <span class="text-muted" style="font-size: 0.9rem;"><span id="totalVotes">0</span> votes</span>
+                </div>
+
+                <!-- Progress Bar Container -->
+                <div class="sentiment-progress-container mb-4" style="position: relative; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                  <div id="bullishProgress" style="position: absolute; left: 0; top: 0; height: 100%; background: #00F7B1; transition: width 0.3s ease;"></div>
+                  <div id="bearishProgress" style="position: absolute; right: 0; top: 0; height: 100%; background: #FF4976; transition: width 0.3s ease;"></div>
+                </div>
+
+                <!-- Percentages Display -->
+                <div class="d-flex justify-content-between mb-4">
+                  <div class="d-flex align-items-center">
+                    <span class="sentiment-arrow" style="color: #00F7B1; margin-right: 8px;">↗</span>
+                    <span id="bullishPercentage" style="color: #00F7B1; font-weight: bold;">0%</span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <span id="bearishPercentage" style="color: #FF4976; font-weight: bold;">0%</span>
+                    <span class="sentiment-arrow" style="color: #FF4976; margin-left: 8px;">↘</span>
+                  </div>
+                </div>
+
+                <!-- Sentiment Buttons -->
+                <div class="d-flex gap-3 mb-4">
+                  <button id="bullishBtn" class="btn w-50" style="
+                    background: rgba(0, 247, 177, 0.1);
+                    border: 1px solid #00F7B1;
+                    color: #00F7B1;
+                    border-radius: 8px;
+                    padding: 10px;
+                    transition: all 0.3s ease;
+                  ">
+                    <span class="sentiment-arrow">↗</span> Bullish
+                  </button>
+                  <button id="bearishBtn" class="btn w-50" style="
+                    background: rgba(255, 73, 118, 0.1);
+                    border: 1px solid #FF4976;
+                    color: #FF4976;
+                    border-radius: 8px;
+                    padding: 10px;
+                    transition: all 0.3s ease;
+                  ">
+                    <span class="sentiment-arrow">↘</span> Bearish
+                  </button>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="d-flex mb-3">
+                  <button class="btn btn-link px-3 active" style="
+                    color: #fff;
+                    text-decoration: none;
+                    border-bottom: 2px solid #00F7B1;
+                    border-radius: 0;
+                    padding-bottom: 8px;
+                  ">Top</button>
+                  <button class="btn btn-link px-3" style="
+                    color: #6c757d;
+                    text-decoration: none;
+                    border-bottom: 2px solid transparent;
+                    border-radius: 0;
+                    padding-bottom: 8px;
+                  ">Latest</button>
+                </div>
+
+                <!-- Recent Votes History -->
+                <div class="vote-history" id="voteHistory" style="max-height: 300px; overflow-y: auto;">
+                  <!-- Vote history will be populated here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Create modal with improved close functionality
+      const modalOverlay = document.createElement('div');
+      modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      `;
+
+      sentimentModal.style.cssText = `
+        position: relative;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        max-width: 800px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      `;
+
+      // Add close button
+      const closeButton = document.createElement('button');
+      closeButton.className = 'btn-close btn-close-white position-absolute';
+      closeButton.style.cssText = `
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+      `;
+      sentimentModal.appendChild(closeButton);
+
+      // Function to close modal
+      function closeModal() {
+        clearInterval(statsInterval);
+        document.body.removeChild(modalOverlay);
+      }
+
+      // Close on button click
+      closeButton.onclick = closeModal;
+
+      // Close on overlay click
+      modalOverlay.onclick = (e) => {
+        if (e.target === modalOverlay) {
+          closeModal();
+        }
+      };
+
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+
+      modalOverlay.appendChild(sentimentModal);
+      document.body.appendChild(modalOverlay);
+
+      // Function to update the UI with current stats
+      function updateStats(stats) {
+        const bullishPercentage = stats.bullishPercentage;
+        const bearishPercentage = stats.bearishPercentage;
+        
+        document.getElementById('bullishPercentage').textContent = `${bullishPercentage}%`;
+        document.getElementById('bearishPercentage').textContent = `${bearishPercentage}%`;
+        document.getElementById('totalVotes').textContent = stats.totalVotes;
+        
+        document.getElementById('bullishProgress').style.width = `${bullishPercentage}%`;
+        document.getElementById('bearishProgress').style.width = `${bearishPercentage}%`;
+
+        // Add hover effects to sentiment buttons
+        ['bullishBtn', 'bearishBtn'].forEach(btnId => {
+          const btn = document.getElementById(btnId);
+          if (btn) {
+            btn.onmouseover = function() {
+              this.style.transform = 'translateY(-2px)';
+              this.style.boxShadow = '0 4px 12px rgba(0,247,177,0.2)';
+            };
+            btn.onmouseout = function() {
+              this.style.transform = 'translateY(0)';
+              this.style.boxShadow = 'none';
+            };
+          }
+        });
+
+        // Update vote history with modern styling
+        const voteHistory = document.getElementById('voteHistory');
+        voteHistory.innerHTML = '';
+        
+        if (stats.recentVotes) {
+          stats.recentVotes.slice().reverse().forEach(vote => {
+            const isBullish = vote.sentiment.toLowerCase() === 'bullish';
+            const voteElement = document.createElement('div');
+            voteElement.className = 'vote-card mb-3';
+            voteElement.style.background = 'rgba(255, 255, 255, 0.05)';
+            voteElement.style.borderRadius = '8px';
+            voteElement.style.padding = '12px';
+            
+            const date = new Date(vote.timestamp);
+            const formattedDate = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            voteElement.innerHTML = `
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="vote-content" style="flex: 1; margin-right: 10px;">
+                  <p class="mb-2" style="color: #fff; font-size: 0.9em; word-break: break-word;">${vote.reasoning}</p>
+                  <small style="color: #6c757d;">${formattedDate}</small>
+                </div>
+                <div class="sentiment-badge">
+                  <span style="
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 0.8em;
+                    background: ${isBullish ? 'rgba(0, 247, 177, 0.1)' : 'rgba(255, 73, 118, 0.1)'};
+                    color: ${isBullish ? '#00F7B1' : '#FF4976'};
+                    border: 1px solid ${isBullish ? '#00F7B1' : '#FF4976'};
+                  ">
+                    ${isBullish ? '↗' : '↘'} ${vote.sentiment}
+                  </span>
+                </div>
+              </div>
+            `;
+            voteHistory.appendChild(voteElement);
+          });
+        }
+      }
+
+      // Function to fetch current stats
+      async function fetchStats() {
+        try {
+          const response = await fetch(javaURI + `/rpg_answer/market-stats`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            credentials: 'include'
+          });
+          
+          if (!response.ok) {
+            console.error('Server response:', await response.text());
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const stats = await response.json();
+          updateStats(stats);
+        } catch (error) {
+          console.error('Error fetching stats:', error);
+          // More descriptive error message for debugging
+          const errorMessage = error.message || 'Network error - server may be down';
+          document.getElementById('bullishPercentage').textContent = 'N/A';
+          document.getElementById('bearishPercentage').textContent = 'N/A';
+          document.getElementById('totalVotes').textContent = '0';
+          document.getElementById('voteHistory').innerHTML = `
+            <div class="alert alert-danger">
+              Unable to load market data: ${errorMessage}
+              <br><small>Please check server connection and try again.</small>
+            </div>
+          `;
+        }
+      }
+
+      // Handle form submission with real-time updates
+      const sentimentForm = document.getElementById('sentimentForm');
+      sentimentForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitButton = sentimentForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+        
+        const formData = {
+          personId: Game.id || 1,
+          sentiment: document.querySelector('input[name="sentiment"]:checked').value,
+          reasoning: document.getElementById('reasoning').value,
+          timestamp: Date.now()
+        };
+
+        try {
+          const response = await fetch(javaURI + `/rpg_answer/market-sentiment`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(formData)
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+          }
+
+          const stats = await response.json();
+          updateStats(stats);
+          sentimentForm.reset();
+          
+          // Show success message
+          const successAlert = document.createElement('div');
+          successAlert.className = 'alert alert-success mt-3';
+          successAlert.textContent = 'Your vote has been submitted successfully!';
+          sentimentForm.appendChild(successAlert);
+          setTimeout(() => successAlert.remove(), 3000);
+          
+          // Trigger an immediate stats refresh
+          await fetchStats();
+          
+        } catch (error) {
+          console.error('Error submitting vote:', error);
+          
+          const errorAlert = document.createElement('div');
+          errorAlert.className = 'alert alert-danger mt-3';
+          errorAlert.textContent = `Failed to submit vote: ${error.message}`;
+          sentimentForm.appendChild(errorAlert);
+          setTimeout(() => errorAlert.remove(), 3000);
+          
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Submit Vote';
+        }
+      });
+
+      // Initial stats fetch
+      fetchStats();
+      
+      // Refresh stats more frequently (every 5 seconds)
+      const statsInterval = setInterval(fetchStats, 5000);
+
     }
 
     this.classes = [
       { class: GameEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
+
       { class: Npc, data: sprite_data_bizguy },
       { class: Npc, data: sprite_data_stocks },
+
+      {class: Npc, data: sprite_data_crypto },
+      {class: Npc, data: sprite_data_stocks},
+      {class: Npc, data: sprite_data_casino},
+      { class: Npc, data: sprite_data_pilot },
+
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
       { class: Npc, data: sprite_data_crypto },
@@ -481,3 +1120,120 @@ class GameLevelAirport {
 }
 
 export default GameLevelAirport;
+
+// Waypoint Arrow Integration
+window.addEventListener('DOMContentLoaded', function() {
+  let gameCanvas = document.getElementById('gameCanvas');
+  let gameContainer = document.getElementById('gameContainer') || (gameCanvas && gameCanvas.parentNode);
+  if (!gameContainer) return;
+
+  // Define the order of NPCs for the arrow
+  const waypointIds = [
+    'Casino-NPC',        // Frank Sinatra
+    'Crypto-NPC',        // Satoshi Nakamoto
+    'Fidelity',          // Fidelity
+    'Schwab',            // Schwab
+    'Investor'           // Investor (finance dude)
+  ];
+
+  // Step state
+  let currentStep = 0;
+  function getCurrentStep() { return currentStep; }
+  function setCurrentStep(step) { currentStep = step; }
+
+  // Use robust PNG path (site root)
+  let arrowImg = document.createElement('img');
+  arrowImg.src = window.gamePath + "/images/gamify/redarrow1.png";
+  arrowImg.id = 'waypointArrow';
+  arrowImg.style.position = 'absolute';
+  arrowImg.style.zIndex = 2000;
+  arrowImg.style.width = '48px';
+  arrowImg.style.height = '48px';
+  arrowImg.style.pointerEvents = 'none'; // Not clickable for advancement
+  arrowImg.style.transition = 'top 0.3s, left 0.3s';
+  document.body.appendChild(arrowImg);
+
+  function getWaypointPosition(npcId) {
+    const width = gameCanvas ? gameCanvas.width : window.innerWidth;
+    const height = gameCanvas ? gameCanvas.height : window.innerHeight;
+    switch (npcId) {
+      case 'Casino-NPC': // Frank Sinatra
+        return { x: width * 0.28, y: height * 0.82 };
+      case 'Crypto-NPC': // Satoshi Nakamoto
+        return { x: width * 0.85, y: height * 0.6 };
+      case 'Fidelity':
+        return { x: width * 0.372, y: height * 0.25 };
+      case 'Schwab':
+        return { x: width * 0.665, y: height * 0.25 };
+      case 'Investor':
+        return { x: width * 0.5, y: height * 0.8 };
+      default:
+        return { x: width / 2, y: height / 2 };
+    }
+  }
+
+  function moveArrowToCurrentWaypoint() {
+    const step = getCurrentStep();
+    const npcId = waypointIds[step] || waypointIds[0];
+    const pos = getWaypointPosition(npcId);
+    arrowImg.style.left = (pos.x - 24) + 'px';
+    arrowImg.style.top = (pos.y - 64) + 'px';
+  }
+
+  // Right-click to reset
+  arrowImg.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    setCurrentStep(0);
+    moveArrowToCurrentWaypoint();
+  });
+
+  window.addEventListener('resize', moveArrowToCurrentWaypoint);
+  moveArrowToCurrentWaypoint();
+
+  // Listen for 'E' key to advance arrow if at correct NPC
+  document.addEventListener('keydown', function(e) {
+    if (e.key.toLowerCase() !== 'e') return;
+    try {
+      const step = getCurrentStep();
+      const npcId = waypointIds[step] || waypointIds[0];
+      const pos = getWaypointPosition(npcId);
+      let playerObj = null;
+      if (window.gameEnv && window.gameEnv.gameObjects) {
+        playerObj = window.gameEnv.gameObjects.find(obj => obj.constructor && obj.constructor.name === 'Player');
+      }
+      if (!playerObj) {
+        const playerCanvas = document.querySelector('canvas[id*="player" i]');
+        if (playerCanvas && playerCanvas.getBoundingClientRect) {
+          const rect = playerCanvas.getBoundingClientRect();
+          playerObj = {
+            position: { x: rect.left + rect.width/2, y: rect.top + rect.height/2 }
+          };
+        }
+      }
+      if (playerObj && playerObj.position) {
+        const px = playerObj.position.x;
+        const py = playerObj.position.y;
+        const dx = px - pos.x;
+        const dy = py - pos.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 80) {
+          if (step < waypointIds.length - 1) {
+            setCurrentStep(step + 1);
+            moveArrowToCurrentWaypoint();
+          }
+        }
+      } else {
+        if (step < waypointIds.length - 1) {
+          setCurrentStep(step + 1);
+          moveArrowToCurrentWaypoint();
+        }
+      }
+    } catch (err) {
+      const step = getCurrentStep();
+      if (step < waypointIds.length - 1) {
+        setCurrentStep(step + 1);
+        moveArrowToCurrentWaypoint();
+      }
+    }
+  });
+});
