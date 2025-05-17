@@ -22,11 +22,9 @@ const javaURI = (location.hostname === "localhost" || location.hostname === "127
 let allPeople = [];
 let selectedPeople = [];
 let allGroups = [];
-let currentUserData = null;
 let dataLoaded = {
     people: false,
-    groups: false,
-    currentUser: false
+    groups: false
 };
 
 // Initialize data loading on page load - no matter which tab is active
@@ -46,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize data loading
 function initializeData() {
     // Load current user, people, and groups regardless of active tab
-    Promise.all([fetchCurrentUser(), fetchPeople(), fetchGroups()])
+    Promise.all([fetchPeople(), fetchGroups()])
         .then(() => {
             console.log('All data loaded successfully');
         })
@@ -55,36 +53,10 @@ function initializeData() {
         });
 }
 
-// Fetch current user data
-function fetchCurrentUser() {
-    return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/person/getuid`, {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Not authenticated or network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            currentUserData = data;
-            dataLoaded.currentUser = true;
-            console.log('Current user loaded:', currentUserData);
-            resolve(data);
-        })
-        .catch(error => {
-            console.error('Error fetching current user:', error.message);
-            reject(error);
-        });
-    });
-}
-
 // Fetch people from API
 function fetchPeople() {
     return new Promise((resolve, reject) => {
-        fetch(`${javaURI}/api/people/get`)
+        fetch(`${javaURI}/api/peopleget`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
