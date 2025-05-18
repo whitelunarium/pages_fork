@@ -5,12 +5,13 @@ body {
     color: #fff;
     margin: 0;
     padding: 0;
+    position: relative; /* Add stacking context */
 }
 /* Main content area */
 .main-content {
     padding: 1rem;
     position: relative;
-    z-index: 1; /* Keep all content at a lower z-index */
+    z-index: 0; /* Lower z-index to stay below navbar */
 }
 /* Title styles */
 .page-title {
@@ -32,7 +33,7 @@ body {
 .active-gpus-modal,
 .tutorial-welcome,
 .notification {
-    z-index: 1; /* Keep all modals at a lower z-index */
+    z-index: 1000; /* Consistent z-index for modals */
 }
 .notification { /* This entire style, ".notification", is what makes the notification pops out from the top right! */
     position: fixed;
@@ -42,7 +43,7 @@ body {
     color: white;
     padding: 10px;
     border-radius: 5px;
-    z-index: 1000; 
+    z-index: 9999; /* Keep notifications on top */
 }
 .shadow-red-glow {
     box-shadow: 0 4px 15px -3px rgba(239, 68, 68, 0.3);
@@ -88,7 +89,8 @@ body {
     background-color: #001f3f;
     color: #fff;
     width: 100%;
-    z-index: 1; 
+    position: relative;
+    z-index: 2000; /* Ensure navbar is above all other elements */
 }
 .navbar .logo {
     font-size: 24px;
@@ -374,7 +376,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 50;
+    z-index: 1000;
 }
 /* GPU Shop Content */
 .gpu-shop-content {
@@ -479,7 +481,7 @@ body {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 50;
+    z-index: 1000;
 }
 .active-gpus-content {
     position: absolute;
@@ -678,10 +680,10 @@ body {
 }
 /* Tutorial Help Button */
 .tutorial-help-button {
-    position: absolute;
+    position: fixed;
     top: 1rem;
     right: 1rem;
-    z-index: 10;
+    z-index: 1000;
 }
 .tutorial-help-button button {
     font-weight: bold;
@@ -733,6 +735,8 @@ body {
 /* Prevent body scrolling when modal is open */
 body.modal-open {
     overflow: hidden;
+    position: fixed;
+    width: 100%;
 }
 /* Add these new styles for the energy buttons */
 /* Text glow for energy buttons */
