@@ -95,7 +95,8 @@
             max-width: fit-content !important;
         }
 
-        .site-header img {
+        .site-header .wrapper .site-title img {
+            display: inline-block;
             margin-right: 16px;
         }
     </style>
@@ -107,9 +108,8 @@
             {%- assign default_paths = site.pages | map: "path" -%}
             {%- assign page_paths = site.header_pages | default: default_paths -%}
             {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-            <img src="{{ site.baseurl }}/images/logo.png" height="60" x alt="">
-            <a class="site-title" rel="author" href="{{ "{{site.baseurl}}/" | relative_url }}"
-                data-value="{{ site.title | escape }}">
+            <a class="site-title" rel="author" href="{{ "/" | relative_url }}" data-value="{{ site.title | escape }}">
+                <img src="{{ site.baseurl }}/images/logo.png" alt="Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
                 {{ site.title | escape }}
             </a>
 
