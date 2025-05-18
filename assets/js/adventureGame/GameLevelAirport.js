@@ -60,7 +60,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
       pixels: { height: 281, width: 280 },
-      INIT_POSITION: { x: width * 0.28, y: height * 0.82 },
+      INIT_POSITION: { x: width * 0.65, y: height * 0.55 },
       orientation: { rows: 1, columns: 1 }, 
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -128,13 +128,13 @@ class GameLevelAirport {
 
     const sprite_src_stocks = path + "/images/gamify/stockguy.png";
     const sprite_data_stocks = {
-      id: 'Stock-NPC',
+      id: 'Stock- NPC',
       greeting: "Good day, I am J.P. Morgan, financier of industry and architect of American banking.",
       src: sprite_src_stocks,
       SCALE_FACTOR: 10,
       ANIMATION_RATE: 50,
       pixels: { height: 441, width: 339 },
-      INIT_POSITION: { x: width / 3, y: height / 3 },
+      INIT_POSITION: { x: width * 0.28, y: height * 0.82 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -183,7 +183,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 10,
       ANIMATION_RATE: 50,
       pixels: { height: 282, width: 282 },
-      INIT_POSITION: { x: width * 0.85, y: height * 0.6 },
+      INIT_POSITION: { x: width * 0.5, y: height * 0.7 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -313,7 +313,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 1.5,
       ANIMATION_RATE: 50,
       pixels: { height: 1068, width: 1078 },
-      INIT_POSITION: { x: width * 0.7, y: height * 0.7 },
+      INIT_POSITION: { x: width * 0.9, y: height * 0.65 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -367,7 +367,45 @@ class GameLevelAirport {
         }
       }
     };
-
+    const sprite_src_bank = path + "/images/gamify/janetYellen.png";
+    const sprite_data_bank = {
+      id: 'Bank-NPC',
+      greeting: "Welcome, I'm Janet Yellen, Secretary of the Treasury.",
+      src: sprite_src_bank,
+      SCALE_FACTOR: 6,
+      ANIMATION_RATE: 50,
+      pixels: { height: 282, width: 268 },
+      INIT_POSITION: { x: width * 0.8, y: height * 0.1 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      reaction: function () {
+        function intro() {
+          alert("Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, or get financial tips?");
+        }
+        function explainBank() {
+          alert("The Bank keeps track of your every transaction, monitors your balance, and helps you plan for the future.\nWould you like to see your analytics or hear a tip?");
+        }
+        function analyticsIntro() {
+          alert("Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?");
+        }
+        function financialTip() {
+          const tips = [
+            "Diversify your investments to reduce risk.",
+            "Always keep an emergency fund.",
+            "Track your spending to find savings opportunities.",
+            "Invest for the long term, not quick gains.",
+            "Review your financial goals regularly."
+          ];
+          const tip = tips[Math.floor(Math.random() * tips.length)];
+          alert("Janet Yellen - Financial Tip: " + tip);
+        }
+        intro();
+      },
+      interact: function () {
+        this.reaction();
+      }
+    };
     const sprite_src_investor = path + "/images/gamify/bizguys.png";
     const sprite_greet_investor = "Welcome to quick-trading! Ready to invest in some hot tech stocks?";
     const sprite_data_investor = {
@@ -377,7 +415,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 10,
       ANIMATION_RATE: 50,
       pixels: { height: 535, width: 466 },
-      INIT_POSITION: { x: width * 0.5, y: height * 0.8 },
+      INIT_POSITION: { x: width * 0.8, y: height * 0.8 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -768,6 +806,7 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_schwab },
       { class: Npc, data: sprite_data_computer },
       { class: Npc, data: sprite_data_investor },
+      { class: Npc, data: sprite_data_bank}
     ];
 
     document.addEventListener('keydown', (e) => {
@@ -788,11 +827,15 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // Define the order of NPCs for the arrow
   const waypointIds = [
-    'Casino-NPC',        // Frank Sinatra
+    'Stock-NPC',         // J.P. Morgan
     'Crypto-NPC',        // Satoshi Nakamoto
-    'Fidelity',          // Fidelity
+    'Casino-NPC',        // Frank Sinatra
+    'Investor',          // Bizguys
+    'Market Computer',   // Computer
     'Schwab',            // Schwab
-    'Investor'           // Investor (finance dude)
+    'Fidelity',          // Fidelity
+    'Bank-NPC',          // Janet Yellen
+    'Pilot'             // Pilot
   ];
 
   // Step state
@@ -816,16 +859,24 @@ window.addEventListener('DOMContentLoaded', function() {
     const width = gameCanvas ? gameCanvas.width : window.innerWidth;
     const height = gameCanvas ? gameCanvas.height : window.innerHeight;
     switch (npcId) {
-      case 'Casino-NPC': // Frank Sinatra
+      case 'Stock-NPC': // J.P. Morgan
         return { x: width * 0.28, y: height * 0.82 };
       case 'Crypto-NPC': // Satoshi Nakamoto
-        return { x: width * 0.85, y: height * 0.6 };
-      case 'Fidelity':
-        return { x: width * 0.372, y: height * 0.25 };
+        return { x: width * 0.5, y: height * 0.7 };
+      case 'Casino-NPC': // Frank Sinatra
+        return { x: width * 0.65, y: height * 0.55 };
+      case 'Investor': // Bizguys
+        return { x: width * 0.8, y: height * 0.8 };
+      case 'Market Computer': // Computer
+        return { x: width * 0.9, y: height * 0.65 };
       case 'Schwab':
         return { x: width * 0.665, y: height * 0.25 };
-      case 'Investor':
-        return { x: width * 0.5, y: height * 0.8 };
+      case 'Fidelity':
+        return { x: width * 0.372, y: height * 0.25 };
+      case 'Bank-NPC': // Janet Yellen
+        return { x: width * 0.8, y: height * 0.1 };
+      case 'Pilot':
+        return { x: width / 10, y: height * 0.2 };
       default:
         return { x: width / 2, y: height / 2 };
     }
