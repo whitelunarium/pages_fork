@@ -86,6 +86,10 @@ permalink: /crypto/mining
                             <div class="stat-label">Power Draw</div>
                             <div class="stat-value text-blue-400" id="power-draw">0W</div>
                         </div>
+                        <div>
+                            <div class="stat-label">Current Energy Plan</div>
+                            <div class="stat-value text-green-400" id="current-energy-plan">Loading...</div>
+                        </div>
                     </div>
                 </div>
                 <!-- Profitability -->
