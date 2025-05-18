@@ -4,7 +4,6 @@ title: Course Descriptions
 description: An Open Pathway to Computer Science
 image: /images/mario_animation.png
 hide: true
-menu: nav/home.html
 ---
 
 <!-- Liquid:  statements-->
