@@ -148,32 +148,102 @@ function updateActiveGPUsList() {
   });
 }
 
-// Make toggleMining globally available
-window.toggleMining = async function () {
-  try {
-    const options = {
-      ...fetchOptions,
-      method: 'POST',
-      cache: 'no-cache'
-    };
-    const response = await fetch(`${javaURI}/api/mining/toggle`, options);
-    const result = await response.json();
-    console.log('Mining toggle result:', result);
+let countdownInterval;
+let miningTimeLeft = 900; // 15 minutes in seconds
 
-    updateMiningButton(result.isMining);
-    if (result.isMining) {
-      startPeriodicUpdates();
-      showNotification('Mining started successfully');
-    } else {
-      stopPeriodicUpdates();
-      showNotification('Mining stopped');
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function startCountdown() {
+    const countdownElement = document.getElementById('mining-countdown');
+    const timerElement = document.getElementById('countdown-timer');
+    const miningButton = document.getElementById('start-mining');
+    
+    countdownElement.classList.remove('hidden');
+    countdownElement.classList.add('visible');
+    miningButton.classList.add('loading');
+    
+    miningTimeLeft = 900; // Reset to 15 minutes
+    timerElement.textContent = formatTime(miningTimeLeft);
+    
+    if (countdownInterval) clearInterval(countdownInterval);
+    
+    countdownInterval = setInterval(() => {
+        miningTimeLeft--;
+        timerElement.textContent = formatTime(miningTimeLeft);
+        
+        if (miningTimeLeft <= 0) {
+            clearInterval(countdownInterval);
+            countdownElement.classList.remove('visible');
+            countdownElement.classList.add('hidden');
+            miningButton.classList.remove('loading');
+            updateMiningStats();
+            startCountdown(); // Restart countdown for next cycle
+        }
+    }, 1000);
+}
+
+function stopCountdown() {
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
     }
-    await updateMiningStats();
-  } catch (error) {
-    console.error('Error toggling mining:', error);
-    showNotification('Error toggling mining state');
-  }
+    
+    const countdownElement = document.getElementById('mining-countdown');
+    const miningButton = document.getElementById('start-mining');
+    
+    countdownElement.classList.remove('visible');
+    countdownElement.classList.add('hidden');
+    miningButton.classList.remove('loading');
+}
+
+// Update the toggleMining function
+window.toggleMining = async function () {
+    try {
+        const options = {
+            ...fetchOptions,
+            method: 'POST',
+            cache: 'no-cache'
+        };
+        const response = await fetch(`${javaURI}/api/mining/toggle`, options);
+        const result = await response.json();
+        console.log('Mining toggle result:', result);
+
+        updateMiningButton(result.isMining);
+        if (result.isMining) {
+            startPeriodicUpdates();
+            startCountdown();
+            showNotification('Mining started successfully');
+        } else {
+            stopPeriodicUpdates();
+            stopCountdown();
+            showNotification('Mining stopped');
+        }
+        await updateMiningStats();
+    } catch (error) {
+        console.error('Error toggling mining:', error);
+        showNotification('Error toggling mining state');
+    }
 };
+
+// Update the updateMiningButton function
+function updateMiningButton(isActive) {
+    const button = document.getElementById('start-mining');
+    if (button) {
+        if (isActive) {
+            button.textContent = 'Stop Mining';
+            button.className = 'mining-button start-mining active loading';
+        } else {
+            button.textContent = 'Start Mining';
+            button.className = 'mining-button start-mining';
+        }
+    } else {
+        console.error('Mining button not found');
+    }
+}
 
 let hashrateChart, profitChart;
 let updateInterval;
@@ -619,20 +689,6 @@ function updateCharts(stats) {
         }
         profitChart.update('none');
         console.log('Profit chart updated');
-    }
-}
-function updateMiningButton(isActive) {
-    const button = document.getElementById('start-mining');
-    if (button) {
-        if (isActive) {
-            button.textContent = 'Stop Mining';
-            button.className = 'mining-button start-mining active';
-        } else {
-            button.textContent = 'Start Mining';
-            button.className = 'mining-button start-mining';
-        }
-    } else {
-        console.error('Mining button not found');
     }
 }
 function renderGpuShop(gpus) {
