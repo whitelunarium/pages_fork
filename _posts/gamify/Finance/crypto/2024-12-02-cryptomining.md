@@ -1,7 +1,4 @@
 ---
-
-layout: fortunefinders
-
 layout: finance
 title: Crypto Mining Simulator
 type: issueshen i
@@ -42,6 +39,7 @@ permalink: /crypto/mining
                         <div>
                             <div class="stat-label">Pending Crypto Balance</div>
                             <div class="stat-value text-yellow-400" id="pending-balance">0.00000000</div>
+                            <script type="module" src="{{site.baseurl}}/assets/js/crypto/portfolio.js"></script>
                             <span class="text-sm text-blue-400 cursor-pointer hover:underline mt-1 inline-block" onclick="openCryptoDetailsModal()">View all crypto balances &rarr;</span>
                         </div>
                         <div>
@@ -49,8 +47,8 @@ permalink: /crypto/mining
                             <div class="stat-value text-green-400" id="usd-value">$0.00</div>
                         </div>
                         <div>
-                            <div class="stat-label" id="pool-info">Min. Payout</div>
-                            <div class="stat-value text-yellow-400" id="pool-info">0.001 BTC</div>
+                            <div class="stat-label" id="pool-info"></div>
+                            <div class="stat-value text-yellow-400" id="pool-info"></div>
                         </div>
                     </div>
                 </div>
@@ -246,5 +244,4 @@ permalink: /crypto/mining
                 </div>
             </div>
         </div>
-        <script src="{{site.baseurl}}/assets/js/crypto/portfolio.js"></script>
     </div>
