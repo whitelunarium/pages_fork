@@ -11,7 +11,6 @@ permalink: /gamify/bankanalytics
     .chart-container {
         height: 500px;
         position: relative;
-        overflow: visible;
     }
     .combined-chart-container {
         height: 600px;
@@ -21,11 +20,9 @@ permalink: /gamify/bankanalytics
         border-radius: 8px;
         transition: transform 0.3s;
         position: relative;
-        z-index: 1;
     }
     .game-card:hover {
         transform: translateY(-5px);
-        z-index: 1000;
     }
     .game-title {
         color: #ff9800;
@@ -38,13 +35,6 @@ permalink: /gamify/bankanalytics
     }
     .toggle-container button {
         margin: 0.2rem;
-    }
-    .chart-container canvas {
-        transition: transform 0.3s ease;
-    }
-    .game-card:hover .chart-container canvas {
-        transform: scale(1.8);
-        transform-origin: center center;
     }
 </style>
 <body class="m-0 p-0" style="font-family: 'Poppins', sans-serif; background-color: #121212; color: #fff;">
@@ -206,11 +196,9 @@ function createCombinedChart(gameData) {
 
     const datasets = gameData.map(({ game, data }) => {
         const dailyMap = {};
-        let cumBal = 0;
         data.forEach(([time, profit]) => {
             const key = new Date(time).toLocaleDateString();
-            cumBal += parseFloat(profit) || 0;
-            dailyMap[key] = cumBal;
+            dailyMap[key] = (dailyMap[key] || 0) + (parseFloat(profit) || 0);
         });
         return {
             label: gameMap[game] || game.charAt(0).toUpperCase() + game.slice(1),
@@ -242,7 +230,6 @@ window.toggleDataset = function(label) {
 function processChartData(game, transactions) {
     if (!Array.isArray(transactions) || transactions.length === 0) return null;
     const labels = [], profits = [];
-    let balance = 0;
     transactions.forEach(transaction => {
         if (Array.isArray(transaction)) {
             const date = new Date(transaction[0]).toLocaleDateString();
@@ -251,25 +238,15 @@ function processChartData(game, transactions) {
             profits.push(profit);
         }
     });
-    const cumulative = profits.map(p => (balance += p));
     return {
         labels,
-        datasets: [
-            {
-                label: 'Profit/Loss',
-                data: profits,
-                borderColor: gameColors[game],
-                backgroundColor: gameColors[game] + '30',
-                tension: 0.2
-            },
-            {
-                label: 'Cumulative Balance',
-                data: cumulative,
-                borderColor: gameColors[game],
-                backgroundColor: gameColors[game] + '10',
-                tension: 0.2
-            }
-        ]
+        datasets: [{
+            label: 'Profit/Loss',
+            data: profits,
+            borderColor: gameColors[game],
+            backgroundColor: gameColors[game] + '30',
+            tension: 0.2
+        }]
     };
 }
 
