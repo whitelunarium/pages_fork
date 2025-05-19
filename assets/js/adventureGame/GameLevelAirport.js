@@ -5,6 +5,7 @@ import GameControl from './GameEngine/GameControl.js';
 import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
 import showDialogBox from './DialogBox.js';
+import WaypointArrow from './WaypointArrow.js';
 let socketURI
 let javaURI
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
@@ -825,125 +826,6 @@ window.addEventListener('DOMContentLoaded', function() {
   let gameContainer = document.getElementById('gameContainer') || (gameCanvas && gameCanvas.parentNode);
   if (!gameContainer) return;
 
-  // Define the order of NPCs for the arrow
-  const waypointIds = [
-    'Stock-NPC',         // J.P. Morgan
-    'Crypto-NPC',        // Satoshi Nakamoto
-    'Casino-NPC',        // Frank Sinatra
-    'Investor',          // Bizguys
-    'Market Computer',   // Computer
-    'Schwab',            // Schwab
-    'Fidelity',          // Fidelity
-    'Bank-NPC',          // Janet Yellen
-    'Pilot'             // Pilot
-  ];
-
-  // Step state
-  let currentStep = 0;
-  function getCurrentStep() { return currentStep; }
-  function setCurrentStep(step) { currentStep = step; }
-
-  // Use robust PNG path (site root)
-  let arrowImg = document.createElement('img');
-  arrowImg.src = window.gamePath + "/images/gamify/redarrow1.png";
-  arrowImg.id = 'waypointArrow';
-  arrowImg.style.position = 'absolute';
-  arrowImg.style.zIndex = 2000;
-  arrowImg.style.width = '48px';
-  arrowImg.style.height = '48px';
-  arrowImg.style.pointerEvents = 'none'; // Not clickable for advancement
-  arrowImg.style.transition = 'top 0.3s, left 0.3s';
-  document.body.appendChild(arrowImg);
-
-  function getWaypointPosition(npcId) {
-    const width = gameCanvas ? gameCanvas.width : window.innerWidth;
-    const height = gameCanvas ? gameCanvas.height : window.innerHeight;
-    switch (npcId) {
-      case 'Stock-NPC': // J.P. Morgan
-        return { x: width * 0.28, y: height * 0.82 };
-      case 'Crypto-NPC': // Satoshi Nakamoto
-        return { x: width * 0.5, y: height * 0.7 };
-      case 'Casino-NPC': // Frank Sinatra
-        return { x: width * 0.65, y: height * 0.55 };
-      case 'Investor': // Bizguys
-        return { x: width * 0.8, y: height * 0.8 };
-      case 'Market Computer': // Computer
-        return { x: width * 0.9, y: height * 0.65 };
-      case 'Schwab':
-        return { x: width * 0.665, y: height * 0.25 };
-      case 'Fidelity':
-        return { x: width * 0.372, y: height * 0.25 };
-      case 'Bank-NPC': // Janet Yellen
-        return { x: width * 0.8, y: height * 0.1 };
-      case 'Pilot':
-        return { x: width / 10, y: height * 0.2 };
-      default:
-        return { x: width / 2, y: height / 2 };
-    }
-  }
-
-  function moveArrowToCurrentWaypoint() {
-    const step = getCurrentStep();
-    const npcId = waypointIds[step] || waypointIds[0];
-    const pos = getWaypointPosition(npcId);
-    arrowImg.style.left = (pos.x - 24) + 'px';
-    arrowImg.style.top = (pos.y - 64) + 'px';
-  }
-
-  // Right-click to reset
-  arrowImg.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    setCurrentStep(0);
-    moveArrowToCurrentWaypoint();
-  });
-
-  window.addEventListener('resize', moveArrowToCurrentWaypoint);
-  moveArrowToCurrentWaypoint();
-
-  // Listen for 'E' key to advance arrow if at correct NPC
-  document.addEventListener('keydown', function(e) {
-    if (e.key.toLowerCase() !== 'e') return;
-    try {
-      const step = getCurrentStep();
-      const npcId = waypointIds[step] || waypointIds[0];
-      const pos = getWaypointPosition(npcId);
-      let playerObj = null;
-      if (window.gameEnv && window.gameEnv.gameObjects) {
-        playerObj = window.gameEnv.gameObjects.find(obj => obj.constructor && obj.constructor.name === 'Player');
-      }
-      if (!playerObj) {
-        const playerCanvas = document.querySelector('canvas[id*="player" i]');
-        if (playerCanvas && playerCanvas.getBoundingClientRect) {
-          const rect = playerCanvas.getBoundingClientRect();
-          playerObj = {
-            position: { x: rect.left + rect.width/2, y: rect.top + rect.height/2 }
-          };
-        }
-      }
-      if (playerObj && playerObj.position) {
-        const px = playerObj.position.x;
-        const py = playerObj.position.y;
-        const dx = px - pos.x;
-        const dy = py - pos.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 80) {
-          if (step < waypointIds.length - 1) {
-            setCurrentStep(step + 1);
-            moveArrowToCurrentWaypoint();
-          }
-        }
-      } else {
-        if (step < waypointIds.length - 1) {
-          setCurrentStep(step + 1);
-          moveArrowToCurrentWaypoint();
-        }
-      }
-    } catch (err) {
-      const step = getCurrentStep();
-      if (step < waypointIds.length - 1) {
-        setCurrentStep(step + 1);
-        moveArrowToCurrentWaypoint();
-      }
-    }
-  });
+  // Initialize the waypoint arrow
+  new WaypointArrow(gameCanvas, window.gamePath);
 });
