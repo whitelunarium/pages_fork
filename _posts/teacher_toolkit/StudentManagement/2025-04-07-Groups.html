@@ -107,7 +107,7 @@ comments: false
   </div>
 </div>
 
-<script>
+<script type="module">
 // Modal toggle utility
 function toggleModal(id) {
   const modal = document.getElementById(id);
@@ -118,14 +118,14 @@ function toggleModal(id) {
   } else {
     modal.classList.add("hidden");
     modal.classList.remove("flex");
-  }
+  } 
 }
 
 // Environment setup
-const javaURI =
-  location.hostname === "localhost" || location.hostname === "127.0.0.1"
-    ? "http://localhost:8085"
-    : "https://spring2025.nighthawkcodingsociety.com";
+import {javaURI, fetchOptions} from '{{site.baseurl}}/assets/js/api/config.js';
+
+const postOptions = {...fetchOptions, method: "POST"}
+const putOptions = {...fetchOptions, method: "PUT"}
 
 const javaURL = javaURI + "/api/groups";
 const personURL = javaURI + "/api/people";
@@ -134,7 +134,7 @@ const personURL = javaURI + "/api/people";
 const tableBody = document.getElementById("groupTableBody");
 
 function getTable() {
-  fetch(javaURL)
+  fetch(javaURL, fetchOptions)
     .then((response) => response.json())
     .then((groups) => {
       groups.forEach((group) => {
@@ -217,7 +217,7 @@ document.getElementById("searchInput").addEventListener("keyup", function () {
 });
 
 function fetchUsers() {
-  fetch(personURL)
+  fetch(personURL, fetchOptions)
     .then((response) => response.json())
     .then((users) => {
       const userList = document.getElementById("createUserList");
@@ -255,8 +255,7 @@ document.getElementById("createGroupBtn").addEventListener("click", () => {
   };
 
   fetch(javaURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    ...postOptions,
     body: JSON.stringify(groupPayload),
   })
     .then((res) => {
@@ -266,8 +265,7 @@ document.getElementById("createGroupBtn").addEventListener("click", () => {
     .then((newGroup) => {
       const groupId = newGroup.id;
       return fetch(`${javaURL}/${groupId}/addPeople`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        ...putOptions,
         body: JSON.stringify(selectedUserIds),
       });
     })
@@ -327,13 +325,13 @@ document.addEventListener("click", (e) => {
 
 // Fetch users for Edit modal and pre-check group members
 function loadUsersForEdit(groupId) {
-  return fetch(personURL)
+  return fetch(personURL, fetchOptions)
     .then((res) => {
       if (!res.ok) throw new Error("Failed to load users");
       return res.json();
     })
     .then((users) => {
-      return fetch(`${javaURL}/${groupId}`)
+      return fetch(`${javaURL}/${groupId}`, fetchOptions)
         .then((groupRes) => {
           if (!groupRes.ok) throw new Error("Failed to load group");
           return groupRes.json();
@@ -397,13 +395,12 @@ document.getElementById("saveEditGroupBtn").addEventListener("click", () => {
   }
 
   fetch(`${javaURL}/${groupId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    ...putOptions,
     body: JSON.stringify({ name, period }),
   })
     .then((updateRes) => {
       if (!updateRes.ok) throw new Error("Failed to update group info");
-      return fetch(`${javaURL}/${groupId}`);
+      return fetch(`${javaURL}/${groupId}`, fetchOptions);
     })
     .then((groupResp) => {
       if (!groupResp.ok) throw new Error("Failed to fetch group members");
@@ -421,8 +418,7 @@ document.getElementById("saveEditGroupBtn").addEventListener("click", () => {
       if (toRemove.length > 0) {
         promiseChain = promiseChain.then(() =>
           fetch(`${javaURL}/${groupId}/removePeople`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            ...putOptions,
             body: JSON.stringify(toRemove),
           }).then((res) => {
             if (!res.ok) throw new Error("Failed to remove users");
@@ -433,8 +429,7 @@ document.getElementById("saveEditGroupBtn").addEventListener("click", () => {
       if (toAdd.length > 0) {
         promiseChain = promiseChain.then(() =>
           fetch(`${javaURL}/${groupId}/addPeople`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            ...putOptions,
             body: JSON.stringify(toAdd),
           }).then((res) => {
             if (!res.ok) throw new Error("Failed to add users");
