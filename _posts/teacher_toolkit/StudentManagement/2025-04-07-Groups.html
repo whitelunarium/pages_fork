@@ -400,11 +400,17 @@ document.getElementById("saveEditGroupBtn").addEventListener("click", async () =
     const groupResp = await fetch(`${javaURL}/${groupId}`);
     if (!groupResp.ok) throw new Error("Failed to fetch group members");
     const group = await groupResp.json();
-    const currentIds = group.members.map(m => m.uid);
+    const currentIds = group.members.map(m => m.id);
+
+    console.log("c" + currentIds);
+    console.log("n" + newUserIds)
 
     // Calculate users to add and remove
     const toAdd = newUserIds.filter(id => !currentIds.includes(id));
     const toRemove = currentIds.filter(id => !newUserIds.includes(id));
+
+    console.log(toAdd);
+    console.log(toRemove);
 
     // Remove users that were deselected
     if (toRemove.length > 0) {
