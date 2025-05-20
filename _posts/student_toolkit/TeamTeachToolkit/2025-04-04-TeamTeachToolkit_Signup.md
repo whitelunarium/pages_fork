@@ -1,14 +1,11 @@
 ---
 toc: false
-layout: post
-title: Sign Up Page
-permalink: /student/TeamTeachSignUp
+layout: toolkit
+active_tab: teamteach
+title: Team Teach Signup
+permalink: /student/teamteachsignup
 description: Sign up for team teach topics
-
-<title>Team Teach Toolkit Signup</title>
-
-<!-- Tailwind CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
+---
 
 <div class="min-h-screen bg-gray-900 text-white">
   <div class="max-w-5xl mx-auto py-10 px-4">
@@ -87,6 +84,7 @@ description: Sign up for team teach topics
 
       // Wait for all fetchAssignTopics calls to complete
       await Promise.all(filteredTopics.map(topic => fetchAssignTopics(topic)));
+
     } catch (error) {
       console.error("Error fetching topics:", error);
     }
