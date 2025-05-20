@@ -396,6 +396,10 @@ class GameLevelAirport {
 }
 
 export default GameLevelAirport;
+// Make GameLevelAirport available globally for auto-instantiation
+if (typeof window !== 'undefined') {
+  window.GameLevelAirport = GameLevelAirport;
+}
 
 // Waypoint Arrow Integration
 window.addEventListener('DOMContentLoaded', function() {
