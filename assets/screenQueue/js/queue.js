@@ -26,6 +26,7 @@ let queueUpdateInterval;
 
 const URL = javaURI + "/api/assignments/"
 console.log(URL)
+
 const servers = {
     iceServers: [
         {
@@ -50,6 +51,22 @@ const socket = new WebSocket(mvURI);
 let videoStreamGlobal;
 let globalPeer;
 
+async function broadcast() {
+    const stream = await captureScreen();
+    videoStreamGlobal = stream;
+    document.getElementById("mortStream").srcObject = stream;
+    sendMessage({ context: "broadcastRequest" });
+}
+
+async function stopBroadcast()
+{
+    if(!videoStreamGlobal)
+    {
+        return;
+    }
+    videoStreamGlobal.getTracks().forEach(track => track.stop())
+    sendMessage({context:"stopBroadcast"})
+}
 
 
 socket.onmessage = async function (event) {
@@ -126,12 +143,6 @@ async function captureScreen() {
     }
 }
 
-async function broadcast() {
-    const stream = await captureScreen();
-    videoStreamGlobal = stream;
-    document.getElementById("mortStream").srcObject = stream;
-    sendMessage({ context: "broadcastRequest" });
-}
 
 function viewerAcceptServer(messageData) {
     let remotedesc = new RTCSessionDescription({
@@ -212,117 +223,138 @@ function checkForStreams()
           console.error("There was a problem with the fetch", error);
         });
 }
-document.getElementById('addQueue').addEventListener('click', addToQueue);
-document.getElementById('removeQueue').addEventListener('click', removeFromQueue);
 
-// timer function to start countdown for person
 function startTimer() {
-    console.log(document.getElementById("presentation"))
-    if (document.getElementById("presentation").value == 'presentation') {
-        console.log("test")
-        broadcast();
-    }
+    broadcast();
+    const waitingList = document.getElementById('waitingList');
+    const firstInQueue = waitingList.children[0]?.textContent;
 
+    // If person is not at the front or not part of the first group, block the timer
+    if (!firstInQueue || (!firstInQueue.includes(person) && person !== firstInQueue)) {
+        alert("You must be at the front of the queue to start the timer.");
+        return;
+    }
+    
     let time = timerlength;
-    document.getElementById('beginTimer').style.display = 'none';
+    const timerButton = document.getElementById('beginTimer');
+    timerButton.textContent = 'End Timer';
+
+    // Change the click behavior to END the timer
+    timerButton.removeEventListener('click', startTimer);
+    timerButton.addEventListener('click', endTimerEarly);
+    
     timerInterval = setInterval(() => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         document.getElementById('timerDisplay').textContent =
             `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        document.title = "" + `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} | Presentation Queue`;
+        document.title = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} | Presentation Queue`;
         time--;
         if (time < 0) {
             clearInterval(timerInterval);
             moveToDoneQueue();
-            alert("Timer is up! Your presentation is over.")
-            document.getElementById('beginTimer').style.display = 'block';
-            document.title = "Presentation Queue | Nighthawk Pages"
+            stopBroadcast();
+            alert("Timer is up! Your presentation is over.");
+
+            resetTimerButton();
         }
     }, 1000);
+}
+
+function endTimerEarly() {
+    clearInterval(timerInterval);
+    moveToDoneQueue();
+    alert("Timer ended early.");
+    resetTimerButton();
+}
+
+function resetTimerButton() {
+    const timerButton = document.getElementById('beginTimer');
+    timerButton.textContent = 'Begin Timer';
+    timerButton.removeEventListener('click', endTimerEarly);
+    timerButton.addEventListener('click', startTimer);
+    document.title = "Presentation Queue | Nighthawk Pages";
 }
 
 // ensure accessible outside of current module
 window.startTimer = startTimer;
 
-async function fetchQueue() {
-    const response = await fetch(URL + `getQueue/${assignment}`);
-    if (response.ok) {
-        const data = await response.json();
-        updateQueueDisplay(data);
-    }
+function fetchQueue() {
+    fetch(URL + `getQueue/${assignment}`)
+        .then(response => response.json())
+        .then(data => updateQueueDisplay(data));
 }
 
-async function fetchTimerLength() {
-    // console.log("test")
-    // const response = await fetch(URL + `getPresentationLength/${assignment}`);
-    // if (response.ok) {
-    //     const data = await response.json();
-    //     console.log(data);
-    //     timerlength = data;
-    //     document.getElementById('timerDisplay').textContent = `${Math.floor(timerlength / 60).toString().padStart(2, '0')}:${(timerlength % 60).toString().padStart(2, '0')}`;
-    // }
+function fetchTimerLength() {
+    console.log("test")
+    fetch(URL + `getPresentationLength/${assignment}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            timerlength = data;
+            document.getElementById('timerDisplay').textContent = `${Math.floor(timerlength / 60).toString().padStart(2, '0')}:${(timerlength % 60).toString().padStart(2, '0')}`;
+        });
 }
 
 // add user to waiting
-async function addToQueue() {
+function addToQueue() {
     let list = document.getElementById("notGoneList").children;
     let names = [];
     Array.from(list).forEach(child => {
         names.push(child.textContent);
     });
     if (names.includes(person)) {
-        await fetch(URL + `addToWaiting/${assignment}`, {
+        fetch(URL + `addToWaiting/${assignment}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([person])
-        });
-        fetchQueue();
+        })
+        .then(() => fetchQueue());
     } else {
         alert("ERROR: You are not in the working list.")
     }
 }
 
 // remove user from waiting
-async function removeFromQueue() {
+function removeFromQueue() {
     let list = document.getElementById("waitingList").children;
     let names = [];
     Array.from(list).forEach(child => {
         names.push(child.textContent);
     });
     if (names.includes(person)) {
-        await fetch(URL + `removeToWorking/${assignment}`, {
+        fetch(URL + `removeToWorking/${assignment}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([person])
-        });
-        fetchQueue();
+        })
+        .then(() => fetchQueue());
     } else {
         alert("ERROR: You are not in the waiting list.")
     }
 }
 
 // move user to completed
-async function moveToDoneQueue() {
+function moveToDoneQueue() {
     const firstPerson = [currentQueue[0]];
-    await fetch(URL + `doneToCompleted/${assignment}`, {
+    fetch(URL + `doneToCompleted/${assignment}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(firstPerson)
-    });
-    fetchQueue();
+    })
+    .then(() => fetchQueue());
 }
 
 // reset queue - todo: admin only
-async function resetQueue() {
-    await fetch(URL + `resetQueue/${assignment}`, {
+function resetQueue() {
+    fetch(URL + `resetQueue/${assignment}`, {
         method: 'PUT'
-    });
-    fetchQueue();
+    })
+    .then(() => fetchQueue());
 }
 
 // add/remove a group from waiting list
-async function toggleGroupInQueue() {
+function toggleGroupInQueue() {
     // ask for group names
     const groupName = prompt("Enter the group name to add/remove in the waiting queue:");
     if (!groupName || !groupName.trim()) {
@@ -337,24 +369,27 @@ async function toggleGroupInQueue() {
     
     if (isInQueue) {        
         // Now move the group to the completed queue endpoint
-        await fetch(URL + `doneToCompleted/${assignment}`, {
+        fetch(URL + `doneToCompleted/${assignment}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([trimmedGroup])
+        })
+        .then(() => {
+            alert(`Moved "${trimmedGroup}" to completed queue.`);
+            fetchQueue();
         });
-        alert(`Moved "${trimmedGroup}" to completed queue.`);
     } else {
         // add to queue
-        await fetch(URL + `addToWaiting/${assignment}`, {
+        fetch(URL + `addToWaiting/${assignment}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify([trimmedGroup])
+        })
+        .then(() => {
+            alert(`Added "${trimmedGroup}" to waiting queue.`);
+            fetchQueue();
         });
-        alert(`Added "${trimmedGroup}" to waiting queue.`);
     }
-    
-    // Refresh the queue display
-    fetchQueue();
 }
 
 // update display - ran periodically
@@ -379,7 +414,6 @@ function updateQueueDisplay(queue) {
     }
 }
 
-
 document.getElementById('beginTimer').addEventListener('click', startTimer);
 
 // Start the interval to periodically update the queue
@@ -387,8 +421,8 @@ function startQueueUpdateInterval(intervalInSeconds) {
     if (queueUpdateInterval) clearInterval(queueUpdateInterval); // Clear existing interval if any
     queueUpdateInterval = setInterval(() => {
         console.log("Updating queue...");
-        // fetchQueue();
-        // fetchTimerLength();
+        fetchQueue();
+        fetchTimerLength();
     }, intervalInSeconds * 1000);
 }
 
@@ -403,8 +437,8 @@ window.addEventListener('load', () => {
     showAssignmentModal();
 });
 
-async function fetchUser() {
-    const response = await fetch(javaURI + `/api/person/get`, {
+function fetchUser() {
+    fetch(javaURI + `/api/person/get`, {
         method: 'GET',
         cache: "no-cache",
         credentials: 'include',
@@ -412,10 +446,9 @@ async function fetchUser() {
             'Content-Type': 'application/json',
             'X-Origin': 'client' 
         }
-    });
-    
-    if (response.ok) {
-        const userInfo = await response.json();
+    })
+    .then(response => response.json())
+    .then(userInfo => {
         person = userInfo.name;
 
         console.log(typeof person);
@@ -425,20 +458,20 @@ async function fetchUser() {
             loc = loc => loc.split('/').slice(0, -2).join('/') || loc;
             window.location.href = loc + "/toolkit-login"
         }
-    }
+    });
 }
 
-async function showAssignmentModal() {
+function showAssignmentModal() {
     const modal = document.getElementById('assignmentModal');
     const modalDropdown = document.getElementById('modalAssignmentDropdown');
 
-    const response = await fetch(URL + 'debug');
-    if (response.ok) {
-        const assignments = await response.json();
+    fetch(URL + 'debug')
+    .then(response => response.json())
+    .then(assignments => {
         modalDropdown.innerHTML = assignments.map(assignment =>
             `<option value="${assignment.id}">${assignment.name}</option>`
         ).join('');
-    }
+    });
 
     modal.style.display = 'block';
 
@@ -457,5 +490,4 @@ async function showAssignmentModal() {
     });
 }
 
-fetchAssignments();
 fetchQueue();
