@@ -164,7 +164,7 @@ class GameLevelAirport {
         function whatAreStocks() {
           showDialogBox(
             "J.P. Morgan",
-            "Stocks represent ownership in a company. When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
+            "Stocks represent ownership in a company.  When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
             [
               { label: "Yes, let's invest", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
               { label: "Back", action: () => explainStocks(), keepOpen: true }
