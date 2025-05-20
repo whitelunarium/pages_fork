@@ -10,6 +10,11 @@ description: Sign up for team teach topics
 <div class="min-h-screen bg-gray-900 text-white">
   <div class="max-w-5xl mx-auto py-10 px-4">
 
+  <div id="tooltip" 
+     style="position: fixed; background: #222; color: #eee; padding: 8px 12px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s; max-width: 300px; z-index: 1000; font-size: 0.875rem;">
+</div>
+
+
     <!-- Logged-in Student Info -->
     <p id="loggedInStudent" class="mb-6 text-center text-sm">Fetching student info...</p>
 
@@ -123,20 +128,26 @@ description: Sign up for team teach topics
       const studentsText = studentsTextArray.length > 0 ? studentsTextArray.join(', ') : "None";
       const alreadySignedUp = studentsSet.has(userId);
 
-      let row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="border border-white px-4 py-2">${topic.name}</td>
-        <td class="border border-white px-4 py-2">${topic.dueDate}</td>
-        <td class="border border-white px-4 py-2">${studentsText}</td>
-        <td class="border border-white px-4 py-2">
-          <button 
-            class="border border-white px-3 py-1 rounded text-sm transition ${alreadySignedUp ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:text-black'}" 
-            data-topic-id="${topic.id}"
-            ${alreadySignedUp ? 'disabled' : ''}>
-            ${alreadySignedUp ? 'Signed Up' : 'Sign Up'}
-          </button>
-        </td>
-      `;
+    let row = document.createElement("tr");
+    row.innerHTML = `
+      <td 
+        class="border border-white px-4 py-2 tooltip-target" 
+        data-description="${topic.description.replace(/"/g, '&quot;')}"
+      >
+        ${topic.name}
+      </td>
+      <td class="border border-white px-4 py-2">${topic.dueDate}</td>
+      <td class="border border-white px-4 py-2">${studentsText}</td>
+      <td class="border border-white px-4 py-2">
+        <button 
+          class="border border-white px-3 py-1 rounded text-sm transition ${alreadySignedUp ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:text-black'}" 
+          data-topic-id="${topic.id}"
+          ${alreadySignedUp ? 'disabled' : ''}>
+          ${alreadySignedUp ? 'Signed Up' : 'Sign Up'}
+        </button>
+      </td>
+    `;
+
 
       if (!alreadySignedUp) {
         row.querySelector("button").addEventListener("click", function () {
@@ -226,4 +237,44 @@ async function addTopic() {
     getUserId();
     document.getElementById("addTopicBtn").addEventListener("click", addTopic);
   });
+
+const tooltip = document.getElementById("tooltip");
+
+document.addEventListener("mouseover", (e) => {
+  if (e.target.classList.contains("tooltip-target")) {
+    const desc = e.target.getAttribute("data-description");
+    if (desc) {
+      tooltip.textContent = desc;
+      tooltip.style.opacity = "1";
+    }
+  }
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (tooltip.style.opacity === "1") {
+    // Position tooltip near cursor, with some offset
+    let x = e.clientX + 15;
+    let y = e.clientY + 15;
+
+    // Prevent tooltip from going off the right edge
+    if (x + tooltip.offsetWidth > window.innerWidth) {
+      x = e.clientX - tooltip.offsetWidth - 15;
+    }
+    // Prevent tooltip from going off the bottom edge
+    if (y + tooltip.offsetHeight > window.innerHeight) {
+      y = e.clientY - tooltip.offsetHeight - 15;
+    }
+
+    tooltip.style.left = x + "px";
+    tooltip.style.top = y + "px";
+  }
+});
+
+document.addEventListener("mouseout", (e) => {
+  if (e.target.classList.contains("tooltip-target")) {
+    tooltip.style.opacity = "0";
+  }
+});
+
+
 </script>
