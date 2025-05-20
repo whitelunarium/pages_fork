@@ -238,39 +238,6 @@ class GameLevelAirport {
       }
     };
 
-    const sprite_src_pilot = path + "/images/gamify/pilot.png";
-    const sprite_data_pilot = {
-      id: 'Pilot',
-      greeting: "Greetings passenger! Ready to travel to Wallstreet?",
-      src: sprite_src_pilot,
-      SCALE_FACTOR: 5,
-      ANIMATION_RATE: 50,
-      pixels: { height: 460, width: 422 },
-      INIT_POSITION: { x: width / 10, y: height * 0.2 },
-      orientation: { rows: 1, columns: 1 },
-      down: { row: 0, start: 0, columns: 1 },
-      hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-      interact: async function () {
-        const personId = Game.id; 
-        const transitionAllowed = await Game.transitionToWallstreet(personId);
-      
-        if (transitionAllowed) {
-          let primaryGame = gameEnv.gameControl;
-          let levelArray = [GameLevelWallstreet];
-          let gameInGame = new GameControl(gameEnv.game, levelArray);
-      
-          primaryGame.pause();
-          gameInGame.start();
-      
-          gameInGame.gameOver = function () {
-            primaryGame.resume();
-          };
-        } else {
-          alert("You need to answer all the questions before accessing Wallstreet. Keep exploring!");
-        }
-      },
-    };
-
     const sprite_src_fidelity = path + "/images/gamify/fidelity.png";
     const sprite_data_fidelity = {
       id: 'Fidelity',
@@ -414,7 +381,6 @@ class GameLevelAirport {
       {class: Npc, data: sprite_data_crypto },
       {class: Npc, data: sprite_data_stocks},
       {class: Npc, data: sprite_data_casino},
-      { class: Npc, data: sprite_data_pilot },
       { class: Npc, data: sprite_data_fidelity },
       { class: Npc, data: sprite_data_schwab },
       { class: Npc, data: sprite_data_computer },
