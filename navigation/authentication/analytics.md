@@ -5,9 +5,10 @@ permalink: /analytics
 search_exclude: true
 ---
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-<style>
+<!-- <style>
     body {
         font-family: Arial;
     }
@@ -129,7 +130,100 @@ search_exclude: true
         text-decoration: none;
         cursor: pointer;
     }
-</style>
+</style> -->
+
+<div class="flex gap-2 border border-gray-300 rounded-t-lg overflow-hidden">
+    <button class="tablinks px-4 py-2 text-lg hover:bg-gray-600 transition duration-300" onclick="openTab(event, 'Github')">Github</button>
+    <button class="tablinks px-4 py-2 text-lg hover:bg-gray-600 transition duration-300" onclick="openTab(event, 'Bathroom')">Bathroom</button>
+    <button class="tablinks px-4 py-2 text-lg hover:bg-gray-600 transition duration-300" onclick="openTab(event, 'Grades')">Grades</button>
+</div>
+
+<div id="Github" class="tabcontent hidden p-4 border border-gray-300 rounded-b-lg">
+    <h3 class="pl-8 animate__animated animate__fadeIn text-xl font-semibold">Github</h3>
+    <!-- Modal -->
+    <div id="dataModal" class="modal fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 hidden z-50">
+        <div class="modal-content bg-gray-700 text-white p-6 rounded-lg shadow-lg w-4/5 mx-auto mt-20 relative">
+            <span class="close absolute top-2 right-4 text-2xl cursor-pointer">&times;</span>
+            <pre id="modalData" class="whitespace-pre-wrap break-words"></pre>
+        </div>
+    </div>
+    <div class="container flex justify-start w-full max-w-screen-xl py-5">
+        <div class="profile flex items-start max-w-3xl w-full bg-gray-800 text-white p-6 rounded-lg shadow-md">
+            <div class="left-side flex flex-col items-start mr-6">
+                <img id="avatar" class="rounded-full w-24 h-24 mb-4" src="" alt="User Avatar" />
+                <p id="username" class="font-semibold"></p>
+            </div>
+            <div class="details space-y-2">
+                <p id="profile-url"></p>
+                <p id="issues-count"></p>
+                <p id="prs-count"></p>
+                <p id="commits-count"></p>
+                <p id="repos-url"></p>
+                <p id="public-repos"></p>
+                <p id="public-gists"></p>
+                <p id="followers"></p>
+                <p id="following"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Bathroom" class="tabcontent hidden p-4 border border-gray-300 rounded-b-lg">
+    <h3 class="pl-8 animate__animated animate__fadeIn text-xl font-semibold">Bathroom</h3>
+    <div class="container flex justify-start py-5">
+        <div class="components w-full max-w-2xl">
+            <table class="table-auto w-full mb-4 border-collapse border border-gray-300 text-left text-sm">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="border px-4 py-2">Statistic</th>
+                        <th class="border px-4 py-2">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">Average Duration (minutes)</td>
+                        <td id="avg-duration" class="border px-4 py-2">placeholder</td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Number of Times Gone</td>
+                        <td id="num-times" class="border px-4 py-2">placeholder</td>
+                    </tr>
+                </tbody>
+            </table>
+            <canvas id="bathroomChart" width="400" height="200" class="bg-white rounded-md shadow"></canvas>
+        </div>
+    </div>
+</div>
+
+<div id="Grades" class="tabcontent hidden p-4 border border-gray-300 rounded-b-lg">
+    <h3 class="pl-8 animate__animated animate__fadeIn text-xl font-semibold">Grades</h3>
+    <div class="container flex justify-start py-5">
+        <div class="components w-full max-w-3xl">
+            <table id="gradesTable" class="table-auto w-full mb-4 border-collapse border border-gray-300 text-left text-sm">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="border px-4 py-2">Assignment</th>
+                        <th class="border px-4 py-2">Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JS will insert rows here -->
+                </tbody>
+            </table>
+            <label for="assignmentSelect" class="block font-medium mb-1">Choose an Assignment:</label>
+            <select id="assignmentSelect" class="mb-4 p-2 border border-gray-300 rounded w-full"></select>
+            <div id="boxPlotSection" class="chart-section hidden">
+                <h2 class="text-lg font-bold mb-2">📦 Box and Whisker Plot</h2>
+                <div id="boxPlot" class="bg-white rounded-md shadow p-4"></div>
+            </div>
+            <div id="userGradeSection" class="chart-section mt-4">
+                <h2 class="text-lg font-bold">🎓 Your Grade</h2>
+                <p id="userGrade" class="text-base text-gray-800">Loading your grade...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Github')">Github</button>
