@@ -9,6 +9,20 @@ class StatsManager {
         this.initStatsUI();
     }
 
+    async getNpcProgress(personId) {
+        try {
+            const response = await fetch(`${this.javaURI}/bank/${personId}/npcProgress`, this.fetchOptions);
+            if (!response.ok) {
+                throw new Error("Failed to fetch questions");
+            }
+            const npcProgressDictionary = await response.json();
+            return npcProgressDictionary
+        } catch (error) {
+            console.error("Error transitioning to Paradise:", error);
+            return null;
+        }
+    }
+
     async fetchStats(personId) {
         const endpoints = {
             balance: this.game.javaURI + '/rpg_answer/getBalance/' + personId,
