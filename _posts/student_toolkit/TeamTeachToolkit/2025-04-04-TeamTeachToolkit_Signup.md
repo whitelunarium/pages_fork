@@ -17,15 +17,18 @@ description: Sign up for team teach topics
     <div class="border border-white rounded-lg p-6">
       <h2 class="text-2xl font-bold mb-6 text-center">TEAM TEACH SIGNUP</h2>
 
-      <!-- Input Form -->
-      <div class="flex flex-col gap-4 mb-6">
-        <input type="text" id="name" placeholder="Enter Team Teach Topic"
-          class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
-        <input type="date" id="dueDate"
-          class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
-        <button id="addTopicBtn"
-          class="w-full border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
-      </div>
+    <!-- Input Form -->
+    <div class="flex flex-col gap-4 mb-6">
+      <input type="text" id="name" placeholder="Enter Team Teach Topic"
+        class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
+      <input type="text" id="description" placeholder="Enter Topic Description"
+        class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
+      <input type="date" id="dueDate"
+        class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
+      <button id="addTopicBtn"
+        class="w-full border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
+    </div>
+
 
       <!-- Topics Table -->
       <div class="overflow-x-auto">
@@ -148,38 +151,41 @@ description: Sign up for team teach topics
     }
   }
 
-  async function addTopic() {
-    let name = document.getElementById("name").value;
-    let rawDate = document.getElementById("dueDate").value;
+async function addTopic() {
+  let name = document.getElementById("name").value;
+  let description = document.getElementById("description").value;
+  let rawDate = document.getElementById("dueDate").value;
 
-    if (!name || !rawDate) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    let dueDate = formatDateToMMDDYYYY(rawDate);
-
-    const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=test&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
-
-    try {
-      let response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (response.ok) {
-        document.getElementById("name").value = "";
-        document.getElementById("dueDate").value = "";
-        fetchTopics(); // Refresh list
-      } else {
-        console.error("Failed to add topic");
-      }
-    } catch (error) {
-      console.error("Error adding topic:", error);
-    }
+  if (!name || !description || !rawDate) {
+    alert("Please fill in all fields.");
+    return;
   }
+
+  let dueDate = formatDateToMMDDYYYY(rawDate);
+
+  const url = `${javaURI}/api/assignments/create?name=${encodeURIComponent(name)}&type=teamteach&description=${encodeURIComponent(description)}&points=1.0&dueDate=${encodeURIComponent(dueDate)}`;
+
+  try {
+    let response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (response.ok) {
+      document.getElementById("name").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("dueDate").value = "";
+      fetchTopics(); // Refresh list
+    } else {
+      console.error("Failed to add topic");
+    }
+  } catch (error) {
+    console.error("Error adding topic:", error);
+  }
+}
+
 
   async function signUpForTopic(id) {
     if (userId === -1) {
