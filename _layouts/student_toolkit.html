@@ -86,9 +86,8 @@ active_tab: toolkit
             "header"
             "bathroom"
             "groups"
-            "screen-queue"
+            "queue"
             "assignment-submissions"
-            "seed-tracker"
             "teamteach"
             "view-grades";
         grid-area: main-info;
@@ -146,24 +145,24 @@ active_tab: toolkit
         align-items: center;
     }
 
-    .screen-queue {
+    .queue {
         display: grid;
         grid-template-columns: 150px 1fr;
         grid-template-rows: 1fr;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas:
-            "screen-queue-thumbnail screen-queue-details";
-        grid-area: screen-queue;
+            "queue-thumbnail queue-details";
+        grid-area: queue;
     }
 
-    .screen-queue-details {
-        grid-area: screen-queue-details;
+    .queue-details {
+        grid-area: queue-details;
         padding: 30px;
     }
 
-    .screen-queue-thumbnail {
-        grid-area: screen-queue-thumbnail;
+    .queue-thumbnail {
+        grid-area: queue-thumbnail;
         background-color: white;
         display: flex;
         justify-content: center;
@@ -188,30 +187,6 @@ active_tab: toolkit
 
     .assignment-submissions-thumbnail {
         grid-area: assignment-submissions-thumbnail;
-        background-color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .seed-tracker {
-        display: grid;
-        grid-template-columns: 150px 1fr;
-        grid-template-rows: 1fr;
-        gap: 0px 0px;
-        grid-auto-flow: row;
-        grid-template-areas:
-            "seed-tracker-thumbnail seed-tracker-details";
-        grid-area: seed-tracker;
-    }
-
-    .seed-tracker-details {
-        grid-area: seed-tracker-details;
-        padding: 30px;
-    }
-
-    .seed-tracker-thumbnail {
-        grid-area: seed-tracker-thumbnail;
         background-color: white;
         display: flex;
         justify-content: center;
@@ -421,6 +396,28 @@ active_tab: toolkit
         <p>Access all student toolkits here.</p>
     </div>
 
+    {% for link in site.data.toolkit.links %}
+        <a href="{{ site.baseurl }}/{{ link.href }}">
+            <div class="{{ link.id }} card">
+                <div class="{{ link.id }}-details">
+                    <h3>{{ link.label }}</h3>
+                    <p>This tool lets you:</p>
+                    {% if link.description %}
+                        <ul>
+                            {% for bullet in link.description %}
+                                <li>{{ bullet }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="{{ link.id }}-thumbnail">
+                    <img src="{{ site.baseurl }}/{{ link.icon }}" alt="{{ link.label }}"
+                        class="thumbnail">
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+
     <!-- bathroom -->
     <a href="{{site.baseurl}}/hallpass">
         <div class="bathroom card">
@@ -462,8 +459,8 @@ active_tab: toolkit
 
     <!-- screen queue -->
     <a href="{{site.baseurl}}/student/queue">
-        <div class="screen-queue card">
-            <div class="screen-queue-details">
+        <div class="queue card">
+            <div class="queue-details">
                 <h3>Screen Queue</h3>
                 <p>This tool lets you:</p>
                 <ul>
@@ -473,7 +470,7 @@ active_tab: toolkit
                     <li>Track who has already presented</li>
                 </ul>
             </div>
-            <div class="screen-queue-thumbnail">
+            <div class="queue-thumbnail">
                 <img src="{{site.baseurl}}/images/toolkit-nav-buttons/group-chat.png" alt="ScreenQueue"
                     class="thumbnail">
             </div>
@@ -493,23 +490,6 @@ active_tab: toolkit
             </div>
             <div class="assignment-submissions-thumbnail">
                 <img src="{{site.baseurl}}/images/toolkit-nav-buttons/submissions.png" alt="Submissions"
-                    class="thumbnail">
-            </div>
-        </div>
-    </a>
-
-    <!-- seed tracker -->
-    <a href="{{site.baseurl}}/student/seedtracker">
-        <div class="seed-tracker card">
-            <div class="seed-tracker-details">
-                <h3>Seed Tracker</h3>
-                <p>This tool lets you:</p>
-                <ul>
-                    <li>Request seed</li>
-                </ul>
-            </div>
-            <div class="seed-tracker-thumbnail">
-                <img src="{{site.baseurl}}/images/toolkit-nav-buttons/seedtracker.png" alt="Seed Tracker"
                     class="thumbnail">
             </div>
         </div>
