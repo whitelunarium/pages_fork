@@ -22,7 +22,7 @@ class GameLevelAirport {
     let path = gameEnv.path;
     window.gamePath = path;
 
-    const image_src_desert = path + "/images/gamify/airport.jpg";
+    const image_src_desert = path + "/images/gamify/map.png"; 
     const image_data_desert = {
       id: 'Airport-Background',
       src: image_src_desert,
@@ -132,10 +132,10 @@ class GameLevelAirport {
       id: 'Stock- NPC',
       greeting: "Good day, I am J.P. Morgan, financier of industry and architect of American banking.",
       src: sprite_src_stocks,
-      SCALE_FACTOR: 10,
+      SCALE_FACTOR: 7,
       ANIMATION_RATE: 50,
       pixels: { height: 441, width: 339 },
-      INIT_POSITION: { x: width * 0.28, y: height * 0.82 },
+      INIT_POSITION: { x: width * 0.17, y: height * 0.8 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -164,7 +164,7 @@ class GameLevelAirport {
         function whatAreStocks() {
           showDialogBox(
             "J.P. Morgan",
-            "Stocks represent ownership in a company. When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
+            "Stocks represent ownership in a company.  When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
             [
               { label: "Yes, let's invest", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
               { label: "Back", action: () => explainStocks(), keepOpen: true }
@@ -181,10 +181,10 @@ class GameLevelAirport {
       id: 'Crypto-NPC',
       greeting: "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.",
       src: sprite_src_crypto,
-      SCALE_FACTOR: 10,
+      SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
       pixels: { height: 282, width: 282 },
-      INIT_POSITION: { x: width * 0.5, y: height * 0.7 },
+      INIT_POSITION: { x: width * 0.7, y: height * 0.24 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -263,7 +263,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
       pixels: { height: 2048, width: 2048 },
-      INIT_POSITION: { x: width * 0.665, y: height * 0.25 },
+      INIT_POSITION: { x: width * 0.6, y: height * 0.25 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
