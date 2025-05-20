@@ -22,7 +22,7 @@ class GameLevelAirport {
     let path = gameEnv.path;
     window.gamePath = path;
 
-    const image_src_desert = path + "/images/gamify/airport.jpg";
+    const image_src_desert = path + "/images/gamify/map.png"; 
     const image_data_desert = {
       id: 'Airport-Background',
       src: image_src_desert,
