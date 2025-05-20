@@ -281,15 +281,15 @@ class StatsManager {
         }
 
         // Pixel-art icons (free, open source)
-        const coinIcon = '🪙';
-        const accuracyIcon = '🎯';
-        const npcIcon = '🧑‍🎤';
-        const statsIcon = '🎮';
+        const coinIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1fa99.png'; // 🪙
+        const accuracyIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3af.png'; // 🎯
+        const npcIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f9d1-200d-1f3a4.png'; // 🧑‍🎤
+        const statsIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3ae.png'; // 🎮
 
         // Create the button
         const statsButton = document.createElement('div');
         statsButton.id = 'stats-button';
-        statsButton.innerHTML = `<img src="${statsIcon}" alt="Stats" title="Show Player Stats" />`;
+        statsButton.innerHTML = `<img src="${statsIcon}" alt="Stats" title="Show Player Stats" style="width:38px;height:38px;image-rendering:pixelated;" />`;
 
         // Create the panel
         const statsContainer = document.createElement('div');
@@ -319,18 +319,20 @@ class StatsManager {
         });
         statsContainer.innerHTML = `
             <div class="pixel-title" style="position: relative;">
-                <span style="font-size: 22px;">▣</span> <span style="font-family: 'Press Start 2P', 'VT323', monospace;">PLAYER STATS</span> <span style="font-size: 22px;">▣</span>
+                <img class="pixel-icon" src="${statsIcon}" alt="Game" style="width:22px;height:22px;margin-right:8px;vertical-align:middle;" />
+                <span style="font-family: 'Press Start 2P', 'VT323', monospace;">PLAYER STATS</span>
+                <img class="pixel-icon" src="${statsIcon}" alt="Game" style="width:22px;height:22px;margin-left:8px;vertical-align:middle;" />
             </div>
             <div class="pixel-stat-box">
-                <img class="pixel-icon" src="${coinIcon}" alt="Coin" />
+                <img class="pixel-icon" src="${coinIcon}" alt="Coin" style="width:22px;height:22px;vertical-align:middle;" />
                 <span style="color: #ffb300;">Balance:</span> <span id="balance" style="margin-left: 6px;">0</span>
             </div>
             <div class="pixel-stat-box">
-                <img class="pixel-icon" src="${accuracyIcon}" alt="Accuracy" />
+                <img class="pixel-icon" src="${accuracyIcon}" alt="Accuracy" style="width:22px;height:22px;vertical-align:middle;" />
                 <span style="color: #ffb300;">Question Accuracy:</span> <span id="questionAccuracy" style="margin-left: 6px;">0%</span>
             </div>
             <div class="pixel-stat-box">
-                <img class="pixel-icon" src="${npcIcon}" alt="NPC" />
+                <img class="pixel-icon" src="${npcIcon}" alt="NPC" style="width:22px;height:22px;vertical-align:middle;" />
                 <span style="color: #ffb300;">NPCs Talked To:</span> <span id="npcsTalkedTo" style="margin-left: 6px;">${npcsTalkedTo}</span>
             </div>
             <div id="npcs-progress-bar-container" style="width: 100%; margin-top: 6px; margin-bottom: 2px; height: 18px; background: #fffbe6; border: 2px solid #ffb300; border-radius: 4px; box-shadow: 1px 1px 0 #ffec80; position: relative; overflow: hidden;">
