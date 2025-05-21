@@ -47,8 +47,8 @@ permalink: /crypto/mining
                             <div class="stat-value text-green-400" id="usd-value">$0.00</div>
                         </div>
                         <div>
-                            <div class="stat-label" id="pool-info"></div>
-                            <div class="stat-value text-yellow-400" id="pool-info"></div>
+                            <div class="stat-label" id="pool-info-label"></div>
+                            <div class="stat-value text-yellow-400" id="pool-info-value"></div>
                         </div>
                     </div>
                 </div>
@@ -192,9 +192,9 @@ permalink: /crypto/mining
             <button class="tutorial-button tutorial-button-primary" onclick="startTutorial()">Start Tour</button>
             <button class="tutorial-button tutorial-button-tertiary" onclick="skipTutorial()">SKIP</button>
             <button class="tutorial-button tutorial-button-tertiary" onclick="neverShowTutorial()">Never Show</button>
-            <script src="{{site.baseurl}}/assets/js/crypto/tutorial.js"></script>
         </div>
     </div>
+    <script type="module" src="{{site.baseurl}}/assets/js/crypto/tutorial.js"></script>
     <!-- GPU Shop Modal -->
     <div id="gpu-shop-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
