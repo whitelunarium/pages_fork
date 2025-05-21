@@ -65,17 +65,86 @@ class GameLevelAirport {
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function () {
+        // Create modal container if it doesn't exist
+        let casinoModal = document.getElementById('casinoModal');
+        if (!casinoModal) {
+          casinoModal = document.createElement("div");
+          casinoModal.id = "casinoModal";
+          casinoModal.style.position = "fixed";
+          casinoModal.style.top = "0";
+          casinoModal.style.left = "0";
+          casinoModal.style.width = "100vw";
+          casinoModal.style.height = "100vh";
+          casinoModal.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+          casinoModal.style.display = "none";
+          casinoModal.style.justifyContent = "center";
+          casinoModal.style.alignItems = "center";
+          casinoModal.style.zIndex = "1000";
+          document.body.appendChild(casinoModal);
+
+          // Create iframe wrapper
+          const iframeWrapper = document.createElement("div");
+          iframeWrapper.id = "casinoFrameWrapper";
+          iframeWrapper.style.position = "relative";
+          iframeWrapper.style.overflow = "hidden";
+          iframeWrapper.style.width = "90%";
+          iframeWrapper.style.maxWidth = "1000px";
+          iframeWrapper.style.height = "80%";
+          iframeWrapper.style.border = "2px solid #ccc";
+          iframeWrapper.style.borderRadius = "8px";
+          iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+          casinoModal.appendChild(iframeWrapper);
+
+          // Create iframe
+          const casinoFrame = document.createElement("iframe");
+          casinoFrame.id = "casinoFrame";
+          casinoFrame.style.width = "100%";
+          casinoFrame.style.height = "110%";
+          casinoFrame.style.position = "absolute";
+          casinoFrame.style.top = "-10%";
+          casinoFrame.style.left = "0";
+          casinoFrame.style.border = "none";
+          iframeWrapper.appendChild(casinoFrame);
+
+          // Add close button
+          const closeBtn = document.createElement("button");
+          closeBtn.innerText = "✖";
+          closeBtn.style.position = "absolute";
+          closeBtn.style.top = "20px";
+          closeBtn.style.right = "30px";
+          closeBtn.style.fontSize = "20px";
+          closeBtn.style.background = "white";
+          closeBtn.style.border = "none";
+          closeBtn.style.padding = "8px 12px";
+          closeBtn.style.borderRadius = "5px";
+          closeBtn.style.cursor = "pointer";
+          closeBtn.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+          closeBtn.style.zIndex = "1100";
+          closeBtn.onclick = () => {
+            casinoModal.style.display = "none";
+            casinoFrame.src = "";
+          };
+          casinoModal.appendChild(closeBtn);
+        }
+
+        function openInModal(url) {
+          const casinoFrame = document.getElementById('casinoFrame');
+          casinoFrame.src = url;
+          casinoModal.style.display = "flex";
+        }
+
         function intro() {
           showDialogBox(
             "Frank Sinatra",
             "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.\nHere, you can test your luck on Blackjack, Poker, or the Minefield Challenge.\nBut remember: in gambling, the swing of fortune can be swift and brutal.\nWant a tip before you step in?",
             [
               { label: "Yes, give me advice", action: () => giveAdvice(), keepOpen: true },
-              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
               { label: "No thanks", action: () => {} }
             ]
           );
         }
+
         function giveAdvice() {
           const adviceList = [
             "The house always has an edge, so play smart and know when to walk away.",
@@ -90,12 +159,13 @@ class GameLevelAirport {
             advice + "\nWant to answer a question before you go in?",
             [
               { label: "Sure, ask me!", action: () => askQuestion(), keepOpen: true },
-              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
               { label: "Another tip", action: () => giveAdvice(), keepOpen: true },
               { label: "Maybe later", action: () => {} }
             ]
           );
         }
+
         function askQuestion() {
           showDialogBox(
             "Frank's Question",
@@ -108,17 +178,19 @@ class GameLevelAirport {
             ]
           );
         }
+
         function frankResponse(response) {
           showDialogBox(
             "Frank Sinatra",
             response + "\nReady to try your luck?",
             [
-              { label: "Take me to the Casino", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage" },
+              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
               { label: "Back to advice", action: () => giveAdvice(), keepOpen: true },
               { label: "Maybe later", action: () => {} }
             ]
           );
         }
+
         intro();
       },
       interact: function () {
@@ -139,6 +211,74 @@ class GameLevelAirport {
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function () {
+        // Create modal container if it doesn't exist
+        let stocksModal = document.getElementById('stocksModal');
+        if (!stocksModal) {
+          stocksModal = document.createElement("div");
+          stocksModal.id = "stocksModal";
+          stocksModal.style.position = "fixed";
+          stocksModal.style.top = "0";
+          stocksModal.style.left = "0";
+          stocksModal.style.width = "100vw";
+          stocksModal.style.height = "100vh";
+          stocksModal.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+          stocksModal.style.display = "none";
+          stocksModal.style.justifyContent = "center";
+          stocksModal.style.alignItems = "center";
+          stocksModal.style.zIndex = "1000";
+          document.body.appendChild(stocksModal);
+
+          // Create iframe wrapper
+          const iframeWrapper = document.createElement("div");
+          iframeWrapper.id = "stocksFrameWrapper";
+          iframeWrapper.style.position = "relative";
+          iframeWrapper.style.overflow = "hidden";
+          iframeWrapper.style.width = "90%";
+          iframeWrapper.style.maxWidth = "1000px";
+          iframeWrapper.style.height = "80%";
+          iframeWrapper.style.border = "2px solid #ccc";
+          iframeWrapper.style.borderRadius = "8px";
+          iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+          stocksModal.appendChild(iframeWrapper);
+
+          // Create iframe
+          const stocksFrame = document.createElement("iframe");
+          stocksFrame.id = "stocksFrame";
+          stocksFrame.style.width = "100%";
+          stocksFrame.style.height = "110%";
+          stocksFrame.style.position = "absolute";
+          stocksFrame.style.top = "-10%";
+          stocksFrame.style.left = "0";
+          stocksFrame.style.border = "none";
+          iframeWrapper.appendChild(stocksFrame);
+
+          // Add close button
+          const closeBtn = document.createElement("button");
+          closeBtn.innerText = "✖";
+          closeBtn.style.position = "absolute";
+          closeBtn.style.top = "20px";
+          closeBtn.style.right = "30px";
+          closeBtn.style.fontSize = "20px";
+          closeBtn.style.background = "white";
+          closeBtn.style.border = "none";
+          closeBtn.style.padding = "8px 12px";
+          closeBtn.style.borderRadius = "5px";
+          closeBtn.style.cursor = "pointer";
+          closeBtn.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+          closeBtn.style.zIndex = "1100";
+          closeBtn.onclick = () => {
+            stocksModal.style.display = "none";
+            stocksFrame.src = "";
+          };
+          stocksModal.appendChild(closeBtn);
+        }
+
+        function openInModal(url) {
+          const stocksFrame = document.getElementById('stocksFrame');
+          stocksFrame.src = url;
+          stocksModal.style.display = "flex";
+        }
+
         function intro() {
           showDialogBox(
             "J.P. Morgan",
@@ -149,27 +289,30 @@ class GameLevelAirport {
             ]
           );
         }
+
         function explainStocks() {
           showDialogBox(
             "J.P. Morgan",
             "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
             [
-              { label: "Take me to the Stock Exchange", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
+              { label: "Take me to the Stock Exchange", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
               { label: "Remind me what stocks are", action: () => whatAreStocks(), keepOpen: true },
               { label: "Back", action: () => intro(), keepOpen: true }
             ]
           );
         }
+
         function whatAreStocks() {
           showDialogBox(
             "J.P. Morgan",
-            "Stocks represent ownership in a company.  When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
+            "Stocks represent ownership in a company. When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
             [
-              { label: "Yes, let's invest", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer" },
+              { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
               { label: "Back", action: () => explainStocks(), keepOpen: true }
             ]
           );
         }
+
         intro();
       },
       interact: function () { this.reaction(); }
