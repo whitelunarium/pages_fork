@@ -140,7 +140,7 @@ permalink: /gamify/blackjack
             if (!data || !data.uid) throw new Error("UID not found in response");
 
             uid = data.uid;
-            currentBalance = data.balanceDouble || 0;
+            currentBalance = data.banks.balanceDouble || 0;
             document.getElementById("balance").innerText = `$${currentBalance.toLocaleString()}`;
             console.log("UID:", uid);
         } catch (error) {
@@ -255,8 +255,8 @@ permalink: /gamify/blackjack
         displayCards(gameState.dealerHand, "dealerHand");
 
         // Update balance if available
-        if (data.balance !== undefined) {
-            currentBalance = data.balance;
+        if (data.banks.balance !== undefined) {
+            currentBalance = data.banks.balance;
             document.getElementById("balance").innerText = `$${currentBalance.toLocaleString()}`;
         }
 

@@ -130,7 +130,7 @@ async function fetchUserDetails() {
         const userData = await response.json();
         userId = userData.id;
         document.querySelector('.name').textContent = userData.uid || "Unknown";
-        document.querySelector('.balance').textContent = Number(userData.balance).toFixed(2);
+        document.querySelector('.balance').textContent = Number(userData.banks.balance).toFixed(2);
         initializeCharts(userData.email);
     } catch (error) {
         console.error("Error fetching user data:", error);
