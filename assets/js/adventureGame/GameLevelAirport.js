@@ -38,7 +38,7 @@ class GameLevelAirport {
       SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
-      INIT_POSITION: { x: 0, y: height - (height / CHILLGUY_SCALE_FACTOR) },
+      INIT_POSITION: { x: width * 0.41, y: height * 0.31 },
       pixels: { height: 384, width: 512 },
       orientation: { rows: 3, columns: 4 },
       down: { row: 0, start: 0, columns: 3 },
@@ -61,7 +61,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 5,
       ANIMATION_RATE: 50,
       pixels: { height: 281, width: 280 },
-      INIT_POSITION: { x: width * 0.65, y: height * 0.55 },
+      INIT_POSITION: { x: width * 0.15, y: height * 0.25 },
       orientation: { rows: 1, columns: 1 }, 
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -184,7 +184,7 @@ class GameLevelAirport {
       SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
       pixels: { height: 282, width: 282 },
-      INIT_POSITION: { x: width * 0.7, y: height * 0.24 },
+      INIT_POSITION: { x: width * 0.69, y: height * 0.24 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -238,15 +238,15 @@ class GameLevelAirport {
       }
     };
 
-    const sprite_src_fidelity = path + "/images/gamify/fidelity.png";
+    const sprite_src_fidelity = path + "/images/gamify/fidelitygirl.png";
     const sprite_data_fidelity = {
       id: 'Fidelity',
       greeting: "Hi I'm Fidelity! Let's tackle some finance and tech questions!",
       src: sprite_src_fidelity,
-      SCALE_FACTOR: 5,
+      SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
-      pixels: { height: 512, width: 512 },
-      INIT_POSITION: { x: width * 0.372, y: height * 0.25 },
+      pixels: { height: 747, width: 498 },
+      INIT_POSITION: { x: width * 0.34, y: height * 0.32 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -255,15 +255,15 @@ class GameLevelAirport {
       }
     };
 
-    const sprite_src_schwab = path + "/images/gamify/schwab.png";
+    const sprite_src_schwab = path + "/images/gamify/schwabbman.png";
     const sprite_data_schwab = {
       id: 'Schwab',
       greeting: "Hi I'm Schwab! Let's tackle some finance and tech questions!",
       src: sprite_src_schwab,
-      SCALE_FACTOR: 5,
+      SCALE_FACTOR: 6,
       ANIMATION_RATE: 50,
-      pixels: { height: 2048, width: 2048 },
-      INIT_POSITION: { x: width * 0.6, y: height * 0.25 },
+      pixels: { height: 747, width: 398 },
+      INIT_POSITION: { x: width * 0.48, y: height * 0.32 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -340,10 +340,10 @@ class GameLevelAirport {
       id: 'Bank-NPC',
       greeting: "Welcome, I'm Janet Yellen, Secretary of the Treasury.",
       src: sprite_src_bank,
-      SCALE_FACTOR: 6,
+      SCALE_FACTOR: 5.5,
       ANIMATION_RATE: 50,
       pixels: { height: 282, width: 268 },
-      INIT_POSITION: { x: width * 0.8, y: height * 0.1 },
+      INIT_POSITION: { x: width * 0.7, y: height * 0.75 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
