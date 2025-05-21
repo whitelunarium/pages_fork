@@ -1,7 +1,7 @@
 ---
 layout: dashboard
 title: Dashboard
-permalink: /analytics
+permalink: /dashboard
 search_exclude: true
 ---
 
