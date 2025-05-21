@@ -3,7 +3,7 @@ import Npc from './GameEngine/Npc.js';
 import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
 import Game from './Game.js';
-import showDialogBox from './DialogBox.js';
+import showDialogBox, { showYellenModal, getFrankAdviceList, getMorganFacts, getSatoshiQuestions } from './DialogBox.js';
 import WaypointArrow from './WaypointArrow.js';
 let socketURI
 let javaURI
@@ -156,13 +156,7 @@ class GameLevelAirport {
         }
 
         function giveAdvice() {
-          const adviceList = [
-            "The house always has an edge, so play smart and know when to walk away.",
-            "Set a budget before you play, and never chase your losses.",
-            "Luck be a lady tonight, but skill keeps you in the game.",
-            "Sometimes the best bet is the one you don't make.",
-            "Enjoy the thrill, but remember: it's just a game."
-          ];
+          const adviceList = getFrankAdviceList();
           const advice = adviceList[Math.floor(Math.random() * adviceList.length)];
           showDialogBox(
             "Frank's Advice",
@@ -323,9 +317,11 @@ class GameLevelAirport {
         }
 
         function whatAreStocks() {
+          const facts = getMorganFacts();
+          const fact = facts[Math.floor(Math.random() * facts.length)];
           showDialogBox(
             "J.P. Morgan",
-            "Stocks represent ownership in a company. When you buy a stock, you become a partial owner and can benefit from its success.\nWould you like to try investing now?",
+            fact + "\nWould you like to try investing now?",
             [
               { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
               { label: "Back", action: () => explainStocks(), keepOpen: true }
@@ -590,14 +586,116 @@ class GameLevelAirport {
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       reaction: function () {
+        // Modern dialog and iframe for Janet Yellen
+        function openInModal(url) {
+          let modal = document.getElementById('yellenModal');
+          if (!modal) {
+            modal = document.createElement("div");
+            modal.id = "yellenModal";
+            modal.style.position = "fixed";
+            modal.style.top = "0";
+            modal.style.left = "0";
+            modal.style.width = "100vw";
+            modal.style.height = "100vh";
+            modal.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+            modal.style.display = "none";
+            modal.style.justifyContent = "center";
+            modal.style.alignItems = "center";
+            modal.style.zIndex = "1000";
+            document.body.appendChild(modal);
+
+            // Iframe wrapper
+            const iframeWrapper = document.createElement("div");
+            iframeWrapper.id = "yellenFrameWrapper";
+            iframeWrapper.style.position = "relative";
+            iframeWrapper.style.overflow = "hidden";
+            iframeWrapper.style.width = "90%";
+            iframeWrapper.style.maxWidth = "1000px";
+            iframeWrapper.style.height = "80%";
+            iframeWrapper.style.border = "2px solid #ccc";
+            iframeWrapper.style.borderRadius = "8px";
+            iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+            modal.appendChild(iframeWrapper);
+
+            // Iframe
+            const yellenFrame = document.createElement("iframe");
+            yellenFrame.id = "yellenFrame";
+            yellenFrame.style.width = "100%";
+            yellenFrame.style.height = "110%";
+            yellenFrame.style.position = "absolute";
+            yellenFrame.style.top = "-10%";
+            yellenFrame.style.left = "0";
+            yellenFrame.style.border = "none";
+            iframeWrapper.appendChild(yellenFrame);
+
+            // Close button
+            const closeBtn = document.createElement("button");
+            closeBtn.innerText = "✖";
+            closeBtn.style.position = "absolute";
+            closeBtn.style.top = "10px";
+            closeBtn.style.right = "10px";
+            closeBtn.style.fontSize = "24px";
+            closeBtn.style.background = "#00ff80";
+            closeBtn.style.color = "#000";
+            closeBtn.style.border = "none";
+            closeBtn.style.padding = "10px 15px";
+            closeBtn.style.borderRadius = "5px";
+            closeBtn.style.cursor = "pointer";
+            closeBtn.style.boxShadow = "0 0 15px rgba(0,255,128,0.5)";
+            closeBtn.style.zIndex = "1100";
+            closeBtn.style.transition = "all 0.3s ease";
+            closeBtn.onmouseover = () => {
+              closeBtn.style.background = "#00cc66";
+              closeBtn.style.transform = "scale(1.1)";
+            };
+            closeBtn.onmouseout = () => {
+              closeBtn.style.background = "#00ff80";
+              closeBtn.style.transform = "scale(1)";
+            };
+            closeBtn.onclick = () => {
+              modal.style.display = "none";
+              yellenFrame.src = "";
+            };
+            iframeWrapper.appendChild(closeBtn);
+          }
+          const yellenFrame = document.getElementById('yellenFrame');
+          yellenFrame.src = url;
+          modal.style.display = "flex";
+        }
+
         function intro() {
-          alert("Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, or get financial tips?");
+          showDialogBox(
+            "Janet Yellen",
+            "Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, get financial tips, or visit the Treasury website?",
+            [
+              { label: "Learn about the Bank", action: () => explainBank(), keepOpen: true },
+              { label: "Review Analytics", action: () => analyticsIntro(), keepOpen: true },
+              { label: "Financial Tip", action: () => financialTip(), keepOpen: true },
+              { label: "Visit Treasury Website", action: () => showYellenModal("https://home.treasury.gov/") },
+              { label: "Goodbye", action: () => {} }
+            ]
+          );
         }
         function explainBank() {
-          alert("The Bank keeps track of your every transaction, monitors your balance, and helps you plan for the future.\nWould you like to see your analytics or hear a tip?");
+          showDialogBox(
+            "Janet Yellen",
+            "The Bank keeps track of your every transaction, monitors your balance, and helps you plan for the future.\nWould you like to see your analytics or hear a tip?",
+            [
+              { label: "See Analytics", action: () => analyticsIntro(), keepOpen: true },
+              { label: "Financial Tip", action: () => financialTip(), keepOpen: true },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
         }
         function analyticsIntro() {
-          alert("Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?");
+          showDialogBox(
+            "Janet Yellen",
+            "Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?",
+            [
+              { label: "Open Analytics", action: () => showYellenModal("https://nighthawkcoders.github.io/portfolio_2025/bank/analytics") },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
         }
         function financialTip() {
           const tips = [
@@ -605,10 +703,18 @@ class GameLevelAirport {
             "Always keep an emergency fund.",
             "Track your spending to find savings opportunities.",
             "Invest for the long term, not quick gains.",
-            "Review your financial goals regularly."
+            "Review your financial goals regularly.",
+            "Bonus: Even small savings add up over time!"
           ];
           const tip = tips[Math.floor(Math.random() * tips.length)];
-          alert("Janet Yellen - Financial Tip: " + tip);
+          showDialogBox(
+            "Janet Yellen - Financial Tip",
+            tip,
+            [
+              { label: "Another Tip", action: () => financialTip(), keepOpen: true },
+              { label: "Back", action: () => intro(), keepOpen: true }
+            ]
+          );
         }
         intro();
       },

@@ -2,19 +2,21 @@ export default class WaypointArrow {
   constructor(gameCanvas, gamePath) {
     this.gameCanvas = gameCanvas;
     this.gamePath = gamePath;
+    // Start at J.P. Morgan and follow the correct order as seen in GameLevelAirport.js
     this.waypointIds = [
-      'Stock-NPC',         // J.P. Morgan
-      'Crypto-NPC',        // Satoshi Nakamoto
+      'Stock- NPC',        // J.P. Morgan
       'Casino-NPC',        // Frank Sinatra
-      'Investor',          // Bizguys
-      'Market Computer',   // Computer
-      'Schwab',            // Schwab
       'Fidelity',          // Fidelity
+      'Schwab',            // Schwab
+      'Crypto-NPC',        // Satoshi Nakamoto
       'Bank-NPC',          // Janet Yellen
-      'Pilot'             // Pilot
+      'Market Computer'    // Computer
     ];
-    
+    // Start at the first step (J.P. Morgan)
     this.currentStep = this.loadStep();
+    if (this.currentStep < 0 || this.currentStep >= this.waypointIds.length) {
+      this.currentStep = 0;
+    }
     this.arrowImg = this.createArrowElement();
     this.setupEventListeners();
     this.moveArrowToCurrentWaypoint();
@@ -61,29 +63,41 @@ export default class WaypointArrow {
   }
 
   getWaypointPosition(npcId) {
+    // Use the same positions as INIT_POSITION in GameLevelAirport.js, with a slight upward offset for accuracy
     const width = this.gameCanvas ? this.gameCanvas.width : window.innerWidth;
     const height = this.gameCanvas ? this.gameCanvas.height : window.innerHeight;
-    
-    const positions = {
-      'Stock-NPC': { x: width * 0.28, y: height * 0.82 },
-      'Crypto-NPC': { x: width * 0.5, y: height * 0.7 },
-      'Casino-NPC': { x: width * 0.65, y: height * 0.55 },
-      'Investor': { x: width * 0.8, y: height * 0.8 },
-      'Market Computer': { x: width * 0.9, y: height * 0.65 },
-      'Schwab': { x: width * 0.665, y: height * 0.25 },
-      'Fidelity': { x: width * 0.372, y: height * 0.25 },
-      'Bank-NPC': { x: width * 0.8, y: height * 0.1 },
-      'Pilot': { x: width / 10, y: height * 0.2 }
+
+    // These offsets (dx, dy) move the arrow just above the NPC's head
+    const offsets = {
+      'Stock- NPC':        { dx: 0, dy: -60 },   // J.P. Morgan
+      'Casino-NPC':        { dx: 0, dy: -60 },   // Frank Sinatra
+      'Fidelity':          { dx: 0, dy: 20},   // Lowered from -70 to -40
+      'Schwab':            { dx: 0, dy: 20 },   // Lowered from -70 to -40
+      'Crypto-NPC':        { dx: 0, dy: -60 },   // Satoshi Nakamoto
+      'Bank-NPC':          { dx: 0, dy: -60 },   // Janet Yellen
+      'Market Computer':   { dx: 0, dy: -60 }
     };
 
-    return positions[npcId] || { x: width / 2, y: height / 2 };
+    const positions = {
+      'Stock- NPC':        { x: width * 0.17, y: height * 0.8 },
+      'Casino-NPC':        { x: width * 0.15, y: height * 0.25 },
+      'Fidelity':          { x: width * 0.34, y: height * 0.05 },
+      'Schwab':            { x: width * 0.48, y: height * 0.05 },
+      'Crypto-NPC':        { x: width * 0.69, y: height * 0.24 },
+      'Bank-NPC':          { x: width * 0.7, y: height * 0.75 },
+      'Market Computer':   { x: width * 0.9, y: height * 0.65 }
+    };
+
+    const pos = positions[npcId] || { x: width / 2, y: height / 2 };
+    const offset = offsets[npcId] || { dx: 0, dy: -60 };
+    return { x: pos.x + offset.dx, y: pos.y + offset.dy };
   }
 
   moveArrowToCurrentWaypoint() {
     const npcId = this.waypointIds[this.currentStep] || this.waypointIds[0];
     const pos = this.getWaypointPosition(npcId);
     this.arrowImg.style.left = (pos.x - 24) + 'px';
-    this.arrowImg.style.top = (pos.y - 64) + 'px';
+    this.arrowImg.style.top = (pos.y - 24) + 'px';
   }
 
   advanceStep() {
@@ -153,4 +167,4 @@ export default class WaypointArrow {
       }
     });
   }
-} 
+}
