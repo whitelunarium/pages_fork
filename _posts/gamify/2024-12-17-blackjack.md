@@ -140,7 +140,8 @@ permalink: /gamify/blackjack
             if (!data || !data.uid) throw new Error("UID not found in response");
 
             uid = data.uid;
-            currentBalance = data.banks.balanceDouble || 0;
+            console.log(data.banks);
+            currentBalance = data.banks.balance || 0;
             document.getElementById("balance").innerText = `$${currentBalance.toLocaleString()}`;
             console.log("UID:", uid);
         } catch (error) {
