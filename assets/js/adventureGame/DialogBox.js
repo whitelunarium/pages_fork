@@ -254,7 +254,17 @@ export function showYellenModal(url) {
     document.body.appendChild(modal);
 
     // Iframe wrapper
-    
+    const iframeWrapper = document.createElement("div");
+    iframeWrapper.id = "yellenFrameWrapper";
+    iframeWrapper.style.position = "relative";
+    iframeWrapper.style.overflow = "hidden";
+    iframeWrapper.style.width = "90%";
+    iframeWrapper.style.maxWidth = "1000px";
+    iframeWrapper.style.height = "80%";
+    iframeWrapper.style.border = "2px solid #ccc";
+    iframeWrapper.style.borderRadius = "8px";
+    iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+    modal.appendChild(iframeWrapper);
 
     // Iframe
     const yellenFrame = document.createElement("iframe");
