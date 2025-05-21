@@ -1,3 +1,5 @@
+import { javaURI, fetchOptions } from '../api/config.js';
+
 console.log("tutorial.js is loaded.");
 
 document.addEventListener('DOMContentLoaded', async function() {
