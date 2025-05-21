@@ -135,12 +135,12 @@ permalink: /crypto/mining
                 </div>
             </div>
             <!-- Mining Controls -->
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <div class="flex justify-between items-center gap-4">
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex flex-row justify-center items-center gap-4">
                     <a href="{{site.baseurl}}/crypto/energy" class="mining-button energy-plan">
                         <span>Energy Plan</span>
                     </a>
-                    <script type="module" src="{{site.baseurl}}/assets/js/crypto/front.js"/></script>
+                    <script type="module" src="{{site.baseurl}}/assets/js/crypto/front.js"></script>
                     <button id="start-mining" class="mining-button start-mining" onclick="toggleMining()">
                         <span>Start Mining</span>
                     </button>
