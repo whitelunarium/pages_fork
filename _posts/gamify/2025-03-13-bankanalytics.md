@@ -7,275 +7,238 @@ permalink: /gamify/bankanalytics
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-  .chart-container { height: 400px; position: relative; margin-bottom: 20px; }
-  .combined-chart-container { height: 500px; margin-bottom: 20px; }
-  .game-card { background-color: #1f1f1f; border-radius: 8px; transition: transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin-bottom: 20px; }
+  body { background-color: #121212; color: #fff; font-family: 'Poppins', sans-serif; }
+  .chart-container { height: 500px; overflow: visible; }
+  .combined-chart-container { height: 600px; }
+  .game-card { background-color: #1f1f1f; border-radius: 8px; transition: transform 0.3s; }
   .game-card:hover { transform: translateY(-5px); }
   .game-title { color: #ff9800; border-left: 4px solid #ff9800; padding-left: 1rem; }
   .toggle-container { text-align: center; margin-bottom: 1rem; }
   .toggle-container button { margin: 0.2rem; }
-  .toggle-container button.active { opacity: 1; font-weight: bold; }
-  .toggle-container button:not(.active) { opacity: 0.7; }
-  .loading-spinner { display: flex; justify-content: center; align-items: center; height: 200px; }
-  .loading-spinner div { border: 5px solid rgba(255, 152, 0, 0.3); border-radius: 50%; border-top: 5px solid #ff9800; width: 50px; height: 50px; animation: spin 1s linear infinite; }
-  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  .error-container { padding: 20px; text-align: center; color: #ff6b6b; }
-  .empty-data-message { padding: 20px; text-align: center; color: #aaa; font-style: italic; }
+  canvas { transition: transform 0.3s ease; }
+  .game-card:hover canvas { transform: scale(1.8); transform-origin: center center; }
 </style>
 
-<div class="container my-5">
-  <h1 class="text-center mb-4">Game Analytics Dashboard</h1>
+<body>
+<br><h1 class="text-center">Game Analytics</h1>
+<div class="container text-center my-4">
+  <h4>User ID: <span class="name">Loading...</span></h4>
+  <h4>Current Balance: $<span class="balance">0.00</span></h4>
+</div>
 
-  <div class="game-card p-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="game-title mb-0">User Profile</h3>
-      <button class="btn btn-sm btn-outline-warning" id="refreshData">Refresh Data</button>
+<!-- Combined Chart -->
+<div class="container my-4">
+  <div class="game-card p-3">
+    <h3 class="game-title">All Games Combined</h3>
+    <div class="toggle-container">
+      <button class="btn btn-sm btn-outline-warning" onclick="toggleDataset('Poker')">Poker</button>
+      <button class="btn btn-sm btn-outline-info" onclick="toggleDataset('Blackjack')">Blackjack</button>
+      <button class="btn btn-sm btn-outline-light" onclick="toggleDataset('Dice')">Dice</button>
+      <button class="btn btn-sm btn-outline-primary" onclick="toggleDataset('Mines')">Mines</button>
+      <button class="btn btn-sm btn-outline-success" onclick="toggleDataset('Stocks')">Stocks</button>
+      <button class="btn btn-sm btn-outline-cyan" onclick="toggleDataset('Crypto')">Crypto</button>
     </div>
-    <div id="userInfo">
-      <div class="row">
-        <div class="col-md-6">
-          <h4>Username: <span class="name">Loading...</span></h4>
-        </div>
-        <div class="col-md-6 text-md-end">
-          <h4>Current Balance: $<span class="balance">0.00</span></h4>
-        </div>
+    <div class="combined-chart-container mt-3"><canvas id="combinedChart"></canvas></div>
+  </div>
+</div>
+
+<!-- Individual Game Charts -->
+<div class="container my-4">
+  <div class="row g-4">
+    <div class="col-md-6" id="pokerChartContainer"></div>
+    <div class="col-md-6" id="blackjackChartContainer"></div>
+    <div class="col-md-6" id="diceChartContainer"></div>
+    <div class="col-md-6" id="casino_minesChartContainer"></div>
+    <div class="col-md-6">
+      <div class="game-card p-3 h-100">
+        <h3 class="game-title">Crypto Portfolio</h3>
+        <div class="chart-container mt-3"><canvas id="cryptoPortfolioGraph"></canvas></div>
       </div>
     </div>
-  </div>
-
-  <div class="game-card p-4">
-    <h3 class="game-title mb-3">All Games Combined</h3>
-    <div class="toggle-container" id="toggleButtons">
-      <button class="btn btn-sm btn-outline-warning active" data-game="poker">Poker</button>
-      <button class="btn btn-sm btn-outline-info active" data-game="blackjack">Blackjack</button>
-      <button class="btn btn-sm btn-outline-light active" data-game="dice">Dice</button>
-      <button class="btn btn-sm btn-outline-primary active" data-game="casino_mines">Mines</button>
-      <button class="btn btn-sm btn-outline-success active" data-game="stocks">Stocks</button>
-      <button class="btn btn-sm btn-outline-info active" data-game="crypto">Crypto</button>
+    <div class="col-md-6">
+      <div class="game-card p-3 h-100">
+        <h3 class="game-title">Stock Portfolio</h3>
+        <div class="chart-container mt-3"><canvas id="stocksChart"></canvas></div>
+      </div>
     </div>
-    <div id="combinedChartContainer" class="combined-chart-container">
-      <canvas id="combinedChart"></canvas>
-    </div>
-  </div>
-
-  <div class="row g-4">
-    <div class="col-md-6"><div class="game-card p-4"><h3 class="game-title mb-3">Poker</h3><div id="pokerChartContainer" class="chart-container"><canvas id="pokerChart"></canvas></div></div></div>
-    <div class="col-md-6"><div class="game-card p-4"><h3 class="game-title mb-3">Blackjack</h3><div id="blackjackChartContainer" class="chart-container"><canvas id="blackjackChart"></canvas></div></div></div>
-    <div class="col-md-6"><div class="game-card p-4"><h3 class="game-title mb-3">Dice</h3><div id="diceChartContainer" class="chart-container"><canvas id="diceChart"></canvas></div></div></div>
-    <div class="col-md-6"><div class="game-card p-4"><h3 class="game-title mb-3">Mines</h3><div id="casino_minesChartContainer" class="chart-container"><canvas id="casino_minesChart"></canvas></div></div></div>
-    <div class="col-md-6"><div class="game-card p-4"><h3 class="game-title mb-3">Crypto Portfolio</h3><div id="cryptoChartContainer" class="chart-container"><canvas id="cryptoChart"></canvas></div></div></div>
-    <div class="col-md-6"><div class="game-card p-4"><h3 class="game-title mb-3">Stock Portfolio</h3><div id="stocksChartContainer" class="chart-container"><canvas id="stocksChart"></canvas></div></div></div>
   </div>
 </div>
 
 <script type="module">
-  import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-  const gameMap = {
-    poker: 'Poker',
-    blackjack: 'Blackjack',
-    dice: 'Dice',
-    casino_mines: 'Mines',
-    crypto: 'Crypto',
-    stocks: 'Stocks'
-  };
+const gameMap = {
+  poker: 'Poker', blackjack: 'Blackjack', dice: 'Dice', casino_mines: 'Mines'
+};
+const gameColors = {
+  poker: '#FF6384', blackjack: '#4BC0C0', dice: '#FFCE56',
+  casino_mines: '#9966FF', crypto: '#00FFFF', stocks: '#28a745'
+};
 
-  const gameColors = {
-    poker: '#FF6384',
-    blackjack: '#4BC0C0',
-    dice: '#FFCE56',
-    casino_mines: '#9966FF',
-    crypto: '#00FFFF',
-    stocks: '#28a745'
-  };
+let combinedChart = null;
+const charts = {};
+let uid = null;
 
-  let charts = {};
-  let combinedChart = null;
-  let userAnalyticsData = null;
-  let uid = null;
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const userRes = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+    const user = await userRes.json();
+    uid = user.uid;
+    document.querySelector('.name').textContent = uid;
+    document.querySelector('.balance').textContent = parseFloat(user.banks.balance).toFixed(2);
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const userResponse = await fetch(`${javaURI}/api/person/get`, fetchOptions);
-      const userData = await userResponse.json();
-      uid = userData.uid;
+    await loadCharts(user.uid, user.email);
+  } catch (e) {
+    console.error('User fetch failed:', e);
+  }
+});
 
-      initializeAnalytics();
-      document.getElementById('refreshData').addEventListener('click', initializeAnalytics);
+async function loadCharts(uid, email) {
+  const gameData = await Promise.all(Object.keys(gameMap).map(async game => {
+    const url = game === 'casino_mines'
+      ? `${javaURI}/api/casino/mines/history/${uid}`
+      : `${javaURI}/bank/${uid}/profitmap/${game}`;
+    const res = await fetch(url, fetchOptions);
+    const data = await res.json().catch(() => []);
+    renderChartCard(game);
+    createChart(game, data);
+    return { game, data };
+  }));
 
-      document.querySelectorAll('#toggleButtons button').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const game = e.target.getAttribute('data-game');
-          toggleDataset(game);
-          button.classList.toggle('active');
-        });
-      });
-    } catch (error) {
-      console.error("Initialization error:", error);
-      showError("Failed to initialize dashboard. Please refresh the page.");
-    }
+  const crypto = await buildCryptoPortfolioChart(email);
+  const stocks = await buildStockPortfolioChart(email);
+  createCombinedChart([...gameData, { game: 'crypto', data: crypto }, { game: 'stocks', data: stocks }]);
+}
+
+function renderChartCard(game) {
+  const container = document.getElementById(`${game}ChartContainer`);
+  if (container) container.innerHTML = `
+    <div class="game-card p-3 h-100">
+      <h3 class="game-title">${gameMap[game]}</h3>
+      <div class="chart-container mt-3"><canvas id="${game}Chart"></canvas></div>
+    </div>`;
+}
+
+function createChart(game, entries) {
+  if (!entries.length) return;
+  const labels = [], profits = [], cum = [];
+  let bal = 0;
+  entries.forEach(([ts, val]) => {
+    labels.push(new Date(ts).toLocaleDateString());
+    const p = parseFloat(val);
+    profits.push(p);
+    bal += p; cum.push(bal);
+  });
+  const ctx = document.getElementById(`${game}Chart`).getContext('2d');
+  charts[game]?.destroy();
+  charts[game] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Profit', data: profits, borderColor: gameColors[game], backgroundColor: gameColors[game] + '30', tension: 0.2 },
+        { label: 'Cumulative', data: cum, borderColor: gameColors[game], backgroundColor: gameColors[game] + '10', tension: 0.2 }
+      ]
+    },
+    options: getOptions()
+  });
+}
+
+function createCombinedChart(allGames) {
+  const allDates = new Set();
+  allGames.forEach(({ data }) => data.forEach(([ts]) => allDates.add(new Date(ts).toLocaleDateString())));
+  const labels = [...allDates].sort((a, b) => new Date(a) - new Date(b));
+
+  const datasets = allGames.map(({ game, data }) => {
+    const cum = {}, sum = [];
+    let b = 0;
+    data.forEach(([ts, val]) => {
+      const d = new Date(ts).toLocaleDateString();
+      b += parseFloat(val); cum[d] = b;
+    });
+    labels.forEach(l => sum.push(cum[l] ?? null));
+    return {
+      label: gameMap[game] || game.charAt(0).toUpperCase() + game.slice(1),
+      data: sum, borderColor: gameColors[game],
+      backgroundColor: gameColors[game] + '30', tension: 0.2
+    };
   });
 
-  async function initializeAnalytics() {
-    try {
-      showLoading();
-      await fetchUserDetails();
-      initializeCharts();
-    } catch (error) {
-      console.error("Analytics error:", error);
-      showError("Failed to load analytics data. Please try again later.");
-    }
-  }
+  const ctx = document.getElementById('combinedChart').getContext('2d');
+  combinedChart?.destroy();
+  combinedChart = new Chart(ctx, {
+    type: 'line', data: { labels, datasets }, options: getOptions()
+  });
+}
 
-  async function fetchUserDetails() {
-    const response = await fetch(`${javaURI}/bank/analytics/${uid}`, fetchOptions);
-    const analyticsJson = await response.json();
-    userAnalyticsData = analyticsJson.data || {};
-    updateHeader(userAnalyticsData.username, userAnalyticsData.balance);
-    userAnalyticsData.profitMap = userAnalyticsData.profitMap || {};
-  }
+window.toggleDataset = function (label) {
+  const ds = combinedChart?.data.datasets.find(d => d.label === label);
+  if (ds) { ds.hidden = !ds.hidden; combinedChart.update(); }
+};
 
-  function initializeCharts() {
-    const profitMap = userAnalyticsData.profitMap || {};
-
-    Object.keys(gameMap).forEach(game => {
-      const container = document.getElementById(`${game}ChartContainer`);
-      if (container) {
-        container.innerHTML = `<canvas id="${game}Chart"></canvas>`;
-        const data = profitMap[game] || [];
-        data.length > 0 ? createChart(game, data) : showEmptyData(`${game}ChartContainer`);
+function getOptions() {
+  return {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: '#fff' } },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.raw?.toFixed(2)}` } }
+    },
+    scales: {
+      x: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+      y: {
+        ticks: { color: '#fff', callback: v => `$${v.toFixed(2)}` },
+        grid: { color: 'rgba(255,255,255,0.1)' }
       }
-    });
+    }
+  };
+}
 
-    createCombinedChart();
-  }
-
-  function createChart(game, transactions) {
-    const ctx = document.getElementById(`${game}Chart`).getContext('2d');
-    const chartData = processTransactionData(transactions);
-
-    if (charts[game]) charts[game].destroy();
-
-    charts[game] = new Chart(ctx, {
+async function buildCryptoPortfolioChart(email) {
+  try {
+    const res = await fetch(`${javaURI}/api/crypto/holdings?email=${email}`, fetchOptions);
+    if (!res.ok) return [];
+    const holdingsRaw = await res.json();
+    const holdings = Object.fromEntries(holdingsRaw.holdings.split(',').map(e => {
+      const [sym, amt] = e.split(':'); return [sym.trim().toUpperCase(), parseFloat(amt)];
+    }));
+    const trend = Array(7).fill(0);
+    for (const [symbol, amt] of Object.entries(holdings)) {
+      const res = await fetch(`${javaURI}/api/crypto/trend?cryptoId=${symbol}&days=7`, fetchOptions);
+      if (!res.ok) continue;
+      const td = await res.json();
+      td.forEach((val, i) => trend[i] += val * amt);
+    }
+    new Chart(document.getElementById('cryptoPortfolioGraph'), {
       type: 'line',
       data: {
-        labels: chartData.labels,
+        labels: ['6d', '5d', '4d', '3d', '2d', '1d', 'Today'],
         datasets: [{
-          label: gameMap[game],
-          data: chartData.data,
-          borderColor: gameColors[game],
-          backgroundColor: `${gameColors[game]}30`,
-          borderWidth: 2,
-          pointRadius: 3,
-          tension: 0.2,
-          fill: true
+          label: 'Portfolio ($)', data: trend, borderColor: gameColors.crypto,
+          backgroundColor: gameColors.crypto + '10', tension: 0.2
         }]
-      },
-      options: chartOptions()
+      }, options: getOptions()
     });
-  }
+    return trend.map((v, i) => [Date.now() - (6 - i) * 86400000, v]);
+  } catch (e) { console.error("Crypto error:", e); return []; }
+}
 
-  function createCombinedChart() {
-    const ctx = document.getElementById('combinedChart').getContext('2d');
-    const profitMap = userAnalyticsData.profitMap || {};
-    const allDates = new Set();
-
-    Object.values(profitMap).flat().forEach(([ts]) => ts && allDates.add(new Date(ts).toLocaleDateString()));
-    const labels = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
-
-    const datasets = Object.keys(gameMap).map(game => {
-      const transactions = profitMap[game] || [];
-      const daily = {};
-      transactions.forEach(([ts, val]) => {
-        const date = new Date(ts).toLocaleDateString();
-        daily[date] = (daily[date] || 0) + Number(val);
-      });
-
-      return {
-        label: gameMap[game],
-        data: labels.map(date => daily[date] || 0),
-        borderColor: gameColors[game],
-        borderWidth: 2,
-        pointRadius: 2,
-        tension: 0.1
-      };
-    });
-
-    if (combinedChart) combinedChart.destroy();
-
-    combinedChart = new Chart(ctx, {
+async function buildStockPortfolioChart(email) {
+  try {
+    const res = await fetch(`${javaURI}/api/stocks/portfolio/trend?email=${email}`, fetchOptions);
+    if (!res.ok) return [];
+    const trend = await res.json();
+    new Chart(document.getElementById('stocksChart'), {
       type: 'line',
-      data: { labels, datasets },
-      options: chartOptions()
+      data: {
+        labels: ['6d', '5d', '4d', '3d', '2d', '1d', 'Today'],
+        datasets: [{
+          label: 'Stock Portfolio ($)', data: trend, borderColor: gameColors.stocks,
+          backgroundColor: gameColors.stocks + '10', tension: 0.2
+        }]
+      }, options: getOptions()
     });
-  }
-
-  function processTransactionData(transactions) {
-    const dailyTotals = {};
-    transactions.forEach(([timestamp, value]) => {
-      const date = new Date(timestamp).toLocaleDateString();
-      dailyTotals[date] = (dailyTotals[date] || 0) + Number(value);
-    });
-
-    const sortedDates = Object.keys(dailyTotals).sort((a, b) => new Date(a) - new Date(b));
-    return {
-      labels: sortedDates,
-      data: sortedDates.map(date => dailyTotals[date])
-    };
-  }
-
-  function chartOptions() {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { labels: { color: '#fff' } },
-        tooltip: {
-          backgroundColor: '#222',
-          callbacks: {
-            label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: '#fff' },
-          grid: { color: 'rgba(255,255,255,0.1)' }
-        },
-        y: {
-          ticks: { color: '#fff', callback: val => `$${val}` },
-          grid: { color: 'rgba(255,255,255,0.1)' }
-        }
-      }
-    };
-  }
-
-  function updateHeader(name, balance) {
-    document.querySelector('.name').textContent = name || 'Unknown';
-    document.querySelector('.balance').textContent = Number(balance).toFixed(2);
-  }
-
-  function showLoading() {
-    document.querySelectorAll('.chart-container, .combined-chart-container').forEach(container => {
-      container.innerHTML = '<div class="loading-spinner"><div></div></div>';
-    });
-  }
-
-  function showError(message) {
-    document.querySelectorAll('.chart-container, .combined-chart-container').forEach(container => {
-      container.innerHTML = `<div class="error-container">${message}</div>`;
-    });
-  }
-
-  function showEmptyData(containerId, message = "No data available") {
-    document.getElementById(containerId).innerHTML = `<div class="empty-data-message">${message}</div>`;
-  }
-
-  function toggleDataset(game) {
-    const dataset = combinedChart.data.datasets.find(ds => ds.label === gameMap[game]);
-    if (dataset) {
-      dataset.hidden = !dataset.hidden;
-      combinedChart.update();
-    }
-  }
+    return trend.map((v, i) => [Date.now() - (6 - i) * 86400000, v]);
+  } catch (e) { console.error("Stock error:", e); return []; }
+}
 </script>
+</body>
