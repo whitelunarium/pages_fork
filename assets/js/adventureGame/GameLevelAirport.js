@@ -144,7 +144,6 @@ class GameLevelAirport {
           casinoModal.style.display = "flex";
         }
 
-        // Define dialog functions
         const dialogFunctions = {
           intro: function() {
           showDialogBox(
