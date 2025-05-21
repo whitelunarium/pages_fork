@@ -20,7 +20,7 @@ class GameObject {
         if (new.target === GameObject) {
             throw new TypeError("Cannot construct GameObject instances directly");
         }
-        this.gameEnv = gameEnv; // GameEnv instance
+        this.gameEnv = gameEnv; 
         this.collisionWidth = 0;
         this.collisionHeight = 0;
         this.collisionData = {};
