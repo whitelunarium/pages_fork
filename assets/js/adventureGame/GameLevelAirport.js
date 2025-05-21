@@ -147,53 +147,53 @@ class GameLevelAirport {
         // Define dialog functions
         const dialogFunctions = {
           intro: function() {
-            showDialogBox(
-              "Frank Sinatra",
-              "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.\nHere, you can test your luck on Blackjack, Poker, or the Minefield Challenge.\nBut remember: in gambling, the swing of fortune can be swift and brutal.\nWant a tip before you step in?",
-              [
+          showDialogBox(
+            "Frank Sinatra",
+            "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.\nHere, you can test your luck on Blackjack, Poker, or the Minefield Challenge.\nBut remember: in gambling, the swing of fortune can be swift and brutal.\nWant a tip before you step in?",
+            [
                 { label: "Yes, give me advice", action: () => dialogFunctions.giveAdvice(), keepOpen: true },
-                { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
-                { label: "No thanks", action: () => {} }
-              ]
-            );
+              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
+              { label: "No thanks", action: () => {} }
+            ]
+          );
           },
           giveAdvice: function() {
-            const adviceList = getFrankAdviceList();
-            const advice = adviceList[Math.floor(Math.random() * adviceList.length)];
-            showDialogBox(
-              "Frank's Advice",
-              advice + "\nWant to answer a question before you go in?",
-              [
+          const adviceList = getFrankAdviceList();
+          const advice = adviceList[Math.floor(Math.random() * adviceList.length)];
+          showDialogBox(
+            "Frank's Advice",
+            advice + "\nWant to answer a question before you go in?",
+            [
                 { label: "Sure, ask me!", action: () => dialogFunctions.askQuestion(), keepOpen: true },
-                { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
+              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
                 { label: "Another tip", action: () => dialogFunctions.giveAdvice(), keepOpen: true },
-                { label: "Maybe later", action: () => {} }
-              ]
-            );
+              { label: "Maybe later", action: () => {} }
+            ]
+          );
           },
           askQuestion: function() {
-            showDialogBox(
-              "Frank's Question",
-              "If you won a big jackpot tonight, what would you do with the money?",
-              [
+          showDialogBox(
+            "Frank's Question",
+            "If you won a big jackpot tonight, what would you do with the money?",
+            [
                 { label: "Save it", action: () => dialogFunctions.frankResponse("Smart move, kid. Saving is always classy.") },
                 { label: "Spend it all!", action: () => dialogFunctions.frankResponse("Ha! Just don't spend it all in one place, capisce?") },
                 { label: "Invest it", action: () => dialogFunctions.frankResponse("Now that's the spirit of a true high roller!") },
                 { label: "Back", action: () => dialogFunctions.giveAdvice(), keepOpen: true }
-              ]
-            );
+            ]
+          );
           },
           frankResponse: function(response) {
-            showDialogBox(
-              "Frank Sinatra",
-              response + "\nReady to try your luck?",
-              [
-                { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
+          showDialogBox(
+            "Frank Sinatra",
+            response + "\nReady to try your luck?",
+            [
+              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
                 { label: "Back to advice", action: () => dialogFunctions.giveAdvice(), keepOpen: true },
-                { label: "Maybe later", action: () => {} }
-              ]
-            );
-          }
+              { label: "Maybe later", action: () => {} }
+            ]
+          );
+        }
         };
 
         // Return the dialog functions so they can be accessed from interact
@@ -304,38 +304,38 @@ class GameLevelAirport {
         // Define dialog functions
         const dialogFunctions = {
           intro: function() {
-            showDialogBox(
-              "J.P. Morgan",
-              "Good day, I am J.P. Morgan, financier of industry and architect of American banking.\nAre you ready to test your skills in the stock market?",
-              [
+          showDialogBox(
+            "J.P. Morgan",
+            "Good day, I am J.P. Morgan, financier of industry and architect of American banking.\nAre you ready to test your skills in the stock market?",
+            [
                 { label: "Yes", action: () => dialogFunctions.explainStocks(), keepOpen: true },
-                { label: "No", action: () => {} }
-              ]
-            );
+              { label: "No", action: () => {} }
+            ]
+          );
           },
           explainStocks: function() {
-            showDialogBox(
-              "J.P. Morgan",
-              "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
-              [
-                { label: "Take me to the Stock Exchange", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
+          showDialogBox(
+            "J.P. Morgan",
+            "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
+            [
+              { label: "Take me to the Stock Exchange", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
                 { label: "Remind me what stocks are", action: () => dialogFunctions.whatAreStocks(), keepOpen: true },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
-              ]
-            );
+            ]
+          );
           },
           whatAreStocks: function() {
-            const facts = getMorganFacts();
-            const fact = facts[Math.floor(Math.random() * facts.length)];
-            showDialogBox(
-              "J.P. Morgan",
-              fact + "\nWould you like to try investing now?",
-              [
-                { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
+          const facts = getMorganFacts();
+          const fact = facts[Math.floor(Math.random() * facts.length)];
+          showDialogBox(
+            "J.P. Morgan",
+            fact + "\nWould you like to try investing now?",
+            [
+              { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
                 { label: "Back", action: () => dialogFunctions.explainStocks(), keepOpen: true }
-              ]
-            );
-          }
+            ]
+          );
+        }
         };
 
         // Return the dialog functions so they can be accessed from interact
@@ -458,47 +458,47 @@ class GameLevelAirport {
         // Define dialog functions
         const dialogFunctions = {
           intro: function() {
-            showDialogBox(
-              "Satoshi Nakamoto",
-              "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.\nAre you curious about Bitcoin or ready to explore the Crypto Hub?",
-              [
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.\nAre you curious about Bitcoin or ready to explore the Crypto Hub?",
+            [
                 { label: "Tell me about Bitcoin", action: () => dialogFunctions.aboutBitcoin(), keepOpen: true },
-                { label: "Go to Crypto Hub", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
-                { label: "Goodbye", action: () => {} }
-              ]
-            );
+              { label: "Go to Crypto Hub", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
+              { label: "Goodbye", action: () => {} }
+            ]
+          );
           },
           aboutBitcoin: function() {
-            showDialogBox(
-              "Satoshi Nakamoto",
-              "Bitcoin is a decentralized digital currency, born from a desire for freedom and transparency. It operates without banks or governments.\nWould you like to know how to buy or mine Bitcoin?",
-              [
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Bitcoin is a decentralized digital currency, born from a desire for freedom and transparency. It operates without banks or governments.\nWould you like to know how to buy or mine Bitcoin?",
+            [
                 { label: "How do I buy Bitcoin?", action: () => dialogFunctions.howToBuy(), keepOpen: true },
                 { label: "How do I mine Bitcoin?", action: () => dialogFunctions.howToMine(), keepOpen: true },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
-              ]
-            );
+            ]
+          );
           },
           howToBuy: function() {
-            showDialogBox(
-              "Satoshi Nakamoto",
-              "To buy Bitcoin, you need a digital wallet and access to a crypto exchange. You can purchase fractions of a Bitcoin.\nWould you like to visit the Crypto Hub to start your journey?",
-              [
-                { label: "Yes, take me there", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "To buy Bitcoin, you need a digital wallet and access to a crypto exchange. You can purchase fractions of a Bitcoin.\nWould you like to visit the Crypto Hub to start your journey?",
+            [
+              { label: "Yes, take me there", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
                 { label: "Back", action: () => dialogFunctions.aboutBitcoin(), keepOpen: true }
-              ]
-            );
+            ]
+          );
           },
           howToMine: function() {
-            showDialogBox(
-              "Satoshi Nakamoto",
-              "Mining Bitcoin requires powerful computers to solve complex puzzles. Miners are rewarded with Bitcoin for verifying transactions.\nWould you like to try mining or learn more?",
-              [
-                { label: "Try Mining", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/mining") },
+          showDialogBox(
+            "Satoshi Nakamoto",
+            "Mining Bitcoin requires powerful computers to solve complex puzzles. Miners are rewarded with Bitcoin for verifying transactions.\nWould you like to try mining or learn more?",
+            [
+              { label: "Try Mining", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/mining") },
                 { label: "Back", action: () => dialogFunctions.aboutBitcoin(), keepOpen: true }
-              ]
-            );
-          }
+            ]
+          );
+        }
         };
 
         function openInModal(url) {
@@ -694,58 +694,58 @@ class GameLevelAirport {
         // Define dialog functions
         const dialogFunctions = {
           intro: function() {
-            showDialogBox(
-              "Janet Yellen",
-              "Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, get financial tips, or visit the Treasury website?",
-              [
+          showDialogBox(
+            "Janet Yellen",
+            "Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, get financial tips, or visit the Treasury website?",
+            [
                 { label: "Learn about the Bank", action: () => dialogFunctions.explainBank(), keepOpen: true },
                 { label: "Review Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
-                { label: "Visit Treasury Website", action: () => showYellenModal("https://home.treasury.gov/") },
-                { label: "Goodbye", action: () => {} }
-              ]
-            );
+              { label: "Visit Treasury Website", action: () => showYellenModal("https://home.treasury.gov/") },
+              { label: "Goodbye", action: () => {} }
+            ]
+          );
           },
           explainBank: function() {
-            showDialogBox(
-              "Janet Yellen",
-              "The Bank keeps track of your every transaction, monitors your balance, and helps you plan for the future.\nWould you like to see your analytics or hear a tip?",
-              [
+          showDialogBox(
+            "Janet Yellen",
+            "The Bank keeps track of your every transaction, monitors your balance, and helps you plan for the future.\nWould you like to see your analytics or hear a tip?",
+            [
                 { label: "See Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
-              ]
-            );
+            ]
+          );
           },
           analyticsIntro: function() {
-            showDialogBox(
-              "Janet Yellen",
-              "Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?",
-              [
-                { label: "Open Analytics", action: () => showYellenModal("https://nighthawkcoders.github.io/portfolio_2025/bank/analytics") },
+          showDialogBox(
+            "Janet Yellen",
+            "Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?",
+            [
+              { label: "Open Analytics", action: () => showYellenModal("https://nighthawkcoders.github.io/portfolio_2025/bank/analytics") },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
-              ]
-            );
+            ]
+          );
           },
           financialTip: function() {
-            const tips = [
-              "Diversify your investments to reduce risk.",
-              "Always keep an emergency fund.",
-              "Track your spending to find savings opportunities.",
-              "Invest for the long term, not quick gains.",
-              "Review your financial goals regularly.",
-              "Bonus: Even small savings add up over time!"
-            ];
-            const tip = tips[Math.floor(Math.random() * tips.length)];
-            showDialogBox(
-              "Janet Yellen - Financial Tip",
-              tip,
-              [
+          const tips = [
+            "Diversify your investments to reduce risk.",
+            "Always keep an emergency fund.",
+            "Track your spending to find savings opportunities.",
+            "Invest for the long term, not quick gains.",
+            "Review your financial goals regularly.",
+            "Bonus: Even small savings add up over time!"
+          ];
+          const tip = tips[Math.floor(Math.random() * tips.length)];
+          showDialogBox(
+            "Janet Yellen - Financial Tip",
+            tip,
+            [
                 { label: "Another Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
-              ]
-            );
-          }
+            ]
+          );
+        }
         };
 
         // Return the dialog functions so they can be accessed from interact
