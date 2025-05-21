@@ -5,6 +5,7 @@ import GameControl from './GameEngine/GameControl.js';
 import Game from './Game.js';
 import showDialogBox, { showYellenModal, getFrankAdviceList, getMorganFacts, getSatoshiQuestions } from './DialogBox.js';
 import WaypointArrow from './WaypointArrow.js';
+import NpcProgressSystem from './NpcProgressSystem.js';
 let socketURI
 let javaURI
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
@@ -197,14 +198,17 @@ class GameLevelAirport {
 
         intro();
       },
-      interact: function () {
-        this.reaction();
+      interact: async function () {
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_casino.id);
+        if (allowed) sprite_data_casino.reaction();
       }
     };
 
     const sprite_src_stocks = path + "/images/gamify/stockguy.png";
     const sprite_data_stocks = {
-      id: 'Stock- NPC',
+      id: 'Stock-NPC',
       greeting: "Good day, I am J.P. Morgan, financier of industry and architect of American banking.",
       src: sprite_src_stocks,
       SCALE_FACTOR: 7,
@@ -331,7 +335,12 @@ class GameLevelAirport {
 
         intro();
       },
-      interact: function () { this.reaction(); }
+      interact: async function () {
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_stocks.id);
+        if (allowed) sprite_data_stocks.reaction();
+      }
     };
 
       // 🔧 STEP 1: Create modal container
@@ -470,8 +479,11 @@ class GameLevelAirport {
 
         intro();
       },
-      interact: function () {
-        this.reaction();
+      interact: async function () {
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_crypto.id);
+        if (allowed) sprite_data_crypto.reaction();
       }
     };
 
@@ -488,8 +500,11 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      interact: function () {
-        Game.attemptQuizForNpc(sprite_data_fidelity.id);
+      interact: async function () {
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_fidelity.id);
+        if (allowed) Game.attemptQuizForNpc(sprite_data_fidelity.id);
       }
     };
 
@@ -505,8 +520,11 @@ class GameLevelAirport {
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-      interact: function () {
-        Game.attemptQuizForNpc(sprite_data_schwab.id);
+      interact: async function () {
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_schwab.id);
+        if (allowed) Game.attemptQuizForNpc(sprite_data_schwab.id);
       }
     };
 
@@ -524,53 +542,10 @@ class GameLevelAirport {
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
       interact: async function () {
-        try {
-          const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey=LIMANRBUDM0ZN7LE`);
-          const data = await response.json();
-
-          if (data.feed && data.feed.length > 0) {
-            const modalContainer = document.createElement('div');
-            modalContainer.style.cssText = `
-              position: fixed;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              background: rgba(0, 0, 0, 0.95);
-              padding: 20px;
-              border-radius: 10px;
-              color: white;
-              z-index: 1000;
-              max-width: 800px;
-              width: 90%;
-              max-height: 80vh;
-              box-shadow: 0 0 20px rgba(0,0,0,0.5);
-              display: flex;
-              flex-direction: column;
-            `;
-
-            modalContainer.innerHTML = `
-              <h2 style="color: #4CAF50;">Latest Market News</h2>
-              <div style="overflow-y: auto; flex-grow: 1; margin-top: 10px;">
-                ${data.feed.map(article => `
-                  <div style="margin-bottom: 20px;">
-                    <h3 style="color: #2196F3;">${article.title}</h3>
-                    <p style="color: #ccc;">${article.summary}</p>
-                    <a href="${article.url}" target="_blank" style="color: #4CAF50;">Read more →</a>
-                  </div>
-                `).join('')}
-              </div>
-              <button style="margin-top: 20px; align-self: flex-end; background: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Close</button>
-            `;
-
-            document.body.appendChild(modalContainer);
-            modalContainer.querySelector('button').onclick = () => modalContainer.remove();
-          } else {
-            alert('Unable to fetch market news at this time.');
-          }
-        } catch (err) {
-          console.error(err);
-          alert('Error loading news. Try again later.');
-        }
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_computer.id);
+        if (allowed && typeof sprite_data_computer.reaction === 'function') await sprite_data_computer.reaction();
       }
     };
     const sprite_src_bank = path + "/images/gamify/janetYellen.png";
@@ -718,10 +693,14 @@ class GameLevelAirport {
         }
         intro();
       },
-      interact: function () {
-        this.reaction();
+      interact: async function () {
+        const game = gameEnv.game;
+        const npcProgressSystem = new NpcProgressSystem();
+        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_bank.id);
+        if (allowed) sprite_data_bank.reaction();
       }
     };
+
 
     this.classes = [
       { class: GameEnvBackground, data: image_data_desert },
@@ -734,6 +713,7 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_computer },
       { class: Npc, data: sprite_data_bank}
     ];
+    this.npcProgressSystem = new NpcProgressSystem();
   }
 }
 
