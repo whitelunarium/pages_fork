@@ -147,145 +147,210 @@ class StatsManager {
             document.head.appendChild(fontLink);
         }
 
-        // Add pixel-art icon spritesheet if not present
-        if (!document.getElementById('pixel-icon-style')) {
-            const style = document.createElement('style');
-            style.id = 'pixel-icon-style';
-            style.innerHTML = `
-                #stats-wrapper {
-                    display: flex;
-                    align-items: flex-start;
-                }
-                #stats-button {
-                    width: 60px;
-                    height: 70px;
-                    background: url('https://www.transparenttextures.com/patterns/pw-maze-white.png'), linear-gradient(135deg, #ffe066 0%, #ffd700 100%);
-                    border: 8px solid #ffb300;
-                    outline: 6px solid #ff9100;
-                    outline-offset: -8px;
-                    box-shadow: 0 0 24px 8px #ffec80;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    image-rendering: pixelated;
-                    z-index: 10001;
-                    transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
-                }
-                #stats-button.pinned {
-                    box-shadow: 0 0 32px 8px #ffd700, 0 0 0 4px #ffb300;
-                    border-color: #ffd700;
-                    background: linear-gradient(135deg, #fffbe6 0%, #ffe066 100%);
-                }
-                #stats-button img {
-                    width: 38px;
-                    height: 38px;
-                    image-rendering: pixelated;
-                }
-                #stats-container {
-                    position: absolute;
-                    top: 80px;
-                    left: auto;
-                    right: 60px;
-                    width: 0;
-                    height: auto;
-                    overflow: hidden;
-                    background: url('https://www.transparenttextures.com/patterns/pw-maze-white.png'), linear-gradient(135deg, #ffe066 0%, #ffd700 100%);
-                    color: #3a2c00;
-                    border: 8px solid #ffb300;
-                    outline: 6px solid #ff9100;
-                    outline-offset: -8px;
-                    box-shadow: 0 0 24px 8px #ffec80;
-                    font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
-                    font-size: 15px;
-                    letter-spacing: 1px;
-                    text-shadow: 2px 2px 0 #fffbe6, 0 0 2px #ffb300;
-                    image-rendering: pixelated;
-                    min-width: 0;
-                    user-select: none;
-                    box-sizing: border-box;
-                    padding: 0;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: width 0.4s cubic-bezier(0.4,1.6,0.4,1), opacity 0.3s, padding 0.25s, top 0.3s cubic-bezier(0.4,1.6,0.4,1);
-                    z-index: 10000;
-                }
-                #stats-wrapper:hover #stats-container, #stats-container:focus-within {
-                    width: 320px;
-                    opacity: 1;
-                    pointer-events: auto;
-                    padding: 18px 28px;
-                    overflow: visible;
-                }
-                #stats-wrapper.pinned #stats-container {
-                    width: 320px !important;
-                    opacity: 1 !important;
-                    pointer-events: auto !important;
-                    padding: 18px 28px !important;
-                    overflow: visible !important;
-                    position: fixed !important;
-                    right: 0 !important;
-                    left: unset !important;
-                    top: 120px !important;
-                    z-index: 10002 !important;
-                }
-                #stats-wrapper.pinned #stats-button {
-                    display: none !important;
-                }
-                #stats-pin-btn {
-                    display: block;
-                    color: #888;
-                    background: none;
-                    border: none;
-                    font-size: 22px;
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-                    cursor: pointer;
-                    z-index: 10002;
-                    user-select: none;
-                    outline: none;
-                    transition: transform 0.1s, color 0.2s;
-                }
-                #stats-pin-btn.pinned {
-                    color: #ffb300;
-                    transform: rotate(-30deg);
-                }
-                #stats-container .pixel-title {
-                    margin-bottom: 14px;
-                    text-align: center;
-                    font-size: 20px;
-                    color: #ff9100;
-                    text-shadow: 2px 2px 0 #fffbe6, 0 0 2px #ffb300;
-                    letter-spacing: 2px;
-                }
-                .pixel-stat-box {
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 10px;
-                    background: #fffbe6;
-                    border: 3px solid #ffb300;
-                    border-radius: 0;
-                    padding: 8px 12px;
-                    box-shadow: 2px 2px 0 #ffec80;
-                    transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
-                    font-size: 15px;
-                }
-                .pixel-stat-box:last-child { margin-bottom: 0; }
-                .pixel-stat-box:hover {
-                    background: #ffe066;
-                    box-shadow: 0 0 8px 2px #ffd700;
-                }
-                .pixel-icon {
-                    width: 22px;
-                    height: 22px;
-                    margin-right: 12px;
-                    image-rendering: pixelated;
-                    display: inline-block;
-                }
-            `;
-            document.head.appendChild(style);
-        }
+        // Add retro stats styles
+        const style = document.createElement('style');
+        style.textContent = `
+            #stats-button {
+                background: #000;
+                border: 2px solid #fff;
+                padding: 8px;
+                cursor: pointer;
+                transition: all 0.3s;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                animation: glowBorder 2s infinite alternate;
+            }
+
+            #stats-button::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.5);
+                animation: scanline 2s linear infinite;
+            }
+
+            #stats-container {
+                background: #000;
+                border: 4px solid #fff;
+                padding: 20px;
+                margin-left: 10px;
+                min-width: 300px;
+                display: none;
+                font-family: 'Press Start 2P', cursive;
+                color: #fff;
+                position: relative;
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+                animation: glowBorder 2s infinite alternate;
+                opacity: 0;
+                transform: translateX(-20px);
+                transition: opacity 0.3s, transform 0.3s;
+            }
+
+            #stats-wrapper:hover #stats-container,
+            #stats-container:focus-within {
+                display: block;
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            #stats-wrapper.pinned #stats-container {
+                display: block !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            #stats-button {
+                background: #000;
+                border: 2px solid #fff;
+                padding: 8px;
+                cursor: pointer;
+                transition: all 0.3s;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                animation: glowBorder 2s infinite alternate;
+                z-index: 10001;
+            }
+
+            #stats-wrapper.pinned #stats-button {
+                display: none;
+            }
+
+            #stats-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(
+                    transparent 50%,
+                    rgba(0, 0, 0, 0.5) 50%
+                );
+                background-size: 100% 4px;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .pixel-title {
+                font-size: 16px;
+                margin-bottom: 20px;
+                text-align: center;
+                color: #ffeb3b;
+                text-shadow: 2px 2px #000;
+                position: relative;
+            }
+
+            .pixel-stat-box {
+                background: rgba(255, 255, 255, 0.1);
+                border: 2px solid #ffb300;
+                margin: 10px 0;
+                padding: 12px;
+                display: flex;
+                align-items: center;
+                font-size: 12px;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s;
+            }
+
+            .pixel-stat-box:hover {
+                transform: translateX(5px);
+                background: rgba(255, 255, 255, 0.15);
+                border-color: #ffd700;
+            }
+
+            .pixel-stat-box::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent
+                );
+                animation: shine 2s infinite;
+            }
+
+            #npcs-progress-bar-container {
+                position: relative;
+                height: 24px;
+                background: #000;
+                border: 2px solid #ffb300;
+                margin-top: 15px;
+                overflow: hidden;
+            }
+
+            #npcs-progress-bar {
+                height: 100%;
+                background: repeating-linear-gradient(
+                    45deg,
+                    #ffd700,
+                    #ffd700 10px,
+                    #ffb300 10px,
+                    #ffb300 20px
+                );
+                transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                animation: progressPulse 2s infinite;
+            }
+
+            #npcs-progress-label {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                color: #fff;
+                text-shadow: 1px 1px #000;
+                z-index: 2;
+            }
+
+            @keyframes glowBorder {
+                0% { box-shadow: 0 0 5px #fff, inset 0 0 5px #fff; }
+                100% { box-shadow: 0 0 15px #fff, inset 0 0 8px #fff; }
+            }
+
+            @keyframes scanline {
+                0% { transform: translateY(-100%); }
+                100% { transform: translateY(100%); }
+            }
+
+            @keyframes shine {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
+
+            @keyframes progressPulse {
+                0% { opacity: 0.8; }
+                50% { opacity: 1; }
+                100% { opacity: 0.8; }
+            }
+
+            .pixel-icon {
+                image-rendering: pixelated;
+                margin-right: 10px;
+                animation: iconFloat 2s infinite alternate;
+            }
+
+            @keyframes iconFloat {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(-3px); }
+            }
+        `;
+        document.head.appendChild(style);
 
         // Get NPCs talked to count from cookies
         let npcsTalkedTo = 0;
@@ -295,47 +360,62 @@ class StatsManager {
             npcsTalkedTo = parseInt(npcsCookie.split('=')[1]) || 0;
         }
 
-        // Pixel-art icons (free, open source)
-        const coinIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1fa99.png'; // 🪙
-        const accuracyIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3af.png'; // 🎯
-        const npcIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f9d1-200d-1f3a4.png'; // 🧑‍🎤
-        const statsIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3ae.png'; // 🎮
+        // Pixel-art icons (using retro-style emojis)
+        const coinIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1fa99.png';
+        const accuracyIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3af.png';
+        const npcIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f9d1-200d-1f3a4.png';
+        const statsIcon = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3ae.png';
 
-        // Create the button
+        // Create the button with retro styling
         const statsButton = document.createElement('div');
         statsButton.id = 'stats-button';
         statsButton.innerHTML = `<img src="${statsIcon}" alt="Stats" title="Show Player Stats" style="width:38px;height:38px;image-rendering:pixelated;" />`;
 
-        // Create the panel
+        // Create the panel with retro styling
         const statsContainer = document.createElement('div');
         statsContainer.id = 'stats-container';
         statsContainer.tabIndex = 0;
-        // Add a pin button (always visible when expanded)
+
+        // Add a pin button with retro styling
         const pinButton = document.createElement('button');
         pinButton.id = 'stats-pin-btn';
-        pinButton.innerText = '📌';
+        pinButton.innerHTML = '📌';
         pinButton.title = 'Pin/unpin';
-        pinButton.style.position = 'absolute';
-        pinButton.style.top = '10px';
-        pinButton.style.right = '10px';
-        pinButton.style.background = 'none';
-        pinButton.style.border = 'none';
-        pinButton.style.fontSize = '22px';
-        pinButton.style.cursor = 'pointer';
-        pinButton.style.zIndex = '10002';
-        pinButton.style.userSelect = 'none';
-        pinButton.style.outline = 'none';
-        pinButton.style.transition = 'transform 0.1s, color 0.2s';
-        pinButton.addEventListener('mouseenter', () => pinButton.style.transform = 'scale(1.2)');
-        pinButton.addEventListener('mouseleave', () => pinButton.style.transform = '');
+        Object.assign(pinButton.style, {
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'none',
+            border: 'none',
+            fontSize: '22px',
+            cursor: 'pointer',
+            zIndex: '10002',
+            color: '#fff',
+            textShadow: '2px 2px #000',
+            transition: 'transform 0.2s, color 0.2s'
+        });
+
+        pinButton.addEventListener('mouseenter', () => {
+            pinButton.style.transform = 'scale(1.2)';
+            pinButton.style.color = '#ffd700';
+        });
+        pinButton.addEventListener('mouseleave', () => {
+            pinButton.style.transform = '';
+            pinButton.style.color = '#fff';
+        });
         pinButton.addEventListener('click', (e) => {
             e.stopPropagation();
             setPinnedState(!pinned);
+            // Play retro click sound
+            const click = new Audio('data:audio/wav;base64,UklGRXEAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YUQAAAB/f39/gICAgICAgH9/f39/f39/f39/f4CAgICAgIB/f39/f39/f39/f3+AgICAgICAgICAgH9/f39/f39/f39/f39/f39/f39/fw==');
+            click.volume = 0.3;
+            click.play();
         });
+
         statsContainer.innerHTML = `
-            <div class="pixel-title" style="position: relative;">
+            <div class="pixel-title">
                 <img class="pixel-icon" src="${statsIcon}" alt="Game" style="width:22px;height:22px;margin-right:8px;vertical-align:middle;" />
-                <span style="font-family: 'Press Start 2P', 'VT323', monospace;">PLAYER STATS</span>
+                <span>PLAYER STATS</span>
                 <img class="pixel-icon" src="${statsIcon}" alt="Game" style="width:22px;height:22px;margin-left:8px;vertical-align:middle;" />
             </div>
             <div class="pixel-stat-box">
@@ -350,17 +430,29 @@ class StatsManager {
                 <img class="pixel-icon" src="${npcIcon}" alt="NPC" style="width:22px;height:22px;vertical-align:middle;" />
                 <span style="color: #ffb300;">NPCs Talked To:</span> <span id="npcsTalkedTo" style="margin-left: 6px;">${npcsTalkedTo}</span>
             </div>
-            <div id="npcs-progress-bar-container" style="width: 100%; margin-top: 6px; margin-bottom: 2px; height: 18px; background: #fffbe6; border: 2px solid #ffb300; border-radius: 4px; box-shadow: 1px 1px 0 #ffec80; position: relative; overflow: hidden;">
-                <div id="npcs-progress-bar" style="height: 100%; width: ${(Math.min(npcsTalkedTo, TOTAL_NPCS) / TOTAL_NPCS) * 100}%; background: repeating-linear-gradient(135deg, #ffe066, #ffd700 8px, #ffb300 12px, #ffe066 16px); image-rendering: pixelated; transition: width 0.3s;"></div>
-                <span id="npcs-progress-label" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-family: 'Press Start 2P', 'VT323', monospace; font-size: 12px; color: #3a2c00; text-shadow: 1px 1px 0 #fffbe6; pointer-events: none;">${npcsTalkedTo} / ${TOTAL_NPCS}</span>
+            <div id="npcs-progress-bar-container">
+                <div id="npcs-progress-bar" style="width: ${(Math.min(npcsTalkedTo, TOTAL_NPCS) / TOTAL_NPCS) * 100}%;"></div>
+                <span id="npcs-progress-label">${npcsTalkedTo} / ${TOTAL_NPCS}</span>
             </div>
         `;
-        statsContainer.appendChild(pinButton);
 
-        // Add to DOM
+        statsContainer.appendChild(pinButton);
         statsWrapper.appendChild(statsButton);
         statsWrapper.appendChild(statsContainer);
         document.body.appendChild(statsWrapper);
+
+        // Add hover sound effect
+        const hoverSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU');
+        hoverSound.volume = 0.2;
+
+        // Add hover effects with sound
+        const statBoxes = statsContainer.querySelectorAll('.pixel-stat-box');
+        statBoxes.forEach(box => {
+            box.addEventListener('mouseenter', () => {
+                hoverSound.currentTime = 0;
+                hoverSound.play();
+            });
+        });
 
         // --- PINNED STATE LOGIC ---
         let pinned = false;
@@ -369,13 +461,12 @@ class StatsManager {
             if (pinned) {
                 statsWrapper.classList.add('pinned');
                 pinButton.classList.add('pinned');
-                statsButton.classList.add('pinned');
-                statsButton.style.display = 'none';
                 statsContainer.style.position = 'fixed';
                 statsContainer.style.right = '0';
                 statsContainer.style.left = '';
-                statsContainer.style.width = '320px';
+                statsContainer.style.display = 'block';
                 statsContainer.style.opacity = '1';
+                statsContainer.style.transform = 'none';
                 statsContainer.style.pointerEvents = 'auto';
                 statsContainer.style.padding = '18px 28px';
                 statsContainer.style.overflow = 'visible';
@@ -383,28 +474,40 @@ class StatsManager {
             } else {
                 statsWrapper.classList.remove('pinned');
                 pinButton.classList.remove('pinned');
-                statsButton.classList.remove('pinned');
-                statsButton.style.display = '';
                 statsContainer.style.position = '';
-                statsContainer.style.right = '60px';
-                statsContainer.style.left = 'auto';
-                statsContainer.style.width = '';
+                statsContainer.style.right = '';
+                statsContainer.style.left = '';
+                statsContainer.style.display = '';
                 statsContainer.style.opacity = '';
+                statsContainer.style.transform = '';
                 statsContainer.style.pointerEvents = '';
                 statsContainer.style.padding = '';
                 statsContainer.style.overflow = '';
                 statsContainer.style.zIndex = '';
             }
             // Pin color/rotation
-            pinButton.style.color = pinned ? '#ffb300' : '#888';
+            pinButton.style.color = pinned ? '#ffb300' : '#fff';
             pinButton.style.transform = pinned ? 'rotate(-30deg)' : '';
         }
-        // If pinned, prevent hover from closing; if not pinned, allow hover
+
+        // If pinned, prevent hover from closing
         statsWrapper.addEventListener('mouseleave', () => {
-            if (pinned) {
-                setPinnedState(true);
+            if (!pinned) {
+                statsContainer.style.display = 'none';
+                statsContainer.style.opacity = '0';
+                statsContainer.style.transform = 'translateX(-20px)';
             }
         });
+
+        statsWrapper.addEventListener('mouseenter', () => {
+            statsContainer.style.display = 'block';
+            // Small delay to ensure display: block is applied before transition
+            requestAnimationFrame(() => {
+                statsContainer.style.opacity = '1';
+                statsContainer.style.transform = 'translateX(0)';
+            });
+        });
+
         // Optional: clicking anywhere else unpins
         document.addEventListener('click', (e) => {
             if (pinned && !statsWrapper.contains(e.target)) {
