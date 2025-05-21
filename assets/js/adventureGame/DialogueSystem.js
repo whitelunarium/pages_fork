@@ -11,7 +11,6 @@ class DialogueSystem {
       "Retrieve the elytra and embrace your destiny!"
     ];
     
-    // Create a unique ID for this dialogue system
     this.id = options.id || "dialogue_" + Math.random().toString(36).substr(2, 9);
     
     this.lastShownIndex = -1;
