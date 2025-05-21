@@ -108,7 +108,7 @@ permalink: /crypto/mining
                 </div>
             </div>
             <!-- Mining Controls -->
-            <div class="flex flex-col items-center mt-8 mb-8">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
                 <div class="flex justify-between items-center gap-4">
                     <a href="{{site.baseurl}}/crypto/energy" class="mining-button energy-plan">
                         <span>Energy Plan</span>
