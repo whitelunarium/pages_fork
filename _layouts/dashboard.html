@@ -31,19 +31,9 @@ active_tab: Dashboard
                             class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Bathroom
                             Analytics</a>
                     </li>
-                    <li class="me-2">
-                        <a href="#" id="tab-more1"
-                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">More
-                            Analytics</a>
-                    </li>
-                    <li class="me-2">
-                        <a href="#" id="tab-more2"
-                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">More
-                            Analytics</a>
-                    </li>
-                    <li>
+                    <!-- <li>
                         <a class="inline-block p-4 rounded-t-lg cursor-not-allowed text-neutral-500">Disabled</a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- sliding underline indicator -->
                 <div id="tab-underline"
@@ -56,7 +46,7 @@ active_tab: Dashboard
                 <!-- github analytics tab content -->
                 <div id="tab-content-github" class="tab-content block">
                     <!-- Grid -->
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 sm:grid-rows-1 lg:grid-rows-2  gap-4 sm:gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 sm:grid-rows-4 lg:grid-rows-2  gap-4 sm:gap-6">
                         <!-- Card -->
                         <div
                             class="row-span-2 col-start-1 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
@@ -261,103 +251,17 @@ active_tab: Dashboard
                 </div>
                 <!-- bathroom analytics tab content -->
                 <div id="tab-content-bathroom" class="tab-content hidden">
-                    <div class="flex items-center justify-center h-96 text-neutral-300">
-                        <!-- placeholder for bathroom analytics -->
-                        <span>bathroom analytics coming soon</span>
-                    </div>
-                </div>
-                <!-- more analytics tab content 1 -->
-                <div id="tab-content-more1" class="tab-content hidden">
-                    <div class="flex items-center justify-center h-96 text-neutral-300">
-                        <span>more analytics 1 coming soon</span>
-                    </div>
-                </div>
-                <!-- more analytics tab content 2 -->
-                <div id="tab-content-more2" class="tab-content hidden">
-                    <div class="flex items-center justify-center h-96 text-neutral-300">
-                        <span>more analytics 2 coming soon</span>
+                    <div class="items-center justify-center text-neutral-300">
+                        <p>Legally correct, morally questionable: it's bathroom analytics!</p>
+                        <br>
+                        <p>Wow, it's so empty here. Maybe something will come up soon...?</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for tab switching -->
-    <script type="module">
-        document.addEventListener('DOMContentLoaded', function () {
-            // tab ids in order
-            const tabIds = ['github', 'bathroom', 'more1', 'more2'];
-            let currentTab = 'github';
 
-            // underline logic
-            const underline = document.getElementById('tab-underline');
-            const tabBar = document.getElementById('tab-bar');
-            function moveUnderline(tabId, animate = true) {
-                const tabBtn = document.getElementById('tab-' + tabId);
-                if (!tabBtn) return;
-                const tabRect = tabBtn.getBoundingClientRect();
-                const barRect = tabBar.getBoundingClientRect();
-                const left = tabRect.left - barRect.left + tabBar.scrollLeft;
-                const width = tabRect.width;
-                underline.style.transition = animate ? 'all 0.3s cubic-bezier(.4,0,.2,1)' : 'none';
-                underline.style.left = left + 'px';
-                underline.style.width = width + 'px';
-            }
-
-            // initial underline position
-            setTimeout(() => moveUnderline(currentTab, false), 10);
-
-            function switchTab(newTab) {
-                if (newTab === currentTab) return;
-                const oldIdx = tabIds.indexOf(currentTab);
-                const newIdx = tabIds.indexOf(newTab);
-                const direction = newIdx > oldIdx ? 'left' : 'right';
-
-                const oldContent = document.getElementById('tab-content-' + currentTab);
-                const newContent = document.getElementById('tab-content-' + newTab);
-
-                // remove active class from all tab buttons
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active', 'text-blue-500', 'border-blue-500');
-                });
-                // add active class to new tab button
-                document.getElementById('tab-' + newTab).classList.add('active', 'text-blue-500', 'border-blue-500');
-
-                // prepare new content for animation
-                newContent.classList.remove('hidden', 'slide-in-left', 'slide-in-right', 'active');
-                newContent.classList.add('tab-content', direction === 'left' ? 'slide-in-right' : 'slide-in-left', 'animating');
-
-                // animate old content out
-                oldContent.classList.remove('slide-in-left', 'slide-in-right', 'active');
-                oldContent.classList.add(direction === 'left' ? 'slide-out-left' : 'slide-out-right', 'animating');
-
-                // move underline at the same time as content animation
-                moveUnderline(newTab, true);
-
-                setTimeout(() => {
-                    // hide old content
-                    oldContent.classList.remove('slide-out-left', 'slide-out-right', 'animating');
-                    oldContent.classList.add('hidden');
-                    // animate new content in
-                    newContent.classList.remove('slide-in-left', 'slide-in-right', 'animating');
-                    newContent.classList.add('active');
-                    // set current tab
-                    currentTab = newTab;
-                }, 300);
-            }
-
-            // add click listeners to tab buttons
-            tabIds.forEach(tab => {
-                document.getElementById('tab-' + tab).addEventListener('click', function (e) {
-                    e.preventDefault();
-                    switchTab(tab);
-                });
-            });
-
-            // update underline on window resize
-            window.addEventListener('resize', () => moveUnderline(currentTab, false));
-        });
-    </script>
 </body>
 
 <!-- Required plugins -->
@@ -370,6 +274,16 @@ active_tab: Dashboard
     // call the function to fetch and update github data
     import { fetchGithubData } from '{{ site.baseurl }}/assets/js/Aesthetihawk/getGithubData.js';
     fetchGithubData();
+</script>
+
+<!-- JavaScript for tab switching -->
+<script type="module">
+    import { setupTabSwitcher } from '{{ site.baseurl }}/assets/js/Aesthetihawk/tabSwitcher.js';
+
+    // call the function with your tab ids and initial tab
+    document.addEventListener('DOMContentLoaded', function () {
+        setupTabSwitcher(['github', 'bathroom'], 'github');
+    });
 </script>
 
 <script>
