@@ -15,6 +15,7 @@ links:
     icon: images/toolkit-nav-buttons/submissions.png
 
   - id: bathroom
+    href: student/hallpass
     label: Bathroom System
     description:
       - Add yourself to a queue to go to the bathroom
@@ -52,9 +53,14 @@ links:
   - id: grades
     href: student/grades
     label: Grade Viewer
+    description:
+      - View your grades for each assignment
     icon: images/toolkit-nav-buttons/view-grades.png
 
   - id: teamteach
     href: student/teamteachsignup
     label: Team Teach Signup
+    description:
+      - Create Team Teach assignments and display the topics with dates
+      - Sign up for team teaches with your account
     icon: images/toolkit-nav-buttons/teamteachsignup.png
