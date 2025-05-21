@@ -14,9 +14,7 @@ export class GameEnvBackground extends GameObject {
         }
     }
 
-    /** For primary background, update is the same as draw
-     * 
-     */
+    
     update() {
         this.draw();
     }
