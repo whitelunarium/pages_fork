@@ -2,7 +2,6 @@ import GameEnvBackground from './GameEngine/GameEnvBackground.js';
 import Npc from './GameEngine/Npc.js';
 import Player from './GameEngine/Player.js';
 import GameControl from './GameEngine/GameControl.js';
-import HelpPanel from './HelpPanel.js';
 import Game from './Game.js';
 import showDialogBox from './DialogBox.js';
 import WaypointArrow from './WaypointArrow.js';
@@ -456,12 +455,6 @@ class GameLevelAirport {
       { class: Npc, data: sprite_data_computer },
       { class: Npc, data: sprite_data_bank}
     ];
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'h') {
-        HelpPanel.toggle();
-      }
-    });
   }
 }
 
