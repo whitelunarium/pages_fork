@@ -1,4 +1,13 @@
 links:
+  - id: calendar
+    href: student/calendar
+    label: Calendar
+    description:
+      - Add/Edit/Delete events to calendar
+      - View all events
+      - View events specific to each period
+      - Month, week, and day viewing options
+    icon: images/toolkit-nav-buttons/calendar.png
   - id: submissions
     href: student/submissions
     label: Submission Page

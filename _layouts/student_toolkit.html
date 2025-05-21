@@ -84,6 +84,7 @@ active_tab: toolkit
         grid-auto-flow: row;
         grid-template-areas:
             "header"
+            "calendar"
             "bathroom"
             "groups"
             "queue"
@@ -95,6 +96,30 @@ active_tab: toolkit
 
     .header {
         grid-area: header;
+    }
+
+    .calendar {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        grid-template-rows: 1fr;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas:
+            "calendar-thumbnail calendar-details";
+        grid-area: calendar;
+    }
+
+    .calendar-details {
+        grid-area: calendar-details;
+        padding: 30px;
+    }
+
+    .calendar-thumbnail {
+        grid-area: calendar-thumbnail;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .bathroom {
