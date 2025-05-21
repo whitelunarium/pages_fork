@@ -1,5 +1,6 @@
 ---
 layout: profile
+title: Your Profile
 permalink: /profile
 ---
 
