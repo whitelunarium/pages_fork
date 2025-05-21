@@ -46,197 +46,265 @@ active_tab: Dashboard
     <!-- Content -->
     <div class="w-full">
         <div class="space-y-4 sm:space-y-6">
-            <div class="text-sm font-medium text-center border-b text-neutral-400 border-neutral-700">
-                <ul class="flex flex-wrap -mb-px">
+            <div class="text-sm font-medium text-center border-b text-neutral-400 border-neutral-700 relative">
+                <ul class="flex flex-wrap -mb-px relative" id="tab-bar">
                     <li class="me-2">
-                        <a href="#"
-                            class="inline-block p-4 border-b-2 rounded-t-lg active text-blue-500 border-blue-500"
+                        <a href="#" id="tab-github"
+                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300"
                             aria-current="page">GitHub Analytics</a>
                     </li>
                     <li class="me-2">
-                        <a href="#"
-                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Bathroom
+                        <a href="#" id="tab-bathroom"
+                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Bathroom
                             Analytics</a>
                     </li>
                     <li class="me-2">
-                        <a href="#"
-                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">More
+                        <a href="#" id="tab-more1"
+                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">More
                             Analytics</a>
                     </li>
                     <li class="me-2">
-                        <a href="#"
-                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">More
+                        <a href="#" id="tab-more2"
+                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">More
                             Analytics</a>
                     </li>
                     <li>
                         <a class="inline-block p-4 rounded-t-lg cursor-not-allowed text-neutral-500">Disabled</a>
                     </li>
                 </ul>
+                <!-- sliding underline indicator -->
+                <div id="tab-underline"
+                    style="position:absolute;bottom:0;left:0;height:2px;width:0;background:#2563eb;transition:all 0.3s cubic-bezier(.4,0,.2,1);border-radius:2px;"></div>
             </div>
 
-            <!-- Grid -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
-                    <div class="p-4 md:p-5">
-                        <div class="flex items-center gap-x-2">
-                            <p class="text-xs uppercase text-neutral-500">
-                                Commits
-                            </p>
-                            <!-- <div class="hs-tooltip">
-                                <div class="hs-tooltip-toggle">
-                                    <svg class="shrink-0 size-4 text-neutral-500" xmlns="http://www.w3.org/2000/svg"
-                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                                        <path d="M12 17h.01" />
-                                    </svg>
+            <!-- tab content container -->
+            <div id="tab-content-container" class="relative min-h-[400px]">
+                <!-- github analytics tab content -->
+                <div id="tab-content-github" class="tab-content block">
+                    <!-- Grid -->
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 sm:grid-rows-1 lg:grid-rows-2  gap-4 sm:gap-6">
+                        <!-- Card -->
+                        <div
+                            class="row-span-2 col-start-1 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="p-4 md:p-5">
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <img src="" alt="" id="avatar" class="w-max h-max rounded-xl">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="row-span-2 col-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="p-4 md:p-5">
+                                <div class="flex items-center gap-x-2">
+                                    <p class="text-xs uppercase text-neutral-500">Github Info</p>
+                                </div>
+
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="username">N/A. Are
+                                        you
+                                        logged in?</h3>
+                                </div>
+
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="followers">N/A. Are
+                                        you
+                                        logged in?</h3>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Card -->
+                        <div
+                            class="col-start-3 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="p-4 md:p-5">
+                                <div class="flex items-center gap-x-2">
+                                    <p class="text-xs uppercase text-neutral-500">
+                                        Commits
+                                    </p>
+                                    <!-- <div class="hs-tooltip">
+                                        <div class="hs-tooltip-toggle">
+                                            <svg class="shrink-0 size-4 text-neutral-500" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                                <path d="M12 17h.01" />
+                                            </svg>
+                                            <span
+                                                class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-neutral-900 text-xs font-medium text-white rounded-md shadow-2xs dark:bg-neutral-700 hidden"
+                                                role="tooltip">
+                                                The number of commits you have made
+                                            </span>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="commits-count">N/A.
+                                        Are you
+                                        logged in?</h3>
+                                    <!-- <span class="flex items-center gap-x-1 text-green-600">
+                                        <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                                            <polyline points="16 7 22 7 22 13" />
+                                        </svg>
+                                        <span class="inline-block text-sm">
+                                            1.7%
+                                        </span>
+                                    </span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div
+                            class="col-start-4 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="p-4 md:p-5">
+                                <div class="flex items-center gap-x-2">
+                                    <p class="text-xs uppercase text-neutral-500">Issues</p>
+                                </div>
+
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="issues-count">N/A.
+                                        Are you
+                                        logged in?</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div
+                            class="col-start-3 row-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="p-4 md:p-5">
+                                <div class="flex items-center gap-x-2">
+                                    <p class="text-xs uppercase text-neutral-500">
+                                        Pull Requests
+                                    </p>
+                                </div>
+
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="prs-count">N/A. Are
+                                        you logged in?</h3>
+                                    <!-- <span class="flex items-center gap-x-1 text-red-600">
+                                        <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg"
+                                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="22 17 13.5 8.5 8.5 13.5 2 7" />
+                                            <polyline points="16 17 22 17 22 11" />
+                                        </svg>
+                                        <span class="inline-block text-sm">
+                                            1.7%
+                                        </span>
+                                    </span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Card -->
+
+                        <!-- Card -->
+                        <div
+                            class="col-start-4 row-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="p-4 md:p-5">
+                                <div class="flex items-center gap-x-2">
+                                    <p class="text-xs uppercase text-neutral-500">
+                                        Public Repos
+                                    </p>
+                                </div>
+
+                                <div class="mt-1 flex items-center gap-x-2">
+                                    <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="public-repos">N/A.
+                                        Are you logged in?</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
+                        <div
+                            class="p-4 md:p-5 min-h-102.5 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="flex flex-wrap justify-between items-center gap-2">
+                                <div>
+                                    <h2 class="text-sm text-neutral-500">
+                                        Income
+                                    </h2>
+                                    <p class="text-xl sm:text-2xl font-medium text-neutral-200">
+                                        $126,238.49
+                                    </p>
+                                </div>
+
+                                <div>
                                     <span
-                                        class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-neutral-900 text-xs font-medium text-white rounded-md shadow-2xs dark:bg-neutral-700 hidden"
-                                        role="tooltip">
-                                        The number of commits you have made
+                                        class="py-[5px] px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-md bg-teal-800 text-teal-500">
+                                        <svg class="inline-block size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 5v14" />
+                                            <path d="m19 12-7 7-7-7" />
+                                        </svg>
+                                        25%
                                     </span>
                                 </div>
-                            </div> -->
-                        </div>
+                            </div>
 
-                        <div class="mt-1 flex items-center gap-x-2">
-                            <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="commits-count">N/A. Are you
-                                logged in?</h3>
-                            <!-- <span class="flex items-center gap-x-1 text-green-600">
-                                <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                                    <polyline points="16 7 22 7 22 13" />
-                                </svg>
-                                <span class="inline-block text-sm">
-                                    1.7%
-                                </span>
-                            </span> -->
+                            <div id="hs-multiple-bar-charts"></div>
                         </div>
+                        
+                        <div
+                            class="p-4 md:p-5 min-h-102.5 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                            <div class="flex flex-wrap justify-between items-center gap-2">
+                                <div>
+                                    <h2 class="text-sm text-neutral-500">
+                                        Visitors
+                                    </h2>
+                                    <p class="text-xl sm:text-2xl font-medium text-neutral-200">
+                                        80.3k
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <span
+                                        class="py-[5px] px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-md bg-red-800 text-red-500">
+                                        <svg class="inline-block size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 5v14" />
+                                            <path d="m19 12-7 7-7-7" />
+                                        </svg>
+                                        2%
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div id="hs-single-area-chart"></div>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- bathroom analytics tab content -->
+                <div id="tab-content-bathroom" class="tab-content hidden">
+                    <div class="flex items-center justify-center h-96 text-neutral-300">
+                        <!-- placeholder for bathroom analytics -->
+                        <span>bathroom analytics coming soon</span>
                     </div>
                 </div>
-                <!-- End Card -->
-
-                <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
-                    <div class="p-4 md:p-5">
-                        <div class="flex items-center gap-x-2">
-                            <p class="text-xs uppercase text-neutral-500">Issues</p>
-                        </div>
-
-                        <div class="mt-1 flex items-center gap-x-2">
-                            <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="issues-count">N/A. Are you
-                                logged in?</h3>
-                        </div>
+                <!-- more analytics tab content 1 -->
+                <div id="tab-content-more1" class="tab-content hidden">
+                    <div class="flex items-center justify-center h-96 text-neutral-300">
+                        <span>more analytics 1 coming soon</span>
                     </div>
                 </div>
-                <!-- End Card -->
-
-                <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
-                    <div class="p-4 md:p-5">
-                        <div class="flex items-center gap-x-2">
-                            <p class="text-xs uppercase text-neutral-500">
-                                Pull Requests
-                            </p>
-                        </div>
-
-                        <div class="mt-1 flex items-center gap-x-2">
-                            <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="prs-count">N/A. Are you logged in?</h3>
-                            <!-- <span class="flex items-center gap-x-1 text-red-600">
-                                <svg class="inline-block size-4 self-center" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="22 17 13.5 8.5 8.5 13.5 2 7" />
-                                    <polyline points="16 17 22 17 22 11" />
-                                </svg>
-                                <span class="inline-block text-sm">
-                                    1.7%
-                                </span>
-                            </span> -->
-                        </div>
-                    </div>
-                </div>
-                <!-- End Card -->
-
-                <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
-                    <div class="p-4 md:p-5">
-                        <div class="flex items-center gap-x-2">
-                            <p class="text-xs uppercase text-neutral-500">
-                                Public Repos
-                            </p>
-                        </div>
-
-                        <div class="mt-1 flex items-center gap-x-2">
-                            <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="public-repos">N/A. Are you logged in?</h3>
-                        </div>
+                <!-- more analytics tab content 2 -->
+                <div id="tab-content-more2" class="tab-content hidden">
+                    <div class="flex items-center justify-center h-96 text-neutral-300">
+                        <span>more analytics 2 coming soon</span>
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
-                <div
-                    class="p-4 md:p-5 min-h-102.5 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
-                    <div class="flex flex-wrap justify-between items-center gap-2">
-                        <div>
-                            <h2 class="text-sm text-neutral-500">
-                                Income
-                            </h2>
-                            <p class="text-xl sm:text-2xl font-medium text-neutral-200">
-                                $126,238.49
-                            </p>
-                        </div>
-
-                        <div>
-                            <span
-                                class="py-[5px] px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-md bg-teal-800 text-teal-500">
-                                <svg class="inline-block size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 5v14" />
-                                    <path d="m19 12-7 7-7-7" />
-                                </svg>
-                                25%
-                            </span>
-                        </div>
-                    </div>
-
-                    <div id="hs-multiple-bar-charts"></div>
-                </div>
-                
-                <div
-                    class="p-4 md:p-5 min-h-102.5 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
-                    <div class="flex flex-wrap justify-between items-center gap-2">
-                        <div>
-                            <h2 class="text-sm text-neutral-500">
-                                Visitors
-                            </h2>
-                            <p class="text-xl sm:text-2xl font-medium text-neutral-200">
-                                80.3k
-                            </p>
-                        </div>
-
-                        <div>
-                            <span
-                                class="py-[5px] px-1.5 inline-flex items-center gap-x-1 text-xs font-medium rounded-md bg-red-800 text-red-500">
-                                <svg class="inline-block size-3.5" xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 5v14" />
-                                    <path d="m19 12-7 7-7-7" />
-                                </svg>
-                                2%
-                            </span>
-                        </div>
-                    </div>
-
-                    <div id="hs-single-area-chart"></div>
-                </div>
-            </div> -->
         </div>
     </div>
 
@@ -312,17 +380,15 @@ active_tab: Dashboard
                 const avatarUrl = userProfile.avatar_url || '';
                 const publicReposUrl = profileLinks.repos_url || 'N/A';  // Added for repos URL
                 const publicRepos = userProfile.public_repos || 'N/A';
-                const publicGists = userProfile.public_gists || 'N/A';
                 const followers = userProfile.followers || 'N/A';
                 const following = userProfile.following || 'N/A';
 
                 // Update the HTML elements with the data
-                // document.getElementById('avatar').src = avatarUrl;
-                // document.getElementById('username').textContent = `Username: ${username}`;
+                document.getElementById('avatar').src = avatarUrl;
+                document.getElementById('username').textContent = `Username: ${username}`;
                 document.getElementById('profile-url').innerHTML = `Profile URL: <a href="${profileUrl}" target="_blank">${profileUrl}</a>`;  // Added link to profile URL
                 document.getElementById('public-repos').textContent = `${publicRepos}`;
-                // document.getElementById('public-gists').textContent = `Public Gists: ${publicGists}`;
-                // document.getElementById('followers').textContent = `Followers: ${followers}`;
+                document.getElementById('followers').textContent = `${followers} followers`;
 
                 // document.getElementById('commits-count').innerHTML = '<a href="#" class="info-link"><i class="fas fa-info-circle info-icon"></i></a>' + `Commits: ${commitsCount}`;
                 document.getElementById('commits-count').innerHTML = `${commitsCount}`;
@@ -771,6 +837,139 @@ active_tab: Dashboard
                     }
                 );
             })();
+        });
+    </script>
+
+    <!-- CSS for tab content animation -->
+    <style>
+        .tab-content {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+
+        .tab-content.animating {
+            pointer-events: none;
+        }
+
+        .tab-content.slide-out-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .tab-content.slide-out-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .tab-content.slide-in-left {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .tab-content.slide-in-right {
+            opacity: 0;
+            transform: translateX(40px);
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 1;
+        }
+
+        /* sliding underline styles */
+        #tab-underline {
+            will-change: left, width;
+            z-index: 2;
+        }
+    </style>
+
+    <!-- JavaScript for tab switching -->
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', function () {
+            // tab ids in order
+            const tabIds = ['github', 'bathroom', 'more1', 'more2'];
+            let currentTab = 'github';
+
+            // underline logic
+            const underline = document.getElementById('tab-underline');
+            const tabBar = document.getElementById('tab-bar');
+            function moveUnderline(tabId, animate = true) {
+                const tabBtn = document.getElementById('tab-' + tabId);
+                if (!tabBtn) return;
+                const tabRect = tabBtn.getBoundingClientRect();
+                const barRect = tabBar.getBoundingClientRect();
+                const left = tabRect.left - barRect.left + tabBar.scrollLeft;
+                const width = tabRect.width;
+                underline.style.transition = animate ? 'all 0.3s cubic-bezier(.4,0,.2,1)' : 'none';
+                underline.style.left = left + 'px';
+                underline.style.width = width + 'px';
+            }
+
+            // initial underline position
+            setTimeout(() => moveUnderline(currentTab, false), 10);
+
+            function switchTab(newTab) {
+                if (newTab === currentTab) return;
+                const oldIdx = tabIds.indexOf(currentTab);
+                const newIdx = tabIds.indexOf(newTab);
+                const direction = newIdx > oldIdx ? 'left' : 'right';
+
+                const oldContent = document.getElementById('tab-content-' + currentTab);
+                const newContent = document.getElementById('tab-content-' + newTab);
+
+                // remove active class from all tab buttons
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active', 'text-blue-500', 'border-blue-500');
+                });
+                // add active class to new tab button
+                document.getElementById('tab-' + newTab).classList.add('active', 'text-blue-500', 'border-blue-500');
+
+                // prepare new content for animation
+                newContent.classList.remove('hidden', 'slide-in-left', 'slide-in-right', 'active');
+                newContent.classList.add('tab-content', direction === 'left' ? 'slide-in-right' : 'slide-in-left', 'animating');
+
+                // animate old content out
+                oldContent.classList.remove('slide-in-left', 'slide-in-right', 'active');
+                oldContent.classList.add(direction === 'left' ? 'slide-out-left' : 'slide-out-right', 'animating');
+
+                // move underline at the same time as content animation
+                moveUnderline(newTab, true);
+
+                setTimeout(() => {
+                    // hide old content
+                    oldContent.classList.remove('slide-out-left', 'slide-out-right', 'animating');
+                    oldContent.classList.add('hidden');
+                    // animate new content in
+                    newContent.classList.remove('slide-in-left', 'slide-in-right', 'animating');
+                    newContent.classList.add('active');
+                    // set current tab
+                    currentTab = newTab;
+                }, 300);
+            }
+
+            // add click listeners to tab buttons
+            tabIds.forEach(tab => {
+                document.getElementById('tab-' + tab).addEventListener('click', function (e) {
+                    e.preventDefault();
+                    switchTab(tab);
+                });
+            });
+
+            // update underline on window resize
+            window.addEventListener('resize', () => moveUnderline(currentTab, false));
         });
     </script>
 </body>
