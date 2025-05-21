@@ -110,21 +110,31 @@ class GameLevelAirport {
           const closeBtn = document.createElement("button");
           closeBtn.innerText = "✖";
           closeBtn.style.position = "absolute";
-          closeBtn.style.top = "20px";
-          closeBtn.style.right = "30px";
-          closeBtn.style.fontSize = "20px";
-          closeBtn.style.background = "white";
+          closeBtn.style.top = "10px";
+          closeBtn.style.right = "10px";
+          closeBtn.style.fontSize = "24px";
+          closeBtn.style.background = "#00ff80";
+          closeBtn.style.color = "#000";
           closeBtn.style.border = "none";
-          closeBtn.style.padding = "8px 12px";
+          closeBtn.style.padding = "10px 15px";
           closeBtn.style.borderRadius = "5px";
           closeBtn.style.cursor = "pointer";
-          closeBtn.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+          closeBtn.style.boxShadow = "0 0 15px rgba(0,255,128,0.5)";
           closeBtn.style.zIndex = "1100";
+          closeBtn.style.transition = "all 0.3s ease";
+          closeBtn.onmouseover = () => {
+            closeBtn.style.background = "#00cc66";
+            closeBtn.style.transform = "scale(1.1)";
+          };
+          closeBtn.onmouseout = () => {
+            closeBtn.style.background = "#00ff80";
+            closeBtn.style.transform = "scale(1)";
+          };
           closeBtn.onclick = () => {
             casinoModal.style.display = "none";
             casinoFrame.src = "";
           };
-          casinoModal.appendChild(closeBtn);
+          iframeWrapper.appendChild(closeBtn);
         }
 
         function openInModal(url) {
@@ -256,21 +266,31 @@ class GameLevelAirport {
           const closeBtn = document.createElement("button");
           closeBtn.innerText = "✖";
           closeBtn.style.position = "absolute";
-          closeBtn.style.top = "20px";
-          closeBtn.style.right = "30px";
-          closeBtn.style.fontSize = "20px";
-          closeBtn.style.background = "white";
+          closeBtn.style.top = "10px";
+          closeBtn.style.right = "10px";
+          closeBtn.style.fontSize = "24px";
+          closeBtn.style.background = "#00ff80";
+          closeBtn.style.color = "#000";
           closeBtn.style.border = "none";
-          closeBtn.style.padding = "8px 12px";
+          closeBtn.style.padding = "10px 15px";
           closeBtn.style.borderRadius = "5px";
           closeBtn.style.cursor = "pointer";
-          closeBtn.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+          closeBtn.style.boxShadow = "0 0 15px rgba(0,255,128,0.5)";
           closeBtn.style.zIndex = "1100";
+          closeBtn.style.transition = "all 0.3s ease";
+          closeBtn.onmouseover = () => {
+            closeBtn.style.background = "#00cc66";
+            closeBtn.style.transform = "scale(1.1)";
+          };
+          closeBtn.onmouseout = () => {
+            closeBtn.style.background = "#00ff80";
+            closeBtn.style.transform = "scale(1)";
+          };
           closeBtn.onclick = () => {
             stocksModal.style.display = "none";
             stocksFrame.src = "";
           };
-          stocksModal.appendChild(closeBtn);
+          iframeWrapper.appendChild(closeBtn);
         }
 
         function openInModal(url) {
@@ -361,21 +381,31 @@ class GameLevelAirport {
     const closeBtn = document.createElement("button");
     closeBtn.innerText = "✖";
     closeBtn.style.position = "absolute";
-    closeBtn.style.top = "20px";
-    closeBtn.style.right = "30px";
-    closeBtn.style.fontSize = "20px";
-    closeBtn.style.background = "white";
+    closeBtn.style.top = "10px";
+    closeBtn.style.right = "10px";
+    closeBtn.style.fontSize = "24px";
+    closeBtn.style.background = "#00ff80";
+    closeBtn.style.color = "#000";
     closeBtn.style.border = "none";
-    closeBtn.style.padding = "8px 12px";
+    closeBtn.style.padding = "10px 15px";
     closeBtn.style.borderRadius = "5px";
     closeBtn.style.cursor = "pointer";
-    closeBtn.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+    closeBtn.style.boxShadow = "0 0 15px rgba(0,255,128,0.5)";
     closeBtn.style.zIndex = "1100";
+    closeBtn.style.transition = "all 0.3s ease";
+    closeBtn.onmouseover = () => {
+      closeBtn.style.background = "#00cc66";
+      closeBtn.style.transform = "scale(1.1)";
+    };
+    closeBtn.onmouseout = () => {
+      closeBtn.style.background = "#00ff80";
+      closeBtn.style.transform = "scale(1)";
+    };
     closeBtn.onclick = () => {
       cryptoModal.style.display = "none";
       cryptoFrame.src = "";
     };
-    cryptoModal.appendChild(closeBtn);
+    iframeWrapper.appendChild(closeBtn);
 
     // 🧠 SATOSHI NPC LOGIC
     const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
