@@ -1,5 +1,5 @@
 ---
-layout: toolkit
+layout: aesthetihawk
 active_tab: grades
 title: Viewing Grades
 permalink: /student/grades
