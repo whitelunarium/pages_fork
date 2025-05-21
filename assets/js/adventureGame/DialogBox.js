@@ -223,8 +223,8 @@ function showDialogBox(title, message, options = []) {
       
       // Short delay to let the sound play before action
       setTimeout(() => {
-        option.action();
-        if (!option.keepOpen) document.body.removeChild(dialogContainer);
+      option.action();
+      if (!option.keepOpen) document.body.removeChild(dialogContainer);
       }, 50);
     };
     buttonContainer.appendChild(button);
