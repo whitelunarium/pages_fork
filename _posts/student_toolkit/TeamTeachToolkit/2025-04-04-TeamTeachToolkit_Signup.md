@@ -1,6 +1,6 @@
 ---
 toc: false
-layout: toolkit
+layout: aesthetihawk
 active_tab: teamteach
 title: Team Teach Signup
 permalink: /student/teamteachsignup
