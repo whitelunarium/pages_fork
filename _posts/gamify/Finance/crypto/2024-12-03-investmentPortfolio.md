@@ -1,11 +1,10 @@
 ---
-layout: base
+layout: finance
 title: Crypto Portfolio
 type: issues
 permalink: /crypto/portfolio
 ---
 
-<link rel="stylesheet" href="{{site.baseurl}}/assets/css/portfolio.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -194,19 +193,6 @@ permalink: /crypto/portfolio
     }
 </style>
 
-<!-- Navigation Bar -->
-<nav class="navbar">
-    <div class="nav-buttons">
-        <a href="{{site.baseurl}}/stocks/home">Home</a>
-        <a href="{{site.baseurl}}/crypto/portfolio">Crypto</a>
-        <a href="{{site.baseurl}}/stocks/viewer">Stocks</a>
-        <a href="{{site.baseurl}}/crypto/mining">Mining</a>
-        <a href="{{site.baseurl}}/stocks/buysell">Buy/Sell</a>
-        <a href="{{site.baseurl}}/stocks/leaderboard">Leaderboard</a>
-        <a href="{{site.baseurl}}/stocks/game">Game</a>
-        <a href="{{site.baseurl}}/stocks/portfolio">Portfolio</a>
-    </div>
-</nav>
 
 <div class="container">
     <div class="balance-container">
@@ -354,18 +340,36 @@ permalink: /crypto/portfolio
     };
 
     async function fetchUserBalance() {
-        if (!userEmail) {
-            console.error("User email not found, skipping balance fetch.");
-            return;
-        }
         try {
-            const response = await fetch(`${javaURI}/api/crypto/balance?email=${encodeURIComponent(userEmail)}`, fetchOptions);
-            if (!response.ok) throw new Error(`Failed to fetch balance: ${response.status}`);
-            const balanceData = await response.json();
-            updateBalance(balanceData.balance);
+            const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+            
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+            throw new Error("Response is not JSON");
+            }
+
+            const userData = await response.json();
+            
+            // Ensure the balance element exists
+            const balanceElement = document.getElementById('user-balance');
+            if (!balanceElement) {
+            throw new Error("Balance element not found in DOM");
+            }
+            
+            // Format balance with proper decimal places
+            const balance = Number(userData.balance).toFixed(2);
+            balanceElement.textContent = `$${balance}`;
+            
         } catch (error) {
-            console.error("Error fetching balance:", error);
-            document.getElementById('user-balance').innerText = "Error";
+            console.error("Error loading balance:", error);
+            const balanceElement = document.getElementById('user-balance');
+            if (balanceElement) {
+            balanceElement.textContent = "$0.00";
+            }
         }
     }
 
@@ -473,4 +477,4 @@ permalink: /crypto/portfolio
 
     fetchUserBalance();
     fetchCryptos();
-</script>
+</script>a
