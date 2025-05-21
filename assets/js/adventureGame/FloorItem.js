@@ -11,7 +11,6 @@ class FloorItem {
     }
 
     initialize() {
-        // Add styles for floor items
         const style = document.createElement('style');
         style.textContent = `
             .floor-item {
