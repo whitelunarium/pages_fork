@@ -46,7 +46,6 @@ class FloorItem {
             <div class="item-name">${this.item.name}</div>
         `;
         
-        // Position relative to game container
         const gameContainer = document.getElementById('gameContainer');
         if (gameContainer) {
             this.element.style.position = 'absolute';
