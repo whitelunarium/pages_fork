@@ -176,6 +176,66 @@ class GameLevelAirport {
       interact: function () { this.reaction(); }
     };
 
+      // 🔧 STEP 1: Create modal container
+    const cryptoModal = document.createElement("div");
+    cryptoModal.id = "cryptoModal";
+    cryptoModal.style.position = "fixed";
+    cryptoModal.style.top = "0";
+    cryptoModal.style.left = "0";
+    cryptoModal.style.width = "100vw";
+    cryptoModal.style.height = "100vh";
+    cryptoModal.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+    cryptoModal.style.display = "none";
+    cryptoModal.style.justifyContent = "center";
+    cryptoModal.style.alignItems = "center";
+    cryptoModal.style.zIndex = "1000";
+    document.body.appendChild(cryptoModal);
+
+    // 🔧 STEP 2: Create iframe wrapper to simulate cropping
+    const iframeWrapper = document.createElement("div");
+    iframeWrapper.id = "cryptoFrameWrapper";
+    iframeWrapper.style.position = "relative";
+    iframeWrapper.style.overflow = "hidden";
+    iframeWrapper.style.width = "90%";
+    iframeWrapper.style.maxWidth = "1000px";
+    iframeWrapper.style.height = "80%";
+    iframeWrapper.style.border = "2px solid #ccc";
+    iframeWrapper.style.borderRadius = "8px";
+    iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+    cryptoModal.appendChild(iframeWrapper);
+
+    // 🔧 STEP 3: Create the actual iframe, shifted up by 10%
+    const cryptoFrame = document.createElement("iframe");
+    cryptoFrame.id = "cryptoFrame";
+    cryptoFrame.style.width = "100%";
+    cryptoFrame.style.height = "110%"; // Slightly taller to allow cropping
+    cryptoFrame.style.position = "absolute";
+    cryptoFrame.style.top = "-10%"; // This shifts the visible area down
+    cryptoFrame.style.left = "0";
+    cryptoFrame.style.border = "none";
+    iframeWrapper.appendChild(cryptoFrame);
+
+    // 🔧 STEP 4: Add a close button
+    const closeBtn = document.createElement("button");
+    closeBtn.innerText = "✖";
+    closeBtn.style.position = "absolute";
+    closeBtn.style.top = "20px";
+    closeBtn.style.right = "30px";
+    closeBtn.style.fontSize = "20px";
+    closeBtn.style.background = "white";
+    closeBtn.style.border = "none";
+    closeBtn.style.padding = "8px 12px";
+    closeBtn.style.borderRadius = "5px";
+    closeBtn.style.cursor = "pointer";
+    closeBtn.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+    closeBtn.style.zIndex = "1100";
+    closeBtn.onclick = () => {
+      cryptoModal.style.display = "none";
+      cryptoFrame.src = "";
+    };
+    cryptoModal.appendChild(closeBtn);
+
+    // 🧠 SATOSHI NPC LOGIC
     const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
     const sprite_data_crypto = {
       id: 'Crypto-NPC',
@@ -195,11 +255,12 @@ class GameLevelAirport {
             "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.\nAre you curious about Bitcoin or ready to explore the Crypto Hub?",
             [
               { label: "Tell me about Bitcoin", action: () => aboutBitcoin(), keepOpen: true },
-              { label: "Go to Crypto Hub", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio" },
+              { label: "Go to Crypto Hub", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
               { label: "Goodbye", action: () => {} }
             ]
           );
         }
+
         function aboutBitcoin() {
           showDialogBox(
             "Satoshi Nakamoto",
@@ -211,32 +272,41 @@ class GameLevelAirport {
             ]
           );
         }
+
         function howToBuy() {
           showDialogBox(
             "Satoshi Nakamoto",
             "To buy Bitcoin, you need a digital wallet and access to a crypto exchange. You can purchase fractions of a Bitcoin.\nWould you like to visit the Crypto Hub to start your journey?",
             [
-              { label: "Yes, take me there", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio" },
+              { label: "Yes, take me there", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
               { label: "Back", action: () => aboutBitcoin(), keepOpen: true }
             ]
           );
         }
+
         function howToMine() {
           showDialogBox(
             "Satoshi Nakamoto",
             "Mining Bitcoin requires powerful computers to solve complex puzzles. Miners are rewarded with Bitcoin for verifying transactions.\nWould you like to try mining or learn more?",
             [
-              { label: "Try Mining", action: () => window.location.href = "https://nighthawkcoders.github.io/portfolio_2025/crypto/mining" },
+              { label: "Try Mining", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/mining") },
               { label: "Back", action: () => aboutBitcoin(), keepOpen: true }
             ]
           );
         }
+
+        function openInModal(url) {
+          cryptoFrame.src = url;
+          cryptoModal.style.display = "flex";
+        }
+
         intro();
       },
       interact: function () {
         this.reaction();
       }
     };
+
 
     const sprite_src_fidelity = path + "/images/gamify/fidelitygirl.png";
     const sprite_data_fidelity = {
