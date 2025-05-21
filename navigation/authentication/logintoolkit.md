@@ -114,7 +114,7 @@ search_exclude: true
 
     }
 
-    .glow-on-hover-search {
+    .glowOnHover {
         //this makes it actually glow
         border: none;
         outline: none;
@@ -126,7 +126,7 @@ search_exclude: true
         border-radius: 10px;
     }
 
-    .glow-on-hover-search:before {
+    .glowOnHover:before {
         content: '';
         background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
         position: absolute;
@@ -143,11 +143,11 @@ search_exclude: true
         border-radius: 10px;
     }
 
-    .glow-on-hover-search:hover:before {
+    .glowOnHover:hover:before {
         opacity: 1;
     }
 
-    .glow-on-hover-search:after {
+    .glowOnHover:after {
         z-index: -1;
         content: '';
         position: absolute;
@@ -228,7 +228,7 @@ search_exclude: true
             </div>
             <!-- login button -->
             <p>
-                <button type="submit" class="glow-on-hover-search submit-button">Login</button>
+                <button type="submit" class="glowOnHover submit-button">Login</button>
             </p>
             <p id="java-message" class="message"></p>
         </form>
@@ -255,7 +255,6 @@ search_exclude: true
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script type="module">
     import { login, javaURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
-
     // Function to handle Java login
     window.javaLogin = function () {
         const options = {
@@ -323,7 +322,7 @@ search_exclude: true
                 // Redirect to the student calendar after successful data fetch
                 sessionStorage.setItem("loggedIn", "true");
                 setTimeout(() => {
-                    window.location.href = "{{ site.baseurl }}/profilejava";
+                    window.location.href = "{{ site.baseurl }}/profile";
                 }, 5000);
             })
             .catch(error => {

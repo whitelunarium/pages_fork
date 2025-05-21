@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: fortunefinders
 title: Casino Homepage
 permalink: /gamify/casinohomepage
 ---
