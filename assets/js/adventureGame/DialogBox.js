@@ -315,7 +315,16 @@ export function showYellenModal(url) {
 // --- ENHANCED DIALOGUE HELPERS FOR OTHER NPCS ---
 
 // Add a bonus tip for Frank Sinatra
-
+export function getFrankAdviceList() {
+  return [
+    "The house always has an edge, so play smart and know when to walk away.",
+    "Set a budget before you play, and never chase your losses.",
+    "Luck be a lady tonight, but skill keeps you in the game.",
+    "Sometimes the best bet is the one you don't make.",
+    "Enjoy the thrill, but remember: it's just a game.",
+    "Frank's Bonus: Sometimes, the best win is knowing when to call it a night!"
+  ];
+}
 
 // Add a bonus fact for J.P. Morgan
 export function getMorganFacts() {
