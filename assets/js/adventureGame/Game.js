@@ -2,26 +2,12 @@ import GameControl from './GameEngine/GameControl.js';
 import Quiz from './Quiz.js';
 import Inventory from "./Inventory.js";
 import { defaultItems } from "./items.js";
+import GameLevelEnd from './GameLevelEnd.js';
 
 class StatsManager {
     constructor(game) {
         this.game = game;
         this.initStatsUI();
-    }
-
-    async getNpcProgress(personId) {
-        try {
-            const response = await fetch(`${this.game.javaURI}/bank/${personId}/npcProgress`, this.fetchOptions);
-            if (!response.ok) {
-                throw new Error("Failed to fetch questions");
-            }
-            const npcProgressDictionary = await response.json();
-            console.log(npcProgressDictionary);
-            return npcProgressDictionary
-        } catch (error) {
-            console.error("Error fetching Npc Progress:", error);
-            return null;
-        }
     }
 
     async fetchStats(personId) {
@@ -104,6 +90,7 @@ class StatsManager {
                 body: JSON.stringify({ questionId, personId, choiceId })
             });
 
+            if (!response.ok) throw new Error("Network response was not ok");
             if (!response.ok) throw new Error("Network response was not ok");
             return response;
         } catch (error) {

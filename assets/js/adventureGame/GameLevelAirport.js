@@ -372,7 +372,6 @@ class GameLevelAirport {
       }
     };
 
-      // 🔧 STEP 1: Create modal container
     const cryptoModal = document.createElement("div");
     cryptoModal.id = "cryptoModal";
     cryptoModal.style.position = "fixed";
@@ -387,7 +386,6 @@ class GameLevelAirport {
     cryptoModal.style.zIndex = "1000";
     document.body.appendChild(cryptoModal);
 
-    // 🔧 STEP 2: Create iframe wrapper to simulate cropping
     const iframeWrapper = document.createElement("div");
     iframeWrapper.id = "cryptoFrameWrapper";
     iframeWrapper.style.position = "relative";
@@ -400,7 +398,6 @@ class GameLevelAirport {
     iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
     cryptoModal.appendChild(iframeWrapper);
 
-    // 🔧 STEP 3: Create the actual iframe, shifted up by 10%
     const cryptoFrame = document.createElement("iframe");
     cryptoFrame.id = "cryptoFrame";
     cryptoFrame.style.width = "100%";
@@ -411,7 +408,6 @@ class GameLevelAirport {
     cryptoFrame.style.border = "none";
     iframeWrapper.appendChild(cryptoFrame);
 
-    // 🔧 STEP 4: Add a close button
     const closeBtn = document.createElement("button");
     closeBtn.innerText = "✖";
     closeBtn.style.position = "absolute";
@@ -441,7 +437,6 @@ class GameLevelAirport {
     };
     iframeWrapper.appendChild(closeBtn);
 
-    // 🧠 SATOSHI NPC LOGIC
     const sprite_src_crypto = path + "/images/gamify/satoshiNakamoto.png";
     const sprite_data_crypto = {
       id: 'Crypto-NPC',
