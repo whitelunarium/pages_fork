@@ -113,7 +113,6 @@ class StatsManager {
 
     initStatsUI() {
         const TOTAL_NPCS = 10;
-        // Create wrapper for button and panel
         const statsWrapper = document.createElement('div');
         statsWrapper.id = 'stats-wrapper';
         Object.assign(statsWrapper.style, {
