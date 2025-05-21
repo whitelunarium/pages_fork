@@ -89,6 +89,33 @@ permalink: /crypto/mining
                         <div>
                             <div class="stat-label">Current Energy Plan</div>
                             <div class="stat-value text-green-400" id="current-energy-plan">Loading...</div>
+                            <script type="module">
+                                import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+                                async function fetchCurrentEnergyPlan() {
+                                    const planElem = document.getElementById('current-energy-plan');
+                                    if (!planElem) return;
+                                    try {
+                                    const response = await fetch(`${javaURI}/api/mining/energy`, {
+                                        ...fetchOptions,
+                                        credentials: 'include'
+                                    });
+                                    if (!response.ok) {
+                                        if (response.status === 401) {
+                                        throw new Error('Please log in');
+                                        } else {
+                                        throw new Error(`Failed to fetch (Status: ${response.status})`);
+                                        }
+                                    }
+                                    const data = await response.json();
+                                    planElem.textContent = data.supplierName
+                                        ? `${data.supplierName} (EEM: ${data.EEM || '0.00'})`
+                                        : 'No supplier selected';
+                                    } catch (error) {
+                                    planElem.textContent = error.message || 'Error loading energy plan';
+                                    }
+                                }
+                                document.addEventListener('DOMContentLoaded', fetchCurrentEnergyPlan);
+                            </script>
                         </div>
                     </div>
                 </div>
