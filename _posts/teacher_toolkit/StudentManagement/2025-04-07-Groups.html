@@ -26,7 +26,7 @@ comments: false
         <th class="p-3 text-left">Actions</th>
         </tr>
     </thead>
-    <tbody id="groupTableBody" class="divide-y divide-gray-200 bg-white">
+    <tbody id="groupTableBody" class="divide-y divide-gray-200">
         <!-- Populated via JS -->
     </tbody>
     </table>
@@ -168,30 +168,33 @@ function getTable() {
         memberRow.className = "hidden";
         memberRow.innerHTML = `
           <td colspan="4">
-            <table class="w-full border mt-2">
-              <thead class="bg-gray-100">
+            <table class="w-full border mt-2" style="background-color: transparent;">
+              <thead class="bg-gray-100" style="background-color: transparent;">
                 <tr>
-                  <th class="p-2 border">UID</th>
-                  <th class="p-2 border">Name</th>
-                  <th class="p-2 border">Email</th>
+                  <th class="p-2 border" style="background-color: transparent;">UID</th>
+                  <th class="p-2 border" style="background-color: transparent;">Name</th>
+                  <th class="p-2 border" style="background-color: transparent;">Email</th>
                 </tr>
               </thead>
               <tbody>
                 ${group.members
                   .map(
                     (m) => `
-                  <tr>
-                    <td class="p-2 border">${m.uid}</td>
-                    <td class="p-2 border">${m.name}</td>
-                    <td class="p-2 border"><a href="mailto:${m.email}">${m.email}</a></td>
-                  </tr>
-                `
+                      <tr>
+                        <td class="p-2 border" style="background-color: transparent;">${m.uid}</td>
+                        <td class="p-2 border" style="background-color: transparent;">${m.name}</td>
+                        <td class="p-2 border" style="background-color: transparent;">
+                          <a href="mailto:${m.email}">${m.email}</a>
+                        </td>
+                      </tr>
+                    `
                   )
                   .join("")}
               </tbody>
             </table>
           </td>
         `;
+
 
         tableBody.appendChild(row);
         tableBody.appendChild(memberRow);
