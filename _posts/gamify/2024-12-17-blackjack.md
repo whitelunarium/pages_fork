@@ -269,8 +269,8 @@ permalink: /gamify/blackjack
         displayCards(gameState.dealerHand, "dealerHand");
 
         // Update balance when game results come back
-        if (data.success && data.banks) {
-            currentBalance = data.banks.balance;
+        if (data.success && data.bank) {
+            currentBalance = data.bank.balance;
             document.getElementById("balance").innerText = `$${currentBalance.toLocaleString()}`;
         } else {
             // Refresh the balance from the bank API directly
