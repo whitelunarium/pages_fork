@@ -5,13 +5,7 @@ permalink: /analytics
 search_exclude: true
 ---
 
-<head>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
-</head>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
     body {
@@ -198,7 +192,7 @@ search_exclude: true
                     </tr>
                 </tbody>
             </table>
-            <canvas id="bathroomChart" width="400" height="200"></canvas> </div>
+            <canvas id="bathroomChart" width="400" height="200"></canvas>
         </div>
     </div>
 </div>

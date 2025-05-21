@@ -1,5 +1,5 @@
 ---
-layout: finance
+layout: fortunefinders
 title: Bank Analytics
 permalink: /gamify/bankanalytics
 ---

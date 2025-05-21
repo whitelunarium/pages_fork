@@ -4,6 +4,11 @@ links:
     label: Submission Page
     icon: images/toolkit-nav-buttons/submissions.png
 
+  - id: graderview
+    href: student/assign-grades
+    label: Assign Grades
+    icon: images/toolkit-nav-buttons/submissions.png
+
   - id: bathroom
     href: hallpass 
     label: Bathroom System
@@ -36,7 +41,7 @@ links:
     label: Grade Viewer
     icon: images/toolkit-nav-buttons/view-grades.png
 
-  - id: teachteach
-    href: student/TeamTeachToolkit/signup
-    label: Team Teach Toolkit
-    icon: images/toolkit-nav-buttons/sagai.png
+  - id: teamteach
+    href: student/teamteachsignup
+    label: Team Teach Signup
+    icon: images/toolkit-nav-buttons/teamteachsignup.png
