@@ -18,7 +18,6 @@ const sounds = {
   click: createAudio('data:audio/wav;base64,UklGRXEAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YUQAAAB/f39/gICAgICAgH9/f39/f39/f39/f4CAgICAgIB/f39/f39/f39/f3+AgICAgICAgICAgH9/f39/f39/f39/f39/f39/f39/fw==')
 };
 
-// Add CSS for enhanced dialog animations
 const dialogStyle = document.createElement('style');
 dialogStyle.textContent = `
   @keyframes dialogAppear {
