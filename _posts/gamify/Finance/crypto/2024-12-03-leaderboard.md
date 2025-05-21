@@ -156,29 +156,22 @@ title: Leaderboard
       const response = await fetch(`${javaURI}/api/rankings/leaderboard`, fetchOptions);
       if (!response.ok) throw new Error("Failed to fetch leaderboard data");
       const data = await response.json();
+      const topUsersTable = document.querySelector("#top-users-table");
+      topUsersTable.innerHTML = "";
 
-      populateTable(data);
+      data.forEach((user, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="rank">${index + 1}</td>
+          <td class="balance">$${Number(user.balance).toFixed(2)}</td>
+          <td class="name">${user.name}</td>
+        `;
+        topUsersTable.appendChild(row);
+      });
     } catch (error) {
       console.error("Error fetching leaderboard data:", error);
-      populateTable(getStaticLeaderboard());
     }
   }
-
-  function populateTable(data) {
-    const topUsersTable = document.querySelector("#top-users-table");
-    topUsersTable.innerHTML = "";
-    data.forEach((user, index) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="rank">${index + 1}</td>
-        <td class="balance">$${Number(user.balance).toFixed(2)}</td>
-        <td class="name">${user.name}</td>
-      `;
-      topUsersTable.appendChild(row);
-    });
-  }
-
-
 
   document.addEventListener("DOMContentLoaded", fetchLeaderboard);
 </script>
