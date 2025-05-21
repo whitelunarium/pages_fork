@@ -53,7 +53,7 @@ class FloorItem {
             this.element.style.left = `${this.x}px`;
             this.element.style.top = `${this.y}px`;
             this.element.style.zIndex = '1000'; // Make sure it's above other elements
-            this.element.style.transform = 'translate(-50%, -50%)'; // Center the item
+            this.element.style.transform = 'translate(-50%, -50%)'; 
             gameContainer.appendChild(this.element);
             console.log('Added floor item to game container at:', this.x, this.y);
         } else {
