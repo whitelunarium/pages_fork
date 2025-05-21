@@ -89,9 +89,7 @@ class GameEnv {
         this.canvas.style.top = `${this.top}px`;
     }
 
-    /**
-     * Resizes the game environment by re-creating it.
-     */
+
     resize() {
         this.create();
     }
