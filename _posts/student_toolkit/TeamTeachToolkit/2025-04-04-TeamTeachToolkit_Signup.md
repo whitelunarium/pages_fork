@@ -14,10 +14,8 @@ description: Sign up for team teach topics
      style="position: fixed; background: #222; color: #eee; padding: 8px 12px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s; max-width: 300px; z-index: 1000; font-size: 0.875rem;">
 </div>
 
-
     <!-- Logged-in Student Info -->
     <p id="loggedInStudent" class="mb-6 text-center text-sm">Fetching student info...</p>
-
     <!-- Signup Form and Table -->
     <div class="border border-white rounded-lg p-6">
       <h2 class="text-2xl font-bold mb-6 text-center">TEAM TEACH SIGNUP</h2>
