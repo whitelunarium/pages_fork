@@ -7,16 +7,13 @@ permalink: /student/teamteachsignup
 description: Sign up for team teach topics
 ---
 
-<div class="min-h-screen bg-gray-900 text-white" style="background-color: #262626;">
+<div class="... bg-neutral-900">
   <div class="max-w-5xl mx-auto py-10 px-4">
-
     <!-- Logged-in Student Info -->
     <p id="loggedInStudent" class="mb-6 text-center text-sm">Fetching student info...</p>
-
     <!-- Signup Form and Table -->
     <div class="border border-white rounded-lg p-6">
       <h2 class="text-2xl font-bold mb-6 text-center">TEAM TEACH SIGNUP</h2>
-
       <!-- Input Form -->
       <div class="flex flex-col gap-4 mb-6">
         <input type="text" id="name" placeholder="Enter Team Teach Topic"
@@ -26,7 +23,6 @@ description: Sign up for team teach topics
         <button id="addTopicBtn"
           class="w-full border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
       </div>
-
       <!-- Topics Table -->
       <div class="overflow-x-auto">
         <table class="min-w-full border border-white text-sm text-left">
