@@ -1,8 +1,3 @@
----
-title: Dashboard
-layout: aesthetihawk
-active_tab: Dashboard
----
 
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -74,10 +69,38 @@ active_tab: Dashboard
                 </ul>
             </div>
 
-            <!-- Grid -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 sm:grid-rows-1 lg:grid-rows-2  gap-4 sm:gap-6">
                 <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                <div class="row-span-2 col-start-1 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                    <div class="p-4 md:p-5">                
+                        <div class="mt-1 flex items-center gap-x-2">
+                            <img src="" alt="" id="avatar" class="w-max h-max rounded-xl">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row-span-2 col-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                    <div class="p-4 md:p-5">
+                        <div class="flex items-center gap-x-2">
+                            <p class="text-xs uppercase text-neutral-500">Github Info</p>
+                        </div>
+                
+                        <div class="mt-1 flex items-center gap-x-2">
+                            <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="username">N/A. Are you
+                                logged in?</h3>
+                        </div>
+
+                        <div class="mt-1 flex items-center gap-x-2">
+                            <h3 class="text-xl sm:text-2xl font-medium text-neutral-200" id="followers">N/A. Are you
+                                logged in?</h3>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Card -->
+                <div class="col-start-3 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
                     <div class="p-4 md:p-5">
                         <div class="flex items-center gap-x-2">
                             <p class="text-xs uppercase text-neutral-500">
@@ -121,7 +144,7 @@ active_tab: Dashboard
                 <!-- End Card -->
 
                 <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                <div class="col-start-4 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
                     <div class="p-4 md:p-5">
                         <div class="flex items-center gap-x-2">
                             <p class="text-xs uppercase text-neutral-500">Issues</p>
@@ -136,7 +159,7 @@ active_tab: Dashboard
                 <!-- End Card -->
 
                 <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                <div class="col-start-3 row-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
                     <div class="p-4 md:p-5">
                         <div class="flex items-center gap-x-2">
                             <p class="text-xs uppercase text-neutral-500">
@@ -163,7 +186,7 @@ active_tab: Dashboard
                 <!-- End Card -->
 
                 <!-- Card -->
-                <div class="flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
+                <div class="col-start-4 row-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
                     <div class="p-4 md:p-5">
                         <div class="flex items-center gap-x-2">
                             <p class="text-xs uppercase text-neutral-500">
@@ -312,17 +335,15 @@ active_tab: Dashboard
                 const avatarUrl = userProfile.avatar_url || '';
                 const publicReposUrl = profileLinks.repos_url || 'N/A';  // Added for repos URL
                 const publicRepos = userProfile.public_repos || 'N/A';
-                const publicGists = userProfile.public_gists || 'N/A';
                 const followers = userProfile.followers || 'N/A';
                 const following = userProfile.following || 'N/A';
 
                 // Update the HTML elements with the data
-                // document.getElementById('avatar').src = avatarUrl;
-                // document.getElementById('username').textContent = `Username: ${username}`;
+                document.getElementById('avatar').src = avatarUrl;
+                document.getElementById('username').textContent = `Username: ${username}`;
                 document.getElementById('profile-url').innerHTML = `Profile URL: <a href="${profileUrl}" target="_blank">${profileUrl}</a>`;  // Added link to profile URL
                 document.getElementById('public-repos').textContent = `${publicRepos}`;
-                // document.getElementById('public-gists').textContent = `Public Gists: ${publicGists}`;
-                // document.getElementById('followers').textContent = `Followers: ${followers}`;
+                document.getElementById('followers').textContent = `${followers} followers`;
 
                 // document.getElementById('commits-count').innerHTML = '<a href="#" class="info-link"><i class="fas fa-info-circle info-icon"></i></a>' + `Commits: ${commitsCount}`;
                 document.getElementById('commits-count').innerHTML = `${commitsCount}`;
