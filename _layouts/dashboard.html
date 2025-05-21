@@ -272,13 +272,13 @@ active_tab: Dashboard
 
 <script type="module">
     // call the function to fetch and update github data
-    import { fetchGithubData } from '{{ site.baseurl }}/assets/js/Aesthetihawk/getGithubData.js';
+    import { fetchGithubData } from '{{ site.baseurl }}/assets/js/Aesthetihawk/dashboard/getGithubData.js';
     fetchGithubData();
 </script>
 
 <!-- JavaScript for tab switching -->
 <script type="module">
-    import { setupTabSwitcher } from '{{ site.baseurl }}/assets/js/Aesthetihawk/tabSwitcher.js';
+    import { setupTabSwitcher } from '{{ site.baseurl }}/assets/js/Aesthetihawk/shared/tabSwitcher.js';
 
     // call the function with your tab ids and initial tab
     document.addEventListener('DOMContentLoaded', function () {
