@@ -15,10 +15,10 @@ export async function setUserData() {
         const sidInput = document.getElementById("sidChangeInput");      // canvas id
         const kasmCheckbox = document.getElementById("kasmChangeInput"); // do you need kasm?
 
-        nameInput.value = name ? name : "failed to load name. are you logged in?";
-        uidInput.value = uid ? uid : "failed to load uid. are you logged in?";
-        emailInput.value = email ? email : "failed to load email. are you logged in?";
-        sidInput.value = sid ? sid : "failed to load sid. are you logged in?";
+        nameInput.value = name ? name : "Failed to load name. Are you logged in?";
+        uidInput.value = uid ? uid : "Failed to load UID. Are you logged in?";
+        emailInput.value = email ? email : "Failed to load email. Are you logged in?";
+        sidInput.value = sid ? sid : "Failed to load SID. Are you logged in?";
         kasmCheckbox.checked = kasm;
     } catch (error) {
         console.error("error setting placeholders:", error.message);
