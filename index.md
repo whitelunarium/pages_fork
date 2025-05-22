@@ -241,7 +241,7 @@ hide: true
 </script>
 
 ## About
-<img src="images/about/OCS.png" alt="OCS">
+<img src="{{ site.baseurl }}/images/about/OCS_dark.png" alt="OCS_dark">
 
 ## Technical Future
 
