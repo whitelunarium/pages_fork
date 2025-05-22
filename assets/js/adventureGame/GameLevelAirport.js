@@ -100,9 +100,9 @@ class GameLevelAirport {
           const casinoFrame = document.createElement("iframe");
           casinoFrame.id = "casinoFrame";
           casinoFrame.style.width = "100%";
-          casinoFrame.style.height = "110%";
+          casinoFrame.style.height = "100%";
           casinoFrame.style.position = "absolute";
-          casinoFrame.style.top = "-10%";
+          casinoFrame.style.top = "0";
           casinoFrame.style.left = "0";
           casinoFrame.style.border = "none";
           iframeWrapper.appendChild(casinoFrame);
@@ -256,9 +256,9 @@ class GameLevelAirport {
           const stocksFrame = document.createElement("iframe");
           stocksFrame.id = "stocksFrame";
           stocksFrame.style.width = "100%";
-          stocksFrame.style.height = "110%";
+          stocksFrame.style.height = "100%";
           stocksFrame.style.position = "absolute";
-          stocksFrame.style.top = "-10%";
+          stocksFrame.style.top = "0";
           stocksFrame.style.left = "0";
           stocksFrame.style.border = "none";
           iframeWrapper.appendChild(stocksFrame);
@@ -400,9 +400,9 @@ class GameLevelAirport {
     const cryptoFrame = document.createElement("iframe");
     cryptoFrame.id = "cryptoFrame";
     cryptoFrame.style.width = "100%";
-    cryptoFrame.style.height = "110%"; // Slightly taller to allow cropping
+    cryptoFrame.style.height = "100%";
     cryptoFrame.style.position = "absolute";
-    cryptoFrame.style.top = "-10%"; // This shifts the visible area down
+    cryptoFrame.style.top = "0";
     cryptoFrame.style.left = "0";
     cryptoFrame.style.border = "none";
     iframeWrapper.appendChild(cryptoFrame);
@@ -626,7 +626,7 @@ class GameLevelAirport {
             modal.style.zIndex = "1000";
             document.body.appendChild(modal);
 
-            // Iframe wrapper
+            // Create iframe wrapper
             const iframeWrapper = document.createElement("div");
             iframeWrapper.id = "yellenFrameWrapper";
             iframeWrapper.style.position = "relative";
@@ -639,18 +639,18 @@ class GameLevelAirport {
             iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
             modal.appendChild(iframeWrapper);
 
-            // Iframe
+            // Create iframe
             const yellenFrame = document.createElement("iframe");
             yellenFrame.id = "yellenFrame";
             yellenFrame.style.width = "100%";
-            yellenFrame.style.height = "110%";
+            yellenFrame.style.height = "100%";
             yellenFrame.style.position = "absolute";
-            yellenFrame.style.top = "-10%";
+            yellenFrame.style.top = "0";
             yellenFrame.style.left = "0";
             yellenFrame.style.border = "none";
             iframeWrapper.appendChild(yellenFrame);
 
-            // Close button
+            // Add close button
             const closeBtn = document.createElement("button");
             closeBtn.innerText = "✖";
             closeBtn.style.position = "absolute";
@@ -690,13 +690,13 @@ class GameLevelAirport {
           intro: function() {
           showDialogBox(
             "Janet Yellen",
-            "Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, get financial tips, or visit the Treasury website?",
+            "Welcome, I'm Janet Yellen, Secretary of the Treasury.\nToday, you have just been entrusted with an initial sum of $100,000 to shape your financial future.\nWould you like to learn about the bank, review your analytics, get financial tips, visit the Treasury website, or see the overall leaderboard?",
             [
                 { label: "Learn about the Bank", action: () => dialogFunctions.explainBank(), keepOpen: true },
                 { label: "Review Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
-
-              { label: "Goodbye", action: () => {} }
+                { label: "Overall Leaderboard", action: () => openLeaderboardModal("https://nighthawkcoders.github.io/portfolio_2025/leaderboard/overall-leaderboard") },
+                { label: "Goodbye", action: () => {} }
             ]
           );
           },
@@ -716,7 +716,7 @@ class GameLevelAirport {
             "Janet Yellen",
             "Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?",
             [
-              { label: "Open Analytics", action: () => showYellenModal("https://nighthawkcoders.github.io/portfolio_2025/bank/analytics") },
+              { label: "Open Analytics", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/bankanalytics") },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
             ]
           );
@@ -756,6 +756,81 @@ class GameLevelAirport {
       }
     };
 
+    function openLeaderboardModal(url) {
+      let modal = document.getElementById('leaderboardModal');
+      if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "leaderboardModal";
+        modal.style.position = "fixed";
+        modal.style.top = "0";
+        modal.style.left = "0";
+        modal.style.width = "100vw";
+        modal.style.height = "100vh";
+        modal.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+        modal.style.display = "none";
+        modal.style.justifyContent = "center";
+        modal.style.alignItems = "center";
+        modal.style.zIndex = "1000";
+        document.body.appendChild(modal);
+
+        // Create iframe wrapper
+        const iframeWrapper = document.createElement("div");
+        iframeWrapper.id = "leaderboardFrameWrapper";
+        iframeWrapper.style.position = "relative";
+        iframeWrapper.style.overflow = "hidden";
+        iframeWrapper.style.width = "90%";
+        iframeWrapper.style.maxWidth = "1000px";
+        iframeWrapper.style.height = "80%";
+        iframeWrapper.style.border = "2px solid #ccc";
+        iframeWrapper.style.borderRadius = "8px";
+        iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+        modal.appendChild(iframeWrapper);
+
+        // Create iframe
+        const leaderboardFrame = document.createElement("iframe");
+        leaderboardFrame.id = "leaderboardFrame";
+        leaderboardFrame.style.width = "100%";
+        leaderboardFrame.style.height = "100%";
+        leaderboardFrame.style.position = "absolute";
+        leaderboardFrame.style.top = "0";
+        leaderboardFrame.style.left = "0";
+        leaderboardFrame.style.border = "none";
+        iframeWrapper.appendChild(leaderboardFrame);
+
+        // Add close button
+        const closeBtn = document.createElement("button");
+        closeBtn.innerText = "✖";
+        closeBtn.style.position = "absolute";
+        closeBtn.style.top = "10px";
+        closeBtn.style.right = "10px";
+        closeBtn.style.fontSize = "24px";
+        closeBtn.style.background = "#00ff80";
+        closeBtn.style.color = "#000";
+        closeBtn.style.border = "none";
+        closeBtn.style.padding = "10px 15px";
+        closeBtn.style.borderRadius = "5px";
+        closeBtn.style.cursor = "pointer";
+        closeBtn.style.boxShadow = "0 0 15px rgba(0,255,128,0.5)";
+        closeBtn.style.zIndex = "1100";
+        closeBtn.style.transition = "all 0.3s ease";
+        closeBtn.onmouseover = () => {
+          closeBtn.style.background = "#00cc66";
+          closeBtn.style.transform = "scale(1.1)";
+        };
+        closeBtn.onmouseout = () => {
+          closeBtn.style.background = "#00ff80";
+          closeBtn.style.transform = "scale(1)";
+        };
+        closeBtn.onclick = () => {
+          modal.style.display = "none";
+          leaderboardFrame.src = "";
+        };
+        iframeWrapper.appendChild(closeBtn);
+      }
+      const leaderboardFrame = document.getElementById('leaderboardFrame');
+      leaderboardFrame.src = url;
+      modal.style.display = "flex";
+    }
 
     this.classes = [
       { class: GameEnvBackground, data: image_data_desert },
