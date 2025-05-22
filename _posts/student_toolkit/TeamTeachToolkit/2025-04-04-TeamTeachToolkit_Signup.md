@@ -1,50 +1,44 @@
 ---
 toc: false
-layout: toolkit
+layout: aesthetihawk
 active_tab: teamteach
 title: Team Teach Signup
 permalink: /student/teamteachsignup
 description: Sign up for team teach topics
 ---
 
-<div class="min-h-screen bg-gray-900 text-white">
+<div class="... bg-neutral-900">
   <div class="max-w-5xl mx-auto py-10 px-4">
 
   <div id="tooltip" 
      style="position: fixed; background: #222; color: #eee; padding: 8px 12px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s; max-width: 300px; z-index: 1000; font-size: 0.875rem;">
 </div>
-
     <!-- Logged-in Student Info -->
     <p id="loggedInStudent" class="mb-6 text-center text-sm">Fetching student info...</p>
     <!-- Signup Form and Table -->
     <div class="border border-white rounded-lg p-6">
       <h2 class="text-2xl font-bold mb-6 text-center">TEAM TEACH SIGNUP</h2>
-
-    <!-- Input Form -->
-    <div class="flex flex-col gap-4 mb-6">
-      <input type="text" id="name" placeholder="Enter Team Teach Topic"
-        class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
-      <input type="text" id="description" placeholder="Enter Topic Description"
-        class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
-      <input type="date" id="dueDate"
-        class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white">
-      <button id="addTopicBtn"
-        class="w-full border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
-    </div>
-
-
+      <!-- Input Form -->
+      <div class="flex flex-col gap-4 mb-6">
+        <input type="text" id="name" placeholder="Enter Team Teach Topic"
+          class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white" style="background-color: #404040;">
+        <input type="date" id="dueDate"
+          class="w-full px-4 py-2 bg-gray-700 text-white rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white" style="background-color: #404040;">
+        <button id="addTopicBtn"
+          class="w-full border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">Add Topic</button>
+      </div>
       <!-- Topics Table -->
       <div class="overflow-x-auto">
         <table class="min-w-full border border-white text-sm text-left">
           <thead class="bg-gray-800 text-white">
             <tr>
-              <th class="px-4 py-2 border border-white">Topic</th>
-              <th class="px-4 py-2 border border-white">Date</th>
-              <th class="px-4 py-2 border border-white">Signed Up</th>
-              <th class="px-4 py-2 border border-white">Actions</th>
+              <th class="px-4 py-2 border border-white" style="background-color: #404040;">Topic</th>
+              <th class="px-4 py-2 border border-white" style="background-color: #404040;">Date</th>
+              <th class="px-4 py-2 border border-white" style="background-color: #404040;">Signed Up</th>
+              <th class="px-4 py-2 border border-white" style="background-color: #404040;">Actions</th>
             </tr>
           </thead>
-          <tbody id="topicsList" class="text-white"></tbody>
+          <tbody id="topicsList" class="text-white" style="background-color: #404040;"></tbody>
         </table>
       </div>
     </div>
