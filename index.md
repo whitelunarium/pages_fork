@@ -242,6 +242,9 @@ hide: true
 
 ## About
 <img src="{{ site.baseurl }}/images/about/OCS_dark.png" alt="OCS_dark">
+<div style="text-align: center;">
+  <img src="{{ site.baseurl }}/images/about/OCS_QR_CODE.png" alt="OCS_dark" width="300" height="300">
+</div>
 
 ## Technical Future
 
