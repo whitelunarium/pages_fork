@@ -2,47 +2,86 @@
 layout: base
 ---
 
-<div class="ff-game-bar">
-  <div class="ff-container">
-    <div class="ff-content">
-      <a href="{{ site.baseurl }}/gamify/fortuneFinders" class="ff-title">
-        <i class="bi bi-joystick"></i>Fortune Finders
-      </a>
-      <div class="ff-balance">
-        <i class="bi bi-coin"></i>
-        <span id="gameBalance">$---.--</span>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+<nav class="custom-navbar">
+  <div class="custom-navbar-content">
+
+    <div class="nav-links">
+ 
+      <div class="dropdown">
+        <button class="dropdown-toggle">Bank</button>
+        <div class="dropdown-menu">
+          <a href="{{ site.baseurl }}/gamify/bankanalytics" class="dropdown-item">Analytics</a>
+          <a href="{{ site.baseurl }}/leaderboard/overall-leaderboard" class="dropdown-item">Leaderboard</a>
+          <a href="{{ site.baseurl }}/gamify/loan" class="dropdown-item">Loans</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropdown-toggle">Casino</button>
+        <div class="dropdown-menu">
+          <a href="{{ site.baseurl }}/gamify/dices" class="dropdown-item">Dice</a>
+          <a href="{{ site.baseurl }}/gamify/mines" class="dropdown-item">Mines</a>
+          <a href="{{ site.baseurl }}/gamify/blackjack" class="dropdown-item">Blackjack</a>
+          <a href="{{ site.baseurl }}/gamify/poker" class="dropdown-item">Poker</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropdown-toggle">Stocks</button>
+        <div class="dropdown-menu">
+          <a href="{{ site.baseurl }}/stocks/game" class="dropdown-item">Simulation</a>
+          <a href="{{ site.baseurl }}/stocks/home" class="dropdown-item">Home</a>
+          <a href="{{ site.baseurl }}/stocks/viewer" class="dropdown-item">Viewer</a>
+          <a href="{{ site.baseurl }}/stocks/buysell" class="dropdown-item">Buy/Sell</a>
+          <a href="{{ site.baseurl }}/stocks/portfolio" class="dropdown-item">Portfolio</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropdown-toggle">Crypto</button>
+        <div class="dropdown-menu">
+          <a href="{{ site.baseurl }}/crypto/portfolio" class="dropdown-item">Portfolio</a>
+          <a href="{{ site.baseurl }}/crypto/mining" class="dropdown-item">Mining</a>
+        </div>
       </div>
     </div>
+
+
+    <div class="nav-balance">
+      <i class="bi bi-coin"></i>
+      <span id="navbarBalance">$---.--</span>
+    </div>
   </div>
-</div>
+</nav>
+
 
 {{ content }}
 
 <script type="module">
 import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-async function loadUserBalance() {
+async function loadNavbarBalance() {
   try {
     const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
-    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       throw new Error("Response is not JSON");
     }
-
     const userData = await response.json();
-    const balanceElement = document.getElementById('gameBalance');
-    
+    const balanceElement = document.getElementById('navbarBalance');
     if (balanceElement) {
       balanceElement.textContent = `$${Number(userData.balance).toFixed(2)}`;
     }
   } catch (error) {
-    console.error("Error loading balance:", error);
-    const balanceElement = document.getElementById('gameBalance');
+    console.error("Error loading navbar balance:", error);
+    const balanceElement = document.getElementById('navbarBalance');
     if (balanceElement) {
       balanceElement.textContent = "$0.00";
     }
@@ -50,68 +89,175 @@ async function loadUserBalance() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadUserBalance();
-  setInterval(loadUserBalance, 30000);
+  loadNavbarBalance();
+  setInterval(loadNavbarBalance, 30000);
 });
 </script>
 
+<!-- Load User Balance for Game Bar -->
+<script type="module">
+import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
+async function loadGameBalance() {
+  try {
+    const response = await fetch(`${javaURI}/api/person/get`, fetchOptions);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error("Response is not JSON");
+    }
+    const userData = await response.json();
+    const balanceElement = document.getElementById('gameBalance');
+    if (balanceElement) {
+      balanceElement.textContent = `$${Number(userData.balance).toFixed(2)}`;
+    }
+  } catch (error) {
+    console.error("Error loading game balance:", error);
+    const balanceElement = document.getElementById('gameBalance');
+    if (balanceElement) {
+      balanceElement.textContent = "$0.00";
+    }
+  }
+}
+async function checkNpcProgress(game, npcId) {
+    if (!game || !game.statsManager || !game.id) {
+        return true; // fallback: allow interaction if game context is missing
+    }
+    try {
+        const npcProgress = await game.statsManager.getNpcProgress(game.id);
+        if (!npcProgress || !(npcId in npcProgress)) {
+            return true; // fallback: allow interaction if progress data is missing
+        }
+        if (!npcProgress[npcId]) {
+            // Find the first NPC in order that is still false
+            const nextNpcId = this.progressionOrder.find(id => npcProgress[id] === false);
+            let message;
+            if (nextNpcId && nextNpcId !== npcId) {
+                message = `You must visit ${nextNpcId.replace(/-/g, ' ')} before talking to ${npcId.replace(/-/g, ' ')}!`;
+            } else {
+                message = `You must visit the required NPC before talking to ${npcId.replace(/-/g, ' ')}!`;
+            }
+            showDialogBox('NPC Locked', message, [
+                { label: 'OK', action: () => {}, keepOpen: false }
+            ]);
+            return false;
+        }
+        return true;
+    } catch (err) {
+        return true; // On error, fallback to allow interaction
+    }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  loadGameBalance();
+  setInterval(loadGameBalance, 30000);
+});
+</script>
+
+<!-- Custom Styles (no Bootstrap) -->
 <style>
-/* Fortune Finders specific styles */
-.ff-game-bar {
-  margin: 75px 0 20px 0;
-  background-color: #1c1c1c;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Navbar Container */
+  .custom-navbar {
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+
+  .custom-navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Navigation Links */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  .nav-link:hover {
+    color: #ff9800;
+  }
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-.ff-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 12px 20px;
-}
-
-.ff-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ff-title {
+.dropdown-toggle {
+  background: none;
+  border: none;
   color: #ffffff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
 }
 
-.ff-title:hover {
+.dropdown-toggle:hover {
   color: #ff9800;
 }
 
-.ff-balance {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%; /* aligns it just below the button */
+  left: 0;
+  background-color: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px 0;
+  min-width: 150px;
+  z-index: 9999;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
   color: #ffffff;
-  font-size: 16px;
+  text-decoration: none;
+  padding: 8px 20px;
+  font-size: 14px;
 }
 
-.bi-coin {
-  color: #ffd700;
+.dropdown-item:hover {
+  background-color: #ff9800;
+  color: #1c1c1c;
 }
 
-@media (max-width: 600px) {
+  /* Fortune Finders specific styles */
+  .ff-game-bar {
+    margin: 20px 0;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
   .ff-container {
-    padding: 12px 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 20px;
   }
-  
-  .ff-content {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-}
-</style>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  .ff-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ff-title {
+    color: #ffffff;
+    t

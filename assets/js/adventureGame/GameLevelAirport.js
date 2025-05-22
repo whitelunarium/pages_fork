@@ -317,7 +317,7 @@ class GameLevelAirport {
             "J.P. Morgan",
             "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
             [
-              { label: "Take me to the Stock Exchange", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
+              { label: "Take me to the Stock Exchange", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer") },
                 { label: "Remind me what stocks are", action: () => dialogFunctions.whatAreStocks(), keepOpen: true },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
             ]
@@ -330,7 +330,7 @@ class GameLevelAirport {
             "J.P. Morgan",
             fact + "\nWould you like to try investing now?",
             [
-              { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/home") },
+              { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer") },
                 { label: "Back", action: () => dialogFunctions.explainStocks(), keepOpen: true }
             ]
           );
@@ -695,7 +695,7 @@ class GameLevelAirport {
                 { label: "Learn about the Bank", action: () => dialogFunctions.explainBank(), keepOpen: true },
                 { label: "Review Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
-              { label: "Visit Treasury Website", action: () => showYellenModal("https://home.treasury.gov/") },
+
               { label: "Goodbye", action: () => {} }
             ]
           );
