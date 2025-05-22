@@ -241,73 +241,7 @@ hide: true
 </script>
 
 ## About
-<style>
-  body {
-    background-color: #111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  .image-container {
-    position: relative;
-    display: inline-block;
-  }
-  .image-container img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  .fullscreen-btn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    border: none;
-    border-radius: 4px;
-    padding: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .image-container:hover .fullscreen-btn {
-    opacity: 1;
-  }
-  .fullscreen-btn svg {
-    fill: white;
-    width: 20px;
-    height: 20px;
-  }
-  .fullscreen-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-</style>
-
-<div class="image-container">
-  <img id="About_Image" src="images/about/OCS.png" alt="About_Image">
-  <button class="fullscreen-btn" onclick="makeFullscreen()">
-    <!-- SVG Fullscreen Icon (like YouTube) -->
-    Fullscreen
-  </button>
-</div>
-
-<script>
-  function makeFullscreen() {
-    const img = document.getElementById("myImage");
-    if (img.requestFullscreen) {
-      img.requestFullscreen();
-    } else if (img.webkitRequestFullscreen) {
-      img.webkitRequestFullscreen();
-    } else if (img.msRequestFullscreen) {
-      img.msRequestFullscreen();
-    }
-  }
-</script>
+<img src="images/about/OCS.png" alt="OCS">
 
 ## Technical Future
 
