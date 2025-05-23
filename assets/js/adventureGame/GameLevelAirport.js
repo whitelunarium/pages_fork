@@ -199,13 +199,10 @@ class GameLevelAirport {
         return dialogFunctions;
       },
       interact: async function () {
-        const game = gameEnv.game;
-        const npcProgressSystem = new NpcProgressSystem();
-        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_casino.id);
-        if (allowed) {
+
           const dialogFunctions = sprite_data_casino.reaction();
           dialogFunctions.intro();
-        }
+        
       }
     };
 
@@ -747,13 +744,10 @@ class GameLevelAirport {
         return dialogFunctions;
       },
       interact: async function () {
-        const game = gameEnv.game;
-        const npcProgressSystem = new NpcProgressSystem();
-        const allowed = await npcProgressSystem.checkNpcProgress(game, sprite_data_bank.id);
-        if (allowed) {
+      
           const dialogFunctions = sprite_data_bank.reaction();
           dialogFunctions.intro();
-        }
+
       }
     };
 
