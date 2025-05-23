@@ -241,14 +241,8 @@ hide: true
 </script>
 
 ## About
-<img src="{{ site.baseurl }}/images/about/OCS_dark.png" alt="OCS_dark">
-<div style="text-align: center;">
-  <img src="{{ site.baseurl }}/images/about/OCS_QR_CODE.png" alt="OCS_dark" width="300" height="300">
-</div>
 
-## Technical Future
-
-Computer Science can be "Wild Card" for all Majors and Careers.
+Empower yourself to solve real-world problems, unlock creativity, and open doors to every field—because coding is the language of innovation.
 
 > Invest in your technical skills through Project-based learning.
 
@@ -257,19 +251,12 @@ Computer Science can be "Wild Card" for all Majors and Careers.
 <table>
 <tr>
   <td>
-    <div style="flex: 65%; text-align: left;">
-      <p>All Open Coding Society materials are designed to provide real-world development experiences.</p>
-      <ul>
-        <li> Project talks between instructor and students</li>
-        <li> Teaching through interactive Tech talks (versus lectures) </li>
-        <li> Peer collaboration using GitHub Issues and Kanban boards </li>
-        <li> Critical thinking while learning fundamentals of coding </li>
-        <li> Creativity and designs in projects, as well as code </li>
-      </ul>
+    <div style="flex: 50%; text-align: center;">
+      <img src="{{site.baseurl}}/images/logo-framed.png" alt="Logo" style="width: 100%; max-width: 300px; height: auto; margin-left: 10px;">
     </div>
   </td>
   <td>
-    <div style="flex: 35%; text-align: center;">
+    <div style="flex: 50%; text-align: center;">
       <img src="{{site.baseurl}}/images/course-brag/qr.png" alt="QR Code" style="width: 100%; max-width: 300px; height: auto; margin-left: 10px;">
     </div>
   </td>
