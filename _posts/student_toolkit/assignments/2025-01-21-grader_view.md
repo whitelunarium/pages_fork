@@ -1,5 +1,5 @@
 ---
-layout: toolkit
+layout: aesthetihawk
 active_tab: graderview
 title: Grader View
 type: issues
@@ -66,6 +66,7 @@ comments: false
     }
     
     #submissionsTable th {
+        
         background-color:rgb(49, 41, 41);
     }
 
