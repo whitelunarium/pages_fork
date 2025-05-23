@@ -338,6 +338,7 @@ async function handleReturningUser(currentAway) {
         // Remove from local storage
         removeUser(currentAway);
         console.log(currentAway, 'removed from queue');
+        localStorage.setItem("timeout", getTime());
     } catch (error) {
         console.error("Error handling returning user:", error);
     }
