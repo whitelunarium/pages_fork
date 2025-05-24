@@ -55,16 +55,16 @@ The absolutes in setup up...
 **Update `_config.yml`**: You need to modify the `_config.yml` file to reflect your repository's name. This configuration is crucial because it ensures that your project's styling is correctly applied, making your deployed site look as intended rather than unstyled or broken.
 
 ```text
-github_repo: "portfolio_2025" 
-baseurl: "/portfolio_2025"
+github_repo: "pages" 
+baseurl: "/pages"
 ```
 
 **Set Repository Name in Makefile**: Adjust the `REPO_NAME` variable in your Makefile to match your GitHub repository's name. This action facilitates the automatic updating of posts and notebooks on your local development server, improving the development process.
 
 ```make
 # Configuration, override port with usage: make PORT=4200
-PORT ?= 4100
-REPO_NAME ?= portfolio_2025
+PORT ?= 4500
+REPO_NAME ?= pages
 LOG_FILE = /tmp/jekyll$(PORT).log
 ```
 
@@ -79,7 +79,7 @@ All `GitHub Pages` websites are managed on GitHub infrastructure and use GitHub 
 
 ### Development Environment Setup
 
-Comprehensive start. A topic-by-topic guide to getting this project running is published [here](https://nighthawkcoders.github.io/portfolio_2025/devops/tools/home).
+Comprehensive start. A topic-by-topic guide to getting this project running is published [here](https://open-coding-society.github.io/pages/tools/).
 
 Quick start.  A quick start below is a reminder, but is dependent on your knowledge.  Only follow this instruction if you need a refresher.  Always default to the comprehensive start if any problem occurs.
 
@@ -88,8 +88,8 @@ Quick start.  A quick start below is a reminder, but is dependent on your knowle
 Run these commands to obtain the project, then locate into the project directory with the terminal, install an extensive set of tools, and make.
 
 ```bash
-git clone <this-repo> # git clone https://github.com/nighthawkcoders/portfolio_2025.git 
-cd <repo-dir>/scripts # cd portfolio_2025
+git clone <this-repo> # git clone https://github.com/open-coding-society/pages.git 
+cd <repo-dir>/scripts # cd pages 
 ```
 
 #### Windows WSL and/or Ubuntu Users
@@ -132,7 +132,7 @@ Start the preview server in the terminal,
 The terminal output from `make` shows the server address. "Cmd" or "Ctl" click the http location to open the preview server in a browser. Here is an example Server address message, click on the Server address to load:...
 
   ```text
-  http://0.0.0.0:4100/portfolio_2025/
+  http://0.0.0.0:4500/pages/
   ```
 
 ### Regeneration of web application
@@ -146,7 +146,7 @@ Save on ".ipynb" or ".md" file activiates "regeneration". An example terminal me
 
 ### Other "make" commands
 
-Terminal messages are generated from background processes.  At any time, click return or enter in a terminal window to obtain a prompt.  Once you have the prompt you can use the terminal as needed for other tasks.  Always return to the root of project `cd ~/vscode/portfolio_2025` for all "make" actions.
+Terminal messages are generated from background processes.  At any time, click return or enter in a terminal window to obtain a prompt.  Once you have the prompt you can use the terminal as needed for other tasks.  Always return to the root of project `cd ~/open/pages` for all "make" actions.
 
 #### Stop the preview server
 
