@@ -3,9 +3,9 @@ let mvURI //mortrevision
 let mappingURI
 
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-    mvURI = "ws://localhost:8085/websocket";
-    javaURI = "http://localhost:8085";
-    mappingURI = "http://localhost:8085/api/mortevision"
+    mvURI = "ws://localhost:8585/websocket";
+    javaURI = "http://localhost:8585";
+    mappingURI = "http://localhost:8585/api/mortevision"
 } else {
     javaURI = "https://spring2025.nighthawkcodingsociety.com";
     mvURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";

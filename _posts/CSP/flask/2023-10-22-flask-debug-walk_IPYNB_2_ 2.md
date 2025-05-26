@@ -220,7 +220,7 @@ Postman is a powerful tool for testing APIs. It allows developers to send HTTP r
 
 3. **Set the Request Method and URL**:
    - Select the HTTP method (e.g., GET, POST, PUT, DELETE) from the dropdown menu.
-   - Enter the URL of the API endpoint you want to test (e.g., `http://127.0.0.1:8087/api/jokes`).
+   - Enter the URL of the API endpoint you want to test (e.g., `http://127.0.0.1:8587/api/jokes`).
 
 4. **Add Request Headers (if needed)**:
    - If your API requires specific headers (e.g., Content-Type, Authorization), add them in the "Headers" tab.

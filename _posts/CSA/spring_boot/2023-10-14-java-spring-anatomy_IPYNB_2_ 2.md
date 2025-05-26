@@ -234,7 +234,7 @@ services:
                 image: java_springv1 # Change the image name to something unique to your project, aka my_unique_name_v1
                 build: .
                 ports:
-                        - "8---:8085" # Edit the number on the left to match the port you selected 
+                        - "8---:8585" # Edit the number on the left to match the port you selected 
                 volumes:
                         - ./volumes:/volumes
                 restart: unless-stopped

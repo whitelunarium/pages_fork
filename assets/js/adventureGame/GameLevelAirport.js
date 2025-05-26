@@ -9,8 +9,8 @@ import NpcProgressSystem from './NpcProgressSystem.js';
 let socketURI
 let javaURI
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-    javaURI = "http://localhost:8085";
-    socketURI = "ws://localhost:8085/websocket";
+    javaURI = "http://localhost:8585";
+    socketURI = "ws://localhost:8585/websocket";
 } else {
     javaURI = "https://spring2025.nighthawkcodingsociety.com";
     socketURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
