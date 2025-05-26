@@ -8,7 +8,7 @@ type: ccc
 courses: {'csp': {'week': 9}}
 ---
 
-## Run Frontend (portfolio_2025 or flocker_frontend)
+## Run Frontend (pages or flocker_frontend)
 
 To set up the workspace for your frontend project, follow these steps:
 
@@ -115,7 +115,7 @@ To set up the workspace for your frontend project, follow these steps:
 2. **Run Login in Browser**:
    - Open your web browser and navigate to the following URL to access the login page:
      ```plaintext
-     http://127.0.0.1:4100/portfolio_2025/login
+     http://127.0.0.1:4100/pages/login
      ```
    - This URL points to the login page of your frontend application.
 

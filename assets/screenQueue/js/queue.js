@@ -7,9 +7,9 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     javaURI = "http://localhost:8585";
     mappingURI = "http://localhost:8585/api/mortevision"
 } else {
-    javaURI = "https://spring2025.nighthawkcodingsociety.com";
-    mvURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
-    mappingURI = "https://spring2025.nighthawkcodingsociety.com/api/mortevision"
+    javaURI = "https://spring.opencodingsociety.com";
+    mvURI = "wss://spring.opencodingsociety.com/websocket";
+    mappingURI = "https://spring.opencodingsociety.com/api/mortevision"
 }
 
 let assignment = null;

@@ -122,7 +122,7 @@ title: Issues Post
 <body>
   <div class="header-container">
         <h1>Issue Home Page</h1>
-        <a href="http://localhost:4100/portfolio_2025/studentIssue/post" class="post-button">Create New Issue</a>
+        <a href="http://localhost:4100/pages/studentIssue/post" class="post-button">Create New Issue</a>
     </div>
 
     <div class="container">

@@ -12,8 +12,8 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     javaURI = "http://localhost:8585";
     socketURI = "ws://localhost:8585/websocket";
 } else {
-    javaURI = "https://spring2025.nighthawkcodingsociety.com";
-    socketURI = "wss://spring2025.nighthawkcodingsociety.com/websocket";
+    javaURI = "https://spring.opencodingsociety.com";
+    socketURI = "wss://spring.opencodingsociety.com/websocket";
 }
 class GameLevelAirport {
   constructor(gameEnv) {
@@ -151,7 +151,7 @@ class GameLevelAirport {
             "Hey, kid. I'm Frank Sinatra — welcome to the bright lights and wild nights of Las Vegas.\nHere, you can test your luck on Blackjack, Poker, or the Minefield Challenge.\nBut remember: in gambling, the swing of fortune can be swift and brutal.\nWant a tip before you step in?",
             [
                 { label: "Yes, give me advice", action: () => dialogFunctions.giveAdvice(), keepOpen: true },
-              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
+              { label: "Take me to the Casino", action: () => openInModal("https://open-coding-society.github.io/pages/gamify/casinohomepage") },
               { label: "No thanks", action: () => {} }
             ]
           );
@@ -164,7 +164,7 @@ class GameLevelAirport {
             advice + "\nWant to answer a question before you go in?",
             [
                 { label: "Sure, ask me!", action: () => dialogFunctions.askQuestion(), keepOpen: true },
-              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
+              { label: "Take me to the Casino", action: () => openInModal("https://open-coding-society.github.io/pages/gamify/casinohomepage") },
                 { label: "Another tip", action: () => dialogFunctions.giveAdvice(), keepOpen: true },
               { label: "Maybe later", action: () => {} }
             ]
@@ -187,7 +187,7 @@ class GameLevelAirport {
             "Frank Sinatra",
             response + "\nReady to try your luck?",
             [
-              { label: "Take me to the Casino", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/casinohomepage") },
+              { label: "Take me to the Casino", action: () => openInModal("https://open-coding-society.github.io/pages/gamify/casinohomepage") },
                 { label: "Back to advice", action: () => dialogFunctions.giveAdvice(), keepOpen: true },
               { label: "Maybe later", action: () => {} }
             ]
@@ -314,7 +314,7 @@ class GameLevelAirport {
             "J.P. Morgan",
             "The stock market is a place of opportunity and risk. You can buy shares in companies and watch your investments grow—or shrink.\nWould you like to proceed to the Stock Exchange and begin your investment journey?",
             [
-              { label: "Take me to the Stock Exchange", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer") },
+              { label: "Take me to the Stock Exchange", action: () => openInModal("https://open-coding-society.github.io/pages/stocks/viewer") },
                 { label: "Remind me what stocks are", action: () => dialogFunctions.whatAreStocks(), keepOpen: true },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
             ]
@@ -327,7 +327,7 @@ class GameLevelAirport {
             "J.P. Morgan",
             fact + "\nWould you like to try investing now?",
             [
-              { label: "Yes, let's invest", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/stocks/viewer") },
+              { label: "Yes, let's invest", action: () => openInModal("https://open-coding-society.github.io/pages/stocks/viewer") },
                 { label: "Back", action: () => dialogFunctions.explainStocks(), keepOpen: true }
             ]
           );
@@ -454,7 +454,7 @@ class GameLevelAirport {
             "Greetings, seeker. I am Satoshi Nakamoto, architect of decentralized currency.\nAre you curious about Bitcoin or ready to explore the Crypto Hub?",
             [
                 { label: "Tell me about Bitcoin", action: () => dialogFunctions.aboutBitcoin(), keepOpen: true },
-              { label: "Go to Crypto Hub", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
+              { label: "Go to Crypto Hub", action: () => openInModal("https://open-coding-society.github.io/pages/crypto/portfolio") },
               { label: "Goodbye", action: () => {} }
             ]
           );
@@ -475,7 +475,7 @@ class GameLevelAirport {
             "Satoshi Nakamoto",
             "To buy Bitcoin, you need a digital wallet and access to a crypto exchange. You can purchase fractions of a Bitcoin.\nWould you like to visit the Crypto Hub to start your journey?",
             [
-              { label: "Yes, take me there", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/portfolio") },
+              { label: "Yes, take me there", action: () => openInModal("https://open-coding-society.github.io/pages/crypto/portfolio") },
                 { label: "Back", action: () => dialogFunctions.aboutBitcoin(), keepOpen: true }
             ]
           );
@@ -485,7 +485,7 @@ class GameLevelAirport {
             "Satoshi Nakamoto",
             "Mining Bitcoin requires powerful computers to solve complex puzzles. Miners are rewarded with Bitcoin for verifying transactions.\nWould you like to try mining or learn more?",
             [
-              { label: "Try Mining", action: () => openInModal("https://nighthawkcoders.github.io/portfolio_2025/crypto/mining") },
+              { label: "Try Mining", action: () => openInModal("https://open-coding-society.github.io/pages/crypto/mining") },
                 { label: "Back", action: () => dialogFunctions.aboutBitcoin(), keepOpen: true }
             ]
           );
@@ -692,7 +692,7 @@ class GameLevelAirport {
                 { label: "Learn about the Bank", action: () => dialogFunctions.explainBank(), keepOpen: true },
                 { label: "Review Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
-                { label: "Overall Leaderboard", action: () => openLeaderboardModal("https://nighthawkcoders.github.io/portfolio_2025/leaderboard/overall-leaderboard") },
+                { label: "Overall Leaderboard", action: () => openLeaderboardModal("https://open-coding-society.github.io/pages/leaderboard/overall-leaderboard") },
                 { label: "Goodbye", action: () => {} }
             ]
           );
@@ -714,7 +714,7 @@ class GameLevelAirport {
             "Janet Yellen",
             "Bank Analytics provides a detailed overview of your spending, investments, and savings.\nWould you like to proceed to the analytics dashboard?",
             [
-              { label: "Open Analytics", action: () => showYellenModal("https://nighthawkcoders.github.io/portfolio_2025/gamify/bankanalytics") },
+              { label: "Open Analytics", action: () => showYellenModal("https://open-coding-society.github.io/pages/gamify/bankanalytics") },
                 { label: "Back", action: () => dialogFunctions.intro(), keepOpen: true }
             ]
           );
