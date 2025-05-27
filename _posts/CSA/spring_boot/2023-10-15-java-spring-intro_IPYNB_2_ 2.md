@@ -15,7 +15,7 @@ An API allows you to request and receive data from the system. A POJO is the fou
 
 The subject of this article is Jokes, likes (haha)  and dislike (boohoo).   User clicks haha or boohoo and updates counters.
 
-[Runtime](https://open-coding-society.github.io/pages/java/spring/jokes)
+[Runtime](https://pages.opencodingsociety.com/java/spring/jokes)
 
 [Back-end Java Spring Files](https://github.com/open-coding-society/spring_2025/tree/master/src/main/java/com/nighthawk/spring_portfolio/mvc/jokes)
 - Jokes.java - contains POJO which defines Model

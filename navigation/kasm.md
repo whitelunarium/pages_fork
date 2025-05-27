@@ -77,7 +77,7 @@ To get insights into how the Nighthawk Coding Society (NCS) made KasmV2 continue
 
 #### Systems
 
-- Frontend [ncs.github.io](https://open-coding-society.github.io/pages/duallogin)
+- Frontend [ncs.github.io](https://pages.opencodingsociety.com/duallogin)
 - Backend [flask2025.ncs.com](https://flask.opencodingsociety.com/login?next=/users/table2)
 
 #### Overview

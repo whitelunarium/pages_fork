@@ -16,7 +16,7 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
 } else {
     javaURI = "https://spring.opencodingsociety.com";
     socketURI = "wss://spring.opencodingsociety.com/websocket";
-    pagesURI = "https://open-coding-society.github.io/pages";
+    pagesURI = "https://pages.opencodingsociety.com";
 }
 class GameLevelAirport {
   constructor(gameEnv) {
@@ -695,7 +695,7 @@ class GameLevelAirport {
                 { label: "Learn about the Bank", action: () => dialogFunctions.explainBank(), keepOpen: true },
                 { label: "Review Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
-                { label: "Overall Leaderboard", action: () => openLeaderboardModal("https://open-coding-society.github.io/pages/leaderboard/overall-leaderboard") },
+                { label: "Overall Leaderboard", action: () => openLeaderboardModal("https://pages.opencodingsociety.com/leaderboard/overall-leaderboard") },
                 { label: "Goodbye", action: () => {} }
             ]
           );

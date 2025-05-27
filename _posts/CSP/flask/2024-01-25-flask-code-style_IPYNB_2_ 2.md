@@ -12,7 +12,7 @@ toc: True
 
 Are you finally finished with your feature? Now, it's time to style it! This documentation will guide you through using SASS for styling your frontend, focusing on incorporating different icons for a more interactive and user-friendly interface. We will cover how to style elements like a profile container, custom icons for file upload, editing, deleting, and adding new items using Font Awesome icons.
 
-If you're not familar with SASS, please check out [this guide](https://open-coding-society.github.io/pages/sass_basics/coding#fundementals-sass) before starting.
+If you're not familar with SASS, please check out [this guide](https://pages.opencodingsociety.com/sass_basics/coding#fundementals-sass) before starting.
 
 ## Basic Styling
 

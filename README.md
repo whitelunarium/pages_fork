@@ -79,7 +79,7 @@ All `GitHub Pages` websites are managed on GitHub infrastructure and use GitHub 
 
 ### Development Environment Setup
 
-Comprehensive start. A topic-by-topic guide to getting this project running is published [here](https://open-coding-society.github.io/pages/tools/).
+Comprehensive start. A topic-by-topic guide to getting this project running is published [here](https://pages.opencodingsociety.com/tools/).
 
 Quick start.  A quick start below is a reminder, but is dependent on your knowledge.  Only follow this instruction if you need a refresher.  Always default to the comprehensive start if any problem occurs.
 

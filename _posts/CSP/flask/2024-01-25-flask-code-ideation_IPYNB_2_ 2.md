@@ -36,7 +36,7 @@ The ideation phase involves defining the application's objectives, designing its
 
 Once you have a clear ideation plan, it's time to start coding. Here’s an overview of the key steps involved in the code process for a Flask full-stack application:
 
-1. **Set Up the Flask Project**:  Generate a template using flask_2025 or flask_portfolio to start your backend repository. Review  the Flask Anatomy/Play tabs, [Python and Flask](https://open-coding-society.github.io/pages/python%20flask/2023/08/21/python_flask.html) and the READMEs for either flask_2025 and flask_portfolio  to get started with setting up your flask app.
+1. **Set Up the Flask Project**:  Generate a template using flask_2025 or flask_portfolio to start your backend repository. Review  the Flask Anatomy/Play tabs, [Python and Flask](https://pages.opencodingsociety.com/python%20flask/2023/08/21/python_flask.html) and the READMEs for either flask_2025 and flask_portfolio  to get started with setting up your flask app.
 
 2. **Create the Backend Logic**: Develop the backend components, including routing, request handling, and database interactions. Define API endpoints for various functionalities, such as user authentication and data retrieval. 
 
@@ -71,7 +71,7 @@ Well, when we talk about "full stack" in web development, we're referring to the
 
 - Deployment and DevOps (Putting the Sandwich in a Bag)
 
-    - Once your sandwich (or web app) is ready, you need to put it in a bag (deploy it) so that people can enjoy it (use it). This involves setting up servers, making sure the app runs smoothly, and updating it as needed. The deployment tab in the navigation bar will be helpful for your backend deployment. For frontend deployment, check out [Tools and Equipment](https://open-coding-society.github.io/pages/devops/tools/setup) and [Github](https://docs.github.com/en/pages)
+    - Once your sandwich (or web app) is ready, you need to put it in a bag (deploy it) so that people can enjoy it (use it). This involves setting up servers, making sure the app runs smoothly, and updating it as needed. The deployment tab in the navigation bar will be helpful for your backend deployment. For frontend deployment, check out [Tools and Equipment](https://pages.opencodingsociety.com/devops/tools/setup) and [Github](https://docs.github.com/en/pages)
     
 So, building a full stack application means creating all parts of the "sandwich" so that it’s tasty and functional from top to bottom. You design the user interface, handle the logic and data storage, and make sure everything works together smoothly. 
 
@@ -279,7 +279,7 @@ Here's an example of the Canva my team and I created, excluding the create user,
 
 
 
-If your team has decided on their features and roles in the team, we can move on to the next part-translating raw ideas into practical outlines we can use! If you need help with organizing and working with your team, check out [Agile Methodology](https://open-coding-society.github.io/pages/collaboration/2023/08/30/agile_methodolgy.html) and click on the Scrum tab in the navigation bar for more information.
+If your team has decided on their features and roles in the team, we can move on to the next part-translating raw ideas into practical outlines we can use! If you need help with organizing and working with your team, check out [Agile Methodology](https://pages.opencodingsociety.com/collaboration/2023/08/30/agile_methodolgy.html) and click on the Scrum tab in the navigation bar for more information.
 
 # Database Planning for Users: Teacher Example
 
