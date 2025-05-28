@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Game resized to: ${CONFIG.CANVAS.WIDTH}x${CONFIG.CANVAS.HEIGHT}`);
     }
     
-    console.log('End Ship Platformer - Fullscreen Game Initialized');
+    console.log('End Ship Platformer - Game-in-game Initialized');
 });
 
 // Global function to change background image during gameplay
