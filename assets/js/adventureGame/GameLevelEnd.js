@@ -302,6 +302,9 @@ class GameLevelEnd {
         },
         interact: function() {
           dialogueSystem.showRandomDialogue(); // Using Dialogue system instead of alert
+          setTimeout(() => {
+            window.location.href = "/assets/js/adventureGame/adPlatEngine/endplatformer.html";
+          }, 1000);
         }
     };
 
