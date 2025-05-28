@@ -1,6 +1,3 @@
----
----
-
 export const baseurl = "{{ site.baseurl }}";
 
 export var pythonURI;
