@@ -303,9 +303,24 @@ class GameLevelEnd {
         },
         interact: function() {
           dialogueSystem.showRandomDialogue(); // Using Dialogue system instead of alert
+          // Add event listener for 'm' key press during interaction
+          const handleKeyPress = (event) => {
+            if (event.key.toLowerCase() === 'e') {
+              // Remove the event listener to prevent multiple bindings
+              document.removeEventListener('keydown', handleKeyPress);
+              
+              // Redirect to the specified URL
+              window.location.href = '/assets/js/adventureGame/adPlatEngine/endplatformer.html';
+            }
+          };
+          
+          // Add the event listener
+          document.addEventListener('keydown', handleKeyPress);
+          
+          // Optional: Remove the event listener after a timeout to prevent it from staying active indefinitely
           setTimeout(() => {
-            window.location.href = "/assets/js/adventureGame/adPlatEngine/endplatformer.html";
-          }, 1000);
+            document.removeEventListener('keydown', handleKeyPress);
+          }, 10000); // Remove after 10 seconds
         }
     };
 
