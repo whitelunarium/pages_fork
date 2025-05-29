@@ -12,7 +12,7 @@ let pagesURI;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     javaURI = "http://localhost:8585";
     socketURI = "ws://localhost:8585/websocket";
-    pagesURI = "http://127.0.0.1:4500/pages";
+    pagesURI = "http://127.0.0.1:4500";
 } else {
     javaURI = "https://spring.opencodingsociety.com";
     socketURI = "wss://spring.opencodingsociety.com/websocket";
@@ -695,7 +695,7 @@ class GameLevelAirport {
                 { label: "Learn about the Bank", action: () => dialogFunctions.explainBank(), keepOpen: true },
                 { label: "Review Analytics", action: () => dialogFunctions.analyticsIntro(), keepOpen: true },
                 { label: "Financial Tip", action: () => dialogFunctions.financialTip(), keepOpen: true },
-                { label: "Overall Leaderboard", action: () => openLeaderboardModal("https://pages.opencodingsociety.com/leaderboard/overall-leaderboard") },
+                { label: "Overall Leaderboard", action: () => openLeaderboardModal() },
                 { label: "Goodbye", action: () => {} }
             ]
           );
@@ -754,7 +754,7 @@ class GameLevelAirport {
       }
     };
 
-    function openLeaderboardModal(url) {
+    function openLeaderboardModal() {
       let modal = document.getElementById('leaderboardModal');
       if (!modal) {
         modal = document.createElement("div");
@@ -826,7 +826,7 @@ class GameLevelAirport {
         iframeWrapper.appendChild(closeBtn);
       }
       const leaderboardFrame = document.getElementById('leaderboardFrame');
-      leaderboardFrame.src = `${pagesURI}/${url}`;
+      leaderboardFrame.src = `${pagesURI}/leaderboard/overall-leaderboard`;
       modal.style.display = "flex";
     }
 
