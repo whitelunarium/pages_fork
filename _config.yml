@@ -1,9 +1,9 @@
 title: Open Coding 
 description: "Class of 2025"
-owner_name: Zhengji Li
-github_username: xinjiav2 
-github_repo: "CSSE2-Hacks3" 
-baseurl: "/CSSE2-Hacks3" 
+owner_name: John Mortensen
+github_username: jm1021 
+github_repo: "pages" 
+baseurl: "" 
 future: true
 remote_theme: jekyll/minima
 minima:

@@ -310,7 +310,7 @@ class GameLevelEnd {
               document.removeEventListener('keydown', handleKeyPress);
               
               // Redirect to the specified URL
-              window.location.href = '/CSSE2-Hacks3/assets/js/adventureGame/adPlatEngine/endplatformer.html';
+              window.location.href = '/assets/js/adventureGame/adPlatEngine/endplatformer.html';
             }
           };
           
