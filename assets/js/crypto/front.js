@@ -4,6 +4,9 @@ console.log("front.js is loaded.");
 
 let userEmail = "";
 let userBalance = localStorage.getItem("userBalance");
+let isOnline = navigator.onLine; // Add online status check
+let updateInterval;
+let monitorInterval;
 
 // Define showNotification globally at the top of your script
 window.showNotification = function (message, isError = false) {
@@ -37,9 +40,9 @@ async function fetchUser() {
 }
 
 function updateBalance(balance) {
+  const formattedBalance = parseFloat(balance).toFixed(2);
   const balanceElement = document.getElementById('user-balance');
   if (balanceElement) {
-    const formattedBalance = parseFloat(balance).toFixed(2);
     balanceElement.innerText = formattedBalance;
     localStorage.setItem("userBalance", formattedBalance);
   }
@@ -148,35 +151,227 @@ function updateActiveGPUsList() {
   });
 }
 
-// Make toggleMining globally available
-window.toggleMining = async function () {
-  try {
-    const options = {
-      ...fetchOptions,
-      method: 'POST',
-      cache: 'no-cache'
-    };
-    const response = await fetch(`${javaURI}/api/mining/toggle`, options);
-    const result = await response.json();
-    console.log('Mining toggle result:', result);
+let countdownInterval;
+let miningTimeLeft = 900; // 15 minutes in seconds
 
-    updateMiningButton(result.isMining);
-    if (result.isMining) {
-      startPeriodicUpdates();
-      showNotification('Mining started successfully');
-    } else {
-      stopPeriodicUpdates();
-      showNotification('Mining stopped');
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function startCountdown() {
+    const countdownElement = document.getElementById('mining-countdown');
+    const timerElement = document.getElementById('countdown-timer');
+    const miningButton = document.getElementById('start-mining');
+    
+    // Check if mining is actually active before starting countdown
+    fetchWithRetry(`${javaURI}/api/mining/state`, fetchOptions)
+        .then(state => {
+            if (!state.isMining) {
+                stopCountdown();
+                return;
+            }
+            
+            countdownElement.classList.remove('hidden');
+            countdownElement.classList.add('visible');
+            miningButton.classList.add('loading');
+            
+            // Get the actual time left from the server if available
+            const serverTimeLeft = state.timeLeft || 900;
+            miningTimeLeft = serverTimeLeft;
+            timerElement.textContent = formatTime(miningTimeLeft);
+            
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            countdownInterval = setInterval(async () => {
+                miningTimeLeft--;
+                timerElement.textContent = formatTime(miningTimeLeft);
+                
+                if (miningTimeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    try {
+                        // Check mining state before restarting
+                        const state = await fetchWithRetry(`${javaURI}/api/mining/state`, fetchOptions);
+                        if (state.isMining) {
+                            await updateMiningStats();
+                            startCountdown(); // Only restart if still mining
+                        } else {
+                            stopCountdown();
+                        }
+                    } catch (error) {
+                        console.error('Error checking mining state:', error);
+                        stopCountdown();
+                    }
+                }
+            }, 1000);
+        })
+        .catch(error => {
+            console.error('Error checking mining state:', error);
+            stopCountdown();
+        });
+}
+
+function stopCountdown() {
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
     }
-    await updateMiningStats();
-  } catch (error) {
-    console.error('Error toggling mining:', error);
-    showNotification('Error toggling mining state');
-  }
+    
+    const countdownElement = document.getElementById('mining-countdown');
+    const miningButton = document.getElementById('start-mining');
+    
+    countdownElement.classList.remove('visible');
+    countdownElement.classList.add('hidden');
+    miningButton.classList.remove('loading');
+}
+
+// Add periodic state sync
+let stateSyncInterval;
+
+function startStateSync() {
+    if (stateSyncInterval) clearInterval(stateSyncInterval);
+    stateSyncInterval = setInterval(async () => {
+        try {
+            const state = await fetchWithRetry(`${javaURI}/api/mining/state`, fetchOptions);
+            if (!state.isMining && countdownInterval) {
+                stopCountdown();
+            }
+        } catch (error) {
+            console.error('Error syncing state:', error);
+        }
+    }, 900000); // Sync every 15 min
+}
+
+function stopStateSync() {
+    if (stateSyncInterval) {
+        clearInterval(stateSyncInterval);
+        stateSyncInterval = null;
+    }
+}
+
+// Update the startPeriodicUpdates function
+async function startPeriodicUpdates() {
+    if (!isOnline) {
+        showNotification('No internet connection', true);
+        return;
+    }
+    
+    // Clear any existing intervals
+    if (updateInterval) clearInterval(updateInterval);
+    if (monitorInterval) clearInterval(monitorInterval);
+    
+    // Start state sync
+    startStateSync();
+    
+    // Update stats every 15 minutes
+    updateInterval = setInterval(async () => {
+        if (isOnline) {
+            await updateMiningStats();
+        }
+    }, 900000);
+    
+    // Real-time monitoring every 30 seconds
+    monitorInterval = setInterval(async () => {
+        if (!isOnline) return;
+        
+        try {
+            const stats = await fetchWithRetry(`${javaURI}/api/mining/stats`, {
+                ...fetchOptions,
+                method: 'GET',
+                cache: 'no-cache'
+            });
+            
+            // Update critical UI elements
+            if (stats.hashrate !== undefined) {
+                document.getElementById('hashrate').textContent = `${parseFloat(stats.hashrate).toFixed(2)} MH/s`;
+            }
+            if (stats.shares !== undefined) {
+                document.getElementById('shares').textContent = stats.shares;
+            }
+            if (stats.pendingBalance !== undefined) {
+                document.getElementById('pending-balance').textContent = parseFloat(stats.pendingBalance).toFixed(8);
+            }
+            
+            // Update charts
+            updateCharts(stats);
+        } catch (error) {
+            console.error('Real-time monitor error:', error);
+        }
+    }, 900000); // update chart every 15 min
+}
+
+// Update the stopPeriodicUpdates function
+function stopPeriodicUpdates() {
+    if (updateInterval) {
+        clearInterval(updateInterval);
+        updateInterval = null;
+    }
+    if (monitorInterval) {
+        clearInterval(monitorInterval);
+        monitorInterval = null;
+    }
+    stopStateSync();
+}
+
+// Update the toggleMining function with better error handling
+window.toggleMining = async function () {
+    try {
+        const button = document.getElementById('start-mining');
+        button.disabled = true;
+        
+        const options = {
+            ...fetchOptions,
+            method: 'POST',
+            cache: 'no-cache'
+        };
+        
+        const result = await fetchWithRetry(`${javaURI}/api/mining/toggle`, options);
+        
+        updateMiningButton(result.isMining);
+        if (result.isMining) {
+            startPeriodicUpdates();
+            startCountdown();
+            showNotification('Mining started successfully');
+        } else {
+            stopPeriodicUpdates();
+            stopCountdown();
+            showNotification('Mining stopped');
+        }
+        
+        // Update all balances after mining state change
+        await updateAllBalances();
+        await updateMiningStats();
+    } catch (error) {
+        console.error('Error toggling mining:', error);
+        showNotification('Error toggling mining state: ' + error.message, true);
+        // Try to recover the correct state
+        await recoverMiningState();
+    } finally {
+        const button = document.getElementById('start-mining');
+        if (button) {
+            button.disabled = false;
+        }
+    }
 };
 
+// Update the updateMiningButton function
+function updateMiningButton(isActive) {
+    const button = document.getElementById('start-mining');
+    if (button) {
+        if (isActive) {
+            button.textContent = 'Stop Mining';
+            button.className = 'mining-button start-mining active loading';
+        } else {
+            button.textContent = 'Start Mining';
+            button.className = 'mining-button start-mining';
+        }
+    } else {
+        console.error('Mining button not found');
+    }
+}
+
 let hashrateChart, profitChart;
-let updateInterval;
 
 // Initialize charts and setup
 document.addEventListener('DOMContentLoaded', async () => {
@@ -254,58 +449,65 @@ function initializeCharts() {
     }
   });
 }
-async function initializeMiningState() {
+
+async function fetchCurrentEnergyPlan() {
     try {
-        const options = {
+        const response = await fetch(`${javaURI}/api/mining/energy`, {
             ...fetchOptions,
             method: 'GET',
-            cache: 'no-cache'
-        };
-        // Fetch initial mining state
-        const response = await fetch(`${javaURI}/api/mining/state`, options);
+            credentials: 'include'
+        });
+        
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Please log in to view energy plan');
+            } else {
+                throw new Error(`Failed to fetch energy plan (Status: ${response.status})`);
+            }
+        }
+        
+        const data = await response.json();
+        const energyPlanElement = document.getElementById('current-energy-plan');
+        
+        if (data && data.supplierName) {
+            energyPlanElement.textContent = `${data.supplierName} (${data.EEM || '0.00'} EEM)`;
+            energyPlanElement.className = 'stat-value text-green-400';
+        } else {
+            energyPlanElement.textContent = 'No Energy Plan';
+            energyPlanElement.className = 'stat-value text-red-400';
+        }
+    } catch (error) {
+        console.error('Error fetching energy plan:', error);
+        const energyPlanElement = document.getElementById('current-energy-plan');
+        energyPlanElement.textContent = 'Error Loading Plan';
+        energyPlanElement.className = 'stat-value text-red-400';
+    }
+}
+
+async function initializeMiningState() {
+    try {
+        const response = await fetch(`${javaURI}/api/mining/state`, fetchOptions);
         if (!response.ok) {
             throw new Error('Failed to fetch mining state');
         }
         const state = await response.json();
-        console.log('Initial mining state:', state);
-        // Update UI with initial state
-        updateDisplay(state);
+        
+        // Update UI with persisted state
         updateMiningButton(state.isMining);
-        // Start periodic updates if mining is active
         if (state.isMining) {
             startPeriodicUpdates();
+            startCountdown();
         }
+        
+        // Initialize pool info
+        const currentSymbol = localStorage.getItem('currentMiningCrypto') || 'BTC';
+        updatePoolInfo(currentSymbol);
     } catch (error) {
         console.error('Error initializing mining state:', error);
         showNotification('Error loading mining state. Please try again.');
     }
 }
-async function startPeriodicUpdates() {
-    if (updateInterval) clearInterval(updateInterval);
-    updateInterval = setInterval(async () => {
-        await updateMiningStats();
-    }, 900000);
-    const options = {
-        ...fetchOptions,
-        method: 'GET',
-        cache: 'no-cache'
-    };
-    // Real time monitor
-    setInterval(async () => {
-        try {
-            const response = await fetch(`${javaURI}/api/mining/stats`, options);
-            const stats = await response.json();
-            console.log('Real time monitor:', {
-                time: new Date().toLocaleTimeString(),
-                pending: stats.pendingBalance,
-                hashrate: stats.hashrate,
-                activeGPUs: stats.activeGPUs?.length || 0
-            });
-        } catch (error) {
-            console.error('Real time monitor **FAILED**:', error);
-        }
-    }, 900000);
-}
+
 // API Calls
 async function loadGPUs() {
     try {
@@ -322,6 +524,7 @@ async function loadGPUs() {
         console.error('Error loading GPUs:', error);
     }
 }
+
 window.toggleGPU = async function (gpuId) {
     try {
         const options = {
@@ -353,6 +556,7 @@ window.toggleGPU = async function (gpuId) {
         showNotification('Error toggling GPU: ' + error.message);
     }
 }
+
 window.buyGpu = async function (gpuId, quantity) {
     try {
         const options = {
@@ -375,11 +579,9 @@ window.buyGpu = async function (gpuId, quantity) {
         showNotification('Error buying GPU: ' + error.message);
     }
 }
+
+// Update the updateMiningStats function with better error handling
 async function updateMiningStats() {
-    // Get current cryptocurrency from localStorage or default to BTC
-    let currentSymbol = localStorage.getItem('currentMiningCrypto') || 'BTC';
-    // Update the pool info with the current cryptocurrency
-    document.getElementById('pool-info').textContent = `Mining: ${currentSymbol}`;
     try {
         const options = {
             ...fetchOptions,
@@ -387,56 +589,44 @@ async function updateMiningStats() {
             cache: 'no-cache'
         };
         
-        // First fetch the stats
-        const statsResponse = await fetch(`${javaURI}/api/mining/stats`, options);
-        if (!statsResponse.ok) {
-            throw new Error(`Failed to fetch stats: ${statsResponse.status}`);
-        }
-        const stats = await statsResponse.json();
+        // First fetch the stats with retry
+        const stats = await fetchWithRetry(`${javaURI}/api/mining/stats`, options);
         
         // Try to fetch GPU shop data, but don't fail if it errors
         let gpuPriceMap = {};
         try {
-            const gpusResponse = await fetch(`${javaURI}/api/mining/shop`, options);
-            if (gpusResponse.ok) {
-                const gpus = await gpusResponse.json();
-                console.log('Shop GPUs:', gpus);
-                // Create a map of GPU prices
-                gpus.forEach(gpu => {
-                    gpuPriceMap[gpu.id] = gpu.price;
-                    console.log(`GPU ${gpu.id} (${gpu.name}) price: ${gpu.price}`);
-                });
-            } else {
-                console.warn('Failed to fetch GPU shop data:', gpusResponse.status);
-            }
+            const gpus = await fetchWithRetry(`${javaURI}/api/mining/shop`, options);
+            gpus.forEach(gpu => {
+                gpuPriceMap[gpu.id] = gpu.price;
+            });
         } catch (shopError) {
             console.warn('Error fetching GPU shop data:', shopError);
         }
         
         // Add prices to the stats.gpus array
         if (stats.gpus) {
-            stats.gpus = stats.gpus.map(gpu => {
-                const price = gpuPriceMap[gpu.id] || gpu.price || 0; // Use existing price if available
-                console.log(`Merging GPU ${gpu.id} (${gpu.name}) with price: ${price}`);
-                return {
-                    ...gpu,
-                    price: price
-                };
-            });
+            stats.gpus = stats.gpus.map(gpu => ({
+                ...gpu,
+                price: gpuPriceMap[gpu.id] || gpu.price || 0
+            }));
         } else {
             stats.gpus = [];
         }
-        
-        console.log('Final Stats GPUs with Prices:', stats.gpus);
         
         updateDisplay(stats);
         renderGpuInventory(stats);
         updateCharts(stats);
     } catch (error) {
         console.error('Error updating mining stats:', error);
-        showNotification('Failed to fetch mining data, check your connection');
+        showNotification('Failed to fetch mining data, check your connection', true);
+        // Reset UI to safe state
+        document.getElementById('hashrate').textContent = '0 MH/s';
+        document.getElementById('shares').textContent = '0';
+        document.getElementById('gpu-temp').textContent = '0°C';
+        document.getElementById('power-draw').textContent = '0W';
     }
 }
+
 // UI Updates
 function updateDisplay(stats) {
     // Log incoming data
@@ -505,6 +695,7 @@ function updateDisplay(stats) {
     // Store stats globally for modal access
     window.stats = stats;
 }
+
 function renderGpuInventory(stats) {
     const inventoryElement = document.getElementById('gpu-inventory');
     if (!inventoryElement) return;
@@ -580,61 +771,50 @@ function renderGpuInventory(stats) {
     });
     inventoryElement.appendChild(container);
 }
+
 function updateCharts(stats) {
     if (!stats) {
         console.warn('updateCharts called without stats');
         return;
     }
-    console.log('Updating charts with:', {
-        hashrate: stats.hashrate,
-        dailyRevenue: stats.dailyRevenue,
-        powerCost: stats.powerCost
-    });
+
+    const MAX_DATA_POINTS = 50; // Maximum number of data points to keep
     const now = new Date().toLocaleTimeString();
+
     // Update hashrate chart
     if (hashrateChart) {
         const numericHashrate = parseFloat(stats.hashrate) || 0;
-        console.log('Adding hashrate data point:', numericHashrate);
-        hashrateChart.data.labels.push(now);
-        hashrateChart.data.datasets[0].data.push(numericHashrate);
-        if (hashrateChart.data.labels.length > 50) {
+        
+        // Remove old data points if exceeding limit
+        while (hashrateChart.data.labels.length >= MAX_DATA_POINTS) {
             hashrateChart.data.labels.shift();
             hashrateChart.data.datasets[0].data.shift();
         }
+        
+        hashrateChart.data.labels.push(now);
+        hashrateChart.data.datasets[0].data.push(numericHashrate);
         hashrateChart.update('none');
-        console.log('Hashrate chart updated');
     }
-    // Update profit chart with total profit (Power Cost + USD Value)
+
+    // Update profit chart
     if (profitChart) {
         const dailyRevenue = typeof stats.dailyRevenue === 'number' ? stats.dailyRevenue : 0;
         const powerCost = typeof stats.powerCost === 'number' ? stats.powerCost : 0;
         const totalBalanceUSD = parseFloat(stats.totalBalanceUSD) || 0;
-        const totalProfit = totalBalanceUSD + powerCost; // Add power cost to total balance
-        console.log('Calculated total profit:', { dailyRevenue, powerCost, totalBalanceUSD, totalProfit });
-        profitChart.data.labels.push(now);
-        profitChart.data.datasets[0].data.push(totalProfit);
-        if (profitChart.data.labels.length > 50) {
+        const totalProfit = totalBalanceUSD + powerCost;
+        
+        // Remove old data points if exceeding limit
+        while (profitChart.data.labels.length >= MAX_DATA_POINTS) {
             profitChart.data.labels.shift();
             profitChart.data.datasets[0].data.shift();
         }
+        
+        profitChart.data.labels.push(now);
+        profitChart.data.datasets[0].data.push(totalProfit);
         profitChart.update('none');
-        console.log('Profit chart updated');
     }
 }
-function updateMiningButton(isActive) {
-    const button = document.getElementById('start-mining');
-    if (button) {
-        if (isActive) {
-            button.textContent = 'Stop Mining';
-            button.className = 'mining-button start-mining active';
-        } else {
-            button.textContent = 'Start Mining';
-            button.className = 'mining-button start-mining';
-        }
-    } else {
-        console.error('Mining button not found');
-    }
-}
+
 function renderGpuShop(gpus) {
     const gpuListElement = document.getElementById('gpu-list');
     if (!gpuListElement) {
@@ -666,6 +846,7 @@ function renderGpuShop(gpus) {
         });
     });
 }
+
 function createGpuCard(gpu, category) {
     const card = document.createElement('div');
     card.className = `gpu-card mb-4 ${getCategoryClass(category)}`;
@@ -741,6 +922,7 @@ function createGpuCard(gpu, category) {
     }, 0);
     return card;
 }
+
 // Utility functions
 function getCategoryColor(category) {
     const colors = {
@@ -752,6 +934,7 @@ function getCategoryColor(category) {
     };
     return colors[category] || 'text-white';
 }
+
 function getCategoryClass(category) {
     const classes = {
         'Free Starter GPU': 'starter',
@@ -762,27 +945,25 @@ function getCategoryClass(category) {
     };
     return classes[category] || '';
 }
+
 function openGpuShop() {
     const modal = document.getElementById('gpu-shop-modal');
     modal.classList.remove('hidden');
     loadGPUs(); // Load GPUs when opening the shop
 }
+
 window.closeGpuShop = function() {
     const modal = document.getElementById('gpu-shop-modal');
     modal.classList.add('hidden');
 };
+
 // Close modal when clicking outside
 document.getElementById('gpu-shop-modal').addEventListener('click', (e) => {
     if (e.target.id === 'gpu-shop-modal') {
         e.target.classList.add('hidden');
     }
 });
-function stopPeriodicUpdates() {
-    if (updateInterval) {
-        clearInterval(updateInterval);
-        updateInterval = null;
-    }
-}
+
 // Update the total price function to properly format numbers
 function updateTotalPrice(gpuId, basePrice) {
     const quantitySelect = document.getElementById(`quantity-${gpuId}`);
@@ -793,6 +974,7 @@ function updateTotalPrice(gpuId, basePrice) {
         totalSpan.textContent = total.toLocaleString();
     }
 }
+
 function updateShopTotalCost() {
     let total = 0;
     document.querySelectorAll('[id^="quantity-"]').forEach(select => {
@@ -806,9 +988,11 @@ function updateShopTotalCost() {
     });
     document.getElementById('shop-total-cost').textContent = total.toLocaleString();
 }
+
 // Make the functions globally available
 window.updateTotalPrice = updateTotalPrice;
 window.updateShopTotalCost = updateShopTotalCost;
+
 window.buySelectedGPUs = async function () {
     const purchases = [];
     document.querySelectorAll('[id^="quantity-"]').forEach(select => {
@@ -827,6 +1011,7 @@ window.buySelectedGPUs = async function () {
         await buyGpu(purchase.gpuId, purchase.quantity);
     }
 };
+
 // Add sell functionality
 function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
     const modal = document.getElementById('sellModal');
@@ -861,14 +1046,17 @@ function showSellModal(gpuId, gpuName, maxQuantity, sellPrice) {
     modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     updateSellTotal(sellPrice);
 }
+
 function updateSellTotal(sellPrice) {
     const quantity = parseInt(document.getElementById('sellQuantity').value) || 0;
     const total = (sellPrice * quantity).toFixed(2);
     document.getElementById('totalSellValue').textContent = total;
 }
+
 function closeSellModal() {
     document.getElementById('sellModal').style.display = 'none';
 }
+
 // Update the confirmSell function with proper headers
 window.confirmSell = async function (gpuId) {
     const quantity = parseInt(document.getElementById('sellQuantity').value);
@@ -897,6 +1085,7 @@ window.confirmSell = async function (gpuId) {
         window.showNotification('Error selling GPU: ' + error.message, true);
     }
 };
+
 window.toggleMining = toggleMining;
 window.showSellModal = showSellModal;
 window.updateSellTotal = updateSellTotal;
@@ -905,8 +1094,9 @@ window.confirmSell = confirmSell;
 
 // Update the pool info display function
 function updatePoolInfo(symbol) {
-    const poolInfoElement = document.getElementById('pool-info');
-    if (!poolInfoElement) return;
+    const poolInfoLabel = document.getElementById('pool-info-label');
+    const poolInfoValue = document.getElementById('pool-info-value');
+    if (!poolInfoLabel || !poolInfoValue) return;
 
     // Get pool information based on the cryptocurrency
     const poolInfo = {
@@ -937,9 +1127,9 @@ function updatePoolInfo(symbol) {
     };
 
     const info = poolInfo[symbol] || poolInfo['BTC']; // Default to BTC if symbol not found
-    poolInfoElement.innerHTML = `
+    poolInfoLabel.innerHTML = `<span class="text-blue-400">Mining: ${symbol}</span>`;
+    poolInfoValue.innerHTML = `
         <div class="text-sm">
-            <p class="text-blue-400">Mining: ${symbol}</p>
             <p class="text-gray-400">Algorithm: ${info.algorithm}</p>
             <p class="text-gray-400">Difficulty: ${info.difficulty}</p>
             <p class="text-yellow-400">Min Payout: ${info.minPayout}</p>
@@ -994,4 +1184,89 @@ window.selectCryptocurrency = function(symbol) {
 document.addEventListener('DOMContentLoaded', () => {
     const currentSymbol = localStorage.getItem('currentMiningCrypto') || 'BTC';
     updatePoolInfo(currentSymbol);
+});
+
+// Add cleanup function for charts
+function cleanupCharts() {
+    if (hashrateChart) {
+        hashrateChart.destroy();
+        hashrateChart = null;
+    }
+    if (profitChart) {
+        profitChart.destroy();
+        profitChart = null;
+    }
+}
+
+// Add cleanup on page unload
+window.addEventListener('beforeunload', () => {
+    stopPeriodicUpdates();
+    stopStateSync();
+    cleanupCharts();
+});
+
+// Add retry logic for API calls
+async function fetchWithRetry(url, options, maxRetries = 3) {
+    let lastError;
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`Attempt ${i + 1} failed:`, error);
+            lastError = error;
+            if (i < maxRetries - 1) {
+                await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1))); // Exponential backoff
+            }
+        }
+    }
+    throw lastError;
+}
+
+// Add missing functions
+async function updateAllBalances() {
+    try {
+        await fetchUserBalance();
+        await updateMiningStats();
+    } catch (error) {
+        console.error('Error updating balances:', error);
+    }
+}
+
+async function recoverMiningState() {
+    try {
+        const state = await fetchWithRetry(`${javaURI}/api/mining/state`, fetchOptions);
+        updateMiningButton(state.isMining);
+        if (state.isMining) {
+            startPeriodicUpdates();
+            startCountdown();
+        } else {
+            stopPeriodicUpdates();
+            stopCountdown();
+        }
+    } catch (error) {
+        console.error('Error recovering mining state:', error);
+        // Default to stopped state if recovery fails
+        updateMiningButton(false);
+        stopPeriodicUpdates();
+        stopCountdown();
+    }
+}
+
+// Add online/offline event listeners
+window.addEventListener('online', () => {
+    isOnline = true;
+    showNotification('Back online');
+    if (document.getElementById('start-mining').textContent === 'Stop Mining') {
+        startPeriodicUpdates();
+    }
+});
+
+window.addEventListener('offline', () => {
+    isOnline = false;
+    showNotification('You are offline', true);
+    stopPeriodicUpdates();
 });

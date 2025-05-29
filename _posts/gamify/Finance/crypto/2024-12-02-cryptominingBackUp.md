@@ -1,9 +1,5 @@
 ---
-
-layout: fortunefinders
-
 layout: finance
-
 title: Crypto Mining Simulator BACKUP
 type: issueshen i
 permalink: /crypto/miningbackup
@@ -51,8 +47,8 @@ permalink: /crypto/miningbackup
                             <div class="stat-value text-green-400" id="usd-value">$0.00</div>
                         </div>
                         <div>
-                            <div class="stat-label" id="pool-info"></div>
-                            <div class="stat-value text-yellow-400" id="pool-info"></div>
+                            <div class="stat-label" id="pool-info-label"></div>
+                            <div class="stat-value text-yellow-400" id="pool-info-value"></div>
                         </div>
                     </div>
                 </div>
@@ -192,7 +188,6 @@ permalink: /crypto/miningbackup
             </div>
         </div>
     </div>
-    <!-- Add this right before the closing </body> tag -->
     <div id="active-gpus-modal" class="active-gpus-modal hidden">
         <div class="active-gpus-content">
             <div class="flex justify-between items-center mb-4">
