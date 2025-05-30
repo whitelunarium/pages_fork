@@ -229,7 +229,7 @@ comments: false
                         <td>${submission.comment || 'No comments'}</td>
                         <td>${submission.grade || 'Not graded'}</td>
                         <td>
-                            <button class="btn btn-grade" onclick="gradeAssignment(${submission.assignment.id}, ${JSON.stringify(submission.submitter.id)})">Grade</button>
+                            <button class="btn btn-grade" onclick="gradeAssignment(${submission.assignment.id}, ${submission.submitter.id}">Grade</button>
                         </td>
                     `;
                     submissionsList.appendChild(row);
@@ -274,7 +274,7 @@ comments: false
             ...fetchOptions,
             method: 'POST',
             body: JSON.stringify({
-                'submitterId': submitterId,
+                'submitterId': studentIds,
                 'assignmentId': assignmentId,
                 'gradeSuggestion': gradeSuggestion,
                 'explanation': explanation
