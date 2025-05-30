@@ -387,26 +387,26 @@ class GameLevelAirport {
 
 
     const iframeWrapper = document.createElement("div");
-iframeWrapper.id = "cryptoFrameWrapper";
-iframeWrapper.style.position = "relative";
-iframeWrapper.style.overflow = "hidden";
-iframeWrapper.style.width = "90%";
-iframeWrapper.style.maxWidth = "1000px";
-iframeWrapper.style.height = "80%";
-iframeWrapper.style.border = "2px solid #ccc";
-iframeWrapper.style.borderRadius = "8px";
-iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
-cryptoModal.appendChild(iframeWrapper);
+    iframeWrapper.id = "cryptoFrameWrapper";
+    iframeWrapper.style.position = "relative";
+    iframeWrapper.style.overflow = "hidden";
+    iframeWrapper.style.width = "90%";
+    iframeWrapper.style.maxWidth = "1000px";
+    iframeWrapper.style.height = "80%";
+    iframeWrapper.style.border = "2px solid #ccc";
+    iframeWrapper.style.borderRadius = "8px";
+    iframeWrapper.style.boxShadow = "0 0 20px rgba(0,0,0,0.5)";
+    cryptoModal.appendChild(iframeWrapper);
 
-const cryptoFrame = document.createElement("iframe");
-cryptoFrame.id = "cryptoFrame";
-cryptoFrame.style.width = "100%";
-cryptoFrame.style.height = "160%"; // Increased height to accommodate more cropping
-cryptoFrame.style.position = "absolute";
-cryptoFrame.style.top = "-40%"; // Move further up to completely hide gray banner and yellow section
-cryptoFrame.style.left = "0";
-cryptoFrame.style.border = "none";
-iframeWrapper.appendChild(cryptoFrame);
+    const cryptoFrame = document.createElement("iframe");
+    cryptoFrame.id = "cryptoFrame";
+    cryptoFrame.style.width = "100%";
+    cryptoFrame.style.height = "160%"; // Increased height to accommodate more cropping
+    cryptoFrame.style.position = "absolute";
+    cryptoFrame.style.top = "-40%"; // Move further up to completely hide gray banner and yellow section
+    cryptoFrame.style.left = "0";
+    cryptoFrame.style.border = "none";
+    iframeWrapper.appendChild(cryptoFrame);
 
     const closeBtn = document.createElement("button");
     closeBtn.innerText = "✖";
