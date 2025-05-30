@@ -162,10 +162,10 @@ permalink: /crypto/portfolio
 
 
 <div class="container">
-    <div class="balance-container">
+    <!-- <div class="balance-container">
         <div class="balance-title">Current Balance</div>
         <div class="balance-amount" id="user-balance">Loading...</div>
-    </div>
+    </div> -->
 
     <div class="crypto-list" id="crypto-list-container"></div>
 </div>
