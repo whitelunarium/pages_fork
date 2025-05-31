@@ -166,8 +166,10 @@ permalink: /student/submissions
         };
 
         if (groupId) {
+            submissionData.isGroup = true;
             submissionData.submitterId = parseInt(groupId);
         } else {
+            submissionData.isGroup = false;
             submissionData.submitterId = userId;
         }
         console.log(JSON.stringify(submissionData));
