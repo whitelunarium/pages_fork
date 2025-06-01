@@ -7,6 +7,7 @@ hide: true
 permalink: /bitshift/
 ---
 
+
 ## Bitshift Game Demo
 
 <iframe src="https://frogpants.github.io/Project-Bitshift/current-project-renders/Bitshift-Update-v1.0.0.html" allow="fullscreen; pointer-lock" width="100%" height="500px"></iframe>
