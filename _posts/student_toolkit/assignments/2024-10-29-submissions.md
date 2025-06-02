@@ -28,7 +28,7 @@ permalink: /student/submissions
             <div id="timer-container" class="p-3 rounded-md border border-gray-400">
                 <p id="time-left" class="font-bold text-gray-700">Select assignment to view time left here</p>
             </div>
-            <div id="Group Submit" class="hidden space-y-4 mt-6 p-4 rounded-md border border-gray-400">
+            <div id="group-submit" class="hidden space-y-4 mt-6 p-4 rounded-md border border-gray-400">
                 <div class="flex justify-between items-center">
                     <label for="group-select" class="text-sm font-medium text-gray-700">Select Group</label>
                     <select id="group-select" class="w-2/3 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
@@ -36,7 +36,6 @@ permalink: /student/submissions
                     </select>
                 </div>
             </div>
-
 
             <div class="flex justify-between items-center mt-4">
                 <label for="submissionContent" class="text-sm font-medium text-gray-700">Submission Content</label>
@@ -121,17 +120,17 @@ permalink: /student/submissions
     // Call when toggle is enabled
     document.getElementById("myToggle").addEventListener("change", function () {
         if (this.checked) {
-            document.getElementById("Group Submit").style.display = "block";
+            document.getElementById("group-submit").style.display = "block";
             fetchGroups();
         } else {
-            document.getElementById("Group Submit").style.display = "none";
+            document.getElementById("group-submit").style.display = "none";
             groupId = null;
         }
     });
 
     
     function disableGroupSubmit() {
-        document.getElementById("Group Submit").style.display = "none";
+        document.getElementById("group-submit").style.display = "none";
     }
     function Submit() {
         let urllink_submit = javaURI + "/api/submissions/submit/";
@@ -151,13 +150,6 @@ permalink: /student/submissions
         console.log(now);
         console.log(deadlineDate);
         console.log(deadlineDate - now);
-
-        const formData = new FormData();
-        formData.append('studentId', studentId);
-        formData.append('content', submissionContent);
-        formData.append('comment', comment);
-        formData.append('isLate', deadlineDate - now < 0);
-
 
         const submissionData = {
             content: submissionContent,
@@ -298,7 +290,6 @@ permalink: /student/submissions
                 StuName = data.name;
                 let info = data.name + "," + String(data.id);
                 console.log(info);
-                addName(info);
 
             })
             .catch(error => {
@@ -308,13 +299,9 @@ permalink: /student/submissions
 
     async function fetchSubmissions() {
         const urllink = javaURI + "/api/submissions/getSubmissions";
-        const urllink2 = javaURI + "/assignment/" + assignIndex.toString();
-        const theUserId = await getUserId();
-        console.log("here");
         try {
             const response = await fetch(`${urllink}/${userId}`, fetchOptions);
             const Submissions = await response.json();
-            console.log("bruh");
             console.log(JSON.stringify(Submissions) + "------");
             populateSubmissionsTable(JSON.stringify(Submissions));
         } catch (error) {
@@ -358,65 +345,6 @@ permalink: /student/submissions
                 tableBody.appendChild(row);
             }
         });
-    }
-    
-    window.addName = function (info) {
-        console.log(info.split(","));
-        info = info.split(",");
-        console.log("Added name:", info[0]);
-        listofpeople.add(info[0]);
-        listofpeopleIds.add(Number(info[1]));
-        console.log(listofpeople);
-        const reviewGroup = document.getElementById('Review-Group');
-        reviewGroup.textContent = "Group Members: " + Array.from(listofpeople).join(", ");
-        console.log(listofpeopleIds);
-    };
-
-    window.changeRowsPerPage = function changeRowsPerPage() {
-        rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
-        currentPage = 1;
-        totalPages = Math.ceil(filteredPeople.length / rowsPerPage);
-        const startIdx = 0;
-        const endIdx = rowsPerPage;
-        populateTable(filteredPeople.slice(startIdx, endIdx));
-    };
-
-    window.updatePageInfo = function updatePageInfo() {
-        const pageInfo = document.getElementById("pageInfo");
-        if (pageInfo) {
-            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-            document.getElementById("prevPage").disabled = currentPage === 1;
-            document.getElementById("nextPage").disabled = currentPage === totalPages;
-        }
-    };
-
-    function populateTable(names) {
-        const tableBody = document.getElementById("namesTableBody");
-        tableBody.innerHTML = "";
-        names.forEach(name => {
-            const row = document.createElement("tr");
-            row.className = "hover:bg-indigo-50";
-            let info = [name.name, name.id];
-
-            const nameCell = document.createElement("td");
-            nameCell.className = "py-2 px-4 text-gray-700";
-            nameCell.textContent = name.name;
-            row.appendChild(nameCell);
-
-            const actionCell = document.createElement("td");
-            actionCell.className = "py-2 px-4";
-            
-            const addButton = document.createElement("button");
-            addButton.className = "px-3 py-1 bg-indigo-500 text-white rounded hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition";
-            addButton.textContent = "Add";
-            addButton.onclick = function() { addName(`${name.name},${name.id}`); };
-            
-            actionCell.appendChild(addButton);
-            row.appendChild(actionCell);
-            
-            tableBody.appendChild(row);
-        });
-        updatePageInfo();
     }
 
     disableGroupSubmit();
