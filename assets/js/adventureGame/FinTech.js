@@ -1914,6 +1914,7 @@ class FinTech extends Game {
             .then(data => {
                 if (!data) return;
                 this.id = data.id;
+                this.statsManager.fetchStats(this.id);
                 // Game-specific logic for stats, etc. should be handled in subclasses
             })
             .catch(error => {
