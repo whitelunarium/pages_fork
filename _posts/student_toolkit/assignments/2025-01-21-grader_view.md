@@ -29,24 +29,30 @@ comments: false
 </div>
 
 <!-- Submissions Modal -->
-<div id="submissionsModal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
-  <div class="bg-gray-800 p-6 rounded-lg w-11/12 max-w-5xl max-h-[80vh] overflow-y-auto relative">
-    <button class="absolute top-3 right-4 text-white text-xl hover:text-red-400" onclick="closeSubmissionsModal()">&times;</button>
+<div id="submissionsModal" class="fixed inset-0 z-50 bg-black bg-opacity-70 hidden flex items-center justify-center">
+  <div class="relative bg-gray-800 p-6 rounded-lg w-11/12 max-w-5xl max-h-[80vh] overflow-y-auto">
+    <button class="absolute top-3 right-4 text-white text-2xl hover:text-red-400" onclick="closeSubmissionsModal()">
+      &times;
+    </button>
+
     <h2 id="assignmentNameHeader" class="text-xl font-bold text-gray-100 mb-4">Submissions</h2>
-    <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900">
+
+    <table id="submissionsTable" class="w-full border-collapse bg-gray-900 text-gray-100">
       <thead>
         <tr class="bg-gray-800">
           <th class="p-3 text-left font-semibold">Student Name</th>
           <th class="p-3 text-left font-semibold">Submission Content</th>
-          <th class="p-3 text-left font-semibold">Submission Date</th>
+          <th class="p-3 text-left font-semibold">Comments</th>
           <th class="p-3 text-left font-semibold">Current Grade</th>
           <th class="p-3 text-left font-semibold">Actions</th>
         </tr>
       </thead>
       <tbody id="submissionsList" class="bg-gray-700 divide-y divide-gray-800">
-        <!-- Populated dynamically -->
+        <!-- Filled dynamically -->
       </tbody>
     </table>
+
+    <!-- Spinner -->
     <div id="submissionsSpinner" class="flex justify-center mt-4 hidden">
       <div class="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
     </div>
@@ -106,18 +112,15 @@ comments: false
           submissionsList.innerHTML = '<tr><td colspan="5" class="p-3">No submissions found</td></tr>';
         } else {
           submissions.forEach(submission => {
-            if (!submission.students || submission.students.length === 0) {
-              submission.students = [{ name: 'Unknown Student' }];
-            }
-            const studentNames = submission.students.map(s => s.name).join(', ');
+            var name = submission.submitter.name;
             const row = document.createElement('tr');
             row.innerHTML = `
-              <td class="p-3">${studentNames}</td>
+              <td class="p-3">${name}</td>
               <td class="p-3">${submission.content || 'No content'}</td>
               <td class="p-3">${submission.comment || 'No comments'}</td>
               <td class="p-3">${submission.grade || 'Not graded'}</td>
               <td class="p-3">
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" onclick="gradeAssignment(${submission.assignment.id}, ${submission.submitter.id})">Grade</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" onclick="gradeAssignment(${submission.assignment.id}, ${submission.submitter.id}, ${submission.isGroup})">Grade</button>
               </td>
             `;
             submissionsList.appendChild(row);
@@ -134,11 +137,11 @@ comments: false
       });
   }
 
-  function closeSubmissionsModal() {
+  window.closeSubmissionsModal = function() {
     document.getElementById('submissionsModal').classList.add('hidden');
   }
 
-  window.gradeAssignment = function(assignmentId, submitterId) {
+  window.gradeAssignment = function(assignmentId, submitterId, isGroup) {
     let gradeSuggestion;
     do {
       gradeSuggestion = prompt("What grade do you want to give?");
@@ -152,7 +155,7 @@ comments: false
       ...fetchOptions,
       method: 'POST',
       body: JSON.stringify({
-        submitterId: [submitterId],
+        submitterId: submitterId,
         isGroup: isGroup,
         assignmentId: assignmentId,
         gradeSuggestion: gradeSuggestion,
