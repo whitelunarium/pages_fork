@@ -182,7 +182,8 @@ async function signUpForTopic(id) {
 
   const data = {
     assignmentId: id,
-    studentIds: [userId],
+    submitterId: userId,
+    isGroup: false,
     content: "test",
     comment: "",
     isLate: false
