@@ -32,7 +32,7 @@ permalink: /student/submissions
             </div>
             <div id="group-submit" class="hidden space-y-4 mt-6 p-4 rounded-md border border-gray-400">
                 <div class="flex justify-between items-center">
-                    <label for="group-select" class="text-sm font-medium text-gray-700">Select Group</label>
+                    <label for="group-select" class="text-sm font-medium text-white-700">Select Group</label>
                     <select id="group-select" class="w-2/3 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
                         <option value="" disabled selected>Select a Group</option>
                     </select>
