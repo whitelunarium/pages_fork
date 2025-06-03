@@ -1,6 +1,6 @@
 ---
 title: Analytics Help
-permalink: /analytics/help
+permalink: /dashboard/help/analytics
 ---
 
 # Analytics Help
