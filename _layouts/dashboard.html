@@ -280,6 +280,26 @@ active_tab: Dashboard
         const gradeContent = document.getElementById('grade-analytics-container');
         let loaded = false;
 
+        // Feedback and badge color logic
+        function getGradeFeedback(percent) {
+            let badgeColor = 'bg-danger';
+            let feedback = 'Immediate intervention is required to pass this course.';
+            if (percent >= 90) {
+                badgeColor = 'bg-success';
+                feedback = 'Excellent work! Keep up the great performance.';
+            } else if (percent >= 80) {
+                badgeColor = 'bg-info';
+                feedback = 'Good work! Continue focusing on improvement.';
+            } else if (percent >= 70) {
+                badgeColor = 'bg-warning text-dark';
+                feedback = 'Satisfactory work. Consider seeking additional support.';
+            } else if (percent >= 60) {
+                badgeColor = 'bg-danger';
+                feedback = 'You need to significantly improve to pass this course.';
+            }
+            return { badgeColor, feedback };
+        }
+
         function renderGradeData(data) {
             if (!data || Object.keys(data).length === 0) {
                 return `<p class="text-neutral-400">No grade analytics available for your account.</p>`;
@@ -287,18 +307,151 @@ active_tab: Dashboard
             if (Array.isArray(data)) {
                 data = data[0] || {};
             }
-            let html = '<table class="min-w-full text-neutral-200 bg-neutral-800 rounded mb-4">';
-            html += '<tbody>';
-            for (const [key, value] of Object.entries(data)) {
-                if (key === 'predicted_percent' || key === 'predicted_grade') continue;
-                html += `<tr><td class="px-2 py-1 font-medium">${key}</td><td class="px-2 py-1">${value}</td></tr>`;
+
+            // Feature order (match profile)
+            const features = [
+                "Attendance", "Work Habits", "Behavior", "Timeliness", "Tech Sense",
+                "Tech Talk", "Tech Growth", "Advocacy", "Communication and Collaboration",
+                "Integrity", "Organization"
+            ];
+
+            // Calculate percent and letter grade
+            let totalScore = 0;
+            let maxScore = features.length * 5;
+            features.forEach(skill => {
+                totalScore += Number(data[skill]) || 0;
+            });
+            const avgRatingValue = (totalScore / features.length).toFixed(1);
+            const percent = Math.round((totalScore / maxScore) * 100);
+            let grade = data.grade || data.predicted_grade || '-';
+            if (grade === '-' && typeof percent === 'number') {
+                if (percent >= 90) grade = 'A';
+                else if (percent >= 80) grade = 'B';
+                else if (percent >= 70) grade = 'C';
+                else if (percent >= 60) grade = 'D';
+                else grade = 'F';
             }
-            html += '</tbody></table>';
-            if ('predicted_percent' in data && 'predicted_grade' in data) {
-                html += `<div class="mb-2">Predicted Percent: <span class="font-bold">${data.predicted_percent}</span></div>`;
-                html += `<div>Predicted Grade: <span class="font-bold">${data.predicted_grade}</span></div>`;
-            }
-            return html;
+            const { badgeColor, feedback } = getGradeFeedback(percent);
+
+            // Table rows
+            let tableRows = '';
+            features.forEach(skill => {
+                const rating = Number(data[skill]) || 0;
+                const ratio = (rating / 5).toFixed(1);
+                tableRows += `
+                  <tr>
+                    <td style="text-align:left;padding:0.5em 1em;">${skill}</td>
+                    <td style="text-align:center;padding:0.5em 1em;">${rating}</td>
+                    <td style="text-align:center;padding:0.5em 1em;">${ratio}</td>
+                  </tr>
+                `;
+            });
+            // Add average row
+            tableRows += `
+              <tr class="fw-bold table-active">
+                <td style="color:#ffc107;text-align:left;padding:0.5em 1em;">Average</td>
+                <td style="color:#ffc107;text-align:center;padding:0.5em 1em;">${avgRatingValue}</td>
+                <td style="color:#ffc107;text-align:center;padding:0.5em 1em;">${(avgRatingValue / 5).toFixed(1)}</td>
+              </tr>
+            `;
+
+            // Card style (match screenshot)
+            return `
+            <div id="profile-results-card" style="
+                background:#181b23;
+                color:#fff;
+                border-radius:2rem;
+                border:1px solid #23232a;
+                box-shadow:0 8px 32px 0 #0005;
+                margin:2rem auto 0 auto;
+                max-width:1200px;
+                padding:0;
+                ">
+              <div style="display:flex;flex-wrap:wrap;">
+                <!-- Left: Grade only -->
+                <div style="
+                    flex:1 1 320px;
+                    min-width:320px;
+                    max-width:400px;
+                    padding:3rem 1.5rem 3rem 2.5rem;
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:center;
+                    border-right:1.5px solid #23232a;
+                    ">
+                  <div style="font-size:1.5rem;font-weight:600;margin-bottom:2.2rem;text-align:left;width:100%;">Predicted Grade</div>
+                  <div style="margin-bottom:1.5rem;width:100%;">
+                    <span style="font-size:1.1rem;">Letter Grade:</span>
+                    <div style="display:inline-block;vertical-align:middle;margin-left:1.2rem;">
+                      <span style="
+                        display:inline-block;
+                        background:#06b6d4;
+                        color:#fff;
+                        font-size:3rem;
+                        font-weight:700;
+                        border-radius:0.3em;
+                        padding:0.2em 1.2em 0.2em 1.2em;
+                        box-shadow:0 2px 8px #06b6d455;
+                        letter-spacing:2px;
+                        ">${grade}</span>
+                    </div>
+                  </div>
+                  <div style="margin-top:2.5rem;font-size:1.1rem;color:#fff;text-align:center;min-height:2.5em;width:100%;">
+                    ${feedback}
+                  </div>
+                </div>
+                <!-- Right: Skills Table -->
+                <div style="
+                    flex:2 1 500px;
+                    min-width:340px;
+                    padding:3rem 2.5rem 3rem 2.5rem;
+                    ">
+                  <div style="font-size:1.5rem;font-weight:600;margin-bottom:1.2rem;">Skills Summary</div>
+                  <div style="color:#ffc107;font-size:1.15rem;font-weight:600;margin-bottom:1.2rem;">
+                    Overall Rating: <span style="color:#fff;">${avgRatingValue}</span> out of 5.0
+                  </div>
+                  <div style="overflow-x:auto;">
+                    <table style="
+                        width:100%;
+                        border-collapse:separate;
+                        border-spacing:0;
+                        background:transparent;
+                        font-size:1.1rem;
+                        ">
+                      <thead>
+                        <tr style="background:transparent;">
+                          <th style="text-align:left;padding:0.5em 1em;font-weight:700;">Skill</th>
+                          <th style="text-align:center;padding:0.5em 1em;font-weight:700;">Rating</th>
+                          <th style="text-align:center;padding:0.5em 1em;font-weight:700;">Ratio</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${tableRows}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <style>
+              #profile-results-card {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                margin-bottom: 2.5rem;
+              }
+              #profile-results-card th, #profile-results-card td {
+                border: none;
+                background: transparent;
+              }
+              #profile-results-card tr.table-active {
+                background: #23232a !important;
+              }
+              @media (max-width: 900px) {
+                #profile-results-card > div { flex-direction:column !important; }
+                #profile-results-card > div > div { max-width:100% !important; padding:2rem 1rem !important; border-right:none !important;}
+              }
+            </style>
+            `;
         }
 
         async function fetchGradeAnalytics() {
