@@ -232,7 +232,6 @@ active_tab: Dashboard
             document.getElementById("username").textContent = `Username: ${username}`;
             document.getElementById("profile-url").innerHTML = `Profile URL: <a href="${profileUrl}" target="_blank" class="text-blue-400 hover:underline">${profileUrl}</a>`;
             document.getElementById("repos-url").innerHTML = `Repos URL: <a href="${reposUrl}" target="_blank" class="text-blue-400 hover:underline">${reposUrl}</a>`;
-            // Removed public repos link but kept number
             document.getElementById("public-repos").textContent = `Public Repos: ${userProfile.public_repos || 0}`;
             document.getElementById("public-gists").textContent = `Public Gists: ${userProfile.public_gists || 0}`;
             document.getElementById("followers").textContent = `Followers: ${userProfile.followers || 0}`;
@@ -273,7 +272,6 @@ active_tab: Dashboard
                 commitCardsContainer.appendChild(card);
             });
 
-            // Grade prediction buttons and output are moved to new tab, so disable them here
             const predictGradeBtn = document.getElementById("predictGradeBtn");
             const smartPredictBtn = document.getElementById("smartPredictBtn");
             const userGradeEl = document.getElementById("userGrade");
@@ -349,6 +347,8 @@ active_tab: Dashboard
             return '55% (F)';
         }
     }
+    
+    //Admin Feature commit cards rendering
     function renderCommitCards(commits, uid, container) {
         commits.slice(0, 15).forEach(commit => {
             const card = document.createElement("div");
