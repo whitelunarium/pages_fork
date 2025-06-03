@@ -31,6 +31,11 @@ active_tab: Dashboard
                             class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Bathroom
                             Analytics</a>
                     </li>
+                    <li class="me-2">
+                        <a href="#" id="tab-grade"
+                            class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Grade
+                            Analytics</a>
+                    </li>
                     <!-- <li>
                         <a class="inline-block p-4 rounded-t-lg cursor-not-allowed text-neutral-500">Disabled</a>
                     </li> -->
@@ -225,6 +230,12 @@ active_tab: Dashboard
                         <p>Wow, it's so empty here. Maybe something will come up soon...?</p>
                     </div>
                 </div>
+                <!-- Grade analytics tab content -->
+                <div id="tab-content-grade" class="tab-content hidden">
+                    <div class="items-center justify-center text-neutral-300" id="grade-analytics-container">
+                        <p>Loading grade analytics...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -250,7 +261,7 @@ active_tab: Dashboard
 
     // call the function with your tab ids and initial tab
     document.addEventListener('DOMContentLoaded', function () {
-        setupTabSwitcher(['github', 'bathroom'], 'github');
+        setupTabSwitcher(['github', 'bathroom', 'grade'], 'github');
     });
 </script>
 
@@ -258,6 +269,64 @@ active_tab: Dashboard
     document.addEventListener('DOMContentLoaded', function () {
         const activeTab = document.body.dataset.activeTab;
         setActiveTab(activeTab);
+    });
+</script>
+
+<script type="module">
+    import { pythonURI } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const gradeTab = document.getElementById('tab-grade');
+        const gradeContent = document.getElementById('grade-analytics-container');
+        let loaded = false;
+
+        function renderGradeData(data) {
+            if (!data || Object.keys(data).length === 0) {
+                return `<p class="text-neutral-400">No grade analytics available for your account.</p>`;
+            }
+            if (Array.isArray(data)) {
+                data = data[0] || {};
+            }
+            let html = '<table class="min-w-full text-neutral-200 bg-neutral-800 rounded mb-4">';
+            html += '<tbody>';
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'predicted_percent' || key === 'predicted_grade') continue;
+                html += `<tr><td class="px-2 py-1 font-medium">${key}</td><td class="px-2 py-1">${value}</td></tr>`;
+            }
+            html += '</tbody></table>';
+            if ('predicted_percent' in data && 'predicted_grade' in data) {
+                html += `<div class="mb-2">Predicted Percent: <span class="font-bold">${data.predicted_percent}</span></div>`;
+                html += `<div>Predicted Grade: <span class="font-bold">${data.predicted_grade}</span></div>`;
+            }
+            return html;
+        }
+
+        async function fetchGradeAnalytics() {
+            try {
+                const response = await fetch(`${pythonURI}/api/grade/predict`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    gradeContent.innerHTML = `<p class="text-red-400">Failed to load grade analytics.</p>`;
+                    return;
+                }
+                const data = await response.json();
+                gradeContent.innerHTML = renderGradeData(data);
+            } catch (err) {
+                gradeContent.innerHTML = `<p class="text-red-400">Error loading grade analytics.</p>`;
+            }
+        }
+
+        gradeTab.addEventListener('click', function () {
+            if (!loaded) {
+                fetchGradeAnalytics();
+                loaded = true;
+            }
+        });
     });
 </script>
 
