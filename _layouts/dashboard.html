@@ -128,25 +128,51 @@ active_tab: Dashboard
             <div id="tab-content-grade" class="tab-content hidden px-6 py-4 text-neutral-200">
                 <h2 class="text-xl font-semibold mb-4">Grade Predictor</h2>
                 <p class="mb-4 text-neutral-400 max-w-prose">
-                    This Grade Predictor estimates your grade based on your GitHub activity.
-                    <br /><br />
-                    <strong>Grading Criteria:</strong>
-                    <ul class="list-disc list-inside">
-                        <li><strong>Basic Grade:</strong> Based solely on the number of commits.</li>
-                        <li><strong>Smart Grade:</strong> Considers commits, lines added/deleted, pull requests, issues, repositories, followers, and more for a holistic score.</li>
-                    </ul>
-                    Grades are approximations and meant for fun analytics.
+                    This tool estimates your GitHub-based grade using two methods:
                 </p>
+
+                <ul class="list-disc list-inside text-neutral-300 mb-4">
+                    <li><strong>Basic Grade:</strong> Based on total commits.</li>
+                    <li><strong>Smart Grade:</strong> Includes commits, code changes, PRs, issues, followers, and more.</li>
+                </ul>
+
+                <div class="overflow-x-auto mb-4">
+                    <table class="w-full text-sm text-left text-neutral-300 border border-neutral-700">
+                        <thead class="bg-neutral-800 text-neutral-400">
+                            <tr>
+                                <th class="px-4 py-2">Metric</th>
+                                <th class="px-4 py-2">Included In</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-neutral-900">
+                            <tr class="border-t border-neutral-700"><td class="px-4 py-2">Commits</td><td class="px-4 py-2">Basic & Smart</td></tr>
+                            <tr class="border-t border-neutral-700"><td class="px-4 py-2">Lines Changed</td><td class="px-4 py-2">Smart</td></tr>
+                            <tr class="border-t border-neutral-700"><td class="px-4 py-2">Pull Requests</td><td class="px-4 py-2">Smart</td></tr>
+                            <tr class="border-t border-neutral-700"><td class="px-4 py-2">Issues</td><td class="px-4 py-2">Smart</td></tr>
+                            <tr class="border-t border-neutral-700"><td class="px-4 py-2">Repos / Gists</td><td class="px-4 py-2">Smart</td></tr>
+                            <tr class="border-t border-neutral-700"><td class="px-4 py-2">Followers / Following</td><td class="px-4 py-2">Smart</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-sm text-neutral-400 mb-4">
+                    <strong>Grade Scale:</strong> A (90%), B (80%), C (70%), F (55%) — based on engagement.
+                </div>
+
                 <div class="flex gap-4 mb-4">
                     <button id="predictGradeBtn"
-                        class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition text-white font-semibold">Predict
-                        Grade (Commits)</button>
+                        class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition text-white font-semibold">
+                        Predict Grade (Commits)
+                    </button>
                     <button id="smartPredictBtn"
-                        class="px-4 py-2 rounded bg-green-600 hover:bg-green-700 transition text-white font-semibold">Smart
-                        Predict Grade</button>
+                        class="px-4 py-2 rounded bg-green-600 hover:bg-green-700 transition text-white font-semibold">
+                        Smart Predict Grade
+                    </button>
                 </div>
                 <p id="userGrade" class="text-xl font-semibold"></p>
             </div>
+
+            <!-- admin search tab content -->
             <div id="tab-content-admin-search" class="tab-content hidden px-6 py-4 text-neutral-200">
                 <h2 class="text-xl font-semibold mb-4">Admin: Search User Commits</h2>
 
@@ -347,7 +373,7 @@ active_tab: Dashboard
             return '55% (F)';
         }
     }
-    
+
     //Admin Feature commit cards rendering
     function renderCommitCards(commits, uid, container) {
         commits.slice(0, 15).forEach(commit => {
