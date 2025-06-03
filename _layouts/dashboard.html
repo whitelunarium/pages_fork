@@ -217,11 +217,19 @@ active_tab: Dashboard
 
                 card.innerHTML = `
                     <h4 class="text-sm font-medium mb-1">${commit.repository || "Unknown Repo"}</h4>
-                    <p class="text-xs mb-1"><strong>Message:</strong> ${commit.message || "No message"}</p>
-                    <p class="text-xs mb-1"><strong>Author:</strong> ${commit.author_name || "Unknown"}</p>
+                    <p class="text-xs mb-1">
+                        <strong>Message:</strong>
+                        <a href="${commit.url}" target="_blank" class="text-blue-400 hover:underline">
+                            ${commit.message || "No message"}
+                        </a>
+                    </p>
                     <p class="text-xs mb-1"><strong>Date:</strong> ${new Date(commit.date).toLocaleString() || "Unknown"}</p>
-                    <p class="text-xs mb-1"><strong>Additions:</strong> ${commit.additions || 0}</p>
-                    <p class="text-xs mb-1"><strong>Deletions:</strong> ${commit.deletions || 0}</p>
+                    <p class="text-xs mb-1">
+                        <span class="text-green-400">+${commit.additions || 0}</span>
+                        /
+                        <span class="text-red-400">-${commit.deletions || 0}</span>
+                    </p>
+
                 `;
                 commitCardsContainer.appendChild(card);
             });
