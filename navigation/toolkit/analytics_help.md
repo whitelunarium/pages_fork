@@ -8,7 +8,9 @@ permalink: /analytics/help
 ## Overview
 
 - The Nighthawk Coders' portfolio dashboard visualizes your GitHub activity and predicts grades based on real contributions.
+
 - Designed for both students and admins to track, review, and improve coding engagement.
+
 - Focuses on clarity, interactivity, and actionable insights.
 
 ---
@@ -19,11 +21,14 @@ permalink: /analytics/help
   - **GitHub Analytics:** View your profile, commits, PRs, issues, and code changes.
   - **Grade Predictor:** Estimate your grade using real GitHub data.
   - **Admin Search:** Admins can look up and compare any user's contributions.
+
 - **Interactive Commit Cards:**  
   - Each card links directly to the commit on GitHub.
   - Shows message, date, additions, deletions, and repository.
+
 - **Modal Popups:**  
   - Click info icons to view raw JSON analytics for commits, PRs, and issues.
+
 - **Admin Tools:**  
   - Search by UID to get a user summary and recent commit cards.
 
@@ -32,11 +37,14 @@ permalink: /analytics/help
 ## API Overview
 
 - **Blueprint:** `/api/analytics`
+
 - **Security:**  
   - All endpoints require JWT authentication (`@token_required`).
   - Admin endpoints require admin role.
+
 - **Date Ranges:**  
   - Optional; defaults to trimester logic (June–Nov, Nov–Mar, Apr–June).
+
 - **Error Handling:**  
   - Clear error messages for invalid UIDs, API issues, or permission errors.
 
@@ -52,9 +60,11 @@ permalink: /analytics/help
   - `GET /github/user/issues` — List your created issues.
   - `GET /github/user/issue_comments` — Your comments on issues.
   - `GET /github/user/received_issue_comments` — Comments received on your issues.
+
 - **Admin Endpoints:**
   - `GET /commits/<uid>` — View another user's commit data (admin only).
   - `GET /issues/<uid>` — View another user's issue data (admin only).
+
 - **Organization Endpoints:**
   - `GET /github/org/<org_name>/users` — List users in a GitHub organization.
   - `GET /github/org/<org_name>/repos` — List repositories in a GitHub organization.
@@ -66,11 +76,14 @@ permalink: /analytics/help
 - **Authentication:**  
   - All endpoints require a valid JWT token.
   - Admin endpoints check for admin role.
+
 - **Date Handling:**  
   - If no date range is provided, the API uses trimester logic to select a relevant period.
+
 - **GitHub Data Collection:**  
   - Uses both REST and GraphQL APIs for detailed commit, PR, and issue data.
   - Tracks additions, deletions, comments, and more.
+
 - **Error Handling:**  
   - Returns clear error messages for invalid requests or API failures.
 
@@ -80,6 +93,7 @@ permalink: /analytics/help
 
 - **Purpose:**  
   - Handles all GitHub data retrieval for a user.
+
 - **Key Methods:**
   - `get(uid)` — Fetches user profile.
   - `get_profile_links(uid)` — Returns profile and repo URLs.
@@ -98,6 +112,7 @@ permalink: /analytics/help
   - Number of PRs and issues
   - Public repos and gists
   - Followers and following
+
 - **Weighted Formula:**
   ```js
   score += commits * 2
@@ -108,6 +123,7 @@ permalink: /analytics/help
   score += repos * 1.2
   score += gists * 0.5
   ```
+
 - **Grade Mapping:**
   - 90% (A): score > 70
   - 80% (B): score > 50
@@ -119,9 +135,11 @@ permalink: /analytics/help
 ## Visuals
 
 - **User Story Flowchart:**  
-  ![User Story Flowchart](https://github.com/user-attachments/assets/2d239164-71ef-4693-9899-2cfe41ab38f6)
+  ![User Story Flowchart](https://github.com/user-attachments/assets/d3d4de2f-122f-41e8-b75a-341206f69914)
+
 - **API Diagram:**  
   ![API Diagram](https://github.com/user-attachments/assets/f44da398-cb3d-43ef-b79b-9c6fdd6c30cd)
+
 
 ---
 
