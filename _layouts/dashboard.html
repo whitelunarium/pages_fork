@@ -23,6 +23,15 @@ active_tab: Dashboard
                         class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Bathroom
                         Analytics</a>
                 </li>
+                <li class="me-2">
+                    <a href="#" id="tab-grade"
+                        class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Grade
+                        Predictor</a>
+                </li>
+                <li class="me-2">
+                    <a href="#" id="tab-admin"
+                        class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Admin Search</a>
+                </li>
             </ul>
             <!-- sliding underline indicator -->
             <div id="tab-underline"
@@ -36,7 +45,7 @@ active_tab: Dashboard
             <div id="tab-content-github" class="tab-content block">
                 <!-- Grid -->
                 <div
-                    class="grid sm:grid-cols-2 lg:grid-cols-4 sm:grid-rows-4 lg:grid-rows-2  gap-4 sm:gap-6 text-neutral-200">
+                    class="grid sm:grid-cols-2 lg:grid-cols-4 sm:grid-rows-4 lg:grid-rows-2 gap-4 sm:gap-6 text-neutral-200">
                     <!-- Avatar Card -->
                     <div
                         class="row-span-2 col-start-1 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700">
@@ -48,7 +57,7 @@ active_tab: Dashboard
                     <!-- Profile Info Card -->
                     <div
                         class="row-span-2 col-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700 p-5">
-                        <p class="text-xs uppercase text-neutral-500 mb-2">GitHub Info</p>
+                        <p class="text-xs uppercase text-neutral-500 mb-2">GitHub Info (Trimester)</p>
                         <h3 id="username" class="text-2xl font-medium mb-2">Loading...</h3>
                         <p id="profile-url" class="text-sm mb-1">Profile URL: Loading...</p>
                         <p id="repos-url" class="text-sm mb-1">Repos URL: Loading...</p>
@@ -56,7 +65,6 @@ active_tab: Dashboard
                         <p id="public-gists" class="text-sm mb-1">Public Gists: Loading...</p>
                         <p id="followers" class="text-sm mb-1">Followers: Loading...</p>
                         <p id="following" class="text-sm mb-1">Following: Loading...</p>
-                        <p id="line-change" class="text-sm mt-2">Loading line changes...</p>
                     </div>
 
                     <!-- Commits Card -->
@@ -95,28 +103,16 @@ active_tab: Dashboard
                         <h3 id="prs-count" class="text-2xl font-medium">Loading...</h3>
                     </div>
 
-                    <!-- Public Repos Card -->
+                    <!-- Lines Changed Card (replaces Public Repos card) -->
                     <div
                         class="col-start-4 row-start-2 flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700 p-5">
-                        <p class="text-xs uppercase text-neutral-500 mb-2">Public Repos</p>
-                        <h3 id="public-repos" class="text-2xl font-medium">Loading...</h3>
+                        <p class="text-xs uppercase text-neutral-500 mb-2">Lines Changed</p>
+                        <h3 id="lines-changed" class="text-2xl font-medium">Loading...</h3>
                     </div>
                 </div>
 
                 <!-- Commit Cards Container -->
                 <div id="commitCardsContainer" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-
-                <!-- Grade Prediction Buttons -->
-                <div class="mt-6 flex gap-4">
-                    <button id="predictGradeBtn"
-                        class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition text-white font-semibold">Predict
-                        Grade (Commits)</button>
-                    <button id="smartPredictBtn"
-                        class="px-4 py-2 rounded bg-green-600 hover:bg-green-700 transition text-white font-semibold">Smart
-                        Predict Grade</button>
-                </div>
-                <p id="userGrade" class="mt-4 text-xl font-semibold text-neutral-300"></p>
-
             </div>
 
             <!-- bathroom analytics tab content -->
@@ -127,19 +123,59 @@ active_tab: Dashboard
                     <p>Wow, it's so empty here. Maybe something will come up soon...?</p>
                 </div>
             </div>
+
+            <!-- grade predictor tab content -->
+            <div id="tab-content-grade" class="tab-content hidden px-6 py-4 text-neutral-200">
+                <h2 class="text-xl font-semibold mb-4">Grade Predictor</h2>
+                <p class="mb-4 text-neutral-400 max-w-prose">
+                    This Grade Predictor estimates your grade based on your GitHub activity.
+                    <br /><br />
+                    <strong>Grading Criteria:</strong>
+                    <ul class="list-disc list-inside">
+                        <li><strong>Basic Grade:</strong> Based solely on the number of commits.</li>
+                        <li><strong>Smart Grade:</strong> Considers commits, lines added/deleted, pull requests, issues, repositories, followers, and more for a holistic score.</li>
+                    </ul>
+                    Grades are approximations and meant for fun analytics.
+                </p>
+                <div class="flex gap-4 mb-4">
+                    <button id="predictGradeBtn"
+                        class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 transition text-white font-semibold">Predict
+                        Grade (Commits)</button>
+                    <button id="smartPredictBtn"
+                        class="px-4 py-2 rounded bg-green-600 hover:bg-green-700 transition text-white font-semibold">Smart
+                        Predict Grade</button>
+                </div>
+                <p id="userGrade" class="text-xl font-semibold"></p>
+            </div>
+            <div id="tab-content-admin-search" class="tab-content hidden px-6 py-4 text-neutral-200">
+                <h2 class="text-xl font-semibold mb-4">Admin: Search User Commits</h2>
+
+                <div class="mb-4 max-w-md">
+                    <label for="uid-input" class="block mb-2 font-medium text-neutral-300">Enter User ID (UID):</label>
+                    <input type="text" id="uid-input" class="w-full rounded px-3 py-2 bg-neutral-700 text-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. github username or UID" />
+                    <p id="uid-error" class="mt-1 text-red-500 text-sm min-h-[1.25rem]"></p>
+                </div>
+
+                <button id="uid-search-btn" class="mb-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold transition">
+                    Search Commits
+                </button>
+
+                <div id="admin-summary-container" class="mb-6"></div>
+                <div id="admin-commitCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
         </div>
     </div>
 </div>
 
-    <!-- Modal for info details -->
-    <div id="dataModal" class="hidden" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="modal-content">
-            <span class="close" title="Close modal">&times;</span>
-            <pre id="modalData"></pre>
-        </div>
+<!-- Modal for info details -->
+<div id="dataModal" class="hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content">
+        <span class="close" title="Close modal">&times;</span>
+        <pre id="modalData"></pre>
     </div>
+</div>
 
-    <!-- FontAwesome for icons -->
+<!-- FontAwesome for icons -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <!-- Required plugins -->
@@ -196,11 +232,14 @@ active_tab: Dashboard
             document.getElementById("username").textContent = `Username: ${username}`;
             document.getElementById("profile-url").innerHTML = `Profile URL: <a href="${profileUrl}" target="_blank" class="text-blue-400 hover:underline">${profileUrl}</a>`;
             document.getElementById("repos-url").innerHTML = `Repos URL: <a href="${reposUrl}" target="_blank" class="text-blue-400 hover:underline">${reposUrl}</a>`;
+            // Removed public repos link but kept number
             document.getElementById("public-repos").textContent = `Public Repos: ${userProfile.public_repos || 0}`;
             document.getElementById("public-gists").textContent = `Public Gists: ${userProfile.public_gists || 0}`;
             document.getElementById("followers").textContent = `Followers: ${userProfile.followers || 0}`;
             document.getElementById("following").textContent = `Following: ${userProfile.following || 0}`;
-            document.getElementById("line-change").textContent = `Lines Changed: +${totalAdditions} / -${totalDeletions}`;
+
+            // Show lines changed in the new separate card
+            document.getElementById("lines-changed").textContent = `+${totalAdditions} / -${totalDeletions}`;
 
             document.getElementById("commits-count").textContent = commitsCount;
             document.getElementById("issues-count").textContent = issuesArray.length;
@@ -210,7 +249,8 @@ active_tab: Dashboard
             const commitCardsContainer = document.getElementById("commitCardsContainer");
             commitCardsContainer.innerHTML = "";
 
-            commitsArray.forEach((commit) => {
+            // Only show the 15 most recent commits
+            commitsArray.slice(0, 15).forEach((commit) => {
                 const card = document.createElement("div");
                 card.className =
                     "flex flex-col border shadow-2xs rounded-xl bg-neutral-800 border-neutral-700 p-4";
@@ -229,23 +269,33 @@ active_tab: Dashboard
                         /
                         <span class="text-red-400">-${commit.deletions || 0}</span>
                     </p>
-
                 `;
                 commitCardsContainer.appendChild(card);
             });
 
-            // Grade prediction logic
+            // Grade prediction buttons and output are moved to new tab, so disable them here
             const predictGradeBtn = document.getElementById("predictGradeBtn");
             const smartPredictBtn = document.getElementById("smartPredictBtn");
             const userGradeEl = document.getElementById("userGrade");
 
             predictGradeBtn.onclick = () => {
-                const grade = predictGrade(commitsCount);
+                const grade = calculateGradeFromCommits(commitsCount);
                 userGradeEl.textContent = `Grade based on commits: ${grade}`;
             };
 
             smartPredictBtn.onclick = () => {
-                const grade = smartPredictGrade(commitsCount, prsArray.length, issuesArray.length);
+                const smartData = {
+                    total_commit_contributions: commitsCount,
+                    total_lines_added: commitsData.total_lines_added || 0,
+                    total_lines_deleted: commitsData.total_lines_deleted || 0,
+                    prs: prsArray.length,
+                    issues: issuesArray.length,
+                    public_repos: userProfile.public_repos || 0,
+                    public_gists: userProfile.public_gists || 0,
+                    followers: userProfile.followers || 0,
+                    following: userProfile.following || 0,
+                };
+                const grade = calculateSmartGrade(smartData);
                 userGradeEl.textContent = `Smart Grade: ${grade}`;
             };
 
@@ -260,66 +310,149 @@ active_tab: Dashboard
         }
     }
 
-    function predictGrade(commits) {
-        if (commits >= 1000) return "A+";
-        if (commits >= 800) return "A";
-        if (commits >= 600) return "A-";
-        if (commits >= 400) return "B+";
-        if (commits >= 200) return "B";
-        if (commits >= 100) return "B-";
-        if (commits >= 50) return "C";
-        return "F";
+    function calculateGradeFromCommits(commitCount) {
+        if (commitCount > 20) return "90 % (A)";
+        if (commitCount >= 10) return "85 % (B)";
+        if (commitCount >= 5) return "75 % (C)";
+        return "55 % (F)";
     }
 
-    function smartPredictGrade(commits, prs, issues) {
-        const score = commits * 0.6 + prs * 0.3 + issues * 0.1;
-        if (score >= 1000) return "A+";
-        if (score >= 800) return "A";
-        if (score >= 600) return "A-";
-        if (score >= 400) return "B+";
-        if (score >= 200) return "B";
-        if (score >= 100) return "B-";
-        if (score >= 50) return "C";
-        return "F";
-    }
+    function calculateSmartGrade(data) {
+        const commits = data.total_commit_contributions || 0;
+        const additions = data.total_lines_added || 0;
+        const deletions = data.total_lines_deleted || 0;
+        const prs = data.prs || 0;
+        const issues = data.issues || 0;
+        const repos = data.public_repos || 0;
+        const gists = data.public_gists || 0;
+        const followers = data.followers || 0;
+        const following = data.following || 0;
 
-    // Setup modal functionality for info links
+        let score = 0;
+        score += commits * 2;
+        score += additions * 0.15;
+        score += deletions * 0.1;
+        score += prs * 3;
+        score += issues * 1.5;
+        score += repos * 1.2;
+        score += gists * 0.5;
+        score += followers * 0.3;
+        score += following * 0.1;
+
+        if (score > 70) {
+            return '90% (A)';
+        } else if (score > 50) {
+            return '80% (B)';
+        } else if (score > 30) {
+            return '70% (C)';
+        } else {
+            return '55% (F)';
+        }
+    }
+        document.getElementById("uid-search-btn").addEventListener("click", async () => {
+        const uid = document.getElementById("uid-input").value.trim();
+        const errorEl = document.getElementById("uid-error");
+        const summaryContainer = document.getElementById("admin-summary-container");
+        const commitContainer = document.getElementById("admin-commitCardsContainer");
+
+        errorEl.textContent = "";
+        summaryContainer.innerHTML = "";
+        commitContainer.innerHTML = "";
+
+        if (!uid) {
+        errorEl.textContent = "Please enter a UID.";
+        return;
+        }
+
+        try {
+        const response = await fetch(`${pythonURI}/api/analytics/commits/${encodeURIComponent(uid)}`, fetchOptions);
+
+        if (!response.ok) {
+            const err = await response.json();
+            errorEl.textContent = err.message || "Failed to fetch user commit data.";
+            return;
+        }
+
+        const data = await response.json();
+
+        const commitData = data.commits?.details_of_commits || data.details_of_commits || [];
+        const commitCount = data.commits?.total_commit_contributions || data.total_commit_contributions || 0;
+        const totalAdditions = data.commits?.total_lines_added || data.total_lines_added || 0;
+        const totalDeletions = data.commits?.total_lines_deleted || data.total_lines_deleted || 0;
+
+        const summaryCard = document.createElement("div");
+        summaryCard.className = "summary-card bg-slate-800 text-white p-5 rounded-lg shadow max-w-xs text-center mx-auto";
+
+        summaryCard.innerHTML = `
+            <img src="https://github.com/identicons/${uid}.png" alt="Avatar" class="mx-auto rounded-full w-20 h-20 mb-3">
+            <p><strong>UID:</strong> ${uid}</p>
+            <p><strong>Total Commits:</strong> ${commitCount}</p>
+            <p><strong>Total Additions:</strong> +${totalAdditions}</p>
+            <p><strong>Total Deletions:</strong> -${totalDeletions}</p>
+        `;
+
+        summaryContainer.appendChild(summaryCard);
+
+        renderCommitCards(commitData, uid, commitContainer);
+
+        } catch (e) {
+        errorEl.textContent = "Unexpected error.";
+        console.error(e);
+        }
+    });
+
+    // Tab button event binding - adapt this snippet to your existing tab system
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+        // Hide all tab content divs
+        document.querySelectorAll(".tab-content").forEach(tc => tc.classList.add("hidden"));
+        // Remove active styling from all buttons
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("text-white"));
+        // Show selected tab content
+        const tab = btn.getAttribute("data-tab");
+        document.getElementById(`tab-content-${tab}`).classList.remove("hidden");
+        btn.classList.add("text-white");
+        });
+    });
+
+
+    // Modal code
+    const dataModal = document.getElementById("dataModal");
+    const modalData = document.getElementById("modalData");
+    const closeModal = dataModal.querySelector(".close");
+
     function setupInfoModal(elementId, data) {
-        const link = document.getElementById(elementId);
-        const modal = document.getElementById("dataModal");
-        const modalData = document.getElementById("modalData");
-        const closeBtn = modal.querySelector(".close");
-
-        link.addEventListener("click", (e) => {
+        const el = document.getElementById(elementId);
+        el.addEventListener("click", (e) => {
             e.preventDefault();
             modalData.textContent = JSON.stringify(data, null, 2);
-            modal.classList.remove("hidden");
-            modal.setAttribute("aria-hidden", "false");
+            dataModal.classList.remove("hidden");
+            dataModal.setAttribute("aria-hidden", "false");
         });
-
-        closeBtn.onclick = () => {
-            modal.classList.add("hidden");
-            modal.setAttribute("aria-hidden", "true");
-        };
-
-        window.onclick = (event) => {
-            if (event.target === modal) {
-                modal.classList.add("hidden");
-                modal.setAttribute("aria-hidden", "true");
-            }
-        };
     }
 
-    // Tab switching logic
+    closeModal.onclick = () => {
+        dataModal.classList.add("hidden");
+        dataModal.setAttribute("aria-hidden", "true");
+    };
+
+    window.onclick = (event) => {
+        if (event.target === dataModal) {
+            dataModal.classList.add("hidden");
+            dataModal.setAttribute("aria-hidden", "true");
+        }
+    };
+
+    // Tab switcher code with underline animation
     const tabs = document.querySelectorAll(".tab-btn");
     const tabContents = document.querySelectorAll(".tab-content");
-    const tabUnderline = document.getElementById("tab-underline");
+    const underline = document.getElementById("tab-underline");
 
-    function updateUnderline(el) {
+    function setUnderline(el) {
         const rect = el.getBoundingClientRect();
-        const containerRect = el.parentElement.parentElement.getBoundingClientRect();
-        tabUnderline.style.left = `${rect.left - containerRect.left}px`;
-        tabUnderline.style.width = `${rect.width}px`;
+        const parentRect = el.parentElement.parentElement.getBoundingClientRect();
+        underline.style.width = `${rect.width}px`;
+        underline.style.left = `${rect.left - parentRect.left}px`;
     }
 
     tabs.forEach((tab) => {
@@ -328,20 +461,18 @@ active_tab: Dashboard
             tabs.forEach(t => t.classList.remove("active", "text-blue-500", "border-blue-500"));
             tabContents.forEach(c => c.classList.add("hidden"));
             tabContents.forEach(c => c.classList.remove("block"));
-
+            const targetId = `tab-content-${tab.id.replace("tab-", "")}`;
+            document.getElementById(targetId).classList.remove("hidden");
+            document.getElementById(targetId).classList.add("block");
             tab.classList.add("active", "text-blue-500", "border-blue-500");
-            const tabId = tab.id.replace("tab-", "tab-content-");
-            document.getElementById(tabId).classList.remove("hidden");
-            document.getElementById(tabId).classList.add("block");
-
-            updateUnderline(tab);
+            setUnderline(tab);
         });
     });
 
-    // On page load, set underline to the active tab
+    // Initialize underline position on load for active tab
     window.onload = () => {
-        const activeTab = document.querySelector(".tab-btn.active") || tabs[0];
-        updateUnderline(activeTab);
+        const activeTab = document.querySelector(".tab-btn.active");
+        if (activeTab) setUnderline(activeTab);
         fetchData();
     };
 </script>
