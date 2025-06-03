@@ -430,6 +430,10 @@ permalink: /exam-predictor
                     <input type="number" class="score-input" id="mcq2018" min="0" max="70" placeholder="0" oninput="calculatePrediction()">
                     <span class="max-score">/ 70</span>
                 </div>
+                <div class="input-row">
+                    <label class="input-label">Time Spent (min):</label>
+                    <input type="number" class="score-input" id="time2018" min="0" placeholder="0" oninput="calculatePrediction()">
+                </div>
             </div>
             
             <div class="practice-card">
@@ -438,6 +442,10 @@ permalink: /exam-predictor
                     <label class="input-label">Score:</label>
                     <input type="number" class="score-input" id="mcq2020" min="0" max="70" placeholder="0" oninput="calculatePrediction()">
                     <span class="max-score">/ 70</span>
+                </div>
+                <div class="input-row">
+                    <label class="input-label">Time Spent (min):</label>
+                    <input type="number" class="score-input" id="time2020" min="0" placeholder="0" oninput="calculatePrediction()">
                 </div>
             </div>
             
@@ -448,6 +456,10 @@ permalink: /exam-predictor
                     <input type="number" class="score-input" id="mcq2021" min="0" max="70" placeholder="0" oninput="calculatePrediction()">
                     <span class="max-score">/ 70</span>
                 </div>
+                <div class="input-row">
+                    <label class="input-label">Time Spent (min):</label>
+                    <input type="number" class="score-input" id="time2021" min="0" placeholder="0" oninput="calculatePrediction()">
+                </div>
             </div>
             
             <div class="practice-card">
@@ -456,6 +468,10 @@ permalink: /exam-predictor
                     <label class="input-label">Score:</label>
                     <input type="number" class="score-input" id="practicefrq" min="0" max="6" placeholder="0" oninput="calculatePrediction()">
                     <span class="max-score">/ 6</span>
+                </div>
+                <div class="input-row">
+                    <label class="input-label">Time Spent (min):</label>
+                    <input type="number" class="score-input" id="timeFRQ" min="0" placeholder="0" oninput="calculatePrediction()">
                 </div>
             </div>
         </div>
@@ -561,12 +577,30 @@ permalink: /exam-predictor
       const mcq2020 = parseInt(document.getElementById("mcq2020").value) || 0;
       const mcq2021 = parseInt(document.getElementById("mcq2021").value) || 0;
       const practiceFRQ = parseInt(document.getElementById("practicefrq").value) || 0;
-      
+
+      const time2018 = parseInt(document.getElementById("time2018").value) || 0;
+      const time2020 = parseInt(document.getElementById("time2020").value) || 0;
+      const time2021 = parseInt(document.getElementById("time2021").value) || 0;
+      const timeFRQ = parseInt(document.getElementById("timeFRQ").value) || 0;
+
+      // Adjust scores based on time spent (penalize if time exceeds 60 minutes per exam)
+      const adjustScore = (score, time) => {
+          if (time > 60) {
+              return score * (60 / time); // Scale down proportionally
+          }
+          return score;
+      };
+
+      const adjusted2018 = adjustScore(mcq2018, time2018);
+      const adjusted2020 = adjustScore(mcq2020, time2020);
+      const adjusted2021 = adjustScore(mcq2021, time2021);
+      const adjustedFRQ = adjustScore(practiceFRQ, timeFRQ);
+
       // Count how many scores have been entered
-      const mcqCount = (mcq2018 > 0 ? 1 : 0) + (mcq2020 > 0 ? 1 : 0) + (mcq2021 > 0 ? 1 : 0);
-      const frqCount = practiceFRQ > 0 ? 1 : 0;
+      const mcqCount = (adjusted2018 > 0 ? 1 : 0) + (adjusted2020 > 0 ? 1 : 0) + (adjusted2021 > 0 ? 1 : 0);
+      const frqCount = adjustedFRQ > 0 ? 1 : 0;
       const totalInputs = mcqCount + frqCount;
-      
+
       if (totalInputs === 0) {
           document.getElementById("practiceBasedScore").textContent = "-";
           document.getElementById("practiceInterpretation").textContent = "Enter your practice scores above";
@@ -577,39 +611,39 @@ permalink: /exam-predictor
           document.getElementById("overallStrength").textContent = "-";
           return;
       }
-      
+
       // Calculate average MCQ score
       let avgMCQ = 0;
       if (mcqCount > 0) {
-          avgMCQ = (mcq2018 + mcq2020 + mcq2021) / mcqCount;
+          avgMCQ = (adjusted2018 + adjusted2020 + adjusted2021) / mcqCount;
       }
-      
+
       // Convert to percentage
       const mcqPercentage = (avgMCQ / 70) * 100;
-      
+
       // Weight the prediction: MCQ (70%) + FRQ (30%)
       let compositeScore = 0;
       if (mcqCount > 0 && frqCount > 0) {
-          compositeScore = (avgMCQ * 0.7) + (practiceFRQ * 5 * 0.3);
+          compositeScore = (avgMCQ * 0.7) + (adjustedFRQ * 5 * 0.3);
       } else if (mcqCount > 0) {
           const estimatedFRQ = Math.max(0, Math.min(6, (avgMCQ / 70) * 6));
           compositeScore = (avgMCQ * 0.7) + (estimatedFRQ * 5 * 0.3);
       } else {
-          const estimatedMCQ = (practiceFRQ / 6) * 70;
-          compositeScore = (estimatedMCQ * 0.7) + (practiceFRQ * 5 * 0.3);
+          const estimatedMCQ = (adjustedFRQ / 6) * 70;
+          compositeScore = (estimatedMCQ * 0.7) + (adjustedFRQ * 5 * 0.3);
       }
-      
+
       const scaledScore = (compositeScore / 65) * 100;
-      
+
       let apScore = 1;
       if (scaledScore >= 90) apScore = 5;
       else if (scaledScore >= 81) apScore = 4;
       else if (scaledScore >= 42) apScore = 3;
       else if (scaledScore >= 30) apScore = 2;
-      
+
       let confidence = "Low";
       let strengthAssessment = "Developing";
-      
+
       if (totalInputs >= 3) {
           confidence = "High";
           if (mcqPercentage >= 85) strengthAssessment = "Excellent";
@@ -620,13 +654,13 @@ permalink: /exam-predictor
           if (mcqPercentage >= 80) strengthAssessment = "Strong";
           else if (mcqPercentage >= 65) strengthAssessment = "Good";
       }
-      
+
       document.getElementById("practiceBasedScore").textContent = apScore;
       document.getElementById("practiceInterpretation").textContent = interpretations[apScore];
       document.getElementById("confidenceLevel").textContent = `Confidence: ${confidence}`;
       document.getElementById("avgMCQ").textContent = mcqCount > 0 ? Math.round(avgMCQ) : "-";
       document.getElementById("mcqPercent").textContent = mcqCount > 0 ? Math.round(mcqPercentage) + "%" : "-";
-      document.getElementById("frqScore").textContent = frqCount > 0 ? practiceFRQ + "/6" : "-";
+      document.getElementById("frqScore").textContent = frqCount > 0 ? adjustedFRQ + "/6" : "-";
       document.getElementById("overallStrength").textContent = strengthAssessment;
   }
 
