@@ -14,3 +14,5 @@ permalink: /bitshift/
 [View Fullscreen]({{ site.baseurl }}/navigation/bitshift/Bitshift_0101-final-commit-1.html)
 
 [Download on Itch.io](https://frogpants.itch.io/bitshift-0101)
+
+[Documentation]({{ site.baseurl }}/navigation/bitshift/documentation/doc)
