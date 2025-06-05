@@ -7,262 +7,235 @@ permalink: /crypto/portfolio
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Portfolio</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        margin: 0;
-        padding: 0;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    h1 {
-        color: #333;
-        margin-top: 20px;
-        text-align: center;
-    }
+  h1 {
+    color: #333;
+    margin-top: 40px;
+    text-align: center;
+  }
 
-    .container {
-        max-width: 1000px;
-        margin: auto;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
 
-    .crypto-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        justify-content: center;
-        overflow-y: auto;
-        max-height: 400px;
-        padding: 10px;
-        background-color: #fafafa;
-        border-radius: 10px;
-        box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+  .top-controls {
+    margin-bottom: 20px;
+  }
 
-    .crypto-item {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        text-align: center;
-        width: 120px;
-        transition: transform 0.2s;
-    }
+  .btn {
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1em;
+  }
 
+  .btn-buy {
+    background-color: #4CAF50;
+  }
 
-    .crypto-item:hover {
-        transform: scale(1.05);
-        background-color: #444;
-    }
+  .btn-sell {
+    background-color: #f44336;
+  }
 
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 10;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        align-items: center;
-        justify-content: center;
-    }
+  input[type="number"],
+  input[type="text"] {
+    width: 80%;
+    padding: 8px;
+    margin: 10px auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    display: block;
+  }
 
-    .modal-content {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        width: 90%;
-        max-width: 500px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        position: relative;
-        color: #333;
-    }
+  .crypto-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
-    .chart-container {
-        height: 300px;
-        margin: 20px 0;
-    }
+  .crypto-item {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    text-align: center;
+    width: 120px;
+    transition: transform 0.2s;
+  }
 
-    .modal-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        font-size: 18px;
-        color: #333;
-    }
+  .crypto-item:hover {
+    transform: scale(1.05);
+    background-color: #444;
+  }
 
-    .btn {
-        padding: 10px 20px;
-        margin: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        color: #fff;
-        font-size: 1em;
-    }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+  }
 
-    .btn-buy {
-        background-color: #4CAF50;
-    }
-
-    .btn-sell {
-        background-color: #f44336;
-    }
-
-    .btn-close {
-        background-color: #555;
-    }
-
-    input[type="number"], input[type="text"] {
-        width: 80%;
-        padding: 8px;
-        margin: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
-    .error-message {
-        color: #f44336;
-        padding: 10px;
-        background-color: #ffebee;
-        border-radius: 5px;
-        margin: 10px 0;
-    }
-
-    .loading-message {
-        color: #2196F3;
-        padding: 10px;
-        background-color: #e3f2fd;
-        border-radius: 5px;
-        margin: 10px 0;
-    }
-    .modal-content {
+  .modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     width: 90%;
-    max-width: 420px; /* Reduce width for iframe */
-    max-height: 90vh;  /* Prevent it from overflowing vertically */
+    max-width: 420px;
+    max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     position: relative;
     color: #333;
-}
+  }
 
-/* Make the chart smaller */
-.chart-container {
-    height: 200px; /* Shrink the chart height */
+  .chart-container {
+    height: 200px;
     margin: 20px 0;
-}
+  }
 
-canvas#crypto-chart {
+  canvas#crypto-chart {
     max-height: 180px;
     width: 100%;
-}
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .error-message {
+    color: #f44336;
+    padding: 10px;
+    background-color: #ffebee;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+
+  .loading-message {
+    color: #2196F3;
+    padding: 10px;
+    background-color: #e3f2fd;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+
+  /* Hide top navigation bar elements */
+  header.site-header,
+  .navbar-top,
+  .top-nav,
+  .main-navbar,
+  .header-bar {
+    display: none !important;
+  }
 </style>
 
 <div class="container">
-    <h1>Crypto Portfolio</h1>
-    
+  <h1>Crypto Portfolio</h1>
 
-    
-    <div class="crypto-list" id="crypto-list-container">
-        <div class="loading-message">Loading cryptocurrencies...</div>
-    </div>
-    
+  <!-- 🔝 Top controls moved above crypto list -->
+  <div class="top-controls">
     <button class="btn btn-buy" onclick="openHoldingsModal()">View Current Holdings</button>
     <button class="btn btn-sell" onclick="openHistoryModal()">View Purchase History</button>
-    <button class="btn btn-buy" onclick="openCompareModal()">Compare Cryptos</button>
-        
-    <!-- Search Bar -->
-    <div style="margin-top: 20px;">
-        <input type="text" id="crypto-search" placeholder="Search Crypto..." oninput="searchCrypto()">
-        <div id="search-results"></div>
-    </div>
+    <input type="text" id="crypto-search" placeholder="Search Crypto..." oninput="searchCrypto()">
+    <div id="search-results"></div>
+  </div>
+
+  <!-- 🔽 Crypto List -->
+  <div class="crypto-list" id="crypto-list-container">
+    <div class="loading-message">Loading cryptocurrencies...</div>
+  </div>
 </div>
 
-<!-- Main Modal -->
+<!-- 🔳 MODALS (holdings, history, etc.) -->
 <div class="modal" id="crypto-modal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <h2 id="modal-crypto-name">Crypto Details</h2>
-        <p>Current Price: $<span id="modal-crypto-price"></span></p>
-        <p>Change (24h): <span id="modal-crypto-change"></span>%</p>
-        <div class="chart-container">
-            <canvas id="crypto-chart"></canvas>
-        </div>
-        <label for="buy-amount">Amount in USD to buy:</label>
-        <input type="number" id="buy-amount" placeholder="Enter amount in USD">
-        <button class="btn btn-buy" onclick="buyCrypto()">Buy</button>
-        <label for="sell-amount">Amount to sell (in crypto):</label>
-        <input type="number" id="sell-amount" placeholder="Enter amount in crypto">
-        <button class="btn btn-sell" onclick="sellCrypto()">Sell</button>
-        <button class="btn btn-close" onclick="closeModal()">Close</button>
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h2 id="modal-crypto-name">Crypto Details</h2>
+    <p>Current Price: $<span id="modal-crypto-price"></span></p>
+    <p>Change (24h): <span id="modal-crypto-change"></span>%</p>
+    <div class="chart-container">
+      <canvas id="crypto-chart"></canvas>
     </div>
+    <label for="buy-amount">Amount in USD to buy:</label>
+    <input type="number" id="buy-amount" placeholder="Enter amount in USD">
+    <button class="btn btn-buy" onclick="buyCrypto()">Buy</button>
+    <label for="sell-amount">Amount to sell (in crypto):</label>
+    <input type="number" id="sell-amount" placeholder="Enter amount in crypto">
+    <button class="btn btn-sell" onclick="sellCrypto()">Sell</button>
+    <button class="btn btn-close" onclick="closeModal()">Close</button>
+  </div>
 </div>
-<!-- 🟢 Holdings Modal -->
+
 <div class="modal" id="holdingsModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeHoldingsModal()">&times;</span>
-        <h3>Your Crypto Holdings</h3>
-        <table id="cryptoHoldingsModalTable">
-            <tr>
-                <th>Crypto</th>
-                <th>Amount</th>
-            </tr>
-        </table>
-    </div>
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeHoldingsModal()">&times;</span>
+    <h3>Your Crypto Holdings</h3>
+    <table id="cryptoHoldingsModalTable">
+      <tr><th>Crypto</th><th>Amount</th></tr>
+    </table>
+  </div>
 </div>
 
-<!-- 🔴 History Modal -->
 <div class="modal" id="historyModal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeHistoryModal()">&times;</span>
-        <h3>Crypto Transaction History</h3>
-        <table id="fullCryptoHistoryTable">
-            <tr>
-                <th>Type</th>
-                <th>Crypto Amount</th>
-                <th>Dollar Value</th>
-                <th>Timestamp</th>
-            </tr>
-        </table>
-    </div>
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeHistoryModal()">&times;</span>
+    <h3>Crypto Transaction History</h3>
+    <table id="fullCryptoHistoryTable">
+      <tr><th>Type</th><th>Crypto Amount</th><th>Dollar Value</th><th>Timestamp</th></tr>
+    </table>
+  </div>
 </div>
 
-<!-- Comparison Modal -->
-<div class="modal" id="compare-modal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeCompareModal()">&times;</span>
-        <h2>Crypto Comparison</h2>
-        <div class="compare-inputs">
-            <input type="text" id="crypto-compare-1" placeholder="Enter first crypto symbol">
-            <input type="text" id="crypto-compare-2" placeholder="Enter second crypto symbol">
-            <input type="number" id="compare-days" placeholder="Number of days">
-            <button class="btn btn-buy" onclick="compareCryptos()">Compare</button>
-        </div>
-        <div id="compare-result"></div>
-        <button class="btn btn-close" onclick="closeCompareModal()">Close</button>
-    </div>
-</div>
+<!-- 🧠 Add your JavaScript here -->
+<script type="module">
+// Keep your entire script block from previous version
+</script>
+
+</body>
+</html>
 
 <script type="module">
 import { javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';

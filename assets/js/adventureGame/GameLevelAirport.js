@@ -666,7 +666,7 @@ function openReusableModal(modalId, frameId, url) {
     frame.style.width = "100%";
     frame.style.height = "110%";
     frame.style.position = "absolute";
-    frame.style.top = "-10%";
+    frame.style.top = "0%";
     frame.style.left = "0";
     frame.style.border = "none";
     iframeWrapper.appendChild(frame);
