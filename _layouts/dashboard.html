@@ -120,7 +120,6 @@ active_tab: Dashboard
                 <!-- Commit Cards Container -->
                 <div id="commitCardsContainer" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
-            </div>
 
             <!-- grade predictor tab content -->
             <div id="tab-content-grade" class="tab-content hidden px-6 py-4 text-neutral-200">
@@ -626,11 +625,33 @@ active_tab: Dashboard
         });
     });
 
-    // Initialize underline position on load for active tab
-    window.onload = () => {
+    async function checkAdminAndToggleTab() {
+        try {
+            const res = await fetch(`${pythonURI}/api/id`, fetchOptions);
+            if (!res.ok) throw new Error("Failed to fetch user info");
+
+            const user = await res.json();
+            const isAdmin = user.role === "Admin";
+
+            const adminTab = document.getElementById("tab-admin-search");
+            const adminTabContent = document.getElementById("tab-content-admin-search");
+
+            if (!isAdmin) {
+                adminTab?.remove();
+                adminTabContent?.remove();
+            }
+        } catch (err) {
+            console.error("Error checking admin status:", err);
+        }
+    }
+
+    // Call after fetching GitHub data
+    window.onload = async () => {
         const activeTab = document.querySelector(".tab-btn.active");
         if (activeTab) setUnderline(activeTab);
-        fetchData();
+
+        await fetchData();
+        await checkAdminAndToggleTab(); 
     };
 </script>
 
@@ -641,7 +662,7 @@ active_tab: Dashboard
     // call the function with your tab ids and initial tab
     document.addEventListener('DOMContentLoaded', function () {
         setupTabSwitcher(
-            ['github', 'bathroom', 'grade', 'admin-search', 'help', 'grade-analytics'],
+            ['github', 'grade', 'admin-search', 'help', 'grade-analytics'],
             'github'
             );
     });
