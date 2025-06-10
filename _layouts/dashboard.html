@@ -647,11 +647,12 @@ active_tab: Dashboard
 
     // Call after fetching GitHub data
     window.onload = async () => {
+        await checkAdminAndToggleTab(); 
         const activeTab = document.querySelector(".tab-btn.active");
         if (activeTab) setUnderline(activeTab);
 
         await fetchData();
-        await checkAdminAndToggleTab(); 
+
     };
 </script>
 
