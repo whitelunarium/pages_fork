@@ -1,9 +1,10 @@
 ---
 layout: tailwindPost
-title: Course Predictor - Open Coding Society 
+title: Course Predictor 
 description: Choose Your Predictor
 show_reading_time: false
 permalink: /scorepredictor
+sticky_rank: 1
 ---
 
 <div class="container">
