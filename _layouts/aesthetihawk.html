@@ -20,10 +20,11 @@
         <!-- Sidebar -->
         <div class="fixed left-0 top-[53px] w-64 h-full bg-neutral-800 border-r  border-neutral-700 flex flex-col">
 
-            <!-- welcome section -->
+            <!-- welcome section 
             <div class="p-6 flex flex-col items-center bg-neutral-800">
                 <h2 class="text-lg font-semibold text-center mb-6" id="sidebarWelcome">Welcome. Please log in.</h2>
             </div>
+            -->
 
             <!-- Scrollable menu section -->
             <div class="overflow-y-auto flex-grow">
@@ -86,7 +87,7 @@
 
                     <!-- hallpass button -->
                     <li>
-                        <a id="Hallpass" href="{{site.baseurl}}/hallpass" onclick="setActiveTab(this)"
+                        <a id="Hallpass" href="{{site.baseurl}}/hallpass_queue" onclick="setActiveTab(this)"
                             class="nav-item relative flex flex-row items-center h-11 focus:outline-none text-neutral-600 hover:text-neutral-50 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                             <span class="inline-flex justify-center items-center ml-4">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -99,7 +100,7 @@
                         </a>
                     </li>
 
-                    <!-- logout -->
+                    <!-- logout 
                     <li>
                         <a id="Logout" href="{{site.baseurl}}/logout" onclick="setActiveTab(this)"
                             class="nav-item relative flex flex-row items-center h-11 focus:outline-none text-neutral-600 hover:text-neutral-50 border-l-4 border-transparent hover:border-indigo-500 pr-6">
@@ -114,6 +115,7 @@
                             <span class="ml-2 text-sm tracking-wide truncate">Logout</span>
                         </a>
                     </li>
+                    -->
 
                     <!-- student toolkit section -->
                     <li class="px-5">
@@ -140,7 +142,7 @@
 
                     <!-- screen queue -->
                     <li>
-                        <a id="ScreenQueue" href="{{site.baseurl}}/student-toolkit/queue" onclick="setActiveTab(this)"
+                        <a id="ScreenQueue" href="{{site.baseurl}}/student/queue" onclick="setActiveTab(this)"
                             class="nav-item relative flex flex-row items-center h-11 focus:outline-none text-neutral-600 hover:text-neutral-50 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                             <span class="inline-flex justify-center items-center ml-4">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
