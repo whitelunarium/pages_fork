@@ -1,0 +1,49 @@
+# TeXt Theme Configuration
+title: Open Coding 
+description: "Class of 2025"
+owner_name: John Mortensen
+github_username: jm1021 
+github_repo: "pages" 
+baseurl: "" 
+future: true
+
+# TeXt Theme Configuration
+remote_theme: kitian616/jekyll-TeXt-theme
+
+# TeXt theme specific settings
+text_theme:
+  type: website
+  skin: dark  # default, dark, forest, ocean, chocolate, orange
+  highlight_theme: tomorrow-night  # tomorrow, tomorrow-night, tomorrow-night-eighties, tomorrow-night-blue, tomorrow-night-bright
+  lang: en
+  paths:
+    root: /
+    home: /
+    archive: /archive.html
+    rss: /feed.xml
+
+# TeXt social links
+author:
+  name: John Mortensen
+  url: https://github.com/open-coding-society
+  avatar: # path or url of avatar image (square)
+  bio: Open Coding Society
+  email: # email address
+  github: open-coding-society
+  twitter: Open_Coding
+  youtube: OpenCodingSociety
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-feed
+  - jekyll-sitemap
+  - jemoji
+
+header_pages:
+  - navigation/section/csse.md
+  - navigation/section/csp.md
+  - navigation/section/csa.md 
+  - navigation/blog.md
+  - navigation/search.md
+  - navigation/logintoolkit.md

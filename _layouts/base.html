@@ -3,7 +3,9 @@
 <html lang='{{ page.lang | default: site.lang | default: "en" }}'>
 
 <!-- Look in _includes/theme for <head> and <body> definitions -->
-{% if site.remote_theme contains 'minima' %}
+{% if site.remote_theme contains 'TeXt' %}
+  {%- include theme/text/base.html -%}
+{% elsif site.remote_theme contains 'minima' %}
   {%- include theme/minima/base.html -%}
 {% elsif site.remote_theme contains 'midnight' %}
   {%- include theme/midnight/base.html -%}
