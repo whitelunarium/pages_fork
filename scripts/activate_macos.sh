@@ -2,7 +2,6 @@
 set -ex
 
 BASHRC="$HOME/.zshrc"
-GEM_HOME="/opt/gems"
 
 log() {
     echo "=== ✅ $1 ==="
@@ -15,17 +14,7 @@ add_to_bashrc() {
 
 # 0. Aliases and Virtualenv Prompt
 add_to_bashrc 'alias code="code --no-sandbox"'
-if ! grep -q 'VIRTUAL_ENV' "$BASHRC"; then
-cat <<EOF >> "$BASHRC"
-# Show Python virtualenv in prompt
-if [[ -n "\$VIRTUAL_ENV" ]]; then
-    venv="(\$(basename \$VIRTUAL_ENV)) "
-else
-    venv=""
-fi
-export PS1="\${venv}%n:%~\$ "
-EOF
-fi
+
 # 1. Brew Packages (Python & Ruby)
 brew update
 brew install python ruby
@@ -65,7 +54,7 @@ fi
 RUBY_PATH=$(brew --prefix ruby)/bin
 add_to_bashrc "export PATH=\"$RUBY_PATH:\$PATH\""
 
-# Set GEM_HOME to user-accessible location instead of /opt
+# Set GEM_HOME to user-accessible location
 GEM_HOME="$HOME/.local/gems"
 mkdir -p "$GEM_HOME"
 add_to_bashrc "export GEM_HOME=\"$GEM_HOME\""
