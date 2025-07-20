@@ -484,6 +484,29 @@ AP Computer Science A is an in-depth course that focuses on programming, algorit
       opacity: 1;
     }
   }
+
+  #feedback-modal select {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px;
+    font-size: 14px;
+    color: white;
+    background: #374151;
+    border-radius: 8px;
+    border: 1px solid #6b7280;
+    box-sizing: border-box;
+    appearance: none;
+  }
+
+  #feedback-modal select:focus {
+    outline: none;
+    border-color: #3b82f6;
+  }
+
+  #feedback-modal select option {
+    background-color: #1f2937;
+    color: white;
+  }
 </style>
 
 <!-- Feedback Button & Modal -->
@@ -492,7 +515,14 @@ AP Computer Science A is an in-depth course that focuses on programming, algorit
 <div id="feedback-modal">
   <div id="feedback-modal-close">✕</div>
   <h4>Submit Feedback</h4>
-  <input type="text" id="feedback-title" placeholder="Short title" required />
+  <select id="feedback-type" required>
+    <option value="">Select Inquiry Type</option>
+    <option value="Bug">Bug</option>
+    <option value="Feature Request">Feature Request</option>
+    <option value="Inquiry">Inquiry</option>
+    <option value="Other">Other</option>
+  </select>
+  <input type="text" id="feedback-title" placeholder="Title" required />
   <textarea id="feedback-body" rows="4" placeholder="Your suggestion..." required></textarea>
   <button id="feedback-submit">Submit</button>
   <div id="feedback-success" style="display:none;">✅ Thanks for your feedback!</div>
@@ -523,6 +553,8 @@ AP Computer Science A is an in-depth course that focuses on programming, algorit
   submitBtn.onclick = async () => {
     const title = document.getElementById("feedback-title").value.trim();
     const body = document.getElementById("feedback-body").value.trim();
+    const type = document.getElementById("feedback-type").value;
+
 
     if (!title || !body) {
       alert("Please fill in both fields.");
@@ -535,7 +567,7 @@ AP Computer Science A is an in-depth course that focuses on programming, algorit
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, body })
+        body: JSON.stringify({ title, body, type })
       });
 
       if (res.ok) {
