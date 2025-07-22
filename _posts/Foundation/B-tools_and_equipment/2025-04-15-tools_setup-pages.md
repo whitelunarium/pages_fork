@@ -170,8 +170,9 @@ git clone https://github.com/open-coding-society/pages.git
 ```bash
 #  Most tools have been pre-installed. Run shell command to automatically finish tool setup.
 cd
-cd open/pages/scripts
-./activate.sh 
+cd open/pages
+pagesenv
+bundle installl
 ```
 
 ---
