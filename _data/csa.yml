@@ -185,7 +185,7 @@ web_dev_layers: &web_dev_layers |
 # CSA course meta data
 Sprint1:
   title: Tools and Software Development Processes
-  description: Students should have experience in blogging, coding with Jupyter Notebooks, and GitHub Pages. Understanding of Linux, Python, Markdown, HTML, and JavaScript is expected. Students have previously established a foundation using essential tools and software development processes. Weeks 0-2 will provide a quick review,  prior to students starting their College Board CSA and Full Stack Web Development with Java journey.
+  description: By the end of this sprint, students will have gained practical experience in blogging, coding within Jupyter Notebooks, and GitHub Pages; learning will begin with Linux tool Setup, Markdown, HTML, and JavaScript. Students will establish a foundation using essential tools and software development processes to support their coding journey. Weeks 0-3 will provide a quick foundation,  prior to students starting their College Board Create Task and Full Stack Web Development with Python journey. 
   illustration: *introduction_tools
   start: 0
   end: 2
