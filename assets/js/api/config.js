@@ -13,7 +13,7 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
 export var javaURI;
 // 127.0.0.1:8585 does not work for some machines
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-        javaURI = "http://localhost:8587";
+        javaURI = "http://localhost:8585";
 } else {
     javaURI = "https://spring.opencodingsociety.com";
 }
