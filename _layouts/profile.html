@@ -482,6 +482,7 @@ active_tab: profile
         const nameInput = document.getElementById("nameChangeInput");
         const uidInput = document.getElementById("uidChangeInput");
         const emailInput = document.getElementById("emailChangeInput");
+        const sidInput = document.getElementById("sidChangeInput");
         const passwordInput = document.getElementById("password");
         const kasmInput = document.getElementById("kasmChangeInput");
         const schoolInput = document.getElementById("schoolChangeInput");
@@ -490,6 +491,7 @@ active_tab: profile
         const name = nameInput.value.trim();
         const uid = uidInput.value.trim();
         const email = emailInput.value.trim();
+        const sid = sidInput.value.trim();
         const password = passwordInput.value.trim();
         const kasmServerNeeded = kasmInput ? kasmInput.checked : undefined;
         const school = schoolInput.value;
@@ -567,6 +569,25 @@ active_tab: profile
             }
         }
 
+        // save student ID (both backends)
+        if (sid && sid !== originalValues["sidChangeInput"]) {
+            try {
+                await Promise.all([
+                    putUpdate({
+                        URL: pythonURI + "/api/user",
+                        body: { sid },
+                        message: 'sid-message'
+                    }),
+                    postUpdate({
+                        URL: javaURI + "/api/person/update",
+                        body: { sid }
+                    })
+                ]);
+            } catch (e) {
+                console.error("error saving student ID:", e.message);
+            }
+        }
+
         // save password (both backends, logs out)
         if (password) {
             try {
@@ -614,7 +635,7 @@ active_tab: profile
             try {
                 await Promise.all([
                     putUpdate({
-                        URL: pythonURI + "/api/school",
+                        URL: pythonURI + "/api/user",
                         body: { school },
                         message: 'school-message'
                     }),
