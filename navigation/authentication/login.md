@@ -206,6 +206,7 @@ show_reading_time: false
                 alert("Login for Spring failed. Creating a new Java account...");
                 const signupData = JSON.stringify({
                     uid: document.getElementById("uid").value,
+                    sid: "0000000",
                     email: document.getElementById("uid").value + "@gmail.com",
                     dob: "11-01-2024", // Static date, can be modified
                     name: document.getElementById("uid").value,
