@@ -203,7 +203,7 @@ show_reading_time: false
             console.error("Login failed:", error.message);
             // If login fails, attempt account creation
             if (error.message === "Invalid login") {
-                alert("Login for Spring failed. Creating a new Java account...");
+                // alert("Login for Spring failed. Creating a new Java account...");
                 const signupData = JSON.stringify({
                     uid: document.getElementById("uid").value,
                     sid: "0000000",
@@ -227,7 +227,7 @@ show_reading_time: false
                     })
                     .then(signupResult => {
                         console.log("Account creation successful!", signupResult);
-                        alert("Account Creation Successful. Logging you into Flask/Spring!");
+                        // alert("Account Creation Successful. Logging you into Flask/Spring!");
                         // Retry login after account creation
                         return fetch(loginURL, loginOptions);
                     })
