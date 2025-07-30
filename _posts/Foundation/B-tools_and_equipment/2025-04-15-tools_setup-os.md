@@ -146,15 +146,21 @@ cd opencs
 git clone https://github.com/open-coding-society/pages.git
 ```
 
-### KASM Workspace using Ubuntu terminal
+## KASM Workspace Setup
+
+The KASM Workspace already includes most tools. Just run the setup script.
 
 ```bash
-#  Most tools have been pre-installed. Run shell command to automatically finish tool setup.
 cd
-cd opencs/pages/scripts
-./activate.sh 
+mkdir opencs 
+cd opencs 
+git clone https://github.com/{your_username}/student.git
+cd opencs/student/scripts
+./activate_github.sh
+source ~/.bashrc
+source venv/bin/activate
+pip install -r requirements.txt
 ```
-
 ---
 
 <br>
