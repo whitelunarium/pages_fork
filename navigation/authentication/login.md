@@ -128,32 +128,7 @@ show_reading_time: false
     </div>
 </div>
 
-<style>
-.oauth-error {
-    background-color: #dc2626;
-    color: white;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    margin: 1rem 0;
-}
 
-.oauth-success {
-    background-color: #16a34a;
-    color: white;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    margin: 1rem 0;
-}
-
-.secondary {
-    background-color: #6b7280 !important;
-    color: white;
-}
-
-.secondary:hover {
-    background-color: #5a6272 !important;
-}
-</style>
 
 <script type="module">
     import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
