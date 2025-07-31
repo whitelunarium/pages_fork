@@ -146,19 +146,51 @@ cd opencs
 git clone https://github.com/open-coding-society/pages.git
 ```
 
-### KASM Workspace using Ubuntu terminal
+## KASM Workspace Setup (Ubuntu Noble / Kali)
+
+Thanks to improvements in the KASM image, getting started is fast and simple.
+
+### First-time setup
 
 ```bash
-#  Most tools have been pre-installed. Run shell command to automatically finish tool setup.
-cd
-cd opencs/pages/scripts
-./activate.sh 
+mkdir open
+cd open
+git clone https://github.com/Open-Coding-Society/pages.git
+cd pages/
+pagesenv
+bundle install
+code .
+make
+```
+
+## Activate Script
+
+There is a setup script called `activate_github.sh` in your `pages/scripts` folder with:
+
+```bash
+# Git identity setup
+git config --global user.name {USER_NAME}
+git config --global user.email {EMAIL}
+
+# Persist gem installation path
+bundle config set --local path './.bundle'
+```
+
+Run this script to setup Git config and ensure Gem installation is persistent across sessions.
+
+
+### After restarting a session
+
+Even after a destroy, your data persists. Just relaunch with:
+
+```bash
+cd open/pages
+pagesenv
+code .
+make
 ```
 
 ---
-
-<br>
-
 
 ### Windows Subsystem for Linux using Ubuntu terminal
 
