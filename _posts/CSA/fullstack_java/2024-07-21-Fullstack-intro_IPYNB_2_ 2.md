@@ -3,7 +3,7 @@ layout: post
 title: Fullstack Development
 description: A reminder and guide to full stack development, aka learn how to do everyone job
 type: ccc
-courses: {'csa': {'week': 7}}
+courses: {'csa': {'week': 4}}
 permalink: /fullstack/java/intro
 menu: nav/fullstack_java.html
 toc: True
