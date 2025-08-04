@@ -184,20 +184,20 @@ web_dev_layers: &web_dev_layers |
 
 # CSA course meta data
 Sprint1:
-  title: Tools and Software Development Processes
-  description: By the end of this sprint, students will have gained practical experience in blogging, coding within Jupyter Notebooks, and GitHub Pages; learning will begin with Linux tool Setup, Markdown, HTML, and JavaScript. Students will establish a foundation using essential tools and software development processes to support their coding journey. Weeks 0-3 will provide a quick foundation,  prior to students starting their College Board Create Task and Full Stack Web Development with Python journey. 
+  title: GitHub Pages 
+  description: During this Sprint, students will establish the foundational tools, collaborative practices, and development mindset essential for their Computer Science journey. You'll gain hands-on experience with Linux systems, VSCode development environment, and GitHub workflows while building your first portfolio site. Through iterative development with Markdown, HTML, CSS, and JavaScript, you'll learn to embrace mistakes as learning opportunities, leverage AI tools effectively, and practice pair programming - all while documenting your growth journey. The focus is on building sustainable habits and understanding a breadth of concepts rather than rushing to in depth coding.
   illustration: *introduction_tools
   start: 0
   end: 2
 Sprint2:
-  title: Java Mini-labs
-  description: Students should have an understanding of Fundamentals of Programming from Python, JavaScript, or other backgrounds. In this Sprint, students will become familiar with Java types, booleans, iteration, recursion, using and writing objects through Mini-labs. These labs will introduce AP required aspects of Java, FRQ requirements, and review College Board's 10 Sprints online.  Additionally, student will be introduced to Java/Spring through Teacher Tech Talks and Sample Project.
+  title: Java / Spring Web Development
+  description: Students will master the Fundamentals of Java Programming using the Spring Framework. In this Sprint, students will become familiar with Java types, booleans, iteration, recursion, using and writing objects. Student teaching labs will introduce AP required aspects of Java, while learning the Spring Framework.  This will teach key Java concepts while using a JWT login system, a Rest Controller, Plain Old Java Objects (POJOs), Object Relational Model (ORM), and Java Persistent API (JPA).
   illustration: *college_board_fundamentals
   start: 3
   end: 7
 Sprint3:
-  title: Individual/Team Projects, N@tM
-  description: In this Sprint, students will continue to become familiar with Java development as they learn Web Development using the Spring Framework. Coding will focus on Restful APIs, receiving requests, working with data, and responding to requests. This will teach key Java concepts while using Java Spring framework elements such as a Rest Controller, Plain Old Java Objects (POJOs), Object Relational Model (ORM), and Java Persistent API (JPA).
+  title: Create a Team Project for N@tM
+  description: In this Sprint, students will continue to become familiar with Java development as they immerse into  Web Development using the Spring Framework. Coding will focus on Restful APIs, receiving requests, working with data using SQLite, and responding to requests.  Student will pick a Full Stack Web Development project, and work in teams to build it out, including all layers, and how to use ThymeLeaf to create an Admin UI.  The goal is to have the project working and deployed on AWS by the end of this Sprint.  
   illustration: *web_dev_layers
   start: 8
   end: 12
