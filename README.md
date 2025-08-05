@@ -339,12 +339,12 @@ UDL is not a method but a **design lens** to make learning **accessible and mean
 
 #### 🧠 Agile & Design Thinking Ceremonies
 
-- **Empathy & POV** – Interviews, personas, build "Point of View" and “How Might We…” prompts
+- **Empathy** – Interviews, personas, build "Point of View" and “How Might We…” prompts
 - **Ideation** – Brainstorms, sticky notes, sketches, synthesize
 - **Planning** – User stories, task boards (Kanban, GitHub Issues)
 - **Sprints** – Iterative cycles with visible progress
-- **PinUps** – Feedback-oriented checkpoints
-- **Burndown Charts** – Track group/team progress
+- **Standups/PinUps** – Feedback-oriented checkpoints
+- **Burndown Charts** – Track group/team/individual progress
 - **In-Sprint Checkpoints** – Product Owner reviews, Demo products or features, receive feedback, plan iterations
 - **Close-Sprint Assessment** - Rubric close out, learning and competency demonstrations
 - **Retrospectives** – Reflect on process and teamwork, next steps
