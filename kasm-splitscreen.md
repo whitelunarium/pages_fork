@@ -34,21 +34,48 @@ Test your knowledge of default file permissions in Linux.
 
 ---
 
-## 🖥️ Launch Split View
+## 🖥️ Launch Kasm Workspace
 
 Use your Kasm Workspace session to test commands live.
 
-<button onclick="openKasmPopup()">Launch Split View</button>
-
-<div id="kasm-popup" style="display:none; padding-top:1rem;">
-  <label for="kasm-id">Enter your Kasm Session ID:</label>
-  <input type="text" id="kasm-id" placeholder="e.g. 26a8c4f6..." />
-  <button onclick="launchKasmIframe()">Open Session</button>
+<div style="margin-bottom: 1rem;">
+  <button onclick="openKasmDashboard()" style="background: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+    🚀 Open Kasm Dashboard
+  </button>
 </div>
 
-<div id="kasm-iframe-container" style="margin-top: 2rem; display: none;">
-  <iframe id="kasm-iframe" width="100%" height="500px" style="border:1px solid #ccc;"></iframe>
+<div style="margin-bottom: 1rem;">
+  <button onclick="showSessionInput()" style="background: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+    🔗 Open Specific Session
+  </button>
 </div>
+
+<!-- Session ID Input -->
+<div id="kasm-session-input" style="display:none; padding: 1rem; background: #f5f5f5; border-radius: 5px; margin-top: 1rem;">
+  <h4>Connect to Existing Session</h4>
+  <p>Enter your Kasm Session ID to open it in a new tab:</p>
+  <input type="text" id="kasm-id" placeholder="e.g. eb62fba0-a7b9-459a-a9ac-62b77bf344eb" style="width: 100%; padding: 8px; margin: 10px 0; border: 1px solid #ddd; border-radius: 3px;" />
+  
+  <div style="margin: 10px 0;">
+    <strong>How to find your Session ID:</strong>
+    <ol style="margin: 5px 0; padding-left: 20px;">
+      <li>Click "Open Kasm Dashboard" above</li>
+      <li>Log into Kasm and start or find your session</li>
+      <li>Look at the URL in the browser - it will be like <code>.../#/session/eb62fba0-a7b9-459a-a9ac-62b77bf344eb</code></li>
+      <li>Copy the long ID after <code>/session/</code></li>
+    </ol>
+  </div>
+  
+  <button onclick="openSpecificSession()" style="background: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 3px; cursor: pointer; margin-right: 10px;">
+    Open Session
+  </button>
+  <button onclick="hideSessionInput()" style="background: #f44336; color: white; padding: 8px 16px; border: none; border-radius: 3px; cursor: pointer;">
+    Cancel
+  </button>
+</div>
+
+<!-- Status Messages -->
+<div id="kasm-status" style="margin-top: 1rem;"></div>
 
 ---
 
@@ -66,8 +93,8 @@ to explore permissions and ownership in a real Linux system.
 
 ---
 
-
 <script>
+// Quiz functionality
 document.getElementById('quiz-form').addEventListener('submit', function(event) {
   event.preventDefault();
   const answers = {
@@ -89,16 +116,70 @@ document.getElementById('quiz-form').addEventListener('submit', function(event) 
   result.innerHTML = `<p><strong>You got ${correct} / 3 correct.</strong></p>`;
 });
 
-function openKasmPopup() {
-  document.getElementById('kasm-popup').style.display = 'block';
-}
-
-function launchKasmIframe() {
-  const sessionId = document.getElementById('kasm-id').value.trim();
-  if (sessionId) {
-    const iframe = document.getElementById('kasm-iframe');
-    iframe.src = `https://kasm.opencodingsociety.com/#/session/${sessionId}`;
-    document.getElementById('kasm-iframe-container').style.display = 'block';
+// Kasm functionality
+function showStatus(message, isError = false) {
+  const status = document.getElementById('kasm-status');
+  status.innerHTML = `<p style="color: ${isError ? 'red' : 'green'}; padding: 10px; background: ${isError ? '#ffebee' : '#e8f5e9'}; border-radius: 5px;">${message}</p>`;
+  
+  // Auto-hide success messages after 3 seconds
+  if (!isError) {
+    setTimeout(() => {
+      status.innerHTML = '';
+    }, 3000);
   }
 }
+
+function openKasmDashboard() {
+  // Open the main Kasm dashboard where users can see all their sessions
+  const kasmUrl = 'https://kasm.opencodingsociety.com/';
+  window.open(kasmUrl, '_blank');
+  showStatus('Opened Kasm Dashboard in new tab. You can view and manage all your sessions there.');
+}
+
+function showSessionInput() {
+  document.getElementById('kasm-session-input').style.display = 'block';
+}
+
+function hideSessionInput() {
+  document.getElementById('kasm-session-input').style.display = 'none';
+  document.getElementById('kasm-id').value = ''; // Clear input
+}
+
+function openSpecificSession() {
+  const sessionId = document.getElementById('kasm-id').value.trim();
+  
+  if (!sessionId) {
+    showStatus('Please enter a session ID', true);
+    return;
+  }
+  
+  // Validate session ID format (basic check)
+  if (sessionId.length < 10) {
+    showStatus('Session ID seems too short. Please check and try again.', true);
+    return;
+  }
+  
+  // Construct the Kasm session URL
+  const sessionUrl = `https://kasm.opencodingsociety.com/#/session/${sessionId}`;
+  
+  // Open in new tab
+  window.open(sessionUrl, '_blank');
+  
+  showStatus(`Opening session ${sessionId} in new tab...`);
+  
+  // Clear the input and hide the form
+  hideSessionInput();
+}
+
+// Allow Enter key to submit session ID
+document.addEventListener('DOMContentLoaded', function() {
+  const sessionInput = document.getElementById('kasm-id');
+  if (sessionInput) {
+    sessionInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        openSpecificSession();
+      }
+    });
+  }
+});
 </script>
