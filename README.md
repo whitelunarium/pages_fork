@@ -4,6 +4,8 @@ Open Coding Society `Pages` is a project designed to support students in their C
 
 This GitHub Pages repository can be customized by the blogger to support computer science learnings as the student works through the pathway's of using Javascript, Python/Flask, Java/Spring. It is intended to support course work for Computer Sciecne and Software Engineering (CSSE), AP Computer Science Principles (APCSP or CSP), and AP Computer Science 'A' (APCSA, or CSA).
 
+“Open Coding Society’s instructional model is grounded in **Connectivism**, recognizing that learning happens through diverse networks of people, platforms, and AI. OCS is refining `pages` using **Merrill’s structure**, deepen learning through **Fink**, ensure access via **UDL**, and supports our classroom through **Agile and Design Thinking ceremonies**, with a touch of **Gagné** to focus each classroom day. OCS wants to create projects that support a learning for today’s digital, open, and connected world.”
+
 ## Student Requirements
 
 HS students will have the opportunity to create their personal GitHub Pages repository as the progress through their coursework.
@@ -259,3 +261,104 @@ In the front matter, you can also define things like a title and description for
 - The type value will tell us which column this is going to appear under the time box supported pages.  The "ccc" stands for Code, Code, Code.
 
 - The courses will tell us which menu item it will be under, in this case, the `csa` menu, and the `week` tells it what row (week) it will appear under that menu.
+
+## 🌐 Open Coding Society: Instructional Framework
+
+A flexible, inclusive, and modern teaching model grounded in **Connectivism**, with structured learning through **Merrill**, **Fink**, **UDL**, **Agile**, and select **Gagné** elements. This framework prepares learners to thrive in collaborative, networked, AI-augmented environments.
+
+---
+
+### 🌐 Guiding Philosophy: Connectivism
+
+> “Learning is a process of connecting specialized nodes or information sources.” – George Siemens
+
+OCS is grounded in a **Connectivist philosophy**, recognizing that:
+
+- **Knowledge is distributed** across people, platforms, and digital tools
+- Students learn by **building and navigating networks** — with peers, mentors, experts, and AI
+- **Internet and AI** are not just resources but **learning partners**
+- **Decision-making** (what to learn, when to seek help, what tools to use) is a critical skill
+- **Diverse collaboration** and **community contribution** are essential for relevant, authentic learning
+
+#### 🌐 Connectivist Practices in OCS education
+
+- Promote **open collaboration** via GitHub, blogs, scrum-team projects and cross-class projects
+- Encourage learners to **curate, remix, and build upon** knowledge from global networks
+- Teach students to **evaluate digital sources**, verify code, and contribute to public knowledge
+- Incorporate **AI tools** for coding, writing, design, reflection, and peer modeling
+
+✅ **Connectivism provides the underlying philosophy** that unifies Merrill’s structure, Fink’s depth, UDL’s accessibility, and Agile’s team-based iteration — all in a digital, networked world.
+
+---
+
+### 🧱 Instructional Core: Merrill’s First Principles of Instruction
+
+> “Make instruction Effective, Efficient, Engaging.”
+
+- **Problem (Anchor):** Begin with a real-world task or problem that students must solve, `pages` is consdier launch point project.
+- **Activation:** Connect to prior knowledge or personal experience, GitHub OCS contains project from many years of instruction.
+- **Demonstration:** Show examples or models — how it’s done, `pages` has blogs and OCS has many projects to build upon.
+- **Application:** Provide practice — guided then independent, OCS learning uses sprints to practice and iterate.
+- **Integration:** Encourage students to reflect, share, or transfer skills to new contexts, students are encouraged to add to OCS.
+
+---
+
+### 🌱 Learning Depth: Fink’s Significant Learning
+
+> Emphasize holistic, transformative learning.  These words and associated actions help learners become assets to the Connectivist landscape. 
+
+- **Foundational Knowledge** – Core facts, tools, syntax, concepts
+- **Application** – Use of knowledge in projects, analysis, creation
+- **Integration** – Connect coding with design, ethics, community
+- **Human Dimension** – Team roles, collaboration, self-discovery
+- **Caring** – Projects that matter to learners
+- **Metacognition** – Learning how to learn, reflect, self-evaluate
+- **Intersection** – True learning happens when all areas overlap
+
+---
+
+### ♿️ Access & Inclusion: Universal Design for Learning (UDL)
+
+> Proactively reduce barriers and support diverse learners. OCS maintains social and coding platforms that support UDL thinkinking (GitHub, YouTube, LinkedIn, X)
+
+- **Multiple Means of Engagement** – Interests, choices, autonomy
+- **Multiple Means of Representation** – Videos, code, diagrams, demos
+- **Multiple Means of Action & Expression** – Presentations, repos, recordings, blogs
+
+UDL is not a method but a **design lens** to make learning **accessible and meaningful** for all.
+
+---
+
+### 🧭 Structure & Ceremonies: Agile + Design Thinking + Gagné (selective)
+
+> Use classroom **ceremonies** for rhythm, reflection, and real-world alignment.
+
+#### 🎯 Gagné Elements (selective use)
+
+- **Gain Attention** – Start with prompts, demos, tech news, or student input
+- **Set Objectives** – Clarify sprint, lesson, or project goals
+- **Reflection** – Use reflections and live reviews at the end of lessons/sprints
+
+#### 🧠 Agile & Design Thinking Ceremonies
+
+- **Empathy & POV** – Interviews, personas, build "Point of View" and “How Might We…” prompts
+- **Ideation** – Brainstorms, sticky notes, sketches, synthesize
+- **Planning** – User stories, ask boards (Kanban, GitHub Issues)
+- **Sprints** – Iterative cycles with visible progress
+- **PinUps** – Feedback-oriented checkpoints
+- **Burndown Charts** – Track group/team progress
+- **In-Sprint Checkpoints** – Product Owner reviews, Demo products or features, receive feedback, plan iterations
+- **Close-Sprint Assessment** - Rubric close out, learning and cmpetency demonstrations
+- **Retrospectives** – Reflect on process and teamwork, next steps
+
+---
+
+## 🔁 Summary of Learning Philosphies
+
+| Layer | Model | Role |
+|-------|-------|------|
+| **Philosophy** | Connectivism | Foundation – learning is networked, shared, tech-augmented |
+| **Core Instruction** | Merrill | Scaffolded, problem-first instruction |
+| **Depth & Growth** | Fink | Human, affective, reflective development |
+| **Access & Design** | UDL | Inclusive and flexible access to all learners |
+| **Workflow & Rhythm** | Agile + Design Thinking + Gagné | Iteration, planning, feedback, reflection ceremonies |
