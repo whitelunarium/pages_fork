@@ -293,8 +293,8 @@ OCS is grounded in a **Connectivist philosophy**, recognizing that:
 
 > “Make instruction Effective, Efficient, Engaging.”
 
-- **Problem (Anchor):** Begin with a real-world task or problem that students must solve, `pages` is consdier launch point project.
-- **Activation:** Connect to prior knowledge or personal experience, GitHub OCS contains project from many years of instruction.
+- **Problem (Anchor):** Begin with a real-world task or problem that students must solve, `pages` is considered launch point project.
+- **Activation:** Connect to prior knowledge or personal experience, GitHub OCS contains projects from many years of instruction.
 - **Demonstration:** Show examples or models — how it’s done, `pages` has blogs and OCS has many projects to build upon.
 - **Application:** Provide practice — guided then independent, OCS learning uses sprints to practice and iterate.
 - **Integration:** Encourage students to reflect, share, or transfer skills to new contexts, students are encouraged to add to OCS.
@@ -317,7 +317,7 @@ OCS is grounded in a **Connectivist philosophy**, recognizing that:
 
 ### ♿️ Access & Inclusion: Universal Design for Learning (UDL)
 
-> Proactively reduce barriers and support diverse learners. OCS maintains social and coding platforms that support UDL thinkinking (GitHub, YouTube, LinkedIn, X)
+> Proactively reduce barriers and support diverse learners. OCS maintains social and coding platforms that support UDL thinking (GitHub, YouTube, LinkedIn, X)
 
 - **Multiple Means of Engagement** – Interests, choices, autonomy
 - **Multiple Means of Representation** – Videos, code, diagrams, demos
@@ -341,17 +341,17 @@ UDL is not a method but a **design lens** to make learning **accessible and mean
 
 - **Empathy & POV** – Interviews, personas, build "Point of View" and “How Might We…” prompts
 - **Ideation** – Brainstorms, sticky notes, sketches, synthesize
-- **Planning** – User stories, ask boards (Kanban, GitHub Issues)
+- **Planning** – User stories, task boards (Kanban, GitHub Issues)
 - **Sprints** – Iterative cycles with visible progress
 - **PinUps** – Feedback-oriented checkpoints
 - **Burndown Charts** – Track group/team progress
 - **In-Sprint Checkpoints** – Product Owner reviews, Demo products or features, receive feedback, plan iterations
-- **Close-Sprint Assessment** - Rubric close out, learning and cmpetency demonstrations
+- **Close-Sprint Assessment** - Rubric close out, learning and competency demonstrations
 - **Retrospectives** – Reflect on process and teamwork, next steps
 
 ---
 
-## 🔁 Summary of Learning Philosphies
+## 🔁 Summary of Learning Philosophies
 
 | Layer | Model | Role |
 |-------|-------|------|
