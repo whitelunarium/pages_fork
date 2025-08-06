@@ -57,10 +57,30 @@ Ask yourself:
 
 Build your team with purpose. Look for differences in background and similarities in ambition. Let’s model what it means to create collaborative, cross-perspective teams—just like the world of real engineering.
 
-### Next Steps
+### 📋 Next Steps
 
-After forming a team you will need to start on the journey of acting as a team and producing as individuals.  Here are a couple of activities to get you started.
+After forming a team you will need to start on the journey of acting as a team and producing as individuals. Here are a couple of activities to get you started.
 
-* Teams need to consider roles.  Some key roles will be discussed in the project requirements for the Sprint. 
+#### 🎭 **Team Roles & Responsibilities**
+
+* Teams need to consider roles. Some key roles will be discussed in the project requirements for the Sprint.
+
+  ```text
+  👥 Scrum Master → 🏗️ Developer → 🎨 Designer → 📊 Product Owner
+  ```
+
+#### 📊 **Progress Management Tools** 
+
 * Teams need to manage progress. At the top of every repository in GitHub there are Issue and Project management tabs. You will need to become familiar with Issues, Kanban, and Timelines.
+
+  ```text
+  📋 Issues → 📊 Kanban Board → ⏱️ Timeline → 🚀 Deploy
+  ```
+
+#### 🔄 **Agile Ceremonies**
+
 * Ceremonies are key activities for teams. Sticky notes and Scrum boards are a fun and engaging way to start working as a team.
+
+  ```text
+  📅 Sprint Planning → 🔄 Daily Standups → 📈 Sprint Review → 🔍 Retrospective
+  ```
