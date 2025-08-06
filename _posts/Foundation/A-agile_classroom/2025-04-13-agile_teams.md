@@ -7,6 +7,7 @@ description: Establishing Scrum Teams and programming habits in the classroom.
 categories: ['Collaboration']
 permalink: /agile/teams
 breadcrumb: True
+comments: True
 ---
 
 ## Team Building and Diversity
@@ -132,4 +133,4 @@ Before finalizing your team, take a moment to consider:
 > 
 > 🎯 **"What unique perspective do I bring to a team?"**
 
-**📝 Action Item:** Each of you write your answers in your GitHub Issues as your first individual contribution to the team Kanban board.
+**📝 Action Item:** Each of you write your answers in your GitHub Issues as your first individual contribution to the team.  Move comments to Done as you complete the task.  Link comment as soon as you start it to utterance location below.
