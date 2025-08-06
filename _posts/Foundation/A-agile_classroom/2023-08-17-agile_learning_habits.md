@@ -1,12 +1,12 @@
 ---
+toc: True
 layout: post
+data: agile
 title: Learning Habits
 description: Establishing pair/trio learning habits in the classroom. This will extend to other forms of collaboration, such as group work and team projects.
 categories: ['Collaboration']
-courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
-menu: nav/pair_programming.html
-permalink: /pair/habits
-type: milestone 
+permalink: /agile/learning_habits
+breadcrumb: True 
 ---
 
 ## Habits Overview
