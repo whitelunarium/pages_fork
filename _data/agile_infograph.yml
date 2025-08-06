@@ -1,9 +1,9 @@
 # course illustrations
 Title: "Agile Foundations"
-Description: "The essentials of development begin by understanding the need for agile and equipment. Illustrated are the core components you’ll need for a smooth entry into coding, collaboration, and project creation."
+Description: "All significant software projects are built by teams of people. Agile development emphasizes the importance of diverse teams, collaboration, and continuous learning. This section covers the key practices and habits that make agile teams successful."
 Topics:
   - title: "Teams"
-    image: "/agile/accounts.png"
+    image: "/agile/teams.png"
     link: "/agile/teams"
     alt: "Agile Teams"
     keyPoints:
@@ -13,7 +13,7 @@ Topics:
     subtitle: "Social Computing"
     description: "Create project teams that are diverse and inclusive. Establish common goals and create a team manifesto to guide your agile development process."
   - title: "Pair/Trio Programming"
-    image: "/agile/github.png"
+    image: "/agile/pair_trio.png"
     link: "/agile/pair_trio"
     alt: "Pair/Trio Programming"
     keyPoints:
@@ -23,7 +23,7 @@ Topics:
     subtitle: "Collaboration"
     description: "Pair and trio programming allows developers to collaborate in real-time, sharing knowledge and skills. Establish roles within the team to enhance productivity and learning."
   - title: "Learning Habits"
-    image: "/agile/github_pages.png"
+    image: "/agile/learning_habits.png"
     link: "/agile/learning_habits"
     alt: "Agile Practices and Habits"
     keyPoints:
@@ -33,7 +33,7 @@ Topics:
     subtitle: "Continuous Improvement"
     description: "Agile development emphasizes continuous learning and improvement. Reflect on your progress, adapt your practices, and document your knowledge to share with the team."
   - title: "Live Reviews"
-    image: "/agile/os.png"
+    image: "/agile/live_reviews.png"
     link: "/agile/live_reviews"
     alt: "Live Reviews"
     keyPoints:
