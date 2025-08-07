@@ -1,12 +1,12 @@
 ---
+toc: True
 layout: post
+data: agile
 title: Live Review (Pair/Trio/Group)
-description: Anytime during a Sprint is an opportunity to showcase accomplishments to the teacher. The last week of the Sprint includes a formal live review meeting.
+description: Anytime during a Sprint is an opportunity to showcase accomplishments to the teacher. Each week there is a formative Checkpoint meeting, the last week of the Sprint includes a summative live review meeting.
 categories: ['Collaboration']
-courses: {'csse': {'week': 3}, 'csp': {'week': 3}, 'csa': {'week': 2}}
-menu: nav/pair_programming.html
-permalink: /pair/showcase
-type: retrospective
+permalink: /agile/live_reviews
+breadcrumb: True 
 ---
 
 ## Live Review
