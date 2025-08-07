@@ -14,26 +14,29 @@
       <div class="bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-2">
         <!-- Game Image Container -->
         <div class="relative h-48 overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900">
-          <img src="{{ site.baseurl }}/images/{{ game.image }}" 
-               alt="{{ game.alt }}" 
-               class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
+          <!-- Make the entire image area clickable -->
+          <a href="{{ site.baseurl }}{{ game.link }}" class="block w-full h-full">
+            <img src="{{ site.baseurl }}/images/{{ game.image }}" 
+                 alt="{{ game.alt }}" 
+                 class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110">
+          </a>
           
           <!-- Category Badge -->
           {% if game.category %}
-          <div class="absolute top-3 left-3 bg-black bg-opacity-80 text-white px-2 py-1 rounded-full text-xs font-semibold">
+          <div class="absolute top-3 left-3 bg-black bg-opacity-80 text-white px-2 py-1 rounded-full text-xs font-semibold pointer-events-none">
             {{ game.category }}
           </div>
           {% endif %}
           
           <!-- Difficulty Badge -->
           {% if game.difficulty %}
-          <div class="absolute top-3 right-3 bg-blue-600 bg-opacity-90 text-white px-2 py-1 rounded-full text-xs font-semibold">
+          <div class="absolute top-3 right-3 bg-blue-600 bg-opacity-90 text-white px-2 py-1 rounded-full text-xs font-semibold pointer-events-none">
             {{ game.difficulty }}
           </div>
           {% endif %}
           
-          <!-- Play Overlay -->
-          <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <!-- Play Overlay - Now clickable -->
+          <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
             <div class="bg-white bg-opacity-90 rounded-full p-4">
               <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M8 5v10l8-5z"/>
@@ -69,11 +72,22 @@
           </div>
           {% endif %}
 
-          <!-- Action Button -->
-          <a href="{{ site.baseurl }}{{ game.link }}" 
-             class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-500 hover:to-purple-500 transition-all duration-300 transform hover:scale-105">
-            🚀 Start Learning
-          </a>
+          <!-- Dual Action Buttons -->
+          <div class="flex gap-2">
+            <!-- Play Game Button (uses link) -->
+            <a href="{{ site.baseurl }}{{ game.link }}" 
+               class="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white text-center py-3 rounded-lg font-semibold hover:from-green-500 hover:to-green-400 transition-all duration-300 transform hover:scale-105">
+              🎮 Play Game
+            </a>
+            
+            <!-- Start Learning Button (uses lessonLink) -->
+            {% if game.lessonLink %}
+            <a href="{{ site.baseurl }}{{ game.lessonLink }}" 
+               class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3 rounded-lg font-semibold hover:from-blue-500 hover:to-purple-500 transition-all duration-300 transform hover:scale-105">
+              📚 Learn More
+            </a>
+            {% endif %}
+          </div>
         </div>
       </div>
     {% endfor %}
