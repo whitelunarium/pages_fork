@@ -3,7 +3,7 @@ toc: False
 layout: tailwindPost
 infoGraph: sprints_infograph
 title: Framework for Sprints
-description: Tech has reshaped our lives, from the internet to the smartphone in your pocket, or the advent of AI. This course is opening new technology possibilities by equipping you with the developer tools that are the keys to boundless technology possibilities.
+description: From startups to global tech teams, sprints drive how modern software is built. This page introduces you to the sprint workflow which is a structured approach to turning ideas into real, working products. By learning to plan, build, test, and reflect in weekly cycles, you'll gain the skills to collaborate like a developer and solve problems with purpose and precision.
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
 type: ccc
 categories: [DevOps]
