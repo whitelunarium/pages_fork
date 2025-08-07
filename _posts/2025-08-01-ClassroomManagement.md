@@ -169,7 +169,8 @@ comments: false
 </section>
 
 <script>
-  const API_BASE = 'http://127.0.0.1:8587/api/classrooms';
+  // const API_BASE = 'http://127.0.0.1:8587/api/classrooms';
+  const API_BASE = 'https://flask.opencodingsociety.com/api/classrooms';
 
   let classrooms = [];
   let currentEditClassroomId = null;
