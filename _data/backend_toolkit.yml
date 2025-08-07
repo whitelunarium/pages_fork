@@ -5,7 +5,7 @@ Description: "As you move deeper into web development, understanding backend too
 Topics:
   - title: "Flask"
     image: "/course-brag/flask.png"
-    link: ""
+    link: "/flask-overview#flask"
     alt: "Flask Framework"
     keyPoints:
       - "Create API routes"
@@ -16,7 +16,7 @@ Topics:
 
   - title: "Postman"
     image: "/postman_icon.png"
-    link: ""
+    link: "/flask-overview#postman"
     alt: "Postman API Testing"
     keyPoints:
       - "Send GET/POST requests"
@@ -26,7 +26,7 @@ Topics:
     description: "Postman is a tool used to test API routes. It allows developers to simulate frontend requests to verify that the backend returns expected data and handles user input correctly."
 
   - title: "Backend UI"
-    image: "/"
+    image: "/backend_ui.png"
     link: "/"
     alt: "Backend User Interface"
     keyPoints:
