@@ -5,7 +5,7 @@ Description: "As you move deeper into web development, understanding backend too
 Topics:
   - title: "Flask"
     image: "/course-brag/flask.png"
-    link: "/flask-overview"
+    link: "/flask-structure-overview"
     alt: "Flask Framework"
     keyPoints:
       - "Create API routes"
