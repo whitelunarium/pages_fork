@@ -1,15 +1,15 @@
 ---
-toc: true
+toc: True
 layout: post
 data: flask
-title: Flask and Backend UIs: A Beginner-Friendly Guide
-description: An easy-to-understand overview of building and editing backend UIs with Flask
-categories: ['Python', 'Flask', 'Backend Development']
-permalink: /backend-ui
+title: Backend UI
+description: An overview of Backend UI
+categories: ['Python Flask']
+permalink: /flask-backend-ui
 menu: nav/flask.html
-breadcrumb: true
+author: Vibha Mandayam
+breadcrumb: True 
 ---
-
 # Backend UI with Flask and Jinja
 
 ## 1. What is Backend UI?

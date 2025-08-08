@@ -27,7 +27,7 @@ Topics:
 
   - title: "Backend UI"
     image: "/backend_ui.png"
-    link: "/backend-ui"
+    link: "/flask-backend-ui"
     alt: "Backend User Interface"
     keyPoints:
       - "Display backend data"
