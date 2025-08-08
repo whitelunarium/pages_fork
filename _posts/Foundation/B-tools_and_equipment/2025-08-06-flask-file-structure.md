@@ -20,33 +20,36 @@ breadcrumb: True
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 2rem;
     line-height: 1.6;
-    color: #222;
-    background: #f0f4ff;
+    color: #ffffff; /* All text white */
+    background: none;
+    background-color: #000000; /* Black background for contrast */
   }
 
   /* File tree styles */
   .file-tree {
     max-width: 600px;
     margin: 0 auto 3rem;
-    background: #f9fbff;
-    border: 2px solid #007bff;
-    border-radius: 10px;
+    background: none;
+    border: none;
     padding: 1rem 2rem;
     user-select: none;
     font-family: Consolas, monospace;
     font-size: 1rem;
     white-space: pre;
     cursor: default;
+    color: #ffffff; /* White text */
   }
 
   .clickable {
-    color: #007bff;
+    color: #ffffff; /* White text */
     cursor: pointer;
     border-radius: 4px;
     outline: none;
+    text-decoration: underline; /* Underline links */
   }
   .clickable:hover, .clickable:focus {
-    background-color: #d9eaff;
+    background-color: rgba(255, 255, 255, 0.1); /* subtle white highlight */
+    color: #ffffff;
   }
 
   .indent-1 { padding-left: 1.5em; }
@@ -57,20 +60,21 @@ breadcrumb: True
   section.lesson-section {
     max-width: 700px;
     margin: 2rem auto;
-    background: #ffffff;
-    border: 1.5px solid #007bff;
-    border-left: 6px solid #007bff;
+    background: none;
+    border: 1.5px solid #ffffff; /* white outline */
+    border-left: 6px solid #ffffff;
     border-radius: 8px;
     padding: 1.5rem 2rem;
-    box-shadow: 0 3px 8px rgba(0, 123, 255, 0.1);
+    box-shadow: none;
     scroll-margin-top: 80px;
+    color: #ffffff; /* White text */
   }
 
   section.lesson-section h2 {
     margin-top: 0;
-    color: #004a99;
+    color: #ffffff; /* White heading */
     font-weight: 700;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #ffffff;
     padding-bottom: 0.3rem;
     font-size: 1.6rem;
   }
@@ -78,31 +82,31 @@ breadcrumb: True
   section.lesson-section p {
     font-size: 1rem;
     margin: 1rem 0;
-    color: #333;
+    color: #ffffff; /* White text */
   }
 
   section.lesson-section pre {
-    background-color: #f4f7fb;
-    border: 1px solid #cbd9f7;
+    background-color: transparent;
+    border: 1px solid #ffffff; /* white border */
     border-radius: 6px;
     padding: 1rem 1.2rem;
     font-size: 1rem;
     overflow-x: auto;
     font-family: 'Courier New', Courier, monospace;
-    color: #111;
+    color: #ffffff; /* White code text */
   }
 
   /* Headings for sub files */
   .subfile-header {
     font-weight: 600;
     margin-top: 1rem;
-    color: #004a99;
+    color: #ffffff; /* White text */
   }
 </style>
 </head>
 <body>
 
-<h1 style="text-align:center; color:#007bff; margin-bottom:2rem;">Flask Project Structure: Explained</h1>
+<h1 style="text-align:center; color:#ffffff; margin-bottom:2rem;">Flask Project Structure: Explained</h1>
 
 <div class="file-tree" aria-label="Flask project file structure">
 /flask-app
