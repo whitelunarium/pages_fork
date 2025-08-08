@@ -5,7 +5,7 @@ Description: "As you move deeper into web development, understanding backend too
 Topics:
   - title: "Flask"
     image: "/course-brag/flask.png"
-    link: "/flask-overview#flask"
+    link: "/flask-overview"
     alt: "Flask Framework"
     keyPoints:
       - "Create API routes"
@@ -27,7 +27,7 @@ Topics:
 
   - title: "Backend UI"
     image: "/backend_ui.png"
-    link: "/"
+    link: "/backend-ui"
     alt: "Backend User Interface"
     keyPoints:
       - "Display backend data"
