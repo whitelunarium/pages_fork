@@ -31,7 +31,7 @@ show_reading_time: false
         <h1 id="signupTitle">Sign Up</h1>
         <hr>
         
-        <!-- ADD THIS: Google OAuth Section (initially hidden) -->
+        <!-- Google OAuth Section (initially hidden) -->
         <div id="oauth-verification" style="display: none; text-align: center; margin-bottom: 2rem;">
             <h3 style="color: #6366f1; margin-bottom: 1rem;">🎓 School Email Verification</h3>
             <p style="margin-bottom: 1.5rem; color: #d1d5db;">
@@ -63,7 +63,7 @@ show_reading_time: false
             <div id="oauth-status" style="margin-top: 1rem;"></div>
         </div>
         
-        <!-- MODIFY THIS: Change form submission and add ID -->
+        <!-- Signup Form -->
         <form id="signupForm" onsubmit="handleSignupSubmit(event);">
             <div class="form-group">
                 <input type="text" id="name" placeholder="Name" required>
@@ -91,6 +91,11 @@ show_reading_time: false
             </div>
             <div class="form-group">
                 <input type="password" id="signupPassword" placeholder="Password" required>
+            </div>
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <div id="password-validation-message" class="validation-message"></div>
             </div>
             <p>
                 <label class="switch">
@@ -129,7 +134,77 @@ show_reading_time: false
     
     let signupFormData = {};
     let verifiedSchoolEmail = null;
+    let validationTimeout = null;
     const GOOGLE_CLIENT_ID = "65827797404-ccjleg7jg4g2an8ddpmhnlca4ii2gk8q.apps.googleusercontent.com";
+    
+    // Password validation with debouncing (3 second delay)
+    function validatePasswordsDebounced() {
+        // Clear existing timeout
+        if (validationTimeout) {
+            clearTimeout(validationTimeout);
+        }
+        
+        // Set new timeout for 1.5 seconds
+        validationTimeout = setTimeout(() => {
+            validatePasswords();
+        }, 1500);
+    }
+    
+    function validatePasswords() {
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const confirmField = document.getElementById('confirmPassword');
+        const messageDiv = document.getElementById('password-validation-message');
+        
+        // Clear previous validation styles
+        confirmField.classList.remove('password-match', 'password-mismatch', 'password-length');
+        messageDiv.classList.remove('success', 'error');
+        
+        // Don't validate if confirm password is empty
+        if (confirmPassword === '') {
+            messageDiv.textContent = '';
+            return true;
+        }
+        
+        if (password.length < 8) {
+            confirmField.classList.add('password-length');
+            messageDiv.classList.add('error');
+            messageDiv.textContent = '✗ Passwords must be at least 8 characters long';
+            return false;
+        }
+        
+        if (password === confirmPassword) {
+            confirmField.classList.add('password-match');
+            messageDiv.classList.add('success');
+            messageDiv.textContent = '✓ Passwords match';
+            return true;
+        } else {
+            confirmField.classList.add('password-mismatch');
+            messageDiv.classList.add('error');
+            messageDiv.textContent = '✗ Passwords do not match';
+            return false;
+        }
+    }
+    
+    // Form submission validation
+    function validateSignupForm() {
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (password !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            document.getElementById('confirmPassword').focus();
+            return false;
+        }
+        
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters long.');
+            document.getElementById('signupPassword').focus();
+            return false;
+        }
+        
+        return true;
+    }
     
     // Backend status management
     function updateBackendStatus(backend, status, message = '') {
@@ -193,6 +268,11 @@ show_reading_time: false
         const form = document.getElementById('signupForm');
         if (!form.checkValidity()) {
             form.reportValidity();
+            return;
+        }
+        
+        // Check password confirmation
+        if (!validateSignupForm()) {
             return;
         }
         
@@ -268,7 +348,17 @@ show_reading_time: false
         return JSON.parse(jsonPayload);
     }
     
+    // Initialize password validation when page loads
     window.addEventListener('load', function() {
+        const passwordField = document.getElementById('signupPassword');
+        const confirmPasswordField = document.getElementById('confirmPassword');
+        
+        if (passwordField && confirmPasswordField) {
+            // Add debounced validation listeners
+            passwordField.addEventListener('input', validatePasswordsDebounced);
+            confirmPasswordField.addEventListener('input', validatePasswordsDebounced);
+        }
+        
         if (window.google && window.google.accounts) {
             window.google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
