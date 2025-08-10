@@ -35,8 +35,8 @@ show_reading_time: false
         <div id="oauth-verification" style="display: none; text-align: center; margin-bottom: 2rem;">
             <h3 style="color: #6366f1; margin-bottom: 1rem;">🎓 School Email Verification</h3>
             <p style="margin-bottom: 1.5rem; color: #d1d5db;">
-                Please sign in with your school Google account to verify you're a Poway USD student.
-                <br><strong>You must use an email ending in @stu.powayusd.com</strong>
+                Please sign in with your school Google account to verify you're a Poway USD student or teacher.
+                <br><strong>You must use an email ending in @stu.powayusd.com or @powayusd.com</strong>
             </p>
             
             <div id="g_id_onload"
@@ -54,12 +54,6 @@ show_reading_time: false
                  data-logo_alignment="left"
                  style="margin-bottom: 1rem;">
             </div>
-            
-            <button type="button" id="manual-google-signin" class="large primary submit-button" 
-                    style="background-color: #4285f4; margin-bottom: 1rem;" 
-                    onclick="initiateGoogleSignIn()">
-                🔒 Sign in with Google (School Email)
-            </button>
             
             <button type="button" class="large secondary" onclick="showSignupForm()" 
                     style="background-color: #6b7280;">
@@ -241,12 +235,10 @@ show_reading_time: false
         try {
             const userInfo = parseJwt(response.credential);
             const email = userInfo.email;
-            
-            if (!email.endsWith('@stu.powayusd.com')) {
-                showOAuthStatus('❌ You must use your school email address ending with @stu.powayusd.com', true);
+            if (!email.endsWith('@stu.powayusd.com') && !email.endsWith('@powayusd.com')) {
+                showOAuthStatus('❌ You must use your school email address ending with @stu.powayusd.com or @powayusd.com', true);
                 return;
-            }
-            
+            }    
             verifiedSchoolEmail = email;
             showOAuthStatus(`✅ School email verified: ${email}`);
             
@@ -264,14 +256,6 @@ show_reading_time: false
         } catch (error) {
             console.error("Error handling Google Sign-In:", error);
             showOAuthStatus('❌ Error processing Google Sign-In. Please try again.', true);
-        }
-    }
-    
-    window.initiateGoogleSignIn = function() {
-        if (window.google && window.google.accounts) {
-            window.google.accounts.id.prompt();
-        } else {
-            showOAuthStatus('❌ Google Sign-In not loaded. Please refresh the page and try again.', true);
         }
     }
     
