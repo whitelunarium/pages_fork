@@ -15,6 +15,11 @@ minima:
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
+  - jekyll-mermaid
+
+# Mermaid configuration
+mermaid:
+  src: 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js'
 header_pages:
   - navigation/section/csse.md
   - navigation/section/csp.md
