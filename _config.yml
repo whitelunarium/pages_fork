@@ -15,6 +15,7 @@ minima:
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
+
 header_pages:
   - navigation/section/csse.md
   - navigation/section/csp.md
