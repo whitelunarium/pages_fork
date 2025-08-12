@@ -3,7 +3,7 @@ toc: True
 layout: post
 data: agile
 title: Pair/Trio Programming
-description: Establishing individual and pair/trio coding habits in the classroom.
+description: Establishing individual and pair/trio coding habits in the classroom by altering snake game.
 categories: ['Collaboration']
 permalink: /agile/pair_trio
 breadcrumb: True 
@@ -15,104 +15,152 @@ The provided activities evaluates students in a Computer Science Project-based l
 
 ---
 
-## Evaluation Categories
+## 🐍 Snake Game Debugging Session
 
-### 1. Planning
-
-Effective planning ensures that teams stay organized and on track. Use tools like GitHub Issues, Kanban Boards, and Burndown Lists to manage tasks and progress.
-
-- **GitHub Issues**:
-  - [ ] Creates clear and descriptive issues for tasks or bugs.
-  - [ ] Assigns issues to self and team members appropriately.
-  - [ ] Closes issues with meaningful comments or references to commits.
-
-- **Kanban Board**:
-  - [ ] Pin-up meeting update the board regularly to reflect task progress.
-  - [ ] Work moves tasks through stages (e.g., To Do, In Progress, Done).
-  - [ ] Uses labels or tags to assign and prioritize tasks effectively.
-
-- **Burndown Lists**:
-  - [ ] Tracks progress toward Sprint goals.
-  - [ ] Updates the list daily to reflect completed and remaining tasks.
-  - [ ] Uses the list to identify blockers and adjust plans.
+Transform pair/trio programming from theory to practice with an interactive Snake Game debugging challenge. This hands-on activity walks through the entire collaboration workflow while fixing real code issues.
 
 ---
 
-### 2. Code
+### Problem - Debug Snake Game
 
-Writing and managing code collaboratively is a key part of pair/trio programming. Use tools like Live Share, commits, branches, forks, and pull requests to ensure smooth collaboration.
+Your team has inherited a Snake Game with multiple needs that prevent could improve gameplay. Your mission: work as a pair/trio to identify, document, and improve these issues using proper Agile methodologies.
 
-- **Live Share**:
-  - [ ] Actively participates in Live Share sessions with teammates.
-  - [ ] Shares the editor and communicates effectively during coding sessions.
-  - [ ] Use Live Share to debug or pair program in real time.
+**xSnake Game Improvements:**
 
-- **Commits**:
-  - [ ] Makes frequent, meaningful commits with descriptive messages.
-  - [ ] Avoids committing large, unrelated changes in a single commit.
-  - [ ] Pushes commits regularly to keep the repository updated.
-
-- **Branch Management**:
-  - [ ] Creates branches for new features or fixes.
-  - [ ] Merges branches only after testing and review.
-  - [ ] Deletes branches after they are merged to keep the repository clean.
-
-- **Forks and Pull Requests**:
-  - [ ] Creates forks for collaborative projects.
-  - [ ] Submits pull requests with clear descriptions and references to issues.
-  - [ ] Responds to feedback on pull requests and makes necessary changes.
+- Background and Color could be improved
+- Apple is white and could be red
+- Score could look better
+- Game speed could have more steps
+- ...
 
 ---
 
-### 3. Code Review
+### Activation - Learn How to Play Snake
 
-Code reviews ensure quality and help teammates learn from each other. Focus on comments, pair testing, debugging, and structured reviews.
-
-- **Comments**:
-  - [ ] Leave constructive comments on pull requests or commits.
-  - [ ] Asks clarifying questions when code is unclear.
-  - [ ] Suggests improvements or alternative approaches when appropriate.
-
-- **Pair Testing**:
-  - [ ] Tests code written by teammates to ensure functionality.
-  - [ ] Identifies edge cases and potential bugs during testing.
-  - [ ] Provides feedback on test results and suggests fixes.
-
-- **Debugging**:
-  - [ ] Work collaboratively to debug issues.
-  - [ ] Uses debugging tools tools with breakpoints and step through code effectively.
-  - [ ] Practice the debugging process to get available with features.
-
-- **Code Review**:
-  - [ ] Reviews pull requests thoroughly before approving.
-  - [ ] Checks for adherence to coding standards and best practices.
-  - [ ] Ensures that code is well-documented and maintainable.
+Try debugging, to see where code is that activates features
 
 ---
 
-## Hacks: Pair Programming Table
+### Demonstration - Workflow with Mermaid Diagram
 
-Use the table below to evaluate your pair/trio programming habits. These examples are not exhaustive—students should also consider other strengths or areas for improvement.
+Follow this debugging workflow as a team:
 
-### Ranking to Ratio
+```mermaid
+flowchart TD
+    A[🎮 Play Snake Game] --> B{Bug Found?}
+    B -->|Yes| C[📝 Create GitHub Issue]
+    B -->|No| D[✅ Game Working]
+    
+    C --> E[🏷️ Add to Kanban Board]
+    E --> F[🎯 Set Breakpoints]
+    F --> G[👥 Live Share Debug Session]
+    
+    G --> H[🔍 Step Through Code]
+    H --> I[🛠️ Implement Fix]
+    I --> J[🧪 Pair Test Solution]
+    
+    J --> K{Fix Works?}
+    K -->|Yes| L[📤 Commit & Push]
+    K -->|No| H
+    
+    L --> M[📋 Update Burndown]
+    M --> N[🔄 Code Review]
+    N --> O[✅ Close Issue]
+    
+    style A fill:#2d4a3d,color:#ffffff
+    style G fill:#1e3a5f,color:#ffffff
+    style J fill:#1a3a4a,color:#ffffff
+    style O fill:#2d4a3d,color:#ffffff
+```
 
-- **1** = 0.55
-- **2** = 0.75
-- **3** = 0.85
-- **4** = 0.90
+---
 
-| Skill          | Mastered (Y/N) | Rank (1-4)   | Ratio | Notes |
-|----------------|----------------|--------------|-------|-------|
-| GitHub Issues  | [ ]            | 0            | 0.0   |       |
-| Kanban Board   | [ ]            | 0            | 0.0   |       |
-| Burndown Lists | [ ]            | 0            | 0.0   |       |
-| Live Share     | [ ]            | 0            | 0.0   |       |
-| Commits        | [ ]            | 0            | 0.0   |       |
-| Branch Mgmt    | [ ]            | 0            | 0.0   |       |
-| Forks/PRs      | [ ]            | 0            | 0.0   |       |
-| Comments       | [ ]            | 0            | 0.0   |       |
-| Pair Testing   | [ ]            | 0            | 0.0   |       |
-| Debugging      | [ ]            | 0            | 0.0   |       |
-| Code Review    | [ ]            | 0            | 0.0   |       |
-| **Total**      |  0             | 0            | 0.0   |       |
-| **Average**    |                | 0.0          | 0.0   |       |
+### Application - Debugging Practice Session
+
+#### Step 1: Create Issues for Each Bug Type
+
+Use this template for GitHub Issues:
+
+**Issue Template:**
+```
+**Bug Title**: [Specific issue, e.g., "Snake passes through walls"]
+
+**Description**: 
+- What should happen: [Expected behavior]
+- What actually happens: [Current broken behavior]
+- Steps to reproduce: [How to trigger the bug]
+
+**Acceptance Criteria**:
+- [ ] [Specific fix requirement]
+- [ ] [Test case to verify fix]
+
+**Debug Strategy**:
+- [ ] Set breakpoint at [specific function]
+- [ ] Check [specific variable/condition]
+- [ ] Test edge case: [specific scenario]
+```
+
+#### Step 2: Burndown Planning
+
+Create a burndown list for your debugging session:
+
+| Bug Priority | Issue | Estimated Time | Assigned To | Status |
+|--------------|-------|----------------|-------------|---------|
+| 🔴 High | CHange Apple | 30 min | Pair A | To Do |
+| 🟡 Medium | Background Modification | 20 min | Pair B | To Do |
+| 🟢 Low | Score display update | 15 min | Trio | To Do |
+
+#### Step 3: Live Share Debugging Protocol
+
+**Driver/Navigator Rotation:**
+
+1. **Driver** (5 min): Controls keyboard, sets breakpoints
+2. **Navigator** (5 min): Guides debugging strategy, reads code
+3. **Observer** (5 min): Documents findings, updates issues
+
+**Debugging Checklist:**
+
+- [ ] Set breakpoint at change location
+- [ ] Step through code with step or continue
+- [ ] Check variable values at each step
+- [ ] Identify the area to change
+- [ ] Discuss fix with team before implementing
+- [ ] Test change immediately after implementation
+
+---
+
+
+### Snake Game Debugging Evaluation Table
+
+Track your team's performance through the debugging session:
+
+| Skill | Mastered (Y/N) | Rank (1-4) | Ratio | Notes/Evidence |
+|-------|----------------|------------|-------|----------------|
+| **Planning** | | | | |
+| GitHub Issues | [ ] | 0 | 0.0 | Created clear bug reports with reproduction steps |
+| Kanban Board | [ ] | 0 | 0.0 | Moved issues through debugging workflow stages |
+| Burndown Lists | [ ] | 0 | 0.0 | Tracked time estimates vs actual debugging time |
+| **Code** | | | | |
+| Live Share | [ ] | 0 | 0.0 | Collaborated effectively during debugging sessions |
+| Commits | [ ] | 0 | 0.0 | Made focused commits for each bug fix |
+| Branch Mgmt | [ ] | 0 | 0.0 | Created feature branches for each bug fix |
+| Forks/PRs | [ ] | 0 | 0.0 | Submitted PRs with clear fix descriptions |
+| **Code Review** | | | | |
+| Comments | [ ] | 0 | 0.0 | Left helpful debugging notes in code |
+| Pair Testing | [ ] | 0 | 0.0 | Tested each fix thoroughly with teammate |
+| Debugging | [ ] | 0 | 0.0 | Used breakpoints and step-through effectively |
+| Code Review | [ ] | 0 | 0.0 | Reviewed teammate's fixes before merging |
+| **Total** | 0 | 0 | 0.0 | |
+| **Average** | | 0.0 | 0.0 | |
+
+---
+
+### Reflection Questions
+
+After completing the Snake Game debugging session:
+
+1. **Which debugging technique was most effective for your team?**
+2. **How did the driver/navigator rotation impact your problem-solving?**
+3. **What type of bug was hardest to identify and why?**
+4. **How did using breakpoints change your debugging approach?**
+5. **What would you do differently in your next debugging session?**

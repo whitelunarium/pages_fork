@@ -18,10 +18,10 @@ Topics:
     alt: "Pair/Trio Programming"
     keyPoints:
       - "Collaborate in real-time"
-      - "Establish roles"
-      - "Share knowledge"
+      - "Establish ceremonies in the team"
+      - "Share and collaboorate on knowledge"
     subtitle: "Collaboration"
-    description: "Pair and trio programming allows developers to collaborate in real-time, sharing knowledge and skills. Establish roles within the team to enhance productivity and learning."
+    description: "Pair and trio programming allows developers to collaborate in real-time, sharing knowledge and skills. Establish cermonies within the team to enhance productivity and learning."
   - title: "Learning Habits"
     image: "/agile/learning_habits.png"
     link: "/agile/learning_habits"
