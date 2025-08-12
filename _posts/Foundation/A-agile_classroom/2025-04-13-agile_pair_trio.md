@@ -3,7 +3,7 @@ toc: True
 layout: post
 data: agile
 title: Pair/Trio Programming
-description: Establishing pair/trio programming habits in the classroom.
+description: Establishing individual and pair/trio coding habits in the classroom.
 categories: ['Collaboration']
 permalink: /agile/pair_trio
 breadcrumb: True 
@@ -11,11 +11,7 @@ breadcrumb: True
 
 ## Pair/Trio Programming Overview
 
-This framework evaluates students in a Computer Science Project-based learning course. It focuses on **planning**, **code**, and **code reviews** to create a holistic profile of each student's computer science and software engineering skills.
-
-### Note
-
-The examples provided below are not comprehensive. Students are encouraged to identify additional strengths or areas for improvement within each category.
+The provided activities evaluates students in a Computer Science Project-based learning course. It focuses on **planning**, **code**, **debugging** and **reviews** to create a holistic profile of each student's computer science and software engineering skills.  It is best to work on these in pairs.
 
 ---
 
@@ -31,9 +27,9 @@ Effective planning ensures that teams stay organized and on track. Use tools lik
   - [ ] Closes issues with meaningful comments or references to commits.
 
 - **Kanban Board**:
-  - [ ] Updates the board regularly to reflect task progress.
-  - [ ] Moves tasks through stages (e.g., To Do, In Progress, Done).
-  - [ ] Uses labels or tags to prioritize tasks effectively.
+  - [ ] Pin-up meeting update the board regularly to reflect task progress.
+  - [ ] Work moves tasks through stages (e.g., To Do, In Progress, Done).
+  - [ ] Uses labels or tags to assign and prioritize tasks effectively.
 
 - **Burndown Lists**:
   - [ ] Tracks progress toward Sprint goals.
@@ -49,7 +45,7 @@ Writing and managing code collaboratively is a key part of pair/trio programming
 - **Live Share**:
   - [ ] Actively participates in Live Share sessions with teammates.
   - [ ] Shares the editor and communicates effectively during coding sessions.
-  - [ ] Uses Live Share to debug or pair program in real time.
+  - [ ] Use Live Share to debug or pair program in real time.
 
 - **Commits**:
   - [ ] Makes frequent, meaningful commits with descriptive messages.
@@ -73,7 +69,7 @@ Writing and managing code collaboratively is a key part of pair/trio programming
 Code reviews ensure quality and help teammates learn from each other. Focus on comments, pair testing, debugging, and structured reviews.
 
 - **Comments**:
-  - [ ] Leaves constructive comments on pull requests or commits.
+  - [ ] Leave constructive comments on pull requests or commits.
   - [ ] Asks clarifying questions when code is unclear.
   - [ ] Suggests improvements or alternative approaches when appropriate.
 
@@ -83,9 +79,9 @@ Code reviews ensure quality and help teammates learn from each other. Focus on c
   - [ ] Provides feedback on test results and suggests fixes.
 
 - **Debugging**:
-  - [ ] Works collaboratively to debug issues.
-  - [ ] Uses tools like breakpoints, logs, or debuggers effectively.
-  - [ ] Documents the debugging process and solutions.
+  - [ ] Work collaboratively to debug issues.
+  - [ ] Uses debugging tools tools with breakpoints and step through code effectively.
+  - [ ] Practice the debugging process to get available with features.
 
 - **Code Review**:
   - [ ] Reviews pull requests thoroughly before approving.
