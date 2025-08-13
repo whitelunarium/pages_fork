@@ -16,18 +16,17 @@ breadcrumb: True
 Welcome to your journey of setting up your Operating System and Tools! This setup process will guide you through working in a Linux terminal, managing folders, cloning a project, and adding packages.
 
 ## Visual Representation of the Workflow
-```text
-+-------------------+       +-------------------+       +-------------------+       +-------------------+       +-------------------+
-|                   |       |                   |       |                   |       |                   |       |                   |
-|  Linux Terminal   | ----> |  Shell Commands   | ----> |   Clone Project   | ----> |  Package Manager  | ----> |       SDLC        |
-|                   |       |                   |       |                   |       |                   |       |                   |
-+-------------------+       +-------------------+       +-------------------+       +-------------------+       +-------------------+
-        |                           |                           |                           |                            |
-        v                           v                           v                           v                            v
-  Open Terminal              Terminal/Folder Mgmt         Clone the project          Set up and configure       Establish a development
-                             Files and Folders            repository from            the tools required              workflow 
-                                Management                version control             (Ruby, Python)               (SDLC) phases
-````
+
+```mermaid
+flowchart TD
+    A["💻 Open Terminal"] 
+    B["> Linux Commands<br>mkdir, cd, ls"]
+    C["📁 Clone Project<br>git clone https://<your-repo>"]
+    D["🛠️ Activate Tools<br>Ruby, Python, Git"]
+    E["🔄 SDLC<br>code->make->test->commit"]
+
+    A --> B --> C --> D --> E
+```
 
 ## Shell Commands
 
@@ -50,6 +49,7 @@ Welcome to your journey of setting up your Operating System and Tools! This setu
 * **List installed packages:** `apt list --installed`
 
 ---
+
 ##  KASM Workspace Setup (Ubuntu Noble / Kali)
 
 Thanks to improvements in the KASM image, getting started is fast and simple.

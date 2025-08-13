@@ -16,17 +16,18 @@ breadcrumb: True
 Welcome to your journey of setting up your Operating System and Tools! This setup process will guide you through working in a Linux terminal, managing folders, cloning a project, and adding packages.
 
 ## Visual Representation of the Workflow
-```text
-+-------------------+       +-------------------+       +-------------------+       +-------------------+       +-------------------+
-|                   |       |                   |       |                   |       |                   |       |                   |
-|  Linux Terminal   | ----> |  Shell Commands   | ----> |   Clone Project   | ----> |  Package Manager  | ----> |       SDLC        |
-|                   |       |                   |       |                   |       |                   |       |                   |
-+-------------------+       +-------------------+       +-------------------+       +-------------------+       +-------------------+
-        |                           |                           |                           |                            |
-        v                           v                           v                           v                            v
-  Open Terminal              Terminal/Folder Mgmt         Clone the project          Set up and configure       Establish a development
-                             Files and Folders            repository from            the tools required              workflow 
-                                Management                version control             (Ruby, Python)               (SDLC) phases
+
+```mermaid
+flowchart TD
+    A["💻 Open Windows Terminal"] 
+    A1["💻 Install WSL<br>wsl --install"] 
+    A2["💻 Launch Ubuntu Terminal<br>wsl"]
+    B["📁 Linux Commands<br>mkdir, cd, ls"]
+    C["📁 Clone Project<br>git clone https://<your-repo>"]
+    D["🛠️ Activate Tools<br>Ruby, Python, Git"]
+    E["🔄 SDLC<br>code → make → test → commit"]
+
+    A --> A1 --> A2 --> B --> C --> D --> E
 ```
 
 ## Shell Commands
@@ -56,6 +57,7 @@ Welcome to your journey of setting up your Operating System and Tools! This setu
 ### Install WSL and Ubuntu
 
 1. In PowerShell (Admin):  
+
    ```bash
    wsl --install -d Ubuntu-24.04
    ```
@@ -63,11 +65,13 @@ Welcome to your journey of setting up your Operating System and Tools! This setu
 2. Setup a username and password when prompted.
 
 3. To start Linux:  
+
    ```bash
    wsl
    ```
 
 4. Set as default:  
+
    ```bash
    wsl --set-default Ubuntu-24.04
    ```
@@ -92,6 +96,7 @@ cd opencs/pages/scripts
 ---
 
 ## Version Checks
+
 ```bash
 ruby -v
 bundle -v
