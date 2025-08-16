@@ -1,8 +1,12 @@
 ---
 layout: post
 tailwind: True
-title: Onboarding Challenges 
-description: Interactive learning and adventures 
+title: Onboarding Adventure using LxD
+description: >
+  A guided sequence of hands-on tasks to help you set up your environment, connect with your team, and master the frameworks that power our course.
+author: John Mortensen
+courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
+type: hacks 
 permalink: /hacks
 lxdData:
   Title: "Learning Experience Designer Home"
