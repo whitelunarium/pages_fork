@@ -8,10 +8,10 @@ lxdData:
   Title: "Learning Experience Designer Home"
   Description: "Explore LxD topics and interactive games to obtain mastery in collaboration, design thinking, and coding skills."
   Prequisites:
-    - title: "GitHub Setup"
-      link: "/setup/github"
-    - title: "VSCode Basics"
-      link: "/setup/vscode"
+    - title: "Tools Intro"
+      link: "/tools"
+    - title: "Desktop O/S"
+      link: "/tools/os"
   Topics:
     - Title: "Agile Collaboration"
       Genre: "Teamwork"
