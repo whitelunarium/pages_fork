@@ -26,6 +26,23 @@ lxdData:
       Lessons: "/agile"
       Image: "/images/agile.webp"
       Alt: "Agile Collaboration Game"
+    - Title: "Snake Game"
+      Genre: "Coding"
+      Level: "1"
+      Description: "Hands-on choding challenge to change the appearance of the Snake game."
+      Categories: ["JavaScript", "Game Play", "Game Coding", "Reptile Life"]
+      Game: "/snake"
+      Lessons: "/agile/pair_trio"
+      Image: "/images/snake.png"
+      Alt: "Snake eating Apples"
+    - Title: "Debugging Challenge"
+      Genre: "Debugging"
+      Level: 2
+      Description: "Sharpen your debugging skills with real-world coding analysis using inspect."
+      Categories: ["Debugging", "Logic", "Code Review"]
+      Game: "/snake"
+      Lessons: "/snake/debug"
+      Image: "/images/debug.png"
     - Title: "Design Thinking"
       Genre: "Creativity"
       Level: 1
@@ -44,23 +61,6 @@ lxdData:
       Lessons: "/calculator/lesson"
       Image: "/images/calculator.png"
       Alt: "Calculator functions"
-    - Title: "Snake Game"
-      Genre: "Coding"
-      Level: "1"
-      Description: "Hands-on choding challenge to change the appearance of the Snake game."
-      Categories: ["JavaScript", "Game Play", "Game Coding", "Reptile Life"]
-      Game: "/snake"
-      Lessons: "/snake/lesson"
-      Image: "/images/snake.png"
-      Alt: "Snake eating Apples"
-    - Title: "Debugging Challenge"
-      Genre: "Debugging"
-      Level: 2
-      Description: "Sharpen your debugging skills with real-world coding analysis using inspect."
-      Categories: ["Debugging", "Logic", "Code Review"]
-      Game: "/snake"
-      Lessons: "/snake/debug"
-      Image: "/images/debug.png"
     - Title: "RPG Game"
       Genre: "Coding"
       Level: "Intermediate"
