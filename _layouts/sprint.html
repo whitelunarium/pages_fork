@@ -77,8 +77,15 @@ Iterate through Course Units
       <th>Title</th>
       <th>Type</th>
     </tr>
-    {% assign unitData = course[unitKey] %}
+
+    {% comment %} 
+    Generate a table of posts for the current Sprint
+    {% endcomment %}
+
     {% for index in (start..end) %}
+      {% comment %}
+      Locate posts in the matching weeks of Sprint
+      {% endcomment %}
       {% assign entries = null | compact %}
       {% for post in posts %}
         {% if post.courses[page.course] %}
@@ -89,6 +96,10 @@ Iterate through Course Units
           {% endif %}
         {% endif %}
       {% endfor %}
+
+      {% comment %}
+      Render the located posts 
+      {% endcomment %}
       {% for entry in entries %}
         {% assign parts = entry | split: "||" %}
         <tr>
