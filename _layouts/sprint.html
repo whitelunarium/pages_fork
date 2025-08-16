@@ -2,94 +2,92 @@
 layout: post 
 ---
 
-{%comment%} 
+{% comment %} 
 Setup course data
-{%endcomment%}
+{% endcomment %}
 
-{% assign course = site.data[page.course] %} <!-- Load YML data -->
+{% assign shared = site.data.cs %}
+{% assign course = site.data[page.course] %}
 {% assign units = page.units | split: ',' %}
 
-{%comment%} 
-<!-- Load all posts -->
-{%endcomment%}
+{% comment %} 
+Load all posts
+{% endcomment %}
 {% assign posts = null | compact %}
 {% assign posts = posts | concat:site.posts | concat:site.pages %}
 
-{%comment%} 
-<!-- Iterate through Course Units -->
-{%endcomment%}
-
+{% comment %} 
+Iterate through Course Units
+{% endcomment %}
 {% for unit in units %}
-{% assign unitKey = "Sprint" | append: unit %}
-{% assign unitData = course[unitKey] %}
-<h2> {{ unitKey }}: {{ unitData.title }} </h2>
-<h3> Weeks: {{ unitData.start }} - {{ unitData.end }} </h3>
-
-<p>  {{ unitData.description }} </p>
-
-{% if unitData.illustration %}
-<details>
-  <summary>Text Illustration</summary>
-
-  <pre>
-    <p>{{ unitData.illustration }}</p>
-  </pre>
-</details>
-<br/>
-{% endif %}
-
-{% if unitData.mermaid_figure %}
-<details>
-  <summary>Visual Illustration</summary>
-  <div class="mermaid">
-    {{ unitData.mermaid_figure }}
-  </div>
-</details>
-<br/>
-{% endif %}
-
-{% assign start = unitData.start %}
-{% assign end = unitData.end %}
-
-{%comment%} 
-<!-- Column Headings for Blogs -->
-{%endcomment%}
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Type</th>
-  </tr>
   {% assign unitKey = "Sprint" | append: unit %}
   {% assign unitData = course[unitKey] %}
+  {% assign courseUnit = course[unitKey] %}
   {% assign start = unitData.start %}
   {% assign end = unitData.end %}
+  {% comment %} 
+  Look to see if content is in shared file
+  {% endcomment %} 
+  {% if courseUnit.shared %}
+    {% assign unitData = shared[unitKey] %}
+  {% endif %}
 
-  {% for index in (start..end) -%}
-    {% assign entries = null | compact %}
+  <h2>{{ unitKey }}: {{ unitData.title }}</h2>
+  <h3>Weeks: {{ start }} - {{ end }}</h3>
+  <p>{{ unitData.description }}</p>
 
-    {% for post in posts %}
-      {% if post.courses[page.course] %}
-        {% assign week = post.courses[page.course].week | plus: 0 %}
+  {% if unitData.illustration %}
+    <details>
+      <summary>Text Illustration</summary>
+      <pre>
+        <p>{{ unitData.illustration }}</p>
+      </pre>
+    </details>
+    <br/>
+  {% endif %}
 
-        {% if week == index %}
-          {% assign entry = post.title | append: "||" | append: post.url | append: "||" | append: post.type %}
-          {% assign entries = entries | push: entry %}
+  {% if unitData.mermaid_figure %}
+    <details>
+      <summary>Visual Illustration</summary>
+      <div class="mermaid">
+        {{ unitData.mermaid_figure }}
+      </div>
+    </details>
+    <br/>
+  {% endif %}
+
+  {% comment %} 
+  Column Headings for Blogs
+  {% endcomment %}
+
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Type</th>
+    </tr>
+    {% assign unitData = course[unitKey] %}
+    {% for index in (start..end) %}
+      {% assign entries = null | compact %}
+      {% for post in posts %}
+        {% if post.courses[page.course] %}
+          {% assign week = post.courses[page.course].week | plus: 0 %}
+          {% if week == index %}
+            {% assign entry = post.title | append: "||" | append: post.url | append: "||" | append: post.type %}
+            {% assign entries = entries | push: entry %}
+          {% endif %}
         {% endif %}
-      {% endif %}
+      {% endfor %}
+      {% for entry in entries %}
+        {% assign parts = entry | split: "||" %}
+        <tr>
+          <td>
+            <a href="{{ site.baseurl }}{{ parts[1] }}">{{ parts[0] }}</a>
+          </td>
+          <td>
+            {{ parts[2] }}
+          </td>
+        </tr>
+      {% endfor %}
     {% endfor %}
-
-    {% for entry in entries %}
-      {% assign parts = entry | split: "||" %}
-      <tr>
-        <td>
-          <a href="{{site.baseurl}}{{parts[1]}}">{{parts[0]}}</a>
-        </td>
-        <td>
-          {{ parts[2] }}
-        </td>
-      </tr>
-    {% endfor %}
-  {% endfor %}
-</table>
+  </table>
 {% endfor %}
