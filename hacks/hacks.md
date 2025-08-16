@@ -40,11 +40,13 @@ lxdData:
         - "Hands-on coding practice"
     - Title: "Design Thinking"
       Genre: "Creativity"
-      Level: 2
+      Level: 1
       Description: "Practice problem-solving and innovation with design thinking activities."
       Categories: ["Design", "Innovation", "Empathy"]
-      Game: "/games/design-thinking"
-      Lessons: "/lessons/design-thinking"
+      Game: "/gamify/adventureGame/"
+      Lessons: "/sprints/week1"
+      Image: "/images/design_think.png"
+      Alt: "Design Thinking"
     - Title: "Debugging Challenge"
       Genre: "Problem Solving"
       Level: 2
