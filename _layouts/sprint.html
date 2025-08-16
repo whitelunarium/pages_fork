@@ -20,22 +20,32 @@ Load all posts
 Iterate through Course Units
 {% endcomment %}
 {% for unit in units %}
+  {% comment %} 
+  Extract unit data for the Sprint
+  {% endcomment %}
   {% assign unitKey = "Sprint" | append: unit %}
   {% assign unitData = course[unitKey] %}
   {% assign courseUnit = course[unitKey] %}
   {% assign start = unitData.start %}
   {% assign end = unitData.end %}
+
   {% comment %} 
-  Look to see if content is in shared file
-  {% endcomment %} 
+  Override unit data with shared unit data if available, ie common between courses
+  {% endcomment %}
   {% if courseUnit.shared %}
-    {% assign unitData = shared[unitKey] %}
+    {% assign unitData = shared[courseUnit.shared] %}
   {% endif %}
 
+  {% comment %} 
+  Heading content for the Sprint
+  {% endcomment %}
   <h2>{{ unitKey }}: {{ unitData.title }}</h2>
   <h3>Weeks: {{ start }} - {{ end }}</h3>
   <p>{{ unitData.description }}</p>
 
+  {% comment %} 
+  Text based illustration for Sprint objectives
+  {% endcomment %}
   {% if unitData.illustration %}
     <details>
       <summary>Text Illustration</summary>
@@ -46,6 +56,9 @@ Iterate through Course Units
     <br/>
   {% endif %}
 
+  {% comment %} 
+  Mermaid based illustration for Sprint objectives
+  {% endcomment %}
   {% if unitData.mermaid_figure %}
     <details>
       <summary>Visual Illustration</summary>
@@ -57,9 +70,8 @@ Iterate through Course Units
   {% endif %}
 
   {% comment %} 
-  Column Headings for Blogs
+  Column Headings for Articles, ie Blogs
   {% endcomment %}
-
   <table>
     <tr>
       <th>Title</th>
