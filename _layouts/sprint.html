@@ -29,11 +29,21 @@ Setup course data
 
 {% if unitData.illustration %}
 <details>
-  <summary>Illustration</summary>
+  <summary>Text Illustration</summary>
 
   <pre>
     <p>{{ unitData.illustration }}</p>
   </pre>
+</details>
+<br/>
+{% endif %}
+
+{% if unitData.mermaid_figure %}
+<details>
+  <summary>Visual Illustration</summary>
+  <div class="mermaid">
+    {{ unitData.mermaid_figure }}
+  </div>
 </details>
 <br/>
 {% endif %}

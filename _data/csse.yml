@@ -45,6 +45,14 @@ Sprint1:
   title: Onboarding and LxD
   description: During this Sprint, students will establish the foundational tools, collaborative practices, and development mindset essential for their Computer Science journey. You'll gain hands-on experience with Linux systems, VSCode development environment, and GitHub workflows while building your first portfolio site. Through iterative development with Markdown, HTML, CSS, and JavaScript, you'll learn to embrace mistakes as learning opportunities, leverage AI tools effectively, and practice pair programming - all while documenting your growth journey. The focus is on building sustainable habits and understanding a breadth of concepts rather than rushing to in depth coding.
   illustration: *introduction_tools
+  mermaid_figure: |
+    flowchart TD
+      A[Laptop, OS<br>Tool Setup] --> B[VS Code, Markdown, Jupyter, JS]
+      B --> C[VS Code, Develop<br>Code Editor]
+      C --> D[VS Code, Git<br>Version Control]
+      D --> E[VS Code, Project<br>GitHub Sync]
+      E --> F[GitHub, Collab<br>Shared Code]
+      F --> G[GitHub Pages<br>Showcase Project]
   start: 0
   end: 3
 Sprint2:
