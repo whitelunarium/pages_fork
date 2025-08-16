@@ -18,8 +18,8 @@ lxdData:
       Level: 1
       Description: "Learn how to work effectively in coding teams using Agile methods."
       Categories: ["Agile", "Collaboration", "Sprint"]
-      Game: "/games/agile-collab"
-      Lessons: "/lessons/agile-collab"
+      Game: "/gamify/end"
+      Lessons: "/agile"
       Image: "/images/agile.webp"
       Alt: "Agile Collaboration Game"
     - Title: "RPG Game"
