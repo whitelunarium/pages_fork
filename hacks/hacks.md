@@ -22,22 +22,6 @@ lxdData:
       Lessons: "/agile"
       Image: "/images/agile.webp"
       Alt: "Agile Collaboration Game"
-    - Title: "RPG Game"
-      Genre: "Educational"
-      Level: "Intermediate"
-      Description: "Learn the basics of JS and object oriented programming as you dive deep into the world of game coding. "
-      Categories: ["JavaScript", "OOP", "Game Coding", "Marine Life"]
-      Game: "/rpg/latest"
-      Lessons: "/lesson/rpg"
-      Image: "/images/toolkit-nav-buttons/rpg.png"
-      Alt: "Underwater RPG Adventure"
-      Author: "Jane Smith"
-      KeyPoints:
-        - "JavaScript fundamentals"
-        - "Object-oriented programming"
-        - "Interactive gameplay"
-        - "Marine life encounters"
-        - "Hands-on coding practice"
     - Title: "Design Thinking"
       Genre: "Creativity"
       Level: 1
@@ -47,13 +31,42 @@ lxdData:
       Lessons: "/sprints/week1"
       Image: "/images/design_think.png"
       Alt: "Design Thinking"
+    - Title: "Calculator"
+      Genre: "Coding"
+      Level: "1"
+      Description: "Hands-on choding challenge to add function to a Calculator."
+      Categories: ["JavaScript", "Styling", "Buttons", "Math"]
+      Game: "/calculator"
+      Lessons: "/calculator/lesson"
+      Image: "/images/calculator.png"
+      Alt: "Calculator functions"
+    - Title: "Snake Game"
+      Genre: "Coding"
+      Level: "1"
+      Description: "Hands-on choding challenge to change the appearance of the Snake game."
+      Categories: ["JavaScript", "Game Play", "Game Coding", "Reptile Life"]
+      Game: "/snake"
+      Lessons: "/snake/lesson"
+      Image: "/images/snake.png"
+      Alt: "Snake eating Apples"
     - Title: "Debugging Challenge"
-      Genre: "Problem Solving"
+      Genre: "Debugging"
       Level: 2
-      Description: "Sharpen your debugging skills with real-world coding puzzles."
+      Description: "Sharpen your debugging skills with real-world coding analysis using inspect."
       Categories: ["Debugging", "Logic", "Code Review"]
-      Game: "/games/debug-challenge"
-      Lessons: "/lessons/debug-challenge"
+      Game: "/snake"
+      Lessons: "/snake/debug"
+      Image: "/images/debug.png"
+    - Title: "RPG Game"
+      Genre: "Coding"
+      Level: "Intermediate"
+      Description: "Learn the basics of JS and object oriented programming as you dive deep into the world of game coding. "
+      Categories: ["JavaScript", "OOP", "Game Coding", "Marine Life"]
+      Game: "/rpg/latest"
+      Lessons: "/rpg/latest/lesson"
+      Image: "/images/toolkit-nav-buttons/rpg.png"
+      Alt: "Underwater RPG Adventure"
+    
 ---
 
 {%- include tailwind/lxd.html -%}
