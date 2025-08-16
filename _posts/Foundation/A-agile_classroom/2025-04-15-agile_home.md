@@ -1,12 +1,13 @@
 ---
 toc: False 
-layout: tailwindPost
+layout: post
+tailwind: True 
 infoGraph: agile_infograph
 questions: agile_questions
 title: Agile Methodologies
 description: Working with Teams and practicing Scrum Agile Metodlogies in a classroom environment.
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
-type: human 
+type: soft skills 
 categories: ['Collaboration']
 permalink: /agile/
 sticky_rank: 1
