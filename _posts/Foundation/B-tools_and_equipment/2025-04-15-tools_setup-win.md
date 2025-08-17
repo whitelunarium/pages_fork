@@ -54,7 +54,17 @@ flowchart TD
 
 ## Windows Setup
 
-### Install WSL and Ubuntu
+### Install VSCode
+
+[VSCode link, Select OS and follow instructions](https://code.visualstudio.com/download)
+
+### WSL commands
+
+- `wsl --help`, `wsl -l -o`, `wsl -l -v`, `wsl --shutdown`
+
+### WSL instll
+
+All of these commands are activated from Windows Shell (`C:\`)
 
 1. In PowerShell (Admin):  
 
@@ -62,46 +72,66 @@ flowchart TD
    wsl --install -d Ubuntu-24.04
    ```
 
-2. Setup a username and password when prompted.
+2. Setup a username and password when prompted. On password you will be typing but will not see respones.
 
-3. To start Linux:  
-
-   ```bash
-   wsl
-   ```
-
-4. Set as default:  
+3. Set as default:  
 
    ```bash
    wsl --set-default Ubuntu-24.04
    ```
 
-### WSL Reference Commands
+4. To start Linux:  
 
-- `wsl -l -o`, `wsl -l -v`, `wsl --shutdown`, etc.
+   ```bash
+   wsl
+   ```
 
 ---
 
-## Install Developer Tools
+## WSL Ubuntu Setup
+
+### First-time Setup
+
+Open Windows Terminal and Pin to Taskbar
+
+Run these commands to set up your Uubuntu developer tools for the first time.
 
 ```bash
-cd
-mkdir opencs 
-cd opencs 
-git clone https://github.com/open-coding-society/pages.git
-cd opencs/pages/scripts
+mkdir opencs
+cd opencs
+git clone https://github.com/Open-Coding-Society/student.git
+cd student/
 ./activate_ubuntu.sh
+./scripts/activate_github.sh
+./scripts/venv.sh
 ```
 
----
+#### System Checks (Optional)
 
-## Version Checks
+Open Terminal by right clicking on Terminal in Taskbar and selecting Ubuntu 24.04
+
+Run these commands to verify your system setup and check installed tools.
 
 ```bash
 ruby -v
 bundle -v
 python --version
 jupyter --version
+git config --global --list
+jupyter kernelspec list
+pip list
+```
+
+#### Restarting a terminal
+
+Open Terminal by right clicking on Terminal in Taskbar and selecting Ubuntu 24.04
+
+Each time you open a new terminal session, run these commands to activate your environment and start working on the student project in VS Code.
+
+```bash
+cd opencs/student
+source venv/bin/activate
+code .
 ```
 
 ---
