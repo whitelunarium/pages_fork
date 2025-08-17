@@ -2,7 +2,7 @@
 toc: True
 layout: post
 title: Agile Development and Design Thinking
-description: In most projects in education we complement Learning, LxD, and the Agile Process to acheive development.  In this article we focus on Design Thinking.
+description: In most projects in education we complement Learning, LxD, and the Agile Process to achieve development. In this article we focus on Design Thinking.
 permalink: /agile/design_thinking
 breadcrumb: True 
 ---
@@ -75,11 +75,11 @@ flowchart TD
 
 ## Incorporating Design Thinking (Section 1)
 
-**Instructional Design vs. Learning Experience Design** a comparision.
+**Instructional Design vs. Learning Experience Design** a comparison.
 
 **Instructional Design** is the traditional approach to creating learning opportunities. It focuses on identifying needs, setting goals, defining assessments, and establishing learning objectives using established frameworks and tools.
 
-**Learning Experience Design (LxD)** evolves this thinking by emphasizing flexibility and responsiveness to the diverse needs, interests, and goals of learners. LxD aims for equitable outcomes and integrates elements from user experience design (UxD), graphics, games, and overall learner experience. The shift from Instructional Design to LxD is driven by new technologies, mobile learning, iterative development, and the importance of early feedback.
+**Learning Experience Design (LxD)** evolves this thinking by emphasizing flexibility and responsiveness to the diverse needs, interests, and goals of learners. LxD aims for equitable outcomes and integrates elements from User Experience Design (UxD), graphics, games, and overall learner experience. The shift from Instructional Design to LxD is driven by new technologies, mobile learning, iterative development, and the importance of early feedback.
 
 ---
 
@@ -122,7 +122,7 @@ The key differences between Instructional Design and LxD are rooted in a more it
 - **Iterative Design:** Design, prototype, and review.
 - **Iterative Development:** Develop, implement, and evaluate (Alpha, Beta, Silver, Gold stages). SAM aims to make ADDIE more agile, though it still includes some pre-planned milestones.
 
-- **Understanding by Design (UbD):** A backwards design approach:
+- **Understanding by Design (UbD):** A Backwards Design approach:
 
   - 🎯 Identify desired results.
   - 📊 Determine assessment evidence.
@@ -272,7 +272,7 @@ flowchart TD
   B --> C[Stimulate recall of Prior Learning]
   C --> D[Present the Content]
   D --> E[Provide learning Guidance]
-  E --> F[Elicit Performace - Practice]
+  E --> F[Elicit Performance - Practice]
   F --> G[Provide timely Feedback]
   G --> H[Assess Performance]
   H --> I[Enhance Retention and Transfer]
@@ -317,7 +317,7 @@ mindmap
       Engage my experience      
     Module2((Demonstrate))
       Show me
-      Provide me guideance     
+      Provide me guidance     
     Module3((Application))
       Let me
       Align my outcomes
