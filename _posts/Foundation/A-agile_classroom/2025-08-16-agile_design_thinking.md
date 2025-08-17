@@ -31,32 +31,34 @@ This approach ensures each sprint becomes more than a sequence of tasks—it’s
 
 ### SPRINT CYCLE (2–4 Weeks)
 
-1. Sprint Backlog
-2. Plan
-3. Meet-users ↔ Social ↔ Empathy → Vision
+1. Backlog
+2. Sprint Plan
+3. Meet-users ↔ Meet-onwers ↔ Empathy → Vision
 4. Perspective ↔ POV → User-stories
-5. Ideate ↔ HMV → Issues
-6. Standup → Pinup → Kanban
-7. Implementation → Test
-8. Burndown (ideate review)
-9. Retrospective (plan review)
+5. Sprint Development
+6. Ideate ↔ HMV → Issues
+7. Standup → Pinup → Kanban
+8. Implementation → Test
+9. Burndown (ideate review)
+10. Retrospective (plan review)
 
 ```mermaid
 flowchart TD
-  A[Sprint Backlog] --> B[Plan]
-  B --> C[Meet-users ↔ Social ↔ Empathy → Vision]
+  A[Sprint Backlog] --> B[Sprint Plan]
+  B --> C[Meet-users ↔ Meet-owners ↔ Empathy → Vision and Requirements]
   C --> D[Perspective ↔ POV → User-stories]
-  D --> E[Ideate ↔ HMV → Issues]
-  E --> F[Stanup → Pinup → Kanban]
-  F --> G[Implementation]
-  G --> H[Test ↔ Using User-stories]
-  H --> I[Burndown ↔ Using Issues]
-  I --> J[Retrospective ↔ Using Vision]
-  J -.-> B
-  J --> K[Sprint Close]
+  D --> E[Sprint Development]
+  E --> F[Ideate ↔ HMV → Issues]
+  F --> G[Standup → Pinup → Kanban]
+  G --> H[Implementation → Code]
+  H --> I[Test ↔ Using User-stories → Issue Checks]
+  I --> J[Burndown ↔ Using Issues → Issue Done?]
+  J --> K[Retrospective ↔ Using Vision → Revise Vision and Requirements?]
+  K -.-> B
+  K --> L[Sprint Close]
 
   %% Feedback loop from Retrospective/Burndown to Plan
-  I -.-> E
+  J -.-> E
 
   %% Optional: Highlight the cycle
   subgraph "Sprint Cycle"
@@ -69,6 +71,7 @@ flowchart TD
     H
     I
     J
+    K
   end
 ```
 
@@ -131,9 +134,9 @@ The key differences between Instructional Design and LxD are rooted in a more it
 
 ### Design Thinking Process
 
-Design Thinking is a flexible, human-centered process that sits at the heart of LxD. 
+Design Thinking is a flexible, human-centered process that sits at the heart of LxD.
 
-In a classroom, it can be challenging to simulate authentic user feedback, but you can get creative—try “cross-table” exchanges, connect with another CS class during office hours, host an informal meet-up (even at a Panera 😊), or share your ideas with friends or family. 
+In a classroom, it can be challenging to simulate authentic user feedback, but you can get creative—try “cross-table” exchanges, connect with another CS class during office hours, host an informal meet-up (even at a Panera 😊), or share your ideas with friends or family.
 
 The key is to make feedback social—learning from different perspectives strengthens your design. The five phases can be adapted for classwork:
 
@@ -227,7 +230,7 @@ Bloom’s Pyramid shows how learning builds upward, from the foundational level 
  ```
 
 - **Fink’s Significant Learning:** Holistic, affective
-  - Intersection: All learning verbs intersect to form Foundational Knowledge. 
+  - Intersection: All learning verbs intersect to form Foundational Knowledge.
   - Foundational Knowledge: Content, facts
   - Application: Connecting concepts, solving problems, making decisions
   - Integration: Transfer knowledge to new subjects and real-world contexts
