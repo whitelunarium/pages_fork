@@ -27,7 +27,7 @@ Agile development and educational design share a common challenge: effective ass
 - In education, Backwards Design emphasizes starting with assessment goals before planning instruction.
 - Design Thinking brings these ideas together by centering the user—whether that’s a learner or a software customer—through empathy and defining a clear point of view (POV).
 
-This approach ensures that each sprint is not just a sequence of tasks, but a continuous loop of improvement driven by user needs and team reflection.
+This approach ensures each sprint becomes more than a sequence of tasks—it’s a continuous loop of improvement driven by user needs and team reflection.
 
 ### SPRINT CYCLE (2–4 Weeks)
 
@@ -79,7 +79,7 @@ flowchart TD
 
 **Instructional Design** is the traditional approach to creating learning opportunities. It focuses on identifying needs, setting goals, defining assessments, and establishing learning objectives using established frameworks and tools.
 
-**Learning Experience Design (LxD)** evolves this thinking by emphasizing flexibility and responsiveness to the diverse needs, interests, and goals of learners. LxD aims for equitable outcomes and integrates elements from User Experience Design (UxD), graphics, games, and overall learner experience. The shift from Instructional Design to LxD is driven by new technologies, mobile learning, iterative development, and the importance of early feedback.
+**Learning Experience Design (LxD)** evolves this thinking by emphasizing flexibility and responsiveness to the diverse needs, interests, and goals of learners. LxD aims for equitable outcomes and integrates elements from User Experience Design (UxD), graphics, games, and overall learner experience. The shift from Instructional Design to LxD is fueled by new technologies, mobile learning, iterative development, and the growing emphasis on early feedback.
 
 ---
 
@@ -206,7 +206,7 @@ mindmap
 5. Evaluate
 6. Create
 
-Bloom’s Pyramid illustrates how learning builds upward from the foundational level of Remember to the highest level, Create—emphasizing the concept of constructing knowledge on a solid base.
+Bloom’s Pyramid shows how learning builds upward, from the foundational level of Remember to the highest level, Create—emphasizing knowledge as a structure built on a solid base.
 
 ```text
               ^
@@ -307,7 +307,7 @@ flowchart TD
 
 #### Learner focused mindmap
 
-Position learners so they receive the right scaffolding and support as they engage with each task.
+Position learners to receive the right scaffolding and support as they engage with each task.
 
 ```mermaid
 mindmap
