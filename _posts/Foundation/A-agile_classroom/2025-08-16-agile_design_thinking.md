@@ -31,16 +31,41 @@ This approach ensures each sprint becomes more than a sequence of tasks—it’s
 
 ### SPRINT CYCLE (2–4 Weeks)
 
-1. Backlog
-2. Sprint Plan
-3. Meet-users ↔ Meet-onwers ↔ Empathy → Vision
-4. Perspective ↔ POV → User-stories
-5. Sprint Development
-6. Ideate ↔ HMV → Issues
-7. Standup → Pinup → Kanban
-8. Implementation → Test
-9. Burndown (ideate review)
-10. Retrospective (plan review)
+1. **Sprint Backlog**  
+   List all tasks, requirements, and ideas for the sprint. This ensures learners have a clear roadmap and aligns with LxD principles of structured iterative work.
+
+2. **Sprint Plan**  
+   Decide what the team can realistically achieve in this cycle. Planning builds prioritization skills and connects learning objectives to tangible outcomes.
+
+3. **Meet-users ↔ Meet-owners ↔ Empathy → Vision and Requirements**  
+   Gather input from stakeholders and potential users to understand their needs. Empathy strengthens design relevance and helps define clear learning goals.
+
+4. **Perspective ↔ POV → User-stories**  
+   Translate observations into points-of-view and actionable user stories. This connects research insights with concrete tasks, fostering learner-centered design.
+
+5. **Sprint Development**  
+   Begin building or prototyping based on the backlog. Active creation reinforces understanding and encourages experimentation.
+
+6. **Ideate ↔ HMW → Issues**  
+   Brainstorm solutions framed as “How Might We” questions. This encourages creative problem solving and the generation of multiple learning pathways.
+
+7. **Standup → Pinup → Kanban**  
+   Conduct short check-ins and visualize progress on Kanban boards. This supports self-management, collaboration, and transparency of work.
+
+8. **Implementation → Code**  
+   Turn prototypes or designs into working solutions. Hands-on implementation aligns with Agile Development and LxD emphasis on learning by doing and iterative refinement.
+
+9. **Test ↔ Using User-stories → Feedback, Issue Checks**  
+   Validate outputs against user stories and requirements. Iterative testing encourages reflection, feedback incorporation, and improvement.
+
+10. **Burndown ↔ Using Issues → Issue Done?**  
+    Track completion visually with burndown charts. This fosters awareness of progress and helps learners manage tasks dynamically.
+
+11. **Retrospective ↔ Using Vision → Revise Vision and Requirements?**  
+    Reflect on successes, challenges, and evolving requirements. Retrospectives cultivate meta-cognition and adaptive design thinking.
+
+12. **Sprint Close**  
+    Finalize deliverables and lessons learned. Closing reinforces accountability and prepares the team for the next iteration, ensuring continuous improvement.
 
 ```mermaid
 flowchart TD
@@ -51,7 +76,7 @@ flowchart TD
   E --> F[Ideate ↔ HMV → Issues]
   F --> G[Standup → Pinup → Kanban]
   G --> H[Implementation → Code]
-  H --> I[Test ↔ Using User-stories → Issue Checks]
+  H --> I[Test ↔ Using User-stories → Feedback, Issue Checks]
   I --> J[Burndown ↔ Using Issues → Issue Done?]
   J --> K[Retrospective ↔ Using Vision → Revise Vision and Requirements?]
   K -.-> B
