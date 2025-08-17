@@ -33,9 +33,9 @@ This approach ensures each sprint becomes more than a sequence of tasks—it’s
 
 1. Sprint Backlog
 2. Plan
-3. Empathy ↔ Interviews
-4. Vision ↔ User Stories → POV
-5. Ideate → Issues
+3. Meet-users ↔ Social ↔ Empathy → Vision
+4. Perspective ↔ POV → User-stories
+5. Ideate ↔ HMV → Issues
 6. Standup → Pinup → Kanban
 7. Implementation → Test
 8. Burndown (ideate review)
@@ -44,19 +44,19 @@ This approach ensures each sprint becomes more than a sequence of tasks—it’s
 ```mermaid
 flowchart TD
   A[Sprint Backlog] --> B[Plan]
-  B --> C[Empathy ↔ Interviews]
-  C --> D[Vision ↔ User Stories → POV]
-  D --> E[Ideate → Issues]
-  E --> F[Standup]
-  F --> G[Pinup → Kanban]
-  G --> H[Implementation]
-  H --> I[Test]
-  I --> J[Burndown]
-  J --> K[Retrospective]
-  K -.-> B
+  B --> C[Meet-users ↔ Social ↔ Empathy → Vision]
+  C --> D[Perspective ↔ POV → User-stories]
+  D --> E[Ideate ↔ HMV → Issues]
+  E --> F[Stanup → Pinup → Kanban]
+  F --> G[Implementation]
+  G --> H[Test ↔ Using User-stories]
+  H --> I[Burndown ↔ Using Issues]
+  I --> J[Retrospective ↔ Using Vision]
+  J -.-> B
+  J --> K[Sprint Close]
 
   %% Feedback loop from Retrospective/Burndown to Plan
-  J -.-> E
+  I -.-> E
 
   %% Optional: Highlight the cycle
   subgraph "Sprint Cycle"
@@ -69,7 +69,6 @@ flowchart TD
     H
     I
     J
-    K
   end
 ```
 
@@ -132,34 +131,36 @@ The key differences between Instructional Design and LxD are rooted in a more it
 
 ### Design Thinking Process
 
-Design Thinking is an innovative, human-centered, and non-sequential process that is integral to LxD.
+Design Thinking is a flexible, human-centered process that sits at the heart of LxD. 
 
-The categories include:
+In a classroom, it can be challenging to simulate authentic user feedback, but you can get creative—try “cross-table” exchanges, connect with another CS class during office hours, host an informal meet-up (even at a Panera 😊), or share your ideas with friends or family. 
 
-- **Empathy:** Use observations, interviews, and focus groups to gain insights into learners’ thoughts and feelings. Understand user needs and challenges through research.
-- **Define:** Craft a clear instructional problem statement and Point-Of-View (POV) based on findings. These can be personalized in the form of User Stories.
-- **Ideate:** Brainstorm solutions, generating "How Might We" (HMW) questions from the POV to spark creativity.
-- **Prototype:** Develop models or examples based on synthesized ideas and HMW questions. Be ready to modify prototypes as testing reveals new insights.
-- **Test:** Refine solutions based on user feedback, iterating as needed to improve outcomes.
+The key is to make feedback social—learning from different perspectives strengthens your design. The five phases can be adapted for classwork:
+
+- **Empathy:** Use quick interviews, observations, or “focus swaps” across tables to uncover how peers think and feel. Try creating mini-surveys or role-play scenarios to simulate real users.
+- **Define:** Turn your findings into a clear problem statement and Point-of-View (POV). Frame it in the form of a User Story (e.g., “As a student who struggles with tool installation, I need basic Linux knowledge so that I can work in the terminal.”)
+- **Ideate:** Run rapid brainstorming sessions—sticky notes, whiteboards, or digital tools. Encourage “How Might We” (HMW) questions to spark creativity and push beyond obvious solutions (e.g., “How might we write code that makes installation easier?”).
+- **Prototype:** Build quick, low-fidelity versions of your ideas—sketches, flowcharts, mockups. Start lo-fi, then increase fidelity (e.g., diagrams → clickable prototypes → code). Use class reviews as checkpoints for feedback.
+- **Test:** Treat presentations, peer reviews, and teacher feedback as testing sessions. Rotate roles so different students lead at the keyboard—this spreads responsibility and gives everyone a turn at navigating the “user experience.” You might also reverse the roles and put the teacher at the keyboard while students provide instruction. Finally, don’t be afraid to take your work outside of class—show friends, family, or even the folks at Panera 😊 what you’ve accomplished.
 
 ```mermaid
 mindmap
   root((Design Thinking Iteration))
     Empathy
-      - Observe
-      - Research
+      Meet 
+      Social
     Define
-      - Problem 
-      - POV
+      POV 
+      User-story
     Ideate
-      - Brainstorm
-      - HMW
+      Brainstorm
+      HMW
     Prototype
-      - Models
-      - Lo-Fi
+      Lo-fi
+      Coding
     Test
-      - Feedback
-      - Refine
+      Feedback
+      Refine
 ```
 
 ## Examining Various Approaches to Learning (Section 2)
