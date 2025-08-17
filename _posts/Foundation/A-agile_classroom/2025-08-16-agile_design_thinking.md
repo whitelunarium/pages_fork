@@ -70,7 +70,7 @@ This approach ensures each sprint becomes more than a sequence of tasks—it’s
 ```mermaid
 flowchart TD
   A[Sprint Backlog] --> B[Sprint Plan]
-  B --> C[Meet-users ↔ Meet-owners ↔ Empathy → Vision and Requirements]
+  B --> C[Meet-owners ↔ Meet-users ↔ Empathy → Vision and Requirements]
   C --> D[Perspective ↔ POV → User-stories]
   D --> E[Sprint Development]
   E --> F[Ideate ↔ HMV → Issues]
