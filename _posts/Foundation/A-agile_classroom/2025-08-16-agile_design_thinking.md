@@ -6,13 +6,25 @@ description: In most projects in education we complement Learning, LxD, and the 
 permalink: /agile/design_thinking
 breadcrumb: True 
 ---
+ 
+## Integrating Agile and LxD
 
-## Agile Development
+In this article, we compare multiple approaches to learning and development. While many models and frameworks exist, our emphasis will be on three complementary perspectives:
+
+**Adapted Agile** – an iterative, feedback-driven process that guides how learning solutions are planned, built, and refined.
+
+**Design Thinking Process** – a human-centered, creative problem-solving process that ensures solutions meet learner needs.
+
+**Merrill’s Principles of Instruction** – a problem-centered, modular instructional design framework that ensures learning is effective, efficient, and engaging.
+
+These three perspectives form the foundation of the discussion that follows, shaping how we integrate Learning Experience Design (LxD) with Agile methodologies in education.
+
+## Adapted Agile
 
 Agile development and educational design share a common challenge: effective assessment and improvement require intentional planning and feedback.
 
-- In software, Test Driven Development (TDD) ensures that testing is built into the development cycle. 
-- In education, Backwards Design emphasizes starting with assessment goals before planning instruction. 
+- In software, Test Driven Development (TDD) ensures that testing is built into the development cycle.
+- In education, Backwards Design emphasizes starting with assessment goals before planning instruction.
 - Design Thinking brings these ideas together by centering the user—whether that’s a learner or a software customer—through empathy and defining a clear point of view (POV).
 
 This approach ensures that each sprint is not just a sequence of tasks, but a continuous loop of improvement driven by user needs and team reflection.
@@ -256,41 +268,84 @@ mindmap
 
 ```mermaid
 flowchart TD
-  A[Gain Attention] --> B[Inform Learners of Objectives]
-  B --> C[Prior Learning]
-  C --> D[Present Content]
-  D --> E[Provide Guidance]
-  E --> F[Practice]
-  F --> G[Provide Feedback]
+  A[Gain Attention of Students] --> B[Inform Learners of Objectives]
+  B --> C[Stimulate recall of Prior Learning]
+  C --> D[Present the Content]
+  D --> E[Provide learning Guidance]
+  E --> F[Elicit Performace - Practice]
+  F --> G[Provide timely Feedback]
   G --> H[Assess Performance]
   H --> I[Enhance Retention and Transfer]
   I -.-> A
 ```
 
-- **Merrill’s Principles of Instruction:** Problem-based and modular.  
-  - Pre-req: Begin with a real-world task or problem
-  - Activation: Help learners activate prior knowledge
-  - Demonstration: Provide clear models or examples
-  - Application: Practice and apply learning, guided then independent
-  - Integration: Reflect, share, or use new knowledge in meaningful contexts
-  - Motto: Make instruction Effective, Efficient, Engaging
+- **Merrill’s Principles of Instruction:** Problem-based and modular.
+
+- Motto: Make instruction Effective, Efficient, Engaging
+  - Focus on Problem-centered, modular approach to learning.
+  - Provide a project-based and experiential learning environments.
+- Problem-centered: Begin with a real-world task or authentic problem.
+  - Show the tasks learners will complete
+  - Ensure learners are engaged
+  - Progression: begin with basic problems and add complexity
+- Activation: Help learners activate prior knowledge
+  - Previous Experience: Tap into learners' existing knowledge
+  - Provide new experiences: Ensure tasks are interesting and authentic
+  - Scaffold learning: begin basic and add complexity
+- Demonstration (Show me): Provide clear models or examples
+  - Consistency: Provide content that reflects learning outcomes
+  - Learner guidance: Provide multiple representations of ideas, concepts, and perspectives
+  - Relevant media: Use relevant media to support effective learning
+- Application (Let me): Practice and apply learning, guided then independent
+  - Practice consistency: Align practice with learning outcomes
+  - Diminishing dependence culture: Gradually withdraw coaching to build learning independence
+  - Varied problems: Provide opportunities for learners to apply their learning to different contexts
+- Integration: Reflect, share, or use new knowledge in meaningful contexts
+  - Watch me: Provide opportunities for learners to demonstrate and share learning
+  - Reflection: Include reflection activities to recognize progress
+  - Creation: Encourage learners to transfer their learning into practical and useful applications in their own lives
+
+#### Learner focused mindmap
+
+Position learners so they receive the right scaffolding and support as they engage with each task.
 
 ```mermaid
 mindmap
-  root((Real-world Task))
-    Module1((Effective Module))
-      Activation
-      Demonstration
-      Application
-      Integration
-    Module2((Efficient Module))
-      Activation
-      Demonstration
-      Application
-      Integration
-    Module3((Engaging Module))
-      Activation
-      Demonstration
-      Application
-      Integration
+  root((Problem-centered learner))
+    Module1((Activate))
+      Provide me
+      Engage my experience      
+    Module2((Demonstrate))
+      Show me
+      Provide me guideance     
+    Module3((Application))
+      Let me
+      Align my outcomes
+    Module4(Integrate)
+      Watch me
+      Allow me to demo
+```
+
+#### Learning task usefulness
+
+Each module in the learning system should be real-world, interesting, and incorporate all the principles of instruction.
+
+```mermaid
+mindmap
+  root((Real-world tasks))
+    Module1((Effective))
+      Activate
+      Demonstrate
+      Apply
+      Integrate
+    Module2((Efficient))
+      Activate
+      Demonstrate
+      Apply
+      Integrate
+    Module3((Engaging))
+      Activate
+      Demonstrate
+      Apply
+      Integrate
 ```
