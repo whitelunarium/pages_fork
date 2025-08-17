@@ -31,34 +31,34 @@ This approach ensures that each sprint is not just a sequence of tasks, but a co
 
 ```mermaid
 flowchart TD
-    A[Sprint Backlog] --> B[Plan]
-    B --> C[Empathy ↔ Interviews]
-    C --> D[Vision ↔ User Stories → POV]
-    D --> E[Ideate → Issues]
-    E --> F[Standup]
-    F --> G[Pinup → Kanban]
-    G --> H[Implementation]
-    H --> I[Test]
-    I --> J[Burndown]
-    J --> K[Retrospective]
-    K -.-> B
+  A[Sprint Backlog] --> B[Plan]
+  B --> C[Empathy ↔ Interviews]
+  C --> D[Vision ↔ User Stories → POV]
+  D --> E[Ideate → Issues]
+  E --> F[Standup]
+  F --> G[Pinup → Kanban]
+  G --> H[Implementation]
+  H --> I[Test]
+  I --> J[Burndown]
+  J --> K[Retrospective]
+  K -.-> B
 
-    %% Feedback loop from Retrospective/Burndown to Plan
-    J -.-> E
+  %% Feedback loop from Retrospective/Burndown to Plan
+  J -.-> E
 
-    %% Optional: Highlight the cycle
-    subgraph "Sprint Cycle"
-      B
-      C
-      D
-      E
-      F
-      G
-      H
-      I
-      J
-      K
-    end
+  %% Optional: Highlight the cycle
+  subgraph "Sprint Cycle"
+    B
+    C
+    D
+    E
+    F
+    G
+    H
+    I
+    J
+    K
+  end
 ```
 
 ## Incorporating Design Thinking (Section 1)
@@ -110,11 +110,11 @@ The key differences between Instructional Design and LxD are rooted in a more it
 - **Iterative Design:** Design, prototype, and review.
 - **Iterative Development:** Develop, implement, and evaluate (Alpha, Beta, Silver, Gold stages). SAM aims to make ADDIE more agile, though it still includes some pre-planned milestones.
 
-**Understanding by Design (UbD):** A backwards design approach:
+- **Understanding by Design (UbD):** A backwards design approach:
 
-- Identify desired results.
-- Determine assessment evidence.
-- Plan learning experiences and instruction.
+  - 🎯 Identify desired results.
+  - 📊 Determine assessment evidence.
+  - 🛠️ Plan learning experiences and instruction.
 
 ---
 
@@ -122,73 +122,126 @@ The key differences between Instructional Design and LxD are rooted in a more it
 
 Design Thinking is an innovative, human-centered, and non-sequential process that is integral to LxD.
 
-The steps include:
+The categories include:
 
 - **Empathy:** Use observations, interviews, and focus groups to gain insights into learners’ thoughts and feelings. Understand user needs and challenges through research.
-- **Define:** Craft a clear instructional problem statement and point-of-view (POV) based on findings.
+- **Define:** Craft a clear instructional problem statement and Point-Of-View (POV) based on findings. These can be personalized in the form of User Stories.
 - **Ideate:** Brainstorm solutions, generating "How Might We" (HMW) questions from the POV to spark creativity.
 - **Prototype:** Develop models or examples based on synthesized ideas and HMW questions. Be ready to modify prototypes as testing reveals new insights.
 - **Test:** Refine solutions based on user feedback, iterating as needed to improve outcomes.
+
+```mermaid
+mindmap
+  root((Design Thinking Iteration))
+    Empathy
+      - Observe
+      - Research
+    Define
+      - Problem 
+      - POV
+    Ideate
+      - Brainstorm
+      - HMW
+    Prototype
+      - Models
+      - Lo-Fi
+    Test
+      - Feedback
+      - Refine
+```
 
 ## Examining Various Approaches to Learning (Section 2)
 
 ### Instructional Approaches to Learning
 
-- **Behaviorist:** Learners respond to stimuli, and instructors obtain responses. This approach is especially valuable for young learners, where rewards (like gold stars) motivate learning.
-- **Cognitivist:** Focuses on memorization, organization, repetition, and well-defined problems as a foundation for deeper learning. Learners develop metacognition and adapt previous learning to new contexts. Learning is highly individual.
-- **Constructivist:** Authentic learning is achieved by solving or creating real-world solutions. Group formation is key, and deep learning comes from producing tangible results. Learners have more control over their experience, such as choosing projects, compared to scripted learning outputs.
-- **Connectivist:** Leverages information systems, groups, and cultures with large quantities of information. Learners connect to systems and people to facilitate learning, often using the internet and AI. This approach builds on constructivist principles, with learners actively building knowledge through authentic choices and projects.
+- 🏆 **Behaviorist:** Learners respond to stimuli, and instructors obtain responses. This approach is especially valuable for young learners, where rewards (like gold stars) motivate learning.
+- 🧠 **Cognitivist:** Focuses on memorization, organization, repetition, and well-defined problems as a foundation for deeper learning. Learners develop metacognition and adapt previous learning to new contexts. Learning is highly individual.
+- 🛠️ **Constructivist:** Authentic learning is achieved by solving or creating real-world solutions. Group formation is key, and deep learning comes from producing tangible results. Learners have more control over their experience, such as choosing projects, compared to scripted learning outputs.
+- 🔗 **Connectivist:** Leverages information systems, groups, and cultures with large quantities of information. Learners connect to systems and people to facilitate learning, often using the internet and AI. This approach builds on constructivist principles, with learners actively building knowledge through authentic choices and projects.
 
 ---
 
 ### Mastery Learning Approaches
 
-- **Mastery Learning:** Learners must demonstrate mastery of a concept, skill, or procedure before moving on. In large classrooms, this is challenging, but learning analytics and adaptive technologies help personalize instruction and measure student success.
-- **Traditional Learning:** Progression is dictated by a predefined schedule, moving to the next skill based on time rather than mastery.
-- **Competency-Based Education (CBE):** Learners move at their own pace with immediate formative feedback. CBE formalizes mastery learning, with frequent student-teacher interactions to measure success.
+- ✅ **Mastery Learning:** Learners must demonstrate mastery of a concept, skill, or procedure before moving on. In large classrooms, this is challenging, but learning analytics and adaptive technologies help personalize instruction and measure student success.
+- ⏰ **Traditional Learning:** Progression is dictated by a predefined schedule, moving to the next skill based on time rather than mastery.
+- 🏎️ **Competency-Based Education (CBE):** Learners move at their own pace with immediate formative feedback. CBE formalizes mastery learning, with frequent student-teacher interactions to measure success.
 
 ---
 
 ### Andragogy and Pedagogy
 
-- **Andragogy** (Adult Learning):
-  - Self-directed
-  - Intrinsic motivation
-  - Experience as a resource
-  - Seeks relevant content
-  - Established self-concept
-  - Seeks recognition
-  - Learning oriented to needs
-
-- **Pedagogy** (Child Learning):
-  - Teacher-directed
-  - Extrinsic motivation
-  - Limited experience
-  - Content defined by teacher
-  - Learning to reach next level
-  - Self-concept dependent on teacher
-  - Learning oriented to teacher’s requirements
+| Aspect                    | Andragogy (Adult Learning)         | Pedagogy (Child Learning)         |
+|---------------------------|------------------------------------|-----------------------------------|
+| Direction                 | Self-directed                      | Teacher-directed                  |
+| Motivation                | Intrinsic                          | Extrinsic                         |
+| Experience                | Experience as a resource           | Limited experience                |
+| Content                   | Seeks relevant content             | Content defined by teacher        |
+| Self-concept              | Established self-concept           | Self-concept dependent on teacher |
+| Recognition               | Seeks recognition                  | Learning to reach next level      |
+| Orientation               | Learning oriented to needs         | Learning oriented to teacher’s requirements |
 
 ---
 
 ### Educational Frameworks
 
-- **Bloom’s Taxonomy:** Objectives pyramid
-  - Remember
-  - Understand
-  - Apply
-  - Analyze
-  - Evaluate
-  - Create
+- **Bloom’s Taxonomy:**
+
+1. Remember
+2. Understand
+3. Apply
+4. Analyze
+5. Evaluate
+6. Create
+
+Bloom’s Pyramid illustrates how learning builds upward from the foundational level of Remember to the highest level, Create—emphasizing the concept of constructing knowledge on a solid base.
+
+```text
+              ^
+            /    \
+           /Create\
+          /--------\
+         / Evaluate \
+        /------------\
+       /    Analyze   \
+      /----------------\
+     /       Apply      \
+    /--------------------\
+   /       Understand     \
+  /------------------------\
+ /          Remember        \
+/ ---------------------------\
+ ```
 
 - **Fink’s Significant Learning:** Holistic, affective
-  - Intersection: All learning verbs overlap
+  - Intersection: All learning verbs intersect to form Foundational Knowledge. 
   - Foundational Knowledge: Content, facts
   - Application: Connecting concepts, solving problems, making decisions
   - Integration: Transfer knowledge to new subjects and real-world contexts
   - Human Dimension: Collaboration, understanding self and others
-  - Caring: Feelings, values
-  - Metacognition: Independent, continual learning
+  - Caring: Feelings, Values
+  - Metacognition: Independent, continual learning, learning to learn
+
+```mermaid
+mindmap
+  root((Foundational Knowledge))
+    Application
+      Connecting
+      Solving
+      Making decisions
+    Integration
+      Transfer knowledge
+      Real-world
+    Human Dimension
+      Collaboration
+      Understanding
+    Caring
+      Feelings
+      Values
+    Metacognition
+      Independent
+      Learning to learn
+```
 
 - **Gagne’s 9 Events of Instruction:** Procedural and cognitive
   1. Gain Attention – Spark curiosity and relevance (e.g., compelling question, scenario, icebreaker)
@@ -201,10 +254,43 @@ The steps include:
   8. Assess Performance – Evaluate mastery
   9. Enhance Retention and Transfer – Apply in new contexts, use summaries, real-world tasks, reflection
 
-- **Merrill’s Principles of Instruction:** Problem-based
+```mermaid
+flowchart TD
+  A[Gain Attention] --> B[Inform Learners of Objectives]
+  B --> C[Prior Learning]
+  C --> D[Present Content]
+  D --> E[Provide Guidance]
+  E --> F[Practice]
+  F --> G[Provide Feedback]
+  G --> H[Assess Performance]
+  H --> I[Enhance Retention and Transfer]
+  I -.-> A
+```
+
+- **Merrill’s Principles of Instruction:** Problem-based and modular.  
   - Pre-req: Begin with a real-world task or problem
   - Activation: Help learners activate prior knowledge
   - Demonstration: Provide clear models or examples
   - Application: Practice and apply learning, guided then independent
   - Integration: Reflect, share, or use new knowledge in meaningful contexts
   - Motto: Make instruction Effective, Efficient, Engaging
+
+```mermaid
+mindmap
+  root((Real-world Task))
+    Module1((Effective Module))
+      Activation
+      Demonstration
+      Application
+      Integration
+    Module2((Efficient Module))
+      Activation
+      Demonstration
+      Application
+      Integration
+    Module3((Engaging Module))
+      Activation
+      Demonstration
+      Application
+      Integration
+```
