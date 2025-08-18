@@ -68,3 +68,9 @@ sudo mkdir -p "$GEM_HOME"
 sudo chmod -R 777 "$GEM_HOME"
 sudo gem install bundler jekyll benchmark openssl zlib racc bigdecimal drb unicode-display_width \
                  logger etc fileutils ipaddr mutex_m ostruct rss strscan stringio time
+
+# 4.  Prompt and setGitHub config
+read -p "Enter your Git username: " GIT_USER_NAME
+read -p "Enter your Git email: " GIT_USER_EMAIL
+git config --global user.name "$GIT_USER_NAME"
+git config --global user.email "$GIT_USER_EMAIL"
