@@ -9,6 +9,9 @@ if [ ! -d "venv" ]; then
     python -m venv venv
 fi
 
+# Set the virtual environment
+source venv/bin/activate
+
 # Install the required Python packages
 pip install -r requirements.txt
 
