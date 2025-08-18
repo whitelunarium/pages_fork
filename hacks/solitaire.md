@@ -4,7 +4,7 @@ title: Solitaire Game
 permalink: /solitaire/
 ---
 
-<style>w
+<style>
     body {
         font-family: Arial, sans-serif;
     }
