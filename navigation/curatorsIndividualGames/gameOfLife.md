@@ -1,6 +1,6 @@
 ---
 layout: base 
 title: Game of Life
-authors: Shriya
+author: Shriya
 permalink: life.html
 ---

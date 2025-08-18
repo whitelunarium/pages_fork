@@ -1,6 +1,6 @@
 ---
 layout: base 
 title: Tic Tac Toe
-authors: Samhita
+author: Samhita
 permalink: tictactoe.html
 ---

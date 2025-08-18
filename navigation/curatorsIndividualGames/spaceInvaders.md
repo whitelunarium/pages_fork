@@ -1,7 +1,7 @@
 ---
 layout: base 
 title: Space Invaders
-authors: Nikhil
+author: Nikhil
 permalink: space.html
 ---
 

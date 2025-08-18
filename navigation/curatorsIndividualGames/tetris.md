@@ -1,6 +1,6 @@
 ---
 layout: base 
 title: Tetris
-authors: Rohan
+author: Rohan
 permalink: tetris.html
 ---

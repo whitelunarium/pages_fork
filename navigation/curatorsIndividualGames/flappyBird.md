@@ -1,7 +1,7 @@
 ---
 layout: base 
 title: Flappy Bird
-authors: Adi
+author: Adi
 permalink: flappy.html
 ---
 

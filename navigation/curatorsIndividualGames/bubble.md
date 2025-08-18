@@ -1,6 +1,6 @@
 ---
 layout: base 
 title: Bubble Popping Game
-authors: Pranav
+author: Pranav
 permalink: bubble.html
 ---
