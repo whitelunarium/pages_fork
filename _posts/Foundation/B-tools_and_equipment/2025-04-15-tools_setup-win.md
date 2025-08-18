@@ -64,9 +64,7 @@ flowchart TD
 
 ### WSL instll
 
-All of these commands are activated from Windows Shell (`C:\`)
-
-1. In PowerShell (Admin):  
+1. Open Windows Terminal and Pin to Taskbar. All of these commands are activated from Windows Shell (`C:\`)
 
    ```bash
    wsl --install -d Ubuntu-24.04
@@ -74,17 +72,25 @@ All of these commands are activated from Windows Shell (`C:\`)
 
 2. Setup a username and password when prompted. On password you will be typing but will not see respones.
 
-3. Set as default:  
+3. At the conclusion of the install you will receive a WSL Ubuntu prompt.  For now we will exit WSL.
+
+   ```bash
+   exit
+   ```
+
+4. Set as default:  
 
    ```bash
    wsl --set-default Ubuntu-24.04
    ```
 
-4. To start Linux:  
+5. To start WSL Ubuntu from (`C:\`)
 
    ```bash
    wsl
    ```
+
+6. Close your terminal.
 
 ---
 
@@ -92,7 +98,7 @@ All of these commands are activated from Windows Shell (`C:\`)
 
 ### First-time Setup
 
-Open Windows Terminal and Pin to Taskbar
+Open Terminal by right clicking on Terminal in Taskbar and selecting Ubuntu 24.04
 
 Run these commands to set up your Uubuntu developer tools for the first time.
 
