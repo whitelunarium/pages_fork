@@ -16,10 +16,7 @@ add_to_bashrc() {
 }
 
 # 0. Aliases and Virtualenv Prompt
-add_to_bashrc 'alias flaskenv="source /opt/venvs/flaskenv/bin/activate"'
-add_to_bashrc 'alias pagesenv="source /opt/venvs/pagesenv/bin/activate"'
 add_to_bashrc 'alias code="code --no-sandbox"'
-add_to_bashrc 'export PATH="/opt/venvs/flaskenv/bin:/opt/venvs/pagesenv/bin:$PATH"'
 add_to_bashrc 'export GEM_HOME="/opt/gems"'
 add_to_bashrc 'export PATH="/opt/gems/bin:$PATH"'
 if ! grep -q 'VIRTUAL_ENV' "$BASHRC"; then
