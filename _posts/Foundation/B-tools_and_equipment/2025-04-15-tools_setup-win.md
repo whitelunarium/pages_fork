@@ -103,6 +103,7 @@ git clone https://github.com/Open-Coding-Society/student.git
 cd student/
 ./scripts/activate_ubuntu.sh # prompts for root password
 ./scripts/activate.sh # prompts for Git UID and Personal Email
+./scripts/activate.sh
 ./scripts/venv.sh
 ```
 
