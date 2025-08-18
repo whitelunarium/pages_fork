@@ -37,7 +37,7 @@ fi
 # 1. APT Packages
 sudo apt update
 sudo apt install -y python3 python3-pip python-is-python3 python3-venv ruby-full build-essential \
-    zlib1g-dev jupyter-notebook sqlite3
+    zlib1g-dev jupyter-notebook sqlite3 lsof
 
 # 2. Ruby Gems
 sudo mkdir -p "$GEM_HOME"
