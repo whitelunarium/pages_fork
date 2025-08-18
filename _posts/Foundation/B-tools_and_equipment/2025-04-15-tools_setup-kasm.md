@@ -63,7 +63,7 @@ mkdir opencs
 cd opencs
 git clone https://github.com/Open-Coding-Society/student.git
 cd student/
-./scripts/activate.sh # prompts for Git UID and Password
+./scripts/activate.sh # prompts for Git UID and Personal Email
 ./scripts/venv.sh
 code .
 ```

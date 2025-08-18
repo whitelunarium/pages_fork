@@ -101,7 +101,8 @@ mkdir opencs
 cd opencs
 git clone https://github.com/Open-Coding-Society/student.git
 cd student/
-./activate_ubuntu.sh
+./scripts/activate_ubuntu.sh # prompts for root password
+./scripts/activate.sh # prompts for Git UID and Personal Email
 ./scripts/venv.sh
 ```
 
