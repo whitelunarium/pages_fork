@@ -63,12 +63,10 @@ mkdir opencs
 cd opencs
 git clone https://github.com/Open-Coding-Society/student.git
 cd student/
+./scripts/activate.sh # prompts for Git UID and Password
 ./scripts/venv.sh
 code .
-make
 ```
-
-During the `./scripts/venv.sh` run, you will be prompted to enter your Git username and email to configure your Git commit identity. This only happens if Git is not already configured globally.
 
 ---
 
@@ -82,7 +80,6 @@ Your data persists even after workspace restarts or destroys. Simply relaunch yo
 cd opencs/student
 source venv/bin/activate
 code .
-make
 ```
 
 ---
