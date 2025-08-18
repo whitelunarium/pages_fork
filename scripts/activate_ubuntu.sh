@@ -40,7 +40,7 @@ sudo apt install -y python3 python3-pip python-is-python3 python3-venv ruby-full
     zlib1g-dev jupyter-notebook sqlite3
 
 # 2. Python Virtual Envs
-mkdir -p /opt/venvs && sudo chmod 755 /opt/venvs
+sudo mkdir -p /opt/venvs && sudo chmod 755 /opt/venvs
 
 # Flaskenv
 if [ ! -d /opt/venvs/flaskenv ]; then

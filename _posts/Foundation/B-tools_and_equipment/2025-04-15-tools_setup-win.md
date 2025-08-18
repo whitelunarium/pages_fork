@@ -102,7 +102,6 @@ cd opencs
 git clone https://github.com/Open-Coding-Society/student.git
 cd student/
 ./activate_ubuntu.sh
-./scripts/activate_github.sh
 ./scripts/venv.sh
 ```
 
