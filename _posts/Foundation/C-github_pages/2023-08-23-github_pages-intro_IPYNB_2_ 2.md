@@ -4,7 +4,7 @@ title: GitHub Pages
 description: The Web Programming topics are focused on learning Frontend programming, GitHub Pages, and Jupyter Notebooks.
 categories: ['JavaScript']
 permalink: /github/pages/intro
-type: ccc
+type: hacks 
 courses: {'csse': {'week': 2}, 'csp': {'week': 2}, 'csa': {'week': 1}}
 author: John Mortensen
 menu: nav/github_pages.html

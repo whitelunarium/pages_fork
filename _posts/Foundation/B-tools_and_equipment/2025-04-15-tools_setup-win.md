@@ -54,20 +54,32 @@ flowchart TD
 
 ## Windows Setup
 
-### Install WSL and Ubuntu
+### Install VSCode
 
-1. In PowerShell (Admin):  
+[VSCode link, Select OS and select default on prompts](https://code.visualstudio.com/download)
+
+### Install Git Config Manager (GCM)
+
+[Git Config Manager and select default on prompts](https://git-scm.com/downloads/win)
+
+### WSL common commands
+
+- `wsl --help`, `wsl -l -o`, `wsl -l -v`, `wsl --shutdown`, `wsl --uregister`
+
+### WSL instll
+
+1. Open Windows Terminal and Pin to Taskbar. All of these commands are activated from Windows Shell (`C:\`)
 
    ```bash
    wsl --install -d Ubuntu-24.04
    ```
 
-2. Setup a username and password when prompted.
+2. Setup a username and password when prompted. On password you will be typing but will not see respones.
 
-3. To start Linux:  
+3. At the conclusion of the install you will receive a WSL Ubuntu prompt.  For now we will exit WSL.
 
    ```bash
-   wsl
+   exit
    ```
 
 4. Set as default:  
@@ -76,32 +88,62 @@ flowchart TD
    wsl --set-default Ubuntu-24.04
    ```
 
-### WSL Reference Commands
+5. To start WSL Ubuntu from (`C:\`)
 
-- `wsl -l -o`, `wsl -l -v`, `wsl --shutdown`, etc.
+   ```bash
+   wsl
+   ```
+
+6. Close Terminal.
 
 ---
 
-## Install Developer Tools
+## WSL Ubuntu Setup
+
+### First-time Setup
+
+Open Terminal by right clicking on Terminal in Taskbar and selecting Ubuntu 24.04
+
+Run these commands to set up your Uubuntu developer tools for the first time.
 
 ```bash
-cd
-mkdir opencs 
-cd opencs 
-git clone https://github.com/open-coding-society/pages.git
-cd opencs/pages/scripts
-./activate_ubuntu.sh
+mkdir opencs
+cd opencs
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+git clone https://github.com/Open-Coding-Society/student.git
+cd student/
+./scripts/activate_ubuntu.sh # prompts for root password
+./scripts/activate.sh # prompts for Git UID and Personal Email
+./scripts/activate.sh
+./scripts/venv.sh
 ```
 
----
+#### System Checks (Optional)
 
-## Version Checks
+Open Terminal by right clicking on Terminal in Taskbar and selecting Ubuntu 24.04
+
+Run these commands to verify your system setup and check installed tools.
 
 ```bash
 ruby -v
 bundle -v
 python --version
 jupyter --version
+git config --global --list
+jupyter kernelspec list
+pip list
+```
+
+#### Restarting a terminal
+
+Open Terminal by right clicking on Terminal in Taskbar and selecting Ubuntu 24.04
+
+Each time you open a new terminal session, run these commands to activate your environment and start working on the student project in VS Code.
+
+```bash
+cd opencs/student
+source venv/bin/activate
+code .
 ```
 
 ---

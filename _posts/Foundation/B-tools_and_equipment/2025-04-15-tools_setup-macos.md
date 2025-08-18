@@ -52,28 +52,56 @@ You’ll use standard Unix shell commands:
 
 ## MacOS Setup
 
-### Install VS Code and Homebrew
+### Install Homebrew
 
-1. **Install VS Code**  
-   [VS Code link and instructions]
+Open a MacOS "terminal" and Keep in Dock
 
-2. **Run initialization scripts**
-   
+[Homebrew Install pages follow instructions](https://brew.sh/)
+
+#### Install VS Code
+
+[VSCode link, Select OS and follow instructions](https://code.visualstudio.com/download)
+
+#### First-time Setup
+
+Run these commands to set up your MacOS developer tools for the first time.
+
 ```bash
-git clone https://github.com/open-coding-society/student.git
-cd student
-chmod +x ./scripts/initialize_macos.sh
+mkdir opencs
+cd opencs
+git clone https://github.com/Open-Coding-Society/student.git
+cd student/
 ./scripts/activate_macos.sh
+./scripts/activate.sh # prompts for Git UID and Personal Email
+./scripts/venv.sh
 ```
----
 
-## Version Checks
+#### Setup Checks (Optional)
+
+Run these commands to verify your system setup and check installed tools.
+
+Open a MacOS "terminal" by clicking Terminal Icon in Dock
 
 ```bash
 ruby -v
 bundle -v
 python --version
 jupyter --version
+git config --global --list
+jupyter kernelspec list
+pip list
+```
+
+#### After restarting a terminal
+
+Open a MacOS "terminal" by clicking Terminal Icon in Dock
+
+Each time you open a new terminal session, run these commands to activate your environment and start working on the student project in VS Code.
+
+```bash
+cd opencs/student
+source venv/bin/activate
+code .
 ```
 
 ---

@@ -32,6 +32,16 @@ Topics:
       - "Document and share knowledge"
     subtitle: "Continuous Improvement"
     description: "Agile development emphasizes continuous learning and improvement. Reflect on your progress, adapt your practices, and document your knowledge to share with the team."
+  - title: "Design Thinking"
+    image: "/agile/agile_loop.png"
+    link: "/agile/design_thinking"
+    alt: "Design Thinking"
+    keyPoints:
+      - "Agile principles"
+      - "Incorporating Design Thinking"
+      - "Design Thinking Process"
+    subtitle: "Improving Practices"
+    description: "Incorporating Design Thinking into Agile practices enhances creativity and innovation. Human-centered design thinking also makes Agile processes more effective in areas such as testing, burndown ceremonies, and retrospective analysis."
   - title: "Live Reviews"
     image: "/agile/live_reviews.png"
     link: "/agile/live_reviews"
@@ -42,3 +52,4 @@ Topics:
       - "Individual retrospectives after each sprint"
     subtitle: "Improving Practices"
     description: "Formative and summative reviews are essential in agile development. Conduct weekly checkpoint reviews and individual retrospectives to improve practices and outcomes."
+

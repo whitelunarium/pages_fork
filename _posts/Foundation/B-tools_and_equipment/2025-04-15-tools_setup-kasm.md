@@ -50,9 +50,11 @@ flowchart TD
 
 ---
 
-##  KASM Workspace Setup (Ubuntu Noble / Kali)
+## KASM Workspace Setup (Ubuntu Noble / Kali)
 
 Thanks to improvements in the KASM image, getting started is fast and simple.
+
+Open a Terminal
 
 ### First-time setup
 
@@ -61,16 +63,16 @@ mkdir opencs
 cd opencs
 git clone https://github.com/Open-Coding-Society/student.git
 cd student/
+./scripts/activate.sh # prompts for Git UID and Personal Email
 ./scripts/venv.sh
 code .
-make
 ```
-
-During the `./scripts/venv.sh` run, you will be prompted to enter your Git username and email to configure your Git commit identity. This only happens if Git is not already configured globally.
 
 ---
 
-###  After restarting a session
+### After restarting a session
+
+Open a Terminal
 
 Your data persists even after workspace restarts or destroys. Simply relaunch your environment and run:
 
@@ -78,43 +80,24 @@ Your data persists even after workspace restarts or destroys. Simply relaunch yo
 cd opencs/student
 source venv/bin/activate
 code .
-make
 ```
+
 ---
 
-## Version Checks
+### Version Checks (Optional)
+
+Open a Terminal
 
 ```bash
 ruby -v
 bundle -v
 python --version
 jupyter --version
+git config --global --list
+jupyter kernelspec list
+pip list
 ```
 
 ---
-
-## What is `make`?
-
-Think of `make` as a smart **task helper** for developers.
-
-* It **automates commands** you would normally type one by one.
-* It reads a special file called a **Makefile**, which lists tasks and how to run them.
-
-### Example:
-
-Instead of running:
-
-```bash
-bundle exec jekyll serve
-python3 my_script.py
-```
-
-Just run:
-
-```bash
-make
-```
-
-And it will do everything listed in the `Makefile`.
 
 {% include slim_sidebar.html %}
