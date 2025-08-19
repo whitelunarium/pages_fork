@@ -224,7 +224,7 @@ permalink: /solitaire/
             <a id="new_game" class="link-alert">new game</a>
             <a id="instructions" class="link-alert">how to play</a>
         </div>
-        
+
         <!-- Game Over -->
         <div id="gameover" class="py-4 text-light">
             <p>Game Over!</p>
@@ -233,498 +233,578 @@ permalink: /solitaire/
             <a id="new_game1" class="link-alert">new game</a>
             <a id="menu_return" class="link-alert">main menu</a>
         </div>
-        
+
         <!-- Game Screen -->
         <div id="game_screen" class="game-container wrap" tabindex="1">
             <div class="game-controls">
-                <div class="score-display">
-                    Score: <span id="score_value">0</span>
-                </div>
-                <div class="timer-display">
-                    Time: <span id="timer_value">00:00</span>
-                </div>
+                <div class="score-display">Score: <span id="score_value">0</span></div>
+                <div class="timer-display">Time: <span id="timer_value">00:00</span></div>
                 <div class="game-buttons">
                     <button id="hint_btn">Hint</button>
                     <button id="undo_btn">Undo</button>
                     <button id="restart_btn">Restart</button>
                 </div>
             </div>
-            
+
             <div class="foundation-row">
-                <div id="stock" class="card-pile stock-pile"></div>
-                <div id="waste" class="card-pile waste-pile empty"></div>
+                <div id="stock" class="card-pile stock-pile" data-pile="stock"></div>
+                <div id="waste" class="card-pile waste-pile empty" data-pile="waste"></div>
                 <div class="card-pile empty"></div>
-                <div id="foundation_0" class="card-pile foundation"></div>
-                <div id="foundation_1" class="card-pile foundation"></div>
-                <div id="foundation_2" class="card-pile foundation"></div>
-                <div id="foundation_3" class="card-pile foundation"></div>
+                <div id="foundation_0" class="card-pile foundation" data-pile="foundation" data-index="0"></div>
+                <div id="foundation_1" class="card-pile foundation" data-pile="foundation" data-index="1"></div>
+                <div id="foundation_2" class="card-pile foundation" data-pile="foundation" data-index="2"></div>
+                <div id="foundation_3" class="card-pile foundation" data-pile="foundation" data-index="3"></div>
             </div>
-            
+
             <div class="game-board">
-                <div id="tableau_0" class="card-pile tableau-pile"></div>
-                <div id="tableau_1" class="card-pile tableau-pile"></div>
-                <div id="tableau_2" class="card-pile tableau-pile"></div>
-                <div id="tableau_3" class="card-pile tableau-pile"></div>
-                <div id="tableau_4" class="card-pile tableau-pile"></div>
-                <div id="tableau_5" class="card-pile tableau-pile"></div>
-                <div id="tableau_6" class="card-pile tableau-pile"></div>
+                <div id="tableau_0" class="card-pile tableau-pile" data-pile="tableau" data-index="0"></div>
+                <div id="tableau_1" class="card-pile tableau-pile" data-pile="tableau" data-index="1"></div>
+                <div id="tableau_2" class="card-pile tableau-pile" data-pile="tableau" data-index="2"></div>
+                <div id="tableau_3" class="card-pile tableau-pile" data-pile="tableau" data-index="3"></div>
+                <div id="tableau_4" class="card-pile tableau-pile" data-pile="tableau" data-index="4"></div>
+                <div id="tableau_5" class="card-pile tableau-pile" data-pile="tableau" data-index="5"></div>
+                <div id="tableau_6" class="card-pile tableau-pile" data-pile="tableau" data-index="6"></div>
             </div>
-            
+
             <div id="win_message" class="win-message">
                 <h3>Congratulations!</h3>
                 <p>You Won!</p>
                 <p id="win_score"></p>
                 <p id="win_time"></p>
-                <button onclick="newGame()">Play Again</button>
+                <button id="play_again_btn">Play Again</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-(function(){
-    /* Game Variables */
-    /////////////////////////////////////////////////////////////
-    const SCREEN_MENU = -1, SCREEN_GAME = 0, SCREEN_GAME_OVER = 1;
-    let SCREEN = SCREEN_MENU;
-    
-    // HTML Elements
-    const screen_menu = document.getElementById("menu");
-    const screen_game = document.getElementById("game_screen");
-    const screen_game_over = document.getElementById("gameover");
-    const ele_score = document.getElementById("score_value");
-    const ele_timer = document.getElementById("timer_value");
-    const button_new_game = document.getElementById("new_game");
-    const button_new_game1 = document.getElementById("new_game1");
-    const button_menu_return = document.getElementById("menu_return");
-    const button_hint = document.getElementById("hint_btn");
-    const button_undo = document.getElementById("undo_btn");
-    const button_restart = document.getElementById("restart_btn");
-    const win_message = document.getElementById("win_message");
-    
-    // Game State
-    let deck = [];
-    let stock = [];
-    let waste = [];
-    let foundations = [[], [], [], []];
-    let tableau = [[], [], [], [], [], [], []];
-    let score = 0;
-    let moves = [];
-    let startTime;
-    let gameTimer;
-    let draggedCard = null;
-    let draggedFrom = null;
-    
-    // Card definitions
-    const suits = ['♠', '♣', '♦', '♥'];
-    const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-    const suitColors = {'♠': 'black', '♣': 'black', '♦': 'red', '♥': 'red'};
-    
-    /* Display Control */
-    /////////////////////////////////////////////////////////////
-    let showScreen = function(screen_opt) {
-        SCREEN = screen_opt;
-        switch(screen_opt) {
-            case SCREEN_GAME:
-                screen_game.style.display = "block";
-                screen_menu.style.display = "none";
-                screen_game_over.style.display = "none";
-                break;
-            case SCREEN_GAME_OVER:
-                screen_game.style.display = "block";
-                screen_menu.style.display = "none";
-                screen_game_over.style.display = "block";
-                break;
-            case SCREEN_MENU:
-                screen_game.style.display = "none";
-                screen_menu.style.display = "block";
-                screen_game_over.style.display = "none";
-                break;
-        }
-    };
-    
-    /* Card Creation and Management */
-    /////////////////////////////////////////////////////////////
-    function createDeck() {
-        deck = [];
-        for (let suit of suits) {
-            for (let rank of ranks) {
-                deck.push({
-                    suit: suit,
-                    rank: rank,
-                    color: suitColors[suit],
-                    value: ranks.indexOf(rank) + 1,
-                    faceUp: false,
-                    id: `${rank}${suit}`
-                });
-            }
-        }
-        
-        // Shuffle deck
-        for (let i = deck.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]];
+(() => {
+    // -------------------------------
+    // Core Models
+    // -------------------------------
+    class Card {
+        constructor(suit, rank, color, value) {
+            this.suit = suit;     // '♠', '♣', '♦', '♥'
+            this.rank = rank;     // 'A', '2', ... 'K'
+            this.color = color;   // 'red' | 'black'
+            this.value = value;   // 1..13
+            this.faceUp = false;
+            this.id = `${rank}${suit}`;
         }
     }
-    
-    function createCardElement(card) {
-        const cardEl = document.createElement('div');
-        cardEl.className = `card ${card.color}`;
-        cardEl.id = `card_${card.id}`;
-        
-        if (!card.faceUp) {
-            cardEl.classList.add('face-down');
+
+    class Deck {
+        constructor() {
+            this.suits = ['♠', '♣', '♦', '♥'];
+            this.ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+            this.suitColors = {'♠':'black','♣':'black','♦':'red','♥':'red'};
+            this.cards = [];
+            this.build();
+            this.shuffle();
         }
-        
-        cardEl.innerHTML = `
-            <div class="card-top">
-                <span class="rank">${card.rank}</span>
-                <span class="suit">${card.suit}</span>
-            </div>
-            <div class="card-bottom">
-                <span class="rank">${card.rank}</span>
-                <span class="suit">${card.suit}</span>
-            </div>
-        `;
-        
-        // Add drag and drop events
-        cardEl.draggable = true;
-        cardEl.addEventListener('dragstart', handleDragStart);
-        cardEl.addEventListener('dragend', handleDragEnd);
-        cardEl.addEventListener('click', handleCardClick);
-        
-        return cardEl;
-    }
-    
-    /* Game Logic */
-    /////////////////////////////////////////////////////////////
-    function dealCards() {
-        // Clear all piles
-        stock = [];
-        waste = [];
-        foundations = [[], [], [], []];
-        tableau = [[], [], [], [], [], [], []];
-        
-        let cardIndex = 0;
-        
-        // Deal tableau
-        for (let col = 0; col < 7; col++) {
-            for (let row = 0; row <= col; row++) {
-                const card = deck[cardIndex++];
-                card.faceUp = (row === col);
-                tableau[col].push(card);
-            }
-        }
-        
-        // Remaining cards go to stock
-        while (cardIndex < deck.length) {
-            deck[cardIndex].faceUp = false;
-            stock.push(deck[cardIndex++]);
-        }
-    }
-    
-    function canPlaceOnTableau(card, pile) {
-        if (pile.length === 0) {
-            return card.rank === 'K';
-        }
-        
-        const topCard = pile[pile.length - 1];
-        return (card.color !== topCard.color && 
-                card.value === topCard.value - 1);
-    }
-    
-    function canPlaceOnFoundation(card, foundation) {
-        if (foundation.length === 0) {
-            return card.rank === 'A';
-        }
-        
-        const topCard = foundation[foundation.length - 1];
-        return (card.suit === topCard.suit && 
-                card.value === topCard.value + 1);
-    }
-    
-    function moveCard(from, to, cardCount = 1) {
-        const cards = from.splice(-cardCount, cardCount);
-        to.push(...cards);
-        
-        // Turn over face-down card if tableau pile
-        for (let i = 0; i < 7; i++) {
-            if (from === tableau[i] && from.length > 0) {
-                const topCard = from[from.length - 1];
-                if (!topCard.faceUp) {
-                    topCard.faceUp = true;
-                    updateScore(5);
+        build() {
+            this.cards = [];
+            for (const s of this.suits) {
+                for (const r of this.ranks) {
+                    this.cards.push(new Card(s, r, this.suitColors[s], this.ranks.indexOf(r) + 1));
                 }
             }
         }
-    }
-    
-    function drawFromStock() {
-        if (stock.length > 0) {
-            const card = stock.pop();
-            card.faceUp = true;
-            waste.push(card);
-        } else if (waste.length > 0) {
-            // Reset stock from waste
-            while (waste.length > 0) {
-                const card = waste.pop();
-                card.faceUp = false;
-                stock.push(card);
+        shuffle() {
+            for (let i = this.cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
             }
         }
-        renderGame();
+        draw() { return this.cards.pop(); }
+        get size() { return this.cards.length; }
     }
-    
-    function updateScore(points) {
-        score += points;
-        ele_score.textContent = score;
+
+    // Base Pile
+    class Pile {
+        constructor(type) {
+            this.type = type; // 'stock', 'waste', 'foundation', 'tableau'
+            this.cards = [];
+        }
+        top() { return this.cards[this.cards.length - 1]; }
+        push(card) { this.cards.push(card); }
+        pop(n = 1) {
+            if (n === 1) return this.cards.pop();
+            return this.cards.splice(-n, n);
+        }
+        get isEmpty() { return this.cards.length === 0; }
+        indexOfCardId(cardId) { return this.cards.findIndex(c => c.id === cardId); }
     }
-    
-    function checkWin() {
-        for (let foundation of foundations) {
-            if (foundation.length !== 13) {
-                return false;
+
+    class StockPile extends Pile {
+        constructor() { super('stock'); }
+    }
+
+    class WastePile extends Pile {
+        constructor() { super('waste'); }
+    }
+
+    class FoundationPile extends Pile {
+        constructor() { super('foundation'); }
+        canAccept(card) {
+            if (this.isEmpty) return card.rank === 'A';
+            const top = this.top();
+            return (card.suit === top.suit && card.value === top.value + 1);
+        }
+    }
+
+    class TableauPile extends Pile {
+        constructor() { super('tableau'); }
+        canAccept(card) {
+            if (this.isEmpty) return card.rank === 'K';
+            const top = this.top();
+            return (card.color !== top.color && card.value === top.value - 1);
+        }
+    }
+
+    // -------------------------------
+    // Game Controller
+    // -------------------------------
+    class Game {
+        constructor(ui) {
+            this.ui = ui;
+
+            // Piles
+            this.stock = new StockPile();
+            this.waste = new WastePile();
+            this.foundations = [new FoundationPile(), new FoundationPile(), new FoundationPile(), new FoundationPile()];
+            this.tableau = [new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile()];
+
+            // State
+            this.deck = null;
+            this.score = 0;
+            this.moves = [];
+            this.timer = { start: 0, intervalId: null };
+        }
+
+        // ---- Lifecycle ----
+        newGame() {
+            this.reset();
+            this.deck = new Deck();
+            this.deal();
+            this.ui.updateAll(this);
+            this.startTimer();
+        }
+
+        reset() {
+            this.score = 0;
+            this.moves = [];
+            this.stopTimer();
+            this.ui.hideWin();
+            this.ui.updateScore(this.score);
+            this.ui.updateTime("00:00");
+
+            this.stock = new StockPile();
+            this.waste = new WastePile();
+            this.foundations = [new FoundationPile(), new FoundationPile(), new FoundationPile(), new FoundationPile()];
+            this.tableau = [new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile(), new TableauPile()];
+        }
+
+        deal() {
+            // Deal tableau: 1..7 columns, last in each faceUp
+            for (let col = 0; col < 7; col++) {
+                for (let row = 0; row <= col; row++) {
+                    const card = this.deck.draw();
+                    card.faceUp = (row === col);
+                    this.tableau[col].push(card);
+                }
+            }
+            // Rest to stock (face down)
+            while (this.deck.size > 0) {
+                const c = this.deck.draw();
+                c.faceUp = false;
+                this.stock.push(c);
             }
         }
-        
-        // Player won!
-        clearInterval(gameTimer);
-        const timeStr = ele_timer.textContent;
-        document.getElementById('win_score').textContent = `Score: ${score}`;
-        document.getElementById('win_time').textContent = `Time: ${timeStr}`;
-        win_message.style.display = 'block';
-        
-        return true;
-    }
-    
-    /* Rendering */
-    /////////////////////////////////////////////////////////////
-    function renderGame() {
-        // Clear all card containers
-        document.querySelectorAll('.card-pile').forEach(pile => {
-            pile.innerHTML = '';
-        });
-        
-        // Render stock
-        const stockEl = document.getElementById('stock');
-        if (stock.length > 0) {
-            stockEl.appendChild(createCardElement(stock[stock.length - 1]));
-            stockEl.addEventListener('click', drawFromStock);
-        } else {
-            stockEl.classList.add('empty');
-            stockEl.addEventListener('click', drawFromStock);
-        }
-        
-        // Render waste
-        const wasteEl = document.getElementById('waste');
-        if (waste.length > 0) {
-            wasteEl.appendChild(createCardElement(waste[waste.length - 1]));
-            wasteEl.classList.remove('empty');
-        } else {
-            wasteEl.classList.add('empty');
-        }
-        
-        // Render foundations
-        for (let i = 0; i < 4; i++) {
-            const foundationEl = document.getElementById(`foundation_${i}`);
-            if (foundations[i].length > 0) {
-                foundationEl.appendChild(createCardElement(foundations[i][foundations[i].length - 1]));
+
+        // ---- Rules & Actions ----
+        drawFromStock() {
+            if (!this.stock.isEmpty) {
+                const c = this.stock.pop();
+                c.faceUp = true;
+                this.waste.push(c);
+            } else if (!this.waste.isEmpty) {
+                // Reset waste -> stock (turn face down)
+                while (!this.waste.isEmpty) {
+                    const c = this.waste.pop();
+                    c.faceUp = false;
+                    this.stock.push(c);
+                }
             }
-            
-            // Add drop event listeners
-            foundationEl.addEventListener('dragover', handleDragOver);
-            foundationEl.addEventListener('drop', (e) => handleDrop(e, foundations[i], 'foundation'));
+            this.ui.renderPiles(this);
         }
-        
-        // Render tableau
-        for (let i = 0; i < 7; i++) {
-            const tableauEl = document.getElementById(`tableau_${i}`);
-            tableau[i].forEach((card, index) => {
-                const cardEl = createCardElement(card);
-                cardEl.style.top = `${index * 20}px`;
-                cardEl.style.zIndex = index;
-                tableauEl.appendChild(cardEl);
+
+        tryMoveCardById(cardId, targetKind, targetIndex = null) {
+            const loc = this.findCard(cardId);
+            if (!loc || (loc.card && !loc.card.faceUp)) return false;
+
+            const targetPile = this.getPile(targetKind, targetIndex);
+            if (!targetPile) return false;
+
+            if (targetPile.type === 'foundation') {
+                // Single card to foundation
+                if (targetPile.canAccept(loc.card)) {
+                    this._moveCards(loc.pile, targetPile, 1);
+                    this.addScore(10);
+                    this._afterMove(loc.pile);
+                    return true;
+                }
+            } else if (targetPile.type === 'tableau') {
+                // Can be a stack move in tableau
+                const count = this._movableStackCount(loc.pile, cardId);
+                const movingCards = loc.pile.cards.slice(-count);
+                if (movingCards.length && targetPile.canAccept(movingCards[0])) {
+                    this._moveCards(loc.pile, targetPile, count);
+                    this.addScore(5);
+                    this._afterMove(loc.pile);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        autoMoveToFoundation(cardId) {
+            const loc = this.findCard(cardId);
+            if (!loc || !loc.card || !loc.card.faceUp) return false;
+            for (const f of this.foundations) {
+                if (f.canAccept(loc.card)) {
+                    this._moveCards(loc.pile, f, 1);
+                    this.addScore(10);
+                    this._afterMove(loc.pile);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        _afterMove(sourcePile) {
+            // Flip top of tableau if needed
+            if (sourcePile?.type === 'tableau' && !sourcePile.isEmpty) {
+                const t = sourcePile.top();
+                if (!t.faceUp) {
+                    t.faceUp = true;
+                    this.addScore(5);
+                }
+            }
+            this.ui.renderPiles(this);
+            this.checkWin();
+        }
+
+        _movableStackCount(fromPile, cardId) {
+            // count card + all cards under it (already ordered visually)
+            const idx = fromPile.indexOfCardId(cardId);
+            if (idx === -1) return 0;
+            return fromPile.cards.length - idx;
+        }
+
+        _moveCards(fromPile, toPile, count) {
+            const slice = fromPile.pop(count);
+            if (Array.isArray(slice)) {
+                slice.forEach(c => toPile.push(c));
+            } else {
+                toPile.push(slice);
+            }
+        }
+
+        getPile(kind, index) {
+            if (kind === 'stock') return this.stock;
+            if (kind === 'waste') return this.waste;
+            if (kind === 'foundation') return this.foundations[index];
+            if (kind === 'tableau') return this.tableau[index];
+            return null;
+        }
+
+        findCard(cardId) {
+            // waste
+            const wIdx = this.waste.indexOfCardId(cardId);
+            if (wIdx !== -1) return { pile: this.waste, card: this.waste.cards[wIdx] };
+
+            // foundations
+            for (const f of this.foundations) {
+                const idx = f.indexOfCardId(cardId);
+                if (idx !== -1) return { pile: f, card: f.cards[idx] };
+            }
+
+            // tableau
+            for (const t of this.tableau) {
+                const idx = t.indexOfCardId(cardId);
+                if (idx !== -1) return { pile: t, card: t.cards[idx] };
+            }
+            return null;
+        }
+
+        addScore(points) {
+            this.score += points;
+            this.ui.updateScore(this.score);
+        }
+
+        // ---- Win / Timer ----
+        checkWin() {
+            const all13 = this.foundations.every(f => f.cards.length === 13);
+            if (all13) {
+                this.stopTimer();
+                this.ui.showWin(this.score, this.ui.currentTimeStr());
+                return true;
+            }
+            return false;
+        }
+
+        startTimer() {
+            this.timer.start = Date.now();
+            this.timer.intervalId = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - this.timer.start) / 1000);
+                const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                const ss = String(elapsed % 60).padStart(2, '0');
+                this.ui.updateTime(`${mm}:${ss}`);
+            }, 1000);
+        }
+
+        stopTimer() {
+            if (this.timer.intervalId) clearInterval(this.timer.intervalId);
+            this.timer.intervalId = null;
+        }
+    }
+
+    // -------------------------------
+    // UI / View
+    // -------------------------------
+    class UI {
+        constructor() {
+            // Screens
+            this.menu = document.getElementById('menu');
+            this.game = document.getElementById('game_screen');
+            this.over = document.getElementById('gameover');
+
+            // Controls
+            this.eScore = document.getElementById('score_value');
+            this.eTimer = document.getElementById('timer_value');
+            this.winBox = document.getElementById('win_message');
+            this.winScore = document.getElementById('win_score');
+            this.winTime = document.getElementById('win_time');
+            this.playAgainBtn = document.getElementById('play_again_btn');
+
+            // Piles (containers)
+            this.dom = {
+                stock: document.getElementById('stock'),
+                waste: document.getElementById('waste'),
+                foundations: [
+                    document.getElementById('foundation_0'),
+                    document.getElementById('foundation_1'),
+                    document.getElementById('foundation_2'),
+                    document.getElementById('foundation_3')
+                ],
+                tableau: [
+                    document.getElementById('tableau_0'),
+                    document.getElementById('tableau_1'),
+                    document.getElementById('tableau_2'),
+                    document.getElementById('tableau_3'),
+                    document.getElementById('tableau_4'),
+                    document.getElementById('tableau_5'),
+                    document.getElementById('tableau_6')
+                ]
+            };
+
+            // Drag state
+            this.draggedCardId = null;
+            this.dragSource = null; // { kind, index }
+        }
+
+        // ---- Screen handling ----
+        showMenu() {
+            this.menu.style.display = 'block';
+            this.game.style.display = 'none';
+            this.over.style.display = 'none';
+        }
+        showGame() {
+            this.menu.style.display = 'none';
+            this.game.style.display = 'block';
+            this.over.style.display = 'none';
+            this.game.focus();
+        }
+        showOver(finalScore, timeStr) {
+            document.getElementById('final_score').textContent = `Final Score: ${finalScore}`;
+            document.getElementById('final_time').textContent = `Time: ${timeStr}`;
+            this.menu.style.display = 'none';
+            this.game.style.display = 'block';
+            this.over.style.display = 'block';
+        }
+
+        // ---- Metrics ----
+        updateScore(s) { this.eScore.textContent = s; }
+        updateTime(t) { this.eTimer.textContent = t; }
+        currentTimeStr() { return this.eTimer.textContent; }
+
+        showWin(score, timeStr) {
+            this.winScore.textContent = `Score: ${score}`;
+            this.winTime.textContent = `Time: ${timeStr}`;
+            this.winBox.style.display = 'block';
+        }
+        hideWin() { this.winBox.style.display = 'none'; }
+
+        // ---- Rendering ----
+        updateAll(game) {
+            this.showGame();
+            this.renderPiles(game);
+        }
+
+        renderPiles(game) {
+            // Clear
+            document.querySelectorAll('.card-pile').forEach(p => p.innerHTML = '');
+
+            // STOCK
+            this._renderPileTop(this.dom.stock, game.stock.top());
+            this._attachStockHandlers(this.dom.stock, game);
+
+            // WASTE
+            if (game.waste.isEmpty) this.dom.waste.classList.add('empty'); else this.dom.waste.classList.remove('empty');
+            this._renderPileTop(this.dom.waste, game.waste.top());
+
+            // FOUNDATIONS
+            game.foundations.forEach((f, i) => {
+                this._renderPileTop(this.dom.foundations[i], f.top());
+                this._attachDropHandlers(this.dom.foundations[i], 'foundation', i, game);
             });
-            
-            // Add drop event listeners
-            tableauEl.addEventListener('dragover', handleDragOver);
-            tableauEl.addEventListener('drop', (e) => handleDrop(e, tableau[i], 'tableau'));
+
+            // TABLEAU (stacked)
+            game.tableau.forEach((t, i) => {
+                const host = this.dom.tableau[i];
+                t.cards.forEach((card, idx) => {
+                    const el = this._createCardElement(card);
+                    el.style.top = `${idx * 20}px`;
+                    el.style.zIndex = idx;
+                    host.appendChild(el);
+                });
+                this._attachDropHandlers(host, 'tableau', i, game);
+            });
         }
-    }
-    
-    /* Drag and Drop Handlers */
-    /////////////////////////////////////////////////////////////
-    function handleDragStart(e) {
-        draggedCard = e.target;
-        draggedFrom = findCardLocation(draggedCard.id.replace('card_', ''));
-        e.dataTransfer.effectAllowed = 'move';
-        e.target.classList.add('dragging');
-    }
-    
-    function handleDragEnd(e) {
-        e.target.classList.remove('dragging');
-        draggedCard = null;
-        draggedFrom = null;
-    }
-    
-    function handleDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-    }
-    
-    function handleDrop(e, targetPile, pileType) {
-        e.preventDefault();
-        
-        if (!draggedCard || !draggedFrom) return;
-        
-        const cardId = draggedCard.id.replace('card_', '');
-        const card = findCard(cardId);
-        
-        if (!card) return;
-        
-        let canMove = false;
-        
-        if (pileType === 'foundation') {
-            canMove = canPlaceOnFoundation(card, targetPile);
-            if (canMove) {
-                moveCard(draggedFrom.pile, targetPile, 1);
-                updateScore(10);
+
+        _renderPileTop(host, topCard) {
+            if (!topCard) {
+                host.classList.add('empty');
+                return;
             }
-        } else if (pileType === 'tableau') {
-            canMove = canPlaceOnTableau(card, targetPile);
-            if (canMove) {
-                // Count cards to move (card and all cards below it)
-                const cardIndex = draggedFrom.pile.findIndex(c => c.id === cardId);
-                const cardCount = draggedFrom.pile.length - cardIndex;
-                moveCard(draggedFrom.pile, targetPile, cardCount);
-                updateScore(5);
-            }
+            host.classList.remove('empty');
+            const el = this._createCardElement(topCard);
+            host.appendChild(el);
         }
-        
-        if (canMove) {
-            renderGame();
-            checkWin();
+
+        _createCardElement(card) {
+            const el = document.createElement('div');
+            el.className = `card ${card.color} ${card.faceUp ? '' : 'face-down'}`;
+            el.id = `card_${card.id}`;
+            el.setAttribute('data-card-id', card.id);
+            el.draggable = card.faceUp;
+
+            el.innerHTML = `
+                <div class="card-top">
+                    <span class="rank">${card.rank}</span>
+                    <span class="suit">${card.suit}</span>
+                </div>
+                <div class="card-bottom">
+                    <span class="rank">${card.rank}</span>
+                    <span class="suit">${card.suit}</span>
+                </div>
+            `;
+
+            // Drag events
+            el.addEventListener('dragstart', (e) => {
+                this.draggedCardId = card.id;
+                e.dataTransfer.effectAllowed = 'move';
+                el.classList.add('dragging');
+            });
+            el.addEventListener('dragend', () => {
+                el.classList.remove('dragging');
+                this.draggedCardId = null;
+            });
+
+            // Click: try auto-move to foundation
+            el.addEventListener('click', () => {
+                // The controller will decide what to do
+                controller.handleCardClick(card.id);
+            });
+
+            return el;
+        }
+
+        _attachDropHandlers(host, kind, index, game) {
+            host.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+            host.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (!this.draggedCardId) return;
+                controller.handleDrop(this.draggedCardId, kind, index);
+            });
+        }
+
+        _attachStockHandlers(host, game) {
+            host.addEventListener('click', () => controller.handleStockClick());
         }
     }
-    
-    function handleCardClick(e) {
-        const cardId = e.target.closest('.card').id.replace('card_', '');
-        const location = findCardLocation(cardId);
-        const card = findCard(cardId);
-        
-        if (!card || !card.faceUp) return;
-        
-        // Try to auto-move to foundation
-        if (location.type === 'waste' || location.type === 'tableau') {
-            for (let i = 0; i < 4; i++) {
-                if (canPlaceOnFoundation(card, foundations[i])) {
-                    moveCard(location.pile, foundations[i], 1);
-                    updateScore(10);
-                    renderGame();
-                    checkWin();
-                    return;
-                }
-            }
+
+    // -------------------------------
+    // Controller (wires UI <-> Game)
+    // -------------------------------
+    class Controller {
+        constructor(game, ui) {
+            this.game = game;
+            this.ui = ui;
+        }
+        startNewGame() { this.game.newGame(); }
+        restart() { this.game.newGame(); }
+        handleStockClick() {
+            this.game.drawFromStock();
+        }
+        handleCardClick(cardId) {
+            // Try automove from waste/tableau to foundation
+            if (this.game.autoMoveToFoundation(cardId)) return;
+            // Otherwise no-op (students can extend to smart hints here)
+        }
+        handleDrop(cardId, targetKind, targetIndex) {
+            this.game.tryMoveCardById(cardId, targetKind, targetIndex);
+        }
+        showMenu() { this.ui.showMenu(); }
+        showOver() {
+            this.ui.showOver(this.game.score, this.ui.currentTimeStr());
+        }
+        hint() {
+            // Simple hint: tell player the obvious strategies (students can improve)
+            alert("Hint: Move Aces to foundations. Uncover face-down tableau cards. Build alternating colors down.");
+        }
+        undo() {
+            // Placeholder for students: push/pop from game.moves and revert
+            alert("Undo feature: implement by pushing moves to a stack and reversing them.");
+        }
+        handleWin() {
+            // Called by Game via UI.showWin already; could add fireworks, etc.
         }
     }
-    
-    function findCard(cardId) {
-        // Search all piles for the card
-        let allCards = [...stock, ...waste];
-        for (let foundation of foundations) {
-            allCards = allCards.concat(foundation);
-        }
-        for (let pile of tableau) {
-            allCards = allCards.concat(pile);
-        }
-        
-        return allCards.find(card => card.id === cardId);
-    }
-    
-    function findCardLocation(cardId) {
-        // Check waste
-        if (waste.some(card => card.id === cardId)) {
-            return { pile: waste, type: 'waste' };
-        }
-        
-        // Check foundations
-        for (let i = 0; i < 4; i++) {
-            if (foundations[i].some(card => card.id === cardId)) {
-                return { pile: foundations[i], type: 'foundation' };
-            }
-        }
-        
-        // Check tableau
-        for (let i = 0; i < 7; i++) {
-            if (tableau[i].some(card => card.id === cardId)) {
-                return { pile: tableau[i], type: 'tableau' };
-            }
-        }
-        
-        return null;
-    }
-    
-    /* Timer */
-    /////////////////////////////////////////////////////////////
-    function startTimer() {
-        startTime = Date.now();
-        gameTimer = setInterval(() => {
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            ele_timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }, 1000);
-    }
-    
-    /* New Game */
-    /////////////////////////////////////////////////////////////
-    let newGame = function() {
-        showScreen(SCREEN_GAME);
-        screen_game.focus();
-        
-        // Reset game state
-        score = 0;
-        moves = [];
-        ele_score.textContent = score;
-        win_message.style.display = 'none';
-        
-        // Clear any existing timer
-        if (gameTimer) {
-            clearInterval(gameTimer);
-        }
-        
-        // Create and deal new deck
-        createDeck();
-        dealCards();
-        renderGame();
-        startTimer();
-    };
-    
-    /* Event Handlers */
-    /////////////////////////////////////////////////////////////
-    window.onload = function() {
-        button_new_game.onclick = newGame;
-        button_new_game1.onclick = newGame;
-        button_menu_return.onclick = () => showScreen(SCREEN_MENU);
-        button_restart.onclick = newGame;
-        
-        button_hint.onclick = function() {
-            // Simple hint: highlight first available move
-            // This is a basic implementation
-            alert("Hint: Look for Aces to move to foundations, or try to uncover face-down cards!");
-        };
-        
-        button_undo.onclick = function() {
-            // Undo functionality would require storing move history
-            alert("Undo feature coming soon!");
-        };
-        
-        // Keyboard shortcuts
-        window.addEventListener("keydown", function(evt) {
-            if (evt.code === "Space" && SCREEN !== SCREEN_GAME) {
-                newGame();
-            }
-        }, true);
-    };
+
+    // -------------------------------
+    // Bootstrap / Events
+    // -------------------------------
+    const ui = new UI();
+    const game = new Game(ui);
+    const controller = new Controller(game, ui);
+
+    // Expose minimal API for HTML button
+    document.getElementById('new_game').onclick = () => controller.startNewGame();
+    document.getElementById('new_game1').onclick = () => controller.startNewGame();
+    document.getElementById('menu_return').onclick = () => controller.showMenu();
+    document.getElementById('restart_btn').onclick = () => controller.restart();
+    document.getElementById('hint_btn').onclick = () => controller.hint();
+    document.getElementById('undo_btn').onclick = () => controller.undo();
+    document.getElementById('play_again_btn').onclick = () => controller.restart();
+
+    // Keyboard: press Space on menu to start
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && ui.menu.style.display !== 'none') controller.startNewGame();
+    });
+
+    // Initial screen
+    ui.showMenu();
 })();
 </script>
