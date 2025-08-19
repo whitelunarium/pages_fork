@@ -77,7 +77,7 @@ lxdData:
       Categories: ["JavaScript", "OOP", "Game Coding", "Cards", "Innovation"]
       Game: "/solitaire"
       Lessons: "/solitaire/lesson"
-      Image: "/images/Solitaire.png"
+      Image: "/images/solitaire.png"
       Alt: "Solitaire Image"
     
 ---
