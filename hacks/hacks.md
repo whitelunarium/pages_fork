@@ -6,7 +6,7 @@ description: >
   A guided sequence of hands-on and learning tasks to help you master the frameworks that power our course.
 author: John Mortensen
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
-type: hacks 
+type: hacks
 permalink: /hacks
 lxdData:
   Title: "Learning Experience Designer Home"
@@ -70,7 +70,15 @@ lxdData:
       Lessons: "/rpg/latest/lesson"
       Image: "/images/toolkit-nav-buttons/rpg.png"
       Alt: "Underwater RPG Adventure"
-    
+    - Title: "Cookie Clicker"
+      Genre: "Coding"
+      Level: "Intermediate"
+      Description: "Learn the basics of JS and object oriented programming as you dive deep into the world of game coding. "
+      Categories: ["JavaScript", "OOP", "Game Coding", "Cookies"]
+      Game: "/cookie-clicker-game"
+      Lessons: "/cookie-clicker-game-docs"
+      Image: "/images/toolkit-nav-buttons/rpg.png"
+      Alt: "Cookie Clicker"
 ---
 
 {%- include tailwind/lxd.html -%}
