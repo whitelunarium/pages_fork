@@ -1,9 +1,9 @@
 ---
-layout: default
+layout: base
 title: Alien World Background
 description: Use JavaScript without external libararies to animate Mario moving across screen, OOP style.
 image: /images/platformer/backgrounds/alien_planet1.jpg
-permalink: /javascript/project/background
+permalink: /background
 ---
 
 {% assign alienPlanetFile = site.baseurl | append: page.image %}
