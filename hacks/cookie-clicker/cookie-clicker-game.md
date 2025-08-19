@@ -20,7 +20,7 @@ permalink: /cookie-clicker-game
     <div id="cookie" class="w-48 h-48 bg-cover bg-center rounded-full cursor-pointer active:scale-90 transition">
         <img src="/hacks/cookie-clicker/assets/baseCookie.png" />
     </div>
-    <div id="counter" class="text-2xl mt-4 font-semibold">Cookies: 0</div>
+    <div id="counter" class="text-2xl mt-4 font-semibold">Cookies: <span id="cookie-count">0</span></div>
 </div>
 </div>
 
