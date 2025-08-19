@@ -18,6 +18,18 @@ permalink: tictactoe
   </ul>
 </div>
 
+<div id="hack2" style="max-width:480px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2: Change Ball Speed</strong></p>
+  <p>Look in the javascript and change the <em>ball</em> speed.</p>
+
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Pick a new speed for the ball.</li>
+    <li>Change the <em>ball speed</em> to update the game design.</li>
+    <li>Tip: Don't make the speed to high! It will be too hard!</li>
+    <li>Hint: Early in the script, certain variables determine the speed of the ball. You will need to increase/decrease these numbered values to increase the speed of the ball.</li>
+  </ul>
+</div>
+
 
 <style>
   canvas {
