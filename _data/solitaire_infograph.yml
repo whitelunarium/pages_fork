@@ -4,7 +4,7 @@ Description: "Learn how to play and understand the logic behind Solitaire. These
 Topics:
   - title: "Frontend Interaction Skills"
     image: "/solitaire/frontend.png"
-    link: "/solitaire/frontend"
+    link: "/solitaire/lesson/frontend"
     alt: "Frontend Interaction"
     keyPoints:
       - "Click and drag cards"
@@ -15,7 +15,7 @@ Topics:
 
   - title: "Object-Oriented Programming (OOP) Concepts"
     image: "/solitaire/oop.png"
-    link: "/solitaire/oop"
+    link: "/solitaire/lesson/oop"
     alt: "OOP Concepts"
     keyPoints:
       - "Cards as objects"
@@ -27,7 +27,7 @@ Topics:
 
   - title: "Problem-Solving and Algorithmic Thinking"
     image: "/solitaire/problem-solving.png"
-    link: "/solitaire/problem-solving"
+    link: "/solitaire/lesson/problem-solving"
     alt: "Problem Solving"
     keyPoints:
       - "Plan moves ahead"
