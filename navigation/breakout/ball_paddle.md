@@ -1,6 +1,6 @@
 ---
 layout: base 
-title: Tic Tac Toe
+title: Ball paddle
 author: Samhita
 permalink: tictactoe
 ---

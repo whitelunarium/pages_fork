@@ -1,8 +1,8 @@
 ---
 layout: base 
-title: Tetris
-author: Rohan
-permalink: tetris
+title: Breakout Blocks
+author: Rohan and Pranav
+permalink: blocks
 ---
 
 <style>
