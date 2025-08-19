@@ -80,21 +80,20 @@ cd student/
 
 Run these commands to verify your system setup and check installed tools.
 
-Open a MacOS "terminal" by clicking Terminal Icon in Dock
+Open a new MacOS "terminal" by clicking Terminal Icon in Dock
 
 ```bash
+python --version
+pip --version
 ruby -v
 bundle -v
-python --version
-jupyter --version
+gem --version
 git config --global --list
-jupyter kernelspec list
-pip list
 ```
 
 #### After restarting a terminal
 
-Open a MacOS "terminal" by clicking Terminal Icon in Dock
+Open or continue in a MacOS "terminal"
 
 Each time you open a new terminal session, run these commands to activate your environment and start working on the student project in VS Code.
 
