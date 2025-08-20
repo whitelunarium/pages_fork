@@ -5,7 +5,6 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: fullbreakout
 ---
 
-
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
 <!-- NEW: Next Level buttons -->
@@ -14,9 +13,12 @@ permalink: fullbreakout
 </button>
 
 <div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<!-- Hack #1: 90% hack section -->
+<div id="hack1-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
   <h2>Breakout Game (w/ Advanced Features)</h2>
-  <p><strong>Hack #1: Change Colors</strong></p>
+  <p><strong>Hack #1 (90%): Change Colors</strong></p>
   <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
+  
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new color for the paddle and the bricks.</li>
     <li>Change the <em>Colors</em> to update the game design.</li>
@@ -24,14 +26,39 @@ permalink: fullbreakout
   </ul>
 </div>
 
-<div id="hack2" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-  <p><strong>Hack #2: Change Ball Speed</strong></p>
+<!-- Hack #1: 100% hack section -->
+<div id="hack1-100" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #1 (100%): Go Further with Colors</strong></p>
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Try creating a color picker below the game script to change the color of the ball or blocks on the fly.</li>
+    <li>Extra challenge: Try using gradients.</li>
+  </ul>
+</div>
+
+<!-- Hack #2: 90% hack section -->
+<div id="hack2-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2 (90%): Change Ball Speed</strong></p>
+  <p>Look in the javascript and change the <em>ball</em> speed.</p>
+
+<!-- Hack #2: 90% hack section -->
+<div id="hack2-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2 (90%): Change Ball Speed</strong></p>
   <p>Look in the javascript and change the <em>ball</em> speed.</p>
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new speed for the ball.</li>
     <li>Change the <em>ball speed</em> to update the game design.</li>
     <li>Tip: Don't make the speed to high! It will be too hard!</li>
     <li>Hint: Early in the script, certain variables determine the speed of the ball. You will need to increase/decrease these numbered values to increase the speed of the ball.</li>
+  </ul>
+</div>
+
+<!-- Hack #2: 100% hack section -->
+<div id="hack2-100" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2 (100%): Advanced Ball Speed</strong></p>
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Make the ball speed up each time it hits a brick or the paddle.</li>
+    <li>You may do this by changing the variable used in the 90% hack by set increments each time.</li>
+    <li>Also, try adding a "slow motion" mode where pressing a button halves the speed of the ball during the play session.</li>
   </ul>
 </div>
 
