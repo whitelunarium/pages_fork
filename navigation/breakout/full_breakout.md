@@ -8,7 +8,7 @@ permalink: fullbreakout
 
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
-<!-- NEW: Next Level button -->
+<!-- NEW: Next Level buttons -->
 <button id="nextLevelBtn" style="display:none;margin:10px auto 0;padding:10px 16px;font-family:system-ui,Arial;font-size:16px;font-weight:600;border:1px solid #222;background:#fff;cursor:pointer;border-radius:8px;display:block;max-width:600px;color:#111 !important;">
   Next Level ▶
 </button>
