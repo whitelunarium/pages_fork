@@ -105,6 +105,10 @@ permalink: fullbreakout
   let dx = 2;
   let dy = -2;
 
+  // Score and Lives
+  let score = 0;
+  let lives = 3;
+
   // Blocks
   let brickRowCount = 4;       // CHANGED: let (so we can increase rows)
   const brickColumnCount = 6;
@@ -175,6 +179,8 @@ permalink: fullbreakout
           ) {
             dy = -dy;
             b.status = 0;
+
+            score++;
 
             if (b.powerUp) {
               powerUps.push({ x: b.x + brickWidth / 2, y: b.y, active: true });
@@ -359,6 +365,19 @@ permalink: fullbreakout
 
   nextLevelBtn.addEventListener("click", nextLevel);
 
+  function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: " + score, 8, 20);
+  }
+
+  function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
+  }
+
+
   function draw() {
     // Render current frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -367,6 +386,8 @@ permalink: fullbreakout
     drawPaddle();
     drawPowerUps();
     drawPowerUpTimer();
+    drawScore();
+    drawLives();
     collisionDetection();
 
     // If all bricks cleared, pause and show Next Level button
@@ -384,7 +405,18 @@ permalink: fullbreakout
       if (x > paddleX && x < paddleX + paddleWidth) {
         dy = -dy;
       } else {
-        document.location.reload(); // Restart game on miss
+        lives--;
+        if (!lives) {
+          alert("GAME OVER");
+          document.location.reload(); // Restart game on miss
+        } else {
+          x = canvas.width/2; 
+          y = canvas.height - 30;
+          dx = 2 * Math.sign(dx);
+          dy = -2;
+          paddleX = (canvas.width - paddleWidth) / 2;
+        }
+        
       }
     }
 
