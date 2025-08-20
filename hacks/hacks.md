@@ -77,8 +77,7 @@ lxdData:
       Categories: ["JavaScript", "OOP", "Game Coding", "Cookies"]
       Game: "/cookie-clicker-game"
       Lessons: "/cookie-clicker-game-docs"
-      Image: "/images/toolkit-nav-buttons/rpg.png"
-      Alt: "Cookie Clicker"
+      Image: "/images/cookie.jpg"
+      Alt: "Cookie"
 ---
-
 {%- include tailwind/lxd.html -%}

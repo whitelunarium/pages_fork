@@ -1,10 +1,10 @@
 ---
 layout: base
 title: Cookie Clicker Game
-permalink: /cookie-clicker-game
+permalink: /cookie-clicker-game/
 ---
 
-<html>
+
 <div class="grid grid-cols-4 gap-4 aspect-square">
 <!-- Shop -->
 <div class="col-span-1 bg-white p-4 shadow-lg flex flex-col" id="shop-container">
@@ -26,4 +26,3 @@ permalink: /cookie-clicker-game
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="hacks/cookie-clicker/cookie-clicker-game.js">
-</html>
