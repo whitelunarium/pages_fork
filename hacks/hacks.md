@@ -75,10 +75,9 @@ lxdData:
       Level: "Intermediate"
       Description: "Learn the basics of JS and object oriented programming as you dive deep into the world of game coding. "
       Categories: ["JavaScript", "OOP", "Game Coding", "Cookies"]
-      Game: "/cookie-clicker/cookie-clicker-game"
-      Lessons: "/cookie-clicker/cookie-clicker-game-docs"
+      Game: "/cookie-clicker-game"
+      Lessons: "/cookie-clicker-game-docs"
       Image: "/images/cookie.jpg"
       Alt: "Cookie"
 ---
-
 {%- include tailwind/lxd.html -%}
