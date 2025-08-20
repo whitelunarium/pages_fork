@@ -24,7 +24,7 @@ const theCookie = {
 
 theCookie.fetchStoredCookies();
 
-document.addEventListener("click", () => {
+cookie.addEventListener("click", () => {
   console.log("COOKIE");
   theCookie.addCookies(1);
   console.log(theCookie.cookies);
