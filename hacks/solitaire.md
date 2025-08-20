@@ -212,6 +212,61 @@ permalink: /solitaire/
         z-index: 2000;
         display: none;
     }
+      /* Modal Styles */
+    .modal {
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.7);
+    }
+    
+    .modal-content {
+        background-color: #f8f9fa; 
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 700px;
+        border-radius: 10px;
+        max-height: 80vh;
+        overflow-y: auto;
+        color: #000;
+    }
+    
+    .close {
+        color: #6c757d;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+    }
+    
+    .instructions-container h4 {
+        margin-top: 20px;
+        color: #2c3e50;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+    
+    .instructions-container ul {
+        padding-left: 20px;
+    }
+    #instructions_modal, 
+    #instructions_modal * {
+        color: #000 !important;
+    }
+
+
 </style>
 
 <h2>Solitaire</h2>
@@ -224,7 +279,6 @@ permalink: /solitaire/
             <a id="new_game" class="link-alert">new game</a>
             <a id="instructions" class="link-alert">how to play</a>
         </div>
-
         <!-- Game Over -->
         <div id="gameover" class="py-4 text-light">
             <p>Game Over!</p>
@@ -233,7 +287,6 @@ permalink: /solitaire/
             <a id="new_game1" class="link-alert">new game</a>
             <a id="menu_return" class="link-alert">main menu</a>
         </div>
-
         <!-- Game Screen -->
         <div id="game_screen" class="game-container wrap" tabindex="1">
             <div class="game-controls">
@@ -245,7 +298,6 @@ permalink: /solitaire/
                     <button id="restart_btn">Restart</button>
                 </div>
             </div>
-
             <div class="foundation-row">
                 <div id="stock" class="card-pile stock-pile" data-pile="stock"></div>
                 <div id="waste" class="card-pile waste-pile empty" data-pile="waste"></div>
@@ -255,7 +307,6 @@ permalink: /solitaire/
                 <div id="foundation_2" class="card-pile foundation" data-pile="foundation" data-index="2"></div>
                 <div id="foundation_3" class="card-pile foundation" data-pile="foundation" data-index="3"></div>
             </div>
-
             <div class="game-board">
                 <div id="tableau_0" class="card-pile tableau-pile" data-pile="tableau" data-index="0"></div>
                 <div id="tableau_1" class="card-pile tableau-pile" data-pile="tableau" data-index="1"></div>
@@ -265,7 +316,6 @@ permalink: /solitaire/
                 <div id="tableau_5" class="card-pile tableau-pile" data-pile="tableau" data-index="5"></div>
                 <div id="tableau_6" class="card-pile tableau-pile" data-pile="tableau" data-index="6"></div>
             </div>
-
             <div id="win_message" class="win-message">
                 <h3>Congratulations!</h3>
                 <p>You Won!</p>
@@ -274,6 +324,49 @@ permalink: /solitaire/
                 <button id="play_again_btn">Play Again</button>
             </div>
         </div>
+    </div>
+    <div id="instructions_modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>How to Play Klondike Solitaire</h3>
+        <div class="instructions-container">
+        <h4>Objective</h4>
+        <p style="background-color: #d4f7d4; padding: 5px; border-radius: 4px;">
+            Move all cards to the four foundation piles, building each suit in ascending order from Ace to King.
+        </p>
+        <h4>Game Layout</h4>
+        <ul>
+            <li><strong>Tableau:</strong> Seven piles where you build descending sequences of alternating colors</li>
+            <li><strong>Foundations:</strong> Four piles where you build ascending sequences by suit (Ace to King)</li>
+            <li><strong>Stock:</strong> The deck of remaining cards (click to draw)</li>
+            <li><strong>Waste:</strong> Where drawn cards from the stock are placed</li>
+        </ul>
+        <h4>Rules</h4>
+        <ul>
+            <li>Only Kings can be placed on empty tableau piles</li>
+            <li>Build tableau piles in descending order (King to Ace) with alternating colors</li>
+            <li>Build foundation piles in ascending order (Ace to King) by suit</li>
+            <li>You can move face-up cards from one tableau pile to another</li>
+            <li>You can move cards from the waste pile to tableau or foundation piles</li>
+            <li>Click the stock pile to draw new cards</li>
+            <li>When the stock is empty, you can reset it from the waste pile</li>
+        </ul>
+        <h4>Scoring</h4>
+        <ul>
+            <li>+5 points for each card moved to tableau</li>
+            <li>+10 points for each card moved to foundation</li>
+            <li>+5 points for turning over a face-down card in tableau</li>
+        </ul>
+        <h4>Controls</h4>
+        <ul>
+            <li><strong>Click:</strong> Select and move cards (or draw from stock)</li>
+            <li><strong>Drag & Drop:</strong> Move cards between piles</li>
+            <li><strong>Hint Button:</strong> Get a suggestion for a move</li>
+            <li><strong>Undo Button:</strong> Reverse your last move</li>
+            <li><strong>Restart Button:</strong> Start a new game</li>
+        </ul>
+        </div>
+    </div>
     </div>
 </div>
 
@@ -807,4 +900,35 @@ permalink: /solitaire/
     // Initial screen
     ui.showMenu();
 })();
+   // Get the modal
+    const modal = document.getElementById("instructions_modal");
+    const instructionsBtn = document.getElementById("instructions");
+    const closeBtn = document.getElementsByClassName("close")[0];
+    
+    // Open modal when instructions is clicked
+    instructionsBtn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // Close modal when X is clicked
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // Close modal when clicking outside content
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape" && modal.style.display === "block") {
+        modal.style.display = "none";
+      }
+    });
+    document.body.style.overflow = "hidden"; // Prevent scrolling behind modal
+    document.body.style.overflow = "auto"; // Re-enable scrolling
+
 </script>
