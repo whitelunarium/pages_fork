@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Cookie Clicker Game
-permalink: /cookie-clicker-game
+permalink: /cookie-clicker-game/
 ---
 
 <html>
