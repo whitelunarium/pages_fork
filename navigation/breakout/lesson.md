@@ -312,7 +312,7 @@ function drawBreakout() {
       brVY=-brVY; b.status=0;
     }
   }}
-  // Ball moves
+  // Ball move
   brX+=brVX; brY+=brVY;
   if(brX+brR>brCanvas.width||brX-brR<0) brVX=-brVX;
   if(brY-brR<0) brVY=-brVY;
