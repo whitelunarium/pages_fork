@@ -5,6 +5,51 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: breakoutLesson
 ---
 
+```mermaid
+flowchart TD
+    A[Start: Breakout Blocks Lesson] --> B[Lesson 1: Paddle and Base Blocks]
+    
+    B --> B1[Make the Paddle]
+    B1 --> B2[Move the Paddle]
+    
+    B --> C[Interactive Demos]
+    C --> C1[Paddle Movement]
+    C1 --> C2[Ball Bouncing]
+    C2 --> C3[Paddle + Ball]
+    C3 --> C4[Mini Breakout]
+    
+    B --> D[Lesson 2: Power-Up Block + Timer]
+    
+    D --> D1[Add Special Bricks]
+    D1 --> D2[Draw and Drop Power-Up]
+    D2 --> D3[Show Timer]
+    
+    C4 --> E[Full Power-Up Demo]
+    
+    D --> F[Exploration Activities]
+    
+    E --> G[Complete Breakout Game]
+    
+    style A fill:#ffffff,stroke:#000000,stroke-width:3px,color:#000000
+    style B fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000000
+    style B1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
+    style B2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
+    style C fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,color:#000000
+    style C1 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style C2 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style C3 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style C4 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style D fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000000
+    style D1 fill:#fff8e1,stroke:#ffb74d,stroke-width:2px,color:#000000
+    style D2 fill:#fff8e1,stroke:#ffb74d,stroke-width:2px,color:#000000
+    style D3 fill:#fff8e1,stroke:#ffb74d,stroke-width:2px,color:#000000
+    style E fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000000
+    style F fill:#f9fbe7,stroke:#827717,stroke-width:2px,color:#000000
+    style G fill:#ffebee,stroke:#d32f2f,stroke-width:3px,color:#000000
+```
+
+<br>
+
 ## **Lesson 1: Paddle and Base Blocks**
 
 **Goal:** Learn how to move the paddle (player) left and right and create basic bricks.
@@ -162,6 +207,7 @@ function drawPowerUpTimer() {
 
 <h2>Interactive Demos Progression</h2>
 <h4>Until base functionality - does not include advanced features</h4>
+<h4>Use the right and left arrows to move the breaker.<h4>
 
 <!-- Canvas 1: Paddle Movement -->
 <h3>1. Paddle Movement</h3>
@@ -325,6 +371,7 @@ function drawBreakout() {
 }
 drawBreakout();
 </script>
+
 
 <br>
 
