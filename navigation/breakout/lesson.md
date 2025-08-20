@@ -157,7 +157,7 @@ function drawPowerUpTimer() {
 ```
 
 **Explore:**
-* Make the timer 10 seconds instead of 5.
+* Make the timer 10 seconds instead of 5..
 * Try different effects (ex: double player speed).
 
 <h2>Interactive Demos Progression</h2>
@@ -312,7 +312,7 @@ function drawBreakout() {
       brVY=-brVY; b.status=0;
     }
   }}
-  // Ball move
+  // Ball moves
   brX+=brVX; brY+=brVY;
   if(brX+brR>brCanvas.width||brX-brR<0) brVX=-brVX;
   if(brY-brR<0) brVY=-brVY;
