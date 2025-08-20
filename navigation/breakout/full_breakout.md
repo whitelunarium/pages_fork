@@ -8,11 +8,15 @@ permalink: fullbreakout
 
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
+<!-- NEW: Next Level button -->
+<button id="nextLevelBtn" style="display:none;margin:10px auto 0;padding:10px 16px;font-family:system-ui,Arial;font-size:16px;font-weight:600;border:1px solid #222;background:#fff;cursor:pointer;border-radius:8px;display:block;max-width:600px;color:#111 !important;">
+  Next Level ▶
+</button>
+
 <div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
   <h2>Breakout Game (w/ Advanced Features)</h2>
   <p><strong>Hack #1: Change Colors</strong></p>
   <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
-
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new color for the paddle and the bricks.</li>
     <li>Change the <em>Colors</em> to update the game design.</li>
@@ -23,7 +27,6 @@ permalink: fullbreakout
 <div id="hack2" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
   <p><strong>Hack #2: Change Ball Speed</strong></p>
   <p>Look in the javascript and change the <em>ball</em> speed.</p>
-
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new speed for the ball.</li>
     <li>Change the <em>ball speed</em> to update the game design.</li>
@@ -37,13 +40,11 @@ permalink: fullbreakout
   <p><strong>Learn the Basics</strong></p>
   <p>Learn the basics of building a <strong>Breakout-style game</strong> in JavaScript.</p>
   <p>In this lesson set, you’ll code the <strong>paddle</strong>, control it with the keyboard, and then add <strong>power-up bricks with timers</strong> to make the game more dynamic.</p>
-
   <ul style="margin:8px 0 12px 20px;">
     <li>Understand how the paddle and ball mechanics work.</li>
     <li>Learn how to create interactive bricks and power-ups.</li>
     <li>Practice using timers to make the game more engaging.</li>
   </ul>
-
   <p><a href="{{site.baseurl}}/breakoutLesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
 </div>
 
@@ -59,6 +60,12 @@ permalink: fullbreakout
 <script>
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
+  const nextLevelBtn = document.getElementById("nextLevelBtn");
+
+  // --- Levels / pause ---
+  let level = 1;
+  const levelSpeedScale = 1.12; // ball speed multiplier each level
+  let paused = false;
 
   // Paddle
   let paddleHeight = 10;
@@ -77,7 +84,7 @@ permalink: fullbreakout
   let dy = -2;
 
   // Blocks
-  const brickRowCount = 4;
+  let brickRowCount = 4;       // CHANGED: let (so we can increase rows)
   const brickColumnCount = 6;
   const brickWidth = 75;
   const brickHeight = 20;
@@ -87,13 +94,18 @@ permalink: fullbreakout
 
   let bricks = [];
   const powerUpChance = 0.3; // 30% chance a brick contains a powerup
-  for (let c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
-    for (let r = 0; r < brickRowCount; r++) {
-      const hasPowerUp = Math.random() < powerUpChance;
-      bricks[c][r] = { x: 0, y: 0, status: 1, powerUp: hasPowerUp };
+
+  function initBricks() {
+    bricks = [];
+    for (let c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (let r = 0; r < brickRowCount; r++) {
+        const hasPowerUp = Math.random() < powerUpChance;
+        bricks[c][r] = { x: 0, y: 0, status: 1, powerUp: hasPowerUp };
+      }
     }
   }
+  initBricks();
 
   // Powerups
   let powerUps = [];
@@ -151,6 +163,16 @@ permalink: fullbreakout
     }
   }
 
+  function remainingBricks() {
+    let count = 0;
+    for (let c = 0; c < brickColumnCount; c++) {
+      for (let r = 0; r < brickRowCount; r++) {
+        if (bricks[c][r].status === 1) count++;
+      }
+    }
+    return count;
+  }
+
   // Powerup mechanics
   function drawPowerUps() {
     for (let i = 0; i < powerUps.length; i++) {
@@ -158,12 +180,7 @@ permalink: fullbreakout
       if (p.active) {
         // Draw colorful circle with "P"
         let gradient = ctx.createRadialGradient(
-          p.x,
-          p.y,
-          5,
-          p.x,
-          p.y,
-          powerUpSize
+          p.x, p.y, 5, p.x, p.y, powerUpSize
         );
         gradient.addColorStop(0, "yellow");
         gradient.addColorStop(1, "red");
@@ -280,7 +297,48 @@ permalink: fullbreakout
     }
   }
 
+  function resetBallAndPaddle() {
+    // keep direction but reset position; adjust speed to current dx/dy magnitude
+    const speed = Math.hypot(dx, dy);
+    x = canvas.width / 2;
+    y = canvas.height - 30;
+    // random upward angle between 30° and 75°
+    const angle = (Math.PI / 6) + Math.random() * (Math.PI / 3);
+    const sign = Math.random() < 0.5 ? -1 : 1;
+    dx = sign * speed * Math.cos(angle);
+    dy = -Math.abs(speed * Math.sin(angle));
+    paddleX = (canvas.width - paddleWidth) / 2;
+
+    // clear any falling powerups
+    powerUps = [];
+    // reset active powerup on new level
+    activePowerUp = null;
+    paddleWidth = basePaddleWidth;
+  }
+
+  function nextLevel() {
+    // Increase difficulty: speed up ball and add a row (up to fit)
+    const currentSpeed = Math.hypot(dx, dy) * levelSpeedScale;
+    const theta = Math.atan2(dy, dx);
+    dx = currentSpeed * Math.cos(theta);
+    dy = currentSpeed * Math.sin(theta);
+
+    level++;
+    if (brickRowCount < 8) brickRowCount++; // cap to keep on-screen
+
+    initBricks();
+    resetBallAndPaddle();
+
+    // hide button and resume
+    paused = false;
+    nextLevelBtn.style.display = "none";
+    requestAnimationFrame(draw);
+  }
+
+  nextLevelBtn.addEventListener("click", nextLevel);
+
   function draw() {
+    // Render current frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
@@ -289,6 +347,14 @@ permalink: fullbreakout
     drawPowerUpTimer();
     collisionDetection();
 
+    // If all bricks cleared, pause and show Next Level button
+    if (!paused && remainingBricks() === 0) {
+      paused = true;
+      nextLevelBtn.style.display = "block";
+      // Do not schedule next frame; freeze the scene until button press
+      return;
+    }
+
     // Ball movement
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) dx = -dx;
     if (y + dy < ballRadius) dy = -dy;
@@ -296,7 +362,7 @@ permalink: fullbreakout
       if (x > paddleX && x < paddleX + paddleWidth) {
         dy = -dy;
       } else {
-        document.location.reload(); // Restart game
+        document.location.reload(); // Restart game on miss
       }
     }
 
@@ -308,10 +374,10 @@ permalink: fullbreakout
 
     x += dx;
     y += dy;
-    requestAnimationFrame(draw);
+
+    if (!paused) requestAnimationFrame(draw);
   }
 
+  // Start
   draw();
 </script>
-
-
