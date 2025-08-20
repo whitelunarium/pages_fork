@@ -1,9 +1,10 @@
 title: Curators
 description: "Class of 2025"
 owner_name: Nikhil Maturi
-github_username: code259 
-github_repo: "curators" 
-baseurl: "" 
+github_username: code259
+github_repo: "curators"
+baseurl: "/curators"
+url: "https://code259.github.io"
 future: true
 remote_theme: jekyll/minima
 minima:
