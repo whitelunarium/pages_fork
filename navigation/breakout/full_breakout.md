@@ -39,11 +39,6 @@ permalink: fullbreakout
 <div id="hack2-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
   <p><strong>Hack #2 (90%): Change Ball Speed</strong></p>
   <p>Look in the javascript and change the <em>ball</em> speed.</p>
-
-<!-- Hack #2: 90% hack section -->
-<div id="hack2-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-  <p><strong>Hack #2 (90%): Change Ball Speed</strong></p>
-  <p>Look in the javascript and change the <em>ball</em> speed.</p>
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new speed for the ball.</li>
     <li>Change the <em>ball speed</em> to update the game design.</li>
