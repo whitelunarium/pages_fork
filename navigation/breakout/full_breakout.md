@@ -1,10 +1,51 @@
 ---
 layout: base 
 title: Breakout Blocks
-author: Rohan and Pranav
+author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: fullbreakout
 ---
-<canvas id="gameCanvas" width="480" height="320"></canvas>
+
+
+<canvas id="gameCanvas" width="600" height="400"></canvas>
+
+<div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <h2>Breakout Game (w/ Advanced Features)</h2>
+  <p><strong>Hack #1: Change Colors</strong></p>
+  <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
+
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Pick a new color for the paddle and the bricks.</li>
+    <li>Change the <em>Colors</em> to update the game design.</li>
+    <li>Tip: High-contrast colors look best on a light background.</li>
+  </ul>
+</div>
+
+<div id="hack2" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2: Change Ball Speed</strong></p>
+  <p>Look in the javascript and change the <em>ball</em> speed.</p>
+
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Pick a new speed for the ball.</li>
+    <li>Change the <em>ball speed</em> to update the game design.</li>
+    <li>Tip: Don't make the speed to high! It will be too hard!</li>
+    <li>Hint: Early in the script, certain variables determine the speed of the ball. You will need to increase/decrease these numbered values to increase the speed of the ball.</li>
+  </ul>
+</div>
+
+<div id="information" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <h2>Breakout Game Lesson</h2>
+  <p><strong>Learn the Basics</strong></p>
+  <p>Learn the basics of building a <strong>Breakout-style game</strong> in JavaScript.</p>
+  <p>In this lesson set, you’ll code the <strong>paddle</strong>, control it with the keyboard, and then add <strong>power-up bricks with timers</strong> to make the game more dynamic.</p>
+
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Understand how the paddle and ball mechanics work.</li>
+    <li>Learn how to create interactive bricks and power-ups.</li>
+    <li>Practice using timers to make the game more engaging.</li>
+  </ul>
+
+  <p><a href="{{site.baseurl}}/breakoutLesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
+</div>
 
 <style>
   canvas {
@@ -36,13 +77,13 @@ permalink: fullbreakout
   let dy = -2;
 
   // Blocks
-  const brickRowCount = 3;
-  const brickColumnCount = 5;
+  const brickRowCount = 4;
+  const brickColumnCount = 6;
   const brickWidth = 75;
   const brickHeight = 20;
   const brickPadding = 10;
   const brickOffsetTop = 30;
-  const brickOffsetLeft = 30;
+  const brickOffsetLeft = 50;
 
   let bricks = [];
   const powerUpChance = 0.3; // 30% chance a brick contains a powerup
@@ -273,77 +314,4 @@ permalink: fullbreakout
   draw();
 </script>
 
----
-
-## **Lesson 1: Slider and Base Blocks**
-
-**Goal:** Learn how to move a block (player) left and right using a slider.
-
-### Step 1: Make the base block (player)
-
-* Create a rectangle with `pygame.Rect()`.
-* Example:
-
-```python
-player = pygame.Rect(300, 550, 100, 20)  # x, y, width, height
-```
-
-### Step 2: Add movement
-
-* Use arrow keys to move it left and right.
-
-```python
-keys = pygame.key.get_pressed()
-if keys[pygame.K_LEFT]:
-    player.x -= 5
-if keys[pygame.K_RIGHT]:
-    player.x += 5
-```
-
-**Assignment:**
-
-* Make your own block that moves left/right with the arrow keys.
-* Change its width/height and test how it feels.
-
----
-
-## **Lesson 2: Power-Up Block + Timer**
-
-**Goal:** Add a special block that gives a temporary boost when hit.
-
-### Step 1: Make a power-up block
-
-* Create a rectangle in a different color (like yellow).
-
-```python
-power_block = pygame.Rect(200, 200, 60, 20)
-```
-
-### Step 2: Detect collision
-
-* When your player touches the block, start a timer.
-
-```python
-if player.colliderect(power_block):
-    power_active = True
-    power_timer = pygame.time.get_ticks()  # start timer
-```
-
-### Step 3: Show timer
-
-* Draw the time left on screen.
-
-```python
-if power_active:
-    time_left = 5 - (pygame.time.get_ticks() - power_timer)//1000
-    font = pygame.font.SysFont(None, 36)
-    text = font.render(f"Power: {time_left}", True, (255,255,255))
-    screen.blit(text, (10,10))
-```
-
-**Assignment:**
-
-* Change the block color when it’s a power-up.
-* Make the timer 10 seconds instead of 5.
-* Try different effects (ex: double player speed).
 
