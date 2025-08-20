@@ -16,7 +16,7 @@ permalink: /cookie-clicker-game/
 
 <!-- Game -->
 <div class="col-span-3 flex flex-col items-center justify-center bg-gray-100">
-    <h1 class="text-3xl font-bold mb-6">Cookie Clicker</h1>
+    <div class="text-3xl font-bold mb-6">Cookie Clicker</div>
     <div id="cookie" class="w-48 h-48 bg-cover bg-center rounded-full cursor-pointer active:scale-90 transition">
         <img src="/hacks/cookie-clicker/assets/baseCookie.png" />
     </div>
@@ -25,4 +25,4 @@ permalink: /cookie-clicker-game/
 </div>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="hacks/cookie-clicker/cookie-clicker-game.js">
+<script src="{{site.baseurl}}/hacks/cookie-clicker/cookie-clicker-game.js">
