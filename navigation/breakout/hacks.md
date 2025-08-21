@@ -8,4 +8,4 @@ title: Breakout Hacks
 description: 90% and 100% hacks for Breakout game lesson
 ---
 
-{%- include tailwind/breakoutHacks.html -%}
+{%- include tailwind/infograph.html -%}
