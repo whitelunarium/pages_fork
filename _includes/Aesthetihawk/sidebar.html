@@ -1,0 +1,25 @@
+<ul class="flex flex-col py-4 space-y-1">
+  {% for section in site.data.aesthetihawk_sidebar %}
+    <!-- section title -->
+    <li class="px-5">
+      <div class="flex flex-row items-center h-8">
+        <div class="text-sm font-light tracking-wide text-neutral-500">{{ section.section }}</div>
+      </div>
+    </li>
+
+    {% for item in section.items %}
+      <li>
+        <a id="{{ item.id }}" href="{{ site.baseurl }}{{ item.url }}" onclick="setActiveTab(this)"
+           class="nav-item relative flex flex-row items-center h-11 focus:outline-none text-neutral-600 hover:text-neutral-50 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+          <span class="inline-flex justify-center items-center ml-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              {{ item.icon }}
+            </svg>
+          </span>
+          <span class="ml-2 text-sm tracking-wide truncate">{{ item.title }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endfor %}
+</ul>
