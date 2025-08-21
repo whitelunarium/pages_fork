@@ -10,10 +10,29 @@ permalink: /cookie-clicker-game/
 <div class="col-span-1 bg-white p-4 shadow-lg flex flex-col" id="shop-container">
     <div class="text-xl font-bold mb-4 text-center">SHOP</div>
     <button id="autoClickerBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mb-2">
-    Grandma (Cost: 69)
+    👵Grandma (Cost: 69)
     </button>
+<button id="cursorBtn" 
+    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 mb-2 rounded shadow">
+    🖱️ Cursor (Cost: 15)
+  </button>
+<button id="factoryBtn" 
+    class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 mb-2 rounded shadow">
+    🏭 Factory (Cost: 500)
+  </button>
+ <button id="bankBtn" 
+    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mb-2 rounded shadow">
+    🏦 Bank (Cost: 67410)
+  </button>
+ <button id="templeBtn" 
+    class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 mb-2 rounded shadow">
+    ⛪ Mango temple (Cost: 50000)
+  </button>
+  <button id="chaoticOhioBtn" 
+    class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 mb-2 rounded shadow">
+    ⏳ Chaotic Ohio (Cost: 6700000)
+  </button>
 </div>
-
 <!-- Game -->
 <div class="col-span-3 flex flex-col items-center justify-center bg-gray-100">
     <div class="text-3xl font-bold mb-6">Cookie Clicker</div>
