@@ -177,3 +177,26 @@ How would you test if the bug comes from pop() or push()?
 Building Solitaire is a lesson in problem-solving as much as it is about programming. By applying **decomposition, pattern recognition, abstraction, algorithmic thinking, and debugging**, we learn how to tackle complex challenges systematically.
 
 ---
+
+## Popcorn Hacks 🎉
+
+1. **Trace the Deal**  
+   Add `console.log()` statements inside your `deal()` function to print which card goes to which pile. Watch how decomposition and algorithmic thinking come together.
+
+2. **Bug Hunt**  
+   Intentionally break `canAccept()` (e.g., flip the `+1` and `-1` rule) and see how the game misbehaves. Then, use debugging steps to fix it.
+
+3. **Undo Plan**  
+   Sketch (or code) how you would implement an `undo()` feature: what data needs to be saved with each move, and how would you roll it back?
+
+4. **Pattern Refactor**  
+   Take `FoundationPile` and `TableauPile` and extract shared logic into the base `Pile` class. Notice how pattern recognition reduces duplication.
+
+5. **Algorithm Twist**  
+   Change the `deal()` function to create a “reverse Solitaire” where piles are built from right to left. How does this affect the algorithm?
+
+6. **Debugging Drill**  
+   Write a tiny test that moves a card from one pile to another. Print the length of both piles before and after. Use this to check if `pop()` and `push()` behave correctly.
+
+7. **Stretch Hack**  
+   Add a simple “hint” system: loop through all piles and log where the top card *could* legally move. This combines abstraction, algorithms, and debugging.

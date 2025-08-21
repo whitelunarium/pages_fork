@@ -247,6 +247,7 @@ class Game {
 - "Has-a" relationship: Game has piles, has a deck, has a UI
 - Delegation: Game delegates pile-specific operations to pile objects
 - Modular design: Each component can be developed and tested independently
+- Works well in this coding workspace.
 
 ## Advanced OOP Patterns in the Game
 
@@ -447,3 +448,31 @@ Key takeaways:
 - **Composition builds complex systems** from simpler parts
 
 Whether you're building games, web applications, or enterprise software, these OOP principles will help you write better, more maintainable code.
+
+## Hacks
+
+Little experiments to try right away:
+
+1. Flip a Card
+Add a `flip()` method to the Card class that toggles its faceUp property. Use it to simulate turning cards in the stock pile.
+
+2. Random Deck Shuffle
+Extend the Deck class with a `shuffle()` method that randomly reorders the cards array. Compare how different shuffle algorithms behave.
+
+3. Peek into a Pile
+Add a `peek(n)` method to Pile that shows the top n cards without removing them. This will make debugging easier.
+
+4. Custom Pile Rule
+Create a new pile class (e.g., `OddPile`) that only accepts cards with odd values. Test polymorphism by including it in allPiles.
+
+5. Undo Mechanic
+Modify the Game class so that every move is saved in this.moves, and implement an `undo()` function to reverse the last action.
+
+6. Timed Challenge
+Add a countdown timer to the game (e.g., 5 minutes). When time runs out, automatically end the game. This will reinforce encapsulation and composition.
+
+7. UI Hack
+Without changing game logic, make the UI highlight piles where the selected card can be legally placed. Notice how MVC makes this separation clean.
+
+8. Hint System
+Add a `getHint()` method in Game that scans piles and suggests a legal move. Forces you to use polymorphism since each pile has different rules.
