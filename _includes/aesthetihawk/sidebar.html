@@ -10,7 +10,7 @@
     {% for item in section.items %}
       {% assign item_id = item.id | strip %}
       <li>
-        <a id="{{ item_id }}" href="{{ site.baseurl }}{{ item.url }}"
+        <a id="sidebar-{{ item_id }}" href="{{ site.baseurl }}{{ item.url }}"
            class="nav-item relative flex flex-row items-center h-11 focus:outline-none pr-6 border-l-4
            {% if current == item_id %}
              bg-neutral-700 text-neutral-50 border-indigo-500
