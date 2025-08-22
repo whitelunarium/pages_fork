@@ -1,12 +1,10 @@
 ---
-toc: True
 layout: post
+toc: True
+breadcrumb: True
 title: Build a Markdown Page
 description: JavaScript, HTML, CSS and Markdown are coding languages used by bloggers when developing in the GitHub Pages system. By using these languages, student developers can add functionality to their GitHub pages site.
-menu: nav/github_pages.html
 permalink: /github/pages/markdown
-categories: ['GitHub Pages']
-type: ccc
 ---
 
 ## HTML Fragments and Markdown
