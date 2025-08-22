@@ -17,7 +17,7 @@ Welcome to your GitHub Pages mini-project journey! This series will guide you th
   <tr>
     <th><a href="{{site.baseurl}}/github/pages/jokes">Notebooks & Jokes</a></th>
     <th><a href="{{site.baseurl}}/github/pages/anatomy">Anatomy</a></th>
-    <th><a href="{{site.baseurl}}/github/pages/layouts">Layouts</a></th>
+    <th><a href="{{site.baseurl}}/github/pages/theme">Theme</a></th>
     <th><a href="{{site.baseurl}}/github/pages/markdown">Markdown</a></th>
     <th><a href="{{site.baseurl}}/github/pages/jekyll">Jekyll</a></th>
     <th><a href="{{site.baseurl}}/github/pages/hacks">Hacks</a></th>
@@ -25,7 +25,7 @@ Welcome to your GitHub Pages mini-project journey! This series will guide you th
   <tr>
     <td>Fun with JavaScript and Jupyter Notebooks</td>
     <td>Explore the structure of a GitHub Pages site</td>
-    <td>Learn about layouts and page templates</td>
+    <td>Learn about theme templates and layout of SASS files for advanced styling</td>
     <td>Master Markdown for content creation</td>
     <td>Understand Jekyll static site generation</td>
     <td>Apply your knowledge with hands-on challenges</td>
