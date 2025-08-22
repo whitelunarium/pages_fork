@@ -17,37 +17,30 @@ The following commands are universal for all machine types, terminals, and proje
 
 ### Open a Linux-supported Terminal (Ubuntu, Kali, MacOS).
 
-### Move to your home directory: `cd`
+### Setup a directory for projects
 
-### Setup a directory for projects 
-
-Change **open-coding-society/student.git** to match the name of your organization and repo.
+Change **opencs and open-coding-society/student.git** to match the name of your organization and repo.
 
    ```bash
-   mkdir -p opencs
-   cd opencs 
-   git clone https://github.com/open-coding-society/student.git
+   cd # move to your home directory
+   mkdir -p opencs # use your organization, not opencs
+   cd opencs # user your oganization, noot opencs
+   git clone https://github.com/open-coding-society/student.git # clone from your organization, not open-code-society
    ```
 
 ### Prepare project prior to opening VS Code
 
    ```bash
-   # Move to the project directory
-   cd student
-   # Create a virtual environment using the provided script
-   ./scripts/venv.sh
-   # Activate the virtual environment (observe the prompt change)
-   source venv/bin/activate
-   # Install Ruby gems, Jekyll required (GitHub Pages)
-   bundle install
-   # Open the project in VS Code
-   code .
+   cd student # Move to your personal project directory
+   ./scripts/venv.sh # Activate the virtual environment (observe the prompt change)
+   source venv/bin/activate # Prefix (venv) in path
+   bundle install # Ensure Ruby gems for GitHub Pages is installed in (venv)
+   code . p # Open the project in VS Code
    ```
 
 ### Authenticate with GitHub
 
 * At some point, you may be prompted to authenticate with GitHub. Follow the dialog and instructions.
-* **KASM** A keyring may appear; ensure you authenticate. Using credentials similar to GitHub should work.
 
 ### For WSL Users Only
 
@@ -82,16 +75,10 @@ All students are building a GitHub Pages website.  These steps get your website 
 Think of `make` as a smart **task helper** for developers.
 
 * It **automates commands** you would normally type one by one.
+* It starts a **localhost server** on you machine, enabling Testing prior to Sync.
 * It reads a special file called a **Makefile**, which lists tasks and how to run them.  
 
-Instead of running:
-
-```bash
-bundle exec jekyll serve
-python my_script.py
-```
-
-Just run:
+Simply run:
 
 ```bash
 make
@@ -101,9 +88,9 @@ And it will do everything listed in the `Makefile`.
 
 1. Open a terminal
 
-2. Navigate to your project directory `cd ~/opencs/portfolio/student`
+2. Navigate to your project directory
 
-3. Activate virtual environment `source venv/bin/activate`
+3. Activate virtual environment (venv) `source venv/bin/activate`
 
 4. Open VSCode `code .`
 

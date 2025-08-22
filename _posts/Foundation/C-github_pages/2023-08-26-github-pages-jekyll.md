@@ -1,15 +1,16 @@
 ---
 layout: post
+breadcrumb: True
+toc: True
 title: GitHub Pages Jekyll
 description: Learn about the power of GitHub Pages and Jekyll
 categories: ['GitHub Pages']
 permalink: /github/pages/jekyll
-menu: nav/github_pages.html
-toc: True
 comments: True
 ---
 
 ## GitHub Pages and Jekyll
+
 GitHub Pages leverages the power of Jekyll to transform your Markdown and HTML files into a static website. 
 
 1. **Front Matter**: All Markdown (`.md`) and Jupyter Notebook (`.ipynb`) files with front matter are processed into a static data structure, making their keys and values accessible to the GitHub Pages system via Jekyll.
@@ -17,6 +18,7 @@ GitHub Pages leverages the power of Jekyll to transform your Markdown and HTML f
 2. **Jekyll Language**: Jekyll can access all site-wide keys and values defined in `_config.yml`, as well as individual page front matter keys and values. This allows for dynamic organization and rendering of documents based on their metadata.
 
 ### Jekyll and Liquid
+
 The primary purpose of Jekyll within GitHub Pages is to help developers create dynamic web pages. By using site and page front matter, you can organize and render pages based on data. Liquid provides the templating syntax that allows you to dynamically generate content within your Jekyll templates. In essence, Jekyll is the system, and Liquid is the templating language.
 
 Jekyll and Liquid provide programming constructs that are essential in all programming environments. These constructs are particularly relevant to concepts required by AP (CSP, CSA) and college articulated courses (CSSE, Data Structures).
@@ -24,6 +26,7 @@ Jekyll and Liquid provide programming constructs that are essential in all progr
 Below are these key elements as defined in Liquid.
 
 - **Variable Assignments**: This assigns all the posts in the site to the variable rawposts.
+
   ```liquid
   {% raw %}
 
@@ -33,6 +36,7 @@ Below are these key elements as defined in Liquid.
   ```
 
 - **Conditionals**: This checks if the number of posts is greater than zero.
+
   ```liquid
   {% raw %}
 
@@ -44,6 +48,7 @@ Below are these key elements as defined in Liquid.
   ```
 
 - **xLoops**: This iterates through each post in the site's posts.
+
   ```liquid
   {% raw %}
 
@@ -55,6 +60,7 @@ Below are these key elements as defined in Liquid.
   ```
 
 - **Include**: Include (HTML)
+
   ```liquid
   {% raw %}
 
@@ -68,6 +74,7 @@ Below are these key elements as defined in Liquid.
 Since we are mentioning essential programming constructs, following are examples of similar constructs in languages you will be exposed to in the CompSci pathway at Del Norte High School.
 
 ### JavaScript
+
 Similar language constructs comparisons
 
 ```javascript
@@ -89,6 +96,7 @@ import { function } from './file.js';
 ```
 
 ### AP CSP Pseudocode
+
 Similar language constructs comparisons
 
 ```plaintext
@@ -110,6 +118,7 @@ INCLUDE function FROM file
 ```
 
 ### Python
+
 Similar language constructs comparisons
 
 ```python
@@ -128,8 +137,8 @@ for post in site.posts:
 from file.py import function
 ```
 
-
 ### Java
+
 Similar language constructs comparisons
 
 ```java
@@ -153,8 +162,8 @@ import static com.example.file.function;
 ```
 
 ## Blogging Example Code
-A core part of this project is the `blogs` layout (`_layouts/blogs.html`). This file is used to organize the blog list on the website. Read the comments in the code and consider making changes to the data or code to alter the appearance of the blogs. Try to modify the blog layout to better suit your needs or preferences.
 
+A core part of this project is the `blogs` layout (`_layouts/blogs.html`). This file is used to organize the blog list on the website. Read the comments in the code and consider making changes to the data or code to alter the appearance of the blogs. Try to modify the blog layout to better suit your needs or preferences.
 
 ```liquid
 {% raw %}
@@ -208,6 +217,7 @@ A core part of this project is the `blogs` layout (`_layouts/blogs.html`). This 
 ```
 
 ### HTML Included Code
+
 The block of code below is located in the system at `_includes/post_list_image_card.html`. This file is included in the blogs and generates the HTML for the card. If you want to change the style or appearance of the card output for the blogs, you should modify the `_includes/post_list_image_card.html` file.
 
 ```html
