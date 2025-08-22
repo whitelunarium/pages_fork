@@ -1,5 +1,6 @@
 ---
 layout: post
+tailwind: True
 title: GitHub Pages LxD Series
 description: An interactive series for learning Frontend programming, GitHub Pages, and Jupyter Notebooks through hands-on mini-projects.
 type: hacks 
@@ -9,6 +10,15 @@ author: John Mortensen
 ---
 
 Welcome to your GitHub Pages mini-project journey! This series will guide you through essential skills for web programming with GitHub Pages.
+
+```mermaid
+graph TD
+    A[Notebooks & Jokes] --> B[Anatomy]
+    B --> C[Theme]
+    C --> D[Markdown]
+    D --> E[Jekyll]
+    E --> F[Hacks]
+```
 
 ---
 ## Table - How to Use This Series
@@ -32,16 +42,40 @@ Welcome to your GitHub Pages mini-project journey! This series will guide you th
   </tr>
 </table>
 
-## Markdown - How to Use This Series
+---
 
-```mermaid
-graph TD
-    A[Notebooks & Jokes] --> B[Anatomy]
-    B --> C[Theme]
-    C --> D[Markdown]
-    D --> E[Jekyll]
-    E --> F[Hacks]
-```
+<table style="width:100%; text-align:center; border-collapse:collapse;">
+  <tr>
+    <th>Topic</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><a href="{{site.baseurl}}/github/pages/jokes">Notebooks & Jokes</a></td>
+    <td>Fun with JavaScript and Jupyter Notebooks</td>
+  </tr>
+  <tr>
+    <td><a href="{{site.baseurl}}/github/pages/anatomy">Anatomy</a></td>
+    <td>Explore the structure of a GitHub Pages site</td>
+  </tr>
+  <tr>
+    <td><a href="{{site.baseurl}}/github/pages/theme">Theme</a></td>
+    <td>Learn about theme templates and layout of SASS files for advanced styling</td>
+  </tr>
+  <tr>
+    <td><a href="{{site.baseurl}}/github/pages/markdown">Markdown</a></td>
+    <td>Master Markdown for content creation</td>
+  </tr>
+  <tr>
+    <td><a href="{{site.baseurl}}/github/pages/jekyll">Jekyll</a></td>
+    <td>Understand Jekyll static site generation</td>
+  </tr>
+  <tr>
+    <td><a href="{{site.baseurl}}/github/pages/hacks">Hacks</a></td>
+    <td>Apply your knowledge with hands-on challenges</td>
+  </tr>
+</table>
+
+## Markdown - How to Use This Series
 
 - **Start at the top** and follow the arrows to progress through each topic.
 - Complete each activity to build your skills and prepare for your own LxD experience.
@@ -56,6 +90,52 @@ graph TD
   - Master Markdown for content creation
 - [Jekyll]({{site.baseurl}}/github/pages/jekyll)
   - Understand Jekyll static site generation
+
+---
+
+- [Notebooks & Jokes]({{site.baseurl}}/github/pages/jokes): Fun with JavaScript and Jupyter Notebooks
+- [Anatomy]({{site.baseurl}}/github/pages/anatomy): Explore the structure of a GitHub Pages site
+- [Theme]({{site.baseurl}}/github/pages/theme): Learn about theme templates and layout of SASS files for advanced styling
+- [Markdown]({{site.baseurl}}/github/pages/markdown): Master Markdown for content creation
+- [Jekyll]({{site.baseurl}}/github/pages/jekyll): Understand Jekyll static site generation
+- [Hacks]({{site.baseurl}}/github/pages/hacks): Apply your knowledge with hands-on challenges
+
+---
+
+## Tailwind - How to Use This Series
+
+<div class="flex flex-wrap gap-6 justify-center my-8">
+  <!-- Notebooks & Jokes Card -->
+  <div class="bg-gray-800 shadow-md rounded-lg p-6 w-72 flex flex-col items-center hover:shadow-xl transition">
+    <a href="{{site.baseurl}}/github/pages/jokes" class="text-xl font-bold text-blue-600 hover:underline mb-2">Notebooks & Jokes</a>
+    <p class="text-gray-700 text-center">Fun with JavaScript and Jupyter Notebooks</p>
+  </div>
+  <!-- Anatomy Card -->
+  <div class="bg-gray-400 shadow-md rounded-lg p-6 w-72 flex flex-col items-center hover:shadow-xl transition">
+    <a href="{{site.baseurl}}/github/pages/anatomy" class="text-xl font-bold text-blue-600 hover:underline mb-2">Anatomy</a>
+    <p class="text-gray-700 text-center">Explore the structure of a GitHub Pages site</p>
+  </div>
+  <!-- Theme Card -->
+  <div class="bg-red-600 shadow-md rounded-lg p-6 w-72 flex flex-col items-center hover:shadow-xl transition">
+    <a href="{{site.baseurl}}/github/pages/theme" class="text-xl font-bold text-blue-600 hover:underline mb-2">Theme</a>
+    <p class="text-gray-700 text-center">Learn about theme templates and layout of SASS files for advanced styling</p>
+  </div>
+  <!-- Markdown Card -->
+  <div class="bg-green-600 shadow-md rounded-lg p-6 w-72 flex flex-col items-center hover:shadow-xl transition">
+    <a href="{{site.baseurl}}/github/pages/markdown" class="text-xl font-bold text-blue-600 hover:underline mb-2">Markdown</a>
+    <p class="text-gray-700 text-center">Master Markdown for content creation</p>
+  </div>
+  <!-- Jekyll Card -->
+  <div class="bg-purple-600 shadow-md rounded-lg p-6 w-72 flex flex-col items-center hover:shadow-xl transition">
+    <a href="{{site.baseurl}}/github/pages/jekyll" class="text-xl font-bold text-blue-600 hover:underline mb-2">Jekyll</a>
+    <p class="text-gray-700 text-center">Understand Jekyll static site generation</p>
+  </div>
+  <!-- Hacks Card -->
+  <div class="bg-pink-600 shadow-md rounded-lg p-6 w-72 flex flex-col items-center hover:shadow-xl transition">
+    <a href="{{site.baseurl}}/github/pages/hacks" class="text-xl font-bold text-blue-600 hover:underline mb-2">Hacks</a>
+    <p class="text-gray-700 text-center">Apply your knowledge with hands-on challenges</p>
+  </div>
+</div>
 
 ---
 
