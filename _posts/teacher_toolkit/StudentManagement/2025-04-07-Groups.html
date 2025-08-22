@@ -555,20 +555,18 @@ document.getElementById("saveEditGroupBtn").addEventListener("click", () => {
 // Filter users in Create Group Modal
 document.getElementById("userSearch").addEventListener("input", function () {
   const search = this.value.toLowerCase();
-  document.querySelectorAll("#createUserList label").forEach((label) => {
-    label.style.display = label.textContent.toLowerCase().includes(search)
-      ? "block"
-      : "none";
+  document.querySelectorAll("#createUserList .form-check").forEach(item => {
+    const match = item.textContent.toLowerCase().includes(search);
+    item.classList.toggle("hidden", !match);   // hides the entire grid item
   });
 });
 
 // Filter users in Edit Group Modal
 document.getElementById("userSearchEdit").addEventListener("input", function () {
   const search = this.value.toLowerCase();
-  document.querySelectorAll("#editUserList label").forEach((label) => {
-    label.style.display = label.textContent.toLowerCase().includes(search)
-      ? "block"
-      : "none";
+  document.querySelectorAll("#editUserList .form-check").forEach(item => {
+    const match = item.textContent.toLowerCase().includes(search);
+    item.classList.toggle("hidden", !match);
   });
 });
 </script>
