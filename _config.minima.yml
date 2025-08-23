@@ -1,7 +1,7 @@
 title: Open Coding 
-description: "Class of 2025"
-owner_name: John Mortensen
-github_username: jm1021 
+description: "Class of 2026"
+owner_name: Open Coding Society 
+github_username: open-coding-society 
 github_repo: "pages" 
 baseurl: "" 
 future: true
@@ -15,6 +15,7 @@ minima:
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
+
 header_pages:
   - navigation/section/csse.md
   - navigation/section/csp.md
