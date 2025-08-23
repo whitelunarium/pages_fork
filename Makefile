@@ -206,3 +206,20 @@ serve: stop convert
 build: 
 	@CURRENT_THEME=$$(make -s detect-theme); \
 	make build-$$CURRENT_THEME
+
+help:
+	@echo "Available Makefile commands:"
+	@echo "  make serve         - Start the server with the detected theme"
+	@echo "  make all           - Start server, monitor logs, and auto-convert notebooks"
+	@echo "  make stop          - Stop the server and logging processes"
+	@echo "  make convert       - Convert all .ipynb notebooks to Markdown"
+	@echo "  make clean         - Remove generated Markdown and issue files"
+	@echo "  make reload        - Stop and restart the server"
+	@echo "  make refresh       - Stop, clean, and restart the server"
+	@echo "  make serve-minima  - Serve with the Minima theme"
+	@echo "  make serve-text    - Serve with the TeXt theme"
+	@echo "  make build         - Build the site with the detected theme"
+	@echo "  make build-minima  - Build the site with the Minima theme"
+	@echo "  make build-text    - Build the site with the TeXt theme"
+	@echo "  make switch-theme  - Interactive theme switcher"
+	@echo "  make detect-theme  - Detect the current theme"
