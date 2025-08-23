@@ -1,9 +1,7 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3"
-gem "sass-embedded"
-gem "jekyll-remote-theme"
-gem "jekyll-feed"
-gem "jekyll-paginate"
-gem "jekyll-sitemap"
-gem "jemoji"
+gem "github-pages", group: :jekyll_plugins
+
+gem "webrick", "~> 1.7"
+
+gem "execjs", "~> 2.8"
