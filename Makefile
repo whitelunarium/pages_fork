@@ -163,6 +163,31 @@ serve-text: stop convert
 		sleep 1; \
 	done
 
+# Serve with Cayman theme
+serve-cayman: stop convert
+	@echo "Starting server with Cayman theme..."
+	@if ! grep -q "cayman" _config.yml; then \
+		./scripts/switch-theme.sh cayman; \
+	fi
+	@@nohup bundle exec jekyll serve -H 127.0.0.1 -P $(PORT) > $(LOG_FILE) 2>&1 & \
+		PID=$$!; \
+		echo "Server PID: $$PID"
+	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
+	@for ((COUNTER = 0; ; COUNTER++)); do \
+		if grep -q "Server address:" $(LOG_FILE); then \
+			echo "Server started in $$COUNTER seconds"; \
+			grep "Server address:" $(LOG_FILE); \
+			break; \
+		fi; \
+		if [ $$COUNTER -eq 120 ]; then \
+			echo "Server timed out after $$COUNTER seconds."; \
+			echo "Review errors from $(LOG_FILE)."; \
+			cat $(LOG_FILE); \
+			exit 1; \
+		fi; \
+		sleep 1; \
+	done
+
 # Build with Minima theme
 build-minima:
 	@echo "Building with Minima theme..."
@@ -179,15 +204,25 @@ build-text:
 	@bundle exec jekyll clean
 	@bundle exec jekyll serve
 
+# Build with Cayman theme
+build-cayman:
+	@echo "Building with Cayman theme..."
+	@./scripts/switch-theme.sh cayman
+	@bundle install
+	@bundle exec jekyll clean
+	@bundle exec jekyll serve
+
 # Interactive theme switcher
 switch-theme:
 	@echo "Available themes:"
 	@echo "1. Minima (minimal, clean)"
 	@echo "2. TeXt (feature-rich, modern)"
-	@read -p "Select theme (1-2): " choice; \
+	@echo "3. Cayman (modern, project/landing)"
+	@read -p "Select theme (1-3): " choice; \
 	case $$choice in \
 		1) ./scripts/switch-theme.sh minima ;; \
 		2) ./scripts/switch-theme.sh text ;; \
+		3) ./scripts/switch-theme.sh cayman ;; \
 		*) echo "Invalid choice" ;; \
 	esac
 
@@ -195,6 +230,10 @@ switch-theme:
 detect-theme:
 	@if grep -q "kitian616/jekyll-TeXt-theme" _config.yml; then \
 		echo "text"; \
+	elif grep -q "minima" _config.yml; then \
+		echo "minima"; \
+	elif grep -q "cayman" _config.yml; then \
+		echo "cayman"; \
 	else \
 		echo "minima"; \
 	fi
@@ -222,8 +261,10 @@ help:
 	@echo "  make refresh       - Stop, clean, and restart the server"
 	@echo "  make serve-minima  - Serve with the Minima theme"
 	@echo "  make serve-text    - Serve with the TeXt theme"
+	@echo "  make serve-cayman  - Serve with the Cayman theme"
 	@echo "  make build         - Build the site with the detected theme"
 	@echo "  make build-minima  - Build the site with the Minima theme"
 	@echo "  make build-text    - Build the site with the TeXt theme"
+	@echo "  make build-cayman  - Build the site with the Cayman theme"
 	@echo "  make switch-theme  - Interactive theme switcher"
 	@echo "  make detect-theme  - Detect the current theme"
