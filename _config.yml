@@ -5,13 +5,15 @@ github_username: open-coding-society
 github_repo: "pages" 
 baseurl: "" 
 future: true
-remote_theme: jekyll/minima
+
 minima:
   skin: dark
   social_links:
     - { platform: github, user_url: "https://github.com/open-coding-society" }
     - { platform: x, user_url: "https://x.com/Open_Coding" }
     - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
+
+remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache

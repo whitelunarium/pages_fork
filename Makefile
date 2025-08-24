@@ -189,7 +189,7 @@ serve-cayman: stop convert
 	done
 
 # Build with Minima theme
-build-minima:
+build-minima: clean
 	@echo "Building with Minima theme..."
 	@./scripts/switch-theme.sh minima
 	@bundle install
@@ -197,7 +197,7 @@ build-minima:
 	@bundle exec jekyll serve
 
 # Build with TeXt theme
-build-text:
+build-text: clean
 	@echo "Building with TeXt theme..."
 	@./scripts/switch-theme.sh text
 	@bundle install
@@ -205,7 +205,7 @@ build-text:
 	@bundle exec jekyll serve
 
 # Build with Cayman theme
-build-cayman:
+build-cayman: clean
 	@echo "Building with Cayman theme..."
 	@./scripts/switch-theme.sh cayman
 	@bundle install
