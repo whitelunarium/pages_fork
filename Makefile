@@ -167,13 +167,17 @@ serve-text: stop convert
 build-minima:
 	@echo "Building with Minima theme..."
 	@./scripts/switch-theme.sh minima
-	@bundle exec jekyll build
+	@bundle install
+	@bundle exec jekyll clean
+	@bundle exec jekyll serve
 
 # Build with TeXt theme
 build-text:
 	@echo "Building with TeXt theme..."
 	@./scripts/switch-theme.sh text
-	@bundle exec jekyll build
+	@bundle install
+	@bundle exec jekyll clean
+	@bundle exec jekyll serve
 
 # Interactive theme switcher
 switch-theme:
