@@ -41,7 +41,8 @@ twitter:
   username: # site's Twitter username, e.g. "mmistakes"
 
 # Liquid
-#  error_mode: strict
+liquid:
+  error_mode: strict
 
 # Build settings
 permalink: /:categories/:title/
@@ -106,3 +107,22 @@ footer_links:
   - title: Feed
     url: atom.xml
     icon: fas fa-rss-square
+
+owner_name: Open Coding Society 
+github_username: open-coding-society 
+github_repo: "pages" 
+future: true
+
+minima:
+  skin: dark
+  social_links:
+    - { platform: github, user_url: "https://github.com/open-coding-society" }
+    - { platform: x, user_url: "https://x.com/Open_Coding" }
+    - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
+
+header_pages:
+  - navigation/section/csse.md
+  - navigation/section/csp.md
+  - navigation/section/csa.md 
+  - navigation/blog.md
+  - navigation/search.md
