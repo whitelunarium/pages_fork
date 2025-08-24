@@ -13,9 +13,10 @@ minima:
     - { platform: x, user_url: "https://x.com/Open_Coding" }
     - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
 
-remote_theme: pages-themes/cayman@v0.2.0
+remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
+  - jekyll-include-cache
 
 header_pages:
   - navigation/section/csse.md
@@ -23,4 +24,3 @@ header_pages:
   - navigation/section/csa.md 
   - navigation/blog.md
   - navigation/search.md
-  - navigation/logintoolkit.md

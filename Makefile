@@ -36,20 +36,20 @@ default: serve-current
 
 # Theme switching: copy config and Gemfile for the theme
 use-minima:
-	@cp _config.minima.yml _config.yml
-	@cp Gemfile.minima Gemfile
+	@cp themes/minima/_config.yml _config.yml
+	@cp themes/minima/Gemfile Gemfile
 
 use-text:
-	@cp _config.text.yml _config.yml
-	@cp Gemfile.text Gemfile
+	@cp themes/text/_config.yml _config.yml
+	@cp themes/text/Gemfile Gemfile
 
 use-cayman:
-	@cp _config.cayman.yml _config.yml
-	@cp Gemfile.cayman Gemfile
+	@cp themes/cayman/_config.yml _config.yml
+	@cp themes/cayman/Gemfile Gemfile
 
 use-so-simple:
-	@cp _config.so-simple.yml _config.yml
-	@cp Gemfile.so-simple Gemfile
+	@cp themes/so-simple/_config.yml _config.yml
+	@cp themes/so-simple/Gemfile Gemfile
 
 # Serve with selected theme
 serve-minima: use-minima clean
