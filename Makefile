@@ -38,18 +38,22 @@ default: serve-current
 use-minima:
 	@cp themes/minima/_config.yml _config.yml
 	@cp themes/minima/Gemfile Gemfile
+	@cp themes/minima/opencs.html _layouts/opencs.html
 
 use-text:
 	@cp themes/text/_config.yml _config.yml
 	@cp themes/text/Gemfile Gemfile
+	@cp themes/text/opencs.html _layouts/opencs.html
 
 use-cayman:
 	@cp themes/cayman/_config.yml _config.yml
 	@cp themes/cayman/Gemfile Gemfile
+	@cp themes/cayman/opencs.html _layouts/opencs.html
 
 use-so-simple:
 	@cp themes/so-simple/_config.yml _config.yml
 	@cp themes/so-simple/Gemfile Gemfile
+	@cp themes/so-simple/opencs.html _layouts/opencs.html
 
 # Serve with selected theme
 serve-minima: use-minima clean

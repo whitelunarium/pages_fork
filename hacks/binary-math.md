@@ -1,6 +1,6 @@
 ---
 title: Binary Math
-layout: base
+layout: opencs
 description: A Binary Math illustrative application using HTML, Liquid, and JavaScript.
 permalink: /binary-math
 ---

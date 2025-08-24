@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Memory Game
 permalink: /javascript/project/memory
 ---

@@ -1,7 +1,7 @@
 ---
 toc: True
 comments: True
-layout: base
+layout: opencs
 title: Data Types, Lists, Dictionaries
 description: An introduction to Data Types using Python Variables, Lists [] and Python Dictionaries {}.
 categories: ['Python']
