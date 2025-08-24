@@ -47,6 +47,10 @@ use-cayman:
 	@cp _config.cayman.yml _config.yml
 	@cp Gemfile.cayman Gemfile
 
+use-so-simple:
+	@cp _config.so-simple.yml _config.yml
+	@cp Gemfile.so-simple Gemfile
+
 # Serve with selected theme
 serve-minima: use-minima clean
 	@make serve-current
@@ -55,6 +59,9 @@ serve-text: use-text clean
 	@make serve-current
 
 serve-cayman: use-cayman clean
+	@make serve-current
+
+serve-so-simple: use-so-simple clean
 	@make serve-current
 
 # General serve target (uses whatever is in _config.yml/Gemfile)
@@ -83,6 +90,7 @@ serve-current: stop convert
 build-minima: use-minima build-current
 build-text: use-text build-current
 build-cayman: use-cayman build-current
+build-so-simple: use-so-simple build-current
 
 build-current: clean
 	@bundle install
@@ -132,10 +140,12 @@ help:
 	@echo "  make serve-minima   - Switch to Minima and serve"
 	@echo "  make serve-text     - Switch to TeXt and serve"
 	@echo "  make serve-cayman   - Switch to Cayman and serve"
+	@echo "  make serve-so-simple   - Switch to So Simple and serve"
 	@echo "  make serve          - Serve with current config"
 	@echo "  make build-minima   - Switch to Minima and build"
 	@echo "  make build-text     - Switch to TeXt and build"
 	@echo "  make build-cayman   - Switch to Cayman and build"
+	@echo "  make build-so-simple   - Switch to So Simple and build"
 	@echo "  make build          - Build with current config"
 	@echo "  make clean          - Remove generated files"
 	@echo "  make stop           - Stop server and logging"
