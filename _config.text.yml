@@ -220,12 +220,12 @@ defaults:
 
 ## => Plugins
 ##############################
-
-# Theme configuration
-remote_theme: kitian616/jekyll-TeXt-theme
 plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
   - jemoji
-  - jekyll-remote-theme
+
+# Theme configuration
+theme: jekyll-text-theme
+remote_theme: kitian616/jekyll-TeXt-theme
