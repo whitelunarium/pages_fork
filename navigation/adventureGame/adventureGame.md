@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Adventure Game
 permalink: /gamify/adventureGame
 ---
@@ -17,7 +17,7 @@ permalink: /gamify/adventureGame
     import GameLevelEnd from "{{site.baseurl}}/assets/js/adventureGame/GameLevelEnd.js";
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    const gameLevelClasses = [GameLevelDesert, GameLevelWater, GameLevelEnd];
+    const gameLevelClasses = [GameLevelDesert, GameLevelEnd];
 
     const instructionsStyle = `
         position: fixed;

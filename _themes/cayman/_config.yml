@@ -1,0 +1,34 @@
+<<<<<<< HEAD:_config.minima.yml
+title: Curators
+description: "Class of 2025"
+owner_name: Nikhil Maturi
+github_username: code259 
+github_repo: "curators" 
+=======
+title: Open Coding 
+description: "Class of 2026"
+owner_name: Open Coding Society 
+github_username: open-coding-society 
+github_repo: "pages" 
+>>>>>>> upstream/main:_themes/cayman/_config.yml
+baseurl: "" 
+future: true
+
+minima:
+  skin: dark
+  social_links:
+    - { platform: github, user_url: "https://github.com/open-coding-society" }
+    - { platform: x, user_url: "https://x.com/Open_Coding" }
+    - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
+
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+
+header_pages:
+  - navigation/section/csse.md
+  - navigation/section/csp.md
+  - navigation/section/csa.md 
+  - navigation/blog.md
+  - navigation/search.md
+  - navigation/logintoolkit.md

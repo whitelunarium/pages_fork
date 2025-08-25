@@ -2,5 +2,5 @@
 layout: blogs 
 title: Blogs
 search_exclude: true
-permalink: /blogs/
+permalink: /navigation/blogs/
 ---
