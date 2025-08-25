@@ -36,24 +36,32 @@ default: serve-current
 
 # Theme switching: copy config and Gemfile for the theme
 use-minima:
-	@cp themes/minima/_config.yml _config.yml
-	@cp themes/minima/Gemfile Gemfile
-	@cp themes/minima/opencs.html _layouts/opencs.html
+	@cp _themes/minima/_config.yml _config.yml
+	@cp _themes/minima/Gemfile Gemfile
+	@cp _themes/minima/opencs.html _layouts/opencs.html
+	@cp _themes/minima/page.html _layouts/page.html
+	@cp _themes/minima/post.html _layouts/post.html
 
 use-text:
-	@cp themes/text/_config.yml _config.yml
-	@cp themes/text/Gemfile Gemfile
-	@cp themes/text/opencs.html _layouts/opencs.html
+	@cp _themes/text/_config.yml _config.yml
+	@cp _themes/text/Gemfile Gemfile
+	@cp _themes/text/opencs.html _layouts/opencs.html
+	@cp _themes/text/page.html _layouts/page.html
+	@cp _themes/text/post.html _layouts/post.html
 
 use-cayman:
-	@cp themes/cayman/_config.yml _config.yml
-	@cp themes/cayman/Gemfile Gemfile
-	@cp themes/cayman/opencs.html _layouts/opencs.html
+	@cp _themes/cayman/_config.yml _config.yml
+	@cp _themes/cayman/Gemfile Gemfile
+	@cp _themes/cayman/opencs.html _layouts/opencs.html
+	@cp _themes/cayman/page.html _layouts/page.html
+	@cp _themes/cayman/post.html _layouts/post.html
 
 use-so-simple:
-	@cp themes/so-simple/_config.yml _config.yml
-	@cp themes/so-simple/Gemfile Gemfile
-	@cp themes/so-simple/opencs.html _layouts/opencs.html
+	@cp _themes/so-simple/_config.yml _config.yml
+	@cp _themes/so-simple/Gemfile Gemfile
+	@cp _themes/so-simple/opencs.html _layouts/opencs.html
+	@cp _themes/so-simple/page.html _layouts/page.html
+	@cp _themes/so-simple/post.html _layouts/post.html
 
 # Serve with selected theme
 serve-minima: use-minima clean
