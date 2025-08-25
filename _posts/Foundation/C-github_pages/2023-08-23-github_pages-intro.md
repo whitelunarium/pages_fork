@@ -11,14 +11,15 @@ author: John Mortensen
 
 Welcome to your GitHub Pages mini-project journey! This series will guide you through essential skills for web programming with GitHub Pages.
 
-```mermaid
+<div class="mermaid" style="background:#6b7280; padding:1rem; border-radius:0.5rem;">
 graph TD
     A[Notebooks & Jokes] --> B[Anatomy]
     B --> C[Theme]
     C --> D[Markdown]
     D --> E[Jekyll]
     E --> F[Hacks]
-```
+    linkStyle default stroke:#1e90ff,stroke-width:3px;
+</div>
 
 ---
 ## Table - How to Use This Series
