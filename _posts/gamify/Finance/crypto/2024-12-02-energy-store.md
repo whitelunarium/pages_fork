@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Energy Store
 type: page
 permalink: /crypto/energy-store

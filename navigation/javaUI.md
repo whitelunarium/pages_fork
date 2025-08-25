@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Java UI v1.0
 description: Build a landing page specifically for Java Users
 image: /images/platformer/backgrounds/home.png
