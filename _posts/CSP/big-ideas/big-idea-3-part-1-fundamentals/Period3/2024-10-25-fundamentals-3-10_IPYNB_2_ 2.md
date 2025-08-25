@@ -4,7 +4,7 @@ comments: True
 layout: post
 title: 3.10 Lists
 description: This is student-led teaching on lists! Here you'll learn how to manipulate individual elements or items in a list using indexing.
-permalink: /csp/big-idea/3-10
+permalink: /csp/big-idea/p3/3-10
 author: Ryan, Jackson, Arush, Yash, Aranya
 menu: nav/csp_units/csp_unit3_p3_fundamentals.html
 ---
