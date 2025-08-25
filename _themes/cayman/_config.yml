@@ -1,16 +1,8 @@
-<<<<<<< HEAD:_config.minima.yml
 title: Curators
 description: "Class of 2025"
 owner_name: Nikhil Maturi
 github_username: code259 
 github_repo: "curators" 
-=======
-title: Open Coding 
-description: "Class of 2026"
-owner_name: Open Coding Society 
-github_username: open-coding-society 
-github_repo: "pages" 
->>>>>>> upstream/main:_themes/cayman/_config.yml
 baseurl: "" 
 future: true
 
