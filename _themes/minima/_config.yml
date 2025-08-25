@@ -12,15 +12,14 @@ minima:
     - { platform: github, user_url: "https://github.com/open-coding-society" }
     - { platform: x, user_url: "https://x.com/Open_Coding" }
     - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
+  nav_pages:
+    - navigation/section/csse.md
+    - navigation/section/csp.md
+    - navigation/section/csa.md 
+    - navigation/blog.md
+    - navigation/search.md
 
 remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
-
-header_pages:
-  - navigation/section/csse.md
-  - navigation/section/csp.md
-  - navigation/section/csa.md 
-  - navigation/blog.md
-  - navigation/search.md
