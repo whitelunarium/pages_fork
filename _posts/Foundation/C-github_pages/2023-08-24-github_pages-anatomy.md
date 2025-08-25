@@ -1,19 +1,21 @@
 ---
 layout: post
+breadcrumb: True
+toc: True
 title: Anatomy of GitHub Pages
 description: Learn the Files and development work flow of GitHub Pages.  This includes working with you home page, theme, markdown, and more.
 categories: ['GitHub Pages']
 permalink: /github/pages/anatomy
-menu: nav/github_pages.html
-toc: True
 comments: True
 ---
 
 ## Anatomy of GitHub Pages files
+>
 > Discuss how to develop a home page, code, run local server test, and then sync to deploy to GitHub Pages.
 - Review tools setup and make in README.md to support this lesson.  
 
 ## Files and Directories in this Project
+>
 > Here are some defintion to key files and directories in this project
 
 - `README.md`: This file contains instructions and background information about the project. It is a standard file present in all properly set up GitHub projects.
@@ -38,8 +40,8 @@ comments: True
 
 Please note that there are many other key files and directories in a GitHub Pages project, but we will highlight those as the development progresses.
 
-
 ### Configuration Notes, behind the scenses
+
 The `_config.yml` file is the configuration file for Jekyll. It is a YAML file that defines the configuration of the site. The configuration file can be used to set site-wide variables, and can be used to set variables for specific environments (development, production, etc).
 
 Often in code we use the `site.baseurl` to indentfy the path to files.  GitHub actions uses this location in its build to identify the name of the project.  Be sure the values of these keys match your GitHub Repo.
@@ -64,12 +66,15 @@ remote_theme: pages-themes/midnight@v0.2.0
 Under _includes/theme you will see directories that correspond to your selection.  In each of these directories there is a base.html.   This is the foundation for the page:  head, body, footer.  When you select a layout in the frontmatter of your pages, it ultimately includes the base.html from one of these directories.   To understand how a web page is formed, these are excellent studies.
 
 ## Customizations.
+>
 > Each student should perform customization to their project.  This is an opportunity to learn a few concepts from 'teacher' repository and then customize your own page to your personal interests.  
 
 ### Customize a Page
+
 The home page to  other pages is a common first step in building a project.  To start you will need to form your `index.md` in your project, which behind the scenes is generated into an `index.html` by the GitHub Pages build process. 
 
 ### Change Title
+
  Every page should have a `title`.  Here is frontmatter sample.  This uses the _layouts/page.html that reads the frontmatter title and places it at the top page.  
 
 ```yml
@@ -84,7 +89,9 @@ If you look at the page layout you will see it includes base, or base.html accor
 Look at some of the layouts that form schedule, search, blogs, and each post.  Between this structure and Jekyll you can automate almost any reconfiguration of the notebooks and posts.
 
 ### Making a Submenu
+>
 > There are many submenus made in `_includes/nav`.
+
 - ```index.md``` is the file that contains markdown for a submenu
 - ```_includes/nav/home.html``` contains code for submenu, it is included in every page in this dialog
 - ```{{site.baseurl}}``` refers to baseurl defined in _config.yml, this is the localtion of all files in WebSite.   Note, this changes as you run on localhost and deployed; make sure you remember to use this for locations of files in site.
@@ -103,10 +110,10 @@ Look at some of the layouts that form schedule, search, blogs, and each post.  B
 Look how the same submenu is included on all of the pages it calls, you will notices this in the frontmatter menu key.
 
 ### Style revolves around _sass
+>
 > In the `_sass` folder there are many theme files.   Remeber that are themes are `remote` as designated in the `_config.yml` line.  However, some files are placed in the _sass directory to make customizations.  It is best to only have files in your project that you need to customize.
 
 The  `_sass/minima` folder is a theme with many subthemes that can be changed in the `_sass/minima/custom-styles.scss` file.  In the below example `_dracula`.  You could switch to leaf, hacker, hamilton, etc.  Then you will want to decide if you want `dark-mode`.  Always include the `nighthawk/main` as it has customization to style for Nighthawk Pagees.
-
 
 ```scss
 // Comment in or Uncomment out the following themes to use them 
@@ -126,4 +133,3 @@ The  `_sass/minima` folder is a theme with many subthemes that can be changed in
 // Styles for nighthawk theme, do not remove
 @import "nighthawk/main";
 ```
-
