@@ -2,14 +2,14 @@
 layout: post 
 title: Open Coding Society
 description: An Open Pathway to Computer Science
-image: /images/mario_animation.png
+sprite: /images/mario_animation.png
 hide: true
 ---
 
 <!-- Liquid:  statements-->
 
-<!--- Concatenation of site URL to frontmatter image  --->
-{% assign sprite_file = site.baseurl | append: page.image %}
+<!--- Concatenation of site URL to frontmatter sprite  --->
+{% assign sprite_file = site.baseurl | append: page.sprite %}
 <!--- Has is a list variable containing mario metadata for sprite --->
 {% assign hash = site.data.mario_metadata %}  
 <!--- Size width/height of Sprit images --->
