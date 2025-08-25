@@ -5,8 +5,8 @@
 - title: CSA
   url: /navigation/section/csa/
 - title: Blog
-  url: /navigation/blog/
+  url: /navigation/blogs/
 - title: Search
   url: /navigation/search/
-- title: Login Toolkit
-  url: /navigation/logintoolkit/
+- title: Login
+  url: /login/
