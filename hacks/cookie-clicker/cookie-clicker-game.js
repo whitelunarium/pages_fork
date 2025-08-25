@@ -1,6 +1,7 @@
 const shopContainer = document.getElementById("shop-container");
 const cookieButton = document.getElementById("cookie");
 const cookieCountDisplay = document.getElementById("cookie-count");
+const gameArea = document.getElementById("game-area");
 
 const cookie = {
   cookies: 0,
@@ -79,6 +80,7 @@ const gameLoop = {
     const savedUpgrades = localStorage.getItem("savedUpgrades");
     localStorage.setItem("savedUpgrades", JSON.stringify(this.autoClickers));
     this.runLoop();
+    emojiBuddies.spawnEmoji(grandma.emoji);
   },
   runLoop() {
     if (this.intervalId > 0) {
@@ -92,22 +94,30 @@ const gameLoop = {
   fetchSavedData() {
     const data = localStorage.getItem("savedUpgrades");
     if (data) {
+      // Get the Cookies in our shop
       const cookiePerSecondAndIndexMap = {};
       for (let i = 0; i < shop.forSale.length; i++) {
         cookiePerSecondAndIndexMap[shop.forSale[i].name] = {
           cps: shop.forSale[i].cookiesPerSecond,
+          emoji: shop.forSale[i].emoji,
           index: i,
         };
       }
 
-      console.log(cookiePerSecondAndIndexMap);
-
+      //get saved autoclickers (local storage)
       const autoClickersData = JSON.parse(data);
       this.autoClickers = autoClickersData;
+
+      //for every item in autoClickers data, find its corresponding cookie from the shop (by its name).
       const keys = Object.keys(this.autoClickers);
       for (let i = 0; i < keys.length; i++) {
         const upgradeName = keys[i];
         const amount = this.autoClickers[upgradeName];
+        if (!amount) {
+          console.warn(`${upgradeName} not found in the shop.`);
+          continue;
+        }
+
         this.cookiesPerSecond +=
           amount * cookiePerSecondAndIndexMap[upgradeName].cps;
 
@@ -122,13 +132,70 @@ const gameLoop = {
           ),
           cookiePerSecondAndIndexMap[upgradeName].index,
         );
+        for (let i = 0; i < amount; i++) {
+          emojiBuddies.spawnEmoji(
+            cookiePerSecondAndIndexMap[upgradeName].emoji,
+          );
+        }
         this.runLoop();
       }
     }
   },
 };
 
-cookie.fetchStoredCookies();
+const emojiBuddies = {
+  getBounds() {
+    const rect = gameArea.getBoundingClientRect();
+    return {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+      right: rect.right + window.scrollX,
+      bottom: rect.bottom + window.scrollY,
+      width: rect.width,
+      height: rect.height,
+    };
+  },
+  spawnEmoji(emojiString) {
+    const bounds = this.getBounds();
+
+    // Create emoji element
+    const emoji = document.createElement("div");
+    emoji.textContent = emojiString;
+    emoji.style.position = "absolute";
+    emoji.style.fontSize = "2rem";
+
+    // Random start inside bounding box
+    let x = bounds.left + Math.random() * (bounds.width - 32);
+    let y = bounds.top + Math.random() * (bounds.height - 32);
+
+    emoji.style.left = `${x}px`;
+    emoji.style.top = `${y}px`;
+
+    // Add emoji to body (not inside gameArea, since we're using page coords)
+    document.body.appendChild(emoji);
+
+    // Random velocity
+    let dx = (Math.random() < 0.5 ? -1 : 1) * 2;
+    let dy = (Math.random() < 0.5 ? -1 : 1) * 2;
+
+    function animate() {
+      x += dx;
+      y += dy;
+
+      // Bounce off actual bounds
+      if (x <= bounds.left || x + 32 >= bounds.right) dx *= -1;
+      if (y <= bounds.top || y + 32 >= bounds.bottom) dy *= -1;
+
+      emoji.style.left = `${x}px`;
+      emoji.style.top = `${y}px`;
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  },
+};
+
 const grandma = {
   name: "Grandma",
   emoji: "👵",
@@ -139,6 +206,7 @@ const grandma = {
 
 shop.addItemForSale(grandma);
 gameLoop.fetchSavedData();
+cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
   console.log("COOKIE");
   cookie.addCookies(1);

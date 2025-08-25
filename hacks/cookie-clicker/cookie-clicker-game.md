@@ -12,32 +12,32 @@ permalink: /cookie-clicker-game/
     <button id="autoClickerBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mb-2">
     👵Grandma (Cost: 69)
     </button>
-<button id="cursorBtn" 
+<button id="cursorBtn"
     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 mb-2 rounded shadow">
     🖱️ Cursor (Cost: 15)
   </button>
-<button id="factoryBtn" 
+<button id="factoryBtn"
     class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 mb-2 rounded shadow">
     🏭 Factory (Cost: 500)
   </button>
- <button id="bankBtn" 
+ <button id="bankBtn"
     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mb-2 rounded shadow">
     🏦 Bank (Cost: 67410)
   </button>
- <button id="templeBtn" 
+ <button id="templeBtn"
     class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 mb-2 rounded shadow">
     ⛪ Mango temple (Cost: 50000)
   </button>
-  <button id="chaoticOhioBtn" 
+  <button id="chaoticOhioBtn"
     class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 mb-2 rounded shadow">
     ⏳ Chaotic Ohio (Cost: 6700000)
   </button>
 </div>
 <!-- Game -->
-<div class="col-span-3 flex flex-col items-center justify-center bg-gray-100">
+<div id="game-area" class="col-span-3 flex flex-col items-center justify-center bg-gray-100">
     <div class="text-3xl font-bold mb-6">Cookie Clicker</div>
     <div id="cookie" class="w-48 h-48 bg-cover bg-center rounded-full cursor-pointer active:scale-90 transition">
-        <img src="/hacks/cookie-clicker/assets/baseCookie.png" />
+        <img src="/hacks/cookie-clicker/assets/baseCookie.png" class="z-50" />
     </div>
     <div id="counter" class="text-2xl mt-4 font-semibold">Cookies: <span id="cookie-count">0</span></div>
 </div>
