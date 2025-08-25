@@ -5,14 +5,20 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: fullbreakout
 ---
 
-
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
-<div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-  <h2>Breakout Game (w/ Advanced Features)</h2>
-  <p><strong>Hack #1: Change Colors</strong></p>
-  <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
+<!-- NEW: Next Level buttons -->
+<button id="nextLevelBtn" style="display:none;margin:10px auto 0;padding:10px 16px;font-family:system-ui,Arial;font-size:16px;font-weight:600;border:1px solid #222;background:#fff;cursor:pointer;border-radius:8px;display:block;max-width:600px;color:#111 !important;">
+  Next Level ▶
+</button>
 
+<div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<!-- Hack #1: 90% hack section -->
+<div id="hack1-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <h2>Breakout Game (w/ Advanced Features)</h2>
+  <p><strong>Hack #1 (90%): Change Colors</strong></p>
+  <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
+  
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new color for the paddle and the bricks.</li>
     <li>Change the <em>Colors</em> to update the game design.</li>
@@ -20,10 +26,19 @@ permalink: fullbreakout
   </ul>
 </div>
 
-<div id="hack2" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-  <p><strong>Hack #2: Change Ball Speed</strong></p>
-  <p>Look in the javascript and change the <em>ball</em> speed.</p>
+<!-- Hack #1: 100% hack section -->
+<div id="hack1-100" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #1 (100%): Go Further with Colors</strong></p>
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Try creating a color picker below the game script to change the color of the ball or blocks on the fly.</li>
+    <li>Extra challenge: Try using gradients.</li>
+  </ul>
+</div>
 
+<!-- Hack #2: 90% hack section -->
+<div id="hack2-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2 (90%): Change Ball Speed</strong></p>
+  <p>Look in the javascript and change the <em>ball</em> speed.</p>
   <ul style="margin:8px 0 12px 20px;">
     <li>Pick a new speed for the ball.</li>
     <li>Change the <em>ball speed</em> to update the game design.</li>
@@ -32,18 +47,26 @@ permalink: fullbreakout
   </ul>
 </div>
 
+<!-- Hack #2: 100% hack section -->
+<div id="hack2-100" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><strong>Hack #2 (100%): Advanced Ball Speed</strong></p>
+  <ul style="margin:8px 0 12px 20px;">
+    <li>Make the ball speed up each time it hits a brick or the paddle.</li>
+    <li>You may do this by changing the variable used in the 90% hack by set increments each time.</li>
+    <li>Also, try adding a "slow motion" mode where pressing a button halves the speed of the ball during the play session.</li>
+  </ul>
+</div>
+
 <div id="information" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
   <h2>Breakout Game Lesson</h2>
   <p><strong>Learn the Basics</strong></p>
   <p>Learn the basics of building a <strong>Breakout-style game</strong> in JavaScript.</p>
   <p>In this lesson set, you’ll code the <strong>paddle</strong>, control it with the keyboard, and then add <strong>power-up bricks with timers</strong> to make the game more dynamic.</p>
-
   <ul style="margin:8px 0 12px 20px;">
     <li>Understand how the paddle and ball mechanics work.</li>
     <li>Learn how to create interactive bricks and power-ups.</li>
     <li>Practice using timers to make the game more engaging.</li>
   </ul>
-
   <p><a href="{{site.baseurl}}/breakoutLesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
 </div>
 
@@ -59,6 +82,12 @@ permalink: fullbreakout
 <script>
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
+  const nextLevelBtn = document.getElementById("nextLevelBtn");
+
+  // --- Levels / pause ---
+  let level = 1;
+  const levelSpeedScale = 1.12; // ball speed multiplier each level
+  let paused = false;
 
   // Paddle
   let paddleHeight = 10;
@@ -76,8 +105,12 @@ permalink: fullbreakout
   let dx = 2;
   let dy = -2;
 
+  // Score and Lives
+  let score = 0;
+  let lives = 3;
+
   // Blocks
-  const brickRowCount = 4;
+  let brickRowCount = 4;       // CHANGED: let (so we can increase rows)
   const brickColumnCount = 6;
   const brickWidth = 75;
   const brickHeight = 20;
@@ -87,13 +120,18 @@ permalink: fullbreakout
 
   let bricks = [];
   const powerUpChance = 0.3; // 30% chance a brick contains a powerup
-  for (let c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
-    for (let r = 0; r < brickRowCount; r++) {
-      const hasPowerUp = Math.random() < powerUpChance;
-      bricks[c][r] = { x: 0, y: 0, status: 1, powerUp: hasPowerUp };
+
+  function initBricks() {
+    bricks = [];
+    for (let c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (let r = 0; r < brickRowCount; r++) {
+        const hasPowerUp = Math.random() < powerUpChance;
+        bricks[c][r] = { x: 0, y: 0, status: 1, powerUp: hasPowerUp };
+      }
     }
   }
+  initBricks();
 
   // Powerups
   let powerUps = [];
@@ -142,6 +180,8 @@ permalink: fullbreakout
             dy = -dy;
             b.status = 0;
 
+            score++;
+
             if (b.powerUp) {
               powerUps.push({ x: b.x + brickWidth / 2, y: b.y, active: true });
             }
@@ -151,6 +191,16 @@ permalink: fullbreakout
     }
   }
 
+  function remainingBricks() {
+    let count = 0;
+    for (let c = 0; c < brickColumnCount; c++) {
+      for (let r = 0; r < brickRowCount; r++) {
+        if (bricks[c][r].status === 1) count++;
+      }
+    }
+    return count;
+  }
+
   // Powerup mechanics
   function drawPowerUps() {
     for (let i = 0; i < powerUps.length; i++) {
@@ -158,12 +208,7 @@ permalink: fullbreakout
       if (p.active) {
         // Draw colorful circle with "P"
         let gradient = ctx.createRadialGradient(
-          p.x,
-          p.y,
-          5,
-          p.x,
-          p.y,
-          powerUpSize
+          p.x, p.y, 5, p.x, p.y, powerUpSize
         );
         gradient.addColorStop(0, "yellow");
         gradient.addColorStop(1, "red");
@@ -280,14 +325,78 @@ permalink: fullbreakout
     }
   }
 
+  function resetBallAndPaddle() {
+    // keep direction but reset position; adjust speed to current dx/dy magnitude
+    const speed = Math.hypot(dx, dy);
+    x = canvas.width / 2;
+    y = canvas.height - 30;
+    // random upward angle between 30° and 75°
+    const angle = (Math.PI / 6) + Math.random() * (Math.PI / 3);
+    const sign = Math.random() < 0.5 ? -1 : 1;
+    dx = sign * speed * Math.cos(angle);
+    dy = -Math.abs(speed * Math.sin(angle));
+    paddleX = (canvas.width - paddleWidth) / 2;
+
+    // clear any falling powerups
+    powerUps = [];
+    // reset active powerup on new level
+    activePowerUp = null;
+    paddleWidth = basePaddleWidth;
+  }
+
+  function nextLevel() {
+    // Increase difficulty: speed up ball and add a row (up to fit)
+    const currentSpeed = Math.hypot(dx, dy) * levelSpeedScale;
+    const theta = Math.atan2(dy, dx);
+    dx = currentSpeed * Math.cos(theta);
+    dy = currentSpeed * Math.sin(theta);
+
+    level++;
+    if (brickRowCount < 8) brickRowCount++; // cap to keep on-screen
+
+    initBricks();
+    resetBallAndPaddle();
+
+    // hide button and resume
+    paused = false;
+    nextLevelBtn.style.display = "none";
+    requestAnimationFrame(draw);
+  }
+
+  nextLevelBtn.addEventListener("click", nextLevel);
+
+  function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: " + score, 8, 20);
+  }
+
+  function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
+  }
+
+
   function draw() {
+    // Render current frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
     drawPowerUps();
     drawPowerUpTimer();
+    drawScore();
+    drawLives();
     collisionDetection();
+
+    // If all bricks cleared, pause and show Next Level button
+    if (!paused && remainingBricks() === 0) {
+      paused = true;
+      nextLevelBtn.style.display = "block";
+      // Do not schedule next frame; freeze the scene until button press
+      return;
+    }
 
     // Ball movement
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) dx = -dx;
@@ -296,7 +405,18 @@ permalink: fullbreakout
       if (x > paddleX && x < paddleX + paddleWidth) {
         dy = -dy;
       } else {
-        document.location.reload(); // Restart game
+        lives--;
+        if (!lives) {
+          alert("GAME OVER");
+          document.location.reload(); // Restart game on miss
+        } else {
+          x = canvas.width/2; 
+          y = canvas.height - 30;
+          dx = 2 * Math.sign(dx);
+          dy = -2;
+          paddleX = (canvas.width - paddleWidth) / 2;
+        }
+        
       }
     }
 
@@ -308,10 +428,10 @@ permalink: fullbreakout
 
     x += dx;
     y += dy;
-    requestAnimationFrame(draw);
+
+    if (!paused) requestAnimationFrame(draw);
   }
 
+  // Start
   draw();
 </script>
-
-
