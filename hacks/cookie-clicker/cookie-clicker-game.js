@@ -23,6 +23,7 @@ const cookie = {
 };
 
 const shop = {
+  tab: "shop",
   forSale: [],
   updateShopDisplay() {
     shopContainer.innerHTML = "";
@@ -30,7 +31,43 @@ const shop = {
     shopTitle.className = "text-xl font-bold mb-4 text-center";
     shopTitle.innerHTML = "SHOP";
     shopContainer.appendChild(shopTitle);
-    for (let i = 0; i < this.forSale.length; i++) {
+    const shopSwap = document.createElement("button");
+    shopSwap.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
+    if (this.tab === "upgrades") shopSwap.innerHTML = "Switch to Shop";
+    else shopSwap.innerHTML = "Switch to Upgrades";
+    shopSwap.addEventListener("click", () => {
+      if (this.tab === "upgrades") shop.switchTab("shop");
+      else shop.switchTab("upgrades");
+    });
+    shopContainer.appendChild(shopSwap);
+    if (this.tab === "upgrades")
+      for (let i = 0; i < this.forSale.length; i++) {
+        const forSaleItemInfo = this.forSale[i];
+
+        const shopButton = document.createElement("button");
+        shopButton.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
+        shopButton.innerHTML = `${forSaleItemInfo.emoji} ${forSaleItemInfo.name} (${forSaleItemInfo.price} 🍪)`;
+        shopContainer.appendChild(shopButton);
+
+        shopButton.addEventListener("click", () => {
+          if (cookie.cookies < forSaleItemInfo.price) {
+            alert("Insufficient Cookies");
+            return;
+          }
+          cookie.addCookies(-1 * forSaleItemInfo.price);
+
+          gameLoop.addAutoClicker(
+            forSaleItemInfo.name,
+            forSaleItemInfo.cookiesPerSecond,
+          );
+          this.updateForSalePrice(
+            Math.floor(forSaleItemInfo.price * forSaleItemInfo.priceIncrementer),
+            i,
+          );
+        });
+      }
+    else if (this.tab === "shop")
+      for (let i = 0; i < this.forSale.length; i++) {
       const forSaleItemInfo = this.forSale[i];
 
       const shopButton = document.createElement("button");
@@ -55,6 +92,7 @@ const shop = {
         );
       });
     }
+
   },
   addItemForSale(item) {
     this.forSale.push(item);
@@ -63,6 +101,16 @@ const shop = {
   updateForSalePrice(newPrice, index) {
     this.forSale[index].price = newPrice;
     this.updateShopDisplay();
+  },
+  switchTab(newTab) {
+    this.tab = newTab;
+    this.forSale.splice(0, this.forSale.length)
+    this.updateShopDisplay();
+    if (newTab === "shop") {
+      this.addItemForSale(grandma);
+    }else if (newTab === "upgrades") {
+      //this.addItemForSale(grandmaUpgrade);
+    }
   },
 };
 
@@ -202,6 +250,14 @@ const grandma = {
   price: 69,
   priceIncrementer: 1.5,
   cookiesPerSecond: 1,
+};
+
+const x2Click = {
+  name: "2X Clicks",
+  emoji: "🖱",
+  price: 100,
+  itemEffected: "click",
+  cookiesPerSecond: 2,
 };
 
 shop.addItemForSale(grandma);
