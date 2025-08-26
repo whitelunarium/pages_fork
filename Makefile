@@ -48,6 +48,7 @@ use-text:
 	@cp _themes/text/opencs.html _layouts/opencs.html
 	@cp _themes/text/page.html _layouts/page.html
 	@cp _themes/text/post.html _layouts/post.html
+	@cp _themes/text/navigation.yml _data/navigation.yml
 
 use-cayman:
 	@cp _themes/cayman/_config.yml _config.yml
