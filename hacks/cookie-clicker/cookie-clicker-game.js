@@ -86,7 +86,10 @@ const shop = {
           forSaleItemInfo.cookiesPerSecond,
         );
         this.updateForSalePrice(
-          Math.floor(forSaleItemInfo.price * forSaleItemInfo.priceIncrementer),
+          Math.floor(
+            forSaleItemInfo.originalPrice *
+              gameLoop.getAmount(forSaleItemInfo.name),
+          ),
           i,
         );
       });
@@ -94,7 +97,10 @@ const shop = {
 
   },
   addItemForSale(item) {
-    this.forSale.push(item);
+    this.forSale.push({
+      ...item,
+      originalPrice: item.price,
+    });
     this.updateShopDisplay();
   },
   updateForSalePrice(newPrice, index) {
@@ -179,12 +185,8 @@ const gameLoop = {
 
         shop.updateForSalePrice(
           Math.floor(
-            shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index].price *
-              Math.pow(
-                shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index]
-                  .priceIncrementer,
-                amount,
-              ),
+            shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index]
+              .originalPrice * amount,
           ),
           cookiePerSecondAndIndexMap[upgradeName].index,
         );
@@ -201,6 +203,9 @@ const gameLoop = {
       this.upgrades = JSON.parse(upgradeData);
       cookie.cookieMulti += this.upgrades["2X Clicks"];
     }
+  },
+  getAmount(cookieName) {
+    return this.autoClickers[cookieName];
   },
 };
 
@@ -281,4 +286,5 @@ cookieButton.addEventListener("click", () => {
   console.log("COOKIE");
   cookie.addCookies(1 * cookie.cookieMulti);
   console.log(cookie.cookies);
+  gameLoop.getAmount("Grandma");
 });
