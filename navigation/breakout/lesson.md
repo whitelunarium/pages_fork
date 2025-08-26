@@ -1,5 +1,5 @@
 ---
-layout: base 
+layout: post
 title: Breakout Blocks Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: breakoutLesson
