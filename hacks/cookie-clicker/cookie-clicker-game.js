@@ -50,20 +50,14 @@ const shop = {
           forSaleItemInfo.cookiesPerSecond,
         );
         this.updateForSalePrice(
-          Math.floor(
-            forSaleItemInfo.originalPrice *
-              gameLoop.getAmount(forSaleItemInfo.name),
-          ),
+          Math.floor(forSaleItemInfo.price * forSaleItemInfo.priceIncrementer),
           i,
         );
       });
     }
   },
   addItemForSale(item) {
-    this.forSale.push({
-      ...item,
-      originalPrice: item.price,
-    });
+    this.forSale.push(item);
     this.updateShopDisplay();
   },
   updateForSalePrice(newPrice, index) {
@@ -87,6 +81,7 @@ const gameLoop = {
     localStorage.setItem("savedUpgrades", JSON.stringify(this.autoClickers));
     this.runLoop();
     emojiBuddies.spawnEmoji(grandma.emoji);
+    emojiBuddies.spawnEmoji(factory.emoji);
   },
   runLoop() {
     if (this.intervalId > 0) {
@@ -129,8 +124,12 @@ const gameLoop = {
 
         shop.updateForSalePrice(
           Math.floor(
-            shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index]
-              .originalPrice * amount,
+            shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index].price *
+              Math.pow(
+                shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index]
+                  .priceIncrementer,
+                amount,
+              ),
           ),
           cookiePerSecondAndIndexMap[upgradeName].index,
         );
@@ -142,9 +141,6 @@ const gameLoop = {
         this.runLoop();
       }
     }
-  },
-  getAmount(cookieName) {
-    return this.autoClickers[cookieName];
   },
 };
 
@@ -209,12 +205,20 @@ const grandma = {
   cookiesPerSecond: 1,
 };
 
+const factory = {
+  name: "Factory",
+  emoji: "🏭",
+  price: 500,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 4,
+};
+
 shop.addItemForSale(grandma);
+shop.addItemForSale(factory);
 gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
   console.log("COOKIE");
   cookie.addCookies(1);
   console.log(cookie.cookies);
-  gameLoop.getAmount("Grandma");
 });

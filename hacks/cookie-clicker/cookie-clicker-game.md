@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Cookie Clicker Game
 permalink: /cookie-clicker-game/
 ---
@@ -13,7 +13,7 @@ permalink: /cookie-clicker-game/
 <!-- Game -->
 <div class="col-span-3 flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-orange-200 rounded-2xl shadow-xl p-8">
     <!-- Title -->
-    <div class="text-4xl font-extrabold mb-6 text-brown-800 drop-shadow-md tracking-wide">
+    <div class="text-4xl font-extrabold mb-6 text-white-800 drop-shadow-md tracking-wide">
         🍪 Cookie Clicker
     </div>
     <!-- Cookie Button -->
