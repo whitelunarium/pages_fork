@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Cookie Clicker Game
 permalink: /cookie-clicker-game/
 ---
@@ -12,29 +12,29 @@ permalink: /cookie-clicker-game/
     <button id="autoClickerBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mb-2">
     👵Grandma (Cost: 69)
     </button>
-<button id="cursorBtn" 
+<button id="cursorBtn"
     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 mb-2 rounded shadow">
     🖱️ Cursor (Cost: 15)
   </button>
-<button id="factoryBtn" 
+<button id="factoryBtn"
     class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 mb-2 rounded shadow">
     🏭 Factory (Cost: 500)
   </button>
- <button id="bankBtn" 
+ <button id="bankBtn"
     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mb-2 rounded shadow">
     🏦 Bank (Cost: 67410)
   </button>
- <button id="templeBtn" 
+ <button id="templeBtn"
     class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 mb-2 rounded shadow">
     ⛪ Mango temple (Cost: 50000)
   </button>
-  <button id="chaoticOhioBtn" 
+  <button id="chaoticOhioBtn"
     class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 mb-2 rounded shadow">
     ⏳ Chaotic Ohio (Cost: 6700000)
   </button>
 </div>
 <!-- Game -->
-<div class="col-span-3 flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-orange-200 rounded-2xl shadow-xl p-8">
+<div id="game-area" class="col-span-3 flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-orange-200 rounded-2xl shadow-xl">
     <!-- Title -->
     <div class="text-4xl font-extrabold mb-6 text-brown-800 drop-shadow-md tracking-wide">
         🍪 Cookie Clicker
