@@ -1,0 +1,150 @@
+---
+layout: opencs
+---
+
+<div class="lesson-container">
+  <!-- Sidebar with Lesson Links -->
+  <aside class="lesson-sidebar">
+    <h3>🎮 Solitaire Lessons</h3>
+    <ul>
+      <li><a href="{{site.baseurl}}/solitaire/lesson/frontend">Lesson 1: Frontend</a></li>
+      <li><a href="{{site.baseurl}}/solitaire/lesson/oop">Lesson 2: JavaScript OOP</a></li>
+      <li><a href="{{site.baseurl}}/solitaire/lesson/problem-solving">Lesson 3: Problem Solving</a></li>
+    </ul>
+
+    <hr>
+
+    <!-- Progress Tracker -->
+    <h4>📊 Your Progress</h4>
+    <div class="progress-bar">
+      <div class="progress-fill" id="lesson-progress"></div>
+    </div>
+    <p id="progress-text">0% complete</p>
+  </aside>
+
+  <!-- Main Lesson Content -->
+  <main class="lesson-content">
+    <h1>{{ page.title }}</h1>
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    <hr>
+
+    <!-- Reflection & Quiz -->
+    <div class="lesson-quiz">
+      <h3>📝 Quick Check</h3>
+      <p>{{ page.quiz_prompt | default: "What’s one key idea you learned from this lesson?" }}</p>
+      <textarea id="reflection-box" placeholder="Type your reflection or answer here..."></textarea>
+      <button id="save-reflection">Save</button>
+      <p id="reflection-status"></p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="lesson-nav">
+      {% if page.prev_url %}<a href="{{ page.prev_url }}" class="btn">⬅ Previous</a>{% endif %}
+      {% if page.next_url %}<a href="{{ page.next_url }}" class="btn">Next ➡</a>{% endif %}
+    </div>
+  </main>
+</div>
+
+<script>
+// Progress Tracker
+document.addEventListener("DOMContentLoaded", () => {
+  const lessons = ["frontend","oop","problem-solving"];
+  const key = "lesson-progress";
+  let progress = JSON.parse(localStorage.getItem(key)) || {};
+
+  // Mark this lesson complete if visited
+  const current = window.location.pathname.split("/").pop();
+  progress[current] = true;
+  localStorage.setItem(key, JSON.stringify(progress));
+
+  // Calculate % complete
+  let done = Object.keys(progress).length;
+  let percent = Math.floor((done / lessons.length) * 100);
+  document.getElementById("lesson-progress").style.width = percent + "%";
+  document.getElementById("progress-text").textContent = percent + "% complete";
+
+  // Reflection save
+  const saveBtn = document.getElementById("save-reflection");
+  const box = document.getElementById("reflection-box");
+  const status = document.getElementById("reflection-status");
+  const refKey = "reflection-" + current;
+  box.value = localStorage.getItem(refKey) || "";
+
+  saveBtn.addEventListener("click", () => {
+    localStorage.setItem(refKey, box.value);
+    status.textContent = "Saved!";
+    setTimeout(() => status.textContent = "", 1500);
+  });
+
+  // Add Copy buttons to code blocks
+  document.querySelectorAll("pre > code").forEach(block => {
+    const btn = document.createElement("button");
+    btn.textContent = "Copy";
+    btn.className = "copy-btn";
+    btn.onclick = () => {
+      navigator.clipboard.writeText(block.innerText);
+      btn.textContent = "Copied!";
+      setTimeout(() => btn.textContent = "Copy", 1500);
+    };
+    block.parentNode.style.position = "relative";
+    block.parentNode.appendChild(btn);
+  });
+});
+</script>
+
+<style>
+.lesson-container {
+  display: flex;
+  gap: 2rem;
+}
+.lesson-sidebar {
+  flex: 0 0 250px;
+  background: #1f2020;
+  padding: 1rem;
+  border-radius: 8px;
+  position: sticky;
+  top: 1rem;
+  height: fit-content;
+}
+.lesson-content {
+  flex: 1;
+}
+.progress-bar {
+  background: #eee;
+  border-radius: 6px;
+  height: 12px;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+.progress-fill {
+  background: #4cafef;
+  height: 100%;
+  width: 0%;
+  border-radius: 6px;
+}
+.copy-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.lesson-quiz textarea {
+  width: 100%;
+  min-height: 80px;
+  margin: 0.5rem 0;
+}
+.btn {
+  display: inline-block;
+  background: #007acc;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin: 0.5rem;
+}
+</style>
