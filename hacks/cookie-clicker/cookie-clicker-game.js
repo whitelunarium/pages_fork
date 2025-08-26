@@ -4,6 +4,7 @@ const cookieCountDisplay = document.getElementById("cookie-count");
 const gameArea = document.getElementById("game-area");
 
 const cookie = {
+  cookieMulti: 1,
   cookies: 0,
   addCookies(amount) {
     this.cookies += amount;
@@ -19,6 +20,9 @@ const cookie = {
       this.cookies = storedCookies;
       this.updateDisplay();
     }
+  },
+  updateCookieMulti(amt){
+    this.cookieMulti += amt;
   },
 };
 
@@ -56,14 +60,9 @@ const shop = {
           }
           cookie.addCookies(-1 * forSaleItemInfo.price);
 
-          gameLoop.addAutoClicker(
-            forSaleItemInfo.name,
-            forSaleItemInfo.cookiesPerSecond,
-          );
-          this.updateForSalePrice(
-            Math.floor(forSaleItemInfo.price * forSaleItemInfo.priceIncrementer),
-            i,
-          );
+          cookie.updateCookieMulti(forSaleItemInfo.multiplier);
+
+          shopButton.remove()
         });
       }
     else if (this.tab === "shop")
@@ -109,7 +108,7 @@ const shop = {
     if (newTab === "shop") {
       this.addItemForSale(grandma);
     }else if (newTab === "upgrades") {
-      //this.addItemForSale(grandmaUpgrade);
+      this.addItemForSale(x2Click);
     }
   },
 };
@@ -255,9 +254,9 @@ const grandma = {
 const x2Click = {
   name: "2X Clicks",
   emoji: "🖱",
-  price: 100,
+  price: 150,
   itemEffected: "click",
-  cookiesPerSecond: 2,
+  multiplier: 2,
 };
 
 shop.addItemForSale(grandma);
@@ -265,6 +264,6 @@ gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
   console.log("COOKIE");
-  cookie.addCookies(1);
+  cookie.addCookies(1 * cookie.cookieMulti);
   console.log(cookie.cookies);
 });
