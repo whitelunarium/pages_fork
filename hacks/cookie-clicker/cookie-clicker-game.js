@@ -21,12 +21,11 @@ const cookie = {
       this.updateDisplay();
     }
   },
-  updateCookieMulti(amt){
-    this.cookieMulti += amt;
-  },
+  
 };
 
 const shop = {
+  upgrades: [],
   tab: "shop",
   forSale: [],
   updateShopDisplay() {
@@ -60,7 +59,8 @@ const shop = {
           }
           cookie.addCookies(-1 * forSaleItemInfo.price);
 
-          cookie.updateCookieMulti(forSaleItemInfo.multiplier);
+          gameLoop.updateCookieMulti(forSaleItemInfo.name,
+          forSaleItemInfo.multiplier);
 
           shopButton.remove()
         });
@@ -108,13 +108,17 @@ const shop = {
     if (newTab === "shop") {
       this.addItemForSale(grandma);
     }else if (newTab === "upgrades") {
-      this.addItemForSale(x2Click);
+      for (let i = 0; i < this.upgrades.length; i++) {
+        if (gameLoop.upgrades[this.upgrades[i].name]) continue;
+        this.addItemForSale(this.upgrades[i]);
+      }
     }
   },
 };
 
 const gameLoop = {
   autoClickers: {},
+  upgrades: {},
   cookiesPerSecond: 0,
   intervalId: -1,
   addAutoClicker(itemName, cps) {
@@ -125,9 +129,14 @@ const gameLoop = {
     }
     this.cookiesPerSecond += cps;
     const savedUpgrades = localStorage.getItem("savedUpgrades");
-    localStorage.setItem("savedUpgrades", JSON.stringify(this.autoClickers));
+    localStorage.setItem("savedShop", JSON.stringify(this.autoClickers));
     this.runLoop();
     emojiBuddies.spawnEmoji(grandma.emoji);
+  },
+  updateCookieMulti(itemName, amt) {
+    this.upgrades[itemName] = amt;
+    localStorage.setItem("savedUpgrades", JSON.stringify(this.upgrades));
+    cookie.cookieMulti += amt;
   },
   runLoop() {
     if (this.intervalId > 0) {
@@ -139,7 +148,7 @@ const gameLoop = {
     }, 1000);
   },
   fetchSavedData() {
-    const data = localStorage.getItem("savedUpgrades");
+    const data = localStorage.getItem("savedShop");
     if (data) {
       // Get the Cookies in our shop
       const cookiePerSecondAndIndexMap = {};
@@ -186,6 +195,11 @@ const gameLoop = {
         }
         this.runLoop();
       }
+    }
+    const upgradeData = localStorage.getItem("savedUpgrades");
+    if (upgradeData) {
+      this.upgrades = JSON.parse(upgradeData);
+      cookie.cookieMulti += this.upgrades["2X Clicks"];
     }
   },
 };
@@ -258,6 +272,7 @@ const x2Click = {
   itemEffected: "click",
   multiplier: 2,
 };
+shop.upgrades.push(x2Click);
 
 shop.addItemForSale(grandma);
 gameLoop.fetchSavedData();
