@@ -1,5 +1,5 @@
 ---
-layout: base 
+layout: post 
 title: OOP Breakout Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
@@ -312,3 +312,31 @@ These helpers keep the `Game` logic clean by packaging collision checks inside t
 
 * **Inheritance:** `Ball`, `Paddle`, `Brick`, `PowerUp` extend `GameObject` to share position and override `draw/update`.&#x20;
 * **Composition:** `Game` builds the world—instantiates objects, tracks score/lives/level, and runs the loop.&#x20;
+
+---
+
+## ACTIVITY: showcase what you learned, draw out what you learned in the Whiteboard below. 
+
+ - Draw your “class” as a box → properties inside (like health, lives), methods outside (like move(), hitBrick()).
+
+ - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
+
+<canvas id="c" width="800" height="500" style="border:1px solid #ccc"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  const canvas = new fabric.Canvas('c');
+  canvas.isDrawingMode = true; // enable free drawing
+  canvas.freeDrawingBrush.color = "white";
+  canvas.freeDrawingBrush.width = 5;
+  document.addEventListener("keydown", e => {
+    if(e.key === "r") canvas.freeDrawingBrush.color = "red";
+    if(e.key === "b") canvas.freeDrawingBrush.color = "blue";
+    if(e.key === "g") canvas.freeDrawingBrush.color = "green";
+    if(e.key === "c") canvas.clear();
+  });
+</script>
+<br>
+Press `r` to change brush color to red.
+Press `b` to change brush color to blue.
+Press `g` to change brush color to green.
