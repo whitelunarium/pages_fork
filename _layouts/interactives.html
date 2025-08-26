@@ -20,6 +20,13 @@ layout: opencs
       <div class="progress-fill" id="lesson-progress"></div>
     </div>
     <p id="progress-text">0% complete</p>
+    <button id="reset-progress" class="btn small-btn">Reset Progress</button>
+
+    <hr>
+
+    <!-- Badges -->
+    <h4>🏅 Your Badges</h4>
+    <p id="badges">No badges yet...</p>
   </aside>
 
   <!-- Main Lesson Content -->
@@ -31,13 +38,40 @@ layout: opencs
 
     <hr>
 
+    <!-- Sandbox -->
+    <div class="sandbox">
+      <h3>🖥️ Try It Yourself</h3>
+      <textarea id="sandbox-code">
+// Example: Flip a card
+let card = { rank: "A", suit: "Spades", faceUp: false };
+card.faceUp = true;
+console.log(card);
+      </textarea>
+      <button id="run-sandbox">Run Code</button>
+      <pre id="sandbox-output"></pre>
+    </div>
+
+    <hr>
+
     <!-- Reflection & Quiz -->
     <div class="lesson-quiz">
       <h3>📝 Quick Check</h3>
-      <p>{{ page.quiz_prompt | default: "What’s one key idea you learned from this lesson?" }}</p>
+      <p>What’s one key idea you learned from this lesson?</p>
       <textarea id="reflection-box" placeholder="Type your reflection or answer here..."></textarea>
       <button id="save-reflection">Save</button>
       <p id="reflection-status"></p>
+    </div>
+
+    <hr>
+
+    <!-- Resources -->
+    <div class="resources">
+      <h3>📚 Related Resources</h3>
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes" target="_blank">MDN: JavaScript Classes</a></li>
+        <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">CSS Tricks: Flexbox Guide</a></li>
+        <li><a href="https://javascript.info/" target="_blank">The Modern JavaScript Tutorial</a></li>
+      </ul>
     </div>
 
     <!-- Navigation -->
@@ -49,22 +83,36 @@ layout: opencs
 </div>
 
 <script>
-// Progress Tracker
+// Progress Tracker + Reset
 document.addEventListener("DOMContentLoaded", () => {
   const lessons = ["frontend","oop","problem-solving"];
   const key = "lesson-progress";
   let progress = JSON.parse(localStorage.getItem(key)) || {};
 
-  // Mark this lesson complete if visited
   const current = window.location.pathname.split("/").pop();
-  progress[current] = true;
+  if (current) progress[current] = true;
   localStorage.setItem(key, JSON.stringify(progress));
 
-  // Calculate % complete
   let done = Object.keys(progress).length;
   let percent = Math.floor((done / lessons.length) * 100);
   document.getElementById("lesson-progress").style.width = percent + "%";
   document.getElementById("progress-text").textContent = percent + "% complete";
+
+  document.getElementById("reset-progress").onclick = () => {
+    localStorage.removeItem(key);
+    localStorage.removeItem("lesson-badges");
+    document.getElementById("lesson-progress").style.width = "0%";
+    document.getElementById("progress-text").textContent = "0% complete";
+    document.getElementById("badges").textContent = "No badges yet...";
+  };
+
+  // Badges
+  let badges = JSON.parse(localStorage.getItem("lesson-badges")) || [];
+  if (!badges.includes(current)) {
+    badges.push(current);
+    localStorage.setItem("lesson-badges", JSON.stringify(badges));
+  }
+  document.getElementById("badges").textContent = badges.join(", ");
 
   // Reflection save
   const saveBtn = document.getElementById("save-reflection");
@@ -79,7 +127,18 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => status.textContent = "", 1500);
   });
 
-  // Add Copy buttons to code blocks
+  // Sandbox
+  document.getElementById("run-sandbox").onclick = () => {
+    const code = document.getElementById("sandbox-code").value;
+    try {
+      const result = eval(code);
+      document.getElementById("sandbox-output").textContent = result ?? "✅ Ran successfully!";
+    } catch (e) {
+      document.getElementById("sandbox-output").textContent = "❌ Error: " + e.message;
+    }
+  };
+
+  // Copy buttons for code
   document.querySelectorAll("pre > code").forEach(block => {
     const btn = document.createElement("button");
     btn.textContent = "Copy";
@@ -108,12 +167,13 @@ document.addEventListener("DOMContentLoaded", () => {
   position: sticky;
   top: 1rem;
   height: fit-content;
+  color: #f0f0f0;
 }
 .lesson-content {
   flex: 1;
 }
 .progress-bar {
-  background: #eee;
+  background: #333;
   border-radius: 6px;
   height: 12px;
   width: 100%;
@@ -146,5 +206,23 @@ document.addEventListener("DOMContentLoaded", () => {
   border-radius: 4px;
   text-decoration: none;
   margin: 0.5rem;
+}
+.small-btn {
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  margin-top: 0.5rem;
+}
+.sandbox textarea {
+  width: 100%;
+  height: 120px;
+  font-family: monospace;
+  margin-bottom: 0.5rem;
+}
+.resources, .sandbox, .lesson-quiz {
+  background: #2b2b2b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  color: #f0f0f0;
 }
 </style>
