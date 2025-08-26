@@ -9,140 +9,68 @@ permalink: /github/pages/theme
 
 ## Theme Switching Guide
 
-### Problem Solved
+### Purpose
 
-This guide explains how to switch between Minima and TeXt themes in your Jekyll site. The issue you were experiencing was that the TeXt theme was looking for local SASS files (specifically in the `skins/` directory) that weren't present in your local `_sass` folder.
+This guide explains how to switch between Jekyll themes (such as **Minima**, **TeXt**, **So Simple**, and others) in your site, while supporting custom layouts and behaviors. The approach allows students or contributors to select a theme and still benefit from local overrides and customizations.
 
-### Solution Implemented
+## Theme Switching Logic
 
-1. **Created Missing SASS Structure**: Added the required `skins/` directory structure that TeXt theme expects:
+### Directory Structure
 
-    ```text
-    _sass/
-    ├── skins/
-    │   ├── _dark.scss          # Dark theme variables
-    │   ├── _default.scss       # Default theme variables
-    │   └── highlight/
-    │       └── _tomorrow-night.scss  # Code highlighting theme
-    ├── skins.scss              # Main skins import file
-    └── skins/
-        └── highlight.scss      # Highlight theme import file
-    ```
+- _themes/
+  - minima/
+    - _config.yml
+    - Gemfile
+    - opencs.html
+    - _layouts/
+      - post.html
+      - page.html
+  - text/
+    - _config.yml
+    - Gemfile
+    - opencs.html
+    - _layouts/
+      - post.html
+      - page.html
+  - ...
 
-2. **Added Theme Variables**: Created all the necessary SASS variables that the TeXt theme requires.
+### Layout Overrides
 
-3. **Simplified Configuration Management**:
-   - Maintained separate configuration files: `_config.minima.yml` and `_config.text.yml`
-   - Updated the theme switching script to simply copy the appropriate config file to `_config.yml`
-   - This eliminates duplication and complex `sed` operations
+- For **Minima**, custom behaviors are implemented by overriding `post.html` and `page.html` in your project’s `_layouts/` directory. These custom layouts **terminate with** `opencs.html`, a local layout that you control for further overrides.
+- For other themes, the theme-specific `post.html` and `page.html` in `_themes/<theme>/_layouts/` use front matter to load the theme’s default or base layout as their terminating layout (e.g., `layout: default` or `layout: base`).
 
-4. **Updated Makefile**: Modified the main Makefile to include theme switching functionality.
+**This means:**  
 
-## How to Use
+- You can always override or extend layouts by editing your themes `opencs.html`.
+- For themes other than Minima, the default theme layouts is being used unless you add overrides.  In minima, you can see we brought the base.html local as well as many _sass files.  
 
-### Interactive Theme Switching
+---
 
-```bash
-make switch-theme
-```
+## How to Switch Themes
 
-This will show you a menu to select between themes.
+### Using the Makefile
 
-### Direct Theme Switching
-
-```bash
-# Switch to Minima theme
-./scripts/switch-theme.sh minima
-make clean && make
-
-# Switch to TeXt theme  
-./scripts/switch-theme.sh text
-make clean && make
-```
-
-### Using Makefile Commands
+The Makefile includes targets to copy the appropriate config, Gemfile, and layouts from `_themes/<theme>/` into the project root and `_layouts/` directory:
 
 ```bash
-# Serve with Minima theme
-make serve-minima
-
-# Serve with TeXt theme
-make serve-text
-
-# Build with specific theme
-make build-minima
-make build-text
+make use-minima
+make use-text
+make use-cayman
+make use-so-simple
 ```
 
-## Theme Features
+- All theme-specific configuration and override files are stored in the `_themes/` directory (not built by Jekyll).
+- Each theme has its own set of files.  Read the Makefile to see the copy rules.
 
-### Minima Theme
+### How Layouts Are Resolved
 
-- Clean, minimal design
-- Dark mode support  
-- Fast loading
-- Multiple sub-themes (dracula, leaf, hacker)
-- Mobile responsive
+- Jekyll will first look for layouts in your project’s _layouts/ directory.
+- If not found, it will use the layout from the remote theme.
+- This allows you to override any layout by placing a file of the same name locally.
 
-### TeXt Theme
+### Summary
 
-- Modern iOS 11-inspired design
-- 6 built-in skins
-- Advanced search functionality
-- MathJax & Mermaid diagram support
-- Table of contents
-- Internationalization
-
-## Files Modified/Created
-
-- `_sass/skins/` - Directory containing theme skin files
-- `_sass/skins/_dark.scss` - Dark theme variables for TeXt
-- `_sass/skins/_default.scss` - Default theme variables for TeXt
-- `_sass/skins/highlight/_tomorrow-night.scss` - Code highlighting theme
-- `_sass/skins.scss` - Main skins import file
-- `_sass/skins/highlight.scss` - Highlight import file
-- `Makefile` - Updated to include theme switching
-- `scripts/switch-theme.sh` - Simplified theme switching script (now uses file copying)
-- `Makefile.themes` - Theme-specific make targets
-- `_config.minima.yml` - Minima theme configuration
-- `_config.text.yml` - TeXt theme configuration
-
-## Troubleshooting
-
-If you encounter issues:
-
-1. **Missing SASS variables**: Add them to the appropriate skin file in `_sass/skins/`
-2. **Build errors**: Run `make clean && make` to rebuild from scratch
-3. **Theme not switching**: Check that `_config.yml` has been updated by the script
-
-## Configuration
-
-Your `_config.yml` will be automatically updated when switching themes:
-
-**Minima Theme:**
-
-```yaml
-remote_theme: jekyll/minima
-minima:
-  skin: dark
-  social_links: [...]
-```
-
-**TeXt Theme:**
-
-```yaml
-remote_theme: kitian616/jekyll-TeXt-theme
-text_theme:
-  type: website
-  skin: dark
-  highlight_theme: tomorrow-night
-  lang: en
-```
-
-## Backup
-
-The theme switching script automatically creates backups:
-
-- `_config.backup.yml` - Backup of your previous configuration
-
-This ensures you can always revert changes if needed.
+- Theme switching is managed via the Makefile and the _themes/ directory
+- Layouts for posts and pages are overridden as needed, with a custom opencs.html as the local terminating layout.
+- For most themes, layouts defer to the remote theme’s documentation. Remember: files are loaded locally first, then remotely.  Overrides work for _layouts,_includes, and _sass.  Try to minimze overrides to simply what is required for customizations.
+- Most content uses post or page layouts for primary formatting. Exceptions include schedule.html, blogs.html, and search.html, which may use custom layouts.

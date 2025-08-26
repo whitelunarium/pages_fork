@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: RPG Baseline with Squares 
 permalink: /gamify/squares
 ---
