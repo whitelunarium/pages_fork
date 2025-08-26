@@ -256,7 +256,7 @@ Empower yourself to solve real-world problems, unlock creativity, and open doors
 
 | Team Member | Role                   |
 |-------------|------------------------|
-| Nikhil      | Scrum Master           |
+| Nikhil M.   | Scrum Master           |
 | Aditya      | Assistant Scrum Master |
 | Pranav      | TBD                    |
 | Rohan       | TBD                    |
