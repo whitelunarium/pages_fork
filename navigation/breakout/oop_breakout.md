@@ -1,5 +1,5 @@
 ---
-layout: base 
+layout: post 
 title: OOP Breakout Blocks
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakout
