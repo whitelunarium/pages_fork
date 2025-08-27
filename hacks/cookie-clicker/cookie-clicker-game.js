@@ -112,10 +112,14 @@ const shop = {
     this.forSale.splice(0, this.forSale.length);
     this.updateShopDisplay();
     if (newTab === "shop") {
-      this.addItemForSale({
-        ...grandma,
-        price: grandma.price * (gameLoop.getAmount(grandma.name) + 1),
-      });
+      console.log(shopItems);
+      for (let i = 0; i < shopItems.length; i++) {
+        console.log(shopItems[i])
+        this.addItemForSale({
+          ...shopItems[i],
+          price: shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1),
+        });
+      }
     } else if (newTab === "upgrades") {
       for (let i = 0; i < this.upgrades.length; i++) {
         if (gameLoop.upgrades[this.upgrades[i].name]) continue;
@@ -140,7 +144,13 @@ const gameLoop = {
     const savedUpgrades = localStorage.getItem("savedUpgrades");
     localStorage.setItem("savedShop", JSON.stringify(this.autoClickers));
     this.runLoop();
-    emojiBuddies.spawnEmoji(grandma.emoji);
+    for (let i = 0; i < shopItems.length; i++) {
+      emojiBuddies.spawnEmoji(shopItems[i].emoji);
+    }
+    // emojiBuddies.spawnEmoji(grandma.emoji);
+    // emojiBuddies.spawnEmoji(factory.emoji);
+    // emojiBuddies.spawnEmoji(bank.emoji);
+    // emojiBuddies.spawnEmoji(mangotemple.emoji);
   },
   updateCookieMulti(itemName, amt) {
     this.upgrades[itemName] = amt;
@@ -274,6 +284,38 @@ const grandma = {
   cookiesPerSecond: 1,
 };
 
+const factory = {
+  name: "Factory",
+  emoji: "🏭",
+  price: 400,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 4,
+};
+
+const mangotemple = {
+  name: "MangoTemple",
+  emoji: "🥭",
+  price: 2000,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 10,
+};
+
+
+const bank = {
+  name: "Bank",
+  emoji: "🏦",
+  price: 6741,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 20,
+};
+
+const shopItems = []
+
+shopItems.push(grandma);
+shopItems.push(factory);
+shopItems.push(mangotemple);
+shopItems.push(bank);
+
 const x2Click = {
   name: "2X Clicks",
   emoji: "🖱",
@@ -284,6 +326,9 @@ const x2Click = {
 shop.upgrades.push(x2Click);
 
 shop.addItemForSale(grandma);
+shop.addItemForSale(factory);
+shop.addItemForSale(mangotemple)
+shop.addItemForSale(bank);
 gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
@@ -295,4 +340,7 @@ cookieButton.addEventListener("click", () => {
   }
   console.log(cookie.cookies);
   gameLoop.getAmount("Grandma");
+  gameLoop.getAmount("Factory");
+  gameLoop.getAmount("MangoTemple");
+  gameLoop.getAmount("Bank");
 });
