@@ -175,37 +175,35 @@ This makes the game easier to build, easier to add new features, and much more o
 ---
 
 ## OOP in Cookie Clicker
-
 ```mermaid
-    flowchart
-        A[Game Start] --> B[Load Objects from localStorage]
-        B -->|Exists| C[Recreate Objects from JSON]
-        B -->|No Save Found| D[Create New Objects from Classes]
+flowchart TD
+    A[Game Start] --> B[Load Objects from localStorage]
+    B -->|Exists| C[Recreate Objects from JSON]
+    B -->|"No Save Found"| D[Create New Objects from Classes]
 
-        C --> E[Objects in Memory: Upgrades, Shop, Cookie]
-        D --> E
+    C --> E[Objects in Memory: Upgrades, Shop, Cookie]
+    D --> E
 
-        subgraph Upgrade Class
-            U1[Properties: name, cost, multiplier, owned]
-            U2["Method: canBuy()"]
-            U3["Method: buy()"]
-            U1 --> U2
-            U1 --> U3
-        end
+    subgraph UpgradeClass["Upgrade Class"]
+        U1["Properties: name, cost, multiplier, owned"]
+        U2["Method: canBuy()"]
+        U3["Method: buy()"]
+        U1 --> U2
+        U1 --> U3
+    end
 
-        E --> F[Player Action]
-        F -->|Click Cookie| G[Cookie Count Increases]
-        F -->|Buy Upgrade| H["upgrade.canBuy()?"]
+    E --> F[Player Action]
+    F -->|"Click Cookie"| G[Cookie Count Increases]
+    F -->|"Buy Upgrade"| H{"upgrade.canBuy() ?"}   
 
-        H -->|No| I[Show Message: Not Enough Cookies]
-        H -->|Yes| J["upgrade.buy() Method Runs"]
+    H -->|"No"| I[Show Message: Not Enough Cookies]
+    H -->|"Yes"| J["upgrade.buy() Method Runs"]
 
-        J --> K[Change State: cost ↑, owned ↑, power ↑]
-        K --> L[Save Objects to localStorage]
-        I --> L
-        G --> L
+    J --> K[Change State: cost ↑, owned ↑, power ↑]
+    K --> L[Save Objects to localStorage]
+    I --> L
+    G --> L
 
-        L --> E
+    L --> E
 
-        classDef classBox fill:#d9e8fb,stroke:#333,stroke-width:1px,color:#000;
-        class U1,U2,U3 classBox
+```
