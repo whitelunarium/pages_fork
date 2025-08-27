@@ -293,7 +293,7 @@ const factory = {
 };
 
 const mangotemple = {
-  name: "MangoTemple",
+  name: "Mango Temple",
   emoji: "🥭",
   price: 2000,
   priceIncrementer: 1.2,
