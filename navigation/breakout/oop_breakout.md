@@ -650,4 +650,4 @@ permalink: oopbreakout
   game.draw();
 </script>
 
-<p><a href="{{site.baseurl}}/oopbreakoutLesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
+<p><a href="{{site.baseurl}}/oopbreakoutlesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
