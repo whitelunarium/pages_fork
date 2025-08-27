@@ -114,6 +114,8 @@ const shop = {
     if (newTab === "shop") {
       this.addItemForSale(grandma);
       this.addItemForSale(factory);
+      this.addItemForSale(mangotemple)
+      this.addItemForSale(bank);
     }else if (newTab === "upgrades") {
       for (let i = 0; i < this.upgrades.length; i++) {
         if (gameLoop.upgrades[this.upgrades[i].name]) continue;
@@ -140,6 +142,8 @@ const gameLoop = {
     this.runLoop();
     emojiBuddies.spawnEmoji(grandma.emoji);
     emojiBuddies.spawnEmoji(factory.emoji);
+    emojiBuddies.spawnEmoji(bank.emoji);
+    emojiBuddies.spawnEmoji(mangotemple.emoji);
   },
   updateCookieMulti(itemName, amt) {
     this.upgrades[itemName] = amt;
@@ -280,6 +284,23 @@ const factory = {
   cookiesPerSecond: 4,
 };
 
+const mangotemple = {
+  name: "MangoTemple",
+  emoji: "🥭",
+  price: 2000,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 10,
+};
+
+
+const bank = {
+  name: "Bank",
+  emoji: "🏦",
+  price: 6741,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 20,
+};
+
 const x2Click = {
   name: "2X Clicks",
   emoji: "🖱",
@@ -291,6 +312,8 @@ shop.upgrades.push(x2Click);
 
 shop.addItemForSale(grandma);
 shop.addItemForSale(factory);
+shop.addItemForSale(mangotemple)
+shop.addItemForSale(bank);
 gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
@@ -299,4 +322,6 @@ cookieButton.addEventListener("click", () => {
   console.log(cookie.cookies);
   gameLoop.getAmount("Grandma");
   gameLoop.getAmount("Factory");
+  gameLoop.getAmount("MangoTemple");
+  gameLoop.getAmount("Bank");
 });
