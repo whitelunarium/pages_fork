@@ -346,7 +346,7 @@ Press `g` to change brush color to green.
 Press `c` to clear blackboard. 
 
 
-# ✅ Checkpoint Quizzes
+# ✅ Checkpoint Quizzes.
 
 <div id="oop-breakout-quizzes">
 <style>
