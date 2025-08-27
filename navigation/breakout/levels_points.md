@@ -55,7 +55,7 @@ flowchart TD
 
 ## **Lesson 1: Paddle and Base Blocks**
 
-**Goal:** Learn how to move the paddle (player) left and right and create basic bricks.
+**Goal:** Learn how to move a rectangle across the canvas and understand basic drawing and input handling.
 
 ### Step 1: Make the paddle
 
@@ -76,30 +76,38 @@ function drawPaddle() {
 }
 ```
 
-<!-- ===== Quiz after Step 1 ===== -->
+<!-- ===== THEORY QUIZ — Lesson 1 • after Step 1 (Pastel blue, all text black) ===== -->
 <section style="clear:both;">
-  <div class="quiz-block" id="quiz-s1" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #1976d2;border-radius:10px;background:#e3f2fd;box-sizing:border-box;font-family:system-ui,Arial;">
-    <h4 style="margin:0 0 8px 0;">✅ Checkpoint Quiz (after Step 1)</h4>
-    <p style="margin:6px 0;">1) Where is the paddle drawn?</p>
-    <label><input type="radio" name="q1" value="bottom"> Bottom</label><br>
-    <label><input type="radio" name="q1" value="middle"> Middle</label><br>
-    <label><input type="radio" name="q1" value="top"> Top</label>
+  <div id="quiz-s1" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #1976d2;border-radius:10px;background:#e3f2fd;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (after Step 1)</h4>
 
-    <p style="margin:10px 0 6px;">2) Which property controls the width?</p>
-    <label><input type="radio" name="q2" value="paddleWidth"> <code>paddleWidth</code></label><br>
-    <label><input type="radio" name="q2" value="paddleHeight"> <code>paddleHeight</code></label><br>
-    <label><input type="radio" name="q2" value="paddleX"> <code>paddleX</code></label>
+    <p style="margin:6px 0;color:#000;">1) In an HTML5 Canvas, where is the origin <code>(0,0)</code> located?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="topLeft"> Top-left corner</label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="center"> Center</label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="bottomLeft"> Bottom-left corner</label>
 
-    <p style="margin:10px 0 6px;">3) What color is used to fill the paddle?</p>
-    <label><input type="radio" name="q3" value="#0095DD"> <code>#0095DD</code></label><br>
-    <label><input type="radio" name="q3" value="gold"> <code>gold</code></label><br>
-    <label><input type="radio" name="q3" value="lime"> <code>lime</code></label>
+    <p style="margin:10px 0 6px;color:#000;">2) Which call starts a new vector drawing path?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="beginPath"> <code>ctx.beginPath()</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="newPath"> <code>ctx.newPath()</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="start"> <code>ctx.start()</code></label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) Which signature correctly defines a rectangle on Canvas?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="rect"> <code>ctx.rect(x, y, width, height)</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="box"> <code>ctx.box(width, height, x, y)</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="rect2"> <code>rect(x, y)</code></label>
 
     <div style="margin-top:10px;display:flex;gap:8px;">
-      <button class="quiz-check" data-quiz="quiz-s1" data-answers='{"q1":"bottom","q2":"paddleWidth","q3":"#0095DD"}' style="padding:6px 10px;border:1px solid #1976d2;background:#1976d2;color:#fff;border-radius:8px;cursor:pointer;">Check answers</button>
-      <button class="quiz-reset" data-quiz="quiz-s1" style="padding:6px 10px;border:1px solid #777;background:#fff;color:#333;border-radius:8px;cursor:pointer;">Reset</button>
+      <button class="quiz-check" data-quiz="quiz-s1"
+        data-answers='{"s1_q1":"topLeft","s1_q2":"beginPath","s1_q3":"rect"}'
+        style="padding:6px 10px;border:1px solid #1976d2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-s1"
+        style="padding:6px 10px;border:1px solid #1976d2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
     </div>
-    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;"></div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
 
@@ -134,33 +142,41 @@ function updatePaddle() {
 
 **Explore:**
 
-* Make your own block that moves left/right with the arrow keys.
-* Change its width/height and test how it feels.
+* Change speed and observe responsiveness.
+* Try switching keys; how does it affect UX?
 
-<!-- ===== Quiz after Step 2 ===== -->
+<!-- ===== THEORY QUIZ — Lesson 1 • after Step 2 (Pastel purple, all text black) ===== -->
 <section style="clear:both;">
-  <div class="quiz-block" id="quiz-s2" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #7b1fa2;border-radius:10px;background:#f3e5f5;box-sizing:border-box;font-family:system-ui,Arial;">
-    <h4 style="margin:0 0 8px 0;">✅ Checkpoint Quiz (after Step 2)</h4>
-    <p style="margin:6px 0;">1) Which keys control the paddle?</p>
-    <label><input type="radio" name="q1" value="arrows"> Left/Right Arrow keys</label><br>
-    <label><input type="radio" name="q1" value="wasd"> W and D keys</label><br>
-    <label><input type="radio" name="q1" value="space"> Spacebar</label>
+  <div id="quiz-s2" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #7b1fa2;border-radius:10px;background:#f3e5f5;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (after Step 2)</h4>
 
-    <p style="margin:10px 0 6px;">2) Why check <code>paddleX &lt; canvas.width - paddleWidth</code>?</p>
-    <label><input type="radio" name="q2" value="stayInBounds"> To keep the paddle inside the right boundary</label><br>
-    <label><input type="radio" name="q2" value="faster"> To make the paddle move faster</label><br>
-    <label><input type="radio" name="q2" value="color"> To change its color</label>
+    <p style="margin:6px 0;color:#000;">1) What best describes <em>event-driven programming</em> in this context?</p>
+    <label style="color:#000;"><input type="radio" name="s2_q1" value="events"> Code reacts to user/input events like key presses</label><br>
+    <label style="color:#000;"><input type="radio" name="s2_q1" value="loopOnly"> Code runs only in a tight while-loop without events</label><br>
+    <label style="color:#000;"><input type="radio" name="s2_q1" value="compile"> Code that only runs at compile time</label>
 
-    <p style="margin:10px 0 6px;">3) If both <code>rightPressed</code> and <code>leftPressed</code> are false, what happens?</p>
-    <label><input type="radio" name="q3" value="noMove"> The paddle does not move</label><br>
-    <label><input type="radio" name="q3" value="autoMove"> The paddle auto-moves right</label><br>
-    <label><input type="radio" name="q3" value="teleport"> The paddle teleports to center</label>
+    <p style="margin:10px 0 6px;color:#000;">2) Why track both <code>keydown</code> and <code>keyup</code>?</p>
+    <label style="color:#000;"><input type="radio" name="s2_q2" value="held"> To know if a key is currently held for continuous input</label><br>
+    <label style="color:#000;"><input type="radio" name="s2_q2" value="color"> To change drawing colors</label><br>
+    <label style="color:#000;"><input type="radio" name="s2_q2" value="oneShot"> To capture only one-shot taps</label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) The boundary checks on <code>paddleX</code> illustrate which concept?</p>
+    <label style="color:#000;"><input type="radio" name="s2_q3" value="clamp"> Clamping values to a valid range</label><br>
+    <label style="color:#000;"><input type="radio" name="s2_q3" value="recursion"> Recursion</label><br>
+    <label style="color:#000;"><input type="radio" name="s2_q3" value="hoist"> Hoisting</label>
 
     <div style="margin-top:10px;display:flex;gap:8px;">
-      <button class="quiz-check" data-quiz="quiz-s2" data-answers='{"q1":"arrows","q2":"stayInBounds","q3":"noMove"}' style="padding:6px 10px;border:1px solid #7b1fa2;background:#7b1fa2;color:#fff;border-radius:8px;cursor:pointer;">Check answers</button>
-      <button class="quiz-reset" data-quiz="quiz-s2" style="padding:6px 10px;border:1px solid #777;background:#fff;color:#333;border-radius:8px;cursor:pointer;">Reset</button>
+      <button class="quiz-check" data-quiz="quiz-s2"
+        data-answers='{"s2_q1":"events","s2_q2":"held","s2_q3":"clamp"}'
+        style="padding:6px 10px;border:1px solid #7b1fa2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-s2"
+        style="padding:6px 10px;border:1px solid #7b1fa2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
     </div>
-    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;"></div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
 
@@ -168,7 +184,7 @@ function updatePaddle() {
 
 ## **Lesson 2: Power-Up Block + Timer**
 
-**Goal:** Add a special block that gives a temporary boost when hit.
+**Goal:** Use arrays/objects to model state, randomness to vary behavior, and time to manage temporary effects.
 
 ### Step 1: Add special bricks that drop a power-up when broken.
 
@@ -193,30 +209,38 @@ if (b.powerUp) {
 }
 ```
 
-<!-- ===== Quiz L2 Step 1 ===== -->
+<!-- ===== THEORY QUIZ — Lesson 2 • Step 1 (Pastel yellow, all text black) ===== -->
 <section style="clear:both;">
-  <div class="quiz-block" id="quiz-l2s1" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #ffb74d;border-radius:10px;background:#fff8e1;box-sizing:border-box;font-family:system-ui,Arial;">
-    <h4 style="margin:0 0 8px 0;">✅ Checkpoint Quiz (L2 • Step 1)</h4>
-    <p style="margin:6px 0;">1) What chance does a brick have to contain a power-up?</p>
-    <label><input type="radio" name="q1" value="0.3"> 30%</label><br>
-    <label><input type="radio" name="q1" value="0.03"> 3%</label><br>
-    <label><input type="radio" name="q1" value="1"> 100%</label>
+  <div id="quiz-l2s1" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #ffb74d;border-radius:10px;background:#fff8e1;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (L2 • Step 1)</h4>
 
-    <p style="margin:10px 0 6px;">2) Which property indicates a power-up brick?</p>
-    <label><input type="radio" name="q2" value="powerUp"> <code>powerUp</code></label><br>
-    <label><input type="radio" name="q2" value="status"> <code>status</code></label><br>
-    <label><input type="radio" name="q2" value="x"> <code>x</code></label>
+    <p style="margin:6px 0;color:#000;">1) In an array like <code>bricks[c][r]</code>, what do <code>c</code> and <code>r</code> typically represent?</p>
+    <label style="color:#000;"><input type="radio" name="l2s1_q1" value="grid"> Column and row indices in a grid</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s1_q1" value="color"> Color and radius</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s1_q1" value="remainder"> Remainder and count</label>
 
-    <p style="margin:10px 0 6px;">3) What happens when a power-up brick is broken?</p>
-    <label><input type="radio" name="q3" value="spawns"> It spawns a falling power-up object</label><br>
-    <label><input type="radio" name="q3" value="colorChange"> The ball changes color</label><br>
-    <label><input type="radio" name="q3" value="gameOver"> Immediate game over</label>
+    <p style="margin:10px 0 6px;color:#000;">2) The expression <code>Math.random() &lt; p</code> models:</p>
+    <label style="color:#000;"><input type="radio" name="l2s1_q2" value="bernoulli"> A Bernoulli trial with probability <code>p</code></label><br>
+    <label style="color:#000;"><input type="radio" name="l2s1_q2" value="rounding"> A rounding technique</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s1_q2" value="sorting"> A sorting comparison</label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) Using objects like <code>{x, y, status, powerUp}</code> is an example of:</p>
+    <label style="color:#000;"><input type="radio" name="l2s1_q3" value="composition"> Modeling state via object composition</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s1_q3" value="inheritance"> Class inheritance</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s1_q3" value="memo"> Memoization</label>
 
     <div style="margin-top:10px;display:flex;gap:8px;">
-      <button class="quiz-check" data-quiz="quiz-l2s1" data-answers='{"q1":"0.3","q2":"powerUp","q3":"spawns"}' style="padding:6px 10px;border:1px solid #ffb74d;background:#ffb74d;color:#000;border-radius:8px;cursor:pointer;">Check answers</button>
-      <button class="quiz-reset" data-quiz="quiz-l2s1" style="padding:6px 10px;border:1px solid #777;background:#fff;color:#333;border-radius:8px;cursor:pointer;">Reset</button>
+      <button class="quiz-check" data-quiz="quiz-l2s1"
+        data-answers='{"l2s1_q1":"grid","l2s1_q2":"bernoulli","l2s1_q3":"composition"}'
+        style="padding:6px 10px;border:1px solid #ffb74d;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-l2s1"
+        style="padding:6px 10px;border:1px solid #ffb74d;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
     </div>
-    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;"></div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
 
@@ -224,7 +248,7 @@ if (b.powerUp) {
 
 ### Step 2: Draw and drop the power-up
 
-* Each power-up is drawn as a glowing circle with “P” inside, and it falls down.
+* Each power-up is drawn and updated per animation frame.
 
 ```js
 let powerUps = [];
@@ -246,46 +270,53 @@ function drawPowerUps() {
       ctx.textAlign = "center";
       ctx.fillText("P", p.x, p.y);
 
-      // Make it fall
+      // per-frame update (basic Euler integration)
       p.y += 1.5;
 
-      // If paddle catches it
+      // basic AABB hit test against the paddle rectangle
       if (p.y >= canvas.height - paddleHeight &&
           p.x > paddleX && p.x < paddleX + paddleWidth) {
         p.active = false;
-        paddleWidth = basePaddleWidth + 40; // widen paddle
         activePowerUp = "Wide Paddle";
-        powerUpTimer = Date.now(); // start timer
+        powerUpTimer = Date.now();
       }
     }
   }
 }
 ```
 
-<!-- ===== Quiz L2 Step 2 ===== -->
+<!-- ===== THEORY QUIZ — Lesson 2 • Step 2 (Pastel orange, all text black) ===== -->
 <section style="clear:both;">
-  <div class="quiz-block" id="quiz-l2s2" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #f57c00;border-radius:10px;background:#fff3e0;box-sizing:border-box;font-family:system-ui,Arial;">
-    <h4 style="margin:0 0 8px 0;">✅ Checkpoint Quiz (L2 • Step 2)</h4>
-    <p style="margin:6px 0;">1) What letter is displayed inside the power-up circle?</p>
-    <label><input type="radio" name="q1" value="P"> P</label><br>
-    <label><input type="radio" name="q1" value="U"> U</label><br>
-    <label><input type="radio" name="q1" value="G"> G</label>
+  <div id="quiz-l2s2" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #f57c00;border-radius:10px;background:#fff3e0;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (L2 • Step 2)</h4>
 
-    <p style="margin:10px 0 6px;">2) What color is the power-up circle?</p>
-    <label><input type="radio" name="q2" value="gold"> gold</label><br>
-    <label><input type="radio" name="q2" value="#0095DD"> #0095DD</label><br>
-    <label><input type="radio" name="q2" value="lime"> lime</label>
+    <p style="margin:6px 0;color:#000;">1) Updating position each frame by adding a velocity is an example of:</p>
+    <label style="color:#000;"><input type="radio" name="l2s2_q1" value="euler"> Per-frame incremental update (Euler-style)</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s2_q1" value="binary"> Binary search</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s2_q1" value="tail"> Tail recursion</label>
 
-    <p style="margin:10px 0 6px;">3) What happens when the paddle catches a power-up?</p>
-    <label><input type="radio" name="q3" value="wide"> The paddle widens temporarily</label><br>
-    <label><input type="radio" name="q3" value="fasterBall"> The ball doubles speed permanently</label><br>
-    <label><input type="radio" name="q3" value="end"> The game ends</label>
+    <p style="margin:10px 0 6px;color:#000;">2) Why must shapes/text be redrawn every animation frame on Canvas?</p>
+    <label style="color:#000;"><input type="radio" name="l2s2_q2" value="immediate"> Canvas is immediate-mode; previous frame pixels aren’t retained semantically</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s2_q2" value="auto"> The browser automatically preserves and animates shapes</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s2_q2" value="css"> CSS repaints vectors for us each frame</label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) Checking if a point lies within a rectangle is called:</p>
+    <label style="color:#000;"><input type="radio" name="l2s2_q3" value="aabb"> AABB (axis-aligned bounding box) hit testing</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s2_q3" value="dijkstra"> Dijkstra’s algorithm</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s2_q3" value="fft"> Fast Fourier Transform</label>
 
     <div style="margin-top:10px;display:flex;gap:8px;">
-      <button class="quiz-check" data-quiz="quiz-l2s2" data-answers='{"q1":"P","q2":"gold","q3":"wide"}' style="padding:6px 10px;border:1px solid #f57c00;background:#f57c00;color:#fff;border-radius:8px;cursor:pointer;">Check answers</button>
-      <button class="quiz-reset" data-quiz="quiz-l2s2" style="padding:6px 10px;border:1px solid #777;background:#fff;color:#333;border-radius:8px;cursor:pointer;">Reset</button>
+      <button class="quiz-check" data-quiz="quiz-l2s2"
+        data-answers='{"l2s2_q1":"euler","l2s2_q2":"immediate","l2s2_q3":"aabb"}'
+        style="padding:6px 10px;border:1px solid #f57c00;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-l2s2"
+        style="padding:6px 10px;border:1px solid #f57c00;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
     </div>
-    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;"></div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
 
@@ -321,30 +352,38 @@ function drawPowerUpTimer() {
 * Make the timer 10 seconds instead of 5.
 * Try different effects (ex: double player speed).
 
-<!-- ===== Quiz L2 Step 3 ===== -->
+<!-- ===== THEORY QUIZ — Lesson 2 • Step 3 (Pastel pink, all text black) ===== -->
 <section style="clear:both;">
-  <div class="quiz-block" id="quiz-l2s3" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #c2185b;border-radius:10px;background:#fce4ec;box-sizing:border-box;font-family:system-ui,Arial;">
-    <h4 style="margin:0 0 8px 0;">✅ Checkpoint Quiz (L2 • Step 3)</h4>
-    <p style="margin:6px 0;">1) Where is the timer bar drawn?</p>
-    <label><input type="radio" name="q1" value="right"> On the right side of the canvas</label><br>
-    <label><input type="radio" name="q1" value="left"> On the left side</label><br>
-    <label><input type="radio" name="q1" value="bottom"> Along the bottom</label>
+  <div id="quiz-l2s3" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #c2185b;border-radius:10px;background:#fce4ec;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (L2 • Step 3)</h4>
 
-    <p style="margin:10px 0 6px;">2) Which color indicates remaining time?</p>
-    <label><input type="radio" name="q2" value="lime"> lime</label><br>
-    <label><input type="radio" name="q2" value="gray"> gray</label><br>
-    <label><input type="radio" name="q2" value="#0095DD"> #0095DD</label>
+    <p style="margin:6px 0;color:#000;">1) A countdown visual that maps remaining time to a bar height is an example of:</p>
+    <label style="color:#000;"><input type="radio" name="l2s3_q1" value="linear"> Linear normalization (mapping [0,duration] → [0,pixels])</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s3_q1" value="hash"> Hashing</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s3_q1" value="graphql"> GraphQL query</label>
 
-    <p style="margin:10px 0 6px;">3) What happens when the timer reaches 0?</p>
-    <label><input type="radio" name="q3" value="reset"> Power-up ends and paddle width resets</label><br>
-    <label><input type="radio" name="q3" value="speedUp"> Ball speed doubles</label><br>
-    <label><input type="radio" name="q3" value="brickRespawn"> Bricks respawn</label>
+    <p style="margin:10px 0 6px;color:#000;">2) Why use <code>Math.max(0, remaining)</code> before drawing?</p>
+    <label style="color:#000;"><input type="radio" name="l2s3_q2" value="clamp0"> To clamp negative time to 0 and avoid inverted bars</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s3_q2" value="faster"> To make the timer faster</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s3_q2" value="random"> To randomize the bar height</label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) Resetting the paddle when the timer ends demonstrates:</p>
+    <label style="color:#000;"><input type="radio" name="l2s3_q3" value="lifecycle"> Effect lifecycle management (start → active → end/cleanup)</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s3_q3" value="memo"> Memoization</label><br>
+    <label style="color:#000;"><input type="radio" name="l2s3_q3" value="deadlock"> Deadlock prevention</label>
 
     <div style="margin-top:10px;display:flex;gap:8px;">
-      <button class="quiz-check" data-quiz="quiz-l2s3" data-answers='{"q1":"right","q2":"lime","q3":"reset"}' style="padding:6px 10px;border:1px solid #c2185b;background:#c2185b;color:#fff;border-radius:8px;cursor:pointer;">Check answers</button>
-      <button class="quiz-reset" data-quiz="quiz-l2s3" style="padding:6px 10px;border:1px solid #777;background:#fff;color:#333;border-radius:8px;cursor:pointer;">Reset</button>
+      <button class="quiz-check" data-quiz="quiz-l2s3"
+        data-answers='{"l2s3_q1":"linear","l2s3_q2":"clamp0","l2s3_q3":"lifecycle"}'
+        style="padding:6px 10px;border:1px solid #c2185b;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-l2s3"
+        style="padding:6px 10px;border:1px solid #c2185b;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
     </div>
-    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;"></div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
 
@@ -765,52 +804,88 @@ drawBreakout();
 })();
 </script>
 
-<!-- ========================= One-time quiz handler (place once at end) ========================= -->
+<!-- ========================= QUIZ FIXES (place once at end) ========================= -->
+<style>
+  /* Force readable black text inside all quiz cards, regardless of theme */
+  [id^="quiz-"] {
+    color:#000 !important;
+    opacity:1 !important;
+    filter:none !important;
+    text-shadow:none !important;
+    -webkit-text-fill-color:#000;
+  }
+  [id^="quiz-"] * {
+    color:#000 !important;
+    -webkit-text-fill-color:#000;
+  }
+  [id^="quiz-"] code {
+    color:#000 !important;
+    background:#eee !important;
+    padding:0 6px;
+    border-radius:6px;
+  }
+  [id^="quiz-"] button {
+    color:#000 !important;
+    background:#fff !important;
+    border:1px solid currentColor !important;
+    border-radius:8px;
+    padding:6px 10px;
+    cursor:pointer;
+  }
+</style>
+
 <script>
 (function(){
-  function checkQuiz(evt){
-    const btn = evt.currentTarget;
-    const quizId = btn.getAttribute('data-quiz');
-    const answers = JSON.parse(btn.getAttribute('data-answers') || "{}");
-    const root = document.getElementById(quizId);
-    if(!root) return;
+  // Ensure quiz buttons never submit a form
+  document.querySelectorAll('.quiz-check, .quiz-reset').forEach(b => b.setAttribute('type','button'));
 
-    let correct = 0, total = Object.keys(answers).length, missing = [];
-    for(const qName of Object.keys(answers)){
-      const picked = root.querySelector('input[name="'+qName+'"]:checked');
-      if(!picked){ missing.push(qName); continue; }
-      if(picked.value === answers[qName]) correct++;
+  function getAnswers(btn){
+    try { return JSON.parse(btn.getAttribute('data-answers') || "{}"); }
+    catch (e) { return {}; }
+  }
+
+  function check(root, answers){
+    let correct = 0, total = 0, missing = [];
+    for (const [name, val] of Object.entries(answers)){
+      total++;
+      const picked = root.querySelector('input[name="'+name+'"]:checked');
+      if (!picked) { missing.push(name); continue; }
+      if (picked.value === val) correct++;
     }
     const fb = root.querySelector('.quiz-feedback');
-    if(!fb) return;
-    if(missing.length){
+    if (!fb) return;
+    if (missing.length){
       fb.textContent = "Answer all questions before checking.";
-      fb.style.color = "#d32f2f";
+      fb.style.color = "#000";
       return;
     }
-    const score = correct + " / " + total;
-    if(correct === total){
-      fb.textContent = "Great job! Score: " + score;
-      fb.style.color = "#2e7d32";
-    }else{
-      fb.textContent = "Keep going! Score: " + score + " (review the code above)";
-      fb.style.color = "#ef6c00";
-    }
+    fb.textContent = (correct === total)
+      ? `Great job! Score: ${correct}/${total}`
+      : `Keep going! Score: ${correct}/${total} (review the code above)`;
+    fb.style.color = "#000";
   }
 
-  function resetQuiz(evt){
-    const btn = evt.currentTarget;
-    const quizId = btn.getAttribute('data-quiz');
-    const root = document.getElementById(quizId);
-    if(!root) return;
+  function reset(root){
     root.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
     const fb = root.querySelector('.quiz-feedback');
-    if(fb){ fb.textContent = ""; }
+    if (fb){ fb.textContent = ""; fb.style.color = "#000"; }
   }
 
+  // Robust delegated click handler (works for clicks on inner text, spans, etc.)
   document.addEventListener('click', function(e){
-    if(e.target && e.target.classList.contains('quiz-check')) { checkQuiz(e); }
-    if(e.target && e.target.classList.contains('quiz-reset')) { resetQuiz(e); }
-  });
+    const checkBtn = e.target.closest('.quiz-check');
+    if (checkBtn){
+      e.preventDefault();
+      const root = document.getElementById(checkBtn.getAttribute('data-quiz'));
+      if (root) check(root, getAnswers(checkBtn));
+      return;
+    }
+    const resetBtn = e.target.closest('.quiz-reset');
+    if (resetBtn){
+      e.preventDefault();
+      const root = document.getElementById(resetBtn.getAttribute('data-quiz'));
+      if (root) reset(root);
+    }
+  }, true);
 })();
 </script>
