@@ -21,7 +21,6 @@ const cookie = {
       this.updateDisplay();
     }
   },
-  
 };
 
 const shop = {
@@ -59,42 +58,43 @@ const shop = {
           }
           cookie.addCookies(-1 * forSaleItemInfo.price);
 
-          gameLoop.updateCookieMulti(forSaleItemInfo.name,
-          forSaleItemInfo.multiplier);
+          gameLoop.updateCookieMulti(
+            forSaleItemInfo.name,
+            forSaleItemInfo.multiplier,
+          );
 
-          shopButton.remove()
+          shopButton.remove();
         });
       }
     else if (this.tab === "shop")
       for (let i = 0; i < this.forSale.length; i++) {
-      const forSaleItemInfo = this.forSale[i];
+        const forSaleItemInfo = this.forSale[i];
 
-      const shopButton = document.createElement("button");
-      shopButton.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
-      shopButton.innerHTML = `${forSaleItemInfo.emoji} ${forSaleItemInfo.name} (${forSaleItemInfo.price} 🍪)`;
-      shopContainer.appendChild(shopButton);
+        const shopButton = document.createElement("button");
+        shopButton.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
+        shopButton.innerHTML = `${forSaleItemInfo.emoji} ${forSaleItemInfo.name} (${forSaleItemInfo.price} 🍪)`;
+        shopContainer.appendChild(shopButton);
 
-      shopButton.addEventListener("click", () => {
-        if (cookie.cookies < forSaleItemInfo.price) {
-          alert("Insufficient Cookies");
-          return;
-        }
-        cookie.addCookies(-1 * forSaleItemInfo.price);
+        shopButton.addEventListener("click", () => {
+          if (cookie.cookies < forSaleItemInfo.price) {
+            alert("Insufficient Cookies");
+            return;
+          }
+          cookie.addCookies(-1 * forSaleItemInfo.price);
 
-        gameLoop.addAutoClicker(
-          forSaleItemInfo.name,
-          forSaleItemInfo.cookiesPerSecond,
-        );
-        this.updateForSalePrice(
-          Math.floor(
-            forSaleItemInfo.originalPrice *
-              gameLoop.getAmount(forSaleItemInfo.name),
-          ),
-          i,
-        );
-      });
-    }
-
+          gameLoop.addAutoClicker(
+            forSaleItemInfo.name,
+            forSaleItemInfo.cookiesPerSecond,
+          );
+          this.updateForSalePrice(
+            Math.floor(
+              forSaleItemInfo.originalPrice *
+                (gameLoop.getAmount(forSaleItemInfo.name) + 1),
+            ),
+            i,
+          );
+        });
+      }
   },
   addItemForSale(item) {
     this.forSale.push({
@@ -109,14 +109,14 @@ const shop = {
   },
   switchTab(newTab) {
     this.tab = newTab;
-    this.forSale.splice(0, this.forSale.length)
+    this.forSale.splice(0, this.forSale.length);
     this.updateShopDisplay();
     if (newTab === "shop") {
-      this.addItemForSale(grandma);
-      this.addItemForSale(factory);
-      this.addItemForSale(mangotemple)
-      this.addItemForSale(bank);
-    }else if (newTab === "upgrades") {
+      this.addItemForSale({
+        ...grandma,
+        price: grandma.price * (gameLoop.getAmount(grandma.name) + 1),
+      });
+    } else if (newTab === "upgrades") {
       for (let i = 0; i < this.upgrades.length; i++) {
         if (gameLoop.upgrades[this.upgrades[i].name]) continue;
         this.addItemForSale(this.upgrades[i]);
@@ -192,7 +192,8 @@ const gameLoop = {
         shop.updateForSalePrice(
           Math.floor(
             shop.forSale[cookiePerSecondAndIndexMap[upgradeName].index]
-              .originalPrice * amount,
+              .originalPrice *
+              (amount + 1),
           ),
           cookiePerSecondAndIndexMap[upgradeName].index,
         );
@@ -318,7 +319,11 @@ gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
   console.log("COOKIE");
-  cookie.addCookies(1 * cookie.cookieMulti);
+  if (cookie.cookieMulti) {
+    cookie.addCookies(1 * cookie.cookieMulti);
+  } else {
+    cookie.addCookies(1);
+  }
   console.log(cookie.cookies);
   gameLoop.getAmount("Grandma");
   gameLoop.getAmount("Factory");
