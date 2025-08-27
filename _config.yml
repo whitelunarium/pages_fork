@@ -48,7 +48,7 @@ future: true
 #   quiet_deps: true
 #   silence_deprecations: [import]
 
-remote_theme: pages-themes/tactile@v0.2.0
+remote_theme: jekyll/minima@d4d779a
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
