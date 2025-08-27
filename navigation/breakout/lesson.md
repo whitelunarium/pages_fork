@@ -205,7 +205,7 @@ function drawPowerUpTimer() {
 ```
 
 **Explore:**
-* Make the timer 10 seconds instead of 5.
+* Make the timer 10 seconds instead of 5..
 * Try different effects (ex: double player speed).
 
 <h2>Interactive Demos Progression</h2>
