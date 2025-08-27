@@ -113,6 +113,7 @@ const shop = {
     this.updateShopDisplay();
     if (newTab === "shop") {
       this.addItemForSale(grandma);
+      this.addItemForSale(factory);
     }else if (newTab === "upgrades") {
       for (let i = 0; i < this.upgrades.length; i++) {
         if (gameLoop.upgrades[this.upgrades[i].name]) continue;
@@ -138,6 +139,7 @@ const gameLoop = {
     localStorage.setItem("savedShop", JSON.stringify(this.autoClickers));
     this.runLoop();
     emojiBuddies.spawnEmoji(grandma.emoji);
+    emojiBuddies.spawnEmoji(factory.emoji);
   },
   updateCookieMulti(itemName, amt) {
     this.upgrades[itemName] = amt;
@@ -270,6 +272,14 @@ const grandma = {
   cookiesPerSecond: 1,
 };
 
+const factory = {
+  name: "Factory",
+  emoji: "🏭",
+  price: 400,
+  priceIncrementer: 1.5,
+  cookiesPerSecond: 4,
+};
+
 const x2Click = {
   name: "2X Clicks",
   emoji: "🖱",
@@ -280,6 +290,7 @@ const x2Click = {
 shop.upgrades.push(x2Click);
 
 shop.addItemForSale(grandma);
+shop.addItemForSale(factory);
 gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
 cookieButton.addEventListener("click", () => {
@@ -287,4 +298,5 @@ cookieButton.addEventListener("click", () => {
   cookie.addCookies(1 * cookie.cookieMulti);
   console.log(cookie.cookies);
   gameLoop.getAmount("Grandma");
+  gameLoop.getAmount("Factory");
 });
