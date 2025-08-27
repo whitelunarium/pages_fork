@@ -72,6 +72,18 @@ use-yat:
 	@cp _themes/yat/page.html _layouts/page.html
 	@cp _themes/yat/post.html _layouts/post.html
 
+use-tactile:
+	@cp _themes/tactile/_config.yml _config.yml
+	@cp _themes/tactile/Gemfile Gemfile
+	@cp _themes/tactile/opencs.html _layouts/opencs.html
+	@cp _themes/tactile/page.html _layouts/page.html
+	@cp _themes/tactile/post.html _layouts/post.html
+
+serve-tactile: use-tactile clean
+	@make serve-current
+
+build-tactile: use-tactile build-current
+
 # Serve with selected theme
 serve-minima: use-minima clean
 	@make serve-current
