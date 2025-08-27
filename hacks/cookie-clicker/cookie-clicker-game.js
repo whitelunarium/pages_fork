@@ -288,7 +288,7 @@ const factory = {
   name: "Factory",
   emoji: "🏭",
   price: 400,
-  priceIncrementer: 1.5,
+  priceIncrementer: 1.4,
   cookiesPerSecond: 4,
 };
 
@@ -296,7 +296,7 @@ const mangotemple = {
   name: "MangoTemple",
   emoji: "🥭",
   price: 2000,
-  priceIncrementer: 1.5,
+  priceIncrementer: 1.2,
   cookiesPerSecond: 10,
 };
 
@@ -305,7 +305,7 @@ const bank = {
   name: "Bank",
   emoji: "🏦",
   price: 6741,
-  priceIncrementer: 1.5,
+  priceIncrementer: 1.1,
   cookiesPerSecond: 20,
 };
 
