@@ -8,14 +8,14 @@ permalink: /cookie-clicker-game-docs/
 # Cookie Clicker – Feature Add-On Assignment
 
 
-| Role            | Name                 |
-|:---------------:|:--------------------:|
-| 🧭 Scrum Master | **Kush Shah**        |
-| 📋 Assistant Scrum | **Trevor Vick**   |
-| 💻 Engineer     | Elliot Yang          |
-| 💻 Engineer     | Travis Callow        |
-| 💻 Engineer     | Aranya Bhattacharya  |
-| 💻 Engineer     | Alex Rubio           |
+| Role            | Name                 | GitHub |
+|:---------------:|:--------------------:|:------:|
+| 🧭 Scrum Master | **Kush Shah**        | [GitHub](https://github.com/kush1434) |
+| 📋 Assistant Scrum | **Trevor Vick**   | [GitHub](https://github.com/Tvick22) |
+| 💻 Engineer     | Elliot Yang          | [GitHub](https://github.com/ellioty15) |
+| 💻 Engineer     | Travis Callow        | [Github](https://github.com/TravisCallow) |
+| 💻 Engineer     | Aranya Bhattacharya  | [GitHub](https://github.com/aranyab0924) |
+| 💻 Engineer     | Alex Rubio           | [GitHub](https://github.com/AlexRubio1) |
 
 We already have a working Cookie Clicker game. Right now, the game lets you click on the cookie to increase your score. That’s cool, but pretty basic. Your job is to **add a new feature** to make the game more fun and complex.
 
