@@ -1,10 +1,10 @@
 lang:                  en
-title:                 Hydejack
+title:                 Open Coding Society
 copyright:             © 2024. All rights reserved.
 
-accent_image:          /assets/img/sidebar-bg.jpg
-accent_color:          rgb(79,177,186)
-theme_color:           rgb(25,55,71)
+accent_image:          /images/ocs_wallpaper.png
+accent_color:          rgb(224, 102, 101)
+theme_color:           rgb(100, 100, 100)
 
 google_fonts:          false
 
