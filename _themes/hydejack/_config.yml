@@ -1,6 +1,6 @@
 lang:                  en
 title:                 Open Coding Society
-copyright:             © 2025. All rights reserved.
+copyright:             © 2024. All rights reserved.
 
 accent_image:          /images/ocs_wallpaper.png
 accent_color:          rgb(224, 102, 101)
@@ -80,8 +80,10 @@ compress_html:
   ignore:
     envs:              [development]
 
-sas s:
+sass:
   style:               compressed
+  load_paths:
+    - _sass
 
 # Site-wide settings
 remote_theme: hydecorp/hydejack@v9.2.1
