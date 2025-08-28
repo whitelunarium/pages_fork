@@ -75,9 +75,9 @@ lxdData:
       Level: "Intermediate"
       Description: "Learn how to use Jupyter notebooks to develop Python projects. "
       Categories: ["Python", "Jupyter", "Game Coding"]
-      Game: "/pages-thinkers-yash/games/tictactoe/howtorun"
-      Lessons: "/pages-thinkers-yash/games/tictactoe/lesson"
-      Image: "/pages-thinkers-yash/images/tictactoe/tictactoe.png"
+      Game: "/games/tictactoe/howtorun"
+      Lessons: "/games/tictactoe/lesson"
+      Image: "/images/tictactoe/tictactoe.png"
       Alt: "Tic Tac Toe"
     - Title: "Solitaire"
       Genre: "Coding"
