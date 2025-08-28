@@ -80,8 +80,10 @@ compress_html:
   ignore:
     envs:              [development]
 
-sas s:
+sass:
   style:               compressed
+  load_paths:
+    - _sass
 
 # Site-wide settings
 remote_theme: hydecorp/hydejack@v9.2.1
