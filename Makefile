@@ -79,6 +79,16 @@ use-tactile:
 	@cp _themes/tactile/page.html _layouts/page.html
 	@cp _themes/tactile/post.html _layouts/post.html
 
+use-hydejack:
+	@cp _themes/hydejack/_config.yml _config.yml
+	@cp _themes/hydejack/Gemfile Gemfile
+	@cp _themes/hydejack/opencs.html _layouts/opencs.html
+	@cp _themes/hydejack/page.html _layouts/page.html
+	@cp _themes/hydejack/post.html _layouts/post.html
+
+serve-hydejack: use-hydejack clean
+	@make serve-current
+
 serve-tactile: use-tactile clean
 	@make serve-current
 
