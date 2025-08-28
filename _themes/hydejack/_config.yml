@@ -8,6 +8,19 @@ theme_color:           rgb(100, 100, 100)
 
 google_fonts:          false
 
+menu:
+  - title: CSSE
+    url: /navigation/section/csse/
+  - title: CSP
+    url: /navigation/section/csp/
+  - title: CSA
+    url: /navigation/section/csa/
+  - title: Blog
+    url: /navigation/blogs/
+  - title: Search
+    url: /navigation/search/
+  - title: Login
+    url: /login/
 hydejack:
   post_addons:         [about, newsletter, related, random, comments]
   project_addons:      [about, newsletter, other, comments]
@@ -78,3 +91,5 @@ remote_theme: hydecorp/hydejack@v9.2.1
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
+
+  
