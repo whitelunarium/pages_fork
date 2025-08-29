@@ -144,13 +144,10 @@ const gameLoop = {
     const savedUpgrades = localStorage.getItem("savedUpgrades");
     localStorage.setItem("savedShop", JSON.stringify(this.autoClickers));
     this.runLoop();
-    for (let i = 0; i < shopItems.length; i++) {
-      emojiBuddies.spawnEmoji(shopItems[i].emoji);
-    }
-    // emojiBuddies.spawnEmoji(grandma.emoji);
-    // emojiBuddies.spawnEmoji(factory.emoji);
-    // emojiBuddies.spawnEmoji(bank.emoji);
-    // emojiBuddies.spawnEmoji(mangotemple.emoji);
+
+    const purchased = shopItems.find(it => it.name === itemName);
+    if (purchased) emojiBuddies.spawnEmoji(purchased.emoji);
+
   },
   updateCookieMulti(itemName, amt) {
     this.upgrades[itemName] = amt;
@@ -299,7 +296,6 @@ const mangotemple = {
   priceIncrementer: 1.2,
   cookiesPerSecond: 10,
 };
-
 
 const bank = {
   name: "Bank",
