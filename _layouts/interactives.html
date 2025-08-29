@@ -97,10 +97,29 @@ console.log(card);
 </div>
 
 <script>
-// Simple Time Tracker
+// Time Tracker Globals
 let startTime = Date.now();
 let totalTime = parseInt(localStorage.getItem(`lesson-time-${window.location.pathname.split("/").pop()}`)) || 0;
 let isActive = true;
+const currentLesson = window.location.pathname.split("/").pop() || 'lesson';
+const MIN_TIME_FOR_BADGE = 60000; // 1 minute
+
+// Reflection save
+const saveBtn = document.getElementById("save-reflection");
+const box = document.getElementById("reflection-box");
+const status = document.getElementById("reflection-status");
+const refKey = "reflection-" + currentLesson;
+box.value = localStorage.getItem(refKey) || "";
+
+saveBtn.addEventListener("click", () => {
+  localStorage.setItem(refKey, box.value);
+  status.textContent = "Saved!";
+  setTimeout(() => status.textContent = "", 1500);
+
+  // Unlock badge immediately when reflection is saved
+  unlockBadge(currentLesson);
+});
+
 
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -113,6 +132,11 @@ function updateDisplay() {
   if (isActive) {
     const currentTime = totalTime + (Date.now() - startTime);
     document.getElementById('total-time').textContent = formatTime(currentTime);
+
+    // Badge unlock check
+    if (currentTime >= MIN_TIME_FOR_BADGE) {
+      unlockBadge(currentLesson);
+    }
   }
 }
 
@@ -122,6 +146,7 @@ function pause() {
     isActive = false;
     document.getElementById('timer-status').textContent = 'Paused';
     document.getElementById('timer-status').className = 'timer-status paused';
+    saveTime();
   }
 }
 
@@ -132,6 +157,10 @@ function resume() {
     document.getElementById('timer-status').textContent = 'Active';
     document.getElementById('timer-status').className = 'timer-status active';
   }
+}
+
+function saveTime() {
+  localStorage.setItem(`lesson-time-${currentLesson}`, totalTime);
 }
 
 // Update every second
@@ -147,95 +176,103 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('beforeunload', () => {
   if (isActive) {
     totalTime += Date.now() - startTime;
-    localStorage.setItem(`lesson-time-${window.location.pathname.split("/").pop()}`, totalTime);
+    saveTime();
   }
 });
 
-// Main app logic
+// --------------- BADGES ---------------
+function unlockBadge(lesson) {
+  let badges = JSON.parse(localStorage.getItem("lesson-badges")) || [];
+
+  if (!badges.includes(lesson)) {
+    badges.push(lesson);
+    localStorage.setItem("lesson-badges", JSON.stringify(badges));
+
+    renderBadges(badges);
+    showCongratsPopup(lesson);
+  }
+}
+
+function renderBadges(badges) {
+  const badgeContainer = document.getElementById("badges");
+  badgeContainer.innerHTML = "";
+
+  const icons = {
+    "frontend": "💻",
+    "oop": "🧩",
+    "problem-solving": "🧠",
+    "future-references": "📖",
+    "lesson": "🏅"
+  };
+
+  badges.forEach(b => {
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.innerHTML = `${icons[b] || "🏅"} ${b.replace("-", " ")}`;
+    badgeContainer.appendChild(badge);
+  });
+}
+
+function showCongratsPopup(lesson) {
+  const popup = document.createElement("div");
+  popup.className = "congrats-popup";
+  popup.innerHTML = `🎉 Congrats! You earned a badge for <b>${lesson.replace("-", " ")}</b>`;
+
+  document.body.appendChild(popup);
+  setTimeout(() => popup.classList.add("show"), 50);
+
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => popup.remove(), 300);
+  }, 3000);
+}
+
+// On load
 document.addEventListener("DOMContentLoaded", () => {
-  const lessons = ["frontend","oop","problem-solving"];
+  // Render saved badges
+  let savedBadges = JSON.parse(localStorage.getItem("lesson-badges")) || [];
+  renderBadges(savedBadges);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Render saved badges
+  let savedBadges = JSON.parse(localStorage.getItem("lesson-badges")) || [];
+  renderBadges(savedBadges);
+
+  // ---------------- PROGRESS TRACKER ----------------
+  const lessons = ["frontend", "oop", "problem-solving", "future-references"];
   const key = "lesson-progress";
   let progress = JSON.parse(localStorage.getItem(key)) || {};
 
-  const current = window.location.pathname.split("/").pop() || 'lesson';
-  
-  // Start the timer display
-  updateDisplay();
-  
-  if (current) progress[current] = true;
+  // mark current lesson as complete
+  if (currentLesson) progress[currentLesson] = true;
   localStorage.setItem(key, JSON.stringify(progress));
 
   let done = Object.keys(progress).length;
   let percent = Math.floor((done / lessons.length) * 100);
+
   document.getElementById("lesson-progress").style.width = percent + "%";
   document.getElementById("progress-text").textContent = percent + "% complete";
 
+  // reset progress button
   document.getElementById("reset-progress").onclick = () => {
     if (confirm("Reset all progress and time data?")) {
       localStorage.removeItem(key);
       localStorage.removeItem("lesson-badges");
       
-      // Clear all lesson times
+      // clear all lesson times
       lessons.forEach(lesson => {
         localStorage.removeItem(`lesson-time-${lesson}`);
       });
-      
+
       document.getElementById("lesson-progress").style.width = "0%";
       document.getElementById("progress-text").textContent = "0% complete";
       document.getElementById("badges").textContent = "No badges yet...";
-      
-      // Reset time tracker
-      timeTracker.destroy();
       location.reload();
     }
   };
-
-  // Badges
-  let badges = JSON.parse(localStorage.getItem("lesson-badges")) || [];
-  if (!badges.includes(current)) {
-    badges.push(current);
-    localStorage.setItem("lesson-badges", JSON.stringify(badges));
-  }
-  document.getElementById("badges").textContent = badges.length ? badges.join(", ") : "No badges yet...";
-
-  // Reflection save
-  const saveBtn = document.getElementById("save-reflection");
-  const box = document.getElementById("reflection-box");
-  const status = document.getElementById("reflection-status");
-  const refKey = "reflection-" + current;
-  box.value = localStorage.getItem(refKey) || "";
-
-  saveBtn.addEventListener("click", () => {
-    localStorage.setItem(refKey, box.value);
-    status.textContent = "Saved!";
-    setTimeout(() => status.textContent = "", 1500);
-  });
-
-  // Sandbox
-  document.getElementById("run-sandbox").onclick = () => {
-    const code = document.getElementById("sandbox-code").value;
-    try {
-      const result = eval(code);
-      document.getElementById("sandbox-output").textContent = result ?? "✅ Ran successfully!";
-    } catch (e) {
-      document.getElementById("sandbox-output").textContent = "❌ Error: " + e.message;
-    }
-  };
-
-  // Copy buttons for code
-  document.querySelectorAll("pre > code").forEach(block => {
-    const btn = document.createElement("button");
-    btn.textContent = "Copy";
-    btn.className = "copy-btn";
-    btn.onclick = () => {
-      navigator.clipboard.writeText(block.innerText);
-      btn.textContent = "Copied!";
-      setTimeout(() => btn.textContent = "Copy", 1500);
-    };
-    block.parentNode.style.position = "relative";
-    block.parentNode.appendChild(btn);
-  });
 });
+
 </script>
 
 <style>
@@ -349,5 +386,40 @@ document.addEventListener("DOMContentLoaded", () => {
   border-radius: 8px;
   margin: 1rem 0;
   color: #f0f0f0;
+}
+#badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.badge {
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* Congrats Popup */
+.congrats-popup {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  background: #222;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: right 0.3s ease, opacity 0.3s ease;
+  opacity: 0.95;
+  z-index: 9999;
+}
+.congrats-popup.show {
+  right: 20px;
 }
 </style>
