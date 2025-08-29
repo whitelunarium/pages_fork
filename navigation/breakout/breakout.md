@@ -175,8 +175,8 @@ permalink: /breakout
 
 
             <div class="card-buttons">
-                <a href="/function_breakout" class="btn btn-lesson">📚 Start Lessons</a>
-                <a href="/function_breakout" class="btn btn-game">🎮 Play Game</a>
+                <a href="{{site.baseurl}}/functionalbreakoutlesson" class="btn btn-lesson">📚 Start Lessons</a>
+                <a href="{{site.baseurl}}/functionalbreakoutgame" class="btn btn-game">🎮 Play Game</a>
             </div>
         </div>
 
@@ -200,8 +200,8 @@ permalink: /breakout
 
 
             <div class="card-buttons">
-                <a href="/oop_breakout_lesson1" class="btn btn-lesson">📚 Start Lessons</a>
-                <a href="/oop_breakout" class="btn btn-game">🎮 Play Game</a>
+                <a href="{{site.baseurl}}/oopbreakoutlesson" class="btn btn-lesson">📚 Start Lessons</a>
+                <a href="{{site.baseurl}}/oopbreakoutgame" class="btn btn-game">🎮 Play Game</a>
             </div>
         </div>
     </div>

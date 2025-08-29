@@ -2,7 +2,7 @@
 layout: post 
 title: Breakout Blocks
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
-permalink: fullbreakout
+permalink: functionalbreakoutgame
 ---
 
 <canvas id="gameCanvas" width="600" height="400"></canvas>
