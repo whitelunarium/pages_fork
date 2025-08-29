@@ -18,6 +18,16 @@ layout: opencs
     </ul>
     <hr>
 
+    <!-- Time Tracker -->
+    <h4>⏱️ Study Time</h4>
+    <div class="time-display">
+      <span id="total-time">0:00</span>
+      <small>on this lesson</small>
+    </div>
+    <div id="timer-status" class="timer-status">Active</div>
+
+    <hr>
+
     <!-- Progress Tracker -->
     <h4>📊 Your Progress</h4>
     <div class="progress-bar">
@@ -60,7 +70,7 @@ console.log(card);
     <!-- Reflection & Quiz -->
     <div class="lesson-quiz">
       <h3>📝 Quick Check</h3>
-      <p>What’s one key idea you learned from this lesson?</p>
+      <p>What's one key idea you learned from this lesson?</p>
       <textarea id="reflection-box" placeholder="Type your reflection or answer here..."></textarea>
       <button id="save-reflection">Save</button>
       <p id="reflection-status"></p>
@@ -87,13 +97,119 @@ console.log(card);
 </div>
 
 <script>
-// Progress Tracker + Reset
+// Time Tracker Class
+class TimeTracker {
+  constructor(lessonId) {
+    this.lessonId = lessonId;
+    this.sessionStart = Date.now();
+    this.totalTime = this.loadTotalTime();
+    this.isActive = true;
+    this.interval = null;
+    
+    this.init();
+  }
+  
+  init() {
+    // Update display every second
+    this.interval = setInterval(() => {
+      if (this.isActive) {
+        this.updateDisplay();
+      }
+    }, 1000);
+    
+    // Listen for page visibility changes
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.pause();
+      } else {
+        this.resume();
+      }
+    });
+    
+    // Listen for window focus/blur
+    window.addEventListener('blur', () => this.pause());
+    window.addEventListener('focus', () => this.resume());
+    
+    // Save time before page unload
+    window.addEventListener('beforeunload', () => {
+      this.saveTime();
+    });
+    
+    this.updateDisplay();
+  }
+  
+  pause() {
+    if (this.isActive) {
+      this.isActive = false;
+      this.saveTime();
+      document.getElementById('timer-status').textContent = 'Paused';
+      document.getElementById('timer-status').className = 'timer-status paused';
+    }
+  }
+  
+  resume() {
+    if (!this.isActive) {
+      this.isActive = true;
+      this.sessionStart = Date.now();
+      document.getElementById('timer-status').textContent = 'Active';
+      document.getElementById('timer-status').className = 'timer-status active';
+    }
+  }
+  
+  formatTime(milliseconds) {
+    const seconds = Math.floor(milliseconds / 1000);
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    
+    if (mins >= 60) {
+      const hours = Math.floor(mins / 60);
+      const remainingMins = mins % 60;
+      return `${hours}:${remainingMins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+  
+  updateDisplay() {
+    const currentSessionTime = this.isActive ? Date.now() - this.sessionStart : 0;
+    const displayTime = this.totalTime + currentSessionTime;
+    document.getElementById('total-time').textContent = this.formatTime(displayTime);
+  }
+  
+  loadTotalTime() {
+    const key = `lesson-time-${this.lessonId}`;
+    return parseInt(localStorage.getItem(key)) || 0;
+  }
+  
+  saveTime() {
+    if (this.isActive) {
+      const sessionTime = Date.now() - this.sessionStart;
+      const key = `lesson-time-${this.lessonId}`;
+      this.totalTime += sessionTime;
+      localStorage.setItem(key, this.totalTime.toString());
+      this.sessionStart = Date.now();
+    }
+  }
+  
+  destroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+    this.saveTime();
+  }
+}
+
+// Main app logic
 document.addEventListener("DOMContentLoaded", () => {
-  const lessons = ["frontend","oop","problem-solving","future-reference"];
+  const lessons = ["frontend","oop","problem-solving"];
   const key = "lesson-progress";
   let progress = JSON.parse(localStorage.getItem(key)) || {};
 
-  const current = window.location.pathname.split("/").pop();
+  const current = window.location.pathname.split("/").pop() || 'lesson';
+  
+  // Initialize time tracker
+  const timeTracker = new TimeTracker(current);
+  
   if (current) progress[current] = true;
   localStorage.setItem(key, JSON.stringify(progress));
 
@@ -103,11 +219,23 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("progress-text").textContent = percent + "% complete";
 
   document.getElementById("reset-progress").onclick = () => {
-    localStorage.removeItem(key);
-    localStorage.removeItem("lesson-badges");
-    document.getElementById("lesson-progress").style.width = "0%";
-    document.getElementById("progress-text").textContent = "0% complete";
-    document.getElementById("badges").textContent = "No badges yet...";
+    if (confirm("Reset all progress and time data?")) {
+      localStorage.removeItem(key);
+      localStorage.removeItem("lesson-badges");
+      
+      // Clear all lesson times
+      lessons.forEach(lesson => {
+        localStorage.removeItem(`lesson-time-${lesson}`);
+      });
+      
+      document.getElementById("lesson-progress").style.width = "0%";
+      document.getElementById("progress-text").textContent = "0% complete";
+      document.getElementById("badges").textContent = "No badges yet...";
+      
+      // Reset time tracker
+      timeTracker.destroy();
+      location.reload();
+    }
   };
 
   // Badges
@@ -116,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     badges.push(current);
     localStorage.setItem("lesson-badges", JSON.stringify(badges));
   }
-  document.getElementById("badges").textContent = badges.join(", ");
+  document.getElementById("badges").textContent = badges.length ? badges.join(", ") : "No badges yet...";
 
   // Reflection save
   const saveBtn = document.getElementById("save-reflection");
@@ -176,6 +304,42 @@ document.addEventListener("DOMContentLoaded", () => {
 .lesson-content {
   flex: 1;
 }
+
+/* Time Tracker Styles */
+.time-display {
+  background: #2a2d2d;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  border-radius: 4px;
+  text-align: center;
+}
+.time-display span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4cafef;
+  display: block;
+}
+.time-display small {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+.timer-status {
+  text-align: center;
+  padding: 0.25rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+.timer-status.active {
+  background: #2d5a3d;
+  color: #4ade80;
+}
+.timer-status.paused {
+  background: #5a3d2d;
+  color: #fbbf24;
+}
+
 .progress-bar {
   background: #333;
   border-radius: 6px;
@@ -210,6 +374,11 @@ document.addEventListener("DOMContentLoaded", () => {
   border-radius: 4px;
   text-decoration: none;
   margin: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #005fa3;
 }
 .small-btn {
   font-size: 0.75rem;
