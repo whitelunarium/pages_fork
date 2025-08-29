@@ -72,6 +72,19 @@ use-yat:
 	@cp _themes/yat/page.html _layouts/page.html
 	@cp _themes/yat/post.html _layouts/post.html
 
+use-hydejack:
+	@cp _themes/hydejack/_config.yml _config.yml
+	@cp _themes/hydejack/Gemfile Gemfile
+	@cp _themes/hydejack/opencs.html _layouts/opencs.html
+	@cp _themes/hydejack/page.html _layouts/page.html
+	@cp _themes/hydejack/post.html _layouts/post.html
+
+serve-hydejack: use-hydejack clean
+	@make serve-current
+
+
+build-tactile: use-tactile build-current
+
 # Serve with selected theme
 serve-minima: use-minima clean
 	@make serve-current

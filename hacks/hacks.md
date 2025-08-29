@@ -81,7 +81,7 @@ lxdData:
       Alt: "Tic Tac Toe"
     - Title: "Solitaire"
       Genre: "Coding"
-      Level: "2"
+      Level: "3"
       Description: "Learn more about JS and OOP as you customize the popular card game solitaire."
       Categories: ["JavaScript", "OOP", "Game Coding", "Cards", "Innovation"]
       Game: "/solitaire"
