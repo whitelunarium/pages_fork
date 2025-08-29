@@ -2,7 +2,7 @@
 layout: post 
 title: OOP Breakout Blocks
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
-permalink: oopbreakout
+permalink: oopbreakoutgame
 ---
 
 <canvas id="gameCanvas" width="600" height="400"></canvas>
