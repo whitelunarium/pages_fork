@@ -5,15 +5,6 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---
 
-<link
-   rel="stylesheet"
-   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
-/>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/oop_breakout.md?plain=1)
-
 ```mermaid
 graph TD
     A[OOP Mini-Lesson] 
@@ -62,8 +53,31 @@ graph TD
     style Activity fill:#fff8e1,stroke:#000
     style Quizzes fill:#fce4ec,stroke:#000
 ```
+---
 
-# OOP Breakout (3-Part Mini-Lesson)
+### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/oop_breakout.md?plain=1)
+
+---
+
+# OOP Breakout (3-Part Mini Lesson)
+
+<link
+   rel="stylesheet"
+   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
+/>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="card card-image-cover">
+	<img src="https://source.unsplash.com/random/300x200" alt="" />
+	<div class="card-body">
+		<h2 class="card-header">Maximizing Your Productivity at Work</h2>
+		<p class="text-content2">Are you looking to increase your productivity at work?</p>
+		<div class="card-footer">
+			<button class="btn-secondary btn">Learn More</button>
+		</div>
+	</div>
+</div>
 
 ---
 
@@ -96,7 +110,6 @@ graph TD
 		</div>
 	</div>
 </div>
-
 
 ---
 
@@ -276,6 +289,3 @@ document.querySelectorAll('#oop-breakout-quizzes .quiz-card').forEach(card=>{
 
 * **Inheritance:** `Ball`, `Paddle`, `Brick`, `PowerUp` extend `GameObject` to share position and override `draw/update`.&#x20;
 * **Composition:** `Game` builds the world—instantiates objects, tracks score/lives/level, and runs the loop.&#x20;
-
-
-
