@@ -59,7 +59,7 @@ flowchart TD
 
 ### Step 1: Make the paddle
 
-We draw a rectangle at the bottom of the canvas.  
+We draw a rectangle at the bottom of the canvas.
 
 ```js
 let paddleHeight = 10;
@@ -622,3 +622,272 @@ drawBreakout();
   });
 })();
 </script>
+
+<!-- ===================== Breakout Blocks: Checkpoint Quizzes ===================== -->
+<div id="breakout-blocks-quizzes">
+<style>
+  #breakout-blocks-quizzes { --ok:#118a00; --bad:#b00020; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  #breakout-blocks-quizzes .quiz-card{
+    background:#fff;border:2px solid #ddd;border-radius:14px;
+    padding:1.2rem;margin:1.2rem 0;box-shadow:0 4px 12px rgba(0,0,0,.05);
+    color:#000;
+  }
+  #breakout-blocks-quizzes .quiz-title{font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+  #breakout-blocks-quizzes .quiz-sub{margin-bottom:.9rem;color:#222}
+  #breakout-blocks-quizzes .q{border-radius:10px;padding:.9rem;margin:.7rem 0;border:1px solid #eee}
+  #breakout-blocks-quizzes .q:nth-child(odd){background:#f7f3ff;}  /* lilac */
+  #breakout-blocks-quizzes .q:nth-child(even){background:#f3fff7;} /* mint  */
+  #breakout-blocks-quizzes .prompt{font-weight:700;margin-bottom:.4rem}
+  #breakout-blocks-quizzes .option{display:flex;gap:.45rem;align-items:flex-start;margin:.3rem 0}
+  #breakout-blocks-quizzes button{
+    background:#f7f7f7;color:#000;border:2px solid #000;
+    border-radius:999px;padding:.45rem 1rem;
+    font-weight:700;cursor:pointer;margin-top:.6rem;margin-right:.4rem
+  }
+  #breakout-blocks-quizzes button:hover{background:#000;color:#fff}
+  #breakout-blocks-quizzes .feedback{margin-top:.6rem;font-weight:800}
+  #breakout-blocks-quizzes .feedback.ok{color:var(--ok)}
+  #breakout-blocks-quizzes .feedback.bad{color:var(--bad)}
+  #breakout-blocks-quizzes code{
+    background:#f4f4f4;color:#000;padding:2px 5px;border-radius:4px
+  }
+</style>
+
+  <!-- Quiz A: Lesson 1 — Paddle & Base Blocks -->
+  <div class="quiz-card" data-quiz="A">
+    <div class="quiz-title">Lesson 1 Checkpoint</div>
+    <div class="quiz-sub">Paddle setup, keyboard input, and bounds</div>
+
+    <div class="q">
+      <div class="prompt">1) Which variables track keyboard input for moving the paddle?</div>
+      <label class="option"><input type="checkbox" value="rightPressed">rightPressed</label>
+      <label class="option"><input type="checkbox" value="leftPressed">leftPressed</label>
+      <label class="option"><input type="checkbox" value="paddleHeight">paddleHeight</label>
+      <label class="option"><input type="checkbox" value="paddleWidth">paddleWidth</label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">2) What prevents the paddle from leaving the canvas?</div>
+      <label class="option"><input type="radio" name="A2">Increasing <code>paddleWidth</code> when near the edge</label>
+      <label class="option"><input type="radio" name="A2">Conditional checks on <code>paddleX</code> against 0 and <code>canvas.width - paddleWidth</code></label>
+      <label class="option"><input type="radio" name="A2">Calling <code>ctx.closePath()</code> in <code>drawPaddle()</code></label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">3) Which events are used to update movement flags?</div>
+      <label class="option"><input type="checkbox" value="keydown">keydown</label>
+      <label class="option"><input type="checkbox" value="keyup">keyup</label>
+      <label class="option"><input type="checkbox" value="wheel">wheel</label>
+      <label class="option"><input type="checkbox" value="resize">resize</label>
+    </div>
+
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- Quiz B: Lesson 2 — Power-Up Block + Timer -->
+  <div class="quiz-card" data-quiz="B">
+    <div class="quiz-title">Lesson 2 Checkpoint</div>
+    <div class="quiz-sub">Spawning, catching, and timing a power-up</div>
+
+    <div class="q">
+      <div class="prompt">1) When a power-up brick is hit, what happens immediately?</div>
+      <label class="option"><input type="radio" name="B1">All bricks in the row disappear</label>
+      <label class="option"><input type="radio" name="B1">A falling power-up object is pushed into <code>powerUps</code></label>
+      <label class="option"><input type="radio" name="B1">Ball speed is permanently doubled</label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">2) What effect is applied when the paddle catches the power-up in the sample code?</div>
+      <label class="option"><input type="radio" name="B2">The paddle becomes narrower</label>
+      <label class="option"><input type="radio" name="B2">The paddle becomes wider temporarily</label>
+      <label class="option"><input type="radio" name="B2">The ball changes color</label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">3) Which variables manage the power-up’s duration?</div>
+      <label class="option"><input type="checkbox" value="activePowerUp">activePowerUp</label>
+      <label class="option"><input type="checkbox" value="powerUpTimer">powerUpTimer</label>
+      <label class="option"><input type="checkbox" value="powerUpDuration">powerUpDuration</label>
+      <label class="option"><input type="checkbox" value="basePaddleWidth">basePaddleWidth</label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">4) What UI element communicates remaining time to the player?</div>
+      <label class="option"><input type="radio" name="B4">A vertical bar that fills/shrinks</label>
+      <label class="option"><input type="radio" name="B4">A blinking paddle outline</label>
+      <label class="option"><input type="radio" name="B4">An alert popup every second</label>
+    </div>
+
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- Quiz C: Interactive Demos — Ball Bouncing Logic -->
+  <div class="quiz-card" data-quiz="C">
+    <div class="quiz-title">Demos Checkpoint</div>
+    <div class="quiz-sub">Ball bouncing conditions</div>
+
+    <div class="q">
+      <div class="prompt">1) Which condition flips the ball’s horizontal velocity?</div>
+      <label class="option"><input type="radio" name="C1"><code>bx + br &gt; canvas.width || bx - br &lt; 0</code></label>
+      <label class="option"><input type="radio" name="C1"><code>by - br &lt; 0</code></label>
+      <label class="option"><input type="radio" name="C1"><code>by + br &gt; canvas.height - paddleHeight</code></label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">2) In the Paddle + Ball demo, what causes a bounce off the paddle?</div>
+      <label class="option"><input type="radio" name="C2">Reaching the exact center of the canvas</label>
+      <label class="option"><input type="radio" name="C2">Ball’s bottom touching paddle’s top while x is between paddle edges</label>
+      <label class="option"><input type="radio" name="C2">Calling <code>ctx.closePath()</code> after drawing the paddle</label>
+    </div>
+
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
+  </div>
+
+  <!-- Quiz D: Mini Breakout — Bricks & Collision -->
+  <div class="quiz-card" data-quiz="D">
+    <div class="quiz-title">Mini Breakout Checkpoint</div>
+    <div class="quiz-sub">Brick grid and collision clearing</div>
+
+    <div class="q">
+      <div class="prompt">1) How are brick positions assigned each frame in the sample?</div>
+      <label class="option"><input type="radio" name="D1">They are randomized every loop</label>
+      <label class="option"><input type="radio" name="D1">Computed from row/column indices using offsets and padding, then stored to each brick’s <code>x,y</code></label>
+      <label class="option"><input type="radio" name="D1">Hardcoded pixel coordinates for each brick</label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">2) What happens when the ball’s position overlaps a brick’s rectangle?</div>
+      <label class="option"><input type="radio" name="D2">Vertical velocity inverts and the brick’s <code>status</code> becomes 0</label>
+      <label class="option"><input type="radio" name="D2">The ball teleports to center</label>
+      <label class="option"><input type="radio" name="D2">All bricks immediately reset</label>
+    </div>
+
+    <div class="q">
+      <div class="prompt">3) Select all parameters that define the brick layout grid:</div>
+      <label class="option"><input type="checkbox" value="rowCount">rowCount</label>
+      <label class="option"><input type="checkbox" value="colCount">colCount</label>
+      <label class="option"><input type="checkbox" value="bw">bw (brick width)</label>
+      <label class="option"><input type="checkbox" value="bt">bt (top offset)</label>
+      <label class="option"><input type="checkbox" value="gravity">gravity</label>
+    </div>
+
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
+  </div>
+</div>
+
+<script>
+/* Answer key for Breakout Blocks quizzes */
+(function(){
+  const key = {
+    A: {
+      multi1: ["rightPressed","leftPressed"],
+      single2: "Conditional checks on paddleX against 0 and canvas.width - paddleWidth",
+      multi3: ["keydown","keyup"]
+    },
+    B: {
+      single1: "A falling power-up object is pushed into powerUps",
+      single2: "The paddle becomes wider temporarily",
+      multi3: ["activePowerUp","powerUpTimer","powerUpDuration"],
+      single4: "A vertical bar that fills/shrinks"
+    },
+    C: {
+      single1: "bx + br > canvas.width || bx - br < 0",
+      single2: "Ball’s bottom touching paddle’s top while x is between paddle edges"
+    },
+    D: {
+      single1: "Computed from row/column indices using offsets and padding, then stored to each brick’s x,y",
+      single2: "Vertical velocity inverts and the brick’s status becomes 0",
+      multi3: ["rowCount","colCount","bw","bt"]
+    }
+  };
+
+  function textOf(label){
+    return label.textContent.replace(/\s+/g,' ').trim();
+  }
+
+  function getCheckedValues(scope, selector){
+    return [...scope.querySelectorAll(selector)]
+      .filter(i=>i.checked)
+      .map(i=>i.value || textOf(i.parentNode));
+  }
+
+  function arraysEqual(a,b){
+    const A=[...a].sort(); const B=[...b].sort();
+    return A.length===B.length && A.every((v,i)=>v===B[i]);
+  }
+
+  document.querySelectorAll('#breakout-blocks-quizzes .quiz-card').forEach(card=>{
+    const id = card.dataset.quiz;
+
+    card.querySelector('.check').addEventListener('click', ()=>{
+      let ok = true;
+
+      if(id==="A"){
+        const chosen1 = getCheckedValues(card,'input[type=checkbox]');
+        // Map Q1 & Q3 separately:
+        const qBlocks = card.querySelectorAll('.q');
+        const q1 = [...qBlocks[0].querySelectorAll('input[type=checkbox]:checked')].map(i=>i.value);
+        const q2 = qBlocks[1].querySelector('input[type=radio]:checked');
+        const q3 = [...qBlocks[2].querySelectorAll('input[type=checkbox]:checked')].map(i=>i.value);
+
+        if(!arraysEqual(q1, key.A.multi1)) ok = false;
+        if(!q2 || textOf(q2.parentNode) !== key.A.single2) ok = false;
+        if(!arraysEqual(q3, key.A.multi3)) ok = false;
+      }
+
+      if(id==="B"){
+        const qBlocks = card.querySelectorAll('.q');
+        const b1 = qBlocks[0].querySelector('input[type=radio]:checked');
+        const b2 = qBlocks[1].querySelector('input[type=radio]:checked');
+        const b3 = [...qBlocks[2].querySelectorAll('input[type=checkbox]:checked')].map(i=>i.value);
+        const b4 = qBlocks[3].querySelector('input[type=radio]:checked');
+
+        if(!b1 || textOf(b1.parentNode)!==key.B.single1) ok=false;
+        if(!b2 || textOf(b2.parentNode)!==key.B.single2) ok=false;
+        if(!arraysEqual(b3, key.B.multi3)) ok=false;
+        if(!b4 || textOf(b4.parentNode)!==key.B.single4) ok=false;
+      }
+
+      if(id==="C"){
+        const qBlocks = card.querySelectorAll('.q');
+        const c1 = qBlocks[0].querySelector('input[type=radio]:checked');
+        const c2 = qBlocks[1].querySelector('input[type=radio]:checked');
+
+        if(!c1 || textOf(c1.parentNode)!==key.C.single1) ok=false;
+        if(!c2 || textOf(c2.parentNode)!==key.C.single2) ok=false;
+      }
+
+      if(id==="D"){
+        const qBlocks = card.querySelectorAll('.q');
+        const d1 = qBlocks[0].querySelector('input[type=radio]:checked');
+        const d2 = qBlocks[1].querySelector('input[type=radio]:checked');
+        const d3 = [...qBlocks[2].querySelectorAll('input[type=checkbox]:checked')].map(i=>i.value);
+
+        if(!d1 || textOf(d1.parentNode)!==key.D.single1) ok=false;
+        if(!d2 || textOf(d2.parentNode)!==key.D.single2) ok=false;
+        if(!arraysEqual(d3, key.D.multi3)) ok=false;
+      }
+
+      const fb = card.querySelector('.feedback');
+      fb.textContent = ok ? "✅ Correct!" : "❌ Try again.";
+      fb.className = "feedback " + (ok ? "ok" : "bad");
+    });
+
+    card.querySelector('.clear').addEventListener('click', ()=>{
+      card.querySelectorAll('input').forEach(i=>{ i.checked=false; });
+      const fb = card.querySelector('.feedback');
+      fb.textContent = "";
+      fb.className = "feedback";
+    });
+  });
+})();
+</script>
+<!-- =================== /End Breakout Blocks: Checkpoint Quizzes =================== -->
