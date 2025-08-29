@@ -97,118 +97,70 @@ console.log(card);
 </div>
 
 <script>
-// Time Tracker Class
-class TimeTracker {
-  constructor(lessonId) {
-    this.lessonId = lessonId;
-    this.sessionStart = Date.now();
-    this.totalTime = this.loadTotalTime();
-    this.isActive = true;
-    this.interval = null;
-    
-    this.init();
-  }
-  
-  init() {
-    // Update display every second
-    this.interval = setInterval(() => {
-      if (this.isActive) {
-        this.updateDisplay();
-      }
-    }, 1000);
-    
-    // Listen for page visibility changes
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        this.pause();
-      } else {
-        this.resume();
-      }
-    });
-    
-    // Listen for window focus/blur
-    window.addEventListener('blur', () => this.pause());
-    window.addEventListener('focus', () => this.resume());
-    
-    // Save time before page unload
-    window.addEventListener('beforeunload', () => {
-      this.saveTime();
-    });
-    
-    this.updateDisplay();
-  }
-  
-  pause() {
-    if (this.isActive) {
-      this.isActive = false;
-      this.saveTime();
-      document.getElementById('timer-status').textContent = 'Paused';
-      document.getElementById('timer-status').className = 'timer-status paused';
-    }
-  }
-  
-  resume() {
-    if (!this.isActive) {
-      this.isActive = true;
-      this.sessionStart = Date.now();
-      document.getElementById('timer-status').textContent = 'Active';
-      document.getElementById('timer-status').className = 'timer-status active';
-    }
-  }
-  
-  formatTime(milliseconds) {
-    const seconds = Math.floor(milliseconds / 1000);
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    
-    if (mins >= 60) {
-      const hours = Math.floor(mins / 60);
-      const remainingMins = mins % 60;
-      return `${hours}:${remainingMins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-    
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  }
-  
-  updateDisplay() {
-    const currentSessionTime = this.isActive ? Date.now() - this.sessionStart : 0;
-    const displayTime = this.totalTime + currentSessionTime;
-    document.getElementById('total-time').textContent = this.formatTime(displayTime);
-  }
-  
-  loadTotalTime() {
-    const key = `lesson-time-${this.lessonId}`;
-    return parseInt(localStorage.getItem(key)) || 0;
-  }
-  
-  saveTime() {
-    if (this.isActive) {
-      const sessionTime = Date.now() - this.sessionStart;
-      const key = `lesson-time-${this.lessonId}`;
-      this.totalTime += sessionTime;
-      localStorage.setItem(key, this.totalTime.toString());
-      this.sessionStart = Date.now();
-    }
-  }
-  
-  destroy() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-    this.saveTime();
+// Simple Time Tracker
+let startTime = Date.now();
+let totalTime = parseInt(localStorage.getItem(`lesson-time-${window.location.pathname.split("/").pop()}`)) || 0;
+let isActive = true;
+
+function formatTime(milliseconds) {
+  const seconds = Math.floor(milliseconds / 1000);
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateDisplay() {
+  if (isActive) {
+    const currentTime = totalTime + (Date.now() - startTime);
+    document.getElementById('total-time').textContent = formatTime(currentTime);
   }
 }
 
+function pause() {
+  if (isActive) {
+    totalTime += Date.now() - startTime;
+    isActive = false;
+    document.getElementById('timer-status').textContent = 'Paused';
+    document.getElementById('timer-status').className = 'timer-status paused';
+  }
+}
+
+function resume() {
+  if (!isActive) {
+    startTime = Date.now();
+    isActive = true;
+    document.getElementById('timer-status').textContent = 'Active';
+    document.getElementById('timer-status').className = 'timer-status active';
+  }
+}
+
+// Update every second
+setInterval(updateDisplay, 1000);
+
+// Pause/resume on visibility change
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) pause();
+  else resume();
+});
+
+// Save before leaving
+window.addEventListener('beforeunload', () => {
+  if (isActive) {
+    totalTime += Date.now() - startTime;
+    localStorage.setItem(`lesson-time-${window.location.pathname.split("/").pop()}`, totalTime);
+  }
+});
+
 // Main app logic
 document.addEventListener("DOMContentLoaded", () => {
-  const lessons = ["frontend","oop","problem-solving","future-references"];
+  const lessons = ["frontend","oop","problem-solving"];
   const key = "lesson-progress";
   let progress = JSON.parse(localStorage.getItem(key)) || {};
 
   const current = window.location.pathname.split("/").pop() || 'lesson';
   
-  // Initialize time tracker
-  const timeTracker = new TimeTracker(current);
+  // Start the timer display
+  updateDisplay();
   
   if (current) progress[current] = true;
   localStorage.setItem(key, JSON.stringify(progress));
