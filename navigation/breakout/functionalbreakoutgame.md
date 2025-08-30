@@ -67,7 +67,7 @@ permalink: functionalbreakoutgame
     <li>Learn how to create interactive bricks and power-ups.</li>
     <li>Practice using timers to make the game more engaging.</li>
   </ul>
-  <p><a href="{{site.baseurl}}/breakoutLesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
+  <p><a href="{{site.baseurl}}/functionalbreakoutlesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
 </div>
 
 <style>
