@@ -16,23 +16,23 @@ Observable Plot [link](https://observablehq.com/plot/)
 * Integrates tightly with HTML/DOM/Observable notebooks, so it’s natural for blogs, dashboards, reports, or teaching examples
 
 <!-- Observable Plot Example -->
-<div id="bar"></div>
-<div id="line"></div>
+<div id="barY"></div>
+<div id="lineY"></div>
 <div id="dot"></div>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
 <script>
-  function renderPlot(containerId, dataList, mark="barY") {
+  function renderPlot(dataList, markType="barY", withPoint=false) {
     const chart = Plot.plot({
       height: 300,   // consistent height
       marginLeft: 40,
       marginBottom: 30,
       marks: [
-        Plot[mark](dataList, { x: "category", y: "value" }),
-        Plot.dot(dataList, { x: "category", y: "value", stroke: "red" })
+        Plot[markType](dataList, { x: "category", y: "value" }),
+        withPoint ? Plot.dot(dataList, { x: "category", y: "value", stroke: "red" }) : null // red dots if withPoint true
       ]
     });
-    const container = document.querySelector(containerId);
+    const container = document.querySelector(`#${markType}`);
     container.innerHTML = "";
     container.appendChild(chart);
   }
@@ -45,8 +45,8 @@ Observable Plot [link](https://observablehq.com/plot/)
     { category: "F", value: 50 },
     { category: "G", value: 58 },
   ];
-  renderPlot("#bar", sampleData, "barY");
-  renderPlot("#line", sampleData, "lineY");
-  renderPlot("#dot", sampleData, "dot");
+  renderPlot(sampleData, "barY");
+  renderPlot(sampleData, "lineY", true);
+  renderPlot(sampleData, "dot", true);
 
 </script>
