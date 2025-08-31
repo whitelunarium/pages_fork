@@ -4,8 +4,17 @@ tailwind: true
 layout: post
 description: Process of making a Individualist persona
 permalink: /persona/individualist
+persona: Indy
+age: 17
+role: "CS Student"
+status: "Junior"
+location: "Del Norte HS, San Diego, CA"
+tier: "Individualist"
+personality: ["Introvert", "Analytical", "Independent"]
+tags: ["Ambitious", "Focused"]
+bio: >
+  I am a driven CS student who prefers working alone and tackling the hardest technical challenges. I excel in individual assignments and competitions, but group work can be frustrating, especially when team members are less focused on code or schedules are unclear. I am motivated by mastery and recognition, and often surprise others with exceptional problem-solving skills. Building trust and communication with peers is an ongoing challenge, but when I am engaged, I can elevate the whole project.
 empathy_map:
-  persona: Indy
   definition: >
     This persona prefers individual work, is skeptical of teamwork, but surprises others with cognitive excellence when engaged. Often, this person will take on the hardest challenges in a technical project, but can try team members’ nerves as they often schedule poorly.
   says:
@@ -25,4 +34,4 @@ empathy_map:
     - "Typically does well on traditional assignments, like AP exams or practices."
 ---
 
-{% include tailwind/empathy_map.html %}
+{% include tailwind/persona.html %}
