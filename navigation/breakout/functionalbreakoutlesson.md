@@ -120,7 +120,7 @@ flowchart TD
 			<h2 class="card-header">Functional Breakout: Lesson 2</h2>
 			<p class="text-content2">Power-Up Block + Timer</p>
 			<div class="card-footer">
-				<a href="{{ site.baseurl }}/functionalbreakoutlesson1"><button class="btn-secondary btn">Go to lesson →</button></a>
+				<a href="{{ site.baseurl }}/functionalbreakoutlesson2"><button class="btn-secondary btn">Go to lesson →</button></a>
 			</div>
 		</div>
 	</div>
