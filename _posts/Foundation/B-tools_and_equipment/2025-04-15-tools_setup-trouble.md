@@ -81,3 +81,33 @@ source venv/bin/activate
 ./scripts/venv.sh
 source venv/bin/activate
 ```
+
+## VSCode Launch and Memories
+
+✅ Satisfying the pre-requisites
+
+- In project directory of your repo `pwd`
+- Sourcing virtual environment `source venv/bin/activate`
+- Ensure your terminal prompt shows the active virtual environment `(venv)`.
+
+You are now ready to load VSCode and build a proper memory to open your project.
+
+```bash
+code .
+```
+
+✅ Verify VSCode launch
+
+- Terminal and presence of `(venv)` prompt
+- Open your Jokes IPYNB notebook and select the Python kernel with the `venv` prefix.
+
+❌ If you fail verification
+
+You may have opened your repo project without activating the proper `(venv)` environment.
+
+Check the `Recent` listings. If there are entries that look incorrect or outdated (bad memories), remove them all.
+
+- Shift-Cmd-P (Mac) or Shift-Ctl-P (Windows, KASM)
+- type: Clear Recently Open -- select and confirm
+- close VSCode
+- Repeat VSCode Launch and Memories
