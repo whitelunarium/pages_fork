@@ -3,7 +3,6 @@ title: JS Calculator
 comments: true
 hide: true
 layout: opencs
-menu: nav/javascript_project.html
 description: A common way to become familiar with a language is to build a calculator.  This calculator shows off button with actions.
 permalink: /calculator
 ---

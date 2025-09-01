@@ -1,17 +1,18 @@
 ---
 layout: post
-title: Big Idea 3 Algo and Prog Fundamentals
+title: Programming Fundamentals - Draft 
 description: An introduction to College Board's Big Idea 3, part one.  This is a collection of Python lessons to help students understand the fundamental algorithm and programming elementes required by College Board's AP Computer Science Principles curriculum.
 toc: False
 comments: False
 permalink: /csp/big-idea/fundamentals
-courses: {'csp': {'week': 5}}
+courses: {'csp': {'week': 7}}
 type: collab
 author: Isabel Marilla
-menu: nav/csp_units/csp_unit3_p1_fundamentals.html
+menu: nav/csp_units/csp_unit3_fundamentals.html
 ---
 
 ## Algorithms and Programming
+
 Welcome to the exciting world of Computer Science!
 
 ### What you will learn
@@ -19,7 +20,9 @@ Welcome to the exciting world of Computer Science!
 College Board Big Idea 3 is divided into two parts.
 
 #### Part 1 - Fundamentals (This unit)
+
 In this unit, you will cover the foundational concepts of programming, including:
+
 - 3.1 Variables
 - 3.2 Data Abstraction
 - 3.3 Mathematical Expressions
@@ -31,7 +34,9 @@ In this unit, you will cover the foundational concepts of programming, including
 - 3.10 Lists
 
 #### Part 2 - Core Concepts (Next unit)
+
 In the next unit, you will delve into more complex topics, such as:
+
 - 3.9 Developing Algorithms
 - 3.11 Search
 - 3.12 Calling Procedures
@@ -51,6 +56,7 @@ These concepts are essential for all types of programming, including full-stack 
 Additionally, coding improves your logical thinking skills. The concepts covered in these two units are indispensable for AP CSP and beyond!
 
 ## Getting Started
+
 To start your journey into algorithms and programming, follow these steps:
 
 1. **Familiarize Yourself with Basic Terms**: Look up the terms listed below and others that are unknown as you work through coding exercises.
@@ -58,6 +64,7 @@ To start your journey into algorithms and programming, follow these steps:
 3. **Consistent Practice**: The key to mastering programming is consistent practice, problem-solving, asking questions, and conducting research.
 
 ### Basic Terms
+
 - **Algorithm**: A step-by-step procedure for solving a problem or performing a task.
 - **Pseudocode**: A way to describe algorithms using a mixture of natural language and programming language elements.
 - **College Board Pseudocode**: A language used on the AP exam. It does not run or compile, but it is used to express knowledge of programming fundamentals.
@@ -66,4 +73,5 @@ To start your journey into algorithms and programming, follow these steps:
 - **Control Structures**: Constructs that control the flow of execution in a program (e.g., loops, conditionals).
 
 ### Resource
+
 For more detailed information and resources, visit the official [College Board AP CSP page](https://apstudents.collegeboard.org/courses/ap-computer-science-principles).

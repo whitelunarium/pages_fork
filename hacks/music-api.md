@@ -3,7 +3,6 @@ comments: false
 layout: opencs
 title: JS Itunes API
 description: API's are a primary source for obtaining data from the internet.  There is imformation in API's for almost any interest.
-menu: nav/javascript_project.html
 permalink: /music-api
 ---
 
