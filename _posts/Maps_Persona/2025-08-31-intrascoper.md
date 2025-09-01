@@ -1,15 +1,15 @@
 ---
-title: Individualist Persona
+title: Intrascoper Persona
 tailwind: true
 layout: post
-description: Process of making a Individualist persona
-permalink: /persona/individualist
+description: Process of making a Intrascoper persona
+permalink: /persona/intrascoper
 persona: Indy
 age: 17
 role: "CS Student"
 status: "Junior"
 location: "Del Norte HS, San Diego, CA"
-tier: "Individualist"
+tier: "Intrascoper"
 personality: ["Introvert", "Analytical", "Independent"]
 tags: ["Ambitious", "Focused"]
 bio: >
