@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Programming Fundamentals - Draft 
+title: BI 3 | ALGORITHMS AND PROGRAMMING | Fundamentals 
 description: An introduction to College Board's Big Idea 3, part one.  This is a collection of Python lessons to help students understand the fundamental algorithm and programming elementes required by College Board's AP Computer Science Principles curriculum.
 toc: False
 comments: False
 permalink: /csp/big-idea/fundamentals
 courses: {'csp': {'week': 7}}
-type: collab
+type: coding
 author: Isabel Marilla
 menu: nav/csp_units/csp_unit3_fundamentals.html
 ---
