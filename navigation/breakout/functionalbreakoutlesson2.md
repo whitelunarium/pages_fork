@@ -5,7 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson2
 ---
 
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/full_breakout.md?plain=1)
+#### [Return to Main Functional Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)
 
 ## **Lesson 2: Power-Up Block + Timer**
 
@@ -107,4 +107,4 @@ function drawPowerUpTimer() {
 
 ---
 
-### [Return to Main Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)
+#### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/full_breakout.md?plain=1)
