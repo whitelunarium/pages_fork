@@ -180,6 +180,7 @@ help:
 	@echo "  make serve-cayman   - Switch to Cayman and serve"
 	@echo "  make serve-so-simple   - Switch to So Simple and serve"
 	@echo "  make serve-yat      - Switch to Yat and serve"
+	@echo "  make serve-hydejack - Switch to HydeJack and serve"
 	@echo "  make serve          - Serve with current config"
 	@echo "  make build-minima   - Switch to Minima and build"
 	@echo "  make build-text     - Switch to TeXt and build"
