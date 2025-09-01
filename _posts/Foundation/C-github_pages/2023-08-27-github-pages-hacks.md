@@ -7,6 +7,7 @@ description: Objective is to be able to work fully with Notebooks, Submenus, and
 categories: ['GitHub Pages']
 permalink: /github/pages/hacks
 comments: True
+authors: Ahaan Vaidyanathan, Nikhil Naryan, Arnav Mittal, Xavier Thompson, Spencer Lyons, Sharuya Singh
 ---
 
 ## GitHub Pages Hacks
