@@ -90,7 +90,7 @@ graph TD
 			<h2 class="card-header">OOP Breakout: Lesson 1</h2>
 			<p class="text-content2">The Game class & how inheritance works</p>
 			<div class="card-footer">
-				<a href="{{ site.baseurl }}/functionalbreakoutlesson1"><button class="btn-secondary btn">Go to lesson →</button></a>
+				<a href="{{ site.baseurl }}/oopbreakoutlesson1"><button class="btn-secondary btn">Go to lesson →</button></a>
 			</div>
 		</div>
 	</div>
@@ -101,21 +101,22 @@ graph TD
 			<h2 class="card-header">OOP Breakout: Lesson 2</h2>
 			<p class="text-content2">The Paddle class: attributes vs. methods</p>
 			<div class="card-footer">
-				<a href="{{ site.baseurl }}/functionalbreakoutlesson2"><button class="btn-secondary btn">Go to lesson →</button></a>
+				<a href="{{ site.baseurl }}/oopbreakoutlesson2"><button class="btn-secondary btn">Go to lesson →</button></a>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card card-image-cover" style="text-align: center;">
+<div class="card card-image-cover" style="text-align: center; margin-left: auto; margin-right: auto;">
   <img src="https://source.unsplash.com/random/300x200" alt="" />
   <div class="card-body">
     <h2 class="card-header">OOP Breakout: Lesson 3</h2>
     <p class="text-content2">The Ball class & constructors</p>
     <div class="card-footer">
-      <a href="{{ site.baseurl }}/functionalbreakoutlesson3"><button class="btn-secondary btn">Go to lesson →</button></a>
+      <a href="{{ site.baseurl }}/oopbreakoutlesson3"><button class="btn-secondary btn">Go to lesson →</button></a>
     </div>
   </div>
 </div>
+<br>
 
 ---
 
@@ -295,3 +296,7 @@ document.querySelectorAll('#oop-breakout-quizzes .quiz-card').forEach(card=>{
 
 * **Inheritance:** `Ball`, `Paddle`, `Brick`, `PowerUp` extend `GameObject` to share position and override `draw/update`.&#x20;
 * **Composition:** `Game` builds the world—instantiates objects, tracks score/lives/level, and runs the loop.&#x20;
+
+<br>
+
+### [Visit Functional Breakout Lesson]({{ site.baseurl }}/functionalbreakoutlesson)
