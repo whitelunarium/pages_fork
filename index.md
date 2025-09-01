@@ -301,7 +301,35 @@ Intructor created projects, project requirements, technical materials, and suppo
 - Performing teamwork, team communication and collaboration, peer reviews/grading
 - Focus on technical communications through project presentations and student-led teaching
 
-> Classroom work time is 3-4 hours per week. Homework expectations are approximately 2-3 hours per week. Homework is scheduled over a Sprint, approximately 2-4 weeks. Time lost in class extremely hard to make up as working with team meembers, progressing project,  checkpoint reviews and all the cumulative progress is hard to replicate.
+### Time Breakdown
+
+Instuctor is extremely focussed on work, routines, and culture established in the classroom.
+
+> If individuals, groups and teams, and classroom are effective with class time, homework will not be assigned.
+
+- Learning objectives are scheduled over a Sprint
+- Sprints last 2–4 weeks.
+- Classroom work is 4+ hours per week.
+  - Do not waste time opportunities given.
+  - Balance technical time and collaboration time.
+- Homework is 1–2 hours per week.  
+  - Review materials discussed in class.
+  - Mentally prep for next day (ie update issues or kanban).
+  - Extra prep should be considered for live reviews.
+
+### Make-up Policy
+
+Instructor believes abscences disrupt work culture and routines.
+
+- Communicate absence beforehand with the instructor and team members.
+- Make a make-up plan and try to recreate situation missed.
+
+> Instructor believes student is supposed to be in class.  Similar to how an employee is expected to be at work.
+
+- Make-up work is challenging for everyone—not just the person who missed class.
+- Time lost in class is extremely hard to make up, since individuals are working with team members, team teaching lessons to the class, or performing live reviews with the teacher.
+- Instructor has freedom to adjust instruction during the week according to needs of classroom.  
+- Modalities of instruction, for various learning styles, do not stick to published materials only.
 
 ![ccr]({{site.baseurl}}/images/course-brag/ccr.png)
 
