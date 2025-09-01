@@ -21,9 +21,9 @@ empathy_map:
     - "I just want to ask you and be sure to get it right."
     - "Those people can't help me, they don't understand themselves."
   thinks:
-    - "Believes the teacher is the primary source of knowledge."
     - "Prefers not to seek help from students, perceiving it as a potential slowdown."
     - "Secretly hopes to be a hero, one who makes the project exceptional."
+    - "Believes the teacher is the primary source of required learning which can stifle unlimited potential."
   feels:
     - "Hopes to get things done through individual effort."
     - "Often feels excluded due to language difficulties or social barriers."
