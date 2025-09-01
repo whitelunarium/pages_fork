@@ -1,13 +1,13 @@
 ---
 layout: post
 ategories: [CSP Big Idea 3]
-title: Programming Fundamentals
+title: Programming Fundamentals - P1
 description: An introduction to College Board's Big Idea 3, part one.  This is a collection of Python lessons to help students understand the fundamental algorithm and programming elementes required by College Board's AP Computer Science Principles curriculum.
 toc: False
 comments: False
-cpermalink: /csp/big-idea/p1/fundamentals
-courses: {'csp': {'week': 5}}
-type: ccc
+permalink: /csp/big-idea/p1/fundamentals
+courses: {'csp': {'week': 8}}
+type: coding
 author: Isabel Marilla
 menu: nav/csp_units/csp_unit3_p1_fundamentals.html
 ---
@@ -23,6 +23,7 @@ College Board Big Idea 3 is divided into two parts.
 #### Part 1 - Fundamentals (This unit)
 
 In this unit, you will cover the foundational concepts of programming, including:
+
 - 3.1 Variables
 - 3.2 Data Abstraction
 - 3.3 Mathematical Expressions
