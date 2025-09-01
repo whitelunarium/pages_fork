@@ -1,9 +1,62 @@
 ---
 layout: post
-title: Breakout Blocks Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson
 ---
+
+<link
+   rel="stylesheet"
+   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
+/>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.hub-title {
+  display: block !important;
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  margin-top: 1px !important;
+}
+
+.back-button {
+  margin-bottom: 5px !important;
+}
+
+.card {
+  background-color: white !important;
+}
+
+.card-header {
+  color: black !important;
+}
+
+.text-content2 {
+  color: black !important;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+<h1 class="hub-title">Functional Breakout (2-Part Mini Lesson)</h1>
+<br>
+
+---
+
+<br>
 
 ```mermaid
 flowchart TD
@@ -47,41 +100,12 @@ flowchart TD
     style F fill:#f9fbe7,stroke:#827717,stroke-width:2px,color:#000000
     style G fill:#ffebee,stroke:#d32f2f,stroke-width:3px,color:#000000
 ```
----
-
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/full_breakout.md?plain=1)
-
----
-
-# Functional Breakout (2-Part Mini Lesson)
-
-<link
-   rel="stylesheet"
-   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
-/>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-.cards-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
-
-@media (max-width: 768px) {
-  .cards-container {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
 
 <!-- ADD ICONS to the cards IN FUTURE! -->
 
 <div class="cards-container">
-	<div class="card card-image-cover">
-		<div class="card-body">
+	<div class="card backgroundPrimary">
+		<div class="card-body backgroundPrimary">
 			<h2 class="card-header">Functional Breakout: Lesson 1</h2>
 			<p class="text-content2">Paddle and Base Blocks</p>
 			<div class="card-footer">
@@ -89,8 +113,7 @@ flowchart TD
 			</div>
 		</div>
 	</div>
-
-	<div class="card card-image-cover">
+	<div class="card">
 		<div class="card-body">
 			<h2 class="card-header">Functional Breakout: Lesson 2</h2>
 			<p class="text-content2">Power-Up Block + Timer</p>
@@ -372,6 +395,4 @@ flowchart TD
 </script>
 <!-- =================== /End Breakout Blocks: Checkpoint Quizzes =================== -->
 
----
-
-### [Visit OOP Breakout Lesson]({{ site.baseurl }}/oopbreakoutlesson)
+<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
