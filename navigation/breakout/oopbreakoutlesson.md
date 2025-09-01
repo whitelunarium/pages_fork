@@ -1,9 +1,60 @@
 ---
 layout: post 
-title: OOP Breakout Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---
+
+<link
+   rel="stylesheet"
+   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
+/>
+
+<style>
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.hub-title {
+  display: block !important;
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  margin-top: 1px !important;
+}
+
+.back-button {
+  margin-bottom: 5px !important;
+}
+
+.card {
+  background-color: white !important;
+}
+
+.card-header {
+  color: black !important;
+}
+
+.text-content2 {
+  color: black !important;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<h1 class="hub-title">OOPs Breakout (3-Part Mini Lesson)</h1>
+<br>
+
+---
+
+<br>
+
 
 ```mermaid
 graph TD
@@ -53,39 +104,9 @@ graph TD
     style Activity fill:#fff8e1,stroke:#000
     style Quizzes fill:#fce4ec,stroke:#000
 ```
----
-
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/oop_breakout.md?plain=1)
-
----
-
-# OOP Breakout (3-Part Mini Lesson)
-
-<link
-   rel="stylesheet"
-   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
-/>
-
-<style>
-.cards-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
-
-@media (max-width: 768px) {
-  .cards-container {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-
-<!-- ADD better ICONS to cards IN FUTURE! -->
 
 <div class="cards-container">
 	<div class="card card-image-cover">
-    <img src="https://github.com/user-attachments/assets/c895d7b8-4358-4eee-8333-1f4872b4d1fa" alt="" />
 		<div class="card-body">
 			<h2 class="card-header">OOP Breakout: Lesson 1</h2>
 			<p class="text-content2">The Game class & how inheritance works</p>
@@ -94,9 +115,7 @@ graph TD
 			</div>
 		</div>
 	</div>
-
 	<div class="card card-image-cover">
-		<img src="https://source.unsplash.com/random/300x200" alt="" />
 		<div class="card-body">
 			<h2 class="card-header">OOP Breakout: Lesson 2</h2>
 			<p class="text-content2">The Paddle class: attributes vs. methods</p>
@@ -106,28 +125,26 @@ graph TD
 		</div>
 	</div>
 </div>
+
 <div class="card card-image-cover" style="text-align: center; margin-left: auto; margin-right: auto;">
-  <img src="https://source.unsplash.com/random/300x200" alt="" />
   <div class="card-body">
     <h2 class="card-header">OOP Breakout: Lesson 3</h2>
     <p class="text-content2">The Ball class & constructors</p>
-    <div class="card-footer">
-      <a href="{{ site.baseurl }}/oopbreakoutlesson3"><button class="btn-secondary btn">Go to lesson →</button></a>
-    </div>
+    <a href="{{ site.baseurl }}/oopbreakoutlesson3"><button class="btn-secondary btn">Go to lesson →</button></a>
   </div>
 </div>
+
 <br>
 
 ---
 
-## ACTIVITY: showcase what you learned, draw out what you learned in the Whiteboard below. 
+## ACTIVITY: Showcase your learning in the blackboard below. 
+- Draw your “class” as a box → properties inside (like health, lives), methods outside (like move(), hitBrick()).
+- Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
 
- - Draw your “class” as a box → properties inside (like health, lives), methods outside (like move(), hitBrick()).
+<br>
 
- - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
-
-
-<canvas id="c" width="800" height="500" style="border:1px solid #ccc"></canvas>
+<canvas id="c" width="680" height="500" style="border:1px solid #ccc"></canvas>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -297,6 +314,5 @@ document.querySelectorAll('#oop-breakout-quizzes .quiz-card').forEach(card=>{
 * **Inheritance:** `Ball`, `Paddle`, `Brick`, `PowerUp` extend `GameObject` to share position and override `draw/update`.&#x20;
 * **Composition:** `Game` builds the world—instantiates objects, tracks score/lives/level, and runs the loop.&#x20;
 
----
-
-### [Visit Functional Breakout Lesson]({{ site.baseurl }}/functionalbreakoutlesson)
+<br>
+<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
