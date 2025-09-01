@@ -5,6 +5,32 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutgame
 ---
 
+<style>
+  canvas {
+    background: #000;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #333;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background: #f0f0f0;
+  }
+
+  .title {
+    margin-top: 5px !important;
+  }
+
+  .back-button {
+    margin-bottom: 5px !important;
+  }
+</style>
+
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
 <div class="controls" style="text-align: center; margin: 20px 0;">
@@ -16,7 +42,8 @@ permalink: oopbreakoutgame
 
 <!-- Hack Challenges Section -->
 <div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-    <h2>OOP Breakout Game (w/ Advanced Features)</h2>
+    <p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
+    <h2 class="title">OOP Breakout Game (w/ Advanced Features)</h2>
     
     <!-- OOP Architecture Info -->
     <div style="background: black; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
@@ -101,25 +128,8 @@ permalink: oopbreakoutgame
         <li>Practice creating modular, maintainable game architecture.</li>
         <li>Explore how OOP makes adding new features easier.</li>
     </ul>
+    <p><a href="{{site.baseurl}}/oopbreakoutlesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
 </div>
-
-<style>
-  canvas {
-    background: #000;
-    display: block;
-    margin: 0 auto;
-    border: 1px solid #333;
-  }
-  
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  button:hover:not(:disabled) {
-    background: #f0f0f0;
-  }
-</style>
 
 <script>
   // Base GameObject class - provides common functionality
@@ -649,5 +659,3 @@ permalink: oopbreakoutgame
   // Initial draw
   game.draw();
 </script>
-
-<p><a href="{{site.baseurl}}/oopbreakoutlesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
