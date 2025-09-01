@@ -104,3 +104,7 @@ function drawPowerUpTimer() {
 **Explore:**
 * Make the timer 10 seconds instead of 5..
 * Try different effects (ex: double player speed).
+
+---
+
+### [Return to Main Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)

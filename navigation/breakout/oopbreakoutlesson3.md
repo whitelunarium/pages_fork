@@ -162,4 +162,6 @@ Press `b` to change brush color to blue.
 Press `g` to change brush color to green.
 Press `c` to clear blackboard. 
 
+---
 
+#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
