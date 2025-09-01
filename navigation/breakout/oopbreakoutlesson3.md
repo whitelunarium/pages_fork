@@ -5,12 +5,9 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson3
 ---
 
-
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/oop_breakout.md?plain=1)
+#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
 ---
-
-## Lesson 3 — The `Ball` class & what constructors are
 
 ### What is a constructor?
 
@@ -139,7 +136,7 @@ These helpers keep the `Game` logic clean by packaging collision checks inside t
  - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
 
 
-<canvas id="c" width="800" height="500" style="border:1px solid #ccc"></canvas>
+<canvas id="c" width="740" height="500" style="border:1px solid #ccc"></canvas>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -164,4 +161,4 @@ Press `c` to clear blackboard.
 
 ---
 
-#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
+#### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/navigation/breakout)

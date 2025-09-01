@@ -5,9 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson2
 ---
 
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/oop_breakout.md?plain=1)
-
-# OOP Breakout (3-Part Mini-Lesson)
+#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
 ---
 
@@ -105,7 +103,7 @@ These methods set position (e.g., via mouse move), center and resize the paddle,
  - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
 
 
-<canvas id="c" width="800" height="500" style="border:1px solid #ccc"></canvas>
+<canvas id="c" width="740" height="500" style="border:1px solid #ccc"></canvas>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -127,8 +125,7 @@ Press `r` to change brush color to red.
 Press `b` to change brush color to blue.
 Press `g` to change brush color to green.
 Press `c` to clear blackboard. 
-<br>
 
 ---
 
-### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
+#### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/navigation/breakout)
