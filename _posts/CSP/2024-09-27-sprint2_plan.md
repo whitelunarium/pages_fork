@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Sprint 2 - JavaScript and Python 
+title: Sprint 2 - CSP JavaScript and Python 
 description: Creative Development, Flask, and learning new Programming Languages.
-type: issues
+type: objectives 
 courses: {'csp': {'week': 5}}
 comments: True
 ---

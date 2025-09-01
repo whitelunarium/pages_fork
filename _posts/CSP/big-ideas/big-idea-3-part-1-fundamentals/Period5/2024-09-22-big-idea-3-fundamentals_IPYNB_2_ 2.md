@@ -6,7 +6,7 @@ toc: False
 comments: False
 permalink: /csp/big-idea/p5/fundamentals
 courses: {'csp': {'week': 8}}
-type: ccc
+type: coding
 menu: nav/csp_units/csp_unit3_p5_fundamentals.html
 ---
 

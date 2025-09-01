@@ -3,8 +3,9 @@ toc: true
 layout: post
 title: BI 1 | CREATIVE DEVELOPMENT | Team Teach
 description: Create a video and build a notebook to review all the key questions from Big Idea 1.  This notebook can combine an assigned Unit 3 topic and Game.
-courses: { csp: {week: 6} }
-type: collab
+type: objectives 
+courses: { csp: {week: 7} }
+type: soft skills 
 ---
 
 ## Make a Video as a Team
