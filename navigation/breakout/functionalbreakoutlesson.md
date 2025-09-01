@@ -371,6 +371,7 @@ flowchart TD
 })();
 </script>
 <!-- =================== /End Breakout Blocks: Checkpoint Quizzes =================== -->
-<br>
+
+---
 
 ### [Visit OOP Breakout Lesson]({{ site.baseurl }}/oopbreakoutlesson)

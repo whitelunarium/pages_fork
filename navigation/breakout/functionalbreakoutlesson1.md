@@ -480,6 +480,7 @@ drawBreakout();
   });
 })();
 </script>
-<br>
+
+---
 
 ### [Return to Main Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)

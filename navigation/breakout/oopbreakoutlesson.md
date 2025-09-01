@@ -297,6 +297,6 @@ document.querySelectorAll('#oop-breakout-quizzes .quiz-card').forEach(card=>{
 * **Inheritance:** `Ball`, `Paddle`, `Brick`, `PowerUp` extend `GameObject` to share position and override `draw/update`.&#x20;
 * **Composition:** `Game` builds the world—instantiates objects, tracks score/lives/level, and runs the loop.&#x20;
 
-<br>
+---
 
 ### [Visit Functional Breakout Lesson]({{ site.baseurl }}/functionalbreakoutlesson)
