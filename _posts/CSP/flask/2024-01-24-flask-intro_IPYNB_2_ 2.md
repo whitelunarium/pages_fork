@@ -7,7 +7,7 @@ permalink: /flask-intro
 menu: nav/flask.html
 toc: True
 type: ccc
-courses: {'csp': {'week': 7}}
+courses: {'csp': {'week': 6}}
 ---
 
 <style>

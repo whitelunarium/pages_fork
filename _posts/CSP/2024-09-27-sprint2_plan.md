@@ -8,12 +8,13 @@ comments: True
 ---
 
 ## Home Page, Blog, and Issue
+
 Teacher and Peer evaluation are critical to our success and improvements.  
 
 1. The Home Page on your personal Blog should be a place to discuss your projects and progress.
 2. Be sure to share your progress through Big Idea 3 by updating you Blog.
 3. Class Presentations by Lesson and by Comprehension solidfy our study.
-3. Issues can be used to showcase meeting objective and recive feedback through Utterance Comments.
+4. Issues can be used to showcase meeting objective and recive feedback through Utterance Comments.
 
 ## Student Teaching - Part 1 Fundamentals Blog
 
@@ -28,6 +29,7 @@ Students will engage in lesson preparation, teaching, and grading. This activity
 ### Lesson Building (Mr M, Mr B reviews on Intro Utterances)
 
 #### Grading Guideline
+
 - 55% is minimum per item
 - 75% is mostly done
 - 85% is complete
@@ -118,6 +120,7 @@ Note 3. **Student lesson providers will be evaluated if the improve lesson based
 Every individual will talk for 2 minutes in front of the class about why the Sprint 2, BI Unit 3 lessons, and self-study final were impactful. The focus should be on how you were enriched in both technical and soft skills.
 
 ### Guideline
+
 This is a guideline of focus; consider these 4 things when you talk individually:
 
 - **Blog**: In association with Big Ideas and Teaching, discuss something that shows how you will be prepared for CB and PBL activities in the future (e.g., an organized checklist of accomplishments).
