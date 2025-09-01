@@ -5,11 +5,8 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopadvlesson
 ---
 
-# OOP Advanced Breakout (4-Part Advanced Lesson) 
-## Before you say anything about organization, yes the group will organize the lessons seperatley for less clutter later. 
 
----
-
+#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 ## Lesson 1 — Advanced Inheritance: Building Complex Class Hierarchies
 
 ### Big picture

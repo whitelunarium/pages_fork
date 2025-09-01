@@ -129,14 +129,24 @@ flowchart LR
 			</div>
 		</div>
 	</div>
-</div>
-
-<div class="card card-image-cover" style="text-align: center; margin-left: auto; margin-right: auto;">
-  <div class="card-body">
-    <h2 class="card-header">OOP Breakout: Lesson 3</h2>
-    <p class="text-content2">The Ball class & constructors</p>
-    <a href="{{ site.baseurl }}/oopbreakoutlesson3"><button class="btn-secondary btn">Go to lesson →</button></a>
-  </div>
+	<div class="card card-image-cover">
+		<div class="card-body">
+			<h2 class="card-header">OOP Breakout: Lesson 3</h2>
+			<p class="text-content2">The Ball class & constructors</p>
+			<div class="card-footer">
+				<a href="{{ site.baseurl }}/oopbreakoutlesson3"><button class="btn-secondary btn">Go to lesson →</button></a>
+			</div>
+		</div>
+	</div>
+	<div class="card card-image-cover">
+		<div class="card-body">
+			<h2 class="card-header">OOP Breakout: Expert</h2>
+			<p class="text-content2">*Very difficult extra game & lesson (not on mindmap!)</p>
+			<div class="card-footer">
+				<a href="{{ site.baseurl }}/oopadv"><button class="btn-secondary btn">Go to lesson →</button></a>
+			</div>
+		</div>
+	</div>
 </div>
 
 <br>
