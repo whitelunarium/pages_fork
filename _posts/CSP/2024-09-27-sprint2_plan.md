@@ -82,7 +82,7 @@ Note 3. **Student lesson providers will be evaluated if the improve lesson based
 #### Raw Form Learner Grade
 
 ```text
- | **Assignment**          | **Weightage** | **Grade** | **Comments** |
+| **Assignment**          | **Weightage** | **Grade** | **Comments** |
 |-------------------------|---------------|-----------|--------------|
 | College Board Coverage  | 20            | TBD       | TBD          |
 | Python Examples         | 15            | TBD       | TBD          |
