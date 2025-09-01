@@ -29,6 +29,7 @@ permalink: functionalbreakoutlesson
 
 .back-button {
   margin-bottom: 5px !important;
+  text-align: center;
 }
 
 .card {
@@ -52,6 +53,7 @@ permalink: functionalbreakoutlesson
 
 
 <h1 class="hub-title">Functional Breakout (2-Part Mini Lesson)</h1>
+<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
 <br>
 
 ---
@@ -394,5 +396,3 @@ flowchart TD
 })();
 </script>
 <!-- =================== /End Breakout Blocks: Checkpoint Quizzes =================== -->
-
-<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>

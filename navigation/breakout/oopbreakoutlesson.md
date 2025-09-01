@@ -27,6 +27,7 @@ permalink: oopbreakoutlesson
 
 .back-button {
   margin-bottom: 5px !important;
+  text-align: center;
 }
 
 .card {
@@ -49,6 +50,7 @@ permalink: oopbreakoutlesson
 </style>
 
 <h1 class="hub-title">OOPs Breakout (3-Part Mini Lesson)</h1>
+<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
 <br>
 
 ---
@@ -313,6 +315,3 @@ document.querySelectorAll('#oop-breakout-quizzes .quiz-card').forEach(card=>{
 
 * **Inheritance:** `Ball`, `Paddle`, `Brick`, `PowerUp` extend `GameObject` to share position and override `draw/update`.&#x20;
 * **Composition:** `Game` builds the world—instantiates objects, tracks score/lives/level, and runs the loop.&#x20;
-
-<br>
-<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
