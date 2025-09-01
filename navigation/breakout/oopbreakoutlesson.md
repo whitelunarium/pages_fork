@@ -57,54 +57,57 @@ permalink: oopbreakoutlesson
 
 <br>
 
-
 ```mermaid
-graph TD
-    A[OOP Mini-Lesson] 
+%%{init: {
+  "flowchart": { "nodeSpacing": 70, "rankSpacing": 140, "curve": "linear" }
+}}%%
+flowchart LR
+    A[OOP Mini-Lesson]
 
-    subgraph L1 [Lesson 1: Game Class & Inheritance]
-        B1[Big Picture]
-        B2[GameObject Base]
-        B3[Child Classes]
-        B4[Game Conductor]
-    end
+    %% invisible hubs to force a second tier (prevents squish)
+    A --> H1(( ))
+    A --> H2(( ))
+    classDef ghost fill:transparent,stroke:transparent;
+    class H1,H2 ghost;
 
-    subgraph L2 [Lesson 2: Paddle Class]
-        C1[Attributes]
-        C2[Methods]
-    end
+    %% main branches (now split across two hubs)
+    H1 --> L1[Lesson 1:<br/>Game Class & Inheritance]
+    H1 --> L2[Lesson 2:<br/>Paddle Class]
+    H1 --> L3[Lesson 3:<br/>Ball Class]
+    H2 --> Activity[Whiteboard Activity]
+    H2 --> Quizzes[Checkpoint Quizzes]
 
-    subgraph L3 [Lesson 3: Ball Class]
-        D1[Constructor]
-        D2[Methods]
-    end
+    %% Lesson 1 details
+    L1 --> B1[Big Picture]
+    L1 --> B2[GameObject Base]
+    L1 --> B3[Child Classes]
+    L1 --> B4[Game Conductor]
 
-    subgraph Activity [Whiteboard]
-        E1[Draw boxes]
-        E2[Show inheritance]
-        E3[Props inside, methods outside]
-    end
+    %% Lesson 2 details
+    L2 --> C1[Attributes]
+    L2 --> C2[Methods]
 
-    subgraph Quizzes [Checkpoint Quizzes]
-        F1[Inheritance vs Composition]
-        F2[Attributes vs Methods]
-        F3[Constructors & Ball]
-    end
+    %% Lesson 3 details
+    L3 --> D1[Constructor]
+    L3 --> D2[Methods]
 
-    %% Main vertical connections
-    A --> L1
-    A --> L2
-    A --> L3
-    A --> Activity
-    A --> Quizzes
+    %% Activity details
+    Activity --> E1[Draw boxes]
+    Activity --> E2[Show inheritance]
+    Activity --> E3[Props inside,<br/>methods outside]
 
-    %% Color Styling
-    style A fill:#e1f5fe,stroke:#000,stroke-width:2px
-    style L1 fill:#fff3e0,stroke:#000
-    style L2 fill:#f3e5f5,stroke:#000
-    style L3 fill:#e8f5e8,stroke:#000
-    style Activity fill:#fff8e1,stroke:#000
-    style Quizzes fill:#fce4ec,stroke:#000
+    %% Quiz details
+    Quizzes --> F1[Inheritance vs Composition]
+    Quizzes --> F2[Attributes vs Methods]
+    Quizzes --> F3[Constructors & Ball]
+
+    %% palette (same feel)
+    style A fill:#e1f5fe,stroke:#000,stroke-width:2px,color:#000
+    style L1 fill:#fff3e0,stroke:#000,color:#000
+    style L2 fill:#f3e5f5,stroke:#000,color:#000
+    style L3 fill:#e8f5e8,stroke:#000,color:#000
+    style Activity fill:#fff8e1,stroke:#000,color:#000
+    style Quizzes fill:#fce4ec,stroke:#000,color:#000
 ```
 
 <div class="cards-container">
