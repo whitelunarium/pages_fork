@@ -42,15 +42,15 @@ permalink: /rock-paper-scissor/
     </div>
     <div id="images" style="display:flex; justify-content:center; gap:20px; margin-bottom:14px;">
       <button id="rock-btn" style="background:none; border:none; padding:0; cursor:pointer;">
-        <img id="rock-img" src="{{site.baseurl}}/images/rps/rock.jpg"
+        <img id="rock-img" src="{{site.baseurl}}/images/gamify/rock.jpg"
              style="width:100px; border:2px solid white; border-radius:10px;">
       </button>
       <button id="paper-btn" style="background:none; border:none; padding:0; cursor:pointer;">
-        <img id="paper-img" src="{{site.baseurl}}/images/rps/paper.jpeg"
+        <img id="paper-img" src="{{site.baseurl}}/images/gamify/paper.jpeg"
              style="width:100px; border:2px solid white; border-radius:10px;">
       </button>
       <button id="scissors-btn" style="background:none; border:none; padding:0; cursor:pointer;">
-        <img id="scissors-img" src="{{site.baseurl}}/images/rps/scissors.jpeg"
+        <img id="scissors-img" src="{{site.baseurl}}/images/gamify/scissors.jpeg"
              style="width:100px; border:2px solid white; border-radius:10px;">
       </button>
     </div>
@@ -151,11 +151,11 @@ permalink: /rock-paper-scissor/
   bgImage.src = '{{site.baseurl}}/images/platformer/backgrounds/alien_planet1.jpg';
 
   const rockImg = new Image();
-  rockImg.src = '{{site.baseurl}}/images/rps/rock.jpg';
+  rockImg.src = '{{site.baseurl}}/images/gamify/rock.jpg';
   const paperImg = new Image();
-  paperImg.src = '{{site.baseurl}}/images/rps/paper.jpeg';
+  paperImg.src = '{{site.baseurl}}/images/gamify/paper.jpeg';
   const scissorsImg = new Image();
-  scissorsImg.src = '{{site.baseurl}}/images/rps/scissors.jpeg';
+  scissorsImg.src = '{{site.baseurl}}/images/gamify/scissors.jpeg';
 
   const bg = new BattleBackground(bgImage, battleCanvas.width, battleCanvas.height, 0.12);
 
@@ -312,14 +312,71 @@ permalink: /rock-paper-scissor/
     console.log(`Result: ${resultText}`);
   };
 
+  class GameObject {
+    constructor(id) {
+      this.el = document.getElementById(id);
+      if (!this.el) throw new Error(`Element #${id} not found`);
+    }
+
+    rotate(deg) {
+      this.el.style.transform = `rotate(${deg}deg)`;
+      return this;
+    }
+
+    setBorder(style) {
+      this.el.style.border = style;
+      return this;
+    }
+
+    setWidth(px) {
+      this.el.style.width = `${px}px`;
+      return this;
+    }
+
+    setColor(color) {
+      this.el.style.backgroundColor = color;
+      return this;
+    }
+
+    reset() {
+      this.el.style.transform = "";
+      this.el.style.border = "";
+      this.el.style.width = "";
+      this.el.style.backgroundColor = "";
+      return this;
+    }
+  }
+
+  // --- Specialized classes (extend GameObject) ---
+  class Rock extends GameObject {
+    constructor() { super("rock-img"); }
+  }
+
+  class Paper extends GameObject {
+    constructor() { super("paper-img"); }
+  }
+
+  class Scissors extends GameObject {
+    constructor() { super("scissors-img"); }
+  }
+
+  // --- Instances (global) ---
+  const rock = new Rock();
+  const paper = new Paper();
+  const scissors = new Scissors();
+
+  window.rock = rock;
+  window.paper = paper;
+  window.scissors = scissors;
+
   // --- inspect-learning alerts (unchanged) ---
-  document.getElementById("rock-btn").addEventListener("click", ()=>{
-    alert("🪨 Right-click this image and choose 'Inspect'!\n\nTry this in the console:\n\ndocument.querySelector('#rock-img').style.border = '4px solid lime';");
+  document.getElementById("rock-btn").addEventListener("click", () => {
+    alert("🪨 Try in the console:\n\nrock.setBorder('4px solid lime');");
   });
-  document.getElementById("paper-btn").addEventListener("click", ()=>{
-    alert("📄 Right-click this image and choose 'Inspect'!\n\nTry this in the console:\n\ndocument.querySelector('#paper-img').style.transform = 'rotate(15deg)';");
+  document.getElementById("paper-btn").addEventListener("click", () => {
+    alert("📄 Try in the console:\n\npaper.rotate(15);");
   });
-  document.getElementById("scissors-btn").addEventListener("click", ()=>{
-    alert("✂️ Right-click this image and choose 'Inspect'!\n\nTry this in the console:\n\ndocument.querySelector('#scissors-img').style.width = '150px';");
+  document.getElementById("scissors-btn").addEventListener("click", () => {
+    alert("✂️ Try in the console:\n\nscissors.setWidth(150);");
   });
 </script>
