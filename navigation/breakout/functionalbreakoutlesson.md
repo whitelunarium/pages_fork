@@ -62,13 +62,41 @@ flowchart TD
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="card card-image-cover">
-	<img src="https://source.unsplash.com/random/300x200" alt="" />
-	<div class="card-body">
-		<h2 class="card-header">Maximizing Your Productivity at Work</h2>
-		<p class="text-content2">Are you looking to increase your productivity at work?</p>
-		<div class="card-footer">
-			<button class="btn-secondary btn">Learn More</button>
+<style>
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<!-- ADD ICONS to the cards IN FUTURE! -->
+
+<div class="cards-container">
+	<div class="card card-image-cover">
+		<div class="card-body">
+			<h2 class="card-header">Functional Breakout: Lesson 1</h2>
+			<p class="text-content2">Paddle and Base Blocks</p>
+			<div class="card-footer">
+				<a href="{{ site.baseurl }}/functionalbreakoutlesson1"><button class="btn-secondary btn">Go to lesson →</button></a>
+			</div>
+		</div>
+	</div>
+
+	<div class="card card-image-cover">
+		<div class="card-body">
+			<h2 class="card-header">Functional Breakout: Lesson 2</h2>
+			<p class="text-content2">Power-Up Block + Timer</p>
+			<div class="card-footer">
+				<a href="{{ site.baseurl }}/functionalbreakoutlesson1"><button class="btn-secondary btn">Go to lesson →</button></a>
+			</div>
 		</div>
 	</div>
 </div>
