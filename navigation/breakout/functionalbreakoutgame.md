@@ -5,6 +5,21 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutgame
 ---
 
+<style>
+  canvas {
+    background: #eee;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #333;
+  }
+  h2 {
+    margin-top: 5px !important;
+  }
+  p {
+    margin-bottom: 5px !important;
+  }
+</style>
+
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
 <!-- NEW: Next Level buttons -->
@@ -15,6 +30,7 @@ permalink: functionalbreakoutgame
 <div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
 <!-- Hack #1: 90% hack section -->
 <div id="hack1-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+  <p><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
   <h2>Breakout Game (w/ Advanced Features)</h2>
   <p><strong>Hack #1 (90%): Change Colors</strong></p>
   <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
@@ -69,15 +85,6 @@ permalink: functionalbreakoutgame
   </ul>
   <p><a href="{{site.baseurl}}/functionalbreakoutlesson" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to read the full lesson</a></p>
 </div>
-
-<style>
-  canvas {
-    background: #eee;
-    display: block;
-    margin: 0 auto;
-    border: 1px solid #333;
-  }
-</style>
 
 <script>
   const canvas = document.getElementById("gameCanvas");
