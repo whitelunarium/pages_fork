@@ -1,6 +1,5 @@
 ---
 layout: post
-title: Breakout Lessons Hub
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: /breakout
 ---
@@ -18,9 +17,11 @@ permalink: /breakout
 
 /* Titles */
 .hub-title {
+  display: block !important;
   text-align: center;
   font-size: 2.2rem;
   margin-bottom: 10px;
+  margin-top: 1px !important;
 }
 
 
@@ -78,6 +79,7 @@ permalink: /breakout
   padding: 5px 12px;
   border-radius: 20px;
   font-weight: bold;
+  color: #fff;
 }
 
 
@@ -146,14 +148,11 @@ permalink: /breakout
 </style>
 
 
-
-
 <div class="lesson-hub">
     <h1 class="hub-title">🎮 Breakout Game Learning Hub</h1>
     <p class="hub-subtitle">
         Master game development through two comprehensive learning paths. Start with functional programming fundamentals, then advance to object-oriented design patterns.
     </p>
-
 
     <div class="cards-container">
         <!-- Card 1: Functional Breakout -->
