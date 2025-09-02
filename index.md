@@ -254,15 +254,6 @@ Empower yourself to solve real-world problems, unlock creativity, and open doors
 
 > Invest in your technical skills through Project-based learning.
 
-| Team Member | Role                   |
-|-------------|------------------------|
-| Nikhil M.   | Scrum Master           |
-| Aditya      | Assistant Scrum Master |
-| Pranav      | TBD                    |
-| Rohan       | TBD                    |
-| Shriya      | TBD                    |
-| Samhita     | TBD                    |
-
 <div style="display: flex; align-items: flex-start; justify-content: center; gap: 40px; flex-wrap: wrap;">
 
   <!-- Logo -->
