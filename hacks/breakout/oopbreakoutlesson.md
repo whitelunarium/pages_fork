@@ -50,7 +50,7 @@ permalink: oopbreakoutlesson
 </style>
 
 <h1 class="hub-title">OOPs Breakout (3-Part Mini Lesson)</h1>
-<p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
+<p class="back-button"><a href="{{site.baseurl}}/hacks" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
 <br>
 
 ---
