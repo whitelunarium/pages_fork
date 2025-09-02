@@ -7,259 +7,6 @@ authors: Nithika Vivek, Saanvi Dogra, Eshika Pallapotu
 ---
 
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors Console Learning</title>
-    <style>
-      :root {
-          color-scheme: dark !important;
-      }
-      body, body * {
-          color: #fff !important;
-          background: #18181b !important;
-      }
-      h1, h2, h3, h4, h5, h6 {
-          color: #fff !important;
-      }
-      p, li, span, div {
-          color: #fff !important;
-      }
-      body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          color: #fff;
-          margin: 0;
-          padding: 20px;
-          line-height: 1.6;
-          min-height: 100vh;
-      }
-      .container {
-          max-width: 900px;
-          margin: 0 auto;
-          background: #232336;
-          padding: 40px;
-          border: 3px solid #000;
-          border-radius: 15px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      }
-      h1 {
-          color: #fff;
-          text-align: center;
-          font-size: 2.5em;
-          margin-bottom: 10px;
-          border-bottom: 3px solid #fff;
-          padding-bottom: 10px;
-          font-weight: bold;
-      }
-      h2 {
-          color: #fff;
-          font-size: 1.8em;
-          border-left: 4px solid #c06c84;
-          padding-left: 15px;
-          margin-top: 30px;
-          font-weight: bold;
-      }
-      h3 {
-          color: #fff;
-          font-size: 1.4em;
-          margin-top: 25px;
-          font-weight: bold;
-      }
-      h4 {
-          color: #fff;
-          font-size: 1.2em;
-          margin-top: 20px;
-          font-weight: bold;
-      }
-      .subtitle {
-          text-align: center;
-          color: #fff;
-          font-style: italic;
-          font-size: 1.2em;
-          margin-bottom: 30px;
-      }
-      .game-buttons {
-          text-align: center;
-          margin: 30px 0;
-      }
-      button {
-          background: linear-gradient(45deg, #ffd700, #c06c84);
-          color: #1f2937;
-          border: none;
-          padding: 15px 30px;
-          margin: 0 10px;
-          border-radius: 8px;
-          font-size: 1.1em;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      }
-      button:hover {
-          background: linear-gradient(45deg, #c06c84, #6a4c93);
-          color: white;
-          transform: translateY(-3px);
-          box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      }
-      button:active {
-          transform: translateY(-1px);
-      }
-      .console-example {
-          background: #1a1a1a;
-          color: #fff;
-          padding: 20px;
-          font-family: 'Courier New', monospace;
-          margin: 20px 0;
-          border: 2px solid #6a4c93;
-          border-radius: 8px;
-          overflow-x: auto;
-          font-size: 0.95em;
-      }
-      .code-block {
-          background: #1a1a1a;
-          color: #fff !important;
-          padding: 20px;
-          font-family: 'Courier New', monospace;
-          margin: 20px 0;
-          border: 2px solid #c06c84;
-          border-radius: 8px;
-          overflow-x: auto;
-          font-size: 0.9em;
-          border-left: 4px solid #6a4c93;
-      }
-      .section-highlight {
-          background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(192, 108, 132, 0.1));
-          padding: 25px;
-          margin: 25px 0;
-          border: 1px solid #c06c84;
-          border-radius: 8px;
-      }
-      .phase-section {
-          background: rgba(106, 76, 147, 0.1);
-          padding: 20px;
-          margin: 20px 0;
-          border-left: 4px solid #6a4c93;
-          border-radius: 5px;
-      }
-      ul, ol {
-          margin: 15px 0;
-          padding-left: 30px;
-      }
-      li {
-          margin: 8px 0;
-          color: #fff;
-      }
-      p {
-          color: #fff;
-          margin: 15px 0;
-      }
-      strong {
-          color: #fff;
-          font-weight: bold;
-      }
-      .success-indicators {
-          background: rgba(255, 215, 0, 0.15);
-          padding: 25px;
-          margin: 30px 0;
-          border: 2px solid #ffd700;
-          border-radius: 8px;
-      }
-      .activities-section {
-          background: rgba(192, 108, 132, 0.1);
-          padding: 25px;
-          margin: 25px 0;
-          border: 1px solid #c06c84;
-          border-radius: 8px;
-      }
-      .play-instructions {
-          background: linear-gradient(135deg, #ffd700, #ffed4e);
-          color: #1f2937;
-          padding: 20px;
-          border-radius: 10px;
-          text-align: center;
-          font-weight: bold;
-          margin: 20px 0;
-          border: 2px solid #d97706;
-      }
-      .checkpoint-section {
-          margin: 32px 0 24px 0;
-          padding: 24px;
-          background: #232336;
-          border-radius: 12px;
-          border: 2px solid #ffd700;
-          box-shadow: 0 2px 12px #0004;
-      }
-      .checkpoint-label {
-          font-weight: bold;
-          color: #ffd700;
-          font-size: 1.1em;
-          margin-bottom: 8px;
-          display: block;
-      }
-      .checkpoint-input {
-          width: 100%;
-          padding: 10px;
-          font-size: 1em;
-          border-radius: 6px;
-          border: 2px solid #444;
-          margin-bottom: 10px;
-          background: #18181b;
-          color: #fff;
-          outline: none;
-          transition: border 0.2s, box-shadow 0.2s;
-      }
-      .checkpoint-input.correct {
-          border: 2px solid #22c55e;
-          box-shadow: 0 0 8px #22c55e;
-          background: #1e2e1e;
-      }
-      .checkpoint-input.incorrect {
-          border: 2px solid #ef4444;
-          box-shadow: 0 0 8px #ef4444;
-          background: #2e1e1e;
-      }
-      .checkpoint-feedback {
-          font-weight: bold;
-          margin-bottom: 8px;
-          min-height: 24px;
-      }
-      .checkpoint-feedback.correct {
-          color: #22c55e;
-      }
-      .checkpoint-feedback.incorrect {
-          color: #ef4444;
-      }
-      .show-answer-btn {
-          background: #6a4c93;
-          color: #fff;
-          border: none;
-          border-radius: 6px;
-          padding: 6px 16px;
-          font-weight: bold;
-          cursor: pointer;
-          margin-top: 8px;
-          margin-bottom: 0;
-      }
-      .show-answer-btn:hover {
-          background: #8e6fc4;
-      }
-      /* Flowchart white outline */
-      .flowchart-box {
-          border: 2px solid #fff !important;
-          background: #232336;
-          border-radius: 8px;
-          max-width: 500px;
-          text-align: left;
-          padding: 1rem 1.5rem;
-      }
-      .flowchart-arrow {
-          color: #fff !important;
-          font-size: 2.5rem;
-      }
-    </style>
-</head>
-<body>
-
 <div class="container">
     <h1>Rock Paper Scissors Console Learning</h1>
     <p class="subtitle">A hands-on introduction to browser developer tools through interactive gameplay</p>
@@ -496,35 +243,15 @@ class GameButton {
     <ul>
         <li>
             <strong>Rock:</strong> Change border color<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'rock\')"]').style.border = '4px solid lime';</div>
+            <div class="code-block">rock.setBorder('4px solid lime');</div>
         </li>
         <li>
             <strong>Paper:</strong> Rotate the button<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'paper\')"]').style.transform = 'rotate(15deg)';</div>
+            <div class="code-block">paper.rotate(15);</div>
         </li>
         <li>
             <strong>Scissors:</strong> Change button size<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'scissors\')"]').style.fontSize = '2em';</div>
-        </li>
-        <li>
-            <strong>Rock:</strong> Add a glowing effect<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'rock\')"]').style.boxShadow = '0 0 20px 5px #ffd700';</div>
-        </li>
-        <li>
-            <strong>Paper:</strong> Remove all custom styles<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'paper\')"]').removeAttribute('style');</div>
-        </li>
-        <li>
-            <strong>Scissors:</strong> Change button text<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'scissors\')"]').textContent = '✂️ Scissors!';</div>
-        </li>
-        <li>
-            <strong>Rock:</strong> Make button transparent<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'rock\')"]').style.opacity = '0.5';</div>
-        </li>
-        <li>
-            <strong>Paper:</strong> Add a red border and shadow<br>
-            <div class="code-block">document.querySelector('button[onclick="playRPS(\'paper\')"]').style.boxShadow = '0 0 10px 2px red'; document.querySelector('button[onclick="playRPS(\'paper\')"]').style.border = '3px solid red';</div>
+            <div class="code-block">scissors.setWidth(150);</div>
         </li>
     </ul>
     <p>
@@ -650,11 +377,11 @@ checkpointCheck(
     "checkpoint5-input",
     "checkpoint5-feedback",
     [
-        "document.querySelector('button[onclick=\"playRPS(\\'paper\\')\"]').style.transform = 'rotate(15deg)';",
-        'document.querySelector("button[onclick=\'playRPS(\\\'paper\\\')\']").style.transform = \'rotate(15deg)\';'
+        "paper.rotate(15);",
+        'paper.rotate(15);'
     ],
     "checkpoint5-show",
-    "document.querySelector('button[onclick=\"playRPS(\\'paper\\')\"]').style.transform = 'rotate(15deg)';"
+    "paper.rotate(15);"
 );
 </script>
 </body>
