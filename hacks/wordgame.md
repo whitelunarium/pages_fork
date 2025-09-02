@@ -29,7 +29,7 @@ permalink: /wordgame
 </style>
 
 <h2 style="display: inline-block; margin-right: auto;">Word Game</h2>
-<p>Select a string length from the options menu and try to type the prompt as quickly and accurately as possible!</p>
+<p>Select a game mode (string length) from the options menu and try to type the prompt as quickly and accurately as possible!</p>
 <button style="float: right;" id="options">Options</button>
 <p>WPM: <span class="wpm"></span></p>
 <p>Accuracy: <span class="accuracy"></span></p>
@@ -45,7 +45,7 @@ permalink: /wordgame
     let userInput = "";
     let startTime = null;
     let finished = false;
-    let mistakes = 0; // New variable to track mistakes
+    let mistakes = 0;
 
     const short_strings = ["The quick brown fox jumps over the lazy dog", "Pack my box with five dozen liquor jugs", "How quickly daft jumping zebras vex", "Jinxed wizards pluck ivy from the quilt", "Bright vixens jump, dozy fowl quack", "Sphinx of black quartz, judge my vow", "Two driven jocks help fax my big quiz", "Five quacking zephyrs jolt my wax bed", "The five boxing wizards jump quickly", "Jackdaws love my big sphinx of quartz"];
     const medium_strings = ["Amazingly few discotheques provide jukeboxes", "Back in June we delivered oxygen equipment of the same size", "The public was amazed to view the quickness and dexterity of the juggler", "Jovial zanies quickly gave up their quest for the exotic fish", "The wizard quickly jinxed the gnomes before they vaporized", "All questions asked by five watched experts amaze the judge", "The job requires extra pluck and zeal from every young wage earner", "Crazy Frederick bought many very exquisite opal jewels", "We promptly judged antique ivory buckles for the next prize", "Sixty zippers were quickly picked from the woven jute bag"];
