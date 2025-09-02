@@ -115,10 +115,21 @@ const shop = {
       console.log(shopItems);
       for (let i = 0; i < shopItems.length; i++) {
         console.log(shopItems[i])
-        this.addItemForSale({
-          ...shopItems[i],
-          price: shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1),
-        });
+        if (gameLoop.getAmount(shopItems[i].name)){
+          console.log("Price is: " + (shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1)));
+          this.addItemForSale({
+            ...shopItems[i],
+            
+            price: shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1),
+          });
+        } else{
+          this.addItemForSale({
+            ...shopItems[i],
+            
+            price: shopItems[i].price,
+          });
+        }
+        
       }
     } else if (newTab === "upgrades") {
       for (let i = 0; i < this.upgrades.length; i++) {
@@ -141,7 +152,6 @@ const gameLoop = {
       this.autoClickers[itemName] = 1;
     }
     this.cookiesPerSecond += cps;
-    const savedUpgrades = localStorage.getItem("savedUpgrades");
     localStorage.setItem("savedShop", JSON.stringify(this.autoClickers));
     this.runLoop();
 
