@@ -1,27 +1,13 @@
-
-# Site-wide settings
-# ------------------
-#
-# title: Your awesome title
-#
-# author:
-#   name: GitHub User
-#   email: your-email@domain.com
-#
-# The `>` after `description:` means to ignore line-breaks until next key. If
-#   you wish to omit the line-break after the end of text, use `>-` instead.
-# description: >
-#   Write an awesome description for your new site here. You can edit this line
-#   in _config.yml. It will appear in your document head meta (for Google search
-#   results) and in your feed.xml site description.
-
-title: Open Coding 
-description: "Class of 2026"
-owner_name: Open Coding Society 
-github_username: open-coding-society 
-github_repo: "pages" 
-baseurl: "" 
+title: Curators
+description: "Class of 2025"
+owner_name: Nikhil Maturi
+github_username: code259
+github_repo: "curators"
+baseurl: "/curators"
+url: "https://code259.github.io"
 future: true
+
+
 
 
 # Build settings
@@ -48,10 +34,12 @@ future: true
 #   quiet_deps: true
 #   silence_deprecations: [import]
 
+
 remote_theme: jekyll/minima@d4d779a
 plugins:
-  - jekyll-remote-theme
-  - jekyll-include-cache
+ - jekyll-remote-theme
+ - jekyll-include-cache
+
 
 # Minima-specific settings (applicable to Minima v3 and above only)
 # -----------------------------------------------------------------
@@ -104,15 +92,19 @@ plugins:
 #     part of social-links list.
 #   hide_site_feed_link: false
 
+
 minima:
-  skin: dark
-  social_links:
-    - { platform: github, user_url: "https://github.com/open-coding-society" }
-    - { platform: x, user_url: "https://x.com/Open_Coding" }
-    - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
-  nav_pages:
-    - navigation/section/csse.md
-    - navigation/section/csp.md
-    - navigation/section/csa.md 
-    - navigation/blog.md
-    - navigation/search.md
+ skin: dark
+ social_links:
+   - { platform: github, user_url: "https://github.com/open-coding-society" }
+   - { platform: x, user_url: "https://x.com/Open_Coding" }
+   - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" }
+ nav_pages:
+   - navigation/section/csse.md
+   - navigation/section/csp.md
+   - navigation/section/csa.md
+   - navigation/blog.md
+   - navigation/search.md
+
+
+
