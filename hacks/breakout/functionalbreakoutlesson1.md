@@ -61,7 +61,7 @@ function updatePaddle() {
 * Make your own block that moves left/right with the arrow keys.
 * Change its width/height and test how it feels.
 
-#### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/full_breakout.md?plain=1)
+#### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/hacks/breakout)
 
 ---
 

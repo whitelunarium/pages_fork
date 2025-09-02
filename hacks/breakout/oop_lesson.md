@@ -5,7 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---
 
-### [👉 Click this for full source code](https://github.com/code259/curators/blob/main/navigation/breakout/oop_breakout.md?plain=1)
+### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/hacks/breakout)
 
 # OOP Breakout (3-Part Mini-Lesson)
 

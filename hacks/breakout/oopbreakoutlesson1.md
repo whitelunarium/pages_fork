@@ -138,4 +138,4 @@ Press `c` to clear blackboard.
 
 ---
 
-#### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/navigation/breakout)
+#### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/hacks/breakout)
