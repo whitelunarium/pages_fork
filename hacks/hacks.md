@@ -106,14 +106,24 @@ lxdData:
       Lessons: "/cookie-clicker-game-docs"
       Image: "/images/cookie.jpg"
       Alt: "Cookie"
-    - Title: "Breakout"
+    - Title: "Functional Breakout"
       Genre: "Coding"
-      Level: "2"
-      Description: "Learn the about manipulating JS and OOPs with the famous Breakout game. "
-      Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
-      Game: "/breakout"
-      Lessons: "/breakout"
+      Level: "1"
+      Description: "Learn about manipulating functional JavaScript by playing breakout."
+      Categories: ["JavaScript", "Functional", "Game Coding", "Innovation"]
+      Game: "/functionalbreakoutgame"
+      Lessons: "/functionalbreakoutlesson"
       Image: "/images/breakout.jpg"
       Alt: "Breakout Game"
+    - Title: "OOP Breakout"
+      Genre: "Coding"
+      Level: "2"
+      Description: "Learn about manipulating Object Oriented JavaScript by playing breakout."
+      Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
+      Game: "/oopbreakoutgame"
+      Lessons: "/oopbreakoutlesson"
+      Image: "/images/breakout.jpg"
+      Alt: "Breakout Game"
+
 ---
 {%- include tailwind/lxd.html -%}
