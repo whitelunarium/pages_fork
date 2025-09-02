@@ -72,6 +72,19 @@ use-yat:
 	@cp _themes/yat/page.html _layouts/page.html
 	@cp _themes/yat/post.html _layouts/post.html
 
+use-hydejack:
+	@cp _themes/hydejack/_config.yml _config.yml
+	@cp _themes/hydejack/Gemfile Gemfile
+	@cp _themes/hydejack/opencs.html _layouts/opencs.html
+	@cp _themes/hydejack/page.html _layouts/page.html
+	@cp _themes/hydejack/post.html _layouts/post.html
+
+serve-hydejack: use-hydejack clean
+	@make serve-current
+
+
+build-tactile: use-tactile build-current
+
 # Serve with selected theme
 serve-minima: use-minima clean
 	@make serve-current
@@ -167,6 +180,7 @@ help:
 	@echo "  make serve-cayman   - Switch to Cayman and serve"
 	@echo "  make serve-so-simple   - Switch to So Simple and serve"
 	@echo "  make serve-yat      - Switch to Yat and serve"
+	@echo "  make serve-hydejack - Switch to HydeJack and serve"
 	@echo "  make serve          - Serve with current config"
 	@echo "  make build-minima   - Switch to Minima and build"
 	@echo "  make build-text     - Switch to TeXt and build"

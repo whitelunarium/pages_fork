@@ -6,7 +6,7 @@ description: >
   A guided sequence of hands-on and learning tasks to help you master the frameworks that power our course.
 author: John Mortensen
 courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
-type: hacks 
+type: hacks
 permalink: /hacks
 lxdData:
   Title: "Learning Experience Designer Home"
@@ -70,16 +70,41 @@ lxdData:
       Lessons: "/rpg/latest/lesson"
       Image: "/images/toolkit-nav-buttons/rpg.png"
       Alt: "Underwater RPG Adventure"
+    - Title: "Tic Tac Toe"
+      Genre: "Coding"
+      Level: "Intermediate"
+      Description: "Learn how to use Jupyter notebooks to develop Python projects. "
+      Categories: ["Python", "Jupyter", "Game Coding"]
+      Game: "/games/tictactoe/howtorun"
+      Lessons: "/games/tictactoe/lesson"
+      Image: "/images/tictactoe/tictactoe.png"
+      Alt: "Tic Tac Toe"
     - Title: "Solitaire"
       Genre: "Coding"
-      Level: "2"
+      Level: "3"
       Description: "Learn more about JS and OOP as you customize the popular card game solitaire."
       Categories: ["JavaScript", "OOP", "Game Coding", "Cards", "Innovation"]
       Game: "/solitaire"
       Lessons: "/solitaire/lesson"
       Image: "/images/solitaire.png"
       Alt: "Solitaire Image"
-    
+    - Title: "Rock Paper Scissors"
+      Genre: "Coding"
+      Level: "Intermediate"
+      Description: "Learn more about console, elements and OOP as you play with Rock Paper Scissors."
+      Categories: ["Console", "OOP", "Game Coding", "Elements", "Innovation"]
+      Game: "/rock-paper-scissor"
+      Lessons: "/rock_paper_scissors/lessons"
+      Image: "/images/rps/rock-paper-scissors.jpg"
+      Alt: "Rock paper Scissors Image"
+    - Title: "Cookie Clicker"
+      Genre: "Coding"
+      Level: "Intermediate"
+      Description: "Learn the basics of JS and object oriented programming as you dive deep into the world of game coding. "
+      Categories: ["JavaScript", "OOP", "Game Coding", "Cookies"]
+      Game: "/cookie-clicker-game"
+      Lessons: "/cookie-clicker-game-docs"
+      Image: "/images/cookie.jpg"
+      Alt: "Cookie"
 ---
-
 {%- include tailwind/lxd.html -%}

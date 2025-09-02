@@ -6,8 +6,8 @@ toc: False
 comments: False
 categories: [CSP Big Idea 3]
 permalink: /csp/big-idea/p2/fundamentals
-courses: {'csp': {'week': 5}}
-type: ccc
+courses: {'csp': {'week': 8}}
+type: coding
 author: Isabel Marilla
 menu: nav/csp_units/csp_unit3_p2_fundamentals.html
 ---
