@@ -17,6 +17,15 @@ lxdData:
     - title: "Agile Collaboration"
       link: "/agile"
   Topics:
+    - Title: "Animated Background"
+      Genre: "Coding"
+      Level: "1"
+      Description: "Start a very simple background with floating object.  Then think about possibilities."
+      Categories: ["JavaScript", "Game Play", "Game Coding", "Space"]
+      Game: "/background"
+      Lessons: "/background/lesson"
+      Image: "/images/platformer/backgrounds/alien_planet1.jpg"
+      Alt: "Snake eating Apples"
     - Title: "Snake Game"
       Genre: "Coding"
       Level: "1"
