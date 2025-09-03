@@ -116,22 +116,25 @@ const shop = {
     if (newTab === "shop") {
       console.log(shopItems);
       for (let i = 0; i < shopItems.length; i++) {
-        console.log(shopItems[i])
-        if (gameLoop.getAmount(shopItems[i].name)){
-          console.log("Price is: " + (shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1)));
+        console.log(shopItems[i]);
+        if (gameLoop.getAmount(shopItems[i].name)) {
+          console.log(
+            "Price is: " +
+              shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1),
+          );
           this.addItemForSale({
             ...shopItems[i],
-            
-            price: shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1),
+
+            price:
+              shopItems[i].price * (gameLoop.getAmount(shopItems[i].name) + 1),
           });
-        } else{
+        } else {
           this.addItemForSale({
             ...shopItems[i],
-            
+
             price: shopItems[i].price,
           });
         }
-        
       }
     } else if (newTab === "upgrades") {
       for (let i = 0; i < this.upgrades.length; i++) {
@@ -158,7 +161,10 @@ const gameLoop = {
     this.runLoop();
 
     const purchased = shopItems.find((it) => it.name === itemName);
-    if (purchased) emojiBuddies.spawnEmoji(purchased.emoji);
+    if (purchased) {
+      const newEmoji = new EmojiBuddy(purchased.emoji);
+      newEmoji.spawn(Math.random() * 1000, Math.random() * 1000);
+    }
   },
   updateCookieMulti(itemName, amt) {
     this.upgrades[itemName] = amt;
@@ -213,9 +219,10 @@ const gameLoop = {
           cookiePerSecondAndIndexMap[upgradeName].index,
         );
         for (let i = 0; i < amount; i++) {
-          emojiBuddies.spawnEmoji(
+          const emojiBuddy = new EmojiBuddy(
             cookiePerSecondAndIndexMap[upgradeName].emoji,
           );
+          emojiBuddy.spawn(Math.random() * 1000, Math.random() * 1000);
         }
         this.runLoop();
       }
@@ -231,62 +238,9 @@ const gameLoop = {
   },
 };
 
-const emojiBuddies = {
-  getBounds() {
-    const rect = gameArea.getBoundingClientRect();
-    return {
-      top: rect.top + window.scrollY,
-      left: rect.left + window.scrollX,
-      right: rect.right + window.scrollX,
-      bottom: rect.bottom + window.scrollY,
-      width: rect.width,
-      height: rect.height,
-    };
-  },
-  spawnEmoji(emojiString) {
-    const bounds = this.getBounds();
-
-    // Create emoji element
-    const emoji = document.createElement("div");
-    emoji.textContent = emojiString;
-    emoji.style.position = "absolute";
-    emoji.style.fontSize = "2rem";
-
-    // Random start inside bounding box
-    let x = bounds.left + Math.random() * (bounds.width - 32);
-    let y = bounds.top + Math.random() * (bounds.height - 32);
-
-    emoji.style.left = `${x}px`;
-    emoji.style.top = `${y}px`;
-
-    // Add emoji to body (not inside gameArea, since we're using page coords)
-    document.body.appendChild(emoji);
-
-    // Random velocity
-    let dx = (Math.random() < 0.5 ? -1 : 1) * 2;
-    let dy = (Math.random() < 0.5 ? -1 : 1) * 2;
-
-    function animate() {
-      x += dx;
-      y += dy;
-
-      // Bounce off actual bounds
-      if (x <= bounds.left || x + 32 >= bounds.right) dx *= -1;
-      if (y <= bounds.top || y + 32 >= bounds.bottom) dy *= -1;
-
-      emoji.style.left = `${x}px`;
-      emoji.style.top = `${y}px`;
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  },
-};
-
 class EmojiBuddy {
   /**
-   * @type {{top: number, left: number, bottom: number, width: number, height: number}}
+   * @type {{top: number, left: number, right: number, bottom: number, width: number, height: number}}
    */
   bounds;
   /**
@@ -306,11 +260,32 @@ class EmojiBuddy {
    */
   emoji;
   /**
+   * velocity on the y axis
+   * @type {number}
+   */
+  dy = 2;
+  /**
+   * velocity on the x axis
+   * @type {number}
+   */
+  dx = 2;
+  /**
+   * Count of repeated bounces on the x axis
+   * @type {number}
+   */
+  bounceErrorsX = 0;
+  /**
+   * count of repeated bounces on the y axis
+   * @type {number}
+   */
+  bounceErrorsY = 0;
+  /**
    *
    * @param {string} emoji
    */
   constructor(emoji) {
     this.emojiString = emoji;
+    this.animate = this.animate.bind(this);
   }
   setBounds() {
     if (!gameArea) {
@@ -328,6 +303,7 @@ class EmojiBuddy {
     const bounds = {
       top: rect.top + window.scrollY,
       left: rect.left + window.scrollX,
+      right: rect.right + window.scrollX,
       bottom: rect.bottom + window.scrollY,
       width: rect.width,
       height: rect.height,
@@ -336,7 +312,7 @@ class EmojiBuddy {
     return bounds;
   }
   /**
-   *
+   * Get bottom style number relative to the gameArea
    * @param {number} x
    * @returns {string}
    */
@@ -344,7 +320,7 @@ class EmojiBuddy {
     return (this.bounds.left + x).toString();
   }
   /**
-   *
+   * Get top style number relative to the gameArea
    * @param {number} y
    * @returns {string}
    */
@@ -352,13 +328,15 @@ class EmojiBuddy {
     return (this.bounds.top + y).toString();
   }
   /**
-   *
+   * Spawns emoji on the page and starts animation
    * @param {number} x
    * @param {number} y
    */
-  spawnEmoji(x, y) {
-    this.x = x;
-    this.y = y;
+  spawn(x, y) {
+    this.setBounds();
+
+    this.x = x % this.bounds.width;
+    this.y = y % this.bounds.height;
 
     const emoji = document.createElement("div");
     emoji.textContent = this.emojiString;
@@ -369,7 +347,60 @@ class EmojiBuddy {
     emoji.style.top = this.getTopFromY(this.y);
 
     this.emoji = emoji;
+    this.animate();
     return emoji;
+  }
+  /**
+   * Animates the Emoji (Bounces off the walls)
+   */
+  animate() {
+    console.log(this.bounceErrorsX, this.bounceErrorsY);
+    this.setBounds();
+
+    this.x += this.dx;
+    this.y += this.dy;
+
+    // Bounce off actual bounds
+    if (
+      Number(this.getLeftFromX(this.x)) <= this.bounds.left ||
+      Number(this.getLeftFromX(this.x)) + this.emoji.offsetWidth >=
+        this.bounds.right
+    ) {
+      this.bounceErrorsX++;
+      this.dx *= -1;
+      console.log("X");
+    } else {
+      this.bounceErrorsX = 0;
+    }
+    if (
+      Number(this.getTopFromY(this.y)) <= this.bounds.top ||
+      Number(this.getTopFromY(this.y)) + this.emoji.offsetHeight >=
+        this.bounds.bottom
+    ) {
+      this.bounceErrorsY++;
+      this.dy *= -1;
+      console.log("Y");
+    } else {
+      this.bounceErrorsY = 0;
+    }
+
+    if (this.bounceErrorsX > 5) {
+      this.x = 0;
+    }
+    if (this.bounceErrorsY > 5) {
+      this.y = 0;
+    }
+
+    this.emoji.style.left = `${this.getLeftFromX(this.x)}px`;
+    this.emoji.style.top = `${this.getTopFromY(this.y)}px`;
+
+    requestAnimationFrame(this.animate);
+  }
+  /**
+   * Destroys the Emoji
+   */
+  destroy() {
+    this.emoji.remove();
   }
 }
 
