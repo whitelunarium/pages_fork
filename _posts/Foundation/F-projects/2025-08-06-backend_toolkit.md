@@ -1,11 +1,12 @@
 ---
 toc: False 
-layout: tailwindPost
+layout: post
+tailwind: true
 infoGraph: backend_toolkit
-title: Python/Flask Backend Toolkit
+title: Python/Flask Backend Infograph 
 description: As your development journey continues, it's time to go behind the scenes. This toolkit introduces the essential backend tools—Flask, Postman, and Backend UI—that will power your APIs, route handling, testing, and data interaction in real-world applications.
-courses: {'csp': {'week': 3}, 'csa': {'week': 2}}
-type: ccc
+courses: {'csp': {'week': 6}, 'csa': {'week': 2}}
+type: framework
 categories: [Backend, API]
 permalink: /backend_toolkit/
 sticky_rank: 2
