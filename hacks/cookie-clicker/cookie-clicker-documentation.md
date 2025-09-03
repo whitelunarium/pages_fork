@@ -65,6 +65,24 @@ Run the game to check if your feature works as expected. Fix any issues, refine 
 </details>
 
 ```mermaid
+flowchart TD
+
+    A[🍪 Cookie Button<br/>Click to earn cookies] --> B[Cookies Saved & Displayed<br/>Progress stored in LocalStorage]
+
+    B --> C[🛒 Shop<br/>Spend cookies on upgrades & auto-clickers]
+
+    C --> D[👵 Grandma, 🏭 Factory, 🥭 Temple, 🏦 Bank<br/>Auto-clickers generate cookies per second]
+    C --> E[🖱 2X Clicks<br/>Doubles cookies gained per click]
+
+    D --> F[GameLoop<br/>Automatically adds cookies every second]
+    E --> B
+    F --> B
+
+    D --> G[🎉 Emoji Buddies<br/>Spawn moving emojis for each purchase]
+
+```
+# Mindmap/guide for creating a game, considering the goal of teaching
+```mermaid
     mindmap
   root((Cookie Clicker Codings Concepts))
     Javascript
