@@ -42,7 +42,7 @@ permalink: oopbreakoutgame
 
 <!-- Hack Challenges Section -->
 <div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-    <p class="back-button"><a href="{{site.baseurl}}/breakout" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
+    <p class="back-button"><a href="{{site.baseurl}}/hacks" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
     <h2 class="title">OOP Breakout Game (w/ Advanced Features)</h2>
     
     <!-- OOP Architecture Info -->
