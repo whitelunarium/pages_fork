@@ -80,6 +80,24 @@ lxdData:
       Lessons: "/cookie-clicker-game-docs"
       Image: "/images/cookie.jpg"
       Alt: "Cookie"
+    - Title: "Memory Game"
+      Genre: "Memory"
+      Level: "2"
+      Description: "Learn to work on your memory and concentration with this fun card matching game."
+      Categories: ["JavaScript", "Elements"]
+      Game: "/javascript/project/memory"
+      Lessons: "/memorygame-lesson"
+      Image: "/images/memorycanvas.png"
+      Alt: "Memory Card Game"
+    - Title: "Word Game"
+      Genre: "Hand-eye Coordination"
+      Level: "2"
+      Description: "Improve your typing skills and hand-eye coordination with this engaging word game."
+      Categories: ["JavaScript", "Scripting", "Canvas"]
+      Game: "/wordgame"
+      Lessons: "/wordgame-lesson"
+      Image: "/images/wordgame.png"
+      Alt: "Word Tying Game"
     - Title: "Procedural Breakout"
       Genre: "Coding"
       Level: "2"
@@ -98,6 +116,5 @@ lxdData:
       Lessons: "/oopbreakoutlesson"
       Image: "/images/breakout.jpg"
       Alt: "Breakout Game"
-
 ---
 {%- include tailwind/lxd.html -%}
