@@ -103,8 +103,8 @@ lxdData:
       Level: "2"
       Description: "Learn about making a retro pong game"
       Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
-      Game: "/custompong"
-      Lessons: "/jupyter/notebook/pythonpong"
+      Game: "/pages/custompong"
+      Lessons: "/pages/jupyter/notebook/pythonpong"
       Image: "/images/breakout.jpg"
       Alt: "Pong Game"
 
