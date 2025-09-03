@@ -1,3 +1,5 @@
+//@ts-check
+
 const shopContainer = document.getElementById("shop-container");
 const cookieButton = document.getElementById("cookie");
 const cookieCountDisplay = document.getElementById("cookie-count");
@@ -155,9 +157,8 @@ const gameLoop = {
     localStorage.setItem("savedShop", JSON.stringify(this.autoClickers));
     this.runLoop();
 
-    const purchased = shopItems.find(it => it.name === itemName);
+    const purchased = shopItems.find((it) => it.name === itemName);
     if (purchased) emojiBuddies.spawnEmoji(purchased.emoji);
-
   },
   updateCookieMulti(itemName, amt) {
     this.upgrades[itemName] = amt;
@@ -283,6 +284,95 @@ const emojiBuddies = {
   },
 };
 
+class EmojiBuddy {
+  /**
+   * @type {{top: number, left: number, bottom: number, width: number, height: number}}
+   */
+  bounds;
+  /**
+   * @type {number}
+   */
+  x = 0;
+  /**
+   * @type {number}
+   */
+  y = 0;
+  /**
+   * @type {string}
+   */
+  emojiString = "";
+  /**
+   * @type {HTMLElement}
+   */
+  emoji;
+  /**
+   *
+   * @param {string} emoji
+   */
+  constructor(emoji) {
+    this.emojiString = emoji;
+  }
+  setBounds() {
+    if (!gameArea) {
+      console.error("gameArea not found");
+      return {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 0,
+      };
+    }
+    const rect = gameArea.getBoundingClientRect();
+    const bounds = {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+      bottom: rect.bottom + window.scrollY,
+      width: rect.width,
+      height: rect.height,
+    };
+    this.bounds = bounds;
+    return bounds;
+  }
+  /**
+   *
+   * @param {number} x
+   * @returns {string}
+   */
+  getLeftFromX(x) {
+    return (this.bounds.left + x).toString();
+  }
+  /**
+   *
+   * @param {number} y
+   * @returns {string}
+   */
+  getTopFromY(y) {
+    return (this.bounds.top + y).toString();
+  }
+  /**
+   *
+   * @param {number} x
+   * @param {number} y
+   */
+  spawnEmoji(x, y) {
+    this.x = x;
+    this.y = y;
+
+    const emoji = document.createElement("div");
+    emoji.textContent = this.emojiString;
+    emoji.style.position = "absolute";
+    emoji.style.fontSize = "2rem";
+    gameArea?.appendChild(emoji);
+    emoji.style.left = this.getLeftFromX(this.x);
+    emoji.style.top = this.getTopFromY(this.y);
+
+    this.emoji = emoji;
+    return emoji;
+  }
+}
+
 const grandma = {
   name: "Grandma",
   emoji: "👵",
@@ -315,7 +405,7 @@ const bank = {
   cookiesPerSecond: 20,
 };
 
-const shopItems = []
+const shopItems = [];
 
 shopItems.push(grandma);
 shopItems.push(factory);
@@ -333,7 +423,7 @@ shop.upgrades.push(x2Click);
 
 shop.addItemForSale(grandma);
 shop.addItemForSale(factory);
-shop.addItemForSale(mangotemple)
+shop.addItemForSale(mangotemple);
 shop.addItemForSale(bank);
 gameLoop.fetchSavedData();
 cookie.fetchStoredCookies();
