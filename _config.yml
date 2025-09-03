@@ -15,7 +15,6 @@ title: Applicators T1
 #   in _config.yml. It will appear in your document head meta (for Google search
 #   results) and in your feed.xml site description.
 
-title: Open Coding 
 description: "Class of 2026"
 owner_name: Open Coding Society 
 github_username: open-coding-society 
@@ -48,7 +47,7 @@ future: true
 #   quiet_deps: true
 #   silence_deprecations: [import]
 
-remote_theme: jekyll/minima@d4d779a
+remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
@@ -111,8 +110,8 @@ minima:
     - { platform: x, user_url: "https://x.com/Open_Coding" }
     - { platform: youtube, user_url: "https://www.youtube.com/@OpenCodingSociety" } 
   nav_pages:
-    - navigation/section/csse.md
-    - navigation/section/csp.md
-    - navigation/section/csa.md 
-    - navigation/blog.md
+    # - navigation/section/csse.md
+    # - navigation/section/csp.md
+    # - navigation/section/csa.md 
+    # - navigation/blog.md
     - navigation/search.md

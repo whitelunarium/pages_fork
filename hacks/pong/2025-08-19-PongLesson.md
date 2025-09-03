@@ -3,7 +3,7 @@ layout: post
 title: 🚀 Ultimate Pong Game Development Masterclass- Debuggging
 description: Master Game Development with Interactive Pong - Learn Canvas API, Game Loops, and Advanced JavaScript - Task
 categories: ['Game Development', 'JavaScript', 'Canvas API', 'Interactive Learning']
-permalink: /jupyter/notebook/python
+permalink: /jupyter/notebook/pythonpong
 menu: nav/tools_setup.html
 toc: True
 comments: True

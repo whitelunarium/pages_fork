@@ -98,6 +98,15 @@ lxdData:
       Lessons: "/oopbreakoutlesson"
       Image: "/images/breakout.jpg"
       Alt: "Breakout Game"
+    - Title: "Pong Game"
+      Genre: "Coding"
+      Level: "2"
+      Description: "Learn about making a retro pong game"
+      Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
+      Game: "/custompong"
+      Lessons: "/jupyter/notebook/pythonpong"
+      Image: "/images/breakout.jpg"
+      Alt: "Pong Game"
 
 ---
 {%- include tailwind/lxd.html -%}
