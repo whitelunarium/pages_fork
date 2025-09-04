@@ -143,6 +143,5 @@ lxdData:
       Lessons: "/pages/jupyter/notebook/pythonpong2"
       Image: "/images/pong.png"
       Alt: "Pong Game"
-
 ---
 {%- include tailwind/lxd.html -%}
