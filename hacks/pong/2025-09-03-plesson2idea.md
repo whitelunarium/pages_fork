@@ -1,3 +1,13 @@
+---
+layout: post
+title: 🚀 Ultimate Pong Game 
+description: Master Game Development with Interactive Pong - Learn Canvas API, Game Loops, and Advanced JavaScript - Task
+categories: ['Game Development', 'JavaScript', 'Canvas API', 'Interactive Learning']
+permalink: /jupyter/notebook/ponglesson
+menu: nav/tools_setup.html
+toc: True
+comments: True
+---
 📝 Pong Game Lesson
 🔑 Skills You Will Learn
 
