@@ -103,7 +103,7 @@ lxdData:
       Level: "2"
       Description: "Mastering game development fundamentals by bulding and understaning Connect 4's core mechanics."
       Categories: ["Javascript", "Game Coding", "2D Arrays", "Innovation"]
-      Game: "/connect4"
+      Game: "/connect4/play"
       Lessons: "/connect4/lesson"
       Image: "/images/connect4/connect4.jpeg"
       Alt: "Connect Four Image"
