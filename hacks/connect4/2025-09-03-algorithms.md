@@ -1,5 +1,5 @@
 ---
-layout: blogs
+layout: opencs
 title: "Connect 4 Algorithms"
 permalink: /connect4/lesson/algorithms
 authors: Nora, Soni, Avika, Yuva, Yash, Nolan
