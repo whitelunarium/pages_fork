@@ -378,11 +378,11 @@ body {
       🎯 Part 1: Debugging (Current)
     </a>
     <span style="color: rgba(255,255,255,0.6);">→</span>
-    <a href="/T1studentGroup/p2Lesson" style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; border: 2px solid rgba(255,255,255,0.3);">
+    <a href="/pages/p2Lesson" style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; border: 2px solid rgba(255,255,255,0.3);">
       📝 Part 2: Coding
     </a>
     <span style="color: rgba(255,255,255,0.6);">→</span>
-    <a href="/T1studentGroup/lessonp3" style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; border: 2px solid rgba(255,255,255,0.3);">
+    <a href="/pages/lessonp3" style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-weight: bold; border: 2px solid rgba(255,255,255,0.3);">
       🎮 Part 3: Advanced
     </a>
   </div>
@@ -392,10 +392,10 @@ body {
 
 <div style="text-align: center; margin: 2rem 0;">
   <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-    <a href="/p2Lesson" style="display: inline-block; background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; padding: 1rem 2rem; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3); border: 3px solid rgba(255,255,255,0.2);">
+    <a href="/pages/p2Lesson" style="display: inline-block; background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; padding: 1rem 2rem; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3); border: 3px solid rgba(255,255,255,0.2);">
       📝 Start Part 2: Coding
     </a>
-    <a href="/lessonp3" style="display: inline-block; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; padding: 1rem 2rem; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3); border: 3px solid rgba(255,255,255,0.2);">
+    <a href="/pages/lessonp3" style="display: inline-block; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; padding: 1rem 2rem; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3); border: 3px solid rgba(255,255,255,0.2);">
       🎮 Start Part 3: Advanced
     </a>
   </div>
