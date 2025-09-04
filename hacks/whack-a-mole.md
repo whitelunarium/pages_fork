@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: opencs
 title: Whack-a-Mole
 comments: True
 permalink: /whack_a_mole/
