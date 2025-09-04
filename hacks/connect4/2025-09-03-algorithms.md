@@ -1,14 +1,22 @@
 ---
-layout: opencs
+layout: blogs
 title: "Connect 4 Algorithms"
 permalink: /connect4/lesson/algorithms
+authors: Nora, Soni, Avika, Yuva, Yash, Nolan
 ---
-<html lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect 4 Algorithm Lesson</title>
     <style>
         .flowchart-container { margin: 20px 0; padding: 20px; border: 2px solid #007acc; border-radius: 8px; background: #f8f9fa; }
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        .cell { width: 30px; height: 30px; border: 1px solid #333; display: inline-block; text-align: center; line-height: 28px; margin: 1px; }
+        .red { background: #ff6b6b; }
+        .yellow { background: #ffd93d; }
+        .highlight { background: #90EE90; }
+        button { padding: 8px 16px; margin: 5px; background: #007acc; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #005999; }
+        .interactive-demo { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background:rgb(0, 0, 0); }
+        .grid { margin: 10px 0; }
+        .current-player { font-weight: bold; padding: 3px 8px; border-radius: 3px; }
+        pre { background:rgb(0, 0, 0); padding: 15px; border-radius: 5px; overflow-x: auto; }
     </style>
     <h1>What is Connect 4 Algorithm Design?</h1>
     <p>Connect 4 algorithm design is about creating the game logic - the rules, win detection, and player management that make the game work. This means:</p>
@@ -21,7 +29,7 @@ permalink: /connect4/lesson/algorithms
     <p><strong>The Big Picture:</strong> Algorithms are the step-by-step instructions that make games fair, fun, and functional.</p>
     <h2>Algorithm Flow Overview</h2>
     <p>Before diving into the details, let's see the complete Connect 4 algorithm flow:</p>
-    <img src="{{site.baseurl}}/images/flowchart.png">
+    <img src = "{{site.baseurl}}/images/flowchart.png">
     <h2>The Algorithm Stack: Data Structures, Logic, Validation</h2>
     <h3>Data Structure: The Game Board</h3>
     <p>The board is a 2D array that represents our playing field:</p>
@@ -37,7 +45,7 @@ let board = [
 ];</pre>
     <p><strong>Key Principle:</strong> Arrays create the foundation. Each position can hold null (empty), 'red', or 'yellow'.</p>
     <div id="board-demo" class="grid"></div>
-    <button onclick="showEmptyBoard()"> Show Empty Board</button>
+    <button onclick="showEmptyBoard()">Show Empty Board</button>
     <h3>Algorithm 1: Finding the Drop Position</h3>
     <pre>
 function getDropRow(board, col) {
@@ -51,7 +59,7 @@ function getDropRow(board, col) {
 }</pre>
     <p><strong>Key Principle:</strong> Gravity simulation - pieces always fall to the lowest available position.</p>
     <div class="interactive-demo">
-        <h4>🎯 Try It Yourself</h4>
+        <h4>Try It Yourself</h4>
         <div id="drop-demo" class="grid"></div>
         <p>Click a column to see where the piece would fall:</p>
         <button onclick="testDrop(0)">Col 0</button>
@@ -97,7 +105,7 @@ function checkWin(board, row, col) {
     <h3>Skill 1: State Management</h3>
     <p><strong>Learning Goal:</strong> Keep track of game data and player turns</p>
     <div class="interactive-demo">
-        <h4> Try It Yourself</h4>
+        <h4>Try It Yourself</h4>
         <div id="game-demo" class="grid"></div>
         <p>Current Player: <span id="current-player" class="current-player">Red</span></p>
         <button onclick="playMove(0)">Col 0</button>
@@ -137,7 +145,7 @@ class GameState {
     <h3>Skill 2: Win Detection in Action</h3>
     <p><strong>Learning Goal:</strong> Detect four-in-a-row patterns immediately after each move</p>
     <div class="interactive-demo">
-        <h4> Try to Win!</h4>
+        <h4>Try to Win!</h4>
         <div id="win-demo" class="grid"></div>
         <p>Current Player: <span id="win-current-player" class="current-player">Red</span></p>
         <button onclick="playWinMove(0)">Col 0</button>
@@ -156,24 +164,27 @@ class GameState {
     <p>What's the most important concept you learned about Connect 4 algorithms?</p>
     <textarea placeholder="Type your reflection here..." style="width: 100%; height: 80px; padding: 10px;"></textarea>
     <br><br>
-    <button> Save Reflection</button>
+    <button>Save Reflection</button>
     <h2>What You Just Learned</h2>
-    <p> <strong>Skill 1:</strong> Using 2D arrays to represent game boards<br>
-     <strong>Skill 2:</strong> Implementing gravity with bottom-up searching<br>
-     <strong>Skill 3:</strong> Detecting patterns using direction vectors</p>
-    <h2> Key Takeaways</h2>
+    <p><strong>Skill 1:</strong> Using 2D arrays to represent game boards<br>
+    <strong>Skill 2:</strong> Implementing gravity with bottom-up searching<br>
+    <strong>Skill 3:</strong> Detecting patterns using direction vectors</p>
+    <h2>Key Takeaways</h2>
     <ul>
-        <li> <strong>Data Structures Matter:</strong> 2D arrays perfectly model grid-based games</li>
-        <li> <strong>Algorithm Efficiency:</strong> Check wins only after moves, not constantly</li>
-        <li> <strong>Edge Cases:</strong> Always validate bounds and handle full columns</li>
-        <li> <strong>State Management:</strong> Keep track of whose turn it is and game status</li>
-        <li> <strong>Pattern Recognition:</strong> Use mathematical approaches to detect wins</li>
+        <li><strong>Data Structures Matter:</strong> 2D arrays perfectly model grid-based games</li>
+        <li><strong>Algorithm Efficiency:</strong> Check wins only after moves, not constantly</li>
+        <li><strong>Edge Cases:</strong> Always validate bounds and handle full columns</li>
+        <li><strong>State Management:</strong> Keep track of whose turn it is and game status</li>
+        <li><strong>Pattern Recognition:</strong> Use mathematical approaches to detect wins</li>
     </ul>
+    <h2>Related Resources</h2>
+    <ul>
+        <li>MDN: JavaScript Arrays</li>
+        <li>Algorithm Design Manual</li>
+        <li>Game Programming Patterns</li>
     </ul>
     <p><em>Duration: ~60 minutes | Audience: CS students learning algorithms | Meta-Goal: Understanding game logic through hands-on interaction</em></p>
     <script>
-        // Initialize Mermaid
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
         // Game state variables
         let demoBoard = Array.from({length: 6}, () => Array(7).fill(null));
         let dropBoard = Array.from({length: 6}, () => Array(7).fill(null));
@@ -183,6 +194,7 @@ class GameState {
         let currentWinPlayer = 'red';
         function createBoard(containerId, board) {
             const container = document.getElementById(containerId);
+            if (!container) return;
             container.innerHTML = '';
             for (let row = 0; row < 6; row++) {
                 for (let col = 0; col < 7; col++) {
@@ -223,14 +235,21 @@ class GameState {
                 gameBoard[dropRow][col] = currentGamePlayer;
                 createBoard('game-demo', gameBoard);
                 currentGamePlayer = currentGamePlayer === 'red' ? 'yellow' : 'red';
-                document.getElementById('current-player').textContent = 
-                    currentGamePlayer === 'red' ? 'Red' : 'Yellow';
+                const playerElement = document.getElementById('current-player');
+                if (playerElement) {
+                    playerElement.textContent = currentGamePlayer === 'red' ? 'Red' : 'Yellow';
+                    playerElement.style.color = currentGamePlayer;
+                }
             }
         }
         function resetGame() {
             gameBoard = Array.from({length: 6}, () => Array(7).fill(null));
             currentGamePlayer = 'red';
-            document.getElementById('current-player').textContent = 'Red';
+            const playerElement = document.getElementById('current-player');
+            if (playerElement) {
+                playerElement.textContent = 'Red';
+                playerElement.style.color = 'red';
+            }
             createBoard('game-demo', gameBoard);
         }
         function checkWin(board, row, col) {
@@ -257,26 +276,40 @@ class GameState {
                 winBoard[dropRow][col] = currentWinPlayer;
                 createBoard('win-demo', winBoard);
                 if (checkWin(winBoard, dropRow, col)) {
-                    document.getElementById('win-message').innerHTML = 
-                        `<h3 style="color: ${currentWinPlayer};">${currentWinPlayer.toUpperCase()} WINS! 🎉</h3>`;
+                    const messageElement = document.getElementById('win-message');
+                    if (messageElement) {
+                        messageElement.innerHTML = 
+                            `<h3 style="color: ${currentWinPlayer};">${currentWinPlayer.toUpperCase()} WINS!</h3>`;
+                    }
                 } else {
                     currentWinPlayer = currentWinPlayer === 'red' ? 'yellow' : 'red';
-                    document.getElementById('win-current-player').textContent = 
-                        currentWinPlayer === 'red' ? 'Red' : 'Yellow';
+                    const playerElement = document.getElementById('win-current-player');
+                    if (playerElement) {
+                        playerElement.textContent = currentWinPlayer === 'red' ? 'Red' : 'Yellow';
+                        playerElement.style.color = currentWinPlayer;
+                    }
                 }
             }
         }
         function resetWinGame() {
             winBoard = Array.from({length: 6}, () => Array(7).fill(null));
             currentWinPlayer = 'red';
-            document.getElementById('win-current-player').textContent = 'Red';
-            document.getElementById('win-message').innerHTML = '';
+            const playerElement = document.getElementById('win-current-player');
+            if (playerElement) {
+                playerElement.textContent = 'Red';
+                playerElement.style.color = 'red';
+            }
+            const messageElement = document.getElementById('win-message');
+            if (messageElement) {
+                messageElement.innerHTML = '';
+            }
             createBoard('win-demo', winBoard);
         }
-        // Initialize boards
-        showEmptyBoard();
-        createBoard('drop-demo', dropBoard);
-        createBoard('game-demo', gameBoard);
-        createBoard('win-demo', winBoard);
+        // Initialize boards when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            showEmptyBoard();
+            createBoard('drop-demo', dropBoard);
+            createBoard('game-demo', gameBoard);
+            createBoard('win-demo', winBoard);
+        });
     </script>
-</html>
