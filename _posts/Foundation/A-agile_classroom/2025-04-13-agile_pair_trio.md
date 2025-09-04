@@ -128,12 +128,13 @@ Create a burndown list for your debugging session:
 - [ ] Test change immediately after implementation
 
 ---
-**Why?**
-These steps ensure your work is organized, efficient, and quality. 
 
-### How To Snake:
-- [Snake Game Lesson](_notebooks/CSP/Lessons/2025-08-19-snakeHacks.ipynb)
-- [Exercise Notebook](_notebooks/CSP/Lessons/2025-08-24-examplehacks.ipynb)
+**Why?**
+These steps ensure your work is organized, efficient, and quality. The provided infographics serve as examples of how your team should organize and divide work.
+
+## Start Learning to Code Here:
+- [Snake Game Lesson](/snakegaming/lesson.html)
+- [Snake Game Hacks](/snakegaming/hacks.html)
 
 ### Snake Game Debugging Evaluation Table
 
