@@ -105,7 +105,7 @@ lxdData:
       Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
       Game: "/pages/custompong"
       Lessons: "/pages/jupyter/notebook/pythonpong2"
-      Image: "/images/breakout.jpg"
+      Image: "/images/pong.png"
       Alt: "Pong Game"
 
 ---
