@@ -100,7 +100,7 @@ lxdData:
       Alt: "Word Tying Game"
     - Title: "Procedural Breakout"
       Genre: "Coding"
-      Level: "2"
+      Level: "3"
       Description: "Learn about manipulating imperative style procedures JavaScript by playing breakout."
       Categories: ["JavaScript", "Functional", "Game Coding", "Innovation"]
       Game: "/functionalbreakoutgame"
@@ -109,7 +109,7 @@ lxdData:
       Alt: "Breakout Game"
     - Title: "OOP Breakout"
       Genre: "Coding"
-      Level: "2"
+      Level: "3"
       Description: "Learn about manipulating Object Oriented JavaScript by playing breakout."
       Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
       Game: "/oopbreakoutgame"
