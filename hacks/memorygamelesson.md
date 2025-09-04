@@ -64,6 +64,7 @@ You will need to use localStorage so your feature can **save data** such as a hi
 ## Your Task Overview
 
 Try adding a new feature to the Memory Game that saves and displays a personal high score by keeping track of the least attempts to complete the game.
+
 ---
 
 ## Steps to Add Your Feature
