@@ -107,6 +107,15 @@ lxdData:
       Lessons: "/connect4/lesson"
       Image: "/images/connect4/connect4.jpeg"
       Alt: "Connect Four Image"
+    - Title: "Whack-A-Mole"
+      Genre: "Coding"
+      Level: "2"
+      Description: "Learn about about OOP Programing in Javascript by playing Whack a Mole."
+      Categories: ["Console", "OOP", "Game Coding", "Elements", "Innovation"]
+      Game: "/whack_a_mole"
+      Lessons: "/oriented/lessons"
+      Image: "/images/whack_a_mole.jpg"
+      Alt: "Whack-A-Mole"
     - Title: "OOP Breakout"
       Genre: "Coding"
       Level: "3"
@@ -125,14 +134,5 @@ lxdData:
       Lessons: "/solitaire/lesson"
       Image: "/images/solitaire.png"
       Alt: "Solitaire Image"
-    - Title: "Whack-A-Mole"
-      Genre: "Coding"
-      Level: "2"
-      Description: "Learn about about OOP Programing in Javascript by playing Whack a Mole."
-      Categories: ["Console", "OOP", "Game Coding", "Elements", "Innovation"]
-      Game: "/whack_a_mole"
-      Lessons: "/oriented/lessons"
-      Image: "/images/whack_a_mole.jpg"
-      Alt: "Whack-A-Mole"
 ---
 {%- include tailwind/lxd.html -%}
