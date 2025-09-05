@@ -140,3 +140,28 @@
 .congrats-popup.show {
   right: 20px;
 }
+
+/* Quick Check Reflection Box */
+.lesson-quiz textarea {
+  width: 100%;
+  min-height: 120px; /* makes it comfortably tall */
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  font-size: 1rem;
+  resize: vertical; /* allows user to drag to resize */
+  box-sizing: border-box;
+  background: #1f1f1f;
+  color: #f0f0f0;
+}
+
+.lesson-quiz button:hover {
+  background: #379bd8;
+}
+
+.lesson-quiz #reflection-status {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #9acdff; /* subtle highlight color */
+}
