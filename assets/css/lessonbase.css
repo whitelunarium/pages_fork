@@ -165,3 +165,32 @@
   font-style: italic;
   color: #9acdff; /* subtle highlight color */
 }
+
+/* Info boxes with colored left borders - extracted from teaching.html */
+.info-box {
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 0 8px 8px 0;
+    border-left: 4px solid;
+}
+
+.challenge-box {
+    border-left-color: #38b2ac; /* Teal bar */
+}
+
+.think-box {
+    border-left-color: #ed8936; /* Orange bar */
+}
+
+.checkpoint-box,
+.key-points {
+    border-left-color: #3182ce; /* Blue bar */
+}
+
+.warning-box {
+    border-left-color: #e53e3e; /* Red bar */
+}
+
+.success {
+    border-left-color: #28a745; /* Green bar */
+}
