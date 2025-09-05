@@ -30,7 +30,6 @@ show_reading_time: false
     <div class="signup-card">
         <h1 id="signupTitle">Sign Up</h1>
         <hr>
-        
         <!-- Google OAuth Section (initially hidden) -->
         <div id="oauth-verification" style="display: none; text-align: center; margin-bottom: 2rem;">
             <h3 style="color: #6366f1; margin-bottom: 1rem;">🎓 School Email Verification</h3>
@@ -38,13 +37,11 @@ show_reading_time: false
                 Please sign in with your school Google account to verify you're a Poway USD student or teacher.
                 <br><strong>You must use an email ending in @stu.powayusd.com or @powayusd.com</strong>
             </p>
-            
             <div id="g_id_onload"
                  data-client_id="65827797404-ccjleg7jg4g2an8ddpmhnlca4ii2gk8q.apps.googleusercontent.com"
                  data-callback="handleGoogleSignIn"
                  data-auto_prompt="false">
             </div>
-            
             <div class="g_id_signin" 
                  data-type="standard"
                  data-size="large"
@@ -54,15 +51,12 @@ show_reading_time: false
                  data-logo_alignment="left"
                  style="margin-bottom: 1rem;">
             </div>
-            
             <button type="button" class="large secondary" onclick="showSignupForm()" 
                     style="background-color: #6b7280;">
                 ← Back to Form
             </button>
-            
             <div id="oauth-status" style="margin-top: 1rem;"></div>
         </div>
-        
         <!-- Signup Form -->
         <form id="signupForm" onsubmit="handleSignupSubmit(event);">
             <div class="form-group">
@@ -109,7 +103,6 @@ show_reading_time: false
             <p>
                 <button type="submit" class="large primary submit-button">Sign Up</button>
             </p>
-            
             <!-- Backend Status Display -->
             <div class="backend-status">
                 <div id="flaskStatus" class="status-item">
@@ -121,58 +114,55 @@ show_reading_time: false
                     <span class="status-text">Spring</span>
                 </div>
             </div>
-            
             <div id="overallStatus" class="overall-status hidden"></div>
         </form>
     </div>
 </div>
 
-
-
 <script type="module">
     import { login, pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-    
+
     let signupFormData = {};
     let verifiedSchoolEmail = null;
     let validationTimeout = null;
     const GOOGLE_CLIENT_ID = "65827797404-ccjleg7jg4g2an8ddpmhnlca4ii2gk8q.apps.googleusercontent.com";
-    
+
     // Password validation with debouncing (1.5 second delay)
     function validatePasswordsDebounced() {
         // Clear existing timeout
         if (validationTimeout) {
             clearTimeout(validationTimeout);
         }
-        
+
         // Set new timeout for 1.5 seconds
         validationTimeout = setTimeout(() => {
             validatePasswords();
         }, 1500);
     }
-    
-    function validatePasswords() {
+
+    function validateForm() {
         const password = document.getElementById('signupPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
         const confirmField = document.getElementById('confirmPassword');
         const messageDiv = document.getElementById('password-validation-message');
-        
+
         // Clear previous validation styles
         confirmField.classList.remove('password-match', 'password-mismatch', 'password-length');
         messageDiv.classList.remove('success', 'error');
-        
+
         // Don't validate if confirm password is empty
         if (confirmPassword === '') {
             messageDiv.textContent = '';
             return true;
         }
-        
+
         if (password.length < 8) {
             confirmField.classList.add('password-length');
             messageDiv.classList.add('error');
             messageDiv.textContent = '✗ Passwords must be at least 8 characters long';
             return false;
         }
-        
+
         if (password === confirmPassword) {
             confirmField.classList.add('password-match');
             messageDiv.classList.add('success');
@@ -185,36 +175,36 @@ show_reading_time: false
             return false;
         }
     }
-    
+
     // Form submission validation
     function validateSignupForm() {
         const password = document.getElementById('signupPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-        
+
         if (password !== confirmPassword) {
             alert('Passwords do not match. Please try again.');
             document.getElementById('confirmPassword').focus();
             return false;
         }
-        
+
         if (password.length < 8) {
             alert('Password must be at least 8 characters long.');
             document.getElementById('signupPassword').focus();
             return false;
         }
-        
+
         return true;
     }
-    
+
     // Backend status management
     function updateBackendStatus(backend, status, message = '') {
         const element = document.getElementById(`${backend}Status`);
         const icon = element.querySelector('.status-icon');
         const text = element.querySelector('.status-text');
-        
+
         // Remove existing status classes
         element.classList.remove('pending', 'success', 'error');
-        
+
         switch(status) {
             case 'pending':
                 element.classList.add('pending');
@@ -233,19 +223,19 @@ show_reading_time: false
                 break;
         }
     }
-    
+
     function updateOverallStatus() {
         const flaskEl = document.getElementById('flaskStatus');
         const springEl = document.getElementById('springStatus');
         const overallEl = document.getElementById('overallStatus');
-        
+
         const flaskSuccess = flaskEl.classList.contains('success');
         const springSuccess = springEl.classList.contains('success');
         const flaskError = flaskEl.classList.contains('error');
         const springError = springEl.classList.contains('error');
-        
+
         overallEl.classList.remove('hidden', 'success', 'partial', 'error');
-        
+
         if (flaskSuccess && springSuccess) {
             overallEl.classList.add('success');
             overallEl.textContent = '🎉 Account created on both backends! You can now login.';
@@ -260,22 +250,22 @@ show_reading_time: false
             overallEl.textContent = '💥 Both backends failed. Please check your information and try again.';
         }
     }
-    
+
     window.handleSignupSubmit = function(event) {
         event.preventDefault();
-        
+
         // Validate form
         const form = document.getElementById('signupForm');
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
-        
+
         // Check password confirmation
         if (!validateSignupForm()) {
             return;
         }
-        
+
         // Store form data
         signupFormData = {
             name: document.getElementById("name").value,
@@ -286,31 +276,31 @@ show_reading_time: false
             password: document.getElementById("signupPassword").value,
             kasm_server_needed: document.getElementById("kasmNeeded").checked,
         };
-        
+
         // Show OAuth verification
         showOAuthVerification();
     }
-    
+
     function showOAuthVerification() {
         document.getElementById('signupForm').style.display = 'none';
         document.getElementById('oauth-verification').style.display = 'block';
     }
-    
+
     window.showSignupForm = function() {
         document.getElementById('oauth-verification').style.display = 'none';
         document.getElementById('signupForm').style.display = 'block';
         clearOAuthStatus();
     }
-    
+
     function clearOAuthStatus() {
         document.getElementById('oauth-status').innerHTML = '';
     }
-    
+
     function showOAuthStatus(message, isError = false) {
         const statusDiv = document.getElementById('oauth-status');
         statusDiv.innerHTML = `<div class="${isError ? 'oauth-error' : 'oauth-success'}">${message}</div>`;
     }
-    
+
     window.handleGoogleSignIn = function(response) {
         try {
             const userInfo = parseJwt(response.credential);
@@ -318,27 +308,27 @@ show_reading_time: false
             if (!email.endsWith('@stu.powayusd.com') && !email.endsWith('@powayusd.com')) {
                 showOAuthStatus('❌ You must use your school email address ending with @stu.powayusd.com or @powayusd.com', true);
                 return;
-            }    
+            }
             verifiedSchoolEmail = email;
             showOAuthStatus(`✅ School email verified: ${email}`);
-            
+
             setTimeout(() => {
                 document.getElementById('oauth-verification').style.display = 'none';
                 document.getElementById('signupForm').style.display = 'block';
-                
+
                 console.log("About to call signup() with stored data:", signupFormData);
                 console.log("pythonURI:", pythonURI);
 
 
                 signup();
             }, 1500);
-            
+
         } catch (error) {
             console.error("Error handling Google Sign-In:", error);
             showOAuthStatus('❌ Error processing Google Sign-In. Please try again.', true);
         }
     }
-    
+
     function parseJwt(token) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -347,18 +337,18 @@ show_reading_time: false
         }).join(''));
         return JSON.parse(jsonPayload);
     }
-    
+
     // Initialize password validation when page loads
     window.addEventListener('load', function() {
         const passwordField = document.getElementById('signupPassword');
         const confirmPasswordField = document.getElementById('confirmPassword');
-        
+
         if (passwordField && confirmPasswordField) {
             // Add debounced validation listeners
             passwordField.addEventListener('input', validatePasswordsDebounced);
             confirmPasswordField.addEventListener('input', validatePasswordsDebounced);
         }
-        
+
         if (window.google && window.google.accounts) {
             window.google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
@@ -366,7 +356,7 @@ show_reading_time: false
             });
         }
     });
-    
+
     // Function to handle both Python and Java login simultaneously
     window.loginBoth = function () {
     javaLogin();  // Call Java login
@@ -507,7 +497,7 @@ show_reading_time: false
         updateBackendStatus('flask', 'pending');
         updateBackendStatus('spring', 'pending');
         document.getElementById('overallStatus').classList.add('hidden');
-        
+
         const data = signupFormData && Object.keys(signupFormData).length > 0 ? signupFormData : {
             name: document.getElementById("name").value,
             uid: document.getElementById("signupUid").value,
@@ -517,7 +507,7 @@ show_reading_time: false
             password: document.getElementById("signupPassword").value,
             kasm_server_needed: document.getElementById("kasmNeeded").checked,
         };
-        
+
         const signupDataJava = {
             uid: data.uid,
             sid: data.sid,
@@ -527,13 +517,13 @@ show_reading_time: false
             password: data.password,
             kasmServerNeeded: data.kasm_server_needed,
         };
-        
+
         if (verifiedSchoolEmail) {
             console.log("Account created with verified school email:", verifiedSchoolEmail);
         }
-        
+
         console.log("Sending this data to Flask:", JSON.stringify(data, null, 2));
-        console.log("Request URL:", `${pythonURI}/api/user`);    
+        console.log("Request URL:", `${pythonURI}/api/user`);
 
         // Flask Backend Request
         const flaskPromise = fetch(`${pythonURI}/api/user`, {
@@ -559,7 +549,7 @@ show_reading_time: false
             updateBackendStatus('flask', 'error');
             throw error;
         });
-        
+
         // Spring Backend Request
         const springPromise = fetch(`${javaURI}/api/person/create`, {
             method: "POST",
@@ -581,18 +571,18 @@ show_reading_time: false
             updateBackendStatus('spring', 'error');
             throw error;
         });
-        
+
         // Handle both requests
         Promise.allSettled([flaskPromise, springPromise])
             .then(results => {
                 const [flaskResult, springResult] = results;
-                
+
                 console.log("Flask result:", flaskResult);
                 console.log("Spring result:", springResult);
-                
+
                 // Update overall status after both complete
                 setTimeout(updateOverallStatus, 500);
-                
+
                 // Re-enable button
                 signupButton.disabled = false;
                 signupButton.classList.remove("disabled");
