@@ -203,21 +203,21 @@ comments: false
 
 <script type="module">
 
-  // Modal toggle utility
-    function toggleModal(id) {
+// Modal toggle utility
+function toggleModal(id) {
     const modal = document.getElementById(id);
     if (modal.classList.contains("hidden")) {
         modal.classList.remove("hidden");
         modal.classList.add("flex");
         if (id === "createGroupModal" || id === "editGroupModal") {
-        fetchUsers(); // fetch users only when opening a modal
+        // fetchUsers(); // fetch users only when opening a modal
         }
     } else {
         modal.classList.add("hidden");
         modal.classList.remove("flex");
     }
-    }
-    window.toggleModal = toggleModal;
+}
+window.toggleModal = toggleModal;
 
 
 function fetchUsers() {
@@ -568,5 +568,10 @@ document.getElementById("userSearchEdit").addEventListener("input", function () 
     const match = item.textContent.toLowerCase().includes(search);
     item.classList.toggle("hidden", !match);
   });
+});
+
+
+document.addEventListener("DOMContentLoaded", (event) => {
+  fetchUsers();
 });
 </script>
