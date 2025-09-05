@@ -15,17 +15,7 @@ The lesson system is built around a base layout (`lessonbase.html`) that provide
 
 ### Basic Architecture
 
-```mermaid
-flowchart LR
-    A[Lesson File<br/>(.md)] --> B[Frontmatter<br/>Configuration]
-    B --> C[lessonbase.html<br/>Layout]
-    C --> D[Rendered Page<br/>with Features]
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
-```
+Lesson File (.md) → Frontmatter Configuration → lessonbase.html → Rendered Page
 
 The base layout checks for specific frontmatter variables and conditionally includes features based on those settings.
 
