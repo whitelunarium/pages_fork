@@ -1,5 +1,5 @@
 ---
-layout: interactives
+layout: lessonbase
 title: End of Lesson Quiz
 description: Test your progress after completing the lesson with a short quiz
 type: issues
