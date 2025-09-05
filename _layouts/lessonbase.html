@@ -1,0 +1,97 @@
+---
+layout: opencs
+---
+
+<div class="lesson-container">
+  <!-- Sidebar -->
+  {% if page.sidebar != false %}
+  <aside class="lesson-sidebar">
+    {% if page.sidebar_title %}
+      <h3>{{ page.sidebar_title }}</h3>
+    {% endif %}
+
+    <!-- Lesson Links -->
+    {% if page.lesson_links %}
+    <h4>Lessons</h4>
+    <ul>
+      {% for link in page.lesson_links %}
+        <li><a href="{{ site.baseurl }}{{ link.url }}">{{ link.text }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- Time Tracker -->
+    {% if page.enable_timer %}
+    <h4>⏱️ Study Time</h4>
+    <div class="time-display"><span id="total-time">0:00</span></div>
+    <div id="timer-status" class="timer-status">Active</div>
+    {% endif %}
+
+    <!-- Progress -->
+    {% if page.enable_progress %}
+    <h4>📊 Your Progress</h4>
+    <div class="progress-bar"><div class="progress-fill" id="lesson-progress"></div></div>
+    <p id="progress-text">0% complete</p>
+    <button id="reset-progress" class="btn small-btn">Reset Progress</button>
+    {% endif %}
+
+    <!-- Badges -->
+    {% if page.enable_badges %}
+    <h4>🏅 Your Badges</h4>
+    <p id="badges">No badges yet...</p>
+    {% endif %}
+  </aside>
+  {% endif %}
+
+  <!-- Main Content -->
+  <main class="lesson-content">
+    <h1>{{ page.title }}</h1>
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    {% if page.enable_sandbox %}
+    <hr>
+    <div class="sandbox">
+      <h3>🖥️ Try It Yourself</h3>
+      <textarea id="sandbox-code">{{ page.sandbox_code | default: "// Type your code here" }}</textarea>
+      <button id="run-sandbox">Run Code</button>
+      <pre id="sandbox-output"></pre>
+    </div>
+    {% endif %}
+
+    {% if page.enable_quiz %}
+    <hr>
+    <div class="lesson-quiz">
+      <h3>📝 Quick Check</h3>
+      <p>{{ page.quiz_prompt | default: "What did you learn?" }}</p>
+      <textarea id="reflection-box"></textarea>
+      <button id="save-reflection">Save</button>
+      <p id="reflection-status"></p>
+    </div>
+    {% endif %}
+
+    {% if page.resources %}
+    <hr>
+    <div class="resources">
+      <h3>📚 Resources</h3>
+      <ul>
+        {% for r in page.resources %}
+          <li><a href="{{ r.url }}" target="_blank">{{ r.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if page.prev_url or page.next_url %}
+    <div class="lesson-nav">
+      {% if page.prev_url %}<a href="{{ page.prev_url }}" class="btn">⬅ Previous</a>{% endif %}
+      {% if page.next_url %}<a href="{{ page.next_url }}" class="btn">Next ➡</a>{% endif %}
+    </div>
+    {% endif %}
+  </main>
+</div>
+
+<!-- Load your shared scripts & styles -->
+<script src="{{ '/assets/js/lessonbase.js' | relative_url }}"></script>
+<link rel="stylesheet" href="{{ '/assets/css/lessonbase.css' | relative_url }}">
