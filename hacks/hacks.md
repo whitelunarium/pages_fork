@@ -143,5 +143,14 @@ lxdData:
       Lessons: "/solitaire/lesson"
       Image: "/images/solitaire.png"
       Alt: "Solitaire Image"
+    - Title: "API Basics"
+      Genre: "Coding"
+      Level: "4"
+      Description: "Learn the basics of APIs, Async, Error Handling, and best practices."
+      Categories: ["JavaScript", "API"]
+      Game: "/solitaire" ## Change to API example with /api-basics/game
+      Lessons: "/api-basics/lessons"
+      Image: "/images/basic-api/api-image.jpg"
+      Alt: "API Image"
 ---
 {%- include tailwind/lxd.html -%}
