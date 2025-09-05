@@ -148,7 +148,7 @@ lxdData:
       Level: "4"
       Description: "Learn the basics of APIs, Async, Error Handling, and best practices."
       Categories: ["JavaScript", "API"]
-      Game: "/solitaire" ## Change to API example with /api-basics/game
+      Game: "/music-api" ## Change to API example with /api-basics/game
       Lessons: "/api-basics/lessons"
       Image: "/images/basic-api/api-image.jpg"
       Alt: "API Image"
