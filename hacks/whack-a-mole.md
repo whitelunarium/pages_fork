@@ -13,7 +13,7 @@ Click the moles or press number keys (1–9) to score.
 - Increasing difficulty over time  
 - Fully OOP Game  
 
-<a href="{{site.baseurl}}/lessons/oriented">Lesson for Game</a>
+<a href="{{site.baseurl}}/oriented/lessons">Lesson for Game</a>
 
 Information:
 
