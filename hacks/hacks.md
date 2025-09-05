@@ -134,5 +134,14 @@ lxdData:
       Lessons: "/solitaire/lesson"
       Image: "/images/solitaire.png"
       Alt: "Solitaire Image"
+    - Title: "Pong Game"
+      Genre: "Coding"
+      Level: "2"
+      Description: "Learn about making a retro pong game"
+      Categories: ["JavaScript", "OOP", "Game Coding", "Innovation"]
+      Game: "/custompong"
+      Lessons: "/jupyter/notebook/pythonpong2"
+      Image: "/images/pong.png"
+      Alt: "Pong Game"
 ---
 {%- include tailwind/lxd.html -%}
