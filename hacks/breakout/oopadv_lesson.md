@@ -6,7 +6,7 @@ permalink: oopadvlesson
 ---
 
 
-#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
+<p><a href="{{ site.baseurl }}/oopbreakoutlesson" class="breakout-btn">Return to main OOP lesson page</a></p>
 ## Lesson 1 — Advanced Inheritance: Building Complex Class Hierarchies
 
 ### Big picture
@@ -468,10 +468,9 @@ This advanced version demonstrates how OOP concepts scale to handle complex game
 
 Draw your understanding of the advanced class hierarchy and object relationships.
 
-<canvas id="advancedCanvas" width="800" height="600" style="border:1px solid #ccc"></canvas>
-
+<canvas id="advancedCanvas" width="800" height="600" class="whiteboard-canvas" style="border:1px solid #ccc"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<link rel="stylesheet" href="{{ '/_sass/open-coding/whiteboard.scss' | relative_url }}">
 <script>
   const advancedCanvas = new fabric.Canvas('advancedCanvas');
   advancedCanvas.isDrawingMode = true;
@@ -496,171 +495,123 @@ Draw your understanding of the advanced class hierarchy and object relationships
 
 Press `r` for red, `b` for blue, `g` for green, `y` for yellow, `p` for purple, `c` to clear.
 
-# ✅ Advanced Checkpoint Quizzes
+## ✅ Advanced Checkpoint Quizzes
 
-<div id="oop-advanced-quizzes">
-<style>
-  #oop-advanced-quizzes { --ok:#118a00; --bad:#b00020; }
-  #oop-advanced-quizzes .quiz-card{
-    background:#fff;border:2px solid #ddd;border-radius:14px;
-    padding:1.2rem;margin:1.2rem 0;box-shadow:0 4px 12px rgba(0,0,0,.05);
-    color:#000;
-  }
-  #oop-advanced-quizzes .quiz-title{font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
-  #oop-advanced-quizzes .quiz-sub{margin-bottom:.9rem;color:#333}
-  #oop-advanced-quizzes .q{border-radius:10px;padding:.9rem;margin:.7rem 0;border:1px solid #eee}
-  #oop-advanced-quizzes .q:nth-child(odd){background:#f7f3ff;}
-  #oop-advanced-quizzes .q:nth-child(even){background:#f3fff7;}
-  #oop-advanced-quizzes .prompt{font-weight:700;margin-bottom:.4rem}
-  #oop-advanced-quizzes .option{display:flex;gap:.45rem;align-items:flex-start;margin:.3rem 0}
-  #oop-advanced-quizzes button{
-    background:#f7f7f7;color:#000;border:2px solid #000;
-    border-radius:999px;padding:.45rem 1rem;
-    font-weight:700;cursor:pointer;margin-top:.6rem
-  }
-  #oop-advanced-quizzes button:hover{background:#000;color:#fff}
-  #oop-advanced-quizzes .feedback{margin-top:.5rem;font-weight:700}
-  #oop-advanced-quizzes .feedback.ok{color:var(--ok)}
-  #oop-advanced-quizzes .feedback.bad{color:var(--bad)}
-  #oop-advanced-quizzes code{
-    background:#f4f4f4;color:#000;padding:2px 5px;border-radius:4px
-  }
-</style>
+<div class="breakout-quiz" data-answers='{"q1":"GameObject → Brick → StrongBrick","q2":"StrongBrick,MovingBrick"}'>
+    <div class="breakout-quiz-title">Lesson 1 Checkpoint</div>
 
-  <!-- Quiz 1 -->
-  <div class="quiz-card" data-quiz="1">
-    <div class="quiz-title">Lesson 1 Checkpoint</div>
-    <div class="quiz-sub">Advanced Inheritance Hierarchies</div>
-    <div class="q">
-      <div class="prompt">1) What is the correct inheritance chain for StrongBrick?</div>
-      <label class="option"><input type="radio" name="q1a">GameObject → StrongBrick</label>
-      <label class="option"><input type="radio" name="q1a">GameObject → Brick → StrongBrick</label>
-      <label class="option"><input type="radio" name="q1a">Game → Brick → StrongBrick</label>
+    <div class="breakout-quiz-q">
+        <p class="prompt">1) What is the correct inheritance chain for StrongBrick?</p>
+        <label><input type="radio" name="q1" value="GameObject → StrongBrick"> GameObject → StrongBrick</label>
+        <label><input type="radio" name="q1" value="GameObject → Brick → StrongBrick"> GameObject → Brick → StrongBrick</label>
+        <label><input type="radio" name="q1" value="Game → Brick → StrongBrick"> Game → Brick → StrongBrick</label>
     </div>
-    <div class="q">
-      <div class="prompt">2) Which classes override the <code>getPoints()</code> method?</div>
-      <label class="option"><input type="checkbox" value="StrongBrick">StrongBrick</label>
-      <label class="option"><input type="checkbox" value="MovingBrick">MovingBrick</label>
-      <label class="option"><input type="checkbox" value="Ball">Ball</label>
-      <label class="option"><input type="checkbox" value="Paddle">Paddle</label>
-    </div>
-    <button class="check">Check Answers</button>
-    <button class="clear">Clear</button>
-    <div class="feedback"></div>
-  </div>
 
-  <!-- Quiz 2 -->
-  <div class="quiz-card" data-quiz="2">
-    <div class="quiz-title">Lesson 2 Checkpoint</div>
-    <div class="quiz-sub">Polymorphism and Method Overriding</div>
-    <div class="q">
-      <div class="prompt">1) What allows all brick types to be stored in the same array?</div>
-      <label class="option"><input type="radio" name="q2a">Inheritance</label>
-      <label class="option"><input type="radio" name="q2a">Polymorphism</label>
-      <label class="option"><input type="radio" name="q2a">Composition</label>
+    <div class="breakout-quiz-q">
+        <p class="prompt">2) Which classes override the <code>getPoints()</code> method?</p>
+        <label><input type="checkbox" name="q2" value="StrongBrick"> StrongBrick</label>
+        <label><input type="checkbox" name="q2" value="MovingBrick"> MovingBrick</label>
+        <label><input type="checkbox" name="q2" value="Ball"> Ball</label>
+        <label><input type="checkbox" name="q2" value="Paddle"> Paddle</label>
     </div>
-    <div class="q">
-      <div class="prompt">2) Which brick type overrides the <code>update()</code> method?</div>
-      <label class="option"><input type="radio" name="q2b">StrongBrick</label>
-      <label class="option"><input type="radio" name="q2b">MovingBrick</label>
-      <label class="option"><input type="radio" name="q2b">Basic Brick</label>
-    </div>
-    <button class="check">Check Answers</button>
-    <button class="clear">Clear</button>
-    <div class="feedback"></div>
-  </div>
 
-  <!-- Quiz 3 -->
-  <div class="quiz-card" data-quiz="3">
-    <div class="quiz-title">Lesson 3 Checkpoint</div>
-    <div class="quiz-sub">Composition and Array Management</div>
-    <div class="q">
-      <div class="prompt">1) Which data structures does the Game class use for state management?</div>
-      <label class="option"><input type="checkbox" value="Arrays">Arrays</label>
-      <label class="option"><input type="checkbox" value="Sets">Sets</label>
-      <label class="option"><input type="checkbox" value="Objects">Objects</label>
-      <label class="option"><input type="checkbox" value="Maps">Maps</label>
-    </div>
-    <div class="q">
-      <div class="prompt">2) What keyword is used to identify specific brick types in mixed arrays?</div>
-      <label class="option"><input type="radio" name="q3b">typeof</label>
-      <label class="option"><input type="radio" name="q3b">instanceof</label>
-      <label class="option"><input type="radio" name="q3b">extends</label>
-    </div>
-    <button class="check">Check Answers</button>
-    <button class="clear">Clear</button>
-    <div class="feedback"></div>
-  </div>
+    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
+    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
+    <div class="breakout-quiz-feedback"></div>
+</div>
 
-  <!-- Quiz 4 -->
-  <div class="quiz-card" data-quiz="4">
-    <div class="quiz-title">Lesson 4 Checkpoint</div>
-    <div class="quiz-sub">Object Communication and State Management</div>
-    <div class="q">
-      <div class="prompt">1) What pattern is used for creating different brick types?</div>
-      <label class="option"><input type="radio" name="q4a">Singleton pattern</label>
-      <label class="option"><input type="radio" name="q4a">Factory pattern</label>
-      <label class="option"><input type="radio" name="q4a">Observer pattern</label>
+<div class="breakout-quiz" data-answers='{"q1":"Polymorphism","q2":"MovingBrick"}'>
+    <div class="breakout-quiz-title">Lesson 2 Checkpoint</div>
+
+    <div class="breakout-quiz-q">
+        <p class="prompt">1) What allows all brick types to be stored in the same array?</p>
+        <label><input type="radio" name="q1" value="Inheritance"> Inheritance</label>
+        <label><input type="radio" name="q1" value="Polymorphism"> Polymorphism</label>
+        <label><input type="radio" name="q1" value="Composition"> Composition</label>
     </div>
-    <div class="q">
-      <div class="prompt">2) How many classes are involved in the power-up creation chain?</div>
-      <label class="option"><input type="radio" name="q4b">2 classes</label>
-      <label class="option"><input type="radio" name="q4b">3 classes</label>
-      <label class="option"><input type="radio" name="q4b">4 classes</label>
+
+    <div class="breakout-quiz-q">
+        <p class="prompt">2) Which brick type overrides the <code>update()</code> method?</p>
+        <label><input type="radio" name="q2" value="StrongBrick"> StrongBrick</label>
+        <label><input type="radio" name="q2" value="MovingBrick"> MovingBrick</label>
+        <label><input type="radio" name="q2" value="Basic Brick"> Basic Brick</label>
     </div>
-    <button class="check">Check Answers</button>
-    <button class="clear">Clear</button>
-    <div class="feedback"></div>
-  </div>
+
+    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
+    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
+    <div class="breakout-quiz-feedback"></div>
+</div>
+
+<div class="breakout-quiz" data-answers='{"q1":"Arrays,Sets,Objects","q2":"instanceof"}'>
+    <div class="breakout-quiz-title">Lesson 3 Checkpoint</div>
+
+    <div class="breakout-quiz-q">
+        <p class="prompt">1) Which data structures does the Game class use for state management?</p>
+        <label><input type="checkbox" name="q1" value="Arrays"> Arrays</label>
+        <label><input type="checkbox" name="q1" value="Sets"> Sets</label>
+        <label><input type="checkbox" name="q1" value="Objects"> Objects</label>
+        <label><input type="checkbox" name="q1" value="Maps"> Maps</label>
+    </div>
+
+    <div class="breakout-quiz-q">
+        <p class="prompt">2) What keyword is used to identify specific brick types in mixed arrays?</p>
+        <label><input type="radio" name="q2" value="typeof"> typeof</label>
+        <label><input type="radio" name="q2" value="instanceof"> instanceof</label>
+        <label><input type="radio" name="q2" value="extends"> extends</label>
+    </div>
+
+    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
+    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
+    <div class="breakout-quiz-feedback"></div>
+</div>
+
+<div class="breakout-quiz" data-answers='{"q1":"Factory pattern","q2":"4 classes"}'>
+    <div class="breakout-quiz-title">Lesson 4 Checkpoint</div>
+
+    <div class="breakout-quiz-q">
+        <p class="prompt">1) What pattern is used for creating different brick types?</p>
+        <label><input type="radio" name="q1" value="Singleton pattern"> Singleton pattern</label>
+        <label><input type="radio" name="q1" value="Factory pattern"> Factory pattern</label>
+        <label><input type="radio" name="q1" value="Observer pattern"> Observer pattern</label>
+    </div>
+
+    <div class="breakout-quiz-q">
+        <p class="prompt">2) How many classes are involved in the power-up creation chain?</p>
+        <label><input type="radio" name="q2" value="2 classes"> 2 classes</label>
+        <label><input type="radio" name="q2" value="3 classes"> 3 classes</label>
+        <label><input type="radio" name="q2" value="4 classes"> 4 classes</label>
+    </div>
+
+    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
+    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
+    <div class="breakout-quiz-feedback"></div>
 </div>
 
 <script>
-const advancedAnswers = {
-  1: {single:"GameObject → Brick → StrongBrick", multi:["StrongBrick","MovingBrick"]},
-  2: {single:["Polymorphism","MovingBrick"]},
-  3: {multi:["Arrays","Sets","Objects"], single:"instanceof"},
-  4: {single:["Factory pattern","4 classes"]}
-};
-
-document.querySelectorAll('#oop-advanced-quizzes .quiz-card').forEach(card=>{
-  card.querySelector('.check').onclick=()=>{
-    let id=card.dataset.quiz;
-    let fb=card.querySelector('.feedback');
-    let correct=true;
-    
-    if(id=="1"){
-      let radio=card.querySelector('input[name=q1a]:checked');
-      if(!radio||radio.parentNode.textContent.trim()!==advancedAnswers[1].single) correct=false;
-      let chosen=[...card.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);
-      if(JSON.stringify(chosen.sort())!==JSON.stringify(advancedAnswers[1].multi.sort())) correct=false;
+function checkQuiz(btn) {
+    const quiz = btn.closest('.breakout-quiz');
+    const answers = JSON.parse(quiz.dataset.answers);
+    let ok = true;
+    for (const q in answers) {
+        const expected = answers[q].split(',');
+        const checked = Array.from(quiz.querySelectorAll(`input[name='${q}']:checked`)).map(i=>i.value);
+        if (expected.length > 1) {
+            if (checked.length !== expected.length || !expected.every(val => checked.includes(val))) ok = false;
+        } else {
+            if (!checked.length || checked[0] !== answers[q]) ok = false;
+        }
     }
-    if(id=="2"){
-      let r1=card.querySelector('input[name=q2a]:checked');
-      let r2=card.querySelector('input[name=q2b]:checked');
-      if(!r1||r1.parentNode.textContent.trim()!==advancedAnswers[2].single[0]) correct=false;
-      if(!r2||r2.parentNode.textContent.trim()!==advancedAnswers[2].single[1]) correct=false;
-    }
-    if(id=="3"){
-      let chosen=[...card.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);
-      if(JSON.stringify(chosen.sort())!==JSON.stringify(advancedAnswers[3].multi.sort())) correct=false;
-      let radio=card.querySelector('input[name=q3b]:checked');
-      if(!radio||radio.parentNode.textContent.trim()!==advancedAnswers[3].single) correct=false;
-    }
-    if(id=="4"){
-      let r1=card.querySelector('input[name=q4a]:checked');
-      let r2=card.querySelector('input[name=q4b]:checked');
-      if(!r1||r1.parentNode.textContent.trim()!==advancedAnswers[4].single[0]) correct=false;
-      if(!r2||r2.parentNode.textContent.trim()!==advancedAnswers[4].single[1]) correct=false;
-    }
-    
-    fb.textContent=correct?"✅ Correct!":"❌ Try again.";
-    fb.className="feedback "+(correct?"ok":"bad");
-  };
-  card.querySelector('.clear').onclick=()=>{
-    card.querySelectorAll('input').forEach(x=>x.checked=false);
-    let fb=card.querySelector('.feedback'); fb.textContent="";
-  };
-});
+    const fb = quiz.querySelector('.breakout-quiz-feedback');
+    fb.textContent = ok ? '✅ Correct!' : '❌ Try again.';
+    fb.className = 'breakout-quiz-feedback ' + (ok ? 'ok' : 'bad');
+}
+function resetQuiz(btn) {
+    const quiz = btn.closest('.breakout-quiz');
+    quiz.querySelectorAll('input').forEach(i=>i.checked=false);
+    const fb = quiz.querySelector('.breakout-quiz-feedback');
+    fb.textContent = '';
+    fb.className = 'breakout-quiz-feedback';
+}
 </script>
 
 ## Advanced Challenges

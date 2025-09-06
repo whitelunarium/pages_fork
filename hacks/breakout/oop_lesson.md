@@ -5,7 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---
 
-### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/hacks/breakout)
+<p><a href="https://github.com/code259/curators/tree/main/hacks/breakout" class="breakout-btn">👉 Click this for full source code</a></p>
 
 # OOP Breakout (3-Part Mini-Lesson)
 
@@ -322,10 +322,9 @@ These helpers keep the `Game` logic clean by packaging collision checks inside t
  - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
 
 
-<canvas id="c" width="800" height="500" style="border:1px solid #ccc"></canvas>
-
+<canvas id="c" width="800" height="500" class="whiteboard-canvas" style="border:1px solid #ccc"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<link rel="stylesheet" href="{{ '/_sass/open-coding/whiteboard.scss' | relative_url }}">
 <script>
   const canvas = new fabric.Canvas('c');
   canvas.isDrawingMode = true; // enable free drawing
@@ -339,7 +338,6 @@ These helpers keep the `Game` logic clean by packaging collision checks inside t
   });
 </script>
 
-<br>
 Press `r` to change brush color to red.
 Press `b` to change brush color to blue.
 Press `g` to change brush color to green.

@@ -5,7 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson1
 ---
 
-#### [Return to Main Functional Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)
+<p><a href="{{ site.baseurl }}/functionalbreakoutlesson" class="breakout-btn">Return to Main Functional Lesson Page</a></p>
 ## **Lesson 1: Paddle and Base Blocks**
 
 **Goal:** Learn how to move the paddle (player) left and right and create basic bricks.

@@ -1,0 +1,144 @@
+// Quiz/checkpoint styles
+
+// Quiz/checkpoint styles (preserve previous look)
+.breakout-quiz {
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  padding: 1.2rem;
+  margin: 1.2rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  color: #000;
+  max-width: 820px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+.breakout-quiz-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+.breakout-quiz-btn {
+  background: #f7f7f7;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 999px;
+  padding: .45rem 1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: .6rem;
+  margin-right: .4rem;
+  transition: background 0.2s, color 0.2s;
+}
+.breakout-quiz-btn:hover {
+  background: #000;
+  color: #fff;
+}
+.breakout-quiz-feedback {
+  margin-top: 0.6rem;
+  font-weight: 800;
+}
+.breakout-quiz-feedback.ok {
+  color: #118a00;
+}
+.breakout-quiz-feedback.bad {
+  color: #b00020;
+}
+.breakout-quiz label {
+  display: flex;
+  gap: .45rem;
+  align-items: flex-start;
+  margin: .3rem 0;
+  color: #222;
+}
+.breakout-quiz p {
+  font-weight: 700;
+  margin-bottom: .4rem;
+}
+.breakout-quiz code {
+  background: #f4f4f4;
+  color: #000;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+.breakout-quiz .breakout-quiz-q {
+  border-radius: 10px;
+  padding: .9rem;
+  margin: .7rem 0;
+  border: 1px solid #eee;
+}
+.breakout-quiz .breakout-quiz-q:nth-child(odd) {
+  background: #f7f3ff; /* lilac */
+}
+.breakout-quiz .breakout-quiz-q:nth-child(even) {
+  background: #f3fff7; /* mint */
+}
+// Simple SCSS styling for Breakout hacks
+
+$breakout-bg: #f8fafc;
+$breakout-primary: #2563eb;
+$breakout-accent: #fbbf24;
+$breakout-border: #e5e7eb;
+$breakout-radius: 8px;
+$breakout-shadow: 0 2px 8px rgba(0,0,0,0.04);
+
+.breakout-container {
+  background: $breakout-bg;
+  border: 1px solid $breakout-border;
+  border-radius: $breakout-radius;
+  box-shadow: $breakout-shadow;
+  padding: 2rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 800px;
+}
+
+.breakout-title {
+  color: $breakout-primary;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.breakout-section {
+  margin-bottom: 2rem;
+}
+
+.breakout-btn {
+  background: $breakout-primary;
+  color: #fff;
+  border: none;
+  border-radius: $breakout-radius;
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: darken($breakout-primary, 10%);
+  }
+}
+
+.breakout-highlight {
+  background: $breakout-accent;
+  color: #222;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.breakout-list {
+  list-style: disc inside;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.breakout-code {
+  background: #222;
+  color: #fbbf24;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1em;
+  margin: 1em 0;
+  display: block;
+  overflow-x: auto;
+}

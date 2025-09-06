@@ -1,0 +1,17 @@
+// Minimal whiteboard/blackboard canvas styling for breakout lessons
+.whiteboard-canvas {
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  background: #222;
+  box-shadow: 0 2px 12px rgb(163, 156, 156);
+  margin: 0 auto 1.5rem auto;
+  display: block;
+  max-width: 100%;
+}
+
+.whiteboard-instructions {
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}

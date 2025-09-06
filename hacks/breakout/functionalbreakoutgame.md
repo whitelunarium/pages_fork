@@ -5,37 +5,22 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutgame
 ---
 
-<style>
-  canvas {
-    background: #eee;
-    display: block;
-    margin: 0 auto;
-    border: 1px solid #333;
-  }
-  h2 {
-    margin-top: 5px !important;
-  }
-  p {
-    margin-bottom: 5px !important;
-  }
-</style>
+
 
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
 <!-- NEW: Next Level buttons -->
-<button id="nextLevelBtn" style="display:none;margin:10px auto 0;padding:10px 16px;font-family:system-ui,Arial;font-size:16px;font-weight:600;border:1px solid #222;background:#fff;cursor:pointer;border-radius:8px;display:block;max-width:600px;color:#111 !important;">
-  Next Level ▶
-</button>
+<button id="nextLevelBtn" class="breakout-btn" style="display:none; max-width:600px; margin:10px auto 0; display:block;">Next Level ▶</button>
 
-<div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<div class="breakout-container" style="max-width:600px;margin:8px auto;">
 <!-- Hack #1: 90% hack section -->
-<div id="hack1-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
-  <p><a href="{{site.baseurl}}/hacks" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
-  <h2>Breakout Game (w/ Advanced Features)</h2>
+<div class="breakout-section" style="max-width:600px;margin:8px auto;">
+  <p><a href="{{site.baseurl}}/hacks" class="breakout-btn">Click here to go back to main page</a></p>
+  <h2 class="breakout-title" style="font-size:1.5rem;">Breakout Game (w/ Advanced Features)</h2>
   <p><strong>Hack #1 (90%): Change Colors</strong></p>
   <p>Look in the javascript and change the <em>paddle</em> and <em>brick</em> colors.</p>
   
-  <ul style="margin:8px 0 12px 20px;">
+  <ul class="breakout-list">
     <li>Pick a new color for the paddle and the bricks.</li>
     <li>Change the <em>Colors</em> to update the game design.</li>
     <li>Tip: High-contrast colors look best on a light background.</li>
@@ -43,19 +28,19 @@ permalink: functionalbreakoutgame
 </div>
 
 <!-- Hack #1: 100% hack section -->
-<div id="hack1-100" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<div class="breakout-section" style="max-width:600px;margin:8px auto;">
   <p><strong>Hack #1 (100%): Go Further with Colors</strong></p>
-  <ul style="margin:8px 0 12px 20px;">
+  <ul class="breakout-list">
     <li>Try creating a color picker below the game script to change the color of the ball or blocks on the fly.</li>
     <li>Extra challenge: Try using gradients.</li>
   </ul>
 </div>
 
 <!-- Hack #2: 90% hack section -->
-<div id="hack2-90" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<div class="breakout-section" style="max-width:600px;margin:8px auto;">
   <p><strong>Hack #2 (90%): Change Ball Speed</strong></p>
   <p>Look in the javascript and change the <em>ball</em> speed.</p>
-  <ul style="margin:8px 0 12px 20px;">
+  <ul class="breakout-list">
     <li>Pick a new speed for the ball.</li>
     <li>Change the <em>ball speed</em> to update the game design.</li>
     <li>Tip: Don't make the speed to high! It will be too hard!</li>
@@ -64,16 +49,16 @@ permalink: functionalbreakoutgame
 </div>
 
 <!-- Hack #2: 100% hack section -->
-<div id="hack2-100" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<div class="breakout-section" style="max-width:600px;margin:8px auto;">
   <p><strong>Hack #2 (100%): Advanced Ball Speed</strong></p>
-  <ul style="margin:8px 0 12px 20px;">
+  <ul class="breakout-list">
     <li>Make the ball speed up each time it hits a brick or the paddle.</li>
     <li>You may do this by changing the variable used in the 90% hack by set increments each time.</li>
     <li>Also, try adding a "slow motion" mode where pressing a button halves the speed of the ball during the play session.</li>
   </ul>
 </div>
 
-<div id="information" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+<div class="breakout-section" style="max-width:600px;margin:8px auto;">
   <h2>Breakout Game Lesson</h2>
   <p><strong>Learn the Basics</strong></p>
   <p>Learn the basics of building a <strong>Breakout-style game</strong> in JavaScript.</p>
