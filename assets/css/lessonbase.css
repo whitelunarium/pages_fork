@@ -184,6 +184,26 @@
   color: #ccc;
 }
 
+/* Demo */
+.demo-label {
+  display: block;
+  text-align: center;
+  margin: 6px 0;
+}
+
+#demo-canvas-wrapper {
+  background: white;
+  border: 2px solid #333;
+  display: block;
+  margin: 0 auto;
+}
+
+#demo-code {
+  display: none;
+  margin: 8px auto;
+  overflow: auto;
+}
+
 /* Info boxes with colored left borders - extracted from teaching.html */
 .info-box {
     padding: 20px;
