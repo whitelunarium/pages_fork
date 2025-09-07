@@ -91,14 +91,14 @@ permalink: /background
         this.canvas.style.left = `0px`;
         this.canvas.style.top = `${(window.innerHeight - this.height) / 2}px`;
 
-        this.objects = [
+        this.gameObjects = [
          new Background(backgroundImg, this),
          new Player(spriteImg, this)
         ];
       }
       gameLoop() {
         this.ctx.clearRect(0, 0, this.width, this.height);
-        for (const obj of this.objects) {
+        for (const obj of this.gameObjects) {
           obj.update();
           obj.draw(this.ctx);
         }
