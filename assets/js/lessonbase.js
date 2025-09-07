@@ -156,3 +156,18 @@ document.addEventListener("DOMContentLoaded", () => {
     unlockBadge(lessonKey); // Badge for writing reflection
   });
 })();
+
+// -------------------- BLACKBOARD --------------------
+(function () {
+  const canvas = new fabric.Canvas('blackboard-canvas');
+  canvas.isDrawingMode = true; // enable free drawing
+  canvas.freeDrawingBrush.color = "white";
+  canvas.freeDrawingBrush.width = 5;
+  document.addEventListener("keydown", e => {
+    if(e.key === "r") canvas.freeDrawingBrush.color = "red";
+    if(e.key === "b") canvas.freeDrawingBrush.color = "blue";
+    if(e.key === "g") canvas.freeDrawingBrush.color = "green";
+    if(e.key === "w") canvas.freeDrawingBrush.color = "white";
+    if(e.key === "c") canvas.clear();
+  });
+})();

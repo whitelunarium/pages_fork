@@ -166,6 +166,24 @@
   color: #9acdff; /* subtle highlight color */
 }
 
+/* Blackboard */
+.blackboard {
+  width: 100%;
+  min-height: 240px;
+}
+
+#blackboard-canvas {
+  /* min-height: 480px; */
+  border: 1px solid #ccc;
+  background: #000;
+  cursor: crosshair;
+}
+
+.blackboard-description {
+  margin-top: 10px;
+  color: #ccc;
+}
+
 /* Info boxes with colored left borders - extracted from teaching.html */
 .info-box {
     padding: 20px;
