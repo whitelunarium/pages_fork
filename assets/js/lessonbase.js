@@ -171,3 +171,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if(e.key === "c") canvas.clear();
   });
 })();
+
+// -------------------- DEMO --------------------
+(function(){
+  const toggle = document.getElementById("demo-toggle");
+  const canvas = document.getElementById("demo-canvas-wrapper");
+  const code = document.getElementById("demo-code");
+
+  // default: unchecked → canvas visible
+  toggle.checked = false;
+
+  toggle.addEventListener("change", () => {
+    if (toggle.checked) {
+      canvas.style.display = "none";
+      code.style.display = "block";
+    } else {
+      code.style.display = "none";
+      canvas.style.display = "block";
+    }
+  });
+})();
