@@ -60,6 +60,40 @@ layout: opencs
     </div>
     {% endif %}
 
+    {% if page.enable_blackboard %}
+    <hr>
+    <div class="blackboard">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <canvas id="blackboard-canvas"></canvas>
+      <p class="blackboard-description">Press 'w' for white, press `r` for red, press `b` for blue, and press `g` for green. Press `c` to clear blackboard. </p>
+    </div>
+    {% endif %}
+  
+    {% if page.enable_demo %}
+    <!-- Note: utilizes script tags in the HTML file as cannot dynamically use information from frontmatter in lessonbase.js -->
+    <hr>
+    <div class="demo">
+      <label class="demo-label">
+        <input type="checkbox" id="demo-toggle"> Show code
+      </label>
+      <div id="demo-canvas-wrapper">
+        <canvas id="demo-canvas"></canvas>
+        <!-- Make sure you put the normal JS code in the "demo_runtime_code" field in the frontmatter. -->
+        <script>
+          // Will need const canvas = document.getElementById("demo-canvas"); to interact with the canvas
+          {{ page.demo_runtime_code }}
+        </script>
+      </div>
+      <!-- Instead of writing '<' or '>' for brackets, use '&lt;' and '&gt;' else the HTML will actually be run instead of displayed. -->
+      <pre id="demo-code" style="display:none; max-width:820px; margin:8px auto; overflow:auto;">
+        <code>
+          <!-- Need to use multiline YAML content in the frontmatter for the javascript -->
+          {{ page.demo_display_code | default: console.log("No demo code provided.") }}
+        </code>
+      </pre>
+    </div>
+    {% endif %}
+
     {% if page.enable_quiz %}
     <hr>
     <div class="lesson-quiz">
