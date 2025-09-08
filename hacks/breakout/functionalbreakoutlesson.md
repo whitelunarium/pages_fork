@@ -1,8 +1,6 @@
----
-layout: post
+layout: lessonbase
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson
----
 
 <link
    rel="stylesheet"
