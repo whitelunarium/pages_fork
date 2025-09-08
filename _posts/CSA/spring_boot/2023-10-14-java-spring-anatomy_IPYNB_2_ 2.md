@@ -5,14 +5,16 @@ description: A discussion of key elements in a Java Spring Boot backend project.
 categories: ['Java Spring']
 permalink: /java/spring/anatomy
 menu: nav/java_spring.html
-courses: {'csa': {'week': 3}}
-type: ccc
+courses: {'csa': {'week': 4}}
+type: coding 
 ---
 
 ## Highlights of a Spring Web Application
+
 This article introduces key considerations in setting up a Java Spring Backend project.
 
 ## Overview of files for Spring / Maven / Thymeleaf
+>
 > Prepare for this review by completing Tools Setup and README instruction to clone and buid.
 
 - `README.md`: This file contains instructions and information about the project. It is a standard component of all properly set up GitHub projects.
@@ -40,6 +42,7 @@ This article introduces key considerations in setting up a Java Spring Backend p
 Please note that this is a general overview, and the specific file and directory structure can vary as any project progresses or the framework change.
 
 ### Main.java
+
 Entry point for Java Spring Application
 
 ```java
@@ -55,6 +58,7 @@ public class Main {
 ```
 
 ### application.properties
+
 Key properties like server.port, secret keys, and database connections are listed in this file.  
 
 
@@ -79,6 +83,7 @@ jwt.secret=nighthawk
 ```
 
 ### pom.xml
+
 All the modules included into the project are listed in this file.  Here you can see some of the dependencies added to make the Java project into Spring Web Application.  As you add features or frameworks you will add to this file.
 
 ```pom
@@ -128,6 +133,7 @@ All the modules included into the project are listed in this file.  Here you can
 ```
 
 ### PersonApiController.java
+
 Build APIs requires a lot of [annotations](https://www.geeksforgeeks.org/annotations-in-java/#).  This controller in Module View Control (MVC) establish mechanism to receive and respond to API requests.
 
 ```java
@@ -210,6 +216,7 @@ public class PersonApiController {
 
 
 ## Deployment Files
+>
 > In addition to Java / Spring.   It is always a requirement to consider deployment.  Be sure your docker files are created modifying the templates below to fit you needs.
 
 
@@ -240,5 +247,6 @@ services:
                 restart: unless-stopped
 ```
 
-# Hacks
+## Hacks
+
 Start your own Spring Project: https://github.com/open-coding-society/spring_2025
