@@ -1,3 +1,215 @@
+// -------------------- FLASHCARDS (MUST BE FIRST) --------------------
+// Define ALL flashcard functions immediately in global scope
+window.flashcardsData = null;
+
+window.flipCard = function(cardId) {
+  console.log('flipCard called with:', cardId); // Debug log
+  const card = document.getElementById(cardId);
+  if (!card) {
+    console.log('Card not found:', cardId);
+    return;
+  }
+  const inner = card.querySelector('.flashcard-inner');
+  if (inner) {
+    inner.classList.toggle('flipped');
+  }
+};
+
+window.navigateCards = function(direction) {
+  console.log('navigateCards called with:', direction); // Debug log
+  if (!window.flashcardsData) {
+    console.log('flashcardsData not initialized');
+    return;
+  }
+  
+  let newIndex = window.flashcardsData.currentIndex;
+  
+  if (direction === 'next' && window.flashcardsData.currentIndex < window.flashcardsData.totalCards) {
+    newIndex = window.flashcardsData.currentIndex + 1;
+  } else if (direction === 'prev' && window.flashcardsData.currentIndex > 1) {
+    newIndex = window.flashcardsData.currentIndex - 1;
+  }
+  
+  if (newIndex !== window.flashcardsData.currentIndex) {
+    window.flashcardsData.currentIndex = newIndex;
+    showCard(newIndex);
+    updateNavButtons();
+    saveFlashcardsData();
+  }
+};
+
+window.markCard = function(status) {
+  console.log('markCard called with:', status); // Debug log
+  if (!window.flashcardsData) {
+    console.log('flashcardsData not initialized');
+    return;
+  }
+  
+  const currentCard = document.querySelector('[id^="card-"]:not(.hidden)');
+  if (!currentCard) {
+    console.log('No current card found');
+    return;
+  }
+  
+  const cardIndex = parseInt(currentCard.dataset.index);
+  const statusEl = document.getElementById(`status-${cardIndex}`);
+  
+  // Remove card from both arrays
+  window.flashcardsData.knownCards = window.flashcardsData.knownCards.filter(idx => idx !== cardIndex);
+  window.flashcardsData.reviewCards = window.flashcardsData.reviewCards.filter(idx => idx !== cardIndex);
+  
+  // Add to appropriate array
+  if (status === 'know') {
+    window.flashcardsData.knownCards.push(cardIndex);
+    if (statusEl) statusEl.innerHTML = '<span style="color: #00E676;">✓ You know this card</span>';
+  } else if (status === 'review') {
+    window.flashcardsData.reviewCards.push(cardIndex);
+    if (statusEl) statusEl.innerHTML = '<span style="color: #FFAB00;">↻ Marked for review</span>';
+  }
+  
+  // Update progress and save
+  updateProgressBar();
+  populateReviewSidebar();
+  saveFlashcardsData();
+  
+  // Award badge for using flashcards
+  if (typeof unlockBadge === 'function') {
+    unlockBadge('flashcards');
+  }
+  
+  // Auto-advance to next card
+  if (cardIndex < window.flashcardsData.totalCards) {
+    setTimeout(() => window.navigateCards('next'), 500);
+  }
+};
+
+window.jumpToCard = function(index) {
+  console.log('jumpToCard called with:', index); // Debug log
+  if (!window.flashcardsData) {
+    console.log('flashcardsData not initialized');
+    return;
+  }
+  
+  window.flashcardsData.currentIndex = index;
+  showCard(index);
+  updateNavButtons();
+  saveFlashcardsData();
+};
+
+// Helper functions for flashcards
+function showCard(index) {
+  // Hide all cards
+  document.querySelectorAll('[id^="card-"]').forEach(card => {
+    card.classList.add('hidden');
+    // Reset flip status
+    const inner = card.querySelector('.flashcard-inner');
+    if (inner) inner.classList.remove('flipped');
+  });
+  
+  // Show the requested card
+  const card = document.getElementById(`card-${index}`);
+  if (card) {
+    card.classList.remove('hidden');
+  }
+  
+  updateNavButtons();
+}
+
+function updateNavButtons() {
+  if (!window.flashcardsData) return;
+  
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  
+  if (prevBtn) {
+    prevBtn.disabled = window.flashcardsData.currentIndex <= 1;
+  }
+  
+  if (nextBtn) {
+    nextBtn.disabled = window.flashcardsData.currentIndex >= window.flashcardsData.totalCards;
+  }
+}
+
+function updateProgressBar() {
+  if (!window.flashcardsData) return;
+  
+  const progressBar = document.getElementById('flashcard-progress');
+  if (!progressBar) return;
+  
+  const totalCards = window.flashcardsData.totalCards;
+  const uniqueKnown = new Set(window.flashcardsData.knownCards);
+  const knownPercentage = (uniqueKnown.size / totalCards) * 100;
+  
+  progressBar.style.width = `${knownPercentage}%`;
+}
+
+function populateReviewSidebar() {
+  if (!window.flashcardsData) return;
+  
+  const reviewList = document.getElementById('review-list');
+  if (!reviewList) return;
+  
+  reviewList.innerHTML = "";
+  
+  window.flashcardsData.reviewCards.forEach(cardIdx => {
+    const cardEl = document.getElementById(`card-${cardIdx}`);
+    if (!cardEl) return;
+    
+    const frontText = cardEl.querySelector(".flashcard-front h3");
+    const text = frontText ? frontText.textContent : `Card ${cardIdx}`;
+    
+    const li = document.createElement('li');
+    li.innerHTML = `<button onclick="jumpToCard(${cardIdx})">${text}</button>`;
+    reviewList.appendChild(li);
+  });
+}
+
+function saveFlashcardsData() {
+  if (!window.flashcardsData) return;
+  
+  const lessonKey = window.location.pathname.split("/").pop() || "lesson";
+  const flashcardsKey = `flashcards-${lessonKey}`;
+  localStorage.setItem(flashcardsKey, JSON.stringify(window.flashcardsData));
+}
+
+// Initialize flashcards when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, checking for flashcards...'); // Debug log
+  
+  // Check if flashcards are enabled on this page
+  if (!document.querySelector('.flashcards-section')) {
+    console.log('No flashcards section found');
+    return;
+  }
+  
+  console.log('Flashcards section found, initializing...'); // Debug log
+  
+  const lessonKey = window.location.pathname.split("/").pop() || "lesson";
+  const flashcardsKey = `flashcards-${lessonKey}`;
+  
+  // Initialize flashcards data
+  const totalCards = document.querySelectorAll('[id^="card-"]').length;
+  const saved = localStorage.getItem(flashcardsKey);
+  
+  console.log('Total cards found:', totalCards); // Debug log
+  
+  window.flashcardsData = saved ? JSON.parse(saved) : {
+    knownCards: [],
+    reviewCards: [],
+    currentIndex: 1,
+    totalCards: totalCards,
+    lastVisited: new Date().toISOString()
+  };
+  
+  console.log('Flashcards data initialized:', window.flashcardsData); // Debug log
+  
+  // Initialize the flashcards display
+  updateProgressBar();
+  showCard(window.flashcardsData.currentIndex);
+  populateReviewSidebar();
+  updateNavButtons();
+});
+
 // -------------------- TIME TRACKER --------------------
 (function () {
   const display = document.getElementById("total-time");
@@ -159,17 +371,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // -------------------- BLACKBOARD --------------------
 (function () {
-  const canvas = new fabric.Canvas('blackboard-canvas');
-  canvas.isDrawingMode = true; // enable free drawing
-  canvas.freeDrawingBrush.color = "white";
-  canvas.freeDrawingBrush.width = 5;
-  document.addEventListener("keydown", e => {
-    if(e.key === "r") canvas.freeDrawingBrush.color = "red";
-    if(e.key === "b") canvas.freeDrawingBrush.color = "blue";
-    if(e.key === "g") canvas.freeDrawingBrush.color = "green";
-    if(e.key === "w") canvas.freeDrawingBrush.color = "white";
-    if(e.key === "c") canvas.clear();
-  });
+  const canvasEl = document.getElementById('blackboard-canvas');
+  if (!canvasEl) return;
+  
+  // Only initialize if fabric.js is loaded
+  if (typeof fabric !== 'undefined') {
+    const canvas = new fabric.Canvas('blackboard-canvas');
+    canvas.isDrawingMode = true; // enable free drawing
+    canvas.freeDrawingBrush.color = "white";
+    canvas.freeDrawingBrush.width = 5;
+    document.addEventListener("keydown", e => {
+      if(e.key === "r") canvas.freeDrawingBrush.color = "red";
+      if(e.key === "b") canvas.freeDrawingBrush.color = "blue";
+      if(e.key === "g") canvas.freeDrawingBrush.color = "green";
+      if(e.key === "w") canvas.freeDrawingBrush.color = "white";
+      if(e.key === "c") canvas.clear();
+    });
+  }
 })();
 
 // -------------------- DEMO --------------------
@@ -177,6 +395,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.getElementById("demo-toggle");
   const canvas = document.getElementById("demo-canvas-wrapper");
   const code = document.getElementById("demo-code");
+
+  if (!toggle || !canvas || !code) return;
 
   // default: unchecked → canvas visible
   toggle.checked = false;
