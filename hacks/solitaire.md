@@ -4,6 +4,7 @@ title: Solitaire Game
 permalink: /solitaire/
 ---
 
+<!-- Here is the styling -->
 <style>
     body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -313,6 +314,7 @@ permalink: /solitaire/
     }
 </style>
 
+<!-- Here is the HTML body -->
 
 <h2>Solitaire</h2>
 <div class="container">
