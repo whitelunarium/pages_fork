@@ -6,7 +6,11 @@ permalink: /solitaire/
 
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0b3d0b, #145214);
+        color: #f1f1f1;
+        margin: 0;
+        padding: 0;
     }
     
     .wrap {
@@ -18,33 +22,42 @@ permalink: /solitaire/
     .game-container {
         display: none;
         padding: 20px;
-        background: #0f7b0f;
-        border-radius: 10px;
+        background: linear-gradient(145deg, #0f7b0f, #0c630c);
+        border-radius: 12px;
         min-height: 600px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
 
     .game-container:focus {
         outline: none;
     }
 
-    /* All screens style */
+    /* Menus & text */
     #gameover p, #menu p {
         font-size: 20px;
+        margin: 8px 0;
     }
 
     #gameover a, #menu a {
-        font-size: 30px;
-        display: block;
-        margin: 10px 0;
+        font-size: 28px;
+        display: inline-block;
+        margin: 10px 15px;
+        padding: 8px 14px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease-in-out;
     }
 
     #gameover a:hover, #menu a:hover {
         cursor: pointer;
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
     }
 
     #gameover a:hover::before, #menu a:hover::before {
         content: ">";
         margin-right: 10px;
+        color: #ffd700;
     }
 
     #menu {
@@ -59,56 +72,68 @@ permalink: /solitaire/
     .game-board {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
+        gap: 12px;
         margin-top: 20px;
     }
 
     .foundation-row {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
+        gap: 12px;
         margin-bottom: 20px;
     }
 
     .card-pile {
         width: 80px;
         height: 110px;
-        border: 2px solid #333;
-        border-radius: 8px;
+        border: 2px solid #444;
+        border-radius: 10px;
         position: relative;
-        background: #fff;
+        background: #f8f8f8;
         cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card-pile:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     .card-pile.empty {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px dashed rgba(255, 255, 255, 0.3);
     }
 
     .card-pile.foundation {
-        background: rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.5);
     }
 
     .card {
         width: 76px;
         height: 106px;
-        border: 1px solid #000;
-        border-radius: 6px;
+        border: 1px solid #111;
+        border-radius: 8px;
         background: #fff;
         position: absolute;
-        cursor: pointer;
+        cursor: grab;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         padding: 4px;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: bold;
         user-select: none;
+        transition: transform 0.15s ease;
+    }
+
+    .card:active {
+        cursor: grabbing;
+        transform: scale(1.05);
     }
 
     .card.red {
-        color: #d00;
+        color: #d40000;
     }
 
     .card.black {
@@ -121,9 +146,10 @@ permalink: /solitaire/
             45deg,
             transparent,
             transparent 10px,
-            rgba(255,255,255,.1) 10px,
-            rgba(255,255,255,.1) 20px
+            rgba(255,255,255,.15) 10px,
+            rgba(255,255,255,.15) 20px
         );
+        border: 1px solid #003366;
     }
 
     .card.face-down * {
@@ -132,11 +158,11 @@ permalink: /solitaire/
 
     .card.dragging {
         z-index: 1000;
-        transform: rotate(5deg);
+        transform: rotate(4deg) scale(1.05);
     }
 
     .card.highlighted {
-        box-shadow: 0 0 10px #ffff00;
+        box-shadow: 0 0 15px #ff0;
     }
 
     .card-top {
@@ -149,11 +175,11 @@ permalink: /solitaire/
     }
 
     .suit {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .tableau-pile {
-        min-height: 300px;
+        min-height: 320px;
     }
 
     .stock-pile, .waste-pile {
@@ -169,33 +195,36 @@ permalink: /solitaire/
     }
 
     .score-display {
-        color: white;
+        color: #fff;
         font-size: 18px;
         font-weight: bold;
+        letter-spacing: 1px;
     }
 
     .timer-display {
-        color: white;
+        color: #eee;
         font-size: 16px;
     }
 
     .game-buttons {
         display: flex;
-        gap: 10px;
+        gap: 12px;
     }
 
     .game-buttons button {
         padding: 8px 16px;
-        background: #4CAF50;
+        background: linear-gradient(135deg, #4CAF50, #3a9440);
         color: white;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         font-size: 14px;
+        transition: all 0.2s ease;
     }
 
     .game-buttons button:hover {
-        background: #45a049;
+        background: linear-gradient(135deg, #45a049, #327c36);
+        transform: translateY(-2px);
     }
 
     .win-message {
@@ -203,16 +232,23 @@ permalink: /solitaire/
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.95);
         color: white;
-        padding: 30px;
-        border-radius: 10px;
+        padding: 35px;
+        border-radius: 12px;
         text-align: center;
         font-size: 24px;
         z-index: 2000;
         display: none;
+        animation: popin 0.4s ease forwards;
     }
-      /* Modal Styles */
+
+    @keyframes popin {
+        from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+        to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    /* Modal Styles */
     .modal {
         position: fixed;
         z-index: 2000;
@@ -221,7 +257,7 @@ permalink: /solitaire/
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgba(0,0,0,0.7);
+        background-color: rgba(0,0,0,0.75);
     }
     
     .modal-content {
@@ -231,10 +267,17 @@ permalink: /solitaire/
         border: 1px solid #888;
         width: 80%;
         max-width: 700px;
-        border-radius: 10px;
+        border-radius: 12px;
         max-height: 80vh;
         overflow-y: auto;
         color: #000;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        animation: slidein 0.3s ease;
+    }
+
+    @keyframes slidein {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
     
     .close {
@@ -243,11 +286,12 @@ permalink: /solitaire/
         font-size: 28px;
         font-weight: bold;
         cursor: pointer;
+        transition: color 0.2s ease;
     }
     
     .close:hover,
     .close:focus {
-        color: black;
+        color: #000;
         text-decoration: none;
     }
     
@@ -259,15 +303,16 @@ permalink: /solitaire/
     }
     
     .instructions-container ul {
-        padding-left: 20px;
+        padding-left: 22px;
+        line-height: 1.6;
     }
+
     #instructions_modal, 
     #instructions_modal * {
         color: #000 !important;
     }
-
-
 </style>
+
 
 <h2>Solitaire</h2>
 <div class="container">
