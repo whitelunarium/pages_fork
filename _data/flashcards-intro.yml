@@ -1,0 +1,15 @@
+cards:
+  - term: "What is HTML?"
+    definition: "HyperText Markup Language - the standard markup language for creating web pages"
+  
+  - term: "What does CSS stand for?"
+    definition: "Cascading Style Sheets - used for styling and layout of web pages"
+  
+  - term: "What is JavaScript?"
+    definition: "A programming language that enables interactive web pages and is an essential part of web applications"
+  
+  - term: "What is the DOM?"
+    definition: "Document Object Model - a programming interface for web documents that represents the page structure"
+  
+  - term: "What is responsive design?"
+    definition: "An approach to web design that makes web pages render well on a variety of devices and window sizes"

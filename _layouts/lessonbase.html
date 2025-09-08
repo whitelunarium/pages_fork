@@ -50,6 +50,72 @@ layout: opencs
       {{ content }}
     </div>
 
+    <!-- Flashcards Section -->
+    {% if page.enable_flashcards %}
+    {% assign flashcard_file = page.flashcards | default: "flashcards" %}
+    {% assign cards = site.data[flashcard_file].cards %}
+    
+    <hr>
+    <div class="flashcards-section">
+      <h3>🗂️ Flashcards</h3>
+      
+      {% if cards %}
+      <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 1rem; overflow: hidden;">
+        <div style="height: 100%; background: linear-gradient(135deg, #6C63FF 0%, #536DFE 100%); transition: width 0.3s ease; width: 0%;" id="flashcard-progress"></div>
+      </div>
+      
+      <div class="flashcard-deck">
+        {% for card in cards %}
+          {% assign index = forloop.index %}
+          {% assign total = forloop.length %}
+          
+          {% if card.term and card.definition %}
+            {% assign front = card.term %}
+            {% assign back = card.definition %}
+          {% else %}
+            {% assign front = card | split: "|" | first %}
+            {% assign back = card | split: "|" | last %}
+          {% endif %}
+          
+          <div class="flashcard-container {% if index > 1 %}hidden{% endif %}" id="card-{{ index }}" data-index="{{ index }}" data-total="{{ total }}">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <div class="card-counter">{{ index }}/{{ total }}</div>
+                <h3>{{ front }}</h3>
+                <button class="btn" onclick="flipCard('card-{{ index }}')">Flip Card</button>
+              </div>
+              <div class="flashcard-back">
+                <div class="card-counter">{{ index }}/{{ total }}</div>
+                <h4>Answer:</h4>
+                <p>{{ back }}</p>
+                <button class="btn" onclick="flipCard('card-{{ index }}')">Flip Back</button>
+              </div>
+            </div>
+            <div class="card-status" id="status-{{ index }}"></div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="flashcard-controls">
+        <button class="btn" id="prev-btn" onclick="navigateCards('prev')" disabled>⬅ Previous</button>
+        
+        <div class="flashcard-actions">
+          <button class="btn know-btn" onclick="markCard('know')">✓ I Know This</button>
+          <button class="btn review-btn" onclick="markCard('review')">↻ Review Again</button>
+        </div>
+        
+        <button class="btn" id="next-btn" onclick="navigateCards('next')">Next ➡</button>
+      </div>
+      
+      {% else %}
+      <div class="no-flashcards">
+        <h4>No flashcards found.</h4>
+        <p>Please check your flashcards.yml file.</p>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
     {% if page.enable_sandbox %}
     <hr>
     <div class="sandbox">
