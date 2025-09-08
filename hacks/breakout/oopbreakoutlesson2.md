@@ -5,7 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson2
 ---
 
-<p><a href="{{ site.baseurl }}/oopbreakoutlesson" class="breakout-btn">Return to main OOP lesson page</a></p>
+#### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
 ---
 

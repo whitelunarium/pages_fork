@@ -4,10 +4,53 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---
 
+<link
+   rel="stylesheet"
+   href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css"
+/>
 
+<style>
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
 
-<h1 class="breakout-title">OOPs Breakout (3-Part Mini Lesson)</h1>
-<p><a href="{{site.baseurl}}/hacks" class="breakout-btn">Click here to go back to main page</a></p>
+.hub-title {
+  display: block !important;
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  margin-top: 1px !important;
+}
+
+.back-button {
+  margin-bottom: 5px !important;
+  text-align: center;
+}
+
+.card {
+  background-color: white !important;
+}
+
+.card-header {
+  color: black !important;
+}
+
+.text-content2 {
+  color: black !important;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<h1 class="hub-title">OOPs Breakout (3-Part Mini Lesson)</h1>
+<p class="back-button"><a href="{{site.baseurl}}/hacks" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
 <br>
 
 ---
@@ -116,9 +159,10 @@ flowchart LR
 
 <br>
 
-<canvas id="c" width="680" height="500" class="whiteboard-canvas" style="border:1px solid #ccc"></canvas>
+<canvas id="c" width="680" height="500" style="border:1px solid #ccc"></canvas>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.js" integrity="sha512-hOJ0mwaJavqi11j0XoBN1PtOJ3ykPdP6lp9n29WVVVVZxgx9LO7kMwyyhaznGJ+kbZrDN1jFZMt2G9bxkOHWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="{{ '/_sass/open-coding/whiteboard.scss' | relative_url }}">
+
 <script>
   const canvas = new fabric.Canvas('c');
   canvas.isDrawingMode = true; // enable free drawing
@@ -142,67 +186,141 @@ Press `c` to clear blackboard.
 # ✅ Checkpoint Quizzes
 
 <div id="oop-breakout-quizzes">
+<style>
+  #oop-breakout-quizzes { --ok:#118a00; --bad:#b00020; }
+  #oop-breakout-quizzes .quiz-card{
+    background:#fff;border:2px solid #ddd;border-radius:14px;
+    padding:1.2rem;margin:1.2rem 0;box-shadow:0 4px 12px rgba(0,0,0,.05);
+    color:#000;
+  }
+  #oop-breakout-quizzes .quiz-title{font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+  #oop-breakout-quizzes .quiz-sub{margin-bottom:.9rem;color:#333}
+  #oop-breakout-quizzes .q{border-radius:10px;padding:.9rem;margin:.7rem 0;border:1px solid #eee}
+  #oop-breakout-quizzes .q:nth-child(odd){background:#f7f3ff;}
+  #oop-breakout-quizzes .q:nth-child(even){background:#f3fff7;}
+  #oop-breakout-quizzes .prompt{font-weight:700;margin-bottom:.4rem}
+  #oop-breakout-quizzes .option{display:flex;gap:.45rem;align-items:flex-start;margin:.3rem 0}
+  #oop-breakout-quizzes button{
+    background:#f7f7f7;color:#000;border:2px solid #000;
+    border-radius:999px;padding:.45rem 1rem;
+    font-weight:700;cursor:pointer;margin-top:.6rem
+  }
+  #oop-breakout-quizzes button:hover{background:#000;color:#fff}
+  #oop-breakout-quizzes .feedback{margin-top:.5rem;font-weight:700}
+  #oop-breakout-quizzes .feedback.ok{color:var(--ok)}
+  #oop-breakout-quizzes .feedback.bad{color:var(--bad)}
+  #oop-breakout-quizzes .score{margin-top:1rem;font-weight:800}
+  #oop-breakout-quizzes code{
+    background:#f4f4f4;color:#000;padding:2px 5px;border-radius:4px
+  }
+</style>
 
-  <div class="breakout-quiz" data-answers='{"q1":"Ball,Paddle,Brick","q2":"Game owns and manages Ball, Paddle, Bricks"}'>
-    <div class="breakout-quiz-title">Lesson 1 Checkpoint</div>
-    <div class="breakout-quiz-q">
-      <p class="prompt">1) Which classes inherit from <code>GameObject</code>?</p>
-      <label><input type="checkbox" name="q1" value="Ball">Ball</label>
-      <label><input type="checkbox" name="q1" value="Paddle">Paddle</label>
-      <label><input type="checkbox" name="q1" value="Game">Game</label>
-      <label><input type="checkbox" name="q1" value="Brick">Brick</label>
+
+  <!-- Quiz 1 -->
+  <div class="quiz-card" data-quiz="1">
+    <div class="quiz-title">Lesson 1 Checkpoint</div>
+    <div class="quiz-sub">Inheritance vs. Composition</div>
+    <div class="q">
+      <div class="prompt">1) Which classes inherit from <code>GameObject</code>?</div>
+      <label class="option"><input type="checkbox" value="Ball">Ball</label>
+      <label class="option"><input type="checkbox" value="Paddle">Paddle</label>
+      <label class="option"><input type="checkbox" value="Game">Game</label>
+      <label class="option"><input type="checkbox" value="Brick">Brick</label>
     </div>
-    <div class="breakout-quiz-q">
-      <p class="prompt">2) What is composition in the <code>Game</code> class?</p>
-      <label><input type="radio" name="q2" value="Game extends GameObject">Game extends GameObject</label>
-      <label><input type="radio" name="q2" value="Game owns and manages Ball, Paddle, Bricks">Game owns and manages Ball, Paddle, Bricks</label>
-      <label><input type="radio" name="q2" value="Game overrides draw()">Game overrides draw()</label>
+    <div class="q">
+      <div class="prompt">2) What is composition in the <code>Game</code> class?</div>
+      <label class="option"><input type="radio" name="q2">Game extends GameObject</label>
+      <label class="option"><input type="radio" name="q2">Game owns and manages Ball, Paddle, Bricks</label>
+      <label class="option"><input type="radio" name="q2">Game overrides draw()</label>
     </div>
-    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-    <div class="breakout-quiz-feedback"></div>
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
   </div>
 
-  <div class="breakout-quiz" data-answers='{"q1":"width,color","q2":"update()"}'>
-    <div class="breakout-quiz-title">Lesson 2 Checkpoint</div>
-    <div class="breakout-quiz-q">
-      <p class="prompt">1) Which of these are attributes of Paddle?</p>
-      <label><input type="checkbox" name="q1" value="width">width</label>
-      <label><input type="checkbox" name="q1" value="color">color</label>
-      <label><input type="checkbox" name="q1" value="draw()">draw()</label>
-      <label><input type="checkbox" name="q1" value="update()">update()</label>
+  <!-- Quiz 2 -->
+  <div class="quiz-card" data-quiz="2">
+    <div class="quiz-title">Lesson 2 Checkpoint</div>
+    <div class="quiz-sub">Attributes vs. Methods</div>
+    <div class="q">
+      <div class="prompt">1) Which of these are attributes of Paddle?</div>
+      <label class="option"><input type="checkbox" value="width">width</label>
+      <label class="option"><input type="checkbox" value="color">color</label>
+      <label class="option"><input type="checkbox" value="draw()">draw()</label>
+      <label class="option"><input type="checkbox" value="update()">update()</label>
     </div>
-    <div class="breakout-quiz-q">
-      <p class="prompt">2) Which method makes the paddle respond to keyboard input?</p>
-      <label><input type="radio" name="q2" value="reset()">reset()</label>
-      <label><input type="radio" name="q2" value="update()">update()</label>
-      <label><input type="radio" name="q2" value="applyPowerUp()">applyPowerUp()</label>
+    <div class="q">
+      <div class="prompt">2) Which method makes the paddle respond to keyboard input?</div>
+      <label class="option"><input type="radio" name="q2p">reset()</label>
+      <label class="option"><input type="radio" name="q2p">update()</label>
+      <label class="option"><input type="radio" name="q2p">applyPowerUp()</label>
     </div>
-    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-    <div class="breakout-quiz-feedback"></div>
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
   </div>
 
-  <div class="breakout-quiz" data-answers='{"q1":"Calls GameObject constructor","q2":"Velocity magnitude"}'>
-    <div class="breakout-quiz-title">Lesson 3 Checkpoint</div>
-    <div class="breakout-quiz-q">
-      <p class="prompt">1) What does <code>super(x, y)</code> do in Ball’s constructor?</p>
-      <label><input type="radio" name="q1" value="Calls the Game class">Calls the Game class</label>
-      <label><input type="radio" name="q1" value="Calls GameObject constructor">Calls GameObject constructor</label>
-      <label><input type="radio" name="q1" value="Sets speed to default">Sets speed to default</label>
+  <!-- Quiz 3 -->
+  <div class="quiz-card" data-quiz="3">
+    <div class="quiz-title">Lesson 3 Checkpoint</div>
+    <div class="quiz-sub">Constructors & Ball</div>
+    <div class="q">
+      <div class="prompt">1) What does <code>super(x, y)</code> do in Ball’s constructor?</div>
+      <label class="option"><input type="radio" name="q3a">Calls the Game class</label>
+      <label class="option"><input type="radio" name="q3a">Calls GameObject constructor</label>
+      <label class="option"><input type="radio" name="q3a">Sets speed to default</label>
     </div>
-    <div class="breakout-quiz-q">
-      <p class="prompt">2) What does <code>speedUp()</code> change?</p>
-      <label><input type="radio" name="q2" value="Ball size only">Ball size only</label>
-      <label><input type="radio" name="q2" value="Velocity magnitude">Velocity magnitude</label>
-      <label><input type="radio" name="q2" value="Direction and color">Direction and color</label>
+    <div class="q">
+      <div class="prompt">2) What does <code>speedUp()</code> change?</div>
+      <label class="option"><input type="radio" name="q3b">Ball size only</label>
+      <label class="option"><input type="radio" name="q3b">Velocity magnitude</label>
+      <label class="option"><input type="radio" name="q3b">Direction and color</label>
     </div>
-    <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-    <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-    <div class="breakout-quiz-feedback"></div>
+    <button class="check">Check Answers</button>
+    <button class="clear">Clear</button>
+    <div class="feedback"></div>
   </div>
-
 </div>
+
+<script>
+const answers = {
+  1: {multi:["Ball","Paddle","Brick"],single:"Game owns and manages Ball, Paddle, Bricks"},
+  2: {multi:["width","color"],single:"update()"},
+  3: {multi:[], single:["Calls GameObject constructor","Velocity magnitude"]}
+};
+
+document.querySelectorAll('#oop-breakout-quizzes .quiz-card').forEach(card=>{
+  card.querySelector('.check').onclick=()=>{
+    let id=card.dataset.quiz;
+    let fb=card.querySelector('.feedback');
+    let correct=true;
+    if(id=="1"){
+      let chosen=[...card.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);
+      if(JSON.stringify(chosen.sort())!==JSON.stringify(answers[1].multi.sort())) correct=false;
+      let radio=card.querySelector('input[name=q2]:checked');
+      if(!radio||radio.parentNode.textContent.trim()!==answers[1].single) correct=false;
+    }
+    if(id=="2"){
+      let chosen=[...card.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);
+      if(JSON.stringify(chosen.sort())!==JSON.stringify(answers[2].multi.sort())) correct=false;
+      let radio=card.querySelector('input[name=q2p]:checked');
+      if(!radio||radio.parentNode.textContent.trim()!==answers[2].single) correct=false;
+    }
+    if(id=="3"){
+      let r1=card.querySelector('input[name=q3a]:checked');
+      let r2=card.querySelector('input[name=q3b]:checked');
+      if(!r1||r1.parentNode.textContent.trim()!==answers[3].single[0]) correct=false;
+      if(!r2||r2.parentNode.textContent.trim()!==answers[3].single[1]) correct=false;
+    }
+    fb.textContent=correct?"✅ Correct!":"❌ Try again.";
+    fb.className="feedback "+(correct?"ok":"bad");
+  };
+  card.querySelector('.clear').onclick=()=>{
+    card.querySelectorAll('input').forEach(x=>x.checked=false);
+    let fb=card.querySelector('.feedback'); fb.textContent="";
+  };
+});
+</script>
 
 ---
 

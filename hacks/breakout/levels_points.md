@@ -1,24 +1,3 @@
-<script>
-function checkQuiz(btn) {
-  const quiz = btn.closest('.breakout-quiz');
-  const answers = JSON.parse(quiz.dataset.answers);
-  let ok = true;
-  for (const q in answers) {
-    const checked = quiz.querySelector(`input[name='${q}']:checked`);
-    if (!checked || checked.value !== answers[q]) ok = false;
-  }
-  const fb = quiz.querySelector('.breakout-quiz-feedback');
-  fb.textContent = ok ? '✅ Correct!' : '❌ Try again.';
-  fb.className = 'breakout-quiz-feedback ' + (ok ? 'ok' : 'bad');
-}
-function resetQuiz(btn) {
-  const quiz = btn.closest('.breakout-quiz');
-  quiz.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
-  const fb = quiz.querySelector('.breakout-quiz-feedback');
-  fb.textContent = '';
-  fb.className = 'breakout-quiz-feedback';
-}
-</script>
 ---
 layout: base 
 title: Breakout Blocks Lesson
@@ -71,7 +50,7 @@ flowchart TD
 
 <br>
 
-<p><a href="https://github.com/code259/curators/tree/main/hacks/breakout" class="breakout-btn">👉 Click this for full source code</a></p>
+### [👉 Click this for full source code](https://github.com/code259/curators/tree/main/hacks/breakout)
 
 
 ## **Lesson 1: Paddle and Base Blocks**
@@ -97,26 +76,40 @@ function drawPaddle() {
 }
 ```
 
+<!-- ===== THEORY QUIZ — Lesson 1 • after Step 1 (Pastel blue, all text black) ===== -->
+<section style="clear:both;">
+  <div id="quiz-s1" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #1976d2;border-radius:10px;background:#e3f2fd;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (after Step 1)</h4>
 
-<div class="breakout-quiz" data-answers='{"q1":"topLeft","q2":"beginPath","q3":"rect"}'>
-  <div class="breakout-quiz-title">Theory Check (after Step 1)</div>
-  <p>1) In an HTML5 Canvas, where is the origin <code>(0,0)</code> located?</p>
-  <label><input type="radio" name="q1" value="topLeft"> Top-left corner</label><br>
-  <label><input type="radio" name="q1" value="center"> Center</label><br>
-  <label><input type="radio" name="q1" value="bottomLeft"> Bottom-left corner</label>
-  <p>2) Which call starts a new vector drawing path?</p>
-  <label><input type="radio" name="q2" value="beginPath"> <code>ctx.beginPath()</code></label><br>
-  <label><input type="radio" name="q2" value="newPath"> <code>ctx.newPath()</code></label><br>
-  <label><input type="radio" name="q2" value="start"> <code>ctx.start()</code></label>
-  <p>3) Which signature correctly defines a rectangle on Canvas?</p>
-  <label><input type="radio" name="q3" value="rect"> <code>ctx.rect(x, y, width, height)</code></label><br>
-  <label><input type="radio" name="q3" value="box"> <code>ctx.box(width, height, x, y)</code></label><br>
-  <label><input type="radio" name="q3" value="rect2"> <code>rect(x, y)</code></label>
-  <br>
-  <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-  <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-  <div class="breakout-quiz-feedback"></div>
-</div>
+    <p style="margin:6px 0;color:#000;">1) In an HTML5 Canvas, where is the origin <code>(0,0)</code> located?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="topLeft"> Top-left corner</label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="center"> Center</label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="bottomLeft"> Bottom-left corner</label>
+
+    <p style="margin:10px 0 6px;color:#000;">2) Which call starts a new vector drawing path?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="beginPath"> <code>ctx.beginPath()</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="newPath"> <code>ctx.newPath()</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="start"> <code>ctx.start()</code></label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) Which signature correctly defines a rectangle on Canvas?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="rect"> <code>ctx.rect(x, y, width, height)</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="box"> <code>ctx.box(width, height, x, y)</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="rect2"> <code>rect(x, y)</code></label>
+
+    <div style="margin-top:10px;display:flex;gap:8px;">
+      <button class="quiz-check" data-quiz="quiz-s1"
+        data-answers='{"s1_q1":"topLeft","s1_q2":"beginPath","s1_q3":"rect"}'
+        style="padding:6px 10px;border:1px solid #1976d2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-s1"
+        style="padding:6px 10px;border:1px solid #1976d2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
+    </div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
+  </div>
+</section>
 
 ---
 
@@ -186,25 +179,7 @@ function updatePaddle() {
     <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
-<div class="breakout-quiz" data-answers='{"s2_q1":"events","s2_q2":"held","s2_q3":"clamp"}'>
-  <div class="breakout-quiz-title">Theory Check (after Step 2)</div>
-  <p>1) What best describes <em>event-driven programming</em> in this context?</p>
-  <label><input type="radio" name="s2_q1" value="events"> Code reacts to user/input events like key presses</label><br>
-  <label><input type="radio" name="s2_q1" value="loopOnly"> Code runs only in a tight while-loop without events</label><br>
-  <label><input type="radio" name="s2_q1" value="compile"> Code that only runs at compile time</label>
-  <p>2) Why track both <code>keydown</code> and <code>keyup</code>?</p>
-  <label><input type="radio" name="s2_q2" value="held"> To know if a key is currently held for continuous input</label><br>
-  <label><input type="radio" name="s2_q2" value="color"> To change drawing colors</label><br>
-  <label><input type="radio" name="s2_q2" value="oneShot"> To capture only one-shot taps</label>
-  <p>3) The boundary checks on <code>paddleX</code> illustrate which concept?</p>
-  <label><input type="radio" name="s2_q3" value="clamp"> Clamping values to a valid range</label><br>
-  <label><input type="radio" name="s2_q3" value="recursion"> Recursion</label><br>
-  <label><input type="radio" name="s2_q3" value="hoist"> Hoisting</label>
-  <br>
-  <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-  <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-  <div class="breakout-quiz-feedback"></div>
-</div>
+
 ---
 
 ## **Lesson 2: Power-Up Block + Timer**
@@ -268,25 +243,7 @@ if (b.powerUp) {
     <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
-<div class="breakout-quiz" data-answers='{"l2s1_q1":"grid","l2s1_q2":"bernoulli","l2s1_q3":"composition"}'>
-  <div class="breakout-quiz-title">Theory Check (L2 • Step 1)</div>
-  <p>1) In an array like <code>bricks[c][r]</code>, what do <code>c</code> and <code>r</code> typically represent?</p>
-  <label><input type="radio" name="l2s1_q1" value="grid"> Column and row indices in a grid</label><br>
-  <label><input type="radio" name="l2s1_q1" value="color"> Color and radius</label><br>
-  <label><input type="radio" name="l2s1_q1" value="remainder"> Remainder and count</label>
-  <p>2) The expression <code>Math.random() &lt; p</code> models:</p>
-  <label><input type="radio" name="l2s1_q2" value="bernoulli"> A Bernoulli trial with probability <code>p</code></label><br>
-  <label><input type="radio" name="l2s1_q2" value="rounding"> A rounding technique</label><br>
-  <label><input type="radio" name="l2s1_q2" value="sorting"> A sorting comparison</label>
-  <p>3) Using objects like <code>{x, y, status, powerUp}</code> is an example of:</p>
-  <label><input type="radio" name="l2s1_q3" value="composition"> Modeling state via object composition</label><br>
-  <label><input type="radio" name="l2s1_q3" value="inheritance"> Class inheritance</label><br>
-  <label><input type="radio" name="l2s1_q3" value="memo"> Memoization</label>
-  <br>
-  <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-  <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-  <div class="breakout-quiz-feedback"></div>
-</div>
+
 ---
 
 ### Step 2: Draw and drop the power-up
@@ -362,25 +319,7 @@ function drawPowerUps() {
     <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
   </div>
 </section>
-<div class="breakout-quiz" data-answers='{"l2s2_q1":"euler","l2s2_q2":"immediate","l2s2_q3":"aabb"}'>
-  <div class="breakout-quiz-title">Theory Check (L2 • Step 2)</div>
-  <p>1) Updating position each frame by adding a velocity is an example of:</p>
-  <label><input type="radio" name="l2s2_q1" value="euler"> Per-frame incremental update (Euler-style)</label><br>
-  <label><input type="radio" name="l2s2_q1" value="binary"> Binary search</label><br>
-  <label><input type="radio" name="l2s2_q1" value="tail"> Tail recursion</label>
-  <p>2) Why must shapes/text be redrawn every animation frame on Canvas?</p>
-  <label><input type="radio" name="l2s2_q2" value="immediate"> Canvas is immediate-mode; previous frame pixels aren’t retained semantically</label><br>
-  <label><input type="radio" name="l2s2_q2" value="auto"> The browser automatically preserves and animates shapes</label><br>
-  <label><input type="radio" name="l2s2_q2" value="css"> CSS repaints vectors for us each frame</label>
-  <p>3) Checking if a point lies within a rectangle is called:</p>
-  <label><input type="radio" name="l2s2_q3" value="aabb"> AABB (axis-aligned bounding box) hit testing</label><br>
-  <label><input type="radio" name="l2s2_q3" value="dijkstra"> Dijkstra’s algorithm</label><br>
-  <label><input type="radio" name="l2s2_q3" value="fft"> Fast Fourier Transform</label>
-  <br>
-  <button class="breakout-quiz-btn" onclick="checkQuiz(this)">Check answers</button>
-  <button class="breakout-quiz-btn" onclick="resetQuiz(this)">Reset</button>
-  <div class="breakout-quiz-feedback"></div>
-</div>
+
 ---
 
 ### Step 3: Show timer

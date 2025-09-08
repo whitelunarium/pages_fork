@@ -5,7 +5,7 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson2
 ---
 
-<p><a href="{{ site.baseurl }}/functionalbreakoutlesson" class="breakout-btn">Return to Main Functional Lesson Page</a></p>
+#### [Return to Main Functional Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)
 
 ## **Lesson 2: Power-Up Block + Timer**
 

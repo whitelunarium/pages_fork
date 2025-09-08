@@ -5,25 +5,50 @@ author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutgame
 ---
 
+<style>
+  canvas {
+    background: #000;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #333;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background: #f0f0f0;
+  }
 
+  .title {
+    margin-top: 5px !important;
+  }
+
+  .back-button {
+    margin-bottom: 5px !important;
+  }
+</style>
 
 <canvas id="gameCanvas" width="600" height="400"></canvas>
 
-<div class="breakout-section" style="text-align:center; margin:20px 0;">
-    <button id="startBtn" class="breakout-btn">Start Game</button>
-    <button id="pauseBtn" class="breakout-btn" disabled>Pause</button>
-    <button id="resetBtn" class="breakout-btn" style="background:#a52c2cff;">Reset</button>
-    <button id="nextLevelBtn" class="breakout-btn" style="display:none;">Next Level ▶</button>
+<div class="controls" style="text-align: center; margin: 20px 0;">
+    <button id="startBtn" style="margin: 5px; padding: 10px 16px; font-size: 16px; font-weight: 600; border: 1px solid #222; background: #fff; cursor: pointer; border-radius: 8px; color: #111;">Start Game</button>
+    <button id="pauseBtn" disabled style="margin: 5px; padding: 10px 16px; font-size: 16px; font-weight: 600; border: 1px solid #222; background: #fff; cursor: pointer; border-radius: 8px; color: #111;">Pause</button>
+    <button id="resetBtn" style="margin: 5px; padding: 10px 16px; font-size: 16px; font-weight: 600; border: 1px solid #222; background: #a52c2cff; cursor: pointer; border-radius: 8px; color: #111;">Reset</button>
+    <button id="nextLevelBtn" style="display:none;margin:10px auto 0;padding:10px 16px;font-family:system-ui,Arial;font-size:16px;font-weight:600;border:1px solid #222;background:#fff;cursor:pointer;border-radius:8px;color:#111 !important;">Next Level ▶</button>
 </div>
 
 <!-- Hack Challenges Section -->
-<div class="breakout-container">
-    <p><a href="{{site.baseurl}}/hacks" class="breakout-btn">Click here to go back to main page</a></p>
-    <h2 class="breakout-title" style="font-size:1.5rem;">OOP Breakout Game (w/ Advanced Features)</h2>
+<div id="hack1" style="max-width:600px;margin:8px auto;font-family:system-ui,Arial;">
+    <p class="back-button"><a href="{{site.baseurl}}/hacks" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
+    <h2 class="title">OOP Breakout Game (w/ Advanced Features)</h2>
+    
     <!-- OOP Architecture Info -->
-    <div class="breakout-section" style="background:black; padding:20px; border-radius:8px; margin:20px 0; color:white; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <div style="background: black; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <h3>Object-Oriented Programming Architecture:</h3>
-        <ul class="breakout-list">
+        <ul style="margin:8px 0 12px 20px;">
             <li><strong>GameObject Base Class:</strong> Shared properties (x, y, draw methods) - though minimal inheritance used</li>
             <li><strong>Ball Class:</strong> Handles movement, collision detection, and physics</li>
             <li><strong>Paddle Class:</strong> Manages size, position, and user input</li>
