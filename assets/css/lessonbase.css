@@ -236,3 +236,128 @@
 .success {
     border-left-color: #28a745; /* Green bar */
 }
+
+/* -------------------- FLASHCARDS STYLES -------------------- */
+.flashcards-section {
+  background: #2b2b2b !important;
+  padding: 1.5rem !important;
+  border-radius: 8px !important;
+  margin: 1rem 0 !important;
+  color: #f0f0f0 !important;
+}
+
+.flashcard-container {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  height: 280px !important;
+  perspective: 1500px !important;
+  margin: 1.5rem auto !important;
+  display: block !important;
+}
+
+.flashcard-container.hidden {
+  display: none !important;
+}
+
+.flashcard-inner {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  transition: transform 0.6s ease !important;
+  transform-style: preserve-3d !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3) !important;
+  border-radius: 12px !important;
+}
+
+.flashcard-inner.flipped {
+  transform: rotateY(180deg) !important;
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  backface-visibility: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 20px !important;
+  border-radius: 12px !important;
+  background: #1e293b !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg) !important;
+}
+
+.card-counter {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  background: rgba(255,255,255,0.15) !important;
+  border-radius: 15px !important;
+  padding: 4px 10px !important;
+  font-size: 0.8rem !important;
+}
+
+.flashcard-front h3, .flashcard-back h4 {
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+  color: white !important;
+}
+
+.flashcard-back p {
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+  color: white !important;
+}
+
+.flashcard-controls {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-top: 1.5rem !important;
+  gap: 1rem !important;
+}
+
+.flashcard-actions {
+  display: flex !important;
+  gap: 12px !important;
+}
+
+.know-btn {
+  background: #10b981 !important;
+  color: white !important;
+}
+
+.review-btn {
+  background: #f59e0b !important;
+  color: white !important;
+}
+
+.card-status {
+  margin-top: 12px !important;
+  font-size: 0.85rem !important;
+  color: #cbd5e1 !important;
+  text-align: center !important;
+}
+
+#flashcard-review-sidebar button {
+  width: 100%;
+  background: #334155;
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-size: 0.85rem;
+}
+
+#flashcard-review-sidebar button:hover {
+  background: #475569;
+}
