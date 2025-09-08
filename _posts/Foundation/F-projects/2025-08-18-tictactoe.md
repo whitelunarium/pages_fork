@@ -8,6 +8,7 @@ description: Choose what you want to learn about the workings of the tic tac toe
 categories: [Python]
 permalink: /games/tictactoe/lesson
 breadcrumb: True
+author: Mihir, Yash, Ansh
 comments: True
 ---
 
