@@ -98,7 +98,7 @@ These methods set position (e.g., via mouse move), center and resize the paddle,
 
 ## ACTIVITY: showcase what you learned, draw out what you learned in the Whiteboard below. 
 
- - Draw your “class” as a box → properties inside (like health, lives), methods outside (like move(), hitBrick()).
+ - Draw your “class” as a box → properties inside (like health and lives), methods outside (like move(), hitBrick()).
 
  - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
 
