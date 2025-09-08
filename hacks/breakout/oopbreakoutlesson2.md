@@ -13,7 +13,7 @@ permalink: oopbreakoutlesson2
 
 ### What are attributes?
 
-Attributes (also called **properties/fields**) are the data on an object—things the object *has*. In the `Paddle` constructor, these are the attributes:
+Attributes (also called **properties/fields**) are the data on an object—things the object *has*. In the `Paddle` constructor, the following are the attributes:
 
 ```js
 constructor(x, y, canvasWidth, canvasHeight) {
