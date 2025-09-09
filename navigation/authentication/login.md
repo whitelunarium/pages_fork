@@ -81,7 +81,7 @@ show_reading_time: false
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" id="signupEmail" placeholder="Personal (not school) Email" required>
+                <input type="email" id="signupEmail" placeholder="Personal (not school) Email" required>
             </div>
             <div class="form-group">
                 <input type="password" id="signupPassword" placeholder="Password" required>
