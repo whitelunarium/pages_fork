@@ -21,7 +21,7 @@ lxdData:
       Genre: "Coding"
       Level: "1"
       Description: "Start a very simple background with floating object.  Then think about possibilities."
-      Categories: ["JavaScript", "Game Play", "Game Coding", "Space"]
+      Categories: ["JavaScript", "Game Coding", "OOP", "Aliens"]
       Game: "/background"
       Lessons: "/background/lesson"
       Image: "/images/platformer/backgrounds/alien_planet1.jpg"
@@ -30,7 +30,7 @@ lxdData:
       Genre: "Coding"
       Level: "1"
       Description: "Agile development and changing elements of the Snake game."
-      Categories: ["JavaScript", "Game Play", "Game Coding", "Reptile Life"]
+      Categories: ["JavaScript", "Game Coding", "Procedural", "Reptile Life"]
       Game: "/snake"
       Lessons: "/agile/pair_trio"
       Image: "/images/snake.png"
