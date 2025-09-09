@@ -154,7 +154,7 @@ layout: opencs
       <pre id="demo-code" style="display:none; max-width:820px; margin:8px auto; overflow:auto;">
         <code>
           <!-- Need to use multiline YAML content in the frontmatter for the javascript -->
-          {{ page.demo_display_code | default: console.log("No demo code provided.") }}
+          {{ page.demo_display_code }}
         </code>
       </pre>
     </div>
