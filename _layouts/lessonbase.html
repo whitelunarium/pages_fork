@@ -170,6 +170,22 @@ layout: opencs
       <p id="reflection-status"></p>
     </div>
     {% endif %}
+    
+    {% if page.enable_ai_grading %}
+      <!-- Keep your hard-coded API key meta exactly as you want -->
+      <meta name="gemini-api-key" content="AIzaSyDM-_Gj6GQTXHcym9cP_syUeopcF25x47o">
+
+      <!-- Minimal config for the script -->
+      <script id="lesson-config" type="application/json">
+      {
+        "title": {{ page.title | jsonify }},
+        "model": {{ page.gemini_model | default: "gemini-1.5-flash" | jsonify }}
+      }
+      </script>
+
+      <!-- AI grader (client-only) -->
+      <script type="module" src="{{ '/assets/js/solitaire/ai-grader.js' | relative_url }}"></script>
+    {% endif %}
 
     {% if page.resources %}
     <hr>
