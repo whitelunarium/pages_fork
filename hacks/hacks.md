@@ -68,7 +68,7 @@ lxdData:
       Description: "Learn the basics of JS and object oriented programming as you dive deep into the world of game coding. "
       Categories: ["JavaScript", "OOP", "Game Coding", "Cookies"]
       Game: "/cookie-clicker-game"
-      Lessons: "/cookie-clicker-game-docs"
+      Lessons: "/cookie-lessons"
       Image: "/images/cookie.jpg"
       Alt: "Cookie"
     - Title: "Memory Game"

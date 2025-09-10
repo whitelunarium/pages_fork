@@ -1,5 +1,5 @@
 ---
-layout: opencs
+layout: lessonbase
 title: OOP in Cookie Clicker
 permalink: /oop/
 ---
