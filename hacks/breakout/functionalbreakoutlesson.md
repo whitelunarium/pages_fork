@@ -1,8 +1,18 @@
 ---
 layout: opencs
-author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
-permalink: functionalbreakoutlesson
+title: "Breakout Blocks Lesson"
+sidebar: true
+sidebar_title: "Lesson Tools"
+lesson_links:
+  - text: "Lesson 1: Paddle"
+    url: /functionalbreakoutlesson1
+  - text: "Lesson 2: Power-Ups"
+    url: /functionalbreakoutlesson2
+enable_timer: true
+enable_progress: true
+enable_badges: true
 ---
+
 
 <div class="lesson-container">
   <!-- Sidebar -->
