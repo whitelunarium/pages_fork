@@ -5,7 +5,20 @@ description: Test your progress after completing the lesson with a short quiz
 type: issues
 comments: true
 permalink: /solitaire/lesson/quiz
+
+sidebar_title: "🎮 Solitaire Lessons"
+lesson_links:
+  - { text: "Lesson 1: Frontend", url: "/solitaire/lesson/frontend" }
+  - { text: "Lesson 2: OOP", url: "/solitaire/lesson/oop" }
+  - { text: "Lesson 3: Problem Solving", url: "/solitaire/lesson/problem-solving" }
+  - { text: "Lesson 4: LXD", url: "/solitaire/lesson/lxd" }
+  - { text: "Lesson 5: Quiz", url: "/solitaire/lesson/quiz" }
+
+enable_timer: true
+enable_progress: true
+enable_badges: true
 ---
+
 
 <div class="post">
 <header class="post-header">
