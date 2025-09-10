@@ -8,7 +8,7 @@ permalink: oopbreakoutlesson1
 #### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
 
-### Lesson Objectives
+## Lesson Objectives:
 - Define and implement the base `GameObject` class
 - Use inheritance to create Ball, Paddle, Brick, and PowerUp classes
 - Explore constructor logic and shared properties

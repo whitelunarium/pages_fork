@@ -9,7 +9,7 @@ permalink: oopadvlesson
 #### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 ## Lesson 1 — Advanced Inheritance: Building Complex Class Hierarchies
 
-### Lesson Objectives
+## Lesson Objectives:
 - Master advanced OOP concepts: multi-level inheritance, polymorphism
 - Build complex class hierarchies (e.g., StrongBrick, MovingBrick)
 - Implement method overriding and dynamic behavior

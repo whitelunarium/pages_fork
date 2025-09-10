@@ -8,7 +8,7 @@ permalink: oopbreakoutlesson3
 #### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
 
-### Lesson Objectives
+## Lesson Objectives:
 - Understand constructors and object instantiation in OOP
 - Implement the Ball class with velocity, position, and collision logic
 - Use inheritance to extend GameObject functionality
