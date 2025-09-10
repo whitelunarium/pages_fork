@@ -1,5 +1,5 @@
 ---
-layout: opencs
+layout: lessonbase
 title: Cookie Clicker Documentation
 permalink: /cookie-clicker-game-docs/
 ---
