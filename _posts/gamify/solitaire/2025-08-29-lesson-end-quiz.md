@@ -13,6 +13,7 @@ lesson_links:
   - { text: "Lesson 3: Problem Solving", url: "/solitaire/lesson/problem-solving" }
   - { text: "Lesson 4: LXD", url: "/solitaire/lesson/lxd" }
   - { text: "Lesson 5: Quiz", url: "/solitaire/lesson/quiz" }
+  - { text: "Lesson 6: Future References", url: "/solitaire/lesson/future-references" }
 
 enable_timer: true
 enable_progress: true
