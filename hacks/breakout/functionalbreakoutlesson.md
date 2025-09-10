@@ -88,12 +88,6 @@ permalink: functionalbreakoutlesson
         </script>
       </div>
       <!-- Instead of writing '<' or '>' for brackets, use '&lt;' and '&gt;' else the HTML will actually be run instead of displayed. -->
-      <pre id="demo-code" style="display:none; max-width:820px; margin:8px auto; overflow:auto;">
-        <code>
-          <!-- Need to use multiline YAML content in the frontmatter for the javascript -->
-          {{ page.demo_display_code | default: console.log("No demo code provided.") }}
-        </code>
-      </pre>
     </div>
     {% endif %}
 
