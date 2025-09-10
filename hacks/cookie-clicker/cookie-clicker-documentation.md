@@ -12,65 +12,60 @@ enable_progress: true
 # Cookie Clicker – Feature Add-On Assignment
 
 
-### Group 1
+### Created by...
 
 | Role            | Name                 | GitHub |
 |:---------------:|:--------------------:|:------:|
-| 🧭 Scrum Master | **Kush Shah**        | [GitHub](https://github.com/kush1434) |
-| 📋 Assistant Scrum | **Trevor Vick**   | [GitHub](https://github.com/Tvick22) |
+| 🧭 Scrum Master | Kush Shah        | [GitHub](https://github.com/kush1434) |
+| 📋 Assistant Scrum | Trevor Vick   | [GitHub](https://github.com/Tvick22) |
 | 💻 Engineer     | Elliot Yang          | [GitHub](https://github.com/ellioty15) |
-
-### Group 2
-
-| Role            | Name                 | GitHub |
-|:---------------:|:--------------------:|:------:|
 | 💻 Engineer     | Travis Callow        | [Github](https://github.com/TravisCallow) |
 | 💻 Engineer     | Aranya Bhattacharya  | [GitHub](https://github.com/aranyab0924) |
 | 💻 Engineer     | Alex Rubio           | [GitHub](https://github.com/AlexRubio1) |
 
 ---
 
-Your job is to **add a new feature** to make the game more fun and complex.
+### Your job is to add a new feature that uses **Localstorage** (New upgrade, New currency, New Cookie Effects, etc.)
 
 ---
 
-This will give you practice with:
-- Writing and reusing **methods**
-- Keeping code organized in the right files
-- Using **if statements** to control when something happens
-- Storing and loading game data with **localStorage**
+**This will give you practice with:**
 
-## Steps to Add Your Feature
+- Writing and reusing **Javascript Object Methods**!
+- File organization!
+- Using **if statements**!
+- Storing data with **localStorage**!
 
-<details>
-  <summary>Click to view steps</summary>
+## BEFORE YOU START!
 
-  <div markdown="1">
+### Form a Group of 3
+- Work together in groups of three to **plan, design, and test** your feature.
+- **Your team only needs to submit one feature** all together (as long as you all worked on it)!
 
-### Strategic Group of 3
-Work together in groups of three to plan, design, and test your addition.
+---
 
-### Step 1 – Evaluate the Game
-Play the current Cookie Clicker version to understand what features already exist, how cookies accumulate, and what feels missing or repetitive.
+## How do I add a feature
 
-### Step 2 – Brainstorm New Ideas
-Discuss possible additions as a group. Use the example ideas provided (new shop item, superpower, unlockable, or visual change) as inspiration, or come up with your own creative twist.
+### Step 1 – Play the game!
+- Play Cookie Clicker
+- Brainstorm as a group how you think the game works (With fancy coding terms)!
 
-### Step 3 – Define Your Feature
-See flowchart below for current workflow example. Decide on your chosen feature and write a clear one-sentence description of what it does.
+### Step 2 – What feature should we add?
+- **AS A GROUP**, come up with your new feature to add to Cookie Clicker!
+- This can be a visual change, but if you're ambitious, **add a technical change!**
 
-### Step 4 – Design & Implement
-Add any new buttons, text, or visuals if your feature needs them.
-Write at least one **method** to make your feature work.
+### Step 3 – Finalize your feature...
+- Write a clear one-sentence description (below) of exactly what it will do.
 
-### Step 5 – Save with localStorage
-If your feature should persist after refreshing, integrate **localStorage** to save its state.
+<input type="text" placeholder="Type here..."/>
 
-### Step 6 – Test and Refine
-Run the game to check if your feature works as expected. Fix any issues, refine the design, and polish the user experience. Once everything is finalized, add your feature to the mermaid chart.
+### Step 4 – Design
+- Add any new buttons, text, or visuals to support your feature!
+- Add some new code to the game to make sure your feature works!
 
-  </div>
-</details>
+### Step 6 – Testing
+- Run the game to see if your feature works as expected.
+- Fix any issues and refine the design
 
 ```mermaid
 flowchart TD
@@ -145,6 +140,18 @@ flowchart TD
     style N fill:#6f6,stroke:#333,stroke-width:2px,color:#000
 ```
 
+---
+
+## localStorage
+
+- Localstorage is like a personal database for a webpage.
+- It uses **KEY/VALUE** Pairs
+  - **KEY: VALUE**
+  - "Birth Year": 1967
+  - "Vehicle Type": "Bus"
+  - "Favorite Fruit": "Mango"
+
+---
 
 ## Your Task – Add a New Feature
 
@@ -171,11 +178,9 @@ Choose one feature to add to the game. Be creative, but make sure it includes:
 5. Use **localStorage** to save the state of your feature if needed.
 6. Test your feature to make sure it works as expected.
 
+---
 
-## Example Student Tasks
+## What to Turn In
 
-1. Make an `Upgrade` class for shop items.
-2. Give it properties like `name`, `cost`, `multiplier`, and `owned`.
-3. Add a `buy()` method that uses an **if statement** to check if you have enough cookies.
-4. Create at least **two objects** (like “Metal Spoon” and “Golden Cursor”) from the class.
-5. Save and load these objects with **localStorage**.
+- Your new feature!
+- A short explanation (2–3 sentences) of what feature you added and how it works.
