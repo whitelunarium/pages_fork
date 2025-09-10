@@ -1,8 +1,6 @@
 ---
 layout: lessonbase
 title: Cookie Clicker Game Documentation
-layout: opencs
-title: Cookie Clicker Documentation
 permalink: /cookie-clicker-game-docs/
 sidebar: true
 sidebar_title: Cookie Clicker
