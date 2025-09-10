@@ -4,7 +4,7 @@ title: Cookie Clicker Game Documentation
 permalink: /cookie-clicker-game-docs/class-architecture
 sidebar: true
 sidebar_title: Cookie Clicker
-lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/class-architecture, text: 2. Classes}]
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage}]
 enable_progress: true
 ---
 
