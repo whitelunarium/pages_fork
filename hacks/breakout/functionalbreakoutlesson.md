@@ -1,4 +1,3 @@
-
 ---
 layout: opencs
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
@@ -88,6 +87,12 @@ permalink: functionalbreakoutlesson
         </script>
       </div>
       <!-- Instead of writing '<' or '>' for brackets, use '&lt;' and '&gt;' else the HTML will actually be run instead of displayed. -->
+      <pre id="demo-code" style="display:none; max-width:820px; margin:8px auto; overflow:auto;">
+        <code>
+          <!-- Need to use multiline YAML content in the frontmatter for the javascript -->
+          {{ page.demo_display_code | default: console.log("No demo code provided.") }}
+        </code>
+      </pre>
     </div>
     {% endif %}
 
@@ -134,344 +139,153 @@ permalink: functionalbreakoutlesson
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-      /* Lesson System Base Styles */
-      .lesson-container {
-          display: flex;
-          min-height: 100vh;
-          font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      }
+<style>
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
 
-      .lesson-sidebar {
-          width: 280px;
-          background: #f8fafc;
-          padding: 1.5rem;
-          border-right: 2px solid #e2e8f0;
-          position: fixed;
-          height: 100vh;
-          overflow-y: auto;
-      }
+.hub-title {
+  display: block !important;
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  margin-top: 1px !important;
+}
 
-      .lesson-sidebar h3 {
-          color: #1e293b;
-          font-weight: 700;
-          margin-bottom: 1rem;
-      }
+.back-button {
+  margin-bottom: 5px !important;
+  text-align: center;
+}
 
-      .lesson-sidebar h4 {
-          color: #475569;
-          font-weight: 600;
-          margin: 1.5rem 0 0.5rem 0;
-          font-size: 0.9rem;
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
-      }
+.card {
+  background-color: white !important;
+}
 
-      .lesson-sidebar ul {
-          list-style: none;
-          padding: 0;
-      }
+.card-header {
+  color: black !important;
+}
 
-      .lesson-sidebar li {
-          margin: 0.5rem 0;
-      }
+.text-content2 {
+  color: black !important;
+}
 
-      .lesson-sidebar a {
-          color: #3b82f6;
-          text-decoration: none;
-          padding: 0.5rem 0.75rem;
-          border-radius: 0.5rem;
-          display: block;
-          transition: background-color 0.2s;
-      }
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 
-      .lesson-sidebar a:hover {
-          background: #dbeafe;
-      }
 
-      .lesson-content {
-          margin-left: 280px;
-          padding: 2rem;
-          flex: 1;
-          max-width: calc(100% - 280px);
-      }
+<h1 class="hub-title">Functional Breakout (2-Part Mini Lesson)</h1>
+<p class="back-button"><a href="{{site.baseurl}}/hacks" style="text-decoration:none;color:#007acc;font-weight:bold;">Click here to go back to main page</a></p>
+<br>
 
-      /* Timer Styles */
-      .time-display {
-          background: #10b981;
-          color: white;
-          padding: 0.75rem;
-          border-radius: 0.5rem;
-          text-align: center;
-          font-weight: 700;
-          font-size: 1.125rem;
-      }
+---
 
-      .timer-status {
-          text-align: center;
-          margin-top: 0.5rem;
-          font-size: 0.875rem;
-          color: #059669;
-          font-weight: 600;
-      }
+<br>
 
-      /* Progress Bar Styles */
-      .progress-bar {
-          width: 100%;
-          height: 20px;
-          background: #e5e7eb;
-          border-radius: 10px;
-          overflow: hidden;
-      }
+```mermaid
+flowchart TD
+    A[Start: Breakout Blocks Lesson] --> B[Lesson 1: Paddle and Base Blocks]
+    
+    B --> B1[Make the Paddle]
+    B1 --> B2[Move the Paddle]
+    
+    B --> C[Interactive Demos]
+    C --> C1[Paddle Movement]
+    C1 --> C2[Ball Bouncing]
+    C2 --> C3[Paddle + Ball]
+    C3 --> C4[Mini Breakout]
+    
+    B --> D[Lesson 2: Power-Up Block + Timer]
+    
+    D --> D1[Add Special Bricks]
+    D1 --> D2[Draw and Drop Power-Up]
+    D2 --> D3[Show Timer]
+    
+    C4 --> E[Full Power-Up Demo]
+    
+    D --> F[Exploration Activities]
+    
+    E --> G[Complete Breakout Game]
+    
+    style A fill:#ffffff,stroke:#000000,stroke-width:3px,color:#000000
+    style B fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000000
+    style B1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
+    style B2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000000
+    style C fill:#e8f5e8,stroke:#388e3c,stroke-width:2px,color:#000000
+    style C1 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style C2 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style C3 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style C4 fill:#f1f8e9,stroke:#66bb6a,stroke-width:2px,color:#000000
+    style D fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000000
+    style D1 fill:#fff8e1,stroke:#ffb74d,stroke-width:2px,color:#000000
+    style D2 fill:#fff8e1,stroke:#ffb74d,stroke-width:2px,color:#000000
+    style D3 fill:#fff8e1,stroke:#ffb74d,stroke-width:2px,color:#000000
+    style E fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000000
+    style F fill:#f9fbe7,stroke:#827717,stroke-width:2px,color:#000000
+    style G fill:#ffebee,stroke:#d32f2f,stroke-width:3px,color:#000000
+```
 
-      .progress-fill {
-          height: 100%;
-          background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-          width: 0%;
-          transition: width 0.3s ease;
-      }
+<!-- ADD ICONS to the cards IN FUTURE! -->
 
-      #progress-text {
-          text-align: center;
-          margin: 0.5rem 0;
-          font-weight: 600;
-          color: #374151;
-      }
+<div class="cards-container">
+	<div class="card backgroundPrimary">
+		<div class="card-body backgroundPrimary">
+			<h2 class="card-header">Functional Breakout: Lesson 1</h2>
+			<p class="text-content2">Paddle and Base Blocks</p>
+			<div class="card-footer">
+				<a href="{{ site.baseurl }}/functionalbreakoutlesson1"><button class="btn-secondary btn">Go to lesson →</button></a>
+			</div>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<h2 class="card-header">Functional Breakout: Lesson 2</h2>
+			<p class="text-content2">Power-Up Block + Timer</p>
+			<div class="card-footer">
+				<a href="{{ site.baseurl }}/functionalbreakoutlesson2"><button class="btn-secondary btn">Go to lesson →</button></a>
+			</div>
+		</div>
+	</div>
+</div>
 
-      /* Button Styles */
-      .btn {
-          background: #3b82f6;
-          color: white;
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 0.5rem;
-          cursor: pointer;
-          font-weight: 600;
-          transition: background-color 0.2s;
-          text-decoration: none;
-          display: inline-block;
-      }
+---
 
-      .btn:hover {
-          background: #2563eb;
-      }
+<!-- ===================== Breakout Blocks: Checkpoint Quizzes ===================== -->
+<div id="breakout-blocks-quizzes">
+<style>
+  #breakout-blocks-quizzes { --ok:#118a00; --bad:#b00020; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  #breakout-blocks-quizzes .quiz-card{
+    background:#fff;border:2px solid #ddd;border-radius:14px;
+    padding:1.2rem;margin:1.2rem 0;box-shadow:0 4px 12px rgba(0,0,0,.05);
+    color:#000;
+  }
+  #breakout-blocks-quizzes .quiz-title{font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+  #breakout-blocks-quizzes .quiz-sub{margin-bottom:.9rem;color:#222}
+  #breakout-blocks-quizzes .q{border-radius:10px;padding:.9rem;margin:.7rem 0;border:1px solid #eee}
+  #breakout-blocks-quizzes .q:nth-child(odd){background:#f7f3ff;}  /* lilac */
+  #breakout-blocks-quizzes .q:nth-child(even){background:#f3fff7;} /* mint  */
+  #breakout-blocks-quizzes .prompt{font-weight:700;margin-bottom:.4rem}
+  #breakout-blocks-quizzes .option{display:flex;gap:.45rem;align-items:flex-start;margin:.3rem 0}
+  #breakout-blocks-quizzes button{
+    background:#f7f7f7;color:#000;border:2px solid #000;
+    border-radius:999px;padding:.45rem 1rem;
+    font-weight:700;cursor:pointer;margin-top:.6rem;margin-right:.4rem
+  }
+  #breakout-blocks-quizzes button:hover{background:#000;color:#fff}
+  #breakout-blocks-quizzes .feedback{margin-top:.6rem;font-weight:800}
+  #breakout-blocks-quizzes .feedback.ok{color:var(--ok)}
+  #breakout-blocks-quizzes .feedback.bad{color:var(--bad)}
+  #breakout-blocks-quizzes code{
+    background:#f4f4f4;color:#000;padding:2px 5px;border-radius:4px
+  }
+</style>
 
-      .small-btn {
-          padding: 0.5rem 1rem;
-          font-size: 0.875rem;
-      }
-
-      .btn-secondary {
-          background: #6b7280;
-      }
-
-      .btn-secondary:hover {
-          background: #4b5563;
-      }
-
-      /* Card Styles */
-      .cards-container {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1.5rem;
-          margin: 2rem 0;
-      }
-
-      .card {
-          background: white;
-          border: 2px solid #e5e7eb;
-          border-radius: 12px;
-          padding: 1.5rem;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-          transition: transform 0.2s, box-shadow 0.2s;
-      }
-
-      .card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-      }
-
-      .card-header {
-          color: #1e293b;
-          font-weight: 700;
-          font-size: 1.25rem;
-          margin-bottom: 0.5rem;
-      }
-
-      .text-content2 {
-          color: #64748b;
-          margin-bottom: 1rem;
-      }
-
-      .card-footer {
-          margin-top: 1rem;
-      }
-
-      /* Hub Title */
-      .hub-title {
-          text-align: center;
-          font-size: 2.2rem;
-          font-weight: 800;
-          color: #1e293b;
-          margin: 1rem 0;
-      }
-
-      .back-button {
-          text-align: center;
-          margin-bottom: 1rem;
-      }
-
-      /* Quiz Styles */
-      #breakout-blocks-quizzes {
-          --ok: #10b981;
-          --bad: #ef4444;
-      }
-
-      .quiz-card {
-          background: #fff;
-          border: 2px solid #e5e7eb;
-          border-radius: 12px;
-          padding: 1.5rem;
-          margin: 1.5rem 0;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      }
-
-      .quiz-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #1e293b;
-          margin-bottom: 0.5rem;
-      }
-
-      .quiz-sub {
-          color: #64748b;
-          margin-bottom: 1rem;
-      }
-
-      .q {
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-          padding: 1rem;
-          margin: 1rem 0;
-      }
-
-      .q:nth-child(odd) {
-          background: #faf5ff;
-      }
-
-      .q:nth-child(even) {
-          background: #f0fdf4;
-      }
-
-      .prompt {
-          font-weight: 700;
-          color: #374151;
-          margin-bottom: 0.75rem;
-      }
-
-      .option {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin: 0.5rem 0;
-          color: #4b5563;
-      }
-
-      .option input {
-          margin-right: 0.5rem;
-      }
-
-      .feedback {
-          margin-top: 1rem;
-          font-weight: 600;
-          padding: 0.75rem;
-          border-radius: 0.5rem;
-      }
-
-      .feedback.ok {
-          color: var(--ok);
-          background: #dcfce7;
-      }
-
-      .feedback.bad {
-          color: var(--bad);
-          background: #fef2f2;
-      }
-
-      code {
-          background: #f1f5f9;
-          color: #475569;
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.25rem;
-          font-family: 'Courier New', monospace;
-      }
-
-      /* Mermaid diagram styling */
-      .mermaid {
-          display: flex;
-          justify-content: center;
-          margin: 2rem 0;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 1024px) {
-          .lesson-sidebar {
-              transform: translateX(-100%);
-              transition: transform 0.3s ease;
-          }
-          
-          .lesson-content {
-              margin-left: 0;
-              max-width: 100%;
-          }
-          
-          .cards-container {
-              grid-template-columns: 1fr;
-          }
-      }
-
-      @media (max-width: 768px) {
-          .lesson-content {
-              padding: 1rem;
-          }
-          
-          .hub-title {
-              font-size: 1.8rem;
-          }
-      }
-
-      /* Badge Styles */
-      #badges {
-          background: #fef3c7;
-          border: 1px solid #f59e0b;
-          border-radius: 0.5rem;
-          padding: 0.75rem;
-          color: #92400e;
-          font-weight: 600;
-      }
-
-      /* Mobile sidebar toggle */
-      .sidebar-toggle {
-          display: none;
-          position: fixed;
-          top: 1rem;
-          left: 1rem;
-          z-index: 1000;
-          background: #3b82f6;
-          color: white;
-          border: none;
-          padding: 0.5rem;
-          border-radius: 0.5rem;
-          cursor: pointer;
-      }
-
-      @media (max-width: 1024px) {
-          .sidebar-toggle {
-              display: block;
-          }
-      }
-  </style>
   <!-- Quiz A: Lesson 1 — Paddle & Base Blocks -->
   <div class="quiz-card" data-quiz="A">
     <div class="quiz-title">Lesson 1 Checkpoint</div>
