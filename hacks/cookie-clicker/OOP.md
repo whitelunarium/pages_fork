@@ -40,6 +40,7 @@ enable_progress: true
 Here is an example of how we implemented OOP (Object-Oriented Programming) in Cookie Clicker.  
 The `EmojiBuddy` class is responsible for creating and animating emojis that bounce around the game area whenever items are purchased.
 
+
 ```js
 class EmojiBuddy {
   /**
