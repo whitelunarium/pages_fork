@@ -293,18 +293,20 @@ $bp-md: 768px;
 // =======================
 .flashcards-section {
   background: $panel !important;
-  padding: 1.5rem !important;
+  padding: 1rem !important;
   border-radius: 8px !important;
-  margin: 1rem 0 !important;
+  margin: 1rem 0 2rem 0 !important;  // Added bottom margin
   color: $text !important;
+  max-width: 100% !important;        // Prevent overflow
+  box-sizing: border-box !important; // Include padding in width
 }
 .flashcard-container {
   position: relative !important;
   width: 100% !important;
-  max-width: 500px !important;
-  height: 280px !important;
+  max-width: 280px !important;  // Even smaller
+  height: 140px !important;     // Even shorter
   perspective: 1500px !important;
-  margin: 1.5rem auto !important;
+  margin: 1rem auto 1.5rem auto !important; // Added bottom margin
   display: block !important;
   &.hidden {
     display: none !important;
@@ -330,8 +332,8 @@ $bp-md: 768px;
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
-  padding: 20px !important;
-  border-radius: 12px !important;
+  padding: 12px !important;      // Reduced from 20px
+  border-radius: 8px !important; // Reduced from 12px
   background: #1E293B !important;
   color: #F8FAFC !important;
   border: 1px solid rgba(255,255,255,0.15) !important;
@@ -359,18 +361,42 @@ $bp-md: 768px;
 }
 .flashcard-controls {
   display: flex !important;
-  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
   align-items: center !important;
-  margin-top: 1.5rem !important;
-  gap: 1rem !important;
+  margin: 1rem 0 1.5rem 0 !important; // Added bottom margin
+  gap: 0.4rem !important;
+  max-width: 100% !important;
+  
+  button {
+    flex: 0 1 auto !important;     // Don't grow, allow shrink
+    min-width: 60px !important;
+    max-width: 100px !important;   // Smaller max width
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+    border-radius: 4px !important;
+    border: none !important;
+    cursor: pointer !important;
+    white-space: nowrap !important; // Prevent text wrapping
+  }
 }
 .flashcard-actions {
   display: flex !important;
-  gap: 12px !important;
+  gap: 0.5rem !important;
+  flex: 1 !important;
+  
+  .know-btn, .review-btn {
+    flex: 1 !important;
+    min-width: 60px !important;
+    font-size: 0.75rem !important;
+    padding: 6px 10px !important;
+  }
+  
   .know-btn {
     background: #10B981 !important;
     color: white !important;
   }
+  
   .review-btn {
     background: #F59E0B !important;
     color: white !important;
@@ -395,4 +421,31 @@ $bp-md: 768px;
     font-size: 0.85rem;
     &:hover { background: #475569; }
   }
+}
+
+.flashcard-front h3,
+.flashcard-back h4 {
+  text-align: center !important;
+  margin-bottom: 0.5rem !important; // Reduced from 1rem
+  color: white !important;
+  font-size: 1rem !important;       // Smaller text
+}
+
+.flashcard-back p {
+  text-align: center !important;
+  margin-bottom: 0.5rem !important; // Reduced from 1rem
+  color: white !important;
+  font-size: 0.9rem !important;     // Smaller text
+}
+
+.flashcard-front .btn,
+.flashcard-back .btn {
+  padding: 6px 12px !important;     // Smaller flip button
+  font-size: 0.8rem !important;
+}
+
+.flashcard-deck {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important; // Prevent any overflow
 }
