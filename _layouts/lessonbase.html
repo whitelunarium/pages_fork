@@ -50,6 +50,15 @@ layout: opencs
       {{ content }}
     </div>
 
+    <!-- Progress Configuration (hidden data for JavaScript) -->
+    {% if page.enable_progress %}
+    <script id="progress-config" type="application/json">
+    {
+      "totalLessons": {{ page.progress_total | default: 6 | jsonify }}
+    }
+    </script>
+    {% endif %}
+
     <!-- Flashcards Section -->
     {% if page.enable_flashcards %}
     {% assign flashcard_file = page.flashcards | default: "flashcards" %}

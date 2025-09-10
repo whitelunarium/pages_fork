@@ -267,10 +267,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const resetBtn = document.getElementById("reset-progress");
   if (!bar || !text) return;
 
-  // Updated to 6 lessons - replace with your actual lesson names/identifiers
-  const lessons = ["lesson-1", "lesson-2", "lesson-3", "lesson-4", "lesson-5", "lesson-6"];
-  const TOTAL_LESSONS = 6;
-  const PROGRESS_INCREMENT = 100 / TOTAL_LESSONS; // This gives us 16.666...%
+  // Get total lessons from config, default to 6
+  let TOTAL_LESSONS = 6;
+  const configEl = document.getElementById('progress-config');
+  if (configEl) {
+    try {
+      const config = JSON.parse(configEl.textContent);
+      TOTAL_LESSONS = config.totalLessons || 6;
+    } catch (e) {
+      console.warn('Could not parse progress config, using default of 6 lessons');
+    }
+  }
+
+  const PROGRESS_INCREMENT = 100 / TOTAL_LESSONS;
   
   const key = "lesson-progress";
   const lessonKey = window.location.pathname.split("/").pop() || "lesson";
@@ -280,7 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
   localStorage.setItem(key, JSON.stringify(progress));
 
   const done = Object.keys(progress).length;
-  // Use the exact increment to ensure proper progression (16.67% per lesson)
   const percent = Math.min(Math.round(done * PROGRESS_INCREMENT), 100);
   
   bar.style.width = percent + "%";
@@ -291,7 +299,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (confirm("Reset all progress and time data?")) {
         localStorage.removeItem(key);
         localStorage.removeItem("lesson-badges");
-        lessons.forEach((l) => localStorage.removeItem(`lesson-time-${l}`));
+        // Generate lesson keys dynamically based on total lessons
+        for (let i = 1; i <= TOTAL_LESSONS; i++) {
+          localStorage.removeItem(`lesson-time-lesson-${i}`);
+        }
         location.reload();
       }
     };
