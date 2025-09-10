@@ -1,5 +1,6 @@
 ---
-layout: post 
+layout: lessonbase
+sidebar: false
 title: OOP Breakout Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson3
@@ -25,16 +26,13 @@ class Ball extends GameObject {
         this.color = "#0095DD";
     }
 }
-```
 
 * `super(x, y)` calls the parent (`GameObject`) constructor to initialize shared fields.
 * The default parameter `radius = 8` makes the ball small unless you specify otherwise.
 * Setting `dx`/`dy` gives the ball an initial velocity. Source: OOP Breakout file.&#x20;
-
-### From simple to nuanced
+layout: lessonbase
 
 **1) Drawing the ball**
-
 ```js
 draw(ctx) {
     ctx.beginPath();

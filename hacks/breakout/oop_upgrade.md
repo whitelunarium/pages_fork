@@ -1,5 +1,6 @@
 ---
-layout: post 
+layout: lessonbase 
+sidebar: false
 title: OOP Breakout Blocks Advanced
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopadv
@@ -570,13 +571,11 @@ permalink: oopadv
               } else if (e.key === "Left" || e.key === "ArrowLeft") {
                   this.paddle.leftPressed = true;
               }
-          });
           
           document.addEventListener("keyup", (e) => {
               if (e.key === "Right" || e.key === "ArrowRight") {
                   this.paddle.rightPressed = false;
-              } else if (e.key === "Left" || e.key === "ArrowLeft") {
-                  this.paddle.leftPressed = false;
+        layout: lessonbase
               }
           });
           

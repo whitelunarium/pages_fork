@@ -1,5 +1,6 @@
 ---
-layout: post
+layout: lessonbase
+sidebar: false
 title: Functional Breakout Blocks Lesson 1
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson1
@@ -27,14 +28,11 @@ function drawPaddle() {
   ctx.fill();
   ctx.closePath();
 }
-```
 
 ### Step 2: Move the paddle
 
 We listen for keyboard input and update the paddleX position.
-
-```js
-let rightPressed = false;
+ layout: lessonbase
 let leftPressed = false;
 
 document.addEventListener("keydown", keyDownHandler);

@@ -1,6 +1,7 @@
 ---
 toc: False
-layout: post
+layout: lessonbase
+sidebar: false
 tailwind: True
 infoGraph: breakoutHacks
 permalink: breakoutHacks

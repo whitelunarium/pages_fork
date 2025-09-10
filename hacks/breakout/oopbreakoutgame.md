@@ -1,5 +1,6 @@
 ---
-layout: post 
+layout: lessonbase
+sidebar: false
 title: OOP Breakout Blocks
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutgame

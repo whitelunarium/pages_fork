@@ -1,5 +1,6 @@
 ---
-layout: post 
+layout: lessonbase
+sidebar: false
 title: OOP Breakout Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson2
@@ -28,16 +29,13 @@ constructor(x, y, canvasWidth, canvasHeight) {
     this.leftPressed = false;         // attribute: input state
     this.rightPressed = false;        // attribute: input state
 }
-```
 
 Each `this.something = ...` sets an attribute on the Paddle instance. Source: OOP Breakout file.&#x20;
 
 ### What are methods?
-
-Methods are **functions attached to the class** that use or change those attributes—things the object *does*.
+layout: lessonbase
 
 **Rendering & movement**
-
 ```js
 draw(ctx) {
     ctx.beginPath();

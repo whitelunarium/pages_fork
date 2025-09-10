@@ -1,5 +1,6 @@
 ---
-layout: post 
+layout: lessonbase 
+sidebar: false
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---

@@ -1,5 +1,6 @@
 ---
-layout: post 
+layout: lessonbase
+sidebar: false
 title: Breakout Blocks
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutgame

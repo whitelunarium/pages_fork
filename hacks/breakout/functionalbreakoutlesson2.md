@@ -1,8 +1,9 @@
 ---
-layout: post
 title: Functional Breakout Blocks Lesson 2
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson2
+layout: lessonbase
+sidebar: false
 ---
 
 #### [Return to Main Functional Lesson Page]({{ site.baseurl }}/functionalbreakoutlesson)
