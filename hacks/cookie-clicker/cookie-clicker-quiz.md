@@ -5,12 +5,12 @@ permalink: /cookie-clicker-game-docs/quiz/
 sidebar: true
 wide: true
 sidebar_title: Cookie Clicker
-lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/local-storage, text: 4. Localstorage},{url: /cookie-clicker-game-docs/quiz, text: 5. OOP Quiz}]
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage},{url: /cookie-clicker-game-docs/quiz, text: 5. OOP Quiz}]
 enable_progress: true
 ---
 # Quick OOP Quiz: JS Classes 🎯
 
-Test your knowledge about JavaScript classes. (No scores are saved — fresh each reload.)
+Test your knowledge about JavaScript classes.
 
 <div id="quiz-root" style="margin-top:1rem;">
   <form id="quizForm"></form>
