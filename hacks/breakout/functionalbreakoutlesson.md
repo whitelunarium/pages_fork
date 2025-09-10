@@ -11,6 +11,7 @@ lesson_links:
 enable_timer: true
 enable_progress: true
 enable_badges: true
+permalink: functionalbreakoutlesson
 ---
 
 
