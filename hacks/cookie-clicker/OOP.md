@@ -32,6 +32,36 @@ enable_progress: true
 3. Create at least **two instances** (e.g., “Metal Spoon”, “Golden Cursor”).
 4. (Tie-in with Part 1) Save & load these objects with localStorage.
 
+---
+
+### Example of OOP in the Game
+
+Here is an example of how we implemented OOP (Object-Oriented Programming) in Cookie Clicker.  
+The `EmojiBuddy` class is responsible for creating and animating emojis that bounce around the game area whenever items are purchased.
+
+```js
+class EmojiBuddy {
+  /**
+   * velocity on the y axis
+   * @type {number}
+   */
+  dy = 2;
+  /**
+   * velocity on the x axis
+   * @type {number}
+   */
+  dx = 2;
+  /**
+   *
+   * @param {string} emoji
+   */
+  constructor(emoji) {
+    this.emojiString = emoji;
+    this.animate = this.animate.bind(this);
+  }
+}
+```
+
 ```mermaid
 flowchart TD
     A[Game Start] --> B[Load Objects from localStorage]
