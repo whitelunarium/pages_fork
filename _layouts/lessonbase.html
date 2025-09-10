@@ -2,6 +2,15 @@
 layout: opencs
 ---
 
+{% if page.wide != false %}
+<style>
+  .wrapper {
+    max-width: 100% !important;
+    padding: 0 1rem;
+  }
+</style>
+{% endif %}
+
 <div class="lesson-container">
   <!-- Sidebar -->
   {% if page.sidebar != false %}
