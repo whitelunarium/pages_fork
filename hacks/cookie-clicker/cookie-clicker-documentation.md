@@ -178,9 +178,3 @@ Choose one feature to add to the game. Be creative, but make sure it includes:
 5. Use **localStorage** to save the state of your feature if needed.
 6. Test your feature to make sure it works as expected.
 
----
-
-## What to Turn In
-
-- Your new feature!
-- A short explanation (2–3 sentences) of what feature you added and how it works.

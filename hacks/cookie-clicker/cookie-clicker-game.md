@@ -48,6 +48,13 @@ permalink: /cookie-clicker-game/
     <div id="counter" class="mt-6 text-2xl font-semibold text-brown-900 bg-white/80 px-6 py-3 rounded-lg shadow-md">
         Cookies: <span id="cookie-count" class="font-bold text-orange-600">0</span>
     </div>
+    <!-- Info / Custom Lesson -->
+    <div id="lesson-info" class="mt-6 text-center bg-white/70 px-6 py-3 rounded-lg shadow border border-orange-300">
+        <span class="font-semibold text-brown-800">Add your own feature:</span>
+        <a href="/cookie-clicker-game-docs/" target="_blank" class="text-blue-600 hover:underline ml-2">
+            Click here
+        </a>
+    </div>
 </div>
 
 <script src="https://cdn.tailwindcss.com"></script>
