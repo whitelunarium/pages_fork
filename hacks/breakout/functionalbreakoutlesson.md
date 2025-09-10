@@ -1,6 +1,5 @@
 ---
-layout: lessonbase
-sidebar: false
+layout: post
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson
 ---
@@ -102,10 +101,12 @@ flowchart TD
     style E fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000000
     style F fill:#f9fbe7,stroke:#827717,stroke-width:2px,color:#000000
     style G fill:#ffebee,stroke:#d32f2f,stroke-width:3px,color:#000000
+```
 
 <!-- ADD ICONS to the cards IN FUTURE! -->
 
-  layout: lessonbase
+<div class="cards-container">
+	<div class="card backgroundPrimary">
 		<div class="card-body backgroundPrimary">
 			<h2 class="card-header">Functional Breakout: Lesson 1</h2>
 			<p class="text-content2">Paddle and Base Blocks</p>

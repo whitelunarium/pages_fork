@@ -1,5 +1,5 @@
 ---
-layout: lessonbase
+layout: post 
 title: OOP Advanced Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopadvlesson
@@ -44,11 +44,13 @@ class GameObject {
         };
     }
 }
+```
 
 This enhanced base class now includes collision bounds calculation, making it more useful for subclasses.
 
 **Brick - The specialized base class**
-layout: lessonbase
+
+```js
 class Brick extends GameObject {
     constructor(x, y, width = 75, height = 20) {
         super(x, y);

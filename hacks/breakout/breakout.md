@@ -1,9 +1,9 @@
 ---
-layout: lessonbase
-sidebar: false
+layout: post
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: /breakout
 ---
+
 
 <style>
 /* Hub container */

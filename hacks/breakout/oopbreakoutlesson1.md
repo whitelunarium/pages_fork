@@ -1,6 +1,5 @@
 ---
-layout: lessonbase
-sidebar: false
+layout: post 
 title: OOP Breakout Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson1
@@ -36,13 +35,16 @@ class GameObject {
         // Base update method - to be overridden
     }
 }
+```
 
 This tiny class centralizes shared position (`x`, `y`) and provides placeholder `draw`/`update` hooks for subclasses to override. Source: OOP Breakout file.&#x20;
 
 ### Subclasses → `Ball` and `Paddle` inherit
-layout: lessonbase
+
+```js
 // Ball class - handles ball physics and movement
 class Ball extends GameObject {
+    constructor(x, y, radius = 8) {
         super(x, y);
         this.radius = radius;
         this.dx = 2;

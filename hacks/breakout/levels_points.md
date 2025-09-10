@@ -1,6 +1,5 @@
 ---
-layout: lessonbase 
-sidebar: false
+layout: base 
 title: Breakout Blocks Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: cloud
@@ -76,6 +75,41 @@ function drawPaddle() {
   ctx.closePath();
 }
 ```
+
+<!-- ===== THEORY QUIZ — Lesson 1 • after Step 1 (Pastel blue, all text black) ===== -->
+<section style="clear:both;">
+  <div id="quiz-s1" style="max-width:820px;margin:16px auto;padding:12px;border:2px solid #1976d2;border-radius:10px;background:#e3f2fd;box-sizing:border-box;font-family:system-ui,Arial;color:#000;">
+    <h4 style="margin:0 0 8px 0;color:#000;">✅ Theory Check (after Step 1)</h4>
+
+    <p style="margin:6px 0;color:#000;">1) In an HTML5 Canvas, where is the origin <code>(0,0)</code> located?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="topLeft"> Top-left corner</label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="center"> Center</label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q1" value="bottomLeft"> Bottom-left corner</label>
+
+    <p style="margin:10px 0 6px;color:#000;">2) Which call starts a new vector drawing path?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="beginPath"> <code>ctx.beginPath()</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="newPath"> <code>ctx.newPath()</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q2" value="start"> <code>ctx.start()</code></label>
+
+    <p style="margin:10px 0 6px;color:#000;">3) Which signature correctly defines a rectangle on Canvas?</p>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="rect"> <code>ctx.rect(x, y, width, height)</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="box"> <code>ctx.box(width, height, x, y)</code></label><br>
+    <label style="color:#000;"><input type="radio" name="s1_q3" value="rect2"> <code>rect(x, y)</code></label>
+
+    <div style="margin-top:10px;display:flex;gap:8px;">
+      <button class="quiz-check" data-quiz="quiz-s1"
+        data-answers='{"s1_q1":"topLeft","s1_q2":"beginPath","s1_q3":"rect"}'
+        style="padding:6px 10px;border:1px solid #1976d2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Check answers
+      </button>
+      <button class="quiz-reset" data-quiz="quiz-s1"
+        style="padding:6px 10px;border:1px solid #1976d2;background:#fff;color:#000;border-radius:8px;cursor:pointer;">
+        Reset
+      </button>
+    </div>
+    <div class="quiz-feedback" style="margin-top:8px;font-weight:600;color:#000;"></div>
+  </div>
+</section>
 
 ---
 
