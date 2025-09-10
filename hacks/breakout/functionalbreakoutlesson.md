@@ -78,6 +78,15 @@ flowchart TD
     D --> D1[Add Special Bricks]
     D1 --> D2[Draw and Drop Power-Up]
     D2 --> D3[Show Timer]
+  ```
+
+  ### Lesson Objectives
+  - Understand the basics of functional programming in JavaScript
+  - Learn how to break down the Breakout game into pure functions
+  - Implement paddle and ball movement using functional patterns
+  - Explore state management without classes or objects
+  - Practice refactoring imperative code into functional style
+  - Analyze the benefits and tradeoffs of functional vs. OOP approaches
     
     C4 --> E[Full Power-Up Demo]
     

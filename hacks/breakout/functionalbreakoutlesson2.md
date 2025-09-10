@@ -9,6 +9,14 @@ permalink: functionalbreakoutlesson2
 
 ## **Lesson 2: Power-Up Block + Timer**
 
+### Lesson Objectives
+- Add power-up blocks to the Breakout game
+- Implement random assignment of power-ups to bricks
+- Handle power-up activation and effects (e.g., paddle size, speed)
+- Draw and animate falling power-up objects
+- Integrate timers and temporary effects into game logic
+- Practice functional decomposition for new game features
+
 **Goal:** Add a special block that gives a temporary boost when hit.
 
 ### Step 1: Add special bricks that drop a power-up when broken.

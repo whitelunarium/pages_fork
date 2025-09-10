@@ -7,7 +7,14 @@ permalink: oopbreakoutlesson2
 
 #### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
----
+
+### Lesson Objectives
+- Deep dive into the Paddle class: attributes vs. methods
+- Implement movement, input handling, and rendering for Paddle
+- Explore how inheritance enables code reuse
+- Add advanced paddle features (e.g., power-ups, resizing)
+- Practice overriding methods and customizing behavior
+- Analyze the impact of OOP design on game extensibility
 
 ## Lesson 2 — The `Paddle` class: attributes vs. methods
 

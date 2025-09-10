@@ -7,7 +7,14 @@ permalink: oopbreakoutlesson1
 
 #### [Return to main OOP lesson page]({{ site.baseurl }}/oopbreakoutlesson)
 
----
+
+### Lesson Objectives
+- Define and implement the base `GameObject` class
+- Use inheritance to create Ball, Paddle, Brick, and PowerUp classes
+- Explore constructor logic and shared properties
+- Demonstrate how composition is used in the Game class
+- Refactor game logic to leverage OOP principles
+- Visualize class relationships and object interactions
 
 ## Lesson 1 — The `Game` class & how inheritance works
 
