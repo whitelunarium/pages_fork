@@ -1,7 +1,13 @@
 ---
+layout: lessonbase
+title: Cookie Clicker Game Documentation
 layout: opencs
 title: Cookie Clicker Documentation
 permalink: /cookie-clicker-game-docs/
+sidebar: true
+sidebar_title: Cookie Clicker
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/class-architecture, text: 2. Classes}]
+enable_progress: true
 ---
 
 
@@ -24,7 +30,11 @@ permalink: /cookie-clicker-game-docs/
 | 💻 Engineer     | Aranya Bhattacharya  | [GitHub](https://github.com/aranyab0924) |
 | 💻 Engineer     | Alex Rubio           | [GitHub](https://github.com/AlexRubio1) |
 
-We already have a working Cookie Clicker game. Right now, the game lets you click on the cookie to increase your score. That’s cool, but pretty basic. Your job is to **add a new feature** to make the game more fun and complex.
+---
+
+Your job is to **add a new feature** to make the game more fun and complex.
+
+---
 
 This will give you practice with:
 - Writing and reusing **methods**
@@ -52,8 +62,8 @@ Discuss possible additions as a group. Use the example ideas provided (new shop 
 See flowchart below for current workflow example. Decide on your chosen feature and write a clear one-sentence description of what it does.
 
 ### Step 4 – Design & Implement
-Add any new buttons, text, or visuals if your feature needs them.  
-Write at least one **method** to make your feature work.  
+Add any new buttons, text, or visuals if your feature needs them.
+Write at least one **method** to make your feature work.
 
 ### Step 5 – Save with localStorage
 If your feature should persist after refreshing, integrate **localStorage** to save its state.
@@ -166,8 +176,8 @@ Choose one feature to add to the game. Be creative, but make sure it includes:
 
 ## Example Student Tasks
 
-1. Make an `Upgrade` class for shop items.  
-2. Give it properties like `name`, `cost`, `multiplier`, and `owned`.  
-3. Add a `buy()` method that uses an **if statement** to check if you have enough cookies.  
-4. Create at least **two objects** (like “Metal Spoon” and “Golden Cursor”) from the class.  
+1. Make an `Upgrade` class for shop items.
+2. Give it properties like `name`, `cost`, `multiplier`, and `owned`.
+3. Add a `buy()` method that uses an **if statement** to check if you have enough cookies.
+4. Create at least **two objects** (like “Metal Spoon” and “Golden Cursor”) from the class.
 5. Save and load these objects with **localStorage**.
