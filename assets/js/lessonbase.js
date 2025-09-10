@@ -267,7 +267,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const resetBtn = document.getElementById("reset-progress");
   if (!bar || !text) return;
 
-  const lessons = ["frontend", "oop", "problem-solving", "future-references"];
+  // Updated to 6 lessons - replace with your actual lesson names/identifiers
+  const lessons = ["lesson-1", "lesson-2", "lesson-3", "lesson-4", "lesson-5", "lesson-6"];
+  const TOTAL_LESSONS = 6;
+  const PROGRESS_INCREMENT = 100 / TOTAL_LESSONS; // This gives us 16.666...%
+  
   const key = "lesson-progress";
   const lessonKey = window.location.pathname.split("/").pop() || "lesson";
 
@@ -276,7 +280,9 @@ document.addEventListener('DOMContentLoaded', function() {
   localStorage.setItem(key, JSON.stringify(progress));
 
   const done = Object.keys(progress).length;
-  const percent = Math.floor((done / lessons.length) * 100);
+  // Use the exact increment to ensure proper progression (16.67% per lesson)
+  const percent = Math.min(Math.round(done * PROGRESS_INCREMENT), 100);
+  
   bar.style.width = percent + "%";
   text.textContent = percent + "% complete";
 
@@ -307,7 +313,20 @@ function renderBadges(badges) {
   const badgeContainer = document.getElementById("badges");
   if (!badgeContainer) return;
   badgeContainer.innerHTML = "";
-  const icons = { frontend: "💻", oop: "🧩", "problem-solving": "🧠", "future-references": "📖", lesson: "🏅" };
+  const icons = { 
+    "lesson-1": "💻", 
+    "lesson-2": "🧩", 
+    "lesson-3": "🧠", 
+    "lesson-4": "📖",
+    "lesson-5": "⚡",
+    "lesson-6": "🎯",
+    "frontend": "💻", 
+    "oop": "🧩", 
+    "problem-solving": "🧠", 
+    "future-references": "📖", 
+    "lesson": "🏅",
+    "flashcards": "🗂️"
+  };
   badges.forEach((b) => {
     const span = document.createElement("span");
     span.className = "badge";
