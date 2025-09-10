@@ -5,7 +5,7 @@ layout: opencs
 <style>
   /* === Post Header === */
   .post-header h3 {
-    font-size: 1.8rem;   /* larger title */
+    font-size: 1.8rem;
     font-weight: 600;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -14,7 +14,7 @@ layout: opencs
 
   .page-description {
     font-size: 1rem;
-    color: #555;        /* softer gray */
+    color: #555;
     margin-bottom: 1rem;
   }
 
@@ -89,10 +89,8 @@ layout: opencs
       {% endfor %}
     {% endif %}
     {% if page.breadcrumb %}
-      <!-- Locate Parent Path -->
       {% assign parts = page.permalink | split: '/' %}
       {% assign num_parts = parts.size | minus: 1 %}
-      <!-- Remove last part of path -->
       {% assign parent_parts = '' %}
       {% for i in (0..num_parts) %}
         {% unless forloop.last %}
