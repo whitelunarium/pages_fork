@@ -1,5 +1,5 @@
 ---
-layout: opencs
+layout: lessonbase
 title: Local Storage in Cookie Clicker
 permalink: /localstorage/
 ---
