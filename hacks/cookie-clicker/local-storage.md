@@ -1,7 +1,11 @@
 ---
 layout: lessonbase
 title: Local Storage in Cookie Clicker
-permalink: /localstorage/
+permalink: cookie-clicker-game-docs/localstorage/
+sidebar: true
+sidebar_title: Cookie Clicker
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage}]
+enable_progress: true
 ---
 
 # Part 1 — 🔒 localStorage (All persistence-related content)
@@ -30,14 +34,17 @@ flowchart TD
     E --> B
     F --> B
     D --> G[🎉 Emoji Buddies<br/>Spawn moving emojis for each purchase]
+```
 
+```mermaid
 flowchart TD
     A[Game Start] --> B[Load Objects from localStorage]
     B -->|Exists| C[Recreate Objects from JSON]
-    B -->|"No Save Found"| D[Create New Objects from Classes]
+    B -->|No Save Found| D[Create New Objects from Classes]
     C --> E[Objects in Memory]
     D --> E
     E --> F[Player Action or Tick]
     F --> G[State Changes (cookies, costs, owned)]
     G --> H[Save Objects to localStorage]
     H --> E
+```

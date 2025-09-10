@@ -1,7 +1,11 @@
 ---
 layout: lessonbase
 title: OOP in Cookie Clicker
-permalink: /oop/
+permalink: /cookie-clicker-game-docs/oop
+sidebar: true
+sidebar_title: Cookie Clicker
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage}]
+enable_progress: true
 ---
 
 # Part 2 — 🧱 OOP (All object-oriented content)
@@ -58,3 +62,4 @@ flowchart TD
     G --> L
 
     L --> E
+```
