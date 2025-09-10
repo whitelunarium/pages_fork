@@ -59,6 +59,16 @@ layout: opencs
     </script>
     {% endif %}
 
+    <!-- Badge Configuration (hidden data for JavaScript) -->
+    {% if page.enable_badges %}
+    <script id="badge-config" type="application/json">
+    {
+      "lessonBadges": {{ page.lesson_badges | default: '[]' | jsonify }},
+      "lessonKey": {{ page.lesson_key | default: '' | jsonify }}
+    }
+    </script>
+    {% endif %}
+
     <!-- Flashcards Section -->
     {% if page.enable_flashcards %}
     {% assign flashcard_file = page.flashcards | default: "flashcards" %}
