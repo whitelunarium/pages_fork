@@ -25,6 +25,18 @@ enable_progress: true
 2. If found, **recreate state** from JSON; otherwise **initialize defaults**.
 3. On every relevant update, **write** the new state back to localStorage.
 
+---
+
+### Example in Code
+
+An example of this is:
+
+```js
+cookie.addCookies(-1 * forSaleItemInfo.price);
+localStorage.setItem("cookies", this.cookies);
+const storedCookies = Number(localStorage.getItem("cookies"));
+```
+
 ```mermaid
 flowchart TD
     A[🍪 Cookie Button<br/>Click to earn cookies] --> B[Cookies Saved & Displayed<br/>Progress stored in LocalStorage]
