@@ -58,10 +58,11 @@ permalink: functionalbreakoutlesson
 
   <!-- Main Content -->
   <main class="lesson-content">
-    <!-- <h1>{{ page.title }}</h1>
+    <h1>{{ page.title }}</h1>
     <div class="post-content">
       {{ content }}
-    </div> -->
+    </div>
+
     {% if page.enable_sandbox %}
     <hr>
     <div class="sandbox">
@@ -71,6 +72,7 @@ permalink: functionalbreakoutlesson
       <pre id="sandbox-output"></pre>
     </div>
     {% endif %}
+
     {% if page.enable_blackboard %}
     <hr>
     <div class="blackboard">
@@ -79,6 +81,7 @@ permalink: functionalbreakoutlesson
       <p class="blackboard-description">Press 'w' for white, press `r` for red, press `b` for blue, and press `g` for green. Press `c` to clear blackboard. </p>
     </div>
     {% endif %}
+  
     {% if page.enable_demo %}
     <!-- Note: utilizes script tags in the HTML file as cannot dynamically use information from frontmatter in lessonbase.js -->
     <hr>
@@ -103,6 +106,7 @@ permalink: functionalbreakoutlesson
       </pre>
     </div>
     {% endif %}
+
     {% if page.enable_quiz %}
     <hr>
     <div class="lesson-quiz">
@@ -113,6 +117,7 @@ permalink: functionalbreakoutlesson
       <p id="reflection-status"></p>
     </div>
     {% endif %}
+
     {% if page.resources %}
     <hr>
     <div class="resources">
@@ -124,6 +129,7 @@ permalink: functionalbreakoutlesson
       </ul>
     </div>
     {% endif %}
+
     {% if page.prev_url or page.next_url %}
     <div class="lesson-nav">
       {% if page.prev_url %}<a href="{{ page.prev_url }}" class="btn">⬅ Previous</a>{% endif %}
@@ -201,21 +207,6 @@ permalink: functionalbreakoutlesson
   margin: 0 auto;    /* keep it centered */
   line-height: 1.6;  /* make it more readable */
 }
-
-.lesson-collapse summary {
-  cursor: pointer;
-  font-size: 1.1rem;
-  background: #f2f2f2;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.lesson-collapse[open] summary {
-  background: #e0f7fa;
-}
-
 
 </style>
 
