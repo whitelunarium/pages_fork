@@ -8,11 +8,18 @@ permalink: /cookie-clicker-game-docs/
 # Cookie Clicker – Feature Add-On Assignment
 
 
+### Group 1
+
 | Role            | Name                 | GitHub |
 |:---------------:|:--------------------:|:------:|
 | 🧭 Scrum Master | **Kush Shah**        | [GitHub](https://github.com/kush1434) |
 | 📋 Assistant Scrum | **Trevor Vick**   | [GitHub](https://github.com/Tvick22) |
 | 💻 Engineer     | Elliot Yang          | [GitHub](https://github.com/ellioty15) |
+
+### Group 2
+
+| Role            | Name                 | GitHub |
+|:---------------:|:--------------------:|:------:|
 | 💻 Engineer     | Travis Callow        | [Github](https://github.com/TravisCallow) |
 | 💻 Engineer     | Aranya Bhattacharya  | [GitHub](https://github.com/aranyab0924) |
 | 💻 Engineer     | Alex Rubio           | [GitHub](https://github.com/AlexRubio1) |
@@ -20,13 +27,61 @@ permalink: /cookie-clicker-game-docs/
 We already have a working Cookie Clicker game. Right now, the game lets you click on the cookie to increase your score. That’s cool, but pretty basic. Your job is to **add a new feature** to make the game more fun and complex.
 
 This will give you practice with:
-- Writing and reusing **functions**
+- Writing and reusing **methods**
 - Keeping code organized in the right files
 - Using **if statements** to control when something happens
 - Storing and loading game data with **localStorage**
 
----
+## Steps to Add Your Feature
 
+<details>
+  <summary>Click to view steps</summary>
+
+  <div markdown="1">
+
+### Strategic Group of 3
+Work together in groups of three to plan, design, and test your addition.
+
+### Step 1 – Evaluate the Game
+Play the current Cookie Clicker version to understand what features already exist, how cookies accumulate, and what feels missing or repetitive.
+
+### Step 2 – Brainstorm New Ideas
+Discuss possible additions as a group. Use the example ideas provided (new shop item, superpower, unlockable, or visual change) as inspiration, or come up with your own creative twist.
+
+### Step 3 – Define Your Feature
+See flowchart below for current workflow example. Decide on your chosen feature and write a clear one-sentence description of what it does.
+
+### Step 4 – Design & Implement
+Add any new buttons, text, or visuals if your feature needs them.  
+Write at least one **method** to make your feature work.  
+
+### Step 5 – Save with localStorage
+If your feature should persist after refreshing, integrate **localStorage** to save its state.
+
+### Step 6 – Test and Refine
+Run the game to check if your feature works as expected. Fix any issues, refine the design, and polish the user experience. Once everything is finalized, add your feature to the mermaid chart.
+
+  </div>
+</details>
+
+```mermaid
+flowchart TD
+
+    A[🍪 Cookie Button<br/>Click to earn cookies] --> B[Cookies Saved & Displayed<br/>Progress stored in LocalStorage]
+
+    B --> C[🛒 Shop<br/>Spend cookies on upgrades & auto-clickers]
+
+    C --> D[👵 Grandma, 🏭 Factory, 🥭 Temple, 🏦 Bank<br/>Auto-clickers generate cookies per second]
+    C --> E[🖱 2X Clicks<br/>Doubles cookies gained per click]
+
+    D --> F[GameLoop<br/>Automatically adds cookies every second]
+    E --> B
+    F --> B
+
+    D --> G[🎉 Emoji Buddies<br/>Spawn moving emojis for each purchase]
+
+```
+# Mindmap/guide for creating a game, considering the goal of teaching
 ```mermaid
     mindmap
   root((Cookie Clicker Codings Concepts))

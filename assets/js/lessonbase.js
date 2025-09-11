@@ -267,7 +267,20 @@ document.addEventListener('DOMContentLoaded', function() {
   const resetBtn = document.getElementById("reset-progress");
   if (!bar || !text) return;
 
-  const lessons = ["frontend", "oop", "problem-solving", "future-references"];
+  // Get total lessons from config, default to 6
+  let TOTAL_LESSONS = 6;
+  const configEl = document.getElementById('progress-config');
+  if (configEl) {
+    try {
+      const config = JSON.parse(configEl.textContent);
+      TOTAL_LESSONS = config.totalLessons || 6;
+    } catch (e) {
+      console.warn('Could not parse progress config, using default of 6 lessons');
+    }
+  }
+
+  const PROGRESS_INCREMENT = 100 / TOTAL_LESSONS;
+  
   const key = "lesson-progress";
   const lessonKey = window.location.pathname.split("/").pop() || "lesson";
 
@@ -276,7 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
   localStorage.setItem(key, JSON.stringify(progress));
 
   const done = Object.keys(progress).length;
-  const percent = Math.floor((done / lessons.length) * 100);
+  const percent = Math.min(Math.round(done * PROGRESS_INCREMENT), 100);
+  
   bar.style.width = percent + "%";
   text.textContent = percent + "% complete";
 
@@ -285,41 +299,80 @@ document.addEventListener('DOMContentLoaded', function() {
       if (confirm("Reset all progress and time data?")) {
         localStorage.removeItem(key);
         localStorage.removeItem("lesson-badges");
-        lessons.forEach((l) => localStorage.removeItem(`lesson-time-${l}`));
+        // Generate lesson keys dynamically based on total lessons
+        for (let i = 1; i <= TOTAL_LESSONS; i++) {
+          localStorage.removeItem(`lesson-time-lesson-${i}`);
+        }
         location.reload();
       }
     };
   }
 })();
 
-// -------------------- BADGES --------------------
-function unlockBadge(lesson) {
+// -------------------- DYNAMIC BADGES --------------------
+// Get badge configuration from frontmatter
+function getBadgeConfig() {
+  const configEl = document.getElementById('badge-config');
+  if (!configEl) return { availableBadges: [], lessonKey: '' };
+  
+  try {
+    const config = JSON.parse(configEl.textContent);
+    return {
+      availableBadges: config.lessonBadges || [],
+      lessonKey: config.lessonKey || ''
+    };
+  } catch (e) {
+    console.warn('Could not parse badge config');
+    return { availableBadges: [], lessonKey: '' };
+  }
+}
+
+function unlockBadge(badgeName) {
+  const config = getBadgeConfig();
+  
+  // Only unlock if badge is in the available badges list
+  if (config.availableBadges.length > 0 && !config.availableBadges.includes(badgeName)) {
+    console.log(`Badge "${badgeName}" not available for this lesson`);
+    return;
+  }
+  
   let badges = JSON.parse(localStorage.getItem("lesson-badges")) || [];
-  if (!badges.includes(lesson)) {
-    badges.push(lesson);
+  if (!badges.includes(badgeName)) {
+    badges.push(badgeName);
     localStorage.setItem("lesson-badges", JSON.stringify(badges));
     renderBadges(badges);
-    showCongratsPopup(lesson);
+    showCongratsPopup(badgeName);
   }
 }
 
 function renderBadges(badges) {
   const badgeContainer = document.getElementById("badges");
   if (!badgeContainer) return;
+  
+  const config = getBadgeConfig();
   badgeContainer.innerHTML = "";
-  const icons = { frontend: "💻", oop: "🧩", "problem-solving": "🧠", "future-references": "📖", lesson: "🏅" };
-  badges.forEach((b) => {
+  
+  badges.forEach((badgeName) => {
+    // Only show badges that are available for this lesson (or all if no restriction)
+    if (config.availableBadges.length > 0 && !config.availableBadges.includes(badgeName)) {
+      return;
+    }
+    
     const span = document.createElement("span");
     span.className = "badge";
-    span.innerHTML = `${icons[b] || "🏅"} ${b.replace("-", " ")}`;
+    span.innerHTML = `🏅 ${badgeName}`;
     badgeContainer.appendChild(span);
   });
+  
+  if (badgeContainer.innerHTML === "") {
+    badgeContainer.innerHTML = "No badges yet...";
+  }
 }
 
-function showCongratsPopup(lesson) {
+function showCongratsPopup(badgeName) {
   const popup = document.createElement("div");
   popup.className = "congrats-popup";
-  popup.innerHTML = `🎉 Congrats! You earned a badge for <b>${lesson.replace("-", " ")}</b>`;
+  popup.innerHTML = `🎉 Congrats! You earned the <b>"${badgeName}"</b> badge!`;
   document.body.appendChild(popup);
   setTimeout(() => popup.classList.add("show"), 50);
   setTimeout(() => {
@@ -365,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(refKey, box.value);
     status.textContent = "Saved!";
     setTimeout(() => (status.textContent = ""), 1500);
-    unlockBadge(lessonKey); // Badge for writing reflection
+    unlockBadge('reflection'); // Badge for writing reflection
   });
 })();
 
