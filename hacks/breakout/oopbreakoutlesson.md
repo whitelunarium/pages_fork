@@ -1,5 +1,5 @@
 ---
-layout: post 
+layout: base_chatadpt 
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---

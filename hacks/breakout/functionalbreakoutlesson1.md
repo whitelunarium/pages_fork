@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: base_chatadpt
 title: Functional Breakout Blocks Lesson 1
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: functionalbreakoutlesson1

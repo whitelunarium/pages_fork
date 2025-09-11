@@ -1,5 +1,5 @@
 ---
-layout: post 
+layout: base_chatadpt 
 title: OOP Advanced Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopadvlesson
