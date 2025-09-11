@@ -188,6 +188,26 @@ permalink: functionalbreakoutlesson
     grid-template-columns: 1fr;
   }
 }
+.lesson-container {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* Sidebar fixed, content flexible */
+  gap: 2rem;
+}
+
+.lesson-sidebar {
+  width: 260px;
+}
+
+.lesson-content {
+  max-width: 100%;   /* allow it to stretch */
+}
+
+.post-content {
+  max-width: 900px;  /* let the text expand more */
+  margin: 0 auto;    /* keep it centered */
+  line-height: 1.6;  /* make it more readable */
+}
+
 </style>
 
 
