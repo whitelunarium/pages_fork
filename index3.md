@@ -1,9 +1,30 @@
 ---
 layout: post 
 title: Mario Gamified Navigation
-sprite: /images/mario_animation.png
+hide: true # not a blog
 permalink: /index3
-hide: true
+sprite:
+  image: /images/mario_animation.png
+  pixelWidth: 256
+  pixelHeight: 256
+  scale: 0.25
+  frames:
+    Rest:   {row: 0,  col: 0,  frames: 15}
+    RestL:  {row: 1,  col: 0,  frames: 15}
+    Walk:   {row: 2,  col: 0,  frames: 8}
+    Tada:   {row: 2,  col: 11, frames: 3}
+    WalkL:  {row: 3,  col: 0,  frames: 8}
+    TadaL:  {row: 3,  col: 11, frames: 3}
+    Run1:   {row: 4,  col: 0,  frames: 15}
+    Run1L:  {row: 5,  col: 0,  frames: 15}
+    Run2:   {row: 6,  col: 0,  frames: 15}
+    Run2L:  {row: 7,  col: 0,  frames: 15}
+    Puff:   {row: 8,  col: 0,  frames: 15}
+    PuffL:  {row: 9,  col: 0,  frames: 15}
+    Cheer:  {row: 10, col: 0,  frames: 15}
+    CheerL: {row: 11, col: 0,  frames: 15}
+    Flip:   {row: 12, col: 0,  frames: 15}
+    FlipL:  {row: 13, col: 0,  frames: 15}
 ---
 
 <!-- Container for Mario and hotspots/details -->
@@ -42,16 +63,16 @@ hide: true
   box-shadow: 0 4px 24px #b6c6e6;
 }
 .sprite {
-  height: 256px;
-  width: 256px;
-  background-image: url('/images/mario_animation.png');
+  width: {{page.sprite.pixelWidth}}px;
+  height: {{page.sprite.pixelHeight}}px;
+  background-image: url('{{page.sprite.image}}');
   background-repeat: no-repeat;
   position: absolute;
   top: 20px;
   left: 20px;
   background-position: 0px 0px;
   z-index: 3;
-  transform: scale(0.25);
+  transform: scale({{page.sprite.scale}});
   transform-origin: top left;
 }
 .hotspot {
@@ -86,28 +107,7 @@ hide: true
 
 <script>
 // Sprite data: animation frames, pixel size, scale
-const sprite_data = {
-  pixelSize: 256,
-  scale: 0.25,
-  frames: {
-    Rest:   {row: 0,  col: 0,  frames: 15},
-    RestL:  {row: 1,  col: 0,  frames: 15},
-    Walk:   {row: 2,  col: 0,  frames: 8},
-    Tada:   {row: 2,  col: 11, frames: 3},
-    WalkL:  {row: 3,  col: 0,  frames: 8},
-    TadaL:  {row: 3,  col: 11, frames: 3},
-    Run1:   {row: 4,  col: 0,  frames: 15},
-    Run1L:  {row: 5,  col: 0,  frames: 15},
-    Run2:   {row: 6,  col: 0,  frames: 15},
-    Run2L:  {row: 7,  col: 0,  frames: 15},
-    Puff:   {row: 8,  col: 0,  frames: 15},
-    PuffL:  {row: 9,  col: 0,  frames: 15},
-    Cheer:  {row: 10, col: 0,  frames: 15},
-    CheerL: {row: 11, col: 0,  frames: 15},
-    Flip:   {row: 12, col: 0,  frames: 15},
-    FlipL:  {row: 13, col: 0,  frames: 15}
-  }
-};
+const sprite_data = {{ page.sprite | jsonify }};
 
 // Hotspots data for easy expansion
 const hotspots = [
@@ -123,7 +123,8 @@ class Mario {
     this.positionY = 40;
     this.currentSpeed = 0;
     this.marioElement = document.getElementById("mario");
-    this.pixels = sprite_data.pixelSize;
+    this.pixelsWidth = sprite_data.pixelWidth;
+    this.pixelsHeight = sprite_data.pixelHeight;
     this.scale = sprite_data.scale;
     this.interval = 100;
     this.obj = sprite_data.frames;
@@ -138,12 +139,12 @@ class Mario {
   animate(animName, speed) {
     let frame = 0;
     const obj = this.obj[animName];
-    const row = obj.row * this.pixels;
+    const row = obj.row * this.pixelsHeight;
     this.currentAnim = animName;
     this.currentSpeed = speed;
     this.stopAnimate();
     this.tID = setInterval(() => {
-      const col = (frame + obj.col) * this.pixels;
+      const col = (frame + obj.col) * this.pixelsWidth;
       this.marioElement.style.backgroundPosition = `-${col}px -${row}px`;
       this.positionX += speed * this.direction.x;
       this.positionY += speed * this.direction.y;
