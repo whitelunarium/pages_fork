@@ -5,7 +5,7 @@ permalink: /cookie-clicker-game-docs/oop
 sidebar: true
 wide: true
 sidebar_title: Cookie Clicker
-lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage}]
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage},{url: /cookie-clicker-game-docs/quiz, text: 5. OOP Quiz}]
 enable_progress: true
 ---
 
@@ -32,6 +32,37 @@ enable_progress: true
 2. Add `canBuy()` and `buy()` with an **if statement** to check cost.
 3. Create at least **two instances** (e.g., “Metal Spoon”, “Golden Cursor”).
 4. (Tie-in with Part 1) Save & load these objects with localStorage.
+
+---
+
+### Example of OOP in the Game
+
+Here is an example of how we implemented OOP (Object-Oriented Programming) in Cookie Clicker.  
+The `EmojiBuddy` class is responsible for creating and animating emojis that bounce around the game area whenever items are purchased.
+
+
+```js
+class EmojiBuddy {
+  /**
+   * velocity on the y axis
+   * @type {number}
+   */
+  dy = 2;
+  /**
+   * velocity on the x axis
+   * @type {number}
+   */
+  dx = 2;
+  /**
+   *
+   * @param {string} emoji
+   */
+  constructor(emoji) {
+    this.emojiString = emoji;
+    this.animate = this.animate.bind(this);
+  }
+}
+```
 
 ```mermaid
 flowchart TD
