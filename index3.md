@@ -51,6 +51,8 @@ hide: true
   left: 20px;
   background-position: 0px 0px;
   z-index: 3;
+  transform: scale(0.25);
+  transform-origin: top left;
 }
 .hotspot {
   position: absolute;
@@ -170,33 +172,35 @@ class Mario {
   }
 
   checkHotspots() {
-    let collided = false;
-    for (const h of this.hotspots) {
-      const el = document.getElementById(h.id);
-      const hx = el.offsetLeft;
-      const hy = el.offsetTop;
-      const hw = el.offsetWidth;
-      const hh = el.offsetHeight;
-      const mx = this.positionX;
-      const my = this.positionY;
-      const mw = this.marioElement.offsetWidth;
-      const mh = this.marioElement.offsetHeight;
-      if (
-        mx < hx + hw &&
-        mx + mw > hx &&
-        my < hy + hh &&
-        my + mh > hy
-      ) {
-        document.getElementById(h.section).style.display = 'block';
-        this.activeSection = h.section;
-        collided = true;
-      } else {
-        document.getElementById(h.section).style.display = 'none';
+      let collided = false;
+      // Mario is visually scaled down, so collision box must be scaled too
+      const scale = 0.25;
+      for (const h of this.hotspots) {
+        const el = document.getElementById(h.id);
+        const hx = el.offsetLeft;
+        const hy = el.offsetTop;
+        const hw = el.offsetWidth;
+        const hh = el.offsetHeight;
+        const mx = this.positionX;
+        const my = this.positionY;
+        const mw = this.marioElement.offsetWidth * scale;
+        const mh = this.marioElement.offsetHeight * scale;
+        if (
+          mx < hx + hw &&
+          mx + mw > hx &&
+          my < hy + hh &&
+          my + mh > hy
+        ) {
+          document.getElementById(h.section).style.display = 'block';
+          this.activeSection = h.section;
+          collided = true;
+        } else {
+          document.getElementById(h.section).style.display = 'none';
+        }
       }
-    }
-    if (!collided) {
-      this.activeSection = null;
-    }
+      if (!collided) {
+        this.activeSection = null;
+      }
   }
 
   reset() {
