@@ -1,7 +1,6 @@
 ---
 layout: post 
-title: Mario Gamified Navigation
-hide: true # not a blog
+title: Gamified Navigation
 permalink: /index3
 sprite:
   image: /images/mario_animation.png
@@ -25,31 +24,59 @@ sprite:
     CheerL: {row: 11, col: 0,  frames: 15}
     Flip:   {row: 12, col: 0,  frames: 15}
     FlipL:  {row: 13, col: 0,  frames: 15}
+sections:
+  - id: hotspot-csse
+    label: CSSE
+    hotspot:
+      top: 40
+      left: 40
+    detail:
+      id: section-csse
+      top: 40
+      left: 200
+      title: CSSE Detail
+      content: "Computer Science and Software Engineering: JavaScript, OOP, algorithmic thinking, game dev projects."
+  - id: hotspot-csp
+    label: CSP
+    hotspot:
+      top: 240
+      left: 40
+    detail:
+      id: section-csp
+      top: 240
+      left: 200
+      title: CSP Detail
+      content: "Computer Science Principles: Python, algorithms, data, networks, impact of computing."
+  - id: hotspot-csa
+    label: CSA
+    hotspot:
+      top: 440
+      left: 40
+    detail:
+      id: section-csa
+      top: 440
+      left: 200
+      title: CSA Detail
+      content: "AP Computer Science A: Java, data structures, recursion, team projects, AP prep."
 ---
 
-<!-- Container for Mario and hotspots/details -->
+<!-- Container for Sprite and hotspots/details -->
 <div id="game-area" style="position: relative; width: 400px; height: 700px; margin: 60px auto;">
-  <!-- Mario sprite -->
-  <p id="mario" class="sprite"></p>
+  <!-- Sprite -->
+  <p id="sprite" class="sprite"></p>
 
-  <!-- Hotspot text elements -->
-  <div id="hotspot-csse" class="hotspot" style="top: 40px; left: 40px;">CSSE</div>
-  <div id="hotspot-csp" class="hotspot" style="top: 240px; left: 40px;">CSP</div>
-  <div id="hotspot-csa" class="hotspot" style="top: 440px; left: 40px;">CSA</div>
+  <!-- Hotspot text elements (data-driven) -->
+  {% for s in page.sections %}
+    <div id="{{s.id}}" class="hotspot" style="top: {{s.hotspot.top}}px; left: {{s.hotspot.left}}px;">{{s.label}}</div>
+  {% endfor %}
 
-  <!-- Detail sections -->
-  <div id="section-csse" class="detail-section" style="top: 40px; left: 200px;">  
-    <h3>CSSE Detail</h3>
-    <p>Computer Science and Software Engineering: JavaScript, OOP, algorithmic thinking, game dev projects.</p>
-  </div>
-  <div id="section-csp" class="detail-section" style="top: 240px; left: 200px;">
-    <h3>CSP Detail</h3>
-    <p>Computer Science Principles: Python, algorithms, data, networks, impact of computing.</p>
-  </div>
-  <div id="section-csa" class="detail-section" style="top: 440px; left: 200px;">
-    <h3>CSA Detail</h3>
-    <p>AP Computer Science A: Java, data structures, recursion, team projects, AP prep.</p>
-  </div>
+  <!-- Detail sections (data-driven) -->
+  {% for s in page.sections %}
+    <div id="{{s.detail.id}}" class="detail-section" style="top: {{s.detail.top}}px; left: {{s.detail.left}}px;">
+      <h3>{{s.detail.title}}</h3>
+      <p>{{s.detail.content}}</p>
+    </div>
+  {% endfor %}
 </div>
 
 <style>
@@ -109,26 +136,26 @@ sprite:
 // Sprite data: animation frames, pixel size, scale
 const sprite_data = {{ page.sprite | jsonify }};
 
-// Hotspots data for easy expansion
+// Hotspots data from frontmatter
 const hotspots = [
-  {id: 'hotspot-csse', section: 'section-csse'},
-  {id: 'hotspot-csp', section: 'section-csp'},
-  {id: 'hotspot-csa', section: 'section-csa'}
+  {% for s in page.sections %}
+    {id: '{{s.id}}', section: '{{s.detail.id}}'},
+  {% endfor %}
 ];
 
-class Mario {
+class Sprite {
   constructor(sprite_data, hotspots) {
     this.tID = null;
     this.positionX = 40;
     this.positionY = 40;
     this.currentSpeed = 0;
-    this.marioElement = document.getElementById("mario");
+    this.spriteElement = document.getElementById("sprite");
     this.pixelsWidth = sprite_data.pixelWidth;
     this.pixelsHeight = sprite_data.pixelHeight;
     this.scale = sprite_data.scale;
     this.interval = 100;
     this.obj = sprite_data.frames;
-    this.marioElement.style.position = "absolute";
+    this.spriteElement.style.position = "absolute";
     this.moving = false;
     this.direction = {x: 0, y: 0};
     this.hotspots = hotspots;
@@ -145,11 +172,11 @@ class Mario {
     this.stopAnimate();
     this.tID = setInterval(() => {
       const col = (frame + obj.col) * this.pixelsWidth;
-      this.marioElement.style.backgroundPosition = `-${col}px -${row}px`;
+      this.spriteElement.style.backgroundPosition = `-${col}px -${row}px`;
       this.positionX += speed * this.direction.x;
       this.positionY += speed * this.direction.y;
-      this.marioElement.style.left = `${this.positionX}px`;
-      this.marioElement.style.top = `${this.positionY}px`;
+      this.spriteElement.style.left = `${this.positionX}px`;
+      this.spriteElement.style.top = `${this.positionY}px`;
       frame = (frame + 1) % obj.frames;
       this.checkHotspots();
     }, this.interval);
@@ -182,7 +209,7 @@ class Mario {
 
   checkHotspots() {
     let collided = false;
-    // Mario is visually scaled down, so collision box must be scaled too
+    // Sprite is visually scaled down, so collision box must be scaled too
     for (const h of this.hotspots) {
       const el = document.getElementById(h.id);
       const hx = el.offsetLeft;
@@ -191,8 +218,8 @@ class Mario {
       const hh = el.offsetHeight;
       const mx = this.positionX;
       const my = this.positionY;
-      const mw = this.marioElement.offsetWidth * this.scale;
-      const mh = this.marioElement.offsetHeight * this.scale;
+      const mw = this.spriteElement.offsetWidth * this.scale;
+      const mh = this.spriteElement.offsetHeight * this.scale;
       if (
         mx < hx + hw &&
         mx + mw > hx &&
@@ -215,8 +242,8 @@ class Mario {
     this.stopAnimate();
     this.positionX = 40;
     this.positionY = 40;
-    this.marioElement.style.left = `40px`;
-    this.marioElement.style.top = `40px`;
+    this.spriteElement.style.left = `40px`;
+    this.spriteElement.style.top = `40px`;
     for (const h of this.hotspots) {
       document.getElementById(h.section).style.display = 'none';
     }
@@ -225,37 +252,37 @@ class Mario {
   }
 }
 
-const mario = new Mario(sprite_data, hotspots);
+const sprite = new Sprite(sprite_data, hotspots);
 
 // Key press/release controls
 window.addEventListener("keydown", (event) => {
   if (event.repeat) return;
   if (event.key === "ArrowRight" || event.key === "d" || event.key === "D") {
-    mario.startWalkingRight();
+    sprite.startWalkingRight();
   }
   if (event.key === "ArrowLeft" || event.key === "a" || event.key === "A") {
-    mario.startWalkingLeft();
+    sprite.startWalkingLeft();
   }
   if (event.key === "ArrowDown" || event.key === "s" || event.key === "S") {
-    mario.startWalkingDown();
+    sprite.startWalkingDown();
   }
   if (event.key === "ArrowUp" || event.key === "w" || event.key === "W") {
-    mario.startWalkingUp();
+    sprite.startWalkingUp();
   }
   if (event.key === "r" || event.key === "R") {
-    mario.reset();
+    sprite.reset();
   }
 });
 window.addEventListener("keyup", (event) => {
   if (["ArrowRight","ArrowLeft","ArrowDown","ArrowUp","d","a","s","w","D","A","S","W"].includes(event.key)) {
-    mario.stopAnimate();
-    mario.startResting();
+    sprite.stopAnimate();
+    sprite.startResting();
   }
 });
 
-// On page load, Mario rests
+// On page load, sprite rests
 window.addEventListener("DOMContentLoaded", () => {
-  mario.startResting();
+  sprite.startResting();
 });
 </script>
 
