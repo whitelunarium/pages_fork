@@ -85,44 +85,52 @@ hide: true
 </style>
 
 <script>
-// Mario animation metadata
-var mario_metadata = {
-  Rest:   {row: 0,  col: 0,  frames: 15},
-  RestL:  {row: 1,  col: 0,  frames: 15},
-  Walk:   {row: 2,  col: 0,  frames: 8},
-  Tada:   {row: 2,  col: 11, frames: 3},
-  WalkL:  {row: 3,  col: 0,  frames: 8},
-  TadaL:  {row: 3,  col: 11, frames: 3},
-  Run1:   {row: 4,  col: 0,  frames: 15},
-  Run1L:  {row: 5,  col: 0,  frames: 15},
-  Run2:   {row: 6,  col: 0,  frames: 15},
-  Run2L:  {row: 7,  col: 0,  frames: 15},
-  Puff:   {row: 8,  col: 0,  frames: 15},
-  PuffL:  {row: 9,  col: 0,  frames: 15},
-  Cheer:  {row: 10, col: 0,  frames: 15},
-  CheerL: {row: 11, col: 0,  frames: 15},
-  Flip:   {row: 12, col: 0,  frames: 15},
-  FlipL:  {row: 13, col: 0,  frames: 15}
+// Sprite data: animation frames, pixel size, scale
+const sprite_data = {
+  pixelSize: 256,
+  scale: 0.25,
+  frames: {
+    Rest:   {row: 0,  col: 0,  frames: 15},
+    RestL:  {row: 1,  col: 0,  frames: 15},
+    Walk:   {row: 2,  col: 0,  frames: 8},
+    Tada:   {row: 2,  col: 11, frames: 3},
+    WalkL:  {row: 3,  col: 0,  frames: 8},
+    TadaL:  {row: 3,  col: 11, frames: 3},
+    Run1:   {row: 4,  col: 0,  frames: 15},
+    Run1L:  {row: 5,  col: 0,  frames: 15},
+    Run2:   {row: 6,  col: 0,  frames: 15},
+    Run2L:  {row: 7,  col: 0,  frames: 15},
+    Puff:   {row: 8,  col: 0,  frames: 15},
+    PuffL:  {row: 9,  col: 0,  frames: 15},
+    Cheer:  {row: 10, col: 0,  frames: 15},
+    CheerL: {row: 11, col: 0,  frames: 15},
+    Flip:   {row: 12, col: 0,  frames: 15},
+    FlipL:  {row: 13, col: 0,  frames: 15}
+  }
 };
 
+// Hotspots data for easy expansion
+const hotspots = [
+  {id: 'hotspot-csse', section: 'section-csse'},
+  {id: 'hotspot-csp', section: 'section-csp'},
+  {id: 'hotspot-csa', section: 'section-csa'}
+];
+
 class Mario {
-  constructor(meta_data) {
+  constructor(sprite_data, hotspots) {
     this.tID = null;
     this.positionX = 40;
     this.positionY = 40;
     this.currentSpeed = 0;
     this.marioElement = document.getElementById("mario");
-    this.pixels = 256;
+    this.pixels = sprite_data.pixelSize;
+    this.scale = sprite_data.scale;
     this.interval = 100;
-    this.obj = meta_data;
+    this.obj = sprite_data.frames;
     this.marioElement.style.position = "absolute";
     this.moving = false;
     this.direction = {x: 0, y: 0};
-    this.hotspots = [
-      {id: 'hotspot-csse', section: 'section-csse'},
-      {id: 'hotspot-csp', section: 'section-csp'},
-      {id: 'hotspot-csa', section: 'section-csa'}
-    ];
+    this.hotspots = hotspots;
     this.activeSection = null;
     this.currentAnim = 'Rest';
   }
@@ -172,35 +180,34 @@ class Mario {
   }
 
   checkHotspots() {
-      let collided = false;
-      // Mario is visually scaled down, so collision box must be scaled too
-      const scale = 0.25;
-      for (const h of this.hotspots) {
-        const el = document.getElementById(h.id);
-        const hx = el.offsetLeft;
-        const hy = el.offsetTop;
-        const hw = el.offsetWidth;
-        const hh = el.offsetHeight;
-        const mx = this.positionX;
-        const my = this.positionY;
-        const mw = this.marioElement.offsetWidth * scale;
-        const mh = this.marioElement.offsetHeight * scale;
-        if (
-          mx < hx + hw &&
-          mx + mw > hx &&
-          my < hy + hh &&
-          my + mh > hy
-        ) {
-          document.getElementById(h.section).style.display = 'block';
-          this.activeSection = h.section;
-          collided = true;
-        } else {
-          document.getElementById(h.section).style.display = 'none';
-        }
+    let collided = false;
+    // Mario is visually scaled down, so collision box must be scaled too
+    for (const h of this.hotspots) {
+      const el = document.getElementById(h.id);
+      const hx = el.offsetLeft;
+      const hy = el.offsetTop;
+      const hw = el.offsetWidth;
+      const hh = el.offsetHeight;
+      const mx = this.positionX;
+      const my = this.positionY;
+      const mw = this.marioElement.offsetWidth * this.scale;
+      const mh = this.marioElement.offsetHeight * this.scale;
+      if (
+        mx < hx + hw &&
+        mx + mw > hx &&
+        my < hy + hh &&
+        my + mh > hy
+      ) {
+        document.getElementById(h.section).style.display = 'block';
+        this.activeSection = h.section;
+        collided = true;
+      } else {
+        document.getElementById(h.section).style.display = 'none';
       }
-      if (!collided) {
-        this.activeSection = null;
-      }
+    }
+    if (!collided) {
+      this.activeSection = null;
+    }
   }
 
   reset() {
@@ -217,7 +224,7 @@ class Mario {
   }
 }
 
-const mario = new Mario(mario_metadata);
+const mario = new Mario(sprite_data, hotspots);
 
 // Key press/release controls
 window.addEventListener("keydown", (event) => {
