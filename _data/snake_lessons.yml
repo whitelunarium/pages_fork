@@ -1,0 +1,39 @@
+# course illustrations
+Title: "Snake Game Foundations"
+Description: "Learn how to build and understand the logic behind Snake. These sections introduce the essential programming skills developers use while creating the game, connecting coding concepts to game development."
+Topics:
+  - title: "Frontend (Structure & Presentation)"
+    image: "/snake/frontend.png"
+    link: "/snake/lesson/frontend"
+    alt: "Frontend Development"
+    keyPoints:
+      - "HTML canvas and menus"
+      - "CSS styling and transitions"
+      - "DOM manipulation"
+      - "Event handling and input"
+    subtitle: "User Interface Design"
+    description: "Players interact with multiple screens and controls. This demonstrates how frontend development creates visual interfaces, handles user input, and manages different game states through HTML, CSS, and JavaScript."
+
+  - title: "Game Programming Fundamentals"
+    image: "/snake/fundamentals.png"
+    link: "/snake/lesson/fundamentals"
+    alt: "Programming Fundamentals"
+    keyPoints:
+      - "Variables and constants"
+      - "Functions and organization"
+      - "Conditionals and loops"
+      - "Arrays and objects"
+    subtitle: "Core Programming Skills"
+    description: "Snake demonstrates essential programming concepts through game mechanics. Students learn how variables track game state, functions organize code, and data structures like arrays manage the snake's body segments."
+
+  - title: "Problem-Solving (Game Logic & Algorithms)"
+    image: "/snake/problem-solving.png"
+    link: "/snake/lesson/problem-solving"
+    alt: "Problem Solving"
+    keyPoints:
+      - "Game loop architecture"
+      - "Collision detection systems"
+      - "Coordinate-based movement"
+      - "State management patterns"
+    subtitle: "Algorithmic Thinking"
+    description: "Snake requires sophisticated problem-solving techniques. Developers learn to implement continuous game loops, handle complex collision scenarios, and manage game state—core algorithmic thinking skills used across programming."
