@@ -15,7 +15,7 @@ Topics:
     description: "Players interact with multiple screens and controls. This demonstrates how frontend development creates visual interfaces, handles user input, and manages different game states through HTML, CSS, and JavaScript."
 
   - title: "Game Programming Fundamentals"
-    image: "/snake/fundamentals.png"
+    image: "/snake/code.png"
     link: "/snake/lesson/fundamentals"
     alt: "Programming Fundamentals"
     keyPoints:
