@@ -32,7 +32,7 @@ lxdData:
       Description: "Agile development and changing elements of the Snake game."
       Categories: ["JavaScript", "Game Coding", "Procedural", "Reptile Life"]
       Game: "/snake"
-      Lessons: "/agile/pair_trio"
+      Lessons: "/snake/lesson"
       Image: "/images/snake.png"
       Alt: "Snake eating Apples"
     - Title: "Calculator"
