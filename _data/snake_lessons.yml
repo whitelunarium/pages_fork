@@ -10,6 +10,9 @@ Topics:
       - "Collaborate in real-time with the snake game"
       - "Establish ceremonies in the team"
       - "Share and collaboorate on knowledge"
+    subtitle: "Snake Game"
+    description: "Snake is a genre of action video games where the player maneuvers the end of a growing line, often themed as a snake. The player must keep the snake from colliding with both other obstacles and itself, which gets harder as the snake lengthens."
+
   - title: "Frontend"
     image: "/snake/frontend.png"
     link: "/snake/lesson/frontend"
