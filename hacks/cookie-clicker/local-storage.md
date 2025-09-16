@@ -49,15 +49,3 @@ flowchart TD
     D --> G[🎉 Emoji Buddies<br/>Spawn moving emojis for each purchase]
 ```
 
-```mermaid
-flowchart TD
-    A[Game Start] --> B[Load Objects from localStorage]
-    B -->|Exists| C[Recreate Objects from JSON]
-    B -->|No Save Found| D[Create New Objects from Classes]
-    C --> E[Objects in Memory]
-    D --> E
-    E --> F[Player Action or Tick]
-    F --> G[State Changes (cookies, costs, owned)]
-    G --> H[Save Objects to localStorage]
-    H --> E
-```
