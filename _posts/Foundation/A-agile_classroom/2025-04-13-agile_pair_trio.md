@@ -18,7 +18,7 @@ progress_total: 6
 enable_badges: true
 lesson_key: "pair-trio-programming"
 lesson_badges:
-    - "problem-solving"
+    - "pair-trio-programming"
     
 next_url: "/snake/lesson/frontend"
 ---
