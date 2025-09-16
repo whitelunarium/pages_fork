@@ -1,5 +1,5 @@
 ---
-layout: post 
+layout: gchat 
 title: OOP Breakout Lesson
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
