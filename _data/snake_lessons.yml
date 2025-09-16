@@ -2,6 +2,14 @@
 Title: "Snake Game Foundations"
 Description: "Learn how to build and understand the logic behind Snake. These sections introduce the essential programming skills developers use while creating the game, connecting coding concepts to game development."
 Topics:
+  - title: "Snake Game Debugging"
+    image: "/agile/pair_trio.png"
+    link: "/agile/pair_trio"
+    alt: "Pair/Trio Programming with Snake"
+    keyPoints:
+      - "Collaborate in real-time with the snake game"
+      - "Establish ceremonies in the team"
+      - "Share and collaboorate on knowledge"
   - title: "Frontend"
     image: "/snake/frontend.png"
     link: "/snake/lesson/frontend"
