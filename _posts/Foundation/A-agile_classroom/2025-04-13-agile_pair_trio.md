@@ -1,13 +1,29 @@
 ---
-toc: True
-layout: post
-data: agile
+layout: lessonbase
 title: Pair/Trio Programming
 description: Establishing individual and pair/trio coding habits in the classroom by altering snake game.
-categories: ['Collaboration']
 permalink: /agile/pair_trio
 breadcrumb: True 
+sidebar_title: "🐍 Snake Lessons"
+lesson_links:
+  - { text: "Lesson 1: Game Debugging", url: "/agile/pair_trio" }
+  - { text: "Lesson 2: Frontend", url: "/snake/lesson/frontend" }
+  - { text: "Lesson 3: Programming Fundamentals", url: "/snake/lesson/fundamentals" }
+  - { text: "Lesson 4: Hacks", url: "/snake/lesson/hacks" }
+  - { text: "End of Lesson Quiz", url: "/snake/lesson/quiz" }
+  - { text: "Future References", url: "/snake/lesson/future-references" }
+enable_timer: true
+enable_progress: true
+progress_total: 6
+enable_badges: true
+lesson_key: "pair-trio-programming"
+lesson_badges:
+    - "pair-trio-programming"
+    
+next_url: "/snake/lesson/frontend"
 ---
+
+
 
 ## Pair/Trio Programming Overview
 
@@ -25,7 +41,7 @@ Transform pair/trio programming from theory to practice with an interactive Snak
 
 Your team has inherited a Snake Game with multiple needs that prevent could improve gameplay. Your mission: work as a pair/trio to identify, document, and improve these issues using proper Agile methodologies.
 
-**xSnake Game Improvements:**
+**Snake Game Improvements:**
 
 - Background and Color could be improved
 - Apple is white and could be red
@@ -128,13 +144,6 @@ Create a burndown list for your debugging session:
 - [ ] Test change immediately after implementation
 
 ---
-
-**Why?**
-These steps ensure your work is organized, efficient, and quality. The provided infographics serve as examples of how your team should organize and divide work.
-
-## Start Learning to Code Here:
-- [Snake Game Lesson](/snakegaming/lesson.html)
-- [Snake Game Hacks](/snakegaming/hacks.html)
 
 ### Snake Game Debugging Evaluation Table
 
