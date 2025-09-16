@@ -1,5 +1,5 @@
 ---
-layout: gchat 
+layout: post 
 author: Nikhil, Rohan, Pranav, Aditya, Shriya, Samhita
 permalink: oopbreakoutlesson
 ---

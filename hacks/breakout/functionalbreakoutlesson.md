@@ -1,5 +1,5 @@
 ---
-layout: gchat
+layout: opencs
 title: "Breakout Blocks Lesson"
 sidebar: true
 sidebar_title: "Lesson Tools"
