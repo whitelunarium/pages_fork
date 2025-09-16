@@ -13,7 +13,7 @@ lesson_links:
   - { text: "End of Lesson Quiz", url: "/snake/lesson/quiz" }
   - { text: "Future References", url: "/snake/lesson/future-references" }
 enable_timer: true
-enable:progress: true
+enable_progress: true
 progress_total: 6
 enable_badges: true
 lesson_key: "pair-trio-programming"
