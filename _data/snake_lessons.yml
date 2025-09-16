@@ -28,7 +28,7 @@ Topics:
 
   - title: "Hacks"
     image: "/snake/problem-solving.png"
-    link: "/snakegaming/hacks"
+    link: "/snake/lesson/hacks"
     alt: "Hacks"
     keyPoints:
       - "Learn more about snake through homework hacks"
