@@ -2,7 +2,7 @@
 Title: "Snake Game Foundations"
 Description: "Learn how to build and understand the logic behind Snake. These sections introduce the essential programming skills developers use while creating the game, connecting coding concepts to game development."
 Topics:
-  - title: "Frontend (Structure & Presentation)"
+  - title: "Frontend"
     image: "/snake/frontend.png"
     link: "/snake/lesson/frontend"
     alt: "Frontend Development"
@@ -14,7 +14,7 @@ Topics:
     subtitle: "User Interface Design"
     description: "Players interact with multiple screens and controls. This demonstrates how frontend development creates visual interfaces, handles user input, and manages different game states through HTML, CSS, and JavaScript."
 
-  - title: "Game Programming Fundamentals"
+  - title: "Programming Fundamentals"
     image: "/snake/code.png"
     link: "/snake/lesson/fundamentals"
     alt: "Programming Fundamentals"
@@ -26,7 +26,7 @@ Topics:
     subtitle: "Core Programming Skills"
     description: "Snake demonstrates essential programming concepts through game mechanics. Students learn how variables track game state, functions organize code, and data structures like arrays manage the snake's body segments."
 
-  - title: "Problem-Solving (Game Logic & Algorithms)"
+  - title: "Problem-Solving"
     image: "/snake/problem-solving.png"
     link: "/snake/lesson/problem-solving"
     alt: "Problem Solving"
