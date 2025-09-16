@@ -41,7 +41,7 @@ Transform pair/trio programming from theory to practice with an interactive Snak
 
 Your team has inherited a Snake Game with multiple needs that prevent could improve gameplay. Your mission: work as a pair/trio to identify, document, and improve these issues using proper Agile methodologies.
 
-**xSnake Game Improvements:**
+**Snake Game Improvements:**
 
 - Background and Color could be improved
 - Apple is white and could be red
