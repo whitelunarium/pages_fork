@@ -19,7 +19,8 @@ enable_badges: true
 lesson_key: "pair-trio-programming"
 lesson_badges:
     - "problem-solving"
-next_url: "/snake/lesson/frontend
+    
+next_url: "/snake/lesson/frontend"
 ---
 
 
