@@ -68,6 +68,18 @@ enable_progress: true
 - Run the game to see if your feature works as expected.
 - Fix any issues and refine the design
 
+---
+
+## HACK 1
+
+<a href="{{site.baseurl}}/hacks/cookie-clicker/2025-08-29-collaboration.ipynb" download="collaboration.ipynb" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">
+  Download Collaboration Notebook
+</a>
+
+> Complete this collaboration notebook with your team of 3! (You can share the file on 1 computer if its easier) When completed, submit your notebook file (.ipynb) by sending it to **Trevor Vick** or **Kush Shah** on slack. If you have any questions, contact us on Slack.
+
+---
+
 ```mermaid
 flowchart TD
 
@@ -153,6 +165,8 @@ flowchart TD
   - "Favorite Fruit": "Mango"
 
 ---
+
+## Hack 2
 
 ## Your Task – Add a New Feature
 
