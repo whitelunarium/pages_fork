@@ -1,13 +1,28 @@
 ---
-toc: True
-layout: post
-data: agile
+layout: lessonbase
 title: Pair/Trio Programming
 description: Establishing individual and pair/trio coding habits in the classroom by altering snake game.
-categories: ['Collaboration']
 permalink: /agile/pair_trio
 breadcrumb: True 
+sidebar_title: "🐍 Snake Lessons"
+lesson_links:
+  - { text: "Lesson 1: Game Debugging", url: "/agile/pair_trio" }
+  - { text: "Lesson 2: Frontend", url: "/snake/lesson/frontend" }
+  - { text: "Lesson 3: Programming Fundamentals", url: "/snake/lesson/fundamentals" }
+  - { text: "Lesson 4: Hacks", url: "/snake/lesson/hacks" }
+  - { text: "End of Lesson Quiz", url: "/snake/lesson/quiz" }
+  - { text: "Future References", url: "/snake/lesson/future-references" }
+enable_timer: true
+enable:progress: true
+progress_total: 6
+enable_badges: true
+lesson_key: "pair-trio-programming"
+lesson_badges:
+    - "problem-solving"
+next_url: "/snake/lesson/frontend
 ---
+
+
 
 ## Pair/Trio Programming Overview
 
