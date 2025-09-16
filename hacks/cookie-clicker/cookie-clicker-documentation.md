@@ -81,7 +81,7 @@ enable_progress: true
 > Complete this collaboration notebook with your team of 3! (You can share the file on 1 computer if its easier) When completed, submit your notebook file (.ipynb) by attatching it to the same Github Issue as your quiz score screenshot. 
 
 
-When both completed, submit the link to the issue to the Cookie Clicker chat on slack. If you have any questions, contact **Kush Shah** or **Trevor Vick** on Slack.
+When both completed, each person must submit the link to their issue to the Cookie Clicker chat on slack. If you have any questions, contact **Kush Shah** or **Trevor Vick** on Slack.
 
 ---
 
