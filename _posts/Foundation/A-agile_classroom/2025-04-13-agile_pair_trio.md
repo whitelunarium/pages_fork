@@ -145,13 +145,6 @@ Create a burndown list for your debugging session:
 
 ---
 
-**Why?**
-These steps ensure your work is organized, efficient, and quality. The provided infographics serve as examples of how your team should organize and divide work.
-
-## Start Learning to Code Here:
-- [Snake Game Lesson](/snakegaming/lesson.html)
-- [Snake Game Hacks](/snakegaming/hacks.html)
-
 ### Snake Game Debugging Evaluation Table
 
 Track your team's performance through the debugging session:
