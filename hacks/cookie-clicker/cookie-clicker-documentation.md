@@ -72,11 +72,16 @@ enable_progress: true
 
 ## HACK 1
 
+> Complete the OOP quiz on the 5th lesson and screenshot your score. You must recieve at least a 3/4 to get credit. Attatch that screenshot to a Github Issue.
+
 <a href="{{site.baseurl}}/hacks/cookie-clicker/2025-08-29-collaboration.ipynb" download="collaboration.ipynb" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">
   Download Collaboration Notebook
 </a>
 
-> Complete this collaboration notebook with your team of 3! (You can share the file on 1 computer if its easier) When completed, submit your notebook file (.ipynb) by sending it to **Trevor Vick** or **Kush Shah** on slack. If you have any questions, contact us on Slack.
+> Complete this collaboration notebook with your team of 3! (You can share the file on 1 computer if its easier) When completed, submit your notebook file (.ipynb) by attatching it to the same Github Issue as your quiz score screenshot. 
+
+
+When both completed, submit the link to the issue to the Cookie Clicker chat on slack. If you have any questions, contact **Kush Shah** or **Trevor Vick** on Slack.
 
 ---
 
