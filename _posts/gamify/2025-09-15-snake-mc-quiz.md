@@ -10,8 +10,8 @@ permalink: /snake/lesson/quiz
 sidebar_title: "🐍 Snake Lessons"
 lesson_links:
   - { text: "Lesson 1: Frontend", url: "/snake/lesson/frontend" }
-  - { text: "Lesson 2: Programming", url: "/snake/lesson/oop" }
-  - { text: "Lesson 3: Problem Solving", url: "/snake/lesson/problem-solving" }
+  - { text: "Lesson 2: Programming Fundamentals", url: "/snake/lesson/fundamentals" }
+  - { text: "Lesson 3: Hacks", url: "/snake/lesson/hacks" }
   - { text: "End of Lesson Quiz", url: "/snake/lesson/quiz" }
   - { text: "Future References", url: "/snake/lesson/future-references" }
 
