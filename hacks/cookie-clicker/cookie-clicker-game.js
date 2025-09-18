@@ -5,6 +5,29 @@ const cookieButton = document.getElementById("cookie");
 const cookieCountDisplay = document.getElementById("cookie-count");
 const gameArea = document.getElementById("game-area");
 
+// Create a tooltip element
+const tooltip = document.createElement('div');
+tooltip.id = 'tooltip';
+tooltip.className = 'absolute hidden bg-black text-white px-2 py-1 rounded text-sm z-10 pointer-events-none';
+document.body.appendChild(tooltip);
+
+function addButtonTooltip(button) {
+    button.addEventListener('mouseover', (e) => {
+        tooltip.innerHTML = button.innerHTML;
+        tooltip.style.left = `${e.pageX + 10}px`;
+        tooltip.style.top = `${e.pageY + 10}px`;
+        tooltip.classList.remove('hidden');
+    });
+    button.addEventListener('mouseout', () => {
+        tooltip.classList.add('hidden');
+    });
+    button.addEventListener('mousemove', (e) => {
+        tooltip.style.left = `${e.pageX + 10}px`;
+        tooltip.style.top = `${e.pageY + 10}px`;
+    });
+}
+
+
 const cookie = {
   cookieMulti: 1,
   cookies: 0,
@@ -32,27 +55,27 @@ const shop = {
   updateShopDisplay() {
     shopContainer.innerHTML = "";
     const shopTitle = document.createElement("div");
-    shopTitle.className = "text-xl font-bold mb-4 text-center";
+    shopTitle.className = "text-xl font-bold mb-4 text-center text-white bg-amber-600 rounded-lg p-2";
     shopTitle.innerHTML = "SHOP";
     shopContainer.appendChild(shopTitle);
     const shopSwap = document.createElement("button");
-    shopSwap.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
+    shopSwap.className = `w-full bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded border-2 border-amber-600 whitespace-nowrap overflow-hidden text-ellipsis`;
     if (this.tab === "upgrades") shopSwap.innerHTML = "Switch to Shop";
     else shopSwap.innerHTML = "Switch to Upgrades";
     shopSwap.addEventListener("click", () => {
       if (this.tab === "upgrades") shop.switchTab("shop");
       else shop.switchTab("upgrades");
     });
+    addButtonTooltip(shopSwap);
     shopContainer.appendChild(shopSwap);
     if (this.tab === "upgrades")
       for (let i = 0; i < this.forSale.length; i++) {
         const forSaleItemInfo = this.forSale[i];
 
         const shopButton = document.createElement("button");
-        shopButton.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
+        shopButton.className = `w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded border-2 border-amber-700 whitespace-nowrap overflow-hidden text-ellipsis`;
         shopButton.innerHTML = `${forSaleItemInfo.emoji} ${forSaleItemInfo.name} (${forSaleItemInfo.price} 🍪)`;
-        shopContainer.appendChild(shopButton);
-
+        
         shopButton.addEventListener("click", () => {
           if (cookie.cookies < forSaleItemInfo.price) {
             alert("Insufficient Cookies");
@@ -67,16 +90,17 @@ const shop = {
 
           shopButton.remove();
         });
+        addButtonTooltip(shopButton);
+        shopContainer.appendChild(shopButton);
       }
     else if (this.tab === "shop")
       for (let i = 0; i < this.forSale.length; i++) {
         const forSaleItemInfo = this.forSale[i];
 
         const shopButton = document.createElement("button");
-        shopButton.className = `bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 mb-2`;
+        shopButton.className = `w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded border-2 border-amber-700 whitespace-nowrap overflow-hidden text-ellipsis`;
         shopButton.innerHTML = `${forSaleItemInfo.emoji} ${forSaleItemInfo.name} (${forSaleItemInfo.price} 🍪)`;
-        shopContainer.appendChild(shopButton);
-
+        
         shopButton.addEventListener("click", () => {
           if (cookie.cookies < forSaleItemInfo.price) {
             alert("Insufficient Cookies");
@@ -96,6 +120,8 @@ const shop = {
             i,
           );
         });
+        addButtonTooltip(shopButton);
+        shopContainer.appendChild(shopButton);
       }
   },
   addItemForSale(item) {
@@ -342,6 +368,8 @@ class EmojiBuddy {
     emoji.textContent = this.emojiString;
     emoji.style.position = "absolute";
     emoji.style.fontSize = "2rem";
+    emoji.style.zIndex = '0';
+    emoji.style.pointerEvents = 'none';
     gameArea?.appendChild(emoji);
     emoji.style.left = this.getLeftFromX(this.x);
     emoji.style.top = this.getTopFromY(this.y);
