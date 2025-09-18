@@ -462,5 +462,5 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.style.display = "block";
     }
   });
-})(); // <-- ADD THIS MISSING CLOSING
+})();
 
