@@ -1,5 +1,5 @@
 ---
-layout: opencs
+layout: base_chatadpt 
 title: "Breakout Blocks Lesson"
 sidebar: true
 sidebar_title: "Lesson Tools"
