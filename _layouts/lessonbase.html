@@ -234,6 +234,412 @@ layout: opencs
     </div>
     {% endif %}
   </main>
+  <!-- Plant Widget (will be styled by JavaScript) -->
+  <div id="plant-widget-container"></div>
+<script type="module">
+import { javaURI, pythonURI, fetchOptions } from '/assets/js/api/config.js';
+
+console.log('Plant script loaded');
+console.log('javaURI:', javaURI);
+console.log('pythonURI:', pythonURI);
+
+// Plant API configuration
+const plantURL = `${javaURI}/api/plant`;
+const getStageURL = plantURL + "/stage/";
+const advanceURL = plantURL + "/user/";
+
+console.log('Plant API URLs configured:');
+console.log('- Get stage URL:', getStageURL);
+console.log('- Advance URL:', advanceURL);
+
+// Prepare fetch options for POST requests
+const postOptions = {...fetchOptions, method: 'POST'};
+
+// Get user credentials
+function getCredentials() {
+  console.log('Getting user credentials...');
+  const URL = pythonURI + '/api/id';
+  return fetch(URL, {
+      ...fetchOptions,
+      credentials: 'include'
+  })
+  .then(response => {
+      console.log('Credentials response status:', response.status);
+      if (!response.ok) {
+          console.warn("HTTP status code: " + response.status);
+          return null;
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log('Credentials data received:', data);
+      return data;
+  })
+  .catch(err => {
+      console.error("Fetch error: ", err);
+      return null;
+  });
+}
+
+// Create plant widget
+function createPlantWidget() {
+  console.log('Creating plant widget...');
+  const container = document.getElementById('plant-widget-container');
+  if (!container) {
+    console.error('Plant container not found!');
+    return;
+  }
+  
+  container.innerHTML = `
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; 
+                background: rgba(255, 255, 255, 0.95); border: 2px solid #4CAF50; 
+                border-radius: 12px; padding: 12px; text-align: center; 
+                box-shadow: 0 4px 16px rgba(0,0,0,0.15); width: 90px;">
+      <img id="plant-img" src="/images/snake/tree/1.png" alt="Plant" 
+           style="width: 60px; height: 60px; display: block;">
+      <div id="plant-stage" style="font-size: 12px; color: #666; margin-top: 8px; font-weight: 500;">
+        Stage 1
+      </div>
+      <div id="plant-lessons" style="font-size: 10px; color: #999; margin-top: 2px;">
+        0 lessons
+      </div>
+    </div>
+  `;
+  console.log('Plant widget HTML added to container');
+}
+
+// Update plant display
+function updatePlantDisplay(stage, totalLessons, fullyGrown) {
+  console.log(`Updating plant display: Stage ${stage}, Lessons: ${totalLessons}, Fully grown: ${fullyGrown}`);
+  
+  const plantImg = document.getElementById('plant-img');
+  const stageText = document.getElementById('plant-stage');
+  const lessonsText = document.getElementById('plant-lessons');
+  
+  if (plantImg) {
+    // Ensure stage is within valid range (1-6)
+    const validStage = Math.min(Math.max(stage, 1), 6);
+    const newSrc = `/images/snake/tree/${validStage}.png`;
+    console.log('Updating plant image to:', newSrc);
+    
+    // Add error handling for image loading
+    plantImg.onerror = function() {
+      console.error('Failed to load plant image:', newSrc);
+      console.log('Attempting fallback to stage 1');
+      this.src = '/images/snake/tree/1.png';
+    };
+    
+    plantImg.src = newSrc;
+  } else {
+    console.error('Plant image element not found!');
+  }
+  
+  if (stageText) {
+    if (fullyGrown) {
+      stageText.textContent = 'Fully Grown!';
+      stageText.style.color = '#4CAF50';
+      console.log('Plant marked as fully grown');
+    } else {
+      stageText.textContent = `Stage ${stage}`;
+      console.log('Plant stage text updated to:', `Stage ${stage}`);
+    }
+  } else {
+    console.error('Plant stage text element not found!');
+  }
+  
+  if (lessonsText) {
+    lessonsText.textContent = `${totalLessons} lessons`;
+    console.log('Lessons text updated to:', `${totalLessons} lessons`);
+  } else {
+    console.error('Plant lessons text element not found!');
+  }
+}
+
+// Get current plant stage
+function getCurrentPlantStage(uid) {
+  console.log('Getting current plant stage for uid:', uid);
+  const fullURL = getStageURL + uid;
+  console.log('Making GET request to:', fullURL);
+  
+  fetch(fullURL, fetchOptions)
+    .then(response => {
+      console.log('Get plant stage response status:', response.status);
+      if (response.status !== 200) {
+        console.warn("GET plant stage API response failure: " + response.status);
+        return;
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data) {
+        console.log('Plant stage data received:', data);
+        updatePlantDisplay(data.currentStage, data.totalLessons, data.fullyGrown);
+      }
+    })
+    .catch(err => {
+      console.error("Plant stage fetch error:", err);
+    });
+}
+
+// Advance plant stage
+function advancePlantStage(uid) {
+  console.log('ADVANCING PLANT STAGE for uid:', uid);
+  const fullURL = advanceURL + uid + "/next";
+  console.log('Making POST request to:', fullURL);
+  
+  fetch(fullURL, postOptions)
+    .then(response => {
+      console.log('Advance plant response status:', response.status);
+      if (response.status !== 200) {
+        console.warn("POST plant advance API response failure: " + response.status);
+        return;
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data) {
+        console.log('Plant advance data received:', data);
+        updatePlantDisplay(data.currentStage, data.totalLessons, data.fullyGrown);
+        
+        const message = data.fullyGrown ? 'Your plant is fully grown!' : `Plant grew to stage ${data.currentStage}!`;
+        console.log('Showing celebration message:', message);
+        
+        showCelebrationMessage(message);
+      }
+    })
+    .catch(err => {
+      console.error("Plant advance error:", err);
+    });
+}
+
+// Show celebration message
+function showCelebrationMessage(message) {
+  const celebration = document.createElement('div');
+  celebration.style.cssText = `
+    position: fixed; bottom: 120px; right: 20px; z-index: 1001;
+    background: #4CAF50; color: white; padding: 12px 16px;
+    border-radius: 8px; font-size: 14px; font-weight: bold;
+    opacity: 0; transition: opacity 0.3s ease; max-width: 200px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  `;
+  celebration.textContent = message;
+  document.body.appendChild(celebration);
+  
+  // Animate in
+  setTimeout(() => celebration.style.opacity = '1', 50);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    celebration.style.opacity = '0';
+    setTimeout(() => {
+      if (celebration.parentNode) {
+        celebration.remove();
+      }
+    }, 300);
+  }, 3000);
+}
+
+// Initialize plant system
+function initializePlant() {
+  console.log('Initializing plant system...');
+  
+  getCredentials().then(userData => {
+    if (!userData) {
+      console.log('No user logged in, skipping plant initialization');
+      return;
+    }
+    
+    const uid = userData.uid || userData.id || userData.userId || userData.user_id;
+    console.log('User ID found:', uid);
+    
+    if (!uid) {
+      console.error('No valid user ID found in userData:', userData);
+      return;
+    }
+    
+    // Create widget and get initial stage
+    createPlantWidget();
+    getCurrentPlantStage(uid);
+    
+    // Set up Next button listener with better detection
+    setupNextButtonListener(uid);
+    
+    // ALTERNATIVE: Event delegation approach (works for all current and future buttons)
+    document.body.addEventListener('click', function(event) {
+      const target = event.target;
+      
+      // Check if clicked element is a Next button
+      if (target.tagName === 'A' && 
+          target.textContent && 
+          target.textContent.toLowerCase().includes('next') &&
+          (target.classList.contains('btn') || target.href.includes('lesson'))) {
+        
+        console.log('EVENT DELEGATION: Next button clicked!', target);
+        console.log('Button text:', target.textContent);
+        console.log('Button href:', target.href);
+        
+        setTimeout(() => {
+          console.log('EVENT DELEGATION: Executing plant advancement...');
+          advancePlantStage(uid);
+        }, 500);
+      }
+    });
+  });
+}
+
+// Setup Next button listener with improved detection
+function setupNextButtonListener(uid) {
+  console.log('Setting up Next button listener...');
+  
+  // Keep track of processed buttons to avoid duplicate listeners
+  const processedButtons = new WeakSet();
+  
+  // Function to find and attach to Next button
+  function attachToNextButton() {
+    // Try multiple selectors to find the Next button
+    const selectors = [
+      '.lesson-nav a[href]:last-child',
+      'a.btn',
+      '.btn',
+      'a[href*="lesson"]',
+      '[class*="next"]'
+    ];
+    
+    let nextButton = null;
+    
+    // Try each selector
+    for (const selector of selectors) {
+      const buttons = document.querySelectorAll(selector);
+      for (const button of buttons) {
+        if (button.textContent && 
+            button.textContent.toLowerCase().includes('next') &&
+            !processedButtons.has(button)) {
+          nextButton = button;
+          break;
+        }
+      }
+      if (nextButton) break;
+    }
+    
+    console.log('Next button found:', nextButton);
+    
+    if (nextButton && !processedButtons.has(nextButton)) {
+      console.log('Next button text:', nextButton.textContent);
+      console.log('Next button href:', nextButton.href);
+      
+      // Mark this button as processed
+      processedButtons.add(nextButton);
+      
+      // Add new listener using event delegation approach
+      nextButton.addEventListener('click', function(event) {
+        console.log('NEXT BUTTON CLICKED! Starting plant advancement...');
+        console.log('Clicked button:', this);
+        console.log('Going to:', this.href);
+        
+        // Small delay to ensure the lesson completion is registered
+        setTimeout(() => {
+          console.log('Executing plant advancement...');
+          advancePlantStage(uid);
+        }, 500);
+      });
+      
+      console.log('Click event listener added to Next button');
+      return true;
+    } else if (nextButton && processedButtons.has(nextButton)) {
+      console.log('Next button already processed, skipping');
+      return true;
+    } else {
+      console.warn('No Next button found on this page');
+      return false;
+    }
+  }
+  
+  // Function to re-scan for buttons (for page changes)
+  function rescanButtons() {
+    console.log('Rescanning for Next buttons...');
+    attachToNextButton();
+  }
+  
+  // Try to attach immediately
+  if (!attachToNextButton()) {
+    // If not found, try again after delays
+    setTimeout(attachToNextButton, 500);
+    setTimeout(attachToNextButton, 1000);
+    setTimeout(attachToNextButton, 2000);
+  }
+  
+  // Set up mutation observer to catch dynamically added buttons
+  const observer = new MutationObserver((mutations) => {
+    let shouldRescan = false;
+    
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'childList') {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            // Check if the added node contains a next button
+            if (node.matches && (
+                node.matches('a[href*="lesson"]') || 
+                node.matches('.btn') ||
+                node.matches('a.btn')
+            )) {
+              if (node.textContent && node.textContent.toLowerCase().includes('next')) {
+                console.log('Dynamically added Next button detected:', node);
+                shouldRescan = true;
+              }
+            }
+            
+            // Also check child elements
+            const nextButtons = node.querySelectorAll && node.querySelectorAll('a[href*="lesson"], .btn, a.btn');
+            if (nextButtons) {
+              for (const btn of nextButtons) {
+                if (btn.textContent && btn.textContent.toLowerCase().includes('next')) {
+                  console.log('Dynamically added Next button found in children:', btn);
+                  shouldRescan = true;
+                  break;
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+    
+    if (shouldRescan) {
+      // Delay to allow DOM to settle
+      setTimeout(rescanButtons, 100);
+    }
+  });
+  
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  // Also listen for page navigation events (if using a router)
+  window.addEventListener('popstate', rescanButtons);
+  
+  // Listen for hash changes
+  window.addEventListener('hashchange', rescanButtons);
+  
+  // Periodic rescan as fallback (every 3 seconds)
+  setInterval(() => {
+    console.log('Periodic button rescan...');
+    rescanButtons();
+  }, 3000);
+}
+
+// Initialize when DOM is ready
+console.log('Setting up DOM ready event listener...');
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing plant...');
+    initializePlant();
+  });
+} else {
+  // DOM is already loaded
+  console.log('DOM already loaded, initializing plant immediately...');
+  initializePlant();
+}</script>
 </div>
 
 <!-- Load your shared scripts & styles -->

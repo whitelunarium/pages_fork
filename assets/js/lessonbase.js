@@ -443,7 +443,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })();
 
-// -------------------- DEMO --------------------
 (function(){
   const toggle = document.getElementById("demo-toggle");
   const canvas = document.getElementById("demo-canvas-wrapper");
@@ -463,4 +462,5 @@ document.addEventListener("DOMContentLoaded", () => {
       canvas.style.display = "block";
     }
   });
-})();
+})(); // <-- ADD THIS MISSING CLOSING
+
