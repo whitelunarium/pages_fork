@@ -69,7 +69,7 @@ permalink: LessonMethodology
 
 ---
 
-## Summary
+## Summary of Methodologies
 
 - **Gagné’s Nine Events** provide the **flow of instruction**: attention → guidance → practice → assessment → transfer.  
 - **Merrill’s First Principles** provide the **depth of learning**: activate → demonstrate → apply → integrate.  
