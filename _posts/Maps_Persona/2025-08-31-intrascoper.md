@@ -1,15 +1,15 @@
 ---
-title: Intrascoper Persona
+title: Technologist Persona
 tailwind: true
 layout: post
-description: Process of making a Intrascoper persona
-permalink: /persona/intrascoper
+description: Process of making a technologist persona, formerly classified as an intrascoper.
+permalink: /persona/technologist
 persona: Indy
 age: 17
 role: "CS Student"
 status: "Junior"
 location: "Del Norte HS, San Diego, CA"
-tier: "Intrascoper"
+tier: "Technologist"
 personality: ["Introvert", "Analytical", "Independent"]
 tags: ["Ambitious", "Focused"]
 bio: >
