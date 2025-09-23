@@ -2,7 +2,7 @@
 layout: post
 breadcrumb: True
 toc: True
-title: Jekyll Themes
+title: Jekyll Themes - Deep Dive
 description: Builds upon the first lesson of Jekyll Themes to ensure understanding, and has questions to test your knowledge,. Jekyll Themes willbe crucial, so it is important to understand it. 
 categories: ['GitHub Pages']
 permalink: /github/pages/jekylltwo
