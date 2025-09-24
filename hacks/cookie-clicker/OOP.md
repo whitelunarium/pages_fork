@@ -12,12 +12,14 @@ enable_progress: true
 # Part 2 — 🧱 OOP (All object-oriented content)
 
 ### What is OOP?
-- **OOP** = Object-Oriented Programming.
+- **OOP**: Object-Oriented Programming.
 - **Object**: thing with **properties** (data) + **methods** (actions).
-- **Class**: a **blueprint** that defines what objects look like.
+- **Class**: a **blueprint/outline** that defines what objects look like.
 
 ### Why OOP in Cookie Clicker?
 - Cookie, upgrades, shop, and player are all **objects**.
+  - All of these objects can store data and perform actions.
+    - For example, the Cookie object stores data of how many cookies there are, and also allows the user to add cookies when they perform different actions.
 - OOP makes code **organized**, **extendable**, and **easier to maintain**.
 
 ### OOP Concepts Used
