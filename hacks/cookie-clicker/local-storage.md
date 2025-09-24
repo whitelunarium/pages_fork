@@ -12,8 +12,8 @@ enable_progress: true
 # Part 1 — 🔒 localStorage (All persistence-related content)
 
 ### What is localStorage and why use it?
-- localStorage saves data in the browser so progress **persists after refresh**.
-- If you buy an item in the shop, it should **still be there** after reload.
+- localStorage saves data in the browser so progress stays even after the page is refreshed.
+- If you buy an item in the shop, the upgrade will stay after reloading.
 - Your task: study how localStorage is used in existing code and **apply it to your feature**.
 
 ### Requirements
@@ -33,8 +33,14 @@ An example of this is:
 
 ```js
 cookie.addCookies(-1 * forSaleItemInfo.price);
+// Subtract the cost of the item from the player's cookie total
+// Multiplying by -1 turns the price into a negative number
 localStorage.setItem("cookies", this.cookies);
+// Save the updated cookie total into browser storage
+// This ensures the value persists even after refreshing/reopening the game
 const storedCookies = Number(localStorage.getItem("cookies"));
+// Retrieve the saved cookie total from storage
+// localStorage stores values as strings, so wrap it in Number() to use it for math
 ```
 
 ```mermaid
