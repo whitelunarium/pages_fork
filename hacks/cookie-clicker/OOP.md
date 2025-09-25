@@ -26,9 +26,10 @@ enable_progress: true
 <input type="text" placeholder="Type here..."/>
 <details>
 <summary>More Objects</summary>
+<p>&nbsp;</p>
 
 - gameLoop
-<p>&nbsp;</p>
+
 - Each item in the shop is its own object
 
 
