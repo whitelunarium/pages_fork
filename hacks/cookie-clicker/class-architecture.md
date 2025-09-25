@@ -105,7 +105,7 @@ const field = document.getElementById("checkInput");
 field.addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const val = field.value.trim().toLowerCase();
-    if (val === "gameloop.upgrades" || val === "gameloop.autoClickers") {
+    if (val === "gameloop.upgrades" || val === "gameloop.autoclickers") {
       field.style.borderColor = "green";
       field.style.backgroundColor = "#496e46ff"; // light green
     } else {
