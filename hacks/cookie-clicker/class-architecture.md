@@ -12,12 +12,13 @@ enable_progress: true
 # Lesson: Understanding the Shop Object
 
 ## 1. What is the `shop`?
-The `shop` is an object in JavaScript. Think of it like a toolbox that keeps track of what’s for sale in your game and how players interact with the store.
 
-Ojects have two main parts:
-- Properties (data it stores)
-- Methods (functions it can run)
-
+```mermaid
+graph TD
+    SHOP["shop Object"]
+    SHOP --> P["Properties"]
+    SHOP --> M["Methods"]
+```
 ---
 
 ## 2. Properties
@@ -28,6 +29,14 @@ In the cookie clicker game, the shop has the following properties:
 
 Properties are like the memory of the object.
 
+```mermaid
+classDiagram
+    class Shop {
+      forSale : Item[]
+      upgrades : Upgrade[]
+      tab : String
+    }
+```
 ---
 
 ## 3. Methods
@@ -38,7 +47,18 @@ The shop also runs functions:
 - `switchTab(newTab)` → switches between “Shop” and “Upgrades”
 
 Methods are the actions the object knows how to perform.
+```mermaid
+graph LR
+    A["updateShopDisplay()"]
+    B["addItemForSale(item)"]
+    C["updateForSalePrice(newPrice, index)"]
+    D["switchTab(newTab)"]
 
+    A -->|UI| SHOP
+    B -->|Add| SHOP
+    C -->|Price change| SHOP
+    D -->|Switch| SHOP
+```
 ---
 
 ## 4. How it Connects to Other Parts
@@ -48,7 +68,17 @@ The shop doesn’t work alone. It connects to:
 - UI (`shopContainer`) → updates the buttons the player sees
 
 This makes the shop a hub that ties together money, gameplay, and visuals.
+```mermaid
+flowchart TD
+    SHOP["shop"]
+    COOKIE["cookie"]
+    GAME["gameLoop"]
+    UI["UI (shopContainer)"]
 
+    SHOP <--> COOKIE
+    SHOP <--> GAME
+    SHOP <--> UI
+```
 ---
 
 ## 5. What You Can Learn From It
@@ -56,10 +86,32 @@ This makes the shop a hub that ties together money, gameplay, and visuals.
 - Separation of concerns → Shop only handles buying and displaying; cookies and gameLoop handle their own jobs
 - Scalability → You can add new items or upgrades without rewriting the whole shop
 
+```mermaid
+mindmap
+  root((Shop Lessons))
+    Encapsulation
+    Separation_of_concerns
+    Scalability
+```
+
 ---
 
 ## Takeaway
 When learning JavaScript and object-oriented design, notice how each object in your game has a clear role. By keeping properties and methods grouped, your code becomes easier to read, expand, and debug.
+
+```mermaid
+flowchart TD
+
+CLICK["Player clicks Buy button"]
+CHECK{"Enough cookies?"}
+
+CLICK --> CHECK
+CHECK -- No --> ALERT["Show 'Not enough cookies'"]
+CHECK -- Yes --> DEDUCT["cookie.addCookies(-price)"]
+DEDUCT --> UPDATE["gameLoop adds upgrade or auto-clicker"]
+UPDATE --> REFRESH["shop.updateShopDisplay updates UI"]
+
+```
 
 
 ```mermaid
