@@ -22,7 +22,7 @@ enable_progress: true
     - For example, the Cookie object stores data of how many cookies there are, and also allows the user to add cookies when they perform different actions.
 - OOP makes code **organized**, **extendable**, and **easier to maintain**.
 
-#### Give one more example of an object:
+#### Give one more example of an object in the code:
 <input type="text" placeholder="Type here..."/>
 
 ### OOP Concepts Used
