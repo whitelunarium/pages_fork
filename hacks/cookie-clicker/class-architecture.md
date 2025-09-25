@@ -68,7 +68,17 @@ The shop doesn’t work alone. It connects to:
 - UI (`shopContainer`) → updates the buttons the player sees
 
 This makes the shop a hub that ties together money, gameplay, and visuals.
+```mermaid
+flowchart TD
+    SHOP["shop"]
+    COOKIE["cookie"]
+    GAME["gameLoop"]
+    UI["UI (shopContainer)"]
 
+    SHOP <--> COOKIE
+    SHOP <--> GAME
+    SHOP <--> UI
+```
 ---
 
 ## 5. What You Can Learn From It
@@ -76,10 +86,32 @@ This makes the shop a hub that ties together money, gameplay, and visuals.
 - Separation of concerns → Shop only handles buying and displaying; cookies and gameLoop handle their own jobs
 - Scalability → You can add new items or upgrades without rewriting the whole shop
 
+```mermaid
+mindmap
+  root((Shop Lessons))
+    Encapsulation
+    Separation_of_concerns
+    Scalability
+```
+
 ---
 
 ## Takeaway
 When learning JavaScript and object-oriented design, notice how each object in your game has a clear role. By keeping properties and methods grouped, your code becomes easier to read, expand, and debug.
+
+```mermaid
+flowchart TD
+
+CLICK["Player clicks Buy button"]
+CHECK{"Enough cookies?"}
+
+CLICK --> CHECK
+CHECK -- No --> ALERT["Show 'Not enough cookies'"]
+CHECK -- Yes --> DEDUCT["cookie.addCookies(-price)"]
+DEDUCT --> UPDATE["gameLoop adds upgrade or auto-clicker"]
+UPDATE --> REFRESH["shop.updateShopDisplay updates UI"]
+
+```
 
 
 ```mermaid
