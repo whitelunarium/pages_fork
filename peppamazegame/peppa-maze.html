@@ -1,0 +1,290 @@
+---
+layout: default
+title: "Peppa Pig Maze"
+description: "Guide Peppa Pig through a maze to learn CS fun facts"
+permalink: /peppa-maze/
+---
+
+<style>
+  /* Body styling and background image */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: url("{{ site.baseurl }}/images/peppapigducks.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  /* Canvas styling for the maze */
+  canvas {
+    border: 2px solid black;
+    display: block;
+    margin: 20px auto;
+    background: rgba(240, 240, 240, 0.95);
+  }
+
+  /* Fact box and links box styling */
+  #factBox,
+  #linksBox {
+    margin: 10px auto;
+    padding: 15px;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    text-align: left;
+  }
+
+  /* Initially hide the links box */
+  #linksBox {
+    display: none;
+  }
+
+  /* Styling for strong text and code blocks */
+  #factBox strong {
+    color: #2a5d9f;
+  }
+
+  #factBox code {
+    background: #eee;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  #factBox pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+
+  #factBox pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+</style>
+
+<!-- Container for the maze and fact box -->
+<div id="gameContainer"></div>
+
+<script>
+  // Main function to create and run the Peppa Pig maze game
+  function createPeppaMaze(containerId) {
+    const container = document.getElementById(containerId);
+
+    // Insert canvas, fact box, and links box into the container
+    container.innerHTML = `
+      <canvas id="mazeCanvas"></canvas>
+      <div id="factBox">🐷 Press keys 1–9 to send Peppa to numbers in the maze!</div>
+      <div id="linksBox">
+        <h3>🎓 Explore Computer Science:</h3>
+        <ul>
+          <li><a href="lxd/setup/mac" target="_blank">LxD Setup on Mac</a></li>
+          <li><a href="lxd/setup/make" target="_blank">LxD Setup for Make</a></li>
+          <li><a href="lxd/setup/windows" target="_blank">LxD Setup on Windows</a></li>
+          <li><a href="lxd/setup/venv" target="_blank">LxD Setup for venv</a></li>
+        </ul>
+      </div>
+    `;
+
+    // Grab canvas context and DOM elements
+    const canvas = container.querySelector("#mazeCanvas");
+    const ctx = canvas.getContext("2d");
+    const factBox = container.querySelector("#factBox");
+    const linksBox = container.querySelector("#linksBox");
+
+    // Canvas dimensions
+    canvas.width = 600;
+    canvas.height = 600;
+
+    // Maze configuration
+    const cellSize = 60;
+    const rows = 10;
+    const cols = 10;
+    const maze = [
+      [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+      [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+      [0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+      [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+      [0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]
+    ];
+
+    // Number positions in the maze
+    const numbers = {
+      "1": { x: 1, y: 0 }, "2": { x: 4, y: 0 }, "3": { x: 8, y: 0 },
+      "4": { x: 0, y: 4 }, "5": { x: 5, y: 4 }, "6": { x: 9, y: 4 },
+      "7": { x: 0, y: 8 }, "8": { x: 5, y: 8 }, "9": { x: 9, y: 9 }
+    };
+
+    // Fun facts and instructions displayed when Peppa reaches numbers
+    const facts = {
+      "1": `💻 <strong>Build System Troubleshooting:</strong><br>
+<pre><code>make clean
+make
+</code></pre>
+Pro tip: Use parallel jobs:<br>
+<pre><code>make -j$(nproc)</code></pre>`,
+
+      "2": `🐍 <strong>Python Virtual Environments:</strong><br>
+<pre><code># Windows
+venv\\Scripts\\activate
+
+# Mac/Linux
+source venv/bin/activate
+</code></pre>`,
+
+      "3": `🌐 <strong>Ubuntu Linux Installation:</strong><br>
+<pre><code># WSL Windows
+wsl --install -d Ubuntu
+# Dual boot USB
+# Virtual machine via VirtualBox/VMware
+</code></pre>`,
+
+      "4": `🔧 <strong>VS Code Setup:</strong><br>
+<pre><code>Ctrl+Shift+P # Command Palette
+</code></pre>`,
+
+      "5": `🤖 <strong>Git Clone:</strong><br>
+<pre><code>git clone https://github.com/user/repo.git
+git clone --depth 1 https://github.com/user/repo.git
+</code></pre>`,
+
+      "6": `💾 <strong>Jekyll Permalinks:</strong><br>
+<pre><code>permalink: /my-custom-url/</code></pre>`,
+
+      "7": `📤 <strong>Git Workflow:</strong><br>
+<pre><code>git add .
+git commit -m "Message"
+git push origin main
+</code></pre>`,
+
+      "8": `🎨 <strong>VS Code Themes:</strong><br>
+<pre><code>Ctrl+K Ctrl+T</code></pre>`,
+
+      "9": `🎉 <strong>Congratulations!</strong> You've completed the maze!`
+    };
+
+    // Peppa's initial position
+    let peppa = { x: 0, y: 0 };
+
+    // Function to draw the maze grid and numbers
+    function drawMaze() {
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          ctx.fillStyle = maze[y][x] === 1 ? "#444" : "#fff"; // Walls vs paths
+          ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+          ctx.strokeStyle = "#000";
+          ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+        }
+      }
+      // Draw numbers in blue
+      ctx.fillStyle = "blue";
+      ctx.font = "20px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      for (const num in numbers) {
+        const pos = numbers[num];
+        ctx.fillText(num, pos.x * cellSize + cellSize / 2, pos.y * cellSize + cellSize / 2);
+      }
+    }
+
+    // Function to draw Peppa as a pink circle with eyes
+    function drawPeppa() {
+      ctx.fillStyle = "#ff69b4";
+      ctx.beginPath();
+      ctx.arc(peppa.x * cellSize + cellSize / 2, peppa.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
+      ctx.fill();
+
+      // Draw eyes
+      ctx.fillStyle = "#000";
+      ctx.beginPath();
+      ctx.arc(peppa.x * cellSize + cellSize / 2 - 5, peppa.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(peppa.x * cellSize + cellSize / 2 + 5, peppa.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    // Main animation loop to continuously update the canvas
+    function update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawMaze();
+      drawPeppa();
+      requestAnimationFrame(update);
+    }
+
+    // Simple BFS pathfinding to find a path from start to end
+    function findPath(start, end) {
+      const queue = [[start]];
+      const visited = new Set([`${start.x},${start.y}`]);
+
+      while (queue.length) {
+        const path = queue.shift();
+        const current = path[path.length - 1];
+
+        if (current.x === end.x && current.y === end.y) return path;
+
+        const moves = [
+          { x: current.x + 1, y: current.y },
+          { x: current.x - 1, y: current.y },
+          { x: current.x, y: current.y + 1 },
+          { x: current.x, y: current.y - 1 }
+        ];
+
+        for (const move of moves) {
+          if (move.x >= 0 && move.x < cols &&
+            move.y >= 0 && move.y < rows &&
+            maze[move.y][move.x] === 0 &&
+            !visited.has(`${move.x},${move.y}`)) {
+            visited.add(`${move.x},${move.y}`);
+            queue.push([...path, move]);
+          }
+        }
+      }
+
+      return null; // No path found
+    }
+
+    // Move Peppa along a path to the target number and display fun facts
+    function movePeppa(path, num) {
+      if (!path) return;
+      let step = 0;
+
+      function stepMove() {
+        if (step < path.length) {
+          peppa = path[step];
+          step++;
+          setTimeout(stepMove, 300); // Step delay
+        } else {
+          factBox.innerHTML = facts[num]; // Display fun fact
+          if (num === "9") linksBox.style.display = "block"; // Show links at end
+        }
+      }
+
+      stepMove();
+    }
+
+    update(); // Start animation loop
+
+    // Listen for number key presses to move Peppa
+    document.addEventListener("keydown", function (e) {
+      if (numbers[e.key]) {
+        const path = findPath(peppa, numbers[e.key]);
+        movePeppa(path, e.key);
+      }
+    });
+  }
+
+  // Initialize the maze game
+  createPeppaMaze("gameContainer");
+</script>
