@@ -24,6 +24,16 @@ enable_progress: true
 
 #### Give one more example of an object in the code:
 <input type="text" placeholder="Type here..."/>
+<details>
+<summary>More Objects</summary>
+
+- gameLoop
+<p>&nbsp;</p>
+- Each item in the shop is its own object
+
+
+</details>
+
 
 ### OOP Concepts Used
 - **Class** → e.g., `Upgrade`
