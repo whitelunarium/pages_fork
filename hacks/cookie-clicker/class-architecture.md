@@ -105,7 +105,7 @@ const field = document.getElementById("checkInput");
 field.addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const val = field.value.trim().toLowerCase();
-    if (val === "gameLoop.upgrades" || val === "gameLoop.autoClickers") {
+    if (val === "gameloop.upgrades" || val === "gameloop.autoClickers") {
       field.style.borderColor = "green";
       field.style.backgroundColor = "#c8f7c5"; // light green
     } else {
@@ -120,6 +120,7 @@ field.addEventListener("keydown", e => {
 <summary>Answer:</summary>
 <br>
 - If it’s an upgrade (like 2x clicks), it goes to **gameLoop.upgrades**  
+<br>
 - If it’s an autoclicker (like a grandma), it goes to **gameLoop.autoClickers**
 </details>
 
