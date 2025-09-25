@@ -8,16 +8,17 @@ menu: nav/bitshift-nav/tutorial.html
 ---
 
 ```javascript
+/**
+The code is split up to easily understand for new programmers to 3D math and calculations. It is complete possible to compact this code
+into a simpler version, if you'd prefer that you can do that on your own.
 
-// The code is split up to easily understand for new programmers to 3D math and calculations. It is complete possible to compact this code
-// into a simpler version, if you'd prefer that you can do that on your own.
+This javascript file has helpful comments to teach you how to do simple 3D math calculations in js.
+If you'd like a step by step tutorial, follow this link: https://pages.opencodingsociety.com/navigation/documentation/tutorial/intro
 
-// This javascript file has helpful comments to teach you how to do simple 3D math calculations in js.
-// If you'd like a step by step tutorial, follow this link: https://pages.opencodingsociety.com/navigation/documentation/tutorial/intro
-
-// Setup for context (ctx) and canvas
+Setup for context (ctx) and canvas
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d'); // This code will work with a 2d screen so select 2d (kinda confusing I know)
+*/
 
 const halfWidth = canvas.width / 2; // Very important for later
 const halfHeight = canvas.height / 2;
