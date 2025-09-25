@@ -528,7 +528,7 @@ function fetchUser() {
                 alert("Error: You are not logged in. Redirecting you to the login page.")
                 let loc = window.location.href
                 loc = loc => loc.split('/').slice(0, -2).join('/') || loc;
-                window.location.href = loc + "/toolkit-login"
+                window.location.href = loc + "/login"
             }
         });
 }

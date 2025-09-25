@@ -1,15 +1,47 @@
 ---
 toc: true
 layout: post
-title: BI 1 | Creative Development | Team Test 
-description: Create a video and build a notebook to review all the key questions from Big Idea 1
-courses: { csp: {week: 14} }
-type: collab
+title: BI 1 | CREATIVE DEVELOPMENT | Team Teach
+description: Create a video and build a notebook to review all the key questions from Big Idea 1.  This notebook can combine an assigned Unit 3 topic and Game.
+type: objectives 
+courses: { csp: {week: 7} }
+type: soft skills 
 ---
 
 ## Make a Video as a Team
 
-Test will be conducted by creating a video.  Make sure video has segments with transition pages.  Have each member of Agile Team in at least 1 segment.  Edit video effectively and try to keep it under 4 minutes.  The video can instruct user to pause and interact with a Jupyter Notebook, this does not count against video time.
+Teaching will be conducted by in person segements and video play.  Use guidelines below to create lesson..
+
+### Teaching Requirements
+
+Often teaching have a plan for how to involve learners.  I suggest using Merrill's Five Principles of instruction.
+
+1. Problem Centered.  Learning is most effective when it is centered on real-world problems or tasks that learners need or want to solve.
+2. Activation.  Connect new information to what the learner already knows. Tell them why they can do this.
+3. Demonstration.  Share new knowledge and skills to the learner.  
+4. Application.  Learners practice (popcorn hacks) and then refine their skills, often through homework (hacks) that encourage learning from their mistakes.
+5. Integration. After completing application, provide guideance on where the skills will come into play in the future.
+
+Timing
+
+* 20 minutes Lecture time using video and popcorns hacks.
+* 20 minutes Application time where learning completes homework.
+* 20 minutes Inegration time where learner submits work for grading.
+
+### Video Requirements
+
+Video submission to College Board is a key element in their testing.
+
+A series of well prepared one minute segments within the video prepared video can help guide the discussion and allow learner opportunity for review and replay.
+
+1. Make sure video has clear division transition pages.
+2. The video should support introducing Problem, Activation, and Demostration.
+3. Be sure each member of Agile Team is involved in at least 1 segment.  
+4. Edit video effectively and try to keep it under 5 minutes.
+
+## Big Idea 1
+
+As you build your application, lesson, and video consider all of the  College Board learning requirements described below.  Consider these outlines will help you become "Agile", make your "Content" more interesting, and improve on "LxD" skills.
 
 ### Collaboration Review
 
@@ -21,7 +53,7 @@ It is a common belief in industry that collaboration is one of the key skills of
 
 ### Program Function and Purpose
 
-To "make" a program with function and purpose, you need to "plan" a program with function and purpose.  Build a Jupyter Notebook to show examples of the following from your project.
+To "make" a program or teach a lessoon with function and purpose, you need to "plan" with function a purpose.  Build a Jupyter Notebook to show examples of the following from your project.
 
 - [ ] Program with Output
 - [ ] Program with Input and Output
@@ -34,15 +66,15 @@ To "make" a program with function and purpose, you need to "plan" a program with
 
 ### Program Design and Development
 
-Share a program that you have expanded upon that was written by another, for instance started in Flocker.  Show extensive documentation on that program (ie use ChatGPT for help).  Here are some minimum requirements for Design and Development documentation.
+Share a notebook that you have expanded upon that was written by another, for instance changing a lesson, game, or hack.  Show extensive documentation on that program (ie use Copilot or ChatGPT for help).  Here are some minimum requirements for Design and Development documentation.
 
-- [ ] Create a Visual Illustration of a program, algorithm, or process. User stories can help.
-- [ ] Show documentation of a program with a List and Iteration.
+- [ ] Create a Visual Illustration of a program, algorithm, or process. Purpose, Point of View, and User stories can help.
+- [ ] Show documentation of a program with a List and Iteration. GitHub can help.
 - [ ] Show comments on a program, including something that does a mathematical and/or statistical calculation.
 
 ### Identyfing and Correct Errors
 
-Often, when we develop code the initial functionality is very simple.  However, when we consider invalid conditions when using our code we often increase the complexity of our code or functions.
+Often, when we develop code, the initial functionality is very simple.  However, when we consider invalid conditions when using our code we often increase the complexity of our code or functions.
 
 - [ ] Create a tester function that runs a program that create data for testing.
 - [ ] Show comments and code logic that captures conditions if a user errors in input with if / else statements.

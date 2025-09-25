@@ -1,14 +1,14 @@
 ---
 title: Dashboard
 layout: aesthetihawk
-active_tab: Dashboard
+active_tab: dashboard
 ---
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css" />
 <link rel="stylesheet" href="https://preline.co/assets/css/main.min.css" />
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/Aesthetihawk/tabs.css" />
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/Aesthetihawk/charts.css" />
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/aesthetihawk/tabs.css" />
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/aesthetihawk/charts.css" />
 <div class="w-full">
     <div class="space-y-4 sm:space-y-6">
         <div class="text-sm font-medium text-center border-b text-neutral-400 border-neutral-700 relative">
@@ -17,11 +17,6 @@ active_tab: Dashboard
                     <a href="#" id="tab-github"
                         class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300 active text-blue-500 border-blue-500"
                         aria-current="page">GitHub Analytics</a>
-                </li>
-                <li class="me-2">
-                    <a href="#" id="tab-bathroom"
-                        class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Bathroom
-                        Analytics</a>
                 </li>
                 <li class="me-2">
                     <a href="#" id="tab-grade"
@@ -33,15 +28,21 @@ active_tab: Dashboard
                     class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Admin Search</a>
                 </li>
                 <li class="me-2">
+                    <a href="#" id="tab-grade-analytics"
+                        class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Grade
+                        Analytics</a>
+                </li>
+                <li class="me-2">
+                    <a href="#" id="tab-your-feedback"
+                        class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">
+                        Your Feedback
+                    </a>
+                </li>
+                <li class="me-2">
                     <a href="#" id="tab-help"
                         class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">
                        ⓘ Help 
                     </a>
-                </li>
-                <li class="me-2">
-                    <a href="#" id="tab-grade-analytics"
-                        class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-neutral-300 hover:text-neutral-300">Grade
-                        Analytics</a>
                 </li>
             </ul>
             <!-- sliding underline indicator -->
@@ -126,15 +127,6 @@ active_tab: Dashboard
                 <div id="commitCardsContainer" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
 
-            <!-- bathroom analytics tab content -->
-            <div id="tab-content-bathroom" class="tab-content hidden">
-                <div class="items-center justify-center text-neutral-300 p-8 text-center">
-                    <p>Legally correct, morally questionable: it's bathroom analytics!</p>
-                    <br />
-                    <p>Wow, it's so empty here. Maybe something will come up soon...?</p>
-                </div>
-            </div>
-
             <!-- grade predictor tab content -->
             <div id="tab-content-grade" class="tab-content hidden px-6 py-4 text-neutral-200">
                 <h2 class="text-xl font-semibold mb-4">Grade Predictor</h2>
@@ -199,6 +191,13 @@ active_tab: Dashboard
 
                 <div id="admin-summary-container" class="mb-6"></div>
                 <div id="admin-commitCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+
+            <div id="tab-content-your-feedback" class="tab-content hidden px-6 py-4 text-neutral-200">
+                <h2 class="text-xl font-semibold mb-4">Your Feedback</h2>
+                <div id="user-feedback-table-container">
+                    <p class="text-neutral-400">Loading your feedback history...</p>
+                </div>
             </div>
 
             <!-- help tab content -->
@@ -472,6 +471,104 @@ active_tab: Dashboard
         }
     }
 
+    async function loadUserFeedback() {
+    const uid = window.user?.uid;
+    if (!uid) return;
+
+    const container = document.getElementById("user-feedback-table-container");
+
+    try {
+        const res = await fetch(`${pythonURI}/api/feedback/user/${uid}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        }
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch feedback");
+
+        const feedbacks = await res.json();
+
+        if (!feedbacks.length) {
+        container.innerHTML = `<p class="text-neutral-400">You haven't submitted any feedback yet.</p>`;
+        return;
+        }
+
+        let allFeedbacks = feedbacks;
+
+        function renderFilteredTable(filteredFeedbacks) {
+        const rows = filteredFeedbacks.map(fb => `
+            <tr class="border-t border-neutral-700">
+            <td class="px-4 py-2">${new Date(fb.created_at).toLocaleDateString()}</td>
+            <td class="px-4 py-2">${fb.title}</td>
+            <td class="px-4 py-2">${fb.type}</td>
+            <td class="px-4 py-2">
+                <a href="${fb.github_issue_url}" target="_blank" class="text-blue-400 hover:underline">
+                ${fb.github_issue_url}
+                </a>
+            </td>
+            <td class="px-4 py-2">${fb.status}</td>
+            </tr>
+        `).join("");
+
+        container.innerHTML = `
+            <table class="w-full text-sm text-left text-neutral-300 border border-neutral-700">
+            <thead class="bg-neutral-800 text-neutral-400">
+                <tr>
+                <th class="px-4 py-2">Date Submitted</th>
+                <th class="px-4 py-2">Title</th>
+                <th class="px-4 py-2">
+                    Type<br />
+                    <select id="type-filter" class="bg-neutral-800 text-white border border-neutral-600 rounded px-2 py-1 mt-1 text-sm">
+                    <option value="">All</option>
+                    <option value="Bug">Bug</option>
+                    <option value="Feature Request">Feature Request</option>
+                    <option value="Inquiry">Inquiry</option>
+                    <option value="Other">Other</option>
+                    </select>
+                </th>
+                <th class="px-4 py-2">GitHub Issue</th>
+                <th class="px-4 py-2">
+                    Status<br />
+                    <select id="status-filter" class="bg-neutral-800 text-white border border-neutral-600 rounded px-2 py-1 mt-1 text-sm">
+                    <option value="">All</option>
+                    <option value="Open">Open</option>
+                    <option value="Closed">Closed</option>
+                    </select>
+                </th>
+                </tr>
+            </thead>
+            <tbody class="bg-neutral-900">${rows}</tbody>
+            </table>
+        `;
+
+        // Attach filter listeners
+        document.getElementById("type-filter").addEventListener("change", applyFilters);
+        document.getElementById("status-filter").addEventListener("change", applyFilters);
+        }
+
+        function applyFilters() {
+            const typeFilter = document.getElementById("type-filter").value;
+            const statusFilter = document.getElementById("status-filter").value;
+
+            const filtered = allFeedbacks.filter(fb => {
+                const typeMatch = typeFilter === "" || fb.type === typeFilter;
+                const statusMatch = statusFilter === "" || fb.status === statusFilter;
+                return typeMatch && statusMatch;
+            });
+
+            renderFilteredTable(filtered);
+        }
+
+        renderFilteredTable(allFeedbacks);
+
+    } catch (err) {
+        console.error("Error fetching user feedback:", err);
+        container.innerHTML = `<p class="text-red-500">Error loading your feedback. Try again later.</p>`;
+    }
+}
+
     function calculateGradeFromCommits(commitCount) {
         if (commitCount > 20) return "90 % (A)";
         if (commitCount >= 10) return "85 % (B)";
@@ -626,7 +723,7 @@ active_tab: Dashboard
     }
 
     tabs.forEach((tab) => {
-        tab.addEventListener("click", (e) => {
+        tab.addEventListener("click", async (e) => {
             e.preventDefault();
             tabs.forEach(t => t.classList.remove("active", "text-blue-500", "border-blue-500"));
             tabContents.forEach(c => c.classList.add("hidden"));
@@ -636,34 +733,54 @@ active_tab: Dashboard
             document.getElementById(targetId).classList.add("block");
             tab.classList.add("active", "text-blue-500", "border-blue-500");
             setUnderline(tab);
+
+            if (targetId === "tab-content-your-feedback") {
+                await loadUserFeedback();  // 👈 load feedback when user clicks the tab
+            }
         });
     });
 
-    // Initialize underline position on load for active tab
-    window.onload = () => {
+    async function checkAdminAndToggleTab() {
+        try {
+            const res = await fetch(`${pythonURI}/api/id`, fetchOptions);
+            if (!res.ok) throw new Error("Failed to fetch user info");
+
+            const user = await res.json();
+            const isAdmin = user.role === "Admin";
+
+            const adminTab = document.getElementById("tab-admin-search");
+            const adminTabContent = document.getElementById("tab-content-admin-search");
+
+            if (!isAdmin) {
+                adminTab?.remove();
+                adminTabContent?.remove();
+            }
+        } catch (err) {
+            console.error("Error checking admin status:", err);
+        }
+    }
+
+    // Call after fetching GitHub data
+    window.onload = async () => {
+        await checkAdminAndToggleTab(); 
         const activeTab = document.querySelector(".tab-btn.active");
         if (activeTab) setUnderline(activeTab);
-        fetchData();
+
+        await fetchData();
+
     };
 </script>
 
 <!-- JavaScript for tab switching -->
 <script type="module">
-    import { setupTabSwitcher } from '{{ site.baseurl }}/assets/js/Aesthetihawk/shared/tabSwitcher.js';
+    import { setupTabSwitcher } from '{{ site.baseurl }}/assets/js/aesthetihawk/dashboard/tabSwitcher.js';
 
     // call the function with your tab ids and initial tab
     document.addEventListener('DOMContentLoaded', function () {
         setupTabSwitcher(
-            ['github', 'bathroom', 'grade', 'admin-search', 'help', 'grade-analytics'],
+            ['github', 'grade', 'admin-search', 'help', 'grade-analytics'],
             'github'
             );
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const activeTab = document.body.dataset.activeTab;
-        setActiveTab(activeTab);
     });
 </script>
 
@@ -1004,3 +1121,4 @@ active_tab: Dashboard
         });
     });
 </script>
+

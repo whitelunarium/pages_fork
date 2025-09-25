@@ -16,7 +16,7 @@ Topics:
     alt: "Queue"
     keyPoints: 
       - <a href = "https://spring.opencodingsociety.com/mvc/assignments/queue-management" target = "_blank">Teacher View</a>
-      - <a href = "https://pages.opencodingsociety.com/student-toolkit/queue" target = "_blank">Student View</a>
+      - <a href = "https://pages.opencodingsociety.com/student/queue" target = "_blank">Student View</a>
     subtitle: "Live Review Tool"
     description: "These pages help students and teachers stay efficient and timely while doing live reviews. This allows teachers to select assignments for students to present, and allows students to add themselves to a virtual queue instead of waiting in line, and time themselves in their review."
   - title: "Groups"

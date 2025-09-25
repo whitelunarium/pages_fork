@@ -7,7 +7,7 @@ title: GitHub Pages Setup
 description: A key to learning in this class is understanding how to make a GitHub Pages project.  This guide will setup and run the project.  At the end, you will have a student Website that can be used for blogging classroom learnings and progress.
 categories: ['DevOps']
 author: Lily Wu
-permalink: /tools/github_pages
+permalink: /tools/old/github_pages
 breadcrumbs: True 
 ---
 
@@ -160,8 +160,8 @@ Obtain pages repository.
 
 ```bash
 cd
-mkdir nighthawk 
-cd nighthawk 
+mkdir open 
+cd open 
 git clone https://github.com/open-coding-society/pages.git
 ```
 
@@ -170,8 +170,9 @@ git clone https://github.com/open-coding-society/pages.git
 ```bash
 #  Most tools have been pre-installed. Run shell command to automatically finish tool setup.
 cd
-cd nighthawk/pages/scripts
-./activate.sh 
+cd open/pages
+pagesenv
+bundle installl
 ```
 
 ---
@@ -185,7 +186,7 @@ cd nighthawk/pages/scripts
 ```bash
 # Run shell command to automatically install all your tools.
 cd
-cd nighthawk/pages/scripts
+cd open/pages/scripts
 ./activate_ubuntu.sh
 
 ```
@@ -200,7 +201,7 @@ cd nighthawk/pages/scripts
 ```bash
 #  Run shell command to automatically install all your tools. 
 cd
-cd nighthawk/pages/scripts
+cd open/pages/scripts
 ./activate_macos.sh
 ```
 
@@ -282,8 +283,8 @@ cd
 
 3. **Setup a directory for projects:**
 ```bash
-mkdir -p nighthawk
-cd nighthawk 
+mkdir -p open
+cd open 
 git clone https://github.com/open-coding-society/student_2025.git
 ```
 
@@ -337,7 +338,7 @@ All students are building a GitHub Pages website.  These steps get your website 
 
 1. Open a terminal 
 
-2. Type `cd ~/nighthawk/portfolio/student_2025`
+2. Type `cd ~/open/portfolio/student_2025`
 
 3. Activate virtual environment `source venv/bin/activate`
 

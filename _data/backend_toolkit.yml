@@ -1,0 +1,37 @@
+# backend tools illustrations
+Title: "Backend Development Tools"
+Description: "As you move deeper into web development, understanding backend tools becomes essential. Illustrated below are foundational technologies to build, test, and manage APIs and data-driven projects."
+
+Topics:
+  - title: "Flask"
+    image: "/course-brag/flask.png"
+    link: "/flask-structure-overview"
+    alt: "Flask Framework"
+    keyPoints:
+      - "Create API routes"
+      - "Connect frontend to backend"
+      - "Manage server responses"
+    subtitle: "Python Web Framework"
+    description: "Flask is a lightweight web framework that allows you to build powerful backend applications in Python. It enables routing, templating, and integration with databases or APIs."
+
+  - title: "Postman"
+    image: "/postman_icon.png"
+    link: "/flask-overview#postman"
+    alt: "Postman API Testing"
+    keyPoints:
+      - "Send GET/POST requests"
+      - "Test backend endpoints"
+      - "View JSON responses"
+    subtitle: "API Tester"
+    description: "Postman is a tool used to test API routes. It allows developers to simulate frontend requests to verify that the backend returns expected data and handles user input correctly."
+
+  - title: "Backend UI"
+    image: "/backend_ui.png"
+    link: "/flask-backend-ui"
+    alt: "Backend User Interface"
+    keyPoints:
+      - "Display backend data"
+      - "Create admin dashboards"
+      - "Improve accessibility for devs"
+    subtitle: "Interface for Admins"
+    description: "Backend UIs present data from your database or APIs in a visual format. These dashboards help developers and admins manage, monitor, and debug application content and behavior."

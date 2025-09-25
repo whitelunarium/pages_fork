@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getCredentials(baseurl) // Call the function to get credentials
         .then(data => {
             console.log("Credentials data:", data); // Debugging line
+            window.user = data;
             const loginArea = document.getElementById('loginArea');
             if (data) { // Update the login area based on the data
                 loginArea.innerHTML = `
@@ -21,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                        <hr style="margin: 4px 0;">`
                                     : ''
                             }
+                            <a href="${baseurl}/profile">Profile</a>
                             <a href="${baseurl}/logout">Logout</a>
-                            <a href="${baseurl}/gamify/fortuneFinders">Gamify</a>
                         </div>
                     </div>
                 `;
