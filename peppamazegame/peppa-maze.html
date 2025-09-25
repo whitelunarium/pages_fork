@@ -5,222 +5,448 @@ description: "Guide Peppa Pig through a maze to learn CS fun facts"
 permalink: /peppa-maze/
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maze Game - Single & Two Player</title>
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; text-align: center; }
-    #mazeCanvas { border: 2px solid black; display: block; margin: 20px auto; background: #f0f0f0; }
-    #factBox, #linksBox, #controlsBox, #diceBox, #turnBox, #rollDisplay, #modeBox {
-      margin: 10px auto; padding: 10px; width: 80%;
-      background: rgba(255,255,255,0.9); border-radius: 10px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    }
-    #diceBox { display: flex; justify-content: center; align-items: center; gap: 20px; }
-    #rollDisplay { font-size: 32px; font-weight: bold; color: darkred; width: 100px; }
-    #modeBox button { margin: 10px; padding: 10px 20px; font-size: 18px; }
-  </style>
-</head>
-<body>
-  <h1>Maze Game</h1>
+<style>
+  /* Body styling and background image */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: url("{{ site.baseurl }}/peppamazegame/peppapigducks.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
 
-  <div id="modeBox">
-    <h2>Select Game Mode</h2>
-    <button id="singleBtn">🎮 Single Player</button>
-    <button id="twoBtn">🎮 Two Players</button>
+  /* Canvas styling for the maze */
+  canvas {
+    border: 2px solid black;
+    display: block;
+    margin: 20px auto;
+    background: rgba(240, 240, 240, 0.95);
+  }
+
+  /* Fact box and links box styling */
+  #factBox,
+  #linksBox {
+    margin: 10px auto;
+    padding: 15px;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    text-align: left;
+  }
+
+  /* Initially hide the links box */
+  #linksBox {
+    display: none;
+  }
+
+  /* Styling for strong text and code blocks */
+  #factBox strong {
+    color: #2a5d9f;
+  }
+
+  #factBox code {
+    background: #eee;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  #factBox pre {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+
+  #factBox pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  /* Dice controls styling */
+  #diceControls {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .playerDice {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .diceButton {
+    background: linear-gradient(145deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+  }
+
+  .diceButton:hover {
+    transform: scale(1.05);
+  }
+
+  .diceButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  .diceDisplay {
+    font-size: 48px;
+    margin: 10px 0;
+  }
+
+  .movesLeft {
+    font-size: 18px;
+    color: #2a5d9f;
+    font-weight: bold;
+  }
+
+  .playerLabel {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .player1Label {
+    color: #ff69b4;
+  }
+
+  .player2Label {
+    color: #4169e1;
+  }
+</style>
+
+<!-- Container for the maze and controls -->
+<div id="gameContainer"></div>
+
+<!-- Dice controls for both players -->
+<div id="diceControls">
+  <div class="playerDice">
+    <div class="playerLabel player1Label">🐷 Peppa (WASD)</div>
+    <button id="rollDice1" class="diceButton">Roll Dice</button>
+    <div id="dice1" class="diceDisplay">🎲</div>
+    <div id="moves1" class="movesLeft">Moves left: 0</div>
   </div>
-
-  <div id="controlsBox" style="display:none;"></div>
-
-  <canvas id="mazeCanvas"></canvas>
-  <div id="factBox">🐷 Click Roll Dice to start a turn!</div>
-  <div id="diceBox">
-    <button id="rollDice">🎲 Roll Dice</button>
-    <div id="rollDisplay">-</div>
+  <div class="playerDice">
+    <div class="playerLabel player2Label">🐖 George (Arrow Keys)</div>
+    <button id="rollDice2" class="diceButton">Roll Dice</button>
+    <div id="dice2" class="diceDisplay">🎲</div>
+    <div id="moves2" class="movesLeft">Moves left: 0</div>
   </div>
-  <div id="turnBox">Player 1's turn</div>
+</div>
 
-  <div id="linksBox" style="display:none;">
-    <h3>🎓 Explore Computer Science:</h3>
-    <ul>
-      <li><a href="https://spacegirl13.github.io/Computer_Crashers/lxd/setup/mac" target="_blank">LxD Setup on Mac</a></li>
-      <li><a href="https://spacegirl13.github.io/Computer_Crashers/lxd/setup/make" target="_blank">LxD Setup for Make</a></li>
-      <li><a href="https://spacegirl13.github.io/Computer_Crashers/lxd/setup/windows" target="_blank">LxD Setup on Windows</a></li>
-      <li><a href="https://spacegirl13.github.io/Computer_Crashers/lxd/setup/venv" target="_blank">LxD Setup for venv</a></li>
-    </ul>
-  </div>
+<script>
+  // Main function to create and run the Peppa Pig maze game
+  function createPeppaMaze(containerId) {
+    const container = document.getElementById(containerId);
 
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const canvas = document.getElementById("mazeCanvas");
+    // Insert canvas, fact box, and links box into the container
+    container.innerHTML = `
+      <canvas id="mazeCanvas"></canvas>
+      <div id="factBox">🐷 Peppa uses WASD | 🐖 George uses Arrow Keys<br>Roll the dice to get moves!</div>
+      <div id="linksBox">
+        <h3>🎓 Explore Computer Science:</h3>
+        <ul>
+          <li><a href="lxd/setup/mac" target="_blank">LxD Setup on Mac</a></li>
+          <li><a href="lxd/setup/make" target="_blank">LxD Setup for Make</a></li>
+          <li><a href="lxd/setup/windows" target="_blank">LxD Setup on Windows</a></li>
+          <li><a href="lxd/setup/venv" target="_blank">LxD Setup for venv</a></li>
+        </ul>
+      </div>
+    `;
+
+    // Grab canvas context and DOM elements
+    const canvas = container.querySelector("#mazeCanvas");
     const ctx = canvas.getContext("2d");
+    const factBox = container.querySelector("#factBox");
+    const linksBox = container.querySelector("#linksBox");
+
+    // Dice controls
+    const rollDice1Btn = document.getElementById("rollDice1");
+    const rollDice2Btn = document.getElementById("rollDice2");
+    const dice1Display = document.getElementById("dice1");
+    const dice2Display = document.getElementById("dice2");
+    const moves1Display = document.getElementById("moves1");
+    const moves2Display = document.getElementById("moves2");
+
+    // Canvas dimensions
     canvas.width = 600;
     canvas.height = 600;
 
-    const cellSize = 60; // 10x10 grid
-    const rows = 10, cols = 10;
-
-    // Maze layout: 0 = path, 1 = wall
+    // Maze configuration
+    const cellSize = 60;
+    const rows = 10;
+    const cols = 10;
     const maze = [
-      [0,0,1,0,0,0,0,1,0,0],
-      [1,0,1,0,1,1,0,1,0,1],
-      [0,0,0,0,0,1,0,0,0,0],
-      [0,1,1,1,0,1,1,1,1,0],
-      [0,0,0,1,0,0,0,1,0,0],
-      [0,1,0,1,1,1,0,1,0,1],
-      [0,1,0,0,0,0,0,0,0,0],
-      [0,1,1,1,1,1,1,1,1,0],
-      [0,0,0,0,0,0,0,0,0,0],
-      [1,1,1,1,1,1,1,1,0,0],
+      [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+      [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+      [0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+      [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+      [0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]
     ];
 
-    // Numbered targets
+    // Number positions in the maze
     const numbers = {
-      "1": {x: 1, y: 0},
-      "2": {x: 4, y: 0},
-      "3": {x: 8, y: 0},
-      "4": {x: 0, y: 4},
-      "5": {x: 5, y: 4},
-      "6": {x: 9, y: 4},
-      "7": {x: 0, y: 8},
-      "8": {x: 5, y: 8},
-      "9": {x: 9, y: 9} // exit
+      "1": { x: 1, y: 0 }, "2": { x: 4, y: 0 }, "3": { x: 8, y: 0 },
+      "4": { x: 0, y: 4 }, "5": { x: 5, y: 4 }, "6": { x: 9, y: 4 },
+      "7": { x: 0, y: 8 }, "8": { x: 5, y: 8 }, "9": { x: 9, y: 9 }
     };
 
-    // Fun facts
+    // Fun facts and instructions displayed when players reach numbers
     const facts = {
-      "1": "💻 Fixing make commands: Run `make clean` first, then `make` again to clear old builds.",
-      "2": "🐍 To activate venv: On Windows run `venv\\Scripts\\activate`, on Mac/Linux run `source venv/bin/activate`.",
-      "3": "🌐 Installing Ubuntu: Use WSL on Windows (`wsl --install`) or a bootable USB for dual-boot.",
-      "4": "🔧 Installing VS Code: Download from code.visualstudio.com and add Python & GitHub extensions.",
-      "5": "🤖 Cloning a repo: `git clone https://github.com/username/repo.git` then `cd repo`.",
-      "6": "💾 Making a permalink: Add `permalink: /page-name/` in your Markdown front matter.",
-      "7": "📤 Pushing to GitHub: `git add .`, `git commit -m 'message'`, `git push origin main`.",
-      "8": "🎨 Changing theme in VS Code: Press `Ctrl+K Ctrl+T` and pick a theme.",
-      "9": "🎉 You finished the maze! Great job — check out the links below to learn more!"
+      "1": `💻 <strong>Build System Troubleshooting:</strong><br>
+<pre><code>make clean
+make
+</code></pre>
+Pro tip: Use parallel jobs:<br>
+<pre><code>make -j$(nproc)</code></pre>`,
+
+      "2": `🐍 <strong>Python Virtual Environments:</strong><br>
+<pre><code># Windows
+venv\\Scripts\\activate
+
+# Mac/Linux
+source venv/bin/activate
+</code></pre>`,
+
+      "3": `🌐 <strong>Ubuntu Linux Installation:</strong><br>
+<pre><code># WSL Windows
+wsl --install -d Ubuntu
+# Dual boot USB
+# Virtual machine via VirtualBox/VMware
+</code></pre>`,
+
+      "4": `🔧 <strong>VS Code Setup:</strong><br>
+<pre><code>Ctrl+Shift+P # Command Palette
+</code></pre>`,
+
+      "5": `🤖 <strong>Git Clone:</strong><br>
+<pre><code>git clone https://github.com/user/repo.git
+git clone --depth 1 https://github.com/user/repo.git
+</code></pre>`,
+
+      "6": `💾 <strong>Jekyll Permalinks:</strong><br>
+<pre><code>permalink: /my-custom-url/</code></pre>`,
+
+      "7": `📤 <strong>Git Workflow:</strong><br>
+<pre><code>git add .
+git commit -m "Message"
+git push origin main
+</code></pre>`,
+
+      "8": `🎨 <strong>VS Code Themes:</strong><br>
+<pre><code>Ctrl+K Ctrl+T</code></pre>`,
+
+      "9": `🎉 <strong>Congratulations!</strong> You've completed the maze!`
     };
 
-    const factBox = document.getElementById("factBox");
-    const linksBox = document.getElementById("linksBox");
-    const rollBtn = document.getElementById("rollDice");
-    const rollDisplay = document.getElementById("rollDisplay");
-    const turnBox = document.getElementById("turnBox");
-    const controlsBox = document.getElementById("controlsBox");
+    // Player objects
+    const player1 = {
+      x: 0,
+      y: 0,
+      moves: 0,
+      color: "#ff69b4",
+      img: new Image(),
+      name: "Peppa"
+    };
 
-    const peppaImg = new Image();
-    const georgeImg = new Image();
-    peppaImg.src = "{{page.sprite}}";
-    georgeImg.src = "george.png";
+    const player2 = {
+      x: 0,
+      y: 1,
+      moves: 0,
+      color: "#4169e1",
+      img: new Image(),
+      name: "George"
+    };
 
-    let players = [];
-    let currentPlayer = 0;
-    let gameMode = 1; // default single player
+    // Load player images
+    player1.img.src = "{{ site.baseurl }}/images/peppapig.png";
+    player2.img.src = "{{ site.baseurl }}/peppamazegame/george.png";
 
-    // Mode selection
-    document.getElementById("singleBtn").addEventListener("click", () => startGame(1));
-    document.getElementById("twoBtn").addEventListener("click", () => startGame(2));
+    // Animation state
+    let animating = false;
 
-    function startGame(mode) {
-      gameMode = mode;
-      document.getElementById("modeBox").style.display = "none";
-      controlsBox.style.display = "block";
-
-      if (mode === 1) {
-        controlsBox.innerHTML = "🎮 Player 1 uses <b>WASD</b> keys.";
-        players = [{x:0, y:0, img:peppaImg, movesLeft:0}];
-      } else {
-        controlsBox.innerHTML = "🎮 Player 1 uses <b>WASD</b>. Player 2 uses <b>Arrow Keys</b>.";
-        players = [
-          {x:0, y:0, img:peppaImg, movesLeft:0},
-          {x:0, y:0, img:georgeImg, movesLeft:0}
-        ];
-      }
-      update();
-    }
-
+    // Function to draw the maze grid and numbers
     function drawMaze() {
-      for (let y=0; y<rows; y++) {
-        for (let x=0; x<cols; x++) {
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
           ctx.fillStyle = maze[y][x] === 1 ? "#444" : "#fff";
-          ctx.fillRect(x*cellSize, y*cellSize, cellSize, cellSize);
-          ctx.strokeRect(x*cellSize, y*cellSize, cellSize, cellSize);
+          ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+          ctx.strokeStyle = "#000";
+          ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
         }
       }
+
+      // Draw numbers in blue
       ctx.fillStyle = "blue";
       ctx.font = "20px Arial";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       for (const num in numbers) {
         const pos = numbers[num];
-        ctx.fillText(num, pos.x*cellSize + cellSize/2, pos.y*cellSize + cellSize/2);
+        ctx.fillText(num, pos.x * cellSize + cellSize / 2, pos.y * cellSize + cellSize / 2);
       }
     }
 
-    function drawPlayers() {
-      for (const p of players) {
-        ctx.drawImage(p.img, p.x*cellSize, p.y*cellSize, cellSize, cellSize);
+    // Function to draw a player (with image or fallback circle)
+    function drawPlayer(player) {
+      if (player.img.complete && player.img.naturalHeight !== 0) {
+        ctx.drawImage(player.img, player.x * cellSize, player.y * cellSize, cellSize, cellSize);
+      } else {
+        // Fallback to circle
+        ctx.fillStyle = player.color;
+        ctx.beginPath();
+        ctx.arc(player.x * cellSize + cellSize / 2, player.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw eyes
+        ctx.fillStyle = "#000";
+        ctx.beginPath();
+        ctx.arc(player.x * cellSize + cellSize / 2 - 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(player.x * cellSize + cellSize / 2 + 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+        ctx.fill();
       }
     }
 
+    // Main animation loop
     function update() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawMaze();
-      drawPlayers();
+      drawPlayer(player1);
+      drawPlayer(player2);
       requestAnimationFrame(update);
     }
 
-    rollBtn.addEventListener("click", () => {
-      if (players[currentPlayer].movesLeft > 0) return; // can't reroll mid-turn
-      const roll = Math.floor(Math.random() * 5) + 1;
-      players[currentPlayer].movesLeft = roll;
-      rollDisplay.textContent = roll;
-      factBox.textContent = `Player ${currentPlayer+1} rolled ${roll}. Use your keys to move!`;
-    });
+    // Roll dice function
+    function rollDice(player, diceDisplay, movesDisplay, rollButton) {
+      const roll = Math.floor(Math.random() * 6) + 1;
+      player.moves = roll;
+      diceDisplay.textContent = `🎲 ${roll}`;
+      movesDisplay.textContent = `Moves left: ${roll}`;
+      rollButton.disabled = true;
+    }
 
-    function tryMove(dx,dy) {
-      const p = players[currentPlayer];
-      if (p.movesLeft <= 0) return;
-      const nx = p.x + dx;
-      const ny = p.y + dy;
-      if (nx>=0 && nx<cols && ny>=0 && ny<rows && maze[ny][nx]===0) {
-        p.x = nx; p.y = ny;
-        p.movesLeft--;
-        for (const num in numbers) {
-          if (numbers[num].x === p.x && numbers[num].y === p.y) {
-            factBox.textContent = facts[num];
-            if (num === "9") linksBox.style.display = "block";
-          }
+    // Update moves display
+    function updateMovesDisplay(player, movesDisplay, rollButton) {
+      movesDisplay.textContent = `Moves left: ${player.moves}`;
+      if (player.moves === 0) {
+        rollButton.disabled = false;
+      }
+    }
+
+    // Check if move is valid
+    function isValidMove(x, y) {
+      return x >= 0 && x < cols && y >= 0 && y < rows && maze[y][x] === 0;
+    }
+
+    // Move player with animation
+    function movePlayer(player, dx, dy, movesDisplay, rollButton) {
+      if (animating || player.moves <= 0) return;
+
+      const newX = player.x + dx;
+      const newY = player.y + dy;
+
+      if (!isValidMove(newX, newY)) return;
+
+      animating = true;
+      const startX = player.x;
+      const startY = player.y;
+      let progress = 0;
+
+      function animate() {
+        progress += 0.1;
+        if (progress >= 1) {
+          player.x = newX;
+          player.y = newY;
+          player.moves--;
+          updateMovesDisplay(player, movesDisplay, rollButton);
+          animating = false;
+          checkForFact(player);
+          return;
         }
-        if (p.movesLeft===0) {
-          if (gameMode===2) {
-            currentPlayer = (currentPlayer+1)%players.length;
-            turnBox.textContent = `Player ${currentPlayer+1}'s turn`;
-          } else {
-            turnBox.textContent = "Player 1's turn again";
-          }
-          rollDisplay.textContent = "-";
+        player.x = startX + (newX - startX) * progress;
+        player.y = startY + (newY - startY) * progress;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // Check if player reached a number position
+    function checkForFact(player) {
+      for (const num in numbers) {
+        const pos = numbers[num];
+        if (Math.round(player.x) === pos.x && Math.round(player.y) === pos.y) {
+          factBox.innerHTML = `<strong>${player.name} found:</strong><br>` + facts[num];
+          if (num === "9") linksBox.style.display = "block";
+          break;
         }
       }
     }
 
-    document.addEventListener("keydown", (e) => {
-      if (players.length===0) return; // game not started
-      if (currentPlayer===0) {
-        if (e.key==="w") tryMove(0,-1);
-        if (e.key==="a") tryMove(-1,0);
-        if (e.key==="s") tryMove(0,1);
-        if (e.key==="d") tryMove(1,0);
-      } else if (gameMode===2 && currentPlayer===1) {
-        if (e.key==="ArrowUp") tryMove(0,-1);
-        if (e.key==="ArrowLeft") tryMove(-1,0);
-        if (e.key==="ArrowDown") tryMove(0,1);
-        if (e.key==="ArrowRight") tryMove(1,0);
+    // Dice roll event listeners
+    rollDice1Btn.addEventListener("click", () => {
+      rollDice(player1, dice1Display, moves1Display, rollDice1Btn);
+    });
+
+    rollDice2Btn.addEventListener("click", () => {
+      rollDice(player2, dice2Display, moves2Display, rollDice2Btn);
+    });
+
+    // Keyboard controls
+    document.addEventListener("keydown", function (e) {
+      // Player 1 - WASD
+      if (e.key === "w" || e.key === "W") {
+        movePlayer(player1, 0, -1, moves1Display, rollDice1Btn);
+      } else if (e.key === "a" || e.key === "A") {
+        movePlayer(player1, -1, 0, moves1Display, rollDice1Btn);
+      } else if (e.key === "s" || e.key === "S") {
+        movePlayer(player1, 0, 1, moves1Display, rollDice1Btn);
+      } else if (e.key === "d" || e.key === "D") {
+        movePlayer(player1, 1, 0, moves1Display, rollDice1Btn);
+      }
+
+      // Player 2 - Arrow Keys
+      else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        movePlayer(player2, 0, -1, moves2Display, rollDice2Btn);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        movePlayer(player2, -1, 0, moves2Display, rollDice2Btn);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        movePlayer(player2, 0, 1, moves2Display, rollDice2Btn);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        movePlayer(player2, 1, 0, moves2Display, rollDice2Btn);
       }
     });
-  });
-  </script>
-</body>
-</html>
+
+    // Start animation loop
+    update();
+  }
+
+  // Initialize the maze game
+  createPeppaMaze("gameContainer");
+</script>
