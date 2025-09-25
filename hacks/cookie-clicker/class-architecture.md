@@ -107,10 +107,10 @@ field.addEventListener("keydown", e => {
     const val = field.value.trim().toLowerCase();
     if (val === "gameloop.upgrades" || val === "gameloop.autoClickers") {
       field.style.borderColor = "green";
-      field.style.backgroundColor = "#c8f7c5"; // light green
+      field.style.backgroundColor = "#496e46ff"; // light green
     } else {
       field.style.borderColor = "red";
-      field.style.backgroundColor = "#f8d7da"; // light red
+      field.style.backgroundColor = "#6b3c40ff"; // light red
     }
   }
 });
