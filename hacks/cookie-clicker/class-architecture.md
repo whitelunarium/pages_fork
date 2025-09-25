@@ -12,12 +12,13 @@ enable_progress: true
 # Lesson: Understanding the Shop Object
 
 ## 1. What is the `shop`?
-The `shop` is an object in JavaScript. Think of it like a toolbox that keeps track of what’s for sale in your game and how players interact with the store.
 
-Ojects have two main parts:
-- Properties (data it stores)
-- Methods (functions it can run)
-
+```mermaid
+graph TD
+    SHOP["shop Object"]
+    SHOP --> P["Properties"]
+    SHOP --> M["Methods"]
+```
 ---
 
 ## 2. Properties
@@ -28,6 +29,14 @@ In the cookie clicker game, the shop has the following properties:
 
 Properties are like the memory of the object.
 
+```mermaid
+classDiagram
+    class Shop {
+      forSale : Item[]
+      upgrades : Upgrade[]
+      tab : String
+    }
+```
 ---
 
 ## 3. Methods
@@ -38,7 +47,18 @@ The shop also runs functions:
 - `switchTab(newTab)` → switches between “Shop” and “Upgrades”
 
 Methods are the actions the object knows how to perform.
+```mermaid
+graph LR
+    A["updateShopDisplay()"]
+    B["addItemForSale(item)"]
+    C["updateForSalePrice(newPrice, index)"]
+    D["switchTab(newTab)"]
 
+    A -->|UI| SHOP
+    B -->|Add| SHOP
+    C -->|Price change| SHOP
+    D -->|Switch| SHOP
+```
 ---
 
 ## 4. How it Connects to Other Parts
