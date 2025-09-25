@@ -14,14 +14,14 @@ enable_progress: true
 ## 1. What is the `shop`?
 The `shop` is an object in JavaScript. Think of it like a toolbox that keeps track of what’s for sale in your game and how players interact with the store.
 
-It has two main parts:
+Ojects have two main parts:
 - Properties (data it stores)
 - Methods (functions it can run)
 
 ---
 
 ## 2. Properties
-In your code, the shop has:
+In the cookie clicker game, the shop has the following properties:
 - `forSale` → list of items you can buy (like Grandma or Factory)
 - `upgrades` → special one-time boosts (like 2X clicks)
 - `tab` → tells the shop whether to show “Shop” items or “Upgrades”
@@ -31,13 +31,13 @@ Properties are like the memory of the object.
 ---
 
 ## 3. Methods
-The shop also has functions to do things:
+The shop also runs functions:
 - `updateShopDisplay()` → rebuilds the shop UI on screen
 - `addItemForSale(item)` → adds an item to the list
 - `updateForSalePrice(newPrice, index)` → raises the price after you buy something
 - `switchTab(newTab)` → switches between “Shop” and “Upgrades”
 
-Methods are like the actions the object knows how to perform.
+Methods are the actions the object knows how to perform.
 
 ---
 
