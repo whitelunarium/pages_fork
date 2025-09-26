@@ -10,156 +10,8 @@ comments: True
 authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spencer Lyons, Shaurya Singh
 ---
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jekyll Themes Lesson</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0 auto;
-            max-width: 800px;
-            padding: 2rem;
-            color: #333;
-        }
-        h2, h3 {
-            color: #2c3e50;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #ddd;
-            margin: 2rem 0;
-        }
-        .frq-box {
-            border: 1px solid #ccc;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            background: #f9f9f9;
-        }
-        .frq-box h3, .frq-box b {
-            font-size: 1.1em;
-            color: #555;
-            margin-bottom: 0.5rem;
-        }
-        textarea {
-            font-family: inherit;
-            font-size: 1rem;
-            padding: 0.5rem;
-            width: 100%;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            margin-top: 0.5rem;
-        }
-        .grade-button {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .grade-button:hover {
-            background-color: #2980b9;
-        } 
-        .grade-button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-        }
-        pre {
-            background-color: #2d2d2d;
-            color: #ccc;
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-        code {
-            font-family: 'Courier New', monospace;
-            background-color: #e9ecef;
-            color: #333;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-        }
-        pre code {
-            background-color: transparent;
-            color: #ccc;
-        }        
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 1rem 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .feedback-box {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            background-color: #ecf0f1;
-            border: 1px solid #bdc3c7;
-            display: none;
-        }
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #3498db;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .space-x-2 > * + * { margin-left: 0.5rem; }
-        .hidden { display: none; }
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        .modal-button {
-            background-color: #3498db;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-    </style>
-</head>
 <body>
     <div class="lesson-part" data-part="1" style="display:block;">
-        <h2>Lesson 3: Jekyll Themes</h2>
         <h3>Introduction</h3>
         <p>
         Jekyll themes provide a powerful way to quickly style and structure your GitHub Pages website without extensive CSS coding. 
@@ -179,9 +31,10 @@ authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spen
             <li><b>Assets:</b> CSS, JavaScript, and images that control visual design and interactivity.</li>
             <li><b>Configuration:</b> Theme-specific settings often defined in <code>_config.yml</code> or in the theme’s own configuration files.</li>
         </ul>
-        <div class="frq-box" data-frq-id="1">
+        <div class="frq-box" data-frq-id="1" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
             <b>FRQ 1:</b> Explain why Jekyll uses layouts and includes. How do these features make web development easier?<br><br>
-            <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
+            <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+            <p></p>
             <button class="grade-button" style="margin-top: 10px;">Grade</button>
             <div class="feedback-box"></div>
         </div>
@@ -195,12 +48,14 @@ authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spen
         </p>
         <pre><code class="language-yaml">
 
-# Example snippet from _config.yml
+#Example snippet from _config.yml
+remote_theme: jekyll/minima
 
 </code></pre>
-        <div class="frq-box" data-frq-id="2">
+        <div class="frq-box" data-frq-id="2" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
             <b>FRQ 2:</b> Describe the role of <code>_config.yml</code> in Jekyll. Why is it important for themes?<br><br>
-            <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
+            <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+            <p></p>
             <button class="grade-button" style="margin-top: 10px;">Grade</button>
             <div class="feedback-box"></div>
         </div>
@@ -236,9 +91,10 @@ authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spen
                 <td>MathJax & Mermaid supported</td>
             </tr>
         </table>
-        <div class="frq-box" data-frq-id="3">
+        <div class="frq-box" data-frq-id="3" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
             <b>FRQ 3:</b> Compare the strengths of Minima and TeXt. Which would you choose and why?<br><br>
-            <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
+            <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+            <p></p>
             <button class="grade-button" style="margin-top: 10px;">Grade</button>
             <div class="feedback-box"></div>
         </div>
@@ -252,9 +108,10 @@ authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spen
             <li><b>Theme Not Switching:</b> Double-check the <code>remote_theme</code> value in <code>_config.yml</code>.</li>
             <li><b>Backup:</b> Always back up <code>_config.yml</code> before big changes.</li>
         </ol>
-        <div class="frq-box" data-frq-id="4">
+        <div class="frq-box" data-frq-id="4" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
             <b>FRQ 4:</b> A student’s theme won’t switch even after editing <code>_config.yml</code>. What steps would you take to troubleshoot?<br><br>
-            <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
+            <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+            <p></p>
             <button class="grade-button" style="margin-top: 10px;">Grade</button>
             <div class="feedback-box"></div>
         </div>
@@ -266,9 +123,10 @@ authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spen
         Jekyll themes are a powerful asset for creating visually appealing and functional GitHub Pages sites.
         By understanding their structure, switching methods, and troubleshooting techniques, you can leverage themes to enhance your web projects and focus more on content creation rather than design details.
         </p>
-        <div class="frq-box" data-frq-id="5">
+        <div class="frq-box" data-frq-id="5" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
             <b>FRQ 5:</b> Summarize in your own words why themes are valuable for developers using Jekyll.<br><br>
-            <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
+            <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+            <p></p>
             <button class="grade-button" style="margin-top: 10px;">Grade</button>
             <div class="feedback-box"></div>
         </div>
@@ -404,4 +262,3 @@ authors: Ahaan Vaidyanathan, Nikhil Narayan, Arnav Mittal, Xavier Thompson, Spen
         }
     </script>
 </body>
-</html>

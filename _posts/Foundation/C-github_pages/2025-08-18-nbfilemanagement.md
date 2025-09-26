@@ -9,195 +9,59 @@ permalink: /github/pages/jp
 comments: True
 ---
 
-<style>
-    /* Override theme colors for all lesson content */
-    .lesson-part {
-        color: #e0e0e0 !important;
-    }
-    .lesson-part h2, .lesson-part h3, .lesson-part h4 {
-        color: #ffffff !important;
-    }
-    .lesson-part p, .lesson-part li {
-        color: #e0e0e0 !important;
-    }
-    .lesson-part code {
-        background-color: rgba(40, 44, 52, 0.8) !important;
-        color: #abb2bf !important;
-        padding: 0.2rem 0.4rem;
-        border-radius: 3px;
-    }
-    .lesson-part pre {
-        background-color: #282c34 !important;
-        color: #abb2bf !important;
-        padding: 1rem;
-        border-radius: 8px;
-        overflow-x: auto;
-    }
-    .lesson-part pre code {
-        background-color: transparent !important;
-        color: inherit !important;
-    }
-    
-    .frq-box {
-        border: 1px solid #ccc;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1.5rem 0;
-        background: rgba(249, 249, 249, 0.95);
-        color: #333 !important;
-    }
-    .frq-box h3, .frq-box b {
-        font-size: 1.1em;
-        color: #333 !important;
-        margin-bottom: 0.5rem;
-    }
-    .frq-box textarea {
-        color: #333 !important;
-        background: white !important;
-        border: 1px solid #ccc;
-        padding: 0.5rem;
-        border-radius: 4px;
-    }
-    .grade-button {
-        display: inline-block;
-        background-color: #3498db;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 1rem;
-        transition: background-color 0.3s ease;
-    }
-    .grade-button:hover {
-        background-color: #2980b9;
-    } 
-    .grade-button:disabled {
-        background-color: #bdc3c7;
-        cursor: not-allowed;
-    }
-    .feedback-box {
-        margin-top: 1rem;
-        padding: 1rem;
-        border-radius: 8px;
-        background-color: rgba(236, 240, 241, 0.95) !important;
-        border: 1px solid #bdc3c7;
-        color: #2c3e50 !important;
-        display: none;
-    }
-    .feedback-box * {
-        color: #2c3e50 !important;
-    }
-    .loading-spinner {
-        border: 4px solid rgba(0, 0, 0, 0.1);
-        border-left-color: #3498db;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    .flex { display: flex; }
-    .items-center { align-items: center; }
-    .space-x-2 > * + * { margin-left: 0.5rem; }
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .modal-content {
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        text-align: center;
-        max-width: 400px;
-        width: 90%;
-        color: #333 !important;
-    }
-    .modal-content * {
-        color: #333 !important;
-    }
-    .modal-button {
-        background-color: #3498db;
-        color: white !important;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-</style>
-
 <div class="lesson-part" data-part="1" style="display:block;">
+  <h3>Introduction to Jupyter</h3>
+  <p>Jupyter Notebooks are a powerful, open-source web application that allows you to create and share documents containing live code, equations, visualizations, and narrative text. They are widely used in data science, scientific computing, and education for their interactive and reproducible nature. The "Jupyter" name is a combination of the core languages it was originally built for: Julia, Python, and R. Today, Jupyter supports a vast ecosystem of languages through its kernel architecture.</p>
 
-Lesson 1: An Introduction to Jupyter Notebooks
+  <p>A Jupyter Notebook is composed of a series of cells. There are two primary types of cells:</p>
+  <ul>
+    <li><strong>Code Cells</strong>: These contain code for a specific programming language. When you run a code cell, the output (like a printed value, a plot, or an error message) is displayed directly below it.</li>
+    <li><strong>Markdown Cells</strong>: These cells are for text documentation. You can use Markdown, a simple markup language, to format your text with headings, bolding, italics, lists, and links. This allows you to add explanations, comments, and structure to your work.</li>
+  </ul>
 
-Introduction to Jupyter
-
-Jupyter Notebooks are a powerful, open-source web application that allows you to create and share documents containing live code, equations, visualizations, and narrative text. They are widely used in data science, scientific computing, and education for their interactive and reproducible nature. The "Jupyter" name is a combination of the core languages it was originally built for: Julia, Python, and R. Today, Jupyter supports a vast ecosystem of languages through its kernel architecture.
-
-A Jupyter Notebook is composed of a series of cells. There are two primary types of cells:
-
-- Code Cells: These contain code for a specific programming language. When you run a code cell, the output (like a printed value, a plot, or an error message) is displayed directly below it.
-- Markdown Cells: These cells are for text documentation. You can use Markdown, a simple markup language, to format your text with headings, bolding, italics, lists, and links. This allows you to add explanations, comments, and structure to your work.
-
-<div class="frq-box" data-frq-id="1">
-    <b>FRQ 1:</b> In your own words, what is the core purpose of a Jupyter Notebook, and how do its two main cell types contribute to this purpose?<br><br>
-    <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
-    <button class="grade-button" style="margin-top: 10px;">Grade</button>
-    <div class="feedback-box"></div>
-</div>
-
+  <div class="frq-box" data-frq-id="1" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
+      <b>FRQ 1:</b> In your own words, what is the core purpose of a Jupyter Notebook, and how do its two main cell types contribute to this purpose?<br><br>
+      <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+      <p></p>
+      <button class="grade-button" style="margin-top: 10px;">Grade</button>
+      <div class="feedback-box"></div>
+  </div>
 </div>
 
 <div class="lesson-part" data-part="2" style="display:none;">
+  <h2>Integrating JavaScript into Jupyter</h2>
 
-### Integrating JavaScript into Jupyter
+  <p>While Jupyter is most commonly associated with Python, its versatility allows it to run other languages. By default, a standard Jupyter environment runs a Python kernel. To execute JavaScript directly, you can use a special command known as a <code>magic command</code>.</p>
 
-While Jupyter is most commonly associated with Python, its versatility allows it to run other languages. By default, a standard Jupyter environment runs a Python kernel. To execute JavaScript directly, you can use a special command known as a **magic command**.
+  <p>The <code>%%javascript</code> magic command tells the notebook to interpret the content of the entire cell as JavaScript code. This is a powerful feature because it allows you to:</p>
+  <ul>
+    <li><strong>Create Interactive Visualizations:</strong> Use JavaScript libraries like D3.js or Plotly.js to build dynamic, interactive charts and graphs that go beyond static images.</li>
+    <li><strong>Develop Web Components:</strong> Test and prototype small web applications or UI elements directly within your notebook, complete with HTML, CSS, and JavaScript.</li>
+    <li><strong>Debug and Explore:</strong> Use the browser's developer tools to inspect and debug your code.</li>
+  </ul>
 
-The `%%javascript` magic command tells the notebook to interpret the content of the entire cell as JavaScript code. This is a powerful feature because it allows you to:
+  <h3>Executing JavaScript and Debugging</h3>
+  <ol>
+    <li><strong>Open Developer Tools:</strong> In your web browser (Chrome, Firefox, etc.), you can access the developer console. In VSCode, navigate to <em>Help &gt; Toggle Developer Tools</em>.</li>
+    <li><strong>Access the Console:</strong> Select the <strong>Console</strong> tab to view the output from your <code>console.log()</code> statements and any errors or warnings generated by your JavaScript.</li>
+    <li><strong>Execute Code:</strong> After writing your <code>%%javascript</code> cell, click the "Run" button to execute it. The output will appear in the cell's output area and the browser's console.</li>
+  </ol>
 
-- **Create Interactive Visualizations:** Use JavaScript libraries like D3.js or Plotly.js to build dynamic, interactive charts and graphs that go beyond static images.
-- **Develop Web Components:** Test and prototype small web applications or UI elements directly within your notebook, complete with HTML, CSS, and JavaScript.
-- **Debug and Explore:** Use the browser's developer tools to inspect and debug your code.
-
-#### Executing JavaScript and Debugging
-
-1. **Open Developer Tools:** In your web browser (Chrome, Firefox, etc.), you can access the developer console. In VSCode, navigate to `Help > Toggle Developer Tools`.
-2. **Access the Console:** Select the **Console** tab to view the output from your `console.log()` statements and any errors or warnings generated by your JavaScript.
-3. **Execute Code:** After writing your `%%javascript` cell, click the "Run" button to execute it. The output will appear in the cell's output area and the browser's console.
-
-<div class="frq-box" data-frq-id="2">
-    <b>FRQ 2:</b> How does the <code>%%javascript</code> magic command enable a Python-based Jupyter Notebook to execute JavaScript, and what is the key tool you would use to see the results of your JavaScript code?<br><br>
-    <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
-    <button class="grade-button" style="margin-top: 10px;">Grade</button>
-    <div class="feedback-box"></div>
-</div>
-
+  <div class="frq-box" data-frq-id="2" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
+      <b>FRQ 2:</b> How does the <code>%%javascript</code> magic command enable a Python-based Jupyter Notebook to execute JavaScript, and what is the key tool you would use to see the results of your JavaScript code?<br><br>
+      <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+      <p></p>
+      <button class="grade-button" style="margin-top: 10px;">Grade</button>
+      <div class="feedback-box"></div>
+  </div>
 </div>
 
 <div class="lesson-part" data-part="3" style="display:none;">
+  <h2>Example: Interactive Data Structures</h2>
+  <p>To demonstrate the power of JavaScript in a notebook, let's create a small application that uses an array of objects to store jokes. This structure is more flexible than a simple array of strings because it allows you to store multiple pieces of related information for each item.</p>
 
-### Example: Interactive Data Structures
-
-To demonstrate the power of JavaScript in a notebook, let's create a small application that uses an array of objects to store jokes. This structure is more flexible than a simple array of strings because it allows you to store multiple pieces of related information for each item.
-
-#### Programmer Jokes
-
-In this example, each joke is an object with two properties: `joke` and `complexity`. This structured data allows us to easily access more than just the joke text.
-
-```javascript
-%%javascript
+  <h3>Programmer Jokes</h3>
+  <pre><code class="language-javascript">%%javascript
 var compsci_joke_list = [
     { joke: "Why do programmers prefer dark mode? Because light attracts bugs.", complexity: "1" },
     { joke: "Why do Java developers wear glasses? Because they don't see sharp.", complexity: "2" },
@@ -211,34 +75,34 @@ var compsci_joke_list = [
 var randomIndex = Math.floor(Math.random() * compsci_joke_list.length);
 var selectedJoke = compsci_joke_list[randomIndex];
 console.log("Joke #" + (randomIndex + 1) + ": " + selectedJoke.joke + " (Complexity: " + selectedJoke.complexity + ")");
-```
+</code></pre>
 
-<div class="frq-box" data-frq-id="3">
-    <b>FRQ 3:</b> Explain why using an array of objects for the programmer jokes is a more extensible design than a simple array of strings.<br><br>
-    <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
-    <button class="grade-button" style="margin-top: 10px;">Grade</button>
-    <div class="feedback-box"></div>
-</div>
-
+  <div class="frq-box" data-frq-id="3" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
+      <b>FRQ 3:</b> Explain why using an array of objects for the programmer jokes is a more extensible design than a simple array of strings.<br><br>
+      <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+      <p></p>
+      <button class="grade-button" style="margin-top: 10px;">Grade</button>
+      <div class="feedback-box"></div>
+  </div>
 </div>
 
 <div class="lesson-part" data-part="4" style="display:none;">
+  <h2>File Management and Best Practices for GitHub Pages</h2>
+  <p>Jupyter Notebooks are excellent for local development, but to share them on the web, you often need to convert them to a static format. GitHub Pages provides a seamless way to do this, especially when using a tool like Jekyll.</p>
 
-### File Management and Best Practices for GitHub Pages
+  <ol>
+    <li><strong>Organize Your Files:</strong> Place all your <code>.ipynb</code> files in a dedicated directory, such as <code>_notebooks</code>. This keeps your project organized and makes it easy for GitHub Pages to find and convert them.</li>
+    <li><strong>Pull and Push:</strong> Use standard Git commands (<code>git clone</code>, <code>git pull</code>, <code>git add</code>, <code>git commit</code>, <code>git push</code>) to manage your project repository.</li>
+    <li><strong>Add Frontmatter:</strong> To properly render notebooks as webpages, you need to include <strong>YAML Frontmatter</strong> at the very top of your notebook file. This is a special block of text enclosed by <code>---</code> that provides metadata for Jekyll, such as the <code>permalink</code> (the URL for the page) and the <code>layout</code> (the HTML template to use).</li>
+  </ol>
 
-Jupyter Notebooks are excellent for local development, but to share them on the web, you often need to convert them to a static format. GitHub Pages provides a seamless way to do this, especially when using a tool like Jekyll.
-
-1. **Organize Your Files:** Place all your `.ipynb` files in a dedicated directory, such as `_notebooks`. This keeps your project organized and makes it easy for GitHub Pages to find and convert them.
-2. **Pull and Push:** Use standard Git commands (`git clone`, `git pull`, `git add`, `git commit`, `git push`) to manage your project repository.
-3. **Add Frontmatter:** To properly render notebooks as webpages, you need to include **YAML Frontmatter** at the very top of your notebook file. This is a special block of text enclosed by `---` that provides metadata for Jekyll, such as the `permalink` (the URL for the page) and the `layout` (the HTML template to use).
-
-<div class="frq-box" data-frq-id="4">
-    <b>FRQ 4:</b> Why is it a best practice to use a separate directory for Jupyter Notebook files and to include YAML frontmatter in each notebook when deploying to GitHub Pages?<br><br>
-    <textarea rows="5" style="width:100%;" placeholder="Type your response here..."></textarea>
-    <button class="grade-button" style="margin-top: 10px;">Grade</button>
-    <div class="feedback-box"></div>
-</div>
-
+  <div class="frq-box" data-frq-id="4" style="border:1px solid #ccc; padding:1rem; border-radius:8px; margin:1.5rem 0; background:#f9f9f9; box-sizing:border-box; overflow:auto; word-wrap:break-word; white-space:normal; color: #222;">
+      <b>FRQ 4:</b> Why is it a best practice to use a separate directory for Jupyter Notebook files and to include YAML frontmatter in each notebook when deploying to GitHub Pages?<br><br>
+      <textarea rows="5" placeholder="Type your response here..." style="width:100%; border-radius:6px; border:1px solid #ccc; padding:0.5rem; margin-top:0.5rem; background:#fff; color:#222; box-sizing:border-box;"></textarea>
+      <p></p>
+      <button class="grade-button" style="margin-top: 10px;">Grade</button>
+      <div class="feedback-box"></div>
+  </div>
 </div>
 
 <script>
