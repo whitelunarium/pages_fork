@@ -19,6 +19,13 @@ Lesson File (.md) → Frontmatter Configuration → lessonbase.html → Rendered
 
 The base layout checks for specific frontmatter variables and conditionally includes features based on those settings.
 
+## File Structure
+
+The lesson system uses these key files:
+- **`_layouts/lessonbase.html`** - Main layout template
+- **`assets/js/lessonbase.js`** - JavaScript functionality  
+- **`_sass/minima/lessonbase.scss`** - Sass styling (compiled to CSS)
+
 ## Adding Your Own Interactive Blocks
 
 ### Step 1: Create Your Feature Block
@@ -43,7 +50,7 @@ Create your feature as a conditional block in `lessonbase.html`:
 
 ### Step 2: Add JavaScript Support
 
-In `lessonbase.js`, add your feature using the IIFE pattern like existing features:
+In `assets/js/lessonbase.js`, add your feature using the IIFE pattern like existing features:
 
 ```javascript
 // -------------------- YOUR FEATURE --------------------
@@ -67,21 +74,33 @@ In `lessonbase.js`, add your feature using the IIFE pattern like existing featur
 })();
 ```
 
-### Step 3: Add CSS Styling
+### Step 3: Add SCSS Styling
 
-In `lessonbase.css`, style your feature:
+In `_sass/minima/lessonbase.scss`, style your feature using Sass:
 
-```css
+```scss
+// Your Feature Styles
 .your-feature-container {
-    margin: 1rem 0;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: $panel; // Use existing theme variables
 }
 
 #your-feature-content {
-    background: #f9f9f9;
-    padding: 0.5rem;
+  background: $bg-2;
+  padding: 0.5rem;
+  color: $text;
+}
+
+.your-feature-button {
+  @include btn-base; // Use existing button mixin
+  background: $accent-700;
+  
+  &:hover {
+    background: $accent-700-hover;
+  }
 }
 ```
 
@@ -124,7 +143,7 @@ your_feature_data: "Your data here"
 ```
 {% endraw %}
 
-### 2. JavaScript (in lessonbase.js)
+### 2. JavaScript (in assets/js/lessonbase.js)
 ```javascript
 // -------------------- CALCULATOR WIDGET --------------------
 (function () {
@@ -158,27 +177,50 @@ your_feature_data: "Your data here"
 })();
 ```
 
-### 3. CSS (in lessonbase.css)
-```css
+### 3. SCSS (in _sass/minima/lessonbase.scss)
+```scss
+// Calculator Widget
 .calculator-widget {
-    background: #f0f8ff;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 8px;
-    border: 2px solid #4a90e2;
-}
+  background: lighten($bg-1, 5%);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border: 2px solid $accent;
+  color: $text;
 
-.calculator-widget input, .calculator-widget select, .calculator-widget button {
+  input, select, button {
     margin: 0.25rem;
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid darken($surface, 10%);
     border-radius: 4px;
+    background: $bg-2;
+    color: $text;
+
+    &:focus {
+      outline: none;
+      border-color: $accent;
+    }
+  }
+
+  button {
+    @include btn-base;
+    background: $accent-700;
+
+    &:hover {
+      background: $accent-700-hover;
+      transition: background 0.2s ease;
+    }
+  }
 }
 
 #calc-result {
-    margin-top: 1rem;
-    font-weight: bold;
-    color: #2c5aa0;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: $green;
+  padding: 0.5rem;
+  background: $bg-3;
+  border-radius: 4px;
+  text-align: center;
 }
 ```
 
@@ -198,6 +240,46 @@ calculator_title: "Practice Calculator"
 Use the calculator below to practice:
 ```
 
+## Available SCSS Variables and Mixins
+
+The `lessonbase.scss` file provides many pre-defined variables and mixins you can use:
+
+### Theme Variables
+```scss
+// Colors
+$bg-0: #000;
+$bg-1: #1F2020;
+$bg-2: #1F1F1F;
+$bg-3: #2A2D2D;
+$panel: #2B2B2B;
+$surface: #333;
+$text: #F0F0F0;
+$text-muted: #aaa;
+$accent: #4CAFEF;
+$accent-700: #007ACC;
+$accent-700-hover: #005FA3;
+$green: #4ADE80;
+$warn: #FBBF24;
+
+// Breakpoints
+$bp-md: 768px;
+```
+
+### Useful Mixins
+```scss
+// Sticky positioning
+@include sticky(1rem);
+
+// Scrollable area
+@include scroll-y;
+
+// Button base styles
+@include btn-base;
+
+// Info boxes with colored left border
+@include info-box($color);
+```
+
 ## Existing Feature Patterns
 
 ### Simple Toggle Features
@@ -205,6 +287,8 @@ Use the calculator below to practice:
 enable_timer: true          # Shows/hides timer
 enable_progress: true       # Shows/hides progress bar
 enable_badges: true         # Shows/hides badge system
+enable_blackboard: true     # Shows/hides drawing canvas
+enable_flashcards: true     # Shows/hides flashcard system
 ```
 
 ### Features with Configuration
@@ -214,6 +298,11 @@ enable_sandbox: true
 sandbox_code: |             # Multi-line YAML content
   console.log("Default code");
   // Students can edit this
+
+enable_demo: true
+demo_display_code: 'console.log("Hello World!");'
+demo_width: 400
+demo_height: 300
 ```
 {% endraw %}
 
@@ -226,6 +315,10 @@ lesson_links:               # Array of objects
 resources:                  # Another array example
   - { text: "MDN Docs", url: "https://developer.mozilla.org" }
   - { text: "Tutorial", url: "https://example.com" }
+
+flashcards:                 # Flashcard data
+  - { front: "Question 1", back: "Answer 1" }
+  - { front: "Question 2", back: "Answer 2" }
 ```
 
 ## Built-in Functions Available
@@ -301,14 +394,53 @@ const lessonKey = window.location.pathname.split("/").pop() || "lesson";
 localStorage.setItem(`feature-${lessonKey}`, data);
 ```
 
+### 6. Leverage SCSS Features
+Take advantage of Sass features in your styling:
+```scss
+// Use variables for consistency
+.my-feature {
+  background: $panel;
+  color: $text;
+  
+  // Nest selectors
+  .my-feature-item {
+    padding: 0.5rem;
+    
+    &:hover {
+      background: lighten($panel, 5%);
+    }
+  }
+  
+  // Use mixins
+  @include btn-base;
+  
+  // Responsive design
+  @media (max-width: $bp-md) {
+    padding: 0.5rem;
+  }
+}
+```
+
 ## Quick Reference
 
-| Pattern | Usage |
-|---------|--------|
-| Simple toggle | `enable_feature: true` |
-| Custom text | `feature_title: "My Title"` |
-| Multi-line content | `feature_content: \|` (followed by indented content) |
-| Arrays | Use `- { key: value }` format |
-| Default values | Use `default` filter in HTML |
+| Pattern | Usage | File Location |
+|---------|-------|---------------|
+| Simple toggle | `enable_feature: true` | Frontmatter |
+| Custom text | `feature_title: "My Title"` | Frontmatter |
+| Multi-line content | `feature_content: \|` (followed by indented content) | Frontmatter |
+| Arrays | Use `- { key: value }` format | Frontmatter |
+| Default values | Use `default` filter in HTML | lessonbase.html |
+| Styling | Use SCSS variables and mixins | _sass/minima/lessonbase.scss |
+| JavaScript | Use IIFE pattern | assets/js/lessonbase.js |
 
-This system allows anyone to easily add new interactive features to lessons by following these patterns.
+## Development Workflow
+
+1. **Plan Your Feature** - Decide what interactive element you want to add
+2. **Update HTML** - Add conditional block in `_layouts/lessonbase.html`
+3. **Add JavaScript** - Implement functionality in `assets/js/lessonbase.js`
+4. **Style with SCSS** - Add styles in `_sass/minima/lessonbase.scss`
+5. **Configure Frontmatter** - Define variables for your feature
+6. **Test in Lesson** - Create a test lesson file to verify everything works
+7. **Document Usage** - Add examples to help others use your feature
+
+This system allows anyone to easily add new interactive features to lessons by following these patterns and leveraging the existing SCSS architecture.

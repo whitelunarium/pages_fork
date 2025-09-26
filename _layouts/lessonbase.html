@@ -2,6 +2,15 @@
 layout: opencs
 ---
 
+{% if page.wide %}
+<style>
+  .wrapper {
+    max-width: 100% !important;
+    padding: 0 1rem;
+  }
+</style>
+{% endif %}
+
 <div class="lesson-container">
   <!-- Sidebar -->
   {% if page.sidebar != false %}
@@ -49,6 +58,25 @@ layout: opencs
     <div class="post-content">
       {{ content }}
     </div>
+
+    <!-- Progress Configuration (hidden data for JavaScript) -->
+    {% if page.enable_progress %}
+    <script id="progress-config" type="application/json">
+    {
+      "totalLessons": {{ page.progress_total | default: 6 | jsonify }}
+    }
+    </script>
+    {% endif %}
+
+    <!-- Badge Configuration (hidden data for JavaScript) -->
+    {% if page.enable_badges %}
+    <script id="badge-config" type="application/json">
+    {
+      "lessonBadges": {{ page.lesson_badges | default: '[]' | jsonify }},
+      "lessonKey": {{ page.lesson_key | default: '' | jsonify }}
+    }
+    </script>
+    {% endif %}
 
     <!-- Flashcards Section -->
     {% if page.enable_flashcards %}
@@ -100,8 +128,8 @@ layout: opencs
         <button class="btn" id="prev-btn" onclick="navigateCards('prev')" disabled>⬅ Previous</button>
         
         <div class="flashcard-actions">
-          <button class="btn know-btn" onclick="markCard('know')">✓ I Know This</button>
-          <button class="btn review-btn" onclick="markCard('review')">↻ Review Again</button>
+          <button class="btn know-btn" onclick="markCard('know')">✓</button>
+          <button class="btn review-btn" onclick="markCard('review')">↻</button>
         </div>
         
         <button class="btn" id="next-btn" onclick="navigateCards('next')">Next ➡</button>
@@ -169,6 +197,22 @@ layout: opencs
       <button id="save-reflection">Save</button>
       <p id="reflection-status"></p>
     </div>
+    {% endif %}
+    
+    {% if page.enable_ai_grading %}
+      <!-- Keep your hard-coded API key meta exactly as you want -->
+      <meta name="gemini-api-key" content="AIzaSyDM-_Gj6GQTXHcym9cP_syUeopcF25x47o">
+
+      <!-- Minimal config for the script -->
+      <script id="lesson-config" type="application/json">
+      {
+        "title": {{ page.title | jsonify }},
+        "model": {{ page.gemini_model | default: "gemini-1.5-flash" | jsonify }}
+      }
+      </script>
+
+      <!-- AI grader (client-only) -->
+      <script type="module" src="{{ '/assets/js/solitaire/ai-grader.js' | relative_url }}"></script>
     {% endif %}
 
     {% if page.resources %}
