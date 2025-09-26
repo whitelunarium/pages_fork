@@ -16,11 +16,43 @@ enable_progress: true
 - **Object**: thing with **properties** (data) + **methods** (actions).
 - **Class**: a **blueprint/outline** that defines what objects look like.
 
+```mermaid
+flowchart LR
+  OOP((OOP))
+  O[Object]:::b -->|has| P[Properties (data)]:::g
+  O -->|does| M[Methods (actions)]:::g
+  C[Class (blueprint)]:::b -->|creates| O
+  classDef b fill:#f0f0f0,stroke:#333,stroke-width:1px
+  classDef g fill:#e8f6ff,stroke:#247,stroke-width:1px
+```
+
 ### Why OOP in Cookie Clicker?
 - Cookie, upgrades, shop, and player are all **objects**.
   - All of these objects can store data and perform actions.
     - For example, the Cookie object stores data of how many cookies there are, and also allows the user to add cookies when they perform different actions.
 - OOP makes code **organized**, **extendable**, and **easier to maintain**.
+
+```mermaid
+graph TD
+  Cookie((Cookie)):::c
+  Shop((Shop)):::c
+  Player((Player)):::c
+  Upgrades((Upgrades)):::c
+
+  subgraph Benefits
+    Org[Organized]
+    Ext[Extendable]
+    Maint[Maintainable]
+  end
+
+  Cookie --> Org
+  Shop --> Ext
+  Player --> Maint
+  Upgrades --> Ext
+
+  classDef c fill:#fff7e6,stroke:#8a5,stroke-width:1px
+```
+
 
 #### Give one more example of an object in the code:
 <input type="text" placeholder="Type here..."/>
@@ -30,7 +62,6 @@ enable_progress: true
 - gameLoop
 <br>
 - Each item in the shop is its own object
-
 
 </details>
 
@@ -47,6 +78,29 @@ enable_progress: true
 2. Add `canBuy()` and `buy()` with an **if statement** to check cost.
 3. Create at least **two instances** (e.g., “Metal Spoon”, “Golden Cursor”).
 4. (Tie-in with Part 1) Save & load these objects with localStorage.
+
+```mermaid
+mindmap
+  root((OOP in Cookie Clicker))
+    Class
+      Upgrade
+      EmojiBuddy
+    Object_Instance
+      "Golden Cursor"
+      "Metal Spoon"
+    Properties
+      name
+      cost
+      multiplier
+      owned
+    Methods
+      canBuy()
+      buy()
+      animate()
+    Encapsulation
+      "data + logic inside each object"
+```
+
 
 ---
 
