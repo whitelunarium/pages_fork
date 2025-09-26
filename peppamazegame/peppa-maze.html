@@ -23,49 +23,59 @@ permalink: /peppa-maze/
     background: rgba(240, 240, 240, 0.95);
   }
 
-  /* Fact box and links box styling */
-  #factBox,
-  #linksBox {
+  /* Question box styling */
+  #questionBox {
     margin: 10px auto;
-    padding: 15px;
+    padding: 20px;
     width: 80%;
-    background: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
     text-align: left;
-  }
-
-  /* Initially hide the links box */
-  #linksBox {
     display: none;
   }
 
-  /* Styling for strong text and code blocks */
-  #factBox strong {
+  #questionBox h3 {
     color: #2a5d9f;
+    margin-top: 0;
   }
 
-  #factBox code {
-    background: #eee;
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-family: monospace;
-  }
-
-  #factBox pre {
-    background: #272822;
-    color: #f8f8f2;
-    padding: 10px;
-    border-radius: 6px;
-    overflow-x: auto;
-    font-size: 14px;
+  .answer-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
     margin: 8px 0;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
   }
 
-  #factBox pre code {
-    background: none;
-    padding: 0;
-    color: inherit;
+  .answer-btn:hover {
+    background: #45a049;
+  }
+
+  #feedback {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+  }
+
+  .correct {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .incorrect {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }
 
   /* Dice controls styling */
@@ -96,7 +106,7 @@ permalink: /peppa-maze/
     transition: transform 0.2s;
   }
 
-  .diceButton:hover {
+  .diceButton:hover:not(:disabled) {
     transform: scale(1.05);
   }
 
@@ -129,25 +139,50 @@ permalink: /peppa-maze/
   .player2Label {
     color: #4169e1;
   }
+
+  .current-turn {
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  }
+
+  #turnIndicator {
+    margin: 15px auto;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 300px;
+  }
 </style>
+
+<!-- Turn indicator -->
+<div id="turnIndicator">Peppa's Turn!</div>
 
 <!-- Container for the maze and controls -->
 <div id="gameContainer"></div>
 
 <!-- Dice controls for both players -->
 <div id="diceControls">
-  <div class="playerDice">
+  <div class="playerDice" id="player1Dice">
     <div class="playerLabel player1Label">🐷 Peppa (WASD)</div>
     <button id="rollDice1" class="diceButton">Roll Dice</button>
     <div id="dice1" class="diceDisplay">🎲</div>
     <div id="moves1" class="movesLeft">Moves left: 0</div>
   </div>
-  <div class="playerDice">
+  <div class="playerDice" id="player2Dice">
     <div class="playerLabel player2Label">🐖 George (Arrow Keys)</div>
-    <button id="rollDice2" class="diceButton">Roll Dice</button>
+    <button id="rollDice2" class="diceButton" disabled>Roll Dice</button>
     <div id="dice2" class="diceDisplay">🎲</div>
     <div id="moves2" class="movesLeft">Moves left: 0</div>
   </div>
+</div>
+
+<!-- Question box -->
+<div id="questionBox">
+  <h3 id="questionText"></h3>
+  <div id="answersContainer"></div>
+  <div id="feedback"></div>
 </div>
 
 <script>
@@ -155,26 +190,17 @@ permalink: /peppa-maze/
   function createPeppaMaze(containerId) {
     const container = document.getElementById(containerId);
 
-    // Insert canvas, fact box, and links box into the container
-    container.innerHTML = `
-      <canvas id="mazeCanvas"></canvas>
-      <div id="factBox">🐷 Peppa uses WASD | 🐖 George uses Arrow Keys<br>Roll the dice to get moves!</div>
-      <div id="linksBox">
-        <h3>🎓 Explore Computer Science:</h3>
-        <ul>
-          <li><a href="lxd/setup/mac" target="_blank">LxD Setup on Mac</a></li>
-          <li><a href="lxd/setup/make" target="_blank">LxD Setup for Make</a></li>
-          <li><a href="lxd/setup/windows" target="_blank">LxD Setup on Windows</a></li>
-          <li><a href="lxd/setup/venv" target="_blank">LxD Setup for venv</a></li>
-        </ul>
-      </div>
-    `;
+    // Insert canvas
+    container.innerHTML = `<canvas id="mazeCanvas"></canvas>`;
 
     // Grab canvas context and DOM elements
     const canvas = container.querySelector("#mazeCanvas");
     const ctx = canvas.getContext("2d");
-    const factBox = container.querySelector("#factBox");
-    const linksBox = container.querySelector("#linksBox");
+    const questionBox = document.getElementById("questionBox");
+    const questionText = document.getElementById("questionText");
+    const answersContainer = document.getElementById("answersContainer");
+    const feedback = document.getElementById("feedback");
+    const turnIndicator = document.getElementById("turnIndicator");
 
     // Dice controls
     const rollDice1Btn = document.getElementById("rollDice1");
@@ -183,6 +209,8 @@ permalink: /peppa-maze/
     const dice2Display = document.getElementById("dice2");
     const moves1Display = document.getElementById("moves1");
     const moves2Display = document.getElementById("moves2");
+    const player1DiceDiv = document.getElementById("player1Dice");
+    const player2DiceDiv = document.getElementById("player2Dice");
 
     // Canvas dimensions
     canvas.width = 600;
@@ -212,53 +240,68 @@ permalink: /peppa-maze/
       "7": { x: 0, y: 8 }, "8": { x: 5, y: 8 }, "9": { x: 9, y: 9 }
     };
 
-    // Fun facts and instructions displayed when players reach numbers
-    const facts = {
-      "1": `💻 <strong>Build System Troubleshooting:</strong><br>
-<pre><code>make clean
-make
-</code></pre>
-Pro tip: Use parallel jobs:<br>
-<pre><code>make -j$(nproc)</code></pre>`,
-
-      "2": `🐍 <strong>Python Virtual Environments:</strong><br>
-<pre><code># Windows
-venv\\Scripts\\activate
-
-# Mac/Linux
-source venv/bin/activate
-</code></pre>`,
-
-      "3": `🌐 <strong>Ubuntu Linux Installation:</strong><br>
-<pre><code># WSL Windows
-wsl --install -d Ubuntu
-# Dual boot USB
-# Virtual machine via VirtualBox/VMware
-</code></pre>`,
-
-      "4": `🔧 <strong>VS Code Setup:</strong><br>
-<pre><code>Ctrl+Shift+P # Command Palette
-</code></pre>`,
-
-      "5": `🤖 <strong>Git Clone:</strong><br>
-<pre><code>git clone https://github.com/user/repo.git
-git clone --depth 1 https://github.com/user/repo.git
-</code></pre>`,
-
-      "6": `💾 <strong>Jekyll Permalinks:</strong><br>
-<pre><code>permalink: /my-custom-url/</code></pre>`,
-
-      "7": `📤 <strong>Git Workflow:</strong><br>
-<pre><code>git add .
-git commit -m "Message"
-git push origin main
-</code></pre>`,
-
-      "8": `🎨 <strong>VS Code Themes:</strong><br>
-<pre><code>Ctrl+K Ctrl+T</code></pre>`,
-
-      "9": `🎉 <strong>Congratulations!</strong> You've completed the maze!`
+    // Questions about variables and programming concepts
+    const questions = {
+      "1": {
+        question: "In Python, which of the following is a valid variable name?",
+        answers: ["2nd_variable", "_myVar", "my-variable", "class"],
+        correct: 1,
+        explanation: "Variable names can start with underscore or letter, not numbers. They can't contain hyphens or be reserved keywords like 'class'."
+      },
+      "2": {
+        question: "True or False: Variables in Python must be declared with a specific data type.",
+        answers: ["True", "False"],
+        correct: 1,
+        explanation: "Python is dynamically typed - you don't need to declare variable types. The type is inferred from the assigned value."
+      },
+      "3": {
+        question: "What will be the value of x after: x = 5; x += 3",
+        answers: ["5", "8", "3", "53"],
+        correct: 1,
+        explanation: "The += operator adds the right value to the variable. So x = 5 + 3 = 8."
+      },
+      "4": {
+        question: "Which data type would you use to store True or False?",
+        answers: ["int", "string", "boolean", "float"],
+        correct: 2,
+        explanation: "Boolean data types store True or False values, used for logical operations and conditions."
+      },
+      "5": {
+        question: "True or False: Variables can change their value during program execution.",
+        answers: ["True", "False"],
+        correct: 0,
+        explanation: "Variables are called 'variable' because their values can change (vary) during program execution."
+      },
+      "6": {
+        question: "What symbol is used for assignment in most programming languages?",
+        answers: ["==", "=", ":=", "->"],
+        correct: 1,
+        explanation: "The single equals sign (=) is used for assignment. Double equals (==) is used for comparison."
+      },
+      "7": {
+        question: "Which is the correct way to create a string variable in Python?",
+        answers: ["name = 'John'", "string name = 'John'", "var name = 'John'", "name := 'John'"],
+        correct: 0,
+        explanation: "In Python, you simply write variableName = value. No type declaration or special syntax needed!"
+      },
+      "8": {
+        question: "True or False: Variable names in Python are case-sensitive.",
+        answers: ["True", "False"],
+        correct: 0,
+        explanation: "Python is case-sensitive, so 'myVar', 'MyVar', and 'MYVAR' are three different variables."
+      },
+      "9": {
+        question: "What is the result of: x = '3'; y = '2'; z = x + y",
+        answers: ["5", "32", "6", "Error"],
+        correct: 1,
+        explanation: "When you add strings, they concatenate (join together). So '3' + '2' = '32', not 5."
+      }
     };
+
+    // Game state
+    let currentPlayer = 1;
+    let waitingForAnswer = false;
+    let questionedPlayer = null;
 
     // Player objects
     const player1 = {
@@ -280,7 +323,7 @@ git push origin main
     };
 
     // Load player images
-    player1.img.src = "{{ site.baseurl }}/images/peppapig.png";
+    player1.img.src = "{{ site.baseurl }}/images/Peppa_Pig.webp";
     player2.img.src = "{{ site.baseurl }}/peppamazegame/george.png";
 
     // Animation state
@@ -308,18 +351,16 @@ git push origin main
       }
     }
 
-    // Function to draw a player (with image or fallback circle)
+    // Function to draw a player
     function drawPlayer(player) {
       if (player.img.complete && player.img.naturalHeight !== 0) {
         ctx.drawImage(player.img, player.x * cellSize, player.y * cellSize, cellSize, cellSize);
       } else {
-        // Fallback to circle
         ctx.fillStyle = player.color;
         ctx.beginPath();
         ctx.arc(player.x * cellSize + cellSize / 2, player.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
         ctx.fill();
 
-        // Draw eyes
         ctx.fillStyle = "#000";
         ctx.beginPath();
         ctx.arc(player.x * cellSize + cellSize / 2 - 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
@@ -339,6 +380,31 @@ git push origin main
       requestAnimationFrame(update);
     }
 
+    // Switch turns
+    function switchTurn() {
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      updateTurnDisplay();
+    }
+
+    // Update turn display
+    function updateTurnDisplay() {
+      if (currentPlayer === 1) {
+        turnIndicator.textContent = "🐷 Peppa's Turn!";
+        turnIndicator.style.color = "#ff69b4";
+        player1DiceDiv.classList.add("current-turn");
+        player2DiceDiv.classList.remove("current-turn");
+        rollDice1Btn.disabled = false;
+        rollDice2Btn.disabled = true;
+      } else {
+        turnIndicator.textContent = "🐖 George's Turn!";
+        turnIndicator.style.color = "#4169e1";
+        player2DiceDiv.classList.add("current-turn");
+        player1DiceDiv.classList.remove("current-turn");
+        rollDice1Btn.disabled = true;
+        rollDice2Btn.disabled = false;
+      }
+    }
+
     // Roll dice function
     function rollDice(player, diceDisplay, movesDisplay, rollButton) {
       const roll = Math.floor(Math.random() * 6) + 1;
@@ -349,11 +415,8 @@ git push origin main
     }
 
     // Update moves display
-    function updateMovesDisplay(player, movesDisplay, rollButton) {
+    function updateMovesDisplay(player, movesDisplay) {
       movesDisplay.textContent = `Moves left: ${player.moves}`;
-      if (player.moves === 0) {
-        rollButton.disabled = false;
-      }
     }
 
     // Check if move is valid
@@ -362,8 +425,9 @@ git push origin main
     }
 
     // Move player with animation
-    function movePlayer(player, dx, dy, movesDisplay, rollButton) {
-      if (animating || player.moves <= 0) return;
+    function movePlayer(player, dx, dy, movesDisplay) {
+      if (animating || player.moves <= 0 || waitingForAnswer) return;
+      if ((currentPlayer === 1 && player !== player1) || (currentPlayer === 2 && player !== player2)) return;
 
       const newX = player.x + dx;
       const newY = player.y + dy;
@@ -381,9 +445,14 @@ git push origin main
           player.x = newX;
           player.y = newY;
           player.moves--;
-          updateMovesDisplay(player, movesDisplay, rollButton);
+          updateMovesDisplay(player, movesDisplay);
           animating = false;
-          checkForFact(player);
+          checkForQuestion(player);
+
+          // Switch turn if no moves left
+          if (player.moves === 0 && !waitingForAnswer) {
+            switchTurn();
+          }
           return;
         }
         player.x = startX + (newX - startX) * progress;
@@ -394,12 +463,80 @@ git push origin main
     }
 
     // Check if player reached a number position
-    function checkForFact(player) {
+    function checkForQuestion(player) {
       for (const num in numbers) {
         const pos = numbers[num];
         if (Math.round(player.x) === pos.x && Math.round(player.y) === pos.y) {
-          factBox.innerHTML = `<strong>${player.name} found:</strong><br>` + facts[num];
-          if (num === "9") linksBox.style.display = "block";
+          showQuestion(num, player);
+          break;
+        }
+      }
+    }
+
+    // Show question
+    function showQuestion(num, player) {
+      waitingForAnswer = true;
+      questionedPlayer = player;
+      const q = questions[num];
+
+      questionText.textContent = `${player.name}, ${q.question}`;
+      answersContainer.innerHTML = '';
+      feedback.style.display = 'none';
+
+      q.answers.forEach((answer, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.textContent = answer;
+        btn.onclick = () => checkAnswer(index, q.correct, q.explanation, player);
+        answersContainer.appendChild(btn);
+      });
+
+      questionBox.style.display = 'block';
+    }
+
+    // Check answer
+    function checkAnswer(selected, correct, explanation, player) {
+      const buttons = answersContainer.querySelectorAll('.answer-btn');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (selected === correct) {
+        feedback.className = 'correct';
+        feedback.textContent = `✓ Correct! ${explanation}`;
+      } else {
+        feedback.className = 'incorrect';
+        feedback.textContent = `✗ Incorrect. ${explanation}`;
+
+        // Move player back one step
+        setTimeout(() => {
+          movePlayerBack(player);
+        }, 2000);
+      }
+
+      feedback.style.display = 'block';
+
+      setTimeout(() => {
+        questionBox.style.display = 'none';
+        waitingForAnswer = false;
+
+        // Switch turn after question
+        if (player.moves === 0) {
+          switchTurn();
+        }
+      }, 3000);
+    }
+
+    // Move player back one step
+    function movePlayerBack(player) {
+      const directions = [
+        { dx: 0, dy: -1 }, { dx: 0, dy: 1 }, { dx: -1, dy: 0 }, { dx: 1, dy: 0 }
+      ];
+
+      for (const dir of directions) {
+        const newX = player.x + dir.dx;
+        const newY = player.y + dir.dy;
+        if (isValidMove(newX, newY)) {
+          player.x = newX;
+          player.y = newY;
           break;
         }
       }
@@ -416,34 +553,35 @@ git push origin main
 
     // Keyboard controls
     document.addEventListener("keydown", function (e) {
-      // Player 1 - WASD
-      if (e.key === "w" || e.key === "W") {
-        movePlayer(player1, 0, -1, moves1Display, rollDice1Btn);
-      } else if (e.key === "a" || e.key === "A") {
-        movePlayer(player1, -1, 0, moves1Display, rollDice1Btn);
-      } else if (e.key === "s" || e.key === "S") {
-        movePlayer(player1, 0, 1, moves1Display, rollDice1Btn);
-      } else if (e.key === "d" || e.key === "D") {
-        movePlayer(player1, 1, 0, moves1Display, rollDice1Btn);
-      }
-
-      // Player 2 - Arrow Keys
-      else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        movePlayer(player2, 0, -1, moves2Display, rollDice2Btn);
-      } else if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        movePlayer(player2, -1, 0, moves2Display, rollDice2Btn);
-      } else if (e.key === "ArrowDown") {
-        e.preventDefault();
-        movePlayer(player2, 0, 1, moves2Display, rollDice2Btn);
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        movePlayer(player2, 1, 0, moves2Display, rollDice2Btn);
+      if (currentPlayer === 1) {
+        if (e.key === "w" || e.key === "W") {
+          movePlayer(player1, 0, -1, moves1Display);
+        } else if (e.key === "a" || e.key === "A") {
+          movePlayer(player1, -1, 0, moves1Display);
+        } else if (e.key === "s" || e.key === "S") {
+          movePlayer(player1, 0, 1, moves1Display);
+        } else if (e.key === "d" || e.key === "D") {
+          movePlayer(player1, 1, 0, moves1Display);
+        }
+      } else if (currentPlayer === 2) {
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          movePlayer(player2, 0, -1, moves2Display);
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          movePlayer(player2, -1, 0, moves2Display);
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          movePlayer(player2, 0, 1, moves2Display);
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          movePlayer(player2, 1, 0, moves2Display);
+        }
       }
     });
 
-    // Start animation loop
+    // Initialize
+    updateTurnDisplay();
     update();
   }
 
