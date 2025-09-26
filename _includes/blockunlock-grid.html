@@ -1,0 +1,89 @@
+<div id="grid-container"></div>
+
+<style>
+  #grid-container {
+    display: grid;
+    gap: 0; /* no gap between cells */
+    margin: 20px auto;
+    background-color: #222;
+    padding: 0;
+    width: 90vw;
+    max-width: calc(var(--cell-size) * var(--grid-cols));
+    border: 2px solid #555; /* outer border of the grid */
+  }
+
+  #grid-container div {
+    background-color: #333;
+    border: 1px solid #555; /* lines between cells */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0; /* remove rounded edges */
+    aspect-ratio: 1 / 1;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    max-width: 100%;
+    transition: background-color 0.2s, transform 0.2s;
+    background-size: cover;
+    background-position: center;
+  }
+
+  #grid-container div:hover {
+    background-color: #444;
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+</style>
+
+<script type="module">
+import { Grid } from "/assets/js/block-unlock/grid-system.js";
+
+const BASE_CELL_SIZE = 60;
+const container = document.getElementById("grid-container");
+const currentGrid = Grid.currentGridData;
+
+if (!currentGrid) {
+  console.error("⚠️ No grid is currently set!");
+} else {
+  container.style.setProperty("--grid-cols", currentGrid.Xsize);
+  container.style.setProperty("--grid-rows", currentGrid.Ysize);
+  container.style.setProperty("--cell-size", `${BASE_CELL_SIZE}px`);
+  container.style.gridTemplateColumns = `repeat(${currentGrid.Xsize}, minmax(0, 1fr))`;
+  container.style.gridTemplateRows = `repeat(${currentGrid.Ysize}, minmax(0, 1fr))`;
+
+  // Render the grid
+  container.innerHTML = "";
+  const cells = [];
+  for (let y = 0; y < currentGrid.Ysize; y++) {
+    for (let x = 0; x < currentGrid.Xsize; x++) {
+      const cell = document.createElement("div");
+      cell.dataset.x = x;
+      cell.dataset.y = y;
+
+      // set initial sprite
+      const key = `${x},${y}`;
+      const tile = currentGrid.tileMap[key];
+      if (tile) {
+        cell.style.backgroundImage = `url('${tile.sprite}')`;
+      }
+
+      container.appendChild(cell);
+      cells.push(cell);
+    }
+  }
+
+  // Update live when grid changes
+  currentGrid.subscribe((x, y, value) => {
+    const index = y * currentGrid.Xsize + x;
+    if (cells[index]) {
+      const key = `${x},${y}`;
+      const tile = currentGrid.tileMap[key];
+      if (tile) {
+        cells[index].style.backgroundImage = `url('${tile.sprite}')`;
+      } else {
+        cells[index].style.backgroundImage = '';
+      }
+    }
+  });
+}
+</script>
