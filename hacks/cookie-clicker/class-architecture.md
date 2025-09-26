@@ -95,6 +95,36 @@ mindmap
 ```
 
 ---
+#### Take a guess on how the code works, where do the purchased shopItems go to?
+Type the answer (including the object it is stored in (Hint: Its in gameLoop)):  
+<input id="checkInput" type="text" placeholder="Type here..."
+       style="padding:6px;border:1px solid #ccc;border-radius:6px;" />
+
+<script>
+const field = document.getElementById("checkInput");
+field.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const val = field.value.trim().toLowerCase();
+    if (val === "gameloop.upgrades" || val === "gameloop.autoclickers") {
+      field.style.borderColor = "green";
+      field.style.backgroundColor = "#496e46ff"; // light green
+    } else {
+      field.style.borderColor = "red";
+      field.style.backgroundColor = "#6b3c40ff"; // light red
+    }
+  }
+});
+</script>
+
+<details>
+<summary>Answer:</summary>
+<br>
+- If it’s an upgrade (like 2x clicks), it goes to **gameLoop.upgrades**  
+<br>
+- If it’s an autoclicker (like a grandma), it goes to **gameLoop.autoClickers**
+</details>
+
+
 
 ## Takeaway
 When learning JavaScript and object-oriented design, notice how each object in your game has a clear role. By keeping properties and methods grouped, your code becomes easier to read, expand, and debug.
