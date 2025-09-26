@@ -27,7 +27,7 @@ enable_progress: true
 
 ---
 
-#### What would be stored in the local storage
+#### What would be stored in the local storage for the cookie clicker game?
 
 <input id="checkInput" type="text" placeholder="Type here..."
        style="padding:6px;border:1px solid #ccc;border-radius:6px;" />
