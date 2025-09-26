@@ -5,6 +5,15 @@ description: Puzzle Game that teaches JS basics
 permalink: /blockunlock/game
 ---
 
+<div id="controls">
+    <button id="rotate-cw">Rotate CW</button>
+    <button id="rotate-ccw">Rotate CCW</button>
+    <button id="start-pushers">Start Pushers (O)</button>
+    <button id="stop-pushers">Stop Pushers (Esc)</button>
+</div>
+
+<div id="grid-container"></div>
+
 <script type="module" src="/assets/js/block-unlock/tile.js"></script>
 <script type="module" src="/assets/js/block-unlock/grid-system.js"></script>
 
@@ -12,23 +21,31 @@ permalink: /blockunlock/game
 import { Grid } from "/assets/js/block-unlock/grid-system.js";
 import { Tile } from "/assets/js/block-unlock/tile.js";
 
-// Create grid
-const g = new Grid(5,5,0);
-g.SetToGrid();
-
-// Add animation system to grid
-g.animateMovement = animateTileMovement;
-
-// Add some tiles
-g.addTile(new Tile([1,1],1));
-g.addTile(new Tile([2,1],2)); // pusher
-g.addTile(new Tile([3,1],9)); // immovable
-g.addTile(new Tile([1,2],3));
-
-// Render grid in HTML
 const container = document.getElementById("grid-container");
 const BASE_CELL_SIZE = 60;
 
+// Create grid
+const g = new Grid(15, 15, 0);
+g.startGame = true; // allow pushers to move
+g.SetToGrid();
+
+// Add tiles
+g.addTile(new Tile([1,1],1));
+g.addTile(new Tile([2,1],2,'east'));
+g.addTile(new Tile([3,1],9));
+g.addTile(new Tile([1,2],3));
+
+// Helper: direction -> degrees
+function directionToAngle(dir){
+    switch(dir){
+        case 'east': return 90;
+        case 'south': return 180;
+        case 'west': return 270;
+        default: return 0;
+    }
+}
+
+// Render grid
 container.style.setProperty("--grid-cols", g.Xsize);
 container.style.setProperty("--grid-rows", g.Ysize);
 container.style.setProperty("--cell-size", `${BASE_CELL_SIZE}px`);
@@ -36,236 +53,142 @@ container.style.gridTemplateColumns = `repeat(${g.Xsize}, 1fr)`;
 container.style.gridTemplateRows = `repeat(${g.Ysize}, 1fr)`;
 
 const cells = [];
-for(let y=0;y<g.Ysize;y++){
-    for(let x=0;x<g.Xsize;x++){
+for(let y=0; y<g.Ysize; y++){
+    for(let x=0; x<g.Xsize; x++){
         const cell = document.createElement("div");
         cell.dataset.x = x;
         cell.dataset.y = y;
-        
-        // Set initial sprite if tile exists
+        cell.classList.add("grid-cell");
+
+        const bg = document.createElement("div");
+        bg.classList.add("cell-bg");
+        cell.appendChild(bg);
+
+        const spriteDiv = document.createElement("div");
+        spriteDiv.classList.add("cell-tile");
+
         const key = `${x},${y}`;
         const tile = g.tileMap[key];
-        if (tile && tile.sprite) {
-            cell.style.backgroundImage = `url('${tile.sprite}')`;
-            cell.style.backgroundSize = "cover";
-            cell.style.backgroundPosition = "center";
-            cell.style.backgroundRepeat = "no-repeat";
+
+        if(tile && tile.sprite){
+            spriteDiv.style.backgroundImage = `url('${tile.sprite}')`;
+            spriteDiv.style.setProperty('--rotation', `${directionToAngle(tile.direction)}deg`);
+        } else {
+            spriteDiv.style.backgroundImage = `url('data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=')`;
+            spriteDiv.style.setProperty('--rotation', `0deg`);
         }
-        
+
+        cell.appendChild(spriteDiv);
         container.appendChild(cell);
-        cells.push(cell);
+        cells.push({cell, spriteDiv, bg});
     }
 }
 
-// Helper function to animate tile movement
-function animateTileMovement(fromX, fromY, toX, toY, tile, callback) {
-    const fromIndex = fromY * g.Xsize + fromX;
-    const toIndex = toY * g.Xsize + toX;
-    const fromCell = cells[fromIndex];
-    const toCell = cells[toIndex];
-    
-    if (!fromCell || !toCell) {
-        if (callback) callback();
-        return;
-    }
-    
-    // Calculate movement distance in pixels
-    const cellSize = BASE_CELL_SIZE + 2; // including gap
-    const deltaX = (toX - fromX) * cellSize;
-    const deltaY = (toY - fromY) * cellSize;
-    
-    // Set up the moving cell
-    fromCell.classList.add('tile-sliding');
-    fromCell.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-    fromCell.style.zIndex = '100';
-    
-    // Clear the destination cell temporarily
-    toCell.style.backgroundImage = '';
-    toCell.style.backgroundColor = '#333';
-    
-    // After animation completes, finalize the move
-    setTimeout(() => {
-        // Reset source cell
-        fromCell.classList.remove('tile-sliding');
-        fromCell.style.transform = 'translate(0, 0)';
-        fromCell.style.zIndex = '';
-        fromCell.style.backgroundImage = '';
-        fromCell.style.backgroundColor = '#333';
-        
-        // Update destination cell
-        if (tile && tile.sprite) {
-            toCell.style.backgroundImage = `url('${tile.sprite}')`;
-            toCell.style.backgroundSize = "cover";
-            toCell.style.backgroundPosition = "center";
-            toCell.style.backgroundRepeat = "no-repeat";
-            toCell.style.backgroundColor = "";
-        }
-        
-        if (callback) callback();
-    }, 150);
-}
-
-// Update function - Now with smooth sliding animations
+// Update function
 g.subscribe((x,y,value)=>{
-    // This will be handled by the animation system now
-    // We'll update the display after animations complete
-    const index = y*g.Xsize+x;
-    const cell = cells[index];
+    const index = y*g.Xsize + x;
+    const {spriteDiv} = cells[index];
     const key = `${x},${y}`;
     const tile = g.tileMap[key];
-    
-    // Only update immediately if no animation is in progress
-    if (!cell.classList.contains('tile-sliding')) {
-        if (tile && tile.sprite) {
-            cell.style.backgroundImage = `url('${tile.sprite}')`;
-            cell.style.backgroundSize = "cover";
-            cell.style.backgroundPosition = "center";
-            cell.style.backgroundRepeat = "no-repeat";
-            cell.style.backgroundColor = "";
-        } else {
-            cell.style.backgroundImage = "";
-            cell.style.backgroundColor = "#333";
-        }
+
+    if(tile && tile.sprite){
+        spriteDiv.style.backgroundImage = `url('${tile.sprite}')`;
+        spriteDiv.style.setProperty('--rotation', `${directionToAngle(tile.direction)}deg`);
+    } else {
+        spriteDiv.style.backgroundImage = `url('data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=')`;
+        spriteDiv.style.setProperty('--rotation', `0deg`);
     }
-    
-    // Update selection visual
-    requestAnimationFrame(() => updateSelectionVisual());
+    updateSelectionVisual();
 });
 
-// Helper function to update selection visual
-function updateSelectionVisual() {
-    document.querySelectorAll('#grid-container div').forEach(c => {
-        c.classList.remove('selected', 'pusher-selected');
-    });
-    
-    if (g.selectedTile) {
-        const [sx, sy] = g.selectedTile.CordLocation;
-        const selectedIndex = sy * g.Xsize + sx;
-        if (cells[selectedIndex]) {
-            if (g.selectedTile.isPusher()) {
-                cells[selectedIndex].classList.add('pusher-selected');
-            } else {
-                cells[selectedIndex].classList.add('selected');
-            }
+// Selection visual
+function updateSelectionVisual(){
+    cells.forEach(c=>c.bg.classList.remove('selected'));
+    if(g.selectedTile){
+        const [sx,sy] = g.selectedTile.CordLocation;
+        const index = sy*g.Xsize + sx;
+        if(cells[index]){
+            cells[index].bg.classList.add('selected');
         }
     }
 }
 
 // Click to select
 container.addEventListener("click", e=>{
-    const cell = e.target;
+    const cell = e.target.closest('.grid-cell');
+    if(!cell) return;
     const x = parseInt(cell.dataset.x);
     const y = parseInt(cell.dataset.y);
-    
-    if (!isNaN(x) && !isNaN(y)) {
-        g.selectTile([x,y]);
-        updateSelectionVisual();
-    }
+    g.selectTile([x,y]);
+    updateSelectionVisual();
 });
 
-// Enhanced key handling
+// Key handling
 window.addEventListener("keydown", e=>{
-    if (!g.selectedTile) return;
-    
-    // Regular arrow key movement (non-pusher blocks or when pusher is not in direction mode)
-    const arrowKeyMap = {ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
-    
-    // WASD keys for pusher direction setting
-    const wasdKeyMap = {
-        'w': 'up', 'W': 'up',
-        'a': 'left', 'A': 'left',
-        's': 'down', 'S': 'down',
-        'd': 'right', 'D': 'right'
-    };
-    
-    if (g.selectedTile.isPusher()) {
-        // Pusher block is selected
-        if (wasdKeyMap[e.key]) {
-            e.preventDefault();
-            g.selectedTile.setPusherDirection(wasdKeyMap[e.key]);
-            
-        } else if (e.key === ' ') {
-            e.preventDefault();
-            g.selectedTile.startPushing(g);
-            
-        } else if (arrowKeyMap[e.key] && !g.selectedTile.pusherDirection) {
-            // Allow regular movement if no pusher direction is set
-            e.preventDefault();
-            g.moveSelected(arrowKeyMap[e.key]);
-            updateSelectionVisual();
-        }
-    } else {
-        // Regular movement for non-pusher blocks
-        if (arrowKeyMap[e.key]) {
-            e.preventDefault();
-            g.moveSelected(arrowKeyMap[e.key]);
-            updateSelectionVisual();
-        }
-    }
+    if(e.key==='o'||e.key==='O'){ g.startPushers(); e.preventDefault(); return; }
+    if(e.key==='Escape'){ g.stopAllPushers(); e.preventDefault(); return; }
+
+    if(!g.selectedTile) return;
+    const map={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
+    if(map[e.key]){ g.moveSelected(map[e.key]); e.preventDefault(); updateSelectionVisual(); return; }
+
+    if(e.key==='r'||e.key==='R'){ g.rotateSelected(true); e.preventDefault(); updateSelectionVisual(); return; }
+    if(e.key==='q'||e.key==='Q'){ g.rotateSelected(false); e.preventDefault(); updateSelectionVisual(); return; }
 });
 
-// Optional: Add escape key to stop pusher and clear direction
-window.addEventListener("keydown", e=>{
-    if (e.key === 'Escape' && g.selectedTile && g.selectedTile.isPusher()) {
-        g.selectedTile.stopPushing();
-        console.log("Pusher stopped and direction cleared.");
-    }
-});
+// Button handlers
+document.getElementById("rotate-cw").addEventListener("click", ()=>{ g.rotateSelected(true); updateSelectionVisual(); });
+document.getElementById("rotate-ccw").addEventListener("click", ()=>{ g.rotateSelected(false); updateSelectionVisual(); });
+document.getElementById("start-pushers").addEventListener("click", ()=>{ g.startPushers(); });
+document.getElementById("stop-pushers").addEventListener("click", ()=>{ g.stopAllPushers(); });
+
 </script>
 
-<div id="grid-container"></div>
-
 <style>
+#controls{ text-align:center; margin-bottom:10px; }
+#controls button{ margin:0 5px; padding:6px 10px; cursor:pointer; }
+
 #grid-container{
     display:grid;
     gap:2px;
     width:90vw;
-    max-width:600px;
-    margin:20px auto;
+    max-width:900px;
+    margin:0 auto;
     background:#222;
     border:2px solid #555;
 }
 
-#grid-container div{
+.grid-cell{
+    position:relative;
+    width: var(--cell-size);
+    height: var(--cell-size);
+}
+
+.cell-bg{
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
     background:#333;
     border:1px solid #888;
-    aspect-ratio:1/1;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    transform: translate(0, 0);
-    transition: transform 0.15s ease-out;
+    transition:box-shadow 0.12s, border 0.12s;
 }
 
-#grid-container div:hover{
-    transform: scale(1.05);
-    cursor: pointer;
+.cell-bg.selected{
+    border:3px solid #ff0;
+    box-shadow:0 0 10px rgba(255,255,0,0.5);
 }
 
-#grid-container div.selected {
-    border: 3px solid #ff0;
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-    transition: border 0.1s ease, box-shadow 0.1s ease, transform 0.15s ease-out;
+.cell-tile{
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    transition:transform 0.18s;
+    transform: rotate(var(--rotation,0deg));
 }
 
-#grid-container div.pusher-selected {
-    border: 3px solid #f00;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    transition: border 0.1s ease, box-shadow 0.1s ease, transform 0.15s ease-out;
-}
-
-/* Animation classes for smooth sliding movement */
-.tile-sliding {
-    z-index: 100;
-    transition: transform 0.15s ease-out;
-}
-
-.tile-moving {
-    z-index: 10;
-}
-
-.tile-pushed {
-    z-index: 5;
+.grid-cell:hover .cell-tile{
+    transform: scale(1.05) rotate(var(--rotation,0deg));
+    cursor:pointer;
 }
 </style>

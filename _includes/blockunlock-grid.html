@@ -1,89 +1,113 @@
 <div id="grid-container"></div>
+<div id="ui-buttons" style="text-align:center;margin:10px;">
+    <button id="btn-start">Start</button>
+    <button id="btn-stop">Stop</button>
+    <button id="btn-rotate-cw">Rotate CW</button>
+    <button id="btn-rotate-ccw">Rotate CCW</button>
+</div>
+
+<script type="module" src="/assets/js/block-unlock/tile.js"></script>
+<script type="module" src="/assets/js/block-unlock/grid-system.js"></script>
+<script type="module">
+// import Grid and Tile
+import { Grid } from "/assets/js/block-unlock/grid-system.js";
+import { Tile } from "/assets/js/block-unlock/tile.js";
+
+// create grid
+const g=new Grid(15,15,0);
+g.SetToGrid();
+
+// add tiles
+g.addTile(new Tile([1,1],1));
+g.addTile(new Tile([2,1],2,'east'));
+g.addTile(new Tile([3,1],9));
+g.addTile(new Tile([1,2],3));
+
+const container=document.getElementById("grid-container");
+const BASE_CELL_SIZE=60;
+container.style.setProperty("--grid-cols",g.Xsize);
+container.style.setProperty("--grid-rows",g.Ysize);
+container.style.setProperty("--cell-size",`${BASE_CELL_SIZE}px`);
+container.style.gridTemplateColumns=`repeat(${g.Xsize},1fr)`;
+container.style.gridTemplateRows=`repeat(${g.Ysize},1fr)`;
+
+const cells=[];
+for(let y=0;y<g.Ysize;y++){
+    for(let x=0;x<g.Xsize;x++){
+        const cell=document.createElement("div");
+        cell.dataset.x=x; cell.dataset.y=y;
+        cell.style.setProperty('--rotation','0deg');
+        const key=`${x},${y}`;
+        const tile=g.tileMap[key];
+        if(tile&&tile.sprite){
+            cell.style.backgroundImage=`url('${tile.sprite}')`;
+            cell.style.backgroundSize="cover";
+            cell.style.backgroundPosition="center";
+            cell.style.backgroundRepeat="no-repeat";
+            cell.style.setProperty('--rotation',directionToAngle(tile.direction)+'deg');
+        }
+        container.appendChild(cell);
+        cells.push(cell);
+    }
+}
+
+function directionToAngle(dir){switch(dir){case'east':return 90;case'south':return 180;case'west':return 270;default:return 0;}}
+
+g.subscribe((x,y,value)=>{
+    const index=y*g.Xsize+x;
+    const cell=cells[index];
+    const key=`${x},${y}`;
+    const tile=g.tileMap[key];
+    if(tile && tile.sprite){
+        cell.style.backgroundImage=`url('${tile.sprite}')`;
+        cell.style.backgroundSize="cover";
+        cell.style.backgroundPosition="center";
+        cell.style.backgroundRepeat="no-repeat";
+        cell.style.backgroundColor="";
+        cell.style.setProperty('--rotation',directionToAngle(tile.direction)+'deg');
+    } else {
+        cell.style.backgroundImage="";
+        cell.style.backgroundColor="#333";
+        cell.style.setProperty('--rotation','0deg');
+    }
+    updateSelectionVisual();
+});
+
+function updateSelectionVisual(){
+    document.querySelectorAll('#grid-container div').forEach(c=>c.classList.remove('selected'));
+    if(g.selectedTile){
+        const [sx,sy]=g.selectedTile.CordLocation;
+        const selectedIndex=sy*g.Xsize+sx;
+        if(cells[selectedIndex]) cells[selectedIndex].classList.add('selected');
+    }
+}
+
+container.addEventListener("click", e=>{
+    const cell=e.target;
+    const x=parseInt(cell.dataset.x);
+    const y=parseInt(cell.dataset.y);
+    if(!isNaN(x)&&!isNaN(y)){ g.selectTile([x,y]); updateSelectionVisual(); }
+});
+
+// Key handling
+window.addEventListener("keydown", e=>{
+    if(!g.selectedTile) return;
+    const arrowKeyMap={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
+    if(arrowKeyMap[e.key]){ e.preventDefault(); g.moveSelected(arrowKeyMap[e.key]); updateSelectionVisual(); return; }
+    if(e.key==='r'||e.key==='R'){ e.preventDefault(); g.rotateSelected(true); updateSelectionVisual(); return; }
+    if(e.key==='q'||e.key==='Q'){ e.preventDefault(); g.rotateSelected(false); updateSelectionVisual(); return; }
+});
+
+// UI buttons
+document.getElementById("btn-start").addEventListener("click",()=>{ g.startGame=true; g.startPushers(); });
+document.getElementById("btn-stop").addEventListener("click",()=>{ g.stopAllPushers(); g.startGame=false; });
+document.getElementById("btn-rotate-cw").addEventListener("click",()=>{ g.rotateSelected(true); updateSelectionVisual(); });
+document.getElementById("btn-rotate-ccw").addEventListener("click",()=>{ g.rotateSelected(false); updateSelectionVisual(); });
+</script>
 
 <style>
-  #grid-container {
-    display: grid;
-    gap: 0; /* no gap between cells */
-    margin: 20px auto;
-    background-color: #222;
-    padding: 0;
-    width: 90vw;
-    max-width: calc(var(--cell-size) * var(--grid-cols));
-    border: 2px solid #555; /* outer border of the grid */
-  }
-
-  #grid-container div {
-    background-color: #333;
-    border: 1px solid #555; /* lines between cells */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0; /* remove rounded edges */
-    aspect-ratio: 1 / 1;
-    width: var(--cell-size);
-    height: var(--cell-size);
-    max-width: 100%;
-    transition: background-color 0.2s, transform 0.2s;
-    background-size: cover;
-    background-position: center;
-  }
-
-  #grid-container div:hover {
-    background-color: #444;
-    transform: scale(1.05);
-    cursor: pointer;
-  }
+#grid-container{display:grid;gap:2px;width:90vw;max-width:600px;margin:20px auto;background:#222;border:2px solid #555;}
+#grid-container div{background:#333;border:1px solid #888;aspect-ratio:1/1;background-size:cover;background-position:center;background-repeat:no-repeat;width:var(--cell-size);height:var(--cell-size);transform:rotate(var(--rotation,0deg));transition:transform 0.18s,box-shadow 0.12s,border 0.12s;}
+#grid-container div:hover{transform:scale(1.05) rotate(var(--rotation,0deg));cursor:pointer;}
+#grid-container div.selected{border:3px solid #ff0;box-shadow:0 0 10px rgba(255,255,0,0.5);}
 </style>
-
-<script type="module">
-import { Grid } from "/assets/js/block-unlock/grid-system.js";
-
-const BASE_CELL_SIZE = 60;
-const container = document.getElementById("grid-container");
-const currentGrid = Grid.currentGridData;
-
-if (!currentGrid) {
-  console.error("⚠️ No grid is currently set!");
-} else {
-  container.style.setProperty("--grid-cols", currentGrid.Xsize);
-  container.style.setProperty("--grid-rows", currentGrid.Ysize);
-  container.style.setProperty("--cell-size", `${BASE_CELL_SIZE}px`);
-  container.style.gridTemplateColumns = `repeat(${currentGrid.Xsize}, minmax(0, 1fr))`;
-  container.style.gridTemplateRows = `repeat(${currentGrid.Ysize}, minmax(0, 1fr))`;
-
-  // Render the grid
-  container.innerHTML = "";
-  const cells = [];
-  for (let y = 0; y < currentGrid.Ysize; y++) {
-    for (let x = 0; x < currentGrid.Xsize; x++) {
-      const cell = document.createElement("div");
-      cell.dataset.x = x;
-      cell.dataset.y = y;
-
-      // set initial sprite
-      const key = `${x},${y}`;
-      const tile = currentGrid.tileMap[key];
-      if (tile) {
-        cell.style.backgroundImage = `url('${tile.sprite}')`;
-      }
-
-      container.appendChild(cell);
-      cells.push(cell);
-    }
-  }
-
-  // Update live when grid changes
-  currentGrid.subscribe((x, y, value) => {
-    const index = y * currentGrid.Xsize + x;
-    if (cells[index]) {
-      const key = `${x},${y}`;
-      const tile = currentGrid.tileMap[key];
-      if (tile) {
-        cells[index].style.backgroundImage = `url('${tile.sprite}')`;
-      } else {
-        cells[index].style.backgroundImage = '';
-      }
-    }
-  });
-}
-</script>
