@@ -56,6 +56,8 @@ export class Grid {
 
     // Place tile at position (for number key placement)
     placeTile(x, y, tileState) {
+        console.log(`placeTile called: (${x}, ${y}), state: ${tileState}`);
+        
         // Check if position is placeable
         if (!this.isPlaceable(x, y)) {
             console.log("Cannot place tile - not in placeable area");
@@ -72,14 +74,13 @@ export class Grid {
         const key = `${x},${y}`;
         if (this.tileMap[key]) {
             delete this.tileMap[key];
-            this.set(x, y, 0); // Clear the grid position
         }
 
         // Place new tile
         const newTile = new Tile([x, y], tileState);
         this.tileMap[key] = newTile;
         this.set(x, y, tileState);
-        console.log(`Placed tile ${tileState} at (${x}, ${y})`);
+        console.log(`Successfully placed tile ${tileState} at (${x}, ${y})`);
         return true;
     }
 
@@ -88,15 +89,26 @@ export class Grid {
         const key=`${x},${y}`;
         const tile=this.tileMap[key];
         
-        // Only allow selection of tiles in placeable areas
+        console.log(`Selecting tile at (${x}, ${y}), placeable: ${this.isPlaceable(x, y)}, tile exists: ${!!tile}`);
+        
+        // Allow selection of empty placeable areas OR existing tiles in placeable areas
         if (!this.isPlaceable(x, y)) {
             console.log("Cannot select tile - not in placeable area");
             this.selectedTile = null;
             return;
         }
         
-        if(tile && tile.State!==0 && tile.State!==9) this.selectedTile=tile;
-        else this.selectedTile=null;
+        // Can select existing tiles (except immovable blocks) OR empty placeable spaces
+        if (tile && tile.State !== 0 && tile.State !== 9) {
+            this.selectedTile = tile;
+            console.log(`Selected existing tile with state ${tile.State}`);
+        } else if (!tile || tile.State === 0) {
+            // Allow selection of empty spaces in placeable areas for tile placement
+            this.selectedTile = null;
+            console.log("Selected empty placeable space");
+        } else {
+            this.selectedTile = null;
+        }
     }
 
     moveSelected(direction){
