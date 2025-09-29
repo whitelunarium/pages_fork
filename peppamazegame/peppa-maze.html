@@ -154,7 +154,62 @@ permalink: /peppa-maze/
     font-weight: bold;
     max-width: 300px;
   }
+
+  /* Mode selection styling */
+  #modeSelection {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  #modeSelection.hidden {
+    display: none;
+  }
+
+  .mode-container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+  }
+
+  .mode-container h2 {
+    color: #2a5d9f;
+    margin-bottom: 30px;
+  }
+
+  .mode-btn {
+    background: linear-gradient(145deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+  }
+
+  .mode-btn:hover {
+    transform: scale(1.05);
+  }
 </style>
+
+<!-- Mode selection overlay -->
+<div id="modeSelection">
+  <div class="mode-container">
+    <h2>🐷 Choose Game Mode 🐖</h2>
+    <button class="mode-btn" onclick="startGame(1)">Single Player</button>
+    <button class="mode-btn" onclick="startGame(2)">Two Players</button>
+  </div>
+</div>
 
 <!-- Turn indicator -->
 <div id="turnIndicator">Peppa's Turn!</div>
@@ -186,6 +241,21 @@ permalink: /peppa-maze/
 </div>
 
 <script>
+  let gameMode = 0; // 0 = not started, 1 = single player, 2 = two player
+
+  function startGame(mode) {
+    gameMode = mode;
+    document.getElementById('modeSelection').classList.add('hidden');
+
+    if (mode === 1) {
+      // Hide player 2 controls in single player
+      document.getElementById('player2Dice').style.display = 'none';
+      document.getElementById('turnIndicator').textContent = "Single Player Mode";
+    }
+
+    createPeppaMaze("gameContainer");
+  }
+
   // Main function to create and run the Peppa Pig maze game
   function createPeppaMaze(containerId) {
     const container = document.getElementById(containerId);
@@ -240,63 +310,80 @@ permalink: /peppa-maze/
       "7": { x: 0, y: 8 }, "8": { x: 5, y: 8 }, "9": { x: 9, y: 9 }
     };
 
-    // Questions about variables and programming concepts
-    const questions = {
-      "1": {
-        question: "In Python, which of the following is a valid variable name?",
-        answers: ["2nd_variable", "_myVar", "my-variable", "class"],
-        correct: 1,
-        explanation: "Variable names can start with underscore or letter, not numbers. They can't contain hyphens or be reserved keywords like 'class'."
+    // Questions about JavaScript and Python
+    const allQuestions = [
+      {
+        question: "In Python, what does the len() function return?",
+        answers: ["The length of a string or list", "The last element", "The data type", "The memory size"],
+        correct: 0,
+        explanation: "The len() function returns the number of items in an object like a string, list, or tuple."
       },
-      "2": {
-        question: "True or False: Variables in Python must be declared with a specific data type.",
+      {
+        question: "True or False: In JavaScript, '5' == 5 returns true.",
         answers: ["True", "False"],
-        correct: 1,
-        explanation: "Python is dynamically typed - you don't need to declare variable types. The type is inferred from the assigned value."
+        correct: 0,
+        explanation: "JavaScript's == operator performs type coercion, so '5' == 5 is true. Use === for strict equality without type coercion."
       },
-      "3": {
-        question: "What will be the value of x after: x = 5; x += 3",
-        answers: ["5", "8", "3", "53"],
-        correct: 1,
-        explanation: "The += operator adds the right value to the variable. So x = 5 + 3 = 8."
+      {
+        question: "What is the correct way to declare a variable in JavaScript ES6?",
+        answers: ["var name = 'John'", "let name = 'John'", "const name = 'John'", "All of the above"],
+        correct: 3,
+        explanation: "JavaScript has var (old), let (reassignable), and const (constant). All are valid, but let and const are modern ES6 standards."
       },
-      "4": {
-        question: "Which data type would you use to store True or False?",
-        answers: ["int", "string", "boolean", "float"],
+      {
+        question: "In Python, which symbol is used for exponentiation?",
+        answers: ["^", "**", "pow", "exp"],
+        correct: 1,
+        explanation: "Python uses ** for exponentiation. For example, 2**3 equals 8. The ^ symbol is used for XOR, not exponentiation."
+      },
+      {
+        question: "True or False: JavaScript is case-sensitive.",
+        answers: ["True", "False"],
+        correct: 0,
+        explanation: "JavaScript is case-sensitive. 'myVar', 'MyVar', and 'MYVAR' are three different identifiers."
+      },
+      {
+        question: "What does Python's print() function do?",
+        answers: ["Returns a value", "Outputs text to console", "Creates a variable", "Imports a module"],
+        correct: 1,
+        explanation: "print() displays output to the console/terminal. It's essential for debugging and showing results to users."
+      },
+      {
+        question: "In JavaScript, what will typeof null return?",
+        answers: ["'null'", "'undefined'", "'object'", "'error'"],
         correct: 2,
-        explanation: "Boolean data types store True or False values, used for logical operations and conditions."
+        explanation: "This is a famous JavaScript quirk! typeof null returns 'object' due to a legacy bug in the language design."
       },
-      "5": {
-        question: "True or False: Variables can change their value during program execution.",
+      {
+        question: "Which Python data structure is ordered and mutable?",
+        answers: ["tuple", "set", "list", "dictionary"],
+        correct: 2,
+        explanation: "Lists are ordered (maintain insertion order) and mutable (can be changed). Tuples are immutable, sets are unordered."
+      },
+      {
+        question: "True or False: In JavaScript, you can add a number to a string.",
         answers: ["True", "False"],
         correct: 0,
-        explanation: "Variables are called 'variable' because their values can change (vary) during program execution."
-      },
-      "6": {
-        question: "What symbol is used for assignment in most programming languages?",
-        answers: ["==", "=", ":=", "->"],
-        correct: 1,
-        explanation: "The single equals sign (=) is used for assignment. Double equals (==) is used for comparison."
-      },
-      "7": {
-        question: "Which is the correct way to create a string variable in Python?",
-        answers: ["name = 'John'", "string name = 'John'", "var name = 'John'", "name := 'John'"],
-        correct: 0,
-        explanation: "In Python, you simply write variableName = value. No type declaration or special syntax needed!"
-      },
-      "8": {
-        question: "True or False: Variable names in Python are case-sensitive.",
-        answers: ["True", "False"],
-        correct: 0,
-        explanation: "Python is case-sensitive, so 'myVar', 'MyVar', and 'MYVAR' are three different variables."
-      },
-      "9": {
-        question: "What is the result of: x = '3'; y = '2'; z = x + y",
-        answers: ["5", "32", "6", "Error"],
-        correct: 1,
-        explanation: "When you add strings, they concatenate (join together). So '3' + '2' = '32', not 5."
+        explanation: "JavaScript allows this through type coercion. For example, '5' + 3 results in '53' (string concatenation)."
       }
-    };
+    ];
+
+    // Track used questions and create shuffled question pool
+    let availableQuestions = [...allQuestions];
+    let usedQuestions = new Set();
+
+    // Shuffle function
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // Initialize shuffled questions
+    availableQuestions = shuffleArray([...allQuestions]);
 
     // Game state
     let currentPlayer = 1;
@@ -309,22 +396,16 @@ permalink: /peppa-maze/
       y: 0,
       moves: 0,
       color: "#ff69b4",
-      img: new Image(),
       name: "Peppa"
     };
 
     const player2 = {
-      x: 0,
-      y: 1,
+      x: 1,
+      y: 0,
       moves: 0,
       color: "#4169e1",
-      img: new Image(),
       name: "George"
     };
-
-    // Load player images
-    player1.img.src = "{{ site.baseurl }}/images/Peppa_Pig.webp";
-    player2.img.src = "{{ site.baseurl }}/peppamazegame/george.png";
 
     // Animation state
     let animating = false;
@@ -351,24 +432,22 @@ permalink: /peppa-maze/
       }
     }
 
-    // Function to draw a player
+    // Function to draw a player with simple circle
     function drawPlayer(player) {
-      if (player.img.complete && player.img.naturalHeight !== 0) {
-        ctx.drawImage(player.img, player.x * cellSize, player.y * cellSize, cellSize, cellSize);
-      } else {
-        ctx.fillStyle = player.color;
-        ctx.beginPath();
-        ctx.arc(player.x * cellSize + cellSize / 2, player.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
-        ctx.fill();
+      // Draw circle
+      ctx.fillStyle = player.color;
+      ctx.beginPath();
+      ctx.arc(player.x * cellSize + cellSize / 2, player.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
+      ctx.fill();
 
-        ctx.fillStyle = "#000";
-        ctx.beginPath();
-        ctx.arc(player.x * cellSize + cellSize / 2 - 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(player.x * cellSize + cellSize / 2 + 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
-        ctx.fill();
-      }
+      // Draw eyes
+      ctx.fillStyle = "#000";
+      ctx.beginPath();
+      ctx.arc(player.x * cellSize + cellSize / 2 - 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(player.x * cellSize + cellSize / 2 + 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+      ctx.fill();
     }
 
     // Main animation loop
@@ -376,7 +455,9 @@ permalink: /peppa-maze/
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawMaze();
       drawPlayer(player1);
-      drawPlayer(player2);
+      if (gameMode === 2) {
+        drawPlayer(player2);
+      }
       requestAnimationFrame(update);
     }
 
@@ -388,6 +469,12 @@ permalink: /peppa-maze/
 
     // Update turn display
     function updateTurnDisplay() {
+      if (gameMode === 1) {
+        turnIndicator.textContent = "Single Player Mode";
+        turnIndicator.style.color = "#ff69b4";
+        return;
+      }
+
       if (currentPlayer === 1) {
         turnIndicator.textContent = "🐷 Peppa's Turn!";
         turnIndicator.style.color = "#ff69b4";
@@ -408,20 +495,36 @@ permalink: /peppa-maze/
     // Roll dice function
     function rollDice(player, diceDisplay, movesDisplay, rollButton) {
       const roll = Math.floor(Math.random() * 6) + 1;
-      player.moves = roll;
+      player.moves += roll; // Add to existing moves instead of replacing
       diceDisplay.textContent = `🎲 ${roll}`;
-      movesDisplay.textContent = `Moves left: ${roll}`;
-      rollButton.disabled = true;
+      movesDisplay.textContent = `Moves left: ${player.moves}`;
+
+      // Only disable in multiplayer mode
+      if (gameMode === 2) {
+        rollButton.disabled = true;
+      }
+      // In single player mode, keep button enabled for multiple rolls
     }
 
     // Update moves display
     function updateMovesDisplay(player, movesDisplay) {
       movesDisplay.textContent = `Moves left: ${player.moves}`;
+
+      // In single player mode, re-enable dice button when moves are used up
+      if (gameMode === 1 && player.moves === 0) {
+        rollDice1Btn.disabled = false;
+      }
     }
 
-    // Check if move is valid
-    function isValidMove(x, y) {
-      return x >= 0 && x < cols && y >= 0 && y < rows && maze[y][x] === 0;
+    // Check if move is valid (only check walls, allow players to pass through each other)
+    function isValidMove(x, y, movingPlayer) {
+      // Check bounds and walls only
+      if (x < 0 || x >= cols || y < 0 || y >= rows || maze[y][x] === 1) {
+        return false;
+      }
+
+      // Allow players to pass through each other
+      return true;
     }
 
     // Move player with animation
@@ -429,10 +532,13 @@ permalink: /peppa-maze/
       if (animating || player.moves <= 0 || waitingForAnswer) return;
       if ((currentPlayer === 1 && player !== player1) || (currentPlayer === 2 && player !== player2)) return;
 
+      // In single player mode, only allow player 1 to move
+      if (gameMode === 1 && player !== player1) return;
+
       const newX = player.x + dx;
       const newY = player.y + dy;
 
-      if (!isValidMove(newX, newY)) return;
+      if (!isValidMove(newX, newY, player)) return;
 
       animating = true;
       const startX = player.x;
@@ -450,7 +556,7 @@ permalink: /peppa-maze/
           checkForQuestion(player);
 
           // Switch turn if no moves left
-          if (player.moves === 0 && !waitingForAnswer) {
+          if (player.moves === 0 && !waitingForAnswer && gameMode === 2) {
             switchTurn();
           }
           return;
@@ -464,22 +570,37 @@ permalink: /peppa-maze/
 
     // Check if player reached a number position
     function checkForQuestion(player) {
+      const playerX = Math.round(player.x);
+      const playerY = Math.round(player.y);
+
       for (const num in numbers) {
         const pos = numbers[num];
-        if (Math.round(player.x) === pos.x && Math.round(player.y) === pos.y) {
+        if (playerX === pos.x && playerY === pos.y) {
           showQuestion(num, player);
           break;
         }
       }
     }
 
-    // Show question
+    // Show question - get next random question from pool
     function showQuestion(num, player) {
+      // Check if we've used all questions
+      if (availableQuestions.length === 0) {
+        availableQuestions = shuffleArray([...allQuestions]);
+        usedQuestions.clear();
+      }
+
+      // Get the next question from shuffled pool
+      const q = availableQuestions.shift();
+
+      if (!q) {
+        return;
+      }
+
       waitingForAnswer = true;
       questionedPlayer = player;
-      const q = questions[num];
 
-      questionText.textContent = `${player.name}, ${q.question}`;
+      questionText.textContent = player.name + ", " + q.question;
       answersContainer.innerHTML = '';
       feedback.style.display = 'none';
 
@@ -519,7 +640,7 @@ permalink: /peppa-maze/
         waitingForAnswer = false;
 
         // Switch turn after question
-        if (player.moves === 0) {
+        if (player.moves === 0 && gameMode === 2) {
           switchTurn();
         }
       }, 3000);
@@ -531,13 +652,31 @@ permalink: /peppa-maze/
         { dx: 0, dy: -1 }, { dx: 0, dy: 1 }, { dx: -1, dy: 0 }, { dx: 1, dy: 0 }
       ];
 
+      // Try each direction to find a valid move back
       for (const dir of directions) {
         const newX = player.x + dir.dx;
         const newY = player.y + dir.dy;
-        if (isValidMove(newX, newY)) {
-          player.x = newX;
-          player.y = newY;
-          break;
+        if (isValidMove(newX, newY, player)) {
+          // Animate the move back
+          animating = true;
+          const startX = player.x;
+          const startY = player.y;
+          let progress = 0;
+
+          function animateBack() {
+            progress += 0.15; // Slightly faster animation for penalty
+            if (progress >= 1) {
+              player.x = newX;
+              player.y = newY;
+              animating = false;
+              return;
+            }
+            player.x = startX + (newX - startX) * progress;
+            player.y = startY + (newY - startY) * progress;
+            requestAnimationFrame(animateBack);
+          }
+          animateBack();
+          break; // Exit after first valid move
         }
       }
     }
@@ -553,7 +692,7 @@ permalink: /peppa-maze/
 
     // Keyboard controls
     document.addEventListener("keydown", function (e) {
-      if (currentPlayer === 1) {
+      if (gameMode === 1 || currentPlayer === 1) {
         if (e.key === "w" || e.key === "W") {
           movePlayer(player1, 0, -1, moves1Display);
         } else if (e.key === "a" || e.key === "A") {
@@ -563,7 +702,9 @@ permalink: /peppa-maze/
         } else if (e.key === "d" || e.key === "D") {
           movePlayer(player1, 1, 0, moves1Display);
         }
-      } else if (currentPlayer === 2) {
+      }
+
+      if (gameMode === 2 && currentPlayer === 2) {
         if (e.key === "ArrowUp") {
           e.preventDefault();
           movePlayer(player2, 0, -1, moves2Display);
@@ -585,6 +726,6 @@ permalink: /peppa-maze/
     update();
   }
 
-  // Initialize the maze game
-  createPeppaMaze("gameContainer");
+  // Don't auto-initialize - wait for mode selection
+
 </script>
