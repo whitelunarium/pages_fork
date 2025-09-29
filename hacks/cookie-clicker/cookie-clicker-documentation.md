@@ -1,68 +1,89 @@
 ---
-layout: opencs
-title: Cookie Clicker Game Documentation
+layout: lessonbase
+title: Cookie Clicker Documentation
 permalink: /cookie-clicker-game-docs/
+sidebar: true
+wide: true
+sidebar_title: Cookie Clicker
+lesson_links: [{url: /cookie-clicker-game-docs, text: 1. Introduction}, {url: /cookie-clicker-game-docs/oop, text: 2. OOP}, {url: /cookie-clicker-game-docs/class-architecture, text: 3. Classes}, {url: /cookie-clicker-game-docs/localstorage, text: 4. Localstorage},{url: /cookie-clicker-game-docs/quiz, text: 5. OOP Quiz}]
+enable_progress: true
 ---
 
 
 # Cookie Clicker – Feature Add-On Assignment
 
 
-### Group 1
+### Created by...
 
 | Role            | Name                 | GitHub |
 |:---------------:|:--------------------:|:------:|
-| 🧭 Scrum Master | **Kush Shah**        | [GitHub](https://github.com/kush1434) |
-| 📋 Assistant Scrum | **Trevor Vick**   | [GitHub](https://github.com/Tvick22) |
+| 🧭 Scrum Master | Kush Shah        | [GitHub](https://github.com/kush1434) |
+| 📋 Assistant Scrum | Trevor Vick   | [GitHub](https://github.com/Tvick22) |
 | 💻 Engineer     | Elliot Yang          | [GitHub](https://github.com/ellioty15) |
-
-### Group 2
-
-| Role            | Name                 | GitHub |
-|:---------------:|:--------------------:|:------:|
 | 💻 Engineer     | Travis Callow        | [Github](https://github.com/TravisCallow) |
 | 💻 Engineer     | Aranya Bhattacharya  | [GitHub](https://github.com/aranyab0924) |
 | 💻 Engineer     | Alex Rubio           | [GitHub](https://github.com/AlexRubio1) |
 
-We already have a working Cookie Clicker game. Right now, the game lets you click on the cookie to increase your score. That’s cool, but pretty basic. Your job is to **add a new feature** to make the game more fun and complex.
+---
 
-This will give you practice with:
-- Writing and reusing **methods**
-- Keeping code organized in the right files
-- Using **if statements** to control when something happens
-- Storing and loading game data with **localStorage**
+### Your job is to add a new feature that uses **Localstorage** (New upgrade, New currency, New Cookie Effects, etc.)
 
-## Steps to Add Your Feature
+---
 
-<details>
-  <summary>Click to view steps</summary>
+**This will give you practice with:**
 
-  <div markdown="1">
+- Writing and reusing **Javascript Object Methods**!
+- File organization!
+- Using **if statements**!
+- Storing data with **localStorage**!
 
-### Strategic Group of 3
-Work together in groups of three to plan, design, and test your addition.
+## BEFORE YOU START!
 
-### Step 1 – Evaluate the Game
-Play the current Cookie Clicker version to understand what features already exist, how cookies accumulate, and what feels missing or repetitive.
+### Form a Group of 3
+- Work together in groups of three to **plan, design, and test** your feature.
+- **Your team only needs to submit one feature** all together (as long as you all worked on it)!
 
-### Step 2 – Brainstorm New Ideas
-Discuss possible additions as a group. Use the example ideas provided (new shop item, superpower, unlockable, or visual change) as inspiration, or come up with your own creative twist.
+---
 
-### Step 3 – Define Your Feature
-See flowchart below for current workflow example. Decide on your chosen feature and write a clear one-sentence description of what it does.
+## How do I add a feature
 
-### Step 4 – Design & Implement
-Add any new buttons, text, or visuals if your feature needs them.  
-Write at least one **method** to make your feature work.  
+### Step 1 – Play the game!
+- Play Cookie Clicker
+- Brainstorm as a group how you think the game works (With fancy coding terms)!
 
-### Step 5 – Save with localStorage
-If your feature should persist after refreshing, integrate **localStorage** to save its state.
+### Step 2 – What feature should we add?
+- **AS A GROUP**, come up with your new feature to add to Cookie Clicker!
+- This can be a visual change, but if you're ambitious, **add a technical change!**
 
-### Step 6 – Test and Refine
-Run the game to check if your feature works as expected. Fix any issues, refine the design, and polish the user experience. Once everything is finalized, add your feature to the mermaid chart.
+### Step 3 – Finalize your feature...
+- Write a clear one-sentence description (below) of exactly what it will do.
 
-  </div>
-</details>
+<input type="text" placeholder="Type here..."/>
+
+### Step 4 – Design
+- Add any new buttons, text, or visuals to support your feature!
+- Add some new code to the game to make sure your feature works!
+
+### Step 6 – Testing
+- Run the game to see if your feature works as expected.
+- Fix any issues and refine the design
+
+---
+
+## HACK 1
+
+> Complete the OOP quiz on the 5th lesson and screenshot your score. You must recieve at least a 3/4 to get credit. Attatch that screenshot to a Github Issue.
+
+<a href="{{site.baseurl}}/hacks/cookie-clicker/2025-08-29-collaboration.ipynb" download="collaboration.ipynb" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block">
+  Download Collaboration Notebook
+</a>
+
+> Complete this collaboration notebook with your team of 3! (You can share the file on 1 computer if its easier) When completed, submit your notebook file (.ipynb) by attatching it to the same Github Issue as your quiz score screenshot. 
+
+
+When both completed, each person must submit the link to their issue to the Cookie Clicker chat on slack. If you have any questions, contact **Kush Shah** or **Trevor Vick** on Slack.
+
+---
 
 ```mermaid
 flowchart TD
@@ -141,14 +162,16 @@ flowchart TD
 
 ## localStorage
 
-Normally when you refresh a webpage, everything resets — all your cookies would go back to zero.
-localStorage is a way for the browser to save data on your computer so it stays even after you refresh.
-
-You will need to use localStorage so your feature can **save progress**. For example, if you buy an item in the shop, it should still be there after you reload the page.
-
-**Your job**: Go look at how localStorage is used in the code that’s already written. Figure out how it works and then apply it to your own feature.
+- Localstorage is like a personal database for a webpage.
+- It uses **KEY/VALUE** Pairs
+  - **KEY: VALUE**
+  - "Birth Year": 1967
+  - "Vehicle Type": "Bus"
+  - "Favorite Fruit": "Mango"
 
 ---
+
+## Hack 2
 
 ## Your Task – Add a New Feature
 
@@ -175,101 +198,3 @@ Choose one feature to add to the game. Be creative, but make sure it includes:
 5. Use **localStorage** to save the state of your feature if needed.
 6. Test your feature to make sure it works as expected.
 
----
-
-## What to Turn In
-
-- Your updated files.
-- A short explanation (2–3 sentences) of what feature you added and how it works.
-
----
-
-# OOP Lesson
-
-We’ve already learned how to add new **features** with functions, if statements, and localStorage. Now let’s take it a step further and learn about **Object-Oriented Programming (OOP)**.
-
----
-
-## What is OOP?
-
-OOP stands for **Object-Oriented Programming**.  
-
-It’s a way of coding where you think about things in your program as **objects**.  
-- An **object** is like a “thing” that has **properties** (data) and **methods** (actions it can do).  
-- A **class** is like a blueprint or recipe to make those objects.  
-
-Think about the real world:  
-- A **cookie** is an object (it has a size, a flavor, a number).  
-- A **shop item** is an object (it has a cost, a name, and something it does).  
-- A **player** is also an object (they have cookies, upgrades, and power).  
-
-With OOP, instead of writing lots of separate functions and variables, we **bundle them together** so they belong to one object.  
-
----
-
-## Why OOP in Cookie Clicker?
-
-Cookie Clicker is a great example of OOP because almost everything in the game can be thought of as an object:  
-- The **cookie** object keeps track of how many cookies you have.  
-- The **upgrade** objects know their cost, effect, and how many you own.  
-- The **shop** can be an object that manages all the upgrades.  
-
-This makes the game easier to build, easier to add new features, and much more organized.
-
----
-
-## OOP Concepts in Cookie Clicker
-
-- **Class** → A blueprint. Example: `Upgrade` describes what all upgrades should have.  
-- **Object (Instance)** → A real thing you can use. Example: “Golden Cursor Upgrade” created from the `Upgrade` class.  
-- **Properties (Attributes)** → Variables that belong to an object. Example: `cost`, `multiplier`, `owned`.  
-- **Methods** → Functions that belong to an object. Example: `buy()` checks cost and applies the upgrade.  
-- **Encapsulation** → Each object manages its own data and actions. You don’t need to rewrite `buy()` for every single upgrade.  
-- **Persistence with localStorage** → Save and load objects so your upgrades stay after refreshing.
-
----
-
-## Example Student Tasks
-
-1. Make an `Upgrade` class for shop items.  
-2. Give it properties like `name`, `cost`, `multiplier`, and `owned`.  
-3. Add a `buy()` method that uses an **if statement** to check if you have enough cookies.  
-4. Create at least **two objects** (like “Metal Spoon” and “Golden Cursor”) from the class.  
-5. Save and load these objects with **localStorage**.
-
-
----
-
-## OOP in Cookie Clicker
-```mermaid
-flowchart TD
-    A[Game Start] --> B[Load Objects from localStorage]
-    B -->|Exists| C[Recreate Objects from JSON]
-    B -->|"No Save Found"| D[Create New Objects from Classes]
-
-    C --> E[Objects in Memory: Upgrades, Shop, Cookie]
-    D --> E
-
-    subgraph UpgradeClass["Upgrade Class"]
-        U1["Properties: name, cost, multiplier, owned"]
-        U2["Method: canBuy()"]
-        U3["Method: buy()"]
-        U1 --> U2
-        U1 --> U3
-    end
-
-    E --> F[Player Action]
-    F -->|"Click Cookie"| G[Cookie Count Increases]
-    F -->|"Buy Upgrade"| H{"upgrade.canBuy() ?"}   
-
-    H -->|"No"| I[Show Message: Not Enough Cookies]
-    H -->|"Yes"| J["upgrade.buy() Method Runs"]
-
-    J --> K[Change State: cost ↑, owned ↑, power ↑]
-    K --> L[Save Objects to localStorage]
-    I --> L
-    G --> L
-
-    L --> E
-
-```
