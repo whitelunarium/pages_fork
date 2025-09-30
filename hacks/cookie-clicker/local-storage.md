@@ -27,6 +27,37 @@ enable_progress: true
 
 ---
 
+#### What would be stored in the local storage for the cookie clicker game?
+
+<input id="checkInput" type="text" placeholder="Type here..."
+       style="padding:6px;border:1px solid #ccc;border-radius:6px;" />
+
+<script>
+const field = document.getElementById("checkInput");
+field.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    const val = field.value.trim().toLowerCase();
+    if (val === "cookies" || val === "autoclickers" || val === "upgrades") {
+      field.style.borderColor = "green";
+      field.style.backgroundColor = "#496e46ff"; // light green
+    } else {
+      field.style.borderColor = "red";
+      field.style.backgroundColor = "#6b3c40ff"; // light red
+    }
+  }
+});
+</script>
+
+<details>
+<summary>Answer:</summary>
+<br>
+- Cookies
+<br>
+- Purchased Autoclickers and the Amount
+<br>
+- Purchased Upgrades
+</details>
+
 ### Example in Code
 
 An example of this is:
