@@ -20,7 +20,7 @@ permalink: oopbreakoutlesson2
 
 ### What are attributes?
 
-Attributes (also called **properties/fields**) are the data on an object—things the object *has*. In the `Paddle` constructor, these are the attributes:
+Attributes (also called **properties/fields**) are the data on an object—things the object *has*. In the `Paddle` constructor, the following are the attributes:
 
 ```js
 constructor(x, y, canvasWidth, canvasHeight) {
@@ -105,7 +105,7 @@ These methods set position (e.g., via mouse move), center and resize the paddle,
 
 ## ACTIVITY: showcase what you learned, draw out what you learned in the Whiteboard below. 
 
- - Draw your “class” as a box → properties inside (like health, lives), methods outside (like move(), hitBrick()).
+ - Draw your “class” as a box → properties inside (like health and lives), methods outside (like move(), hitBrick()).
 
  - Draw inheritance → a Paddle class, then draw a “PowerPaddle” subclass that has an extra feature (like shooting lasers).
 
