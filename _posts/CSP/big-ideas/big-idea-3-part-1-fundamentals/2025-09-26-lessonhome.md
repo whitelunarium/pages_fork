@@ -7,6 +7,8 @@ toc: False
 comments: False
 ---
 
+<link rel="stylesheet" href="{{site.baseurl}}/assets/stylesheets/csp_home.css">
+
 <div class="graph-container">
     <svg id="arrows-svg">
         <defs>
