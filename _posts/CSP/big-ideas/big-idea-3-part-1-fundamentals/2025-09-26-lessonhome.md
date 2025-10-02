@@ -7,7 +7,7 @@ toc: False
 comments: False
 ---
 
-<link rel="stylesheet" href="{{site.baseurl}}/assets/stylesheets/csp_home.css">
+<link rel="stylesheet" href="{{site.baseurl}}/assets/css/csp_home.css">
 
 <div class="graph-container">
     <svg id="arrows-svg">
