@@ -51,6 +51,8 @@ comments: False
             style: { top: 350, left: 400, width: 200, height: 200 }
         }
     };
+
+    const container = document.querySelector('.graph-container');
     
     Object.entries(lessons).forEach(([number, lesson]) => {
         const node = document.createElement('div');
