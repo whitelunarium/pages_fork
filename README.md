@@ -144,8 +144,10 @@ jbang app install ijava
 # For Java kernel (IJava)
 sudo apt install coursier
 cs install --channel=https://github.com/SpencerPark/IJava/releases/latest/download/channel.json ijava
+
 # Or for jbang-ijava
 sudo apt install jbang
+# or sudo snap install jbang --classic
 jbang app install ijava
 ```
 
