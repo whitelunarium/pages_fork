@@ -3,6 +3,7 @@ layout: post
 title: Plagiarism Workshop Overview
 author: John Mortensen
 permalink: /plagiarism/why-source
+breadcrumb: True
 ---
 
 ## Why Plagiarism Matters

@@ -1,9 +1,11 @@
 ---
 layout: post
-title: Plagiarism Workshop Overview
+title: Plagiarism Case Studies
 author: John Mortensen
 permalink: /plagiarism/1
+breadcrumb: True
 ---
+
 <style>
 .case-study-photo {
   max-height: 100px;
@@ -12,34 +14,22 @@ permalink: /plagiarism/1
 }
 </style>
 
-## Plagiarism Case Studies (Activation)
 
-This section is designed to help instructors and lesson designers visualize ways to activate student learning by connecting plagiarism to real people, large financial consequences, and social issues. The goal is to keep this lo-fi and open-ended, encouraging creative approaches for future development.
+## Activation: What Really Happens When Plagiarism Is Discovered?
 
-- **Purpose:**
-  - Relate plagiarism to significant figures, money, and social impact.
-  - Spark student curiosity and discussion about why plagiarism matters.
-  - Provide a flexible, low-fidelity storyboard for lesson prototyping.
+Plagiarism isn't just a classroom rule—it's a real-world issue with serious, sometimes career-changing consequences. The following case studies show what actually happens when plagiarism is uncovered, from bestselling authors to world-famous musicians and public figures. Each case is factual, with documented outcomes: lawsuits, lost money, damaged reputations, and public scrutiny.
 
----
+As you review these cases, consider:
 
-### Storyboard Prototype Placeholders
+- How did plagiarism affect the people involved?
+- What were the financial, legal, and social consequences?
+- How could proper citation or attribution (like APA style) have changed the outcome?
 
-- **Text:**
-  - Short, impactful case descriptions (e.g., who was involved, what happened, what was at stake).
-  - Simple guiding questions (e.g., "What could have been done differently? Why does this matter?").
-- **Visuals:**
-  - Placeholder images for each case (e.g., author photos, book covers, news headlines).
-  - Simple icons to represent money, legal action, or public attention.
-- **Audio:**
-  - Placeholder for brief audio clips (e.g., news soundbite, instructor summary).
-- **Interactions:**
-  - Clickable or hoverable elements to reveal more details or discussion prompts.
-  - Option for students to vote or comment on which case they find most surprising or important.
+These are not hypotheticals—these are real events. Let’s see what’s at stake when credit isn’t given where it’s due.
 
 ---
 
-Here are some landmark cases (examples for prototyping):
+### Landmark Plagiarism Cases
 
 > Roots, Literary Plagiarism in an Acclaimed Novel  
 **Haley v. Courlander (1978).** Author Alex Haley was sued by Harold Courlander for plagiarizing passages in his novel *Roots* from Courlander’s earlier novel *The African*. The case was settled out of court for **$650,000** (over $2 million in today’s currency), and Haley issued a statement acknowledging the use of Courlander’s work.  Reference: Haley v. Courlander, 84 F.R.D. 366 (S.D.N.Y. 1978).  
