@@ -2,7 +2,7 @@
 layout: post 
 title: CSA Lesson HomePage
 search_exclude: true
-permalink: /navigation/csalessons/
+permalink: /navigation/csa-lessons/
 ---
 
 
