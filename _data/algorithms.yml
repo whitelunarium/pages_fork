@@ -1,9 +1,12 @@
 Title: "Algorithms"
 Description: "Algorithms are step-by-step instructions for solving problems. There are often many ways to solve the same problem, and new algorithms are constantly being developed or adapted from existing ones. Understanding and using algorithms is a key part of programming."
 topButtons:
-  - text: "Algorithm Practice Problems"
-    url: "https://mchopiee.github.io/SyntaxTerrors/csp/big-idea-three/algorithms/p3/practice"
-    color: "bg-green-600 hover:bg-green-700 text-white"
+  - text: "JavaScript Algorithms Homework"
+    url: "/csp/big-idea-three/algorithms/javascript/hw/p3/syntaxterrors"
+    color: "bg-yellow-600 hover:bg-yellow-700 text-white"
+  - text: "Python Algorithms Homework"
+    url: "/csp/big-idea-three/algorithms/python/hw/p3/syntaxterrors"
+    color: "bg-blue-600 hover:bg-blue-700 text-white"
 Topics:
   - title: "What is an Algorithm?"
     keyPoints:
