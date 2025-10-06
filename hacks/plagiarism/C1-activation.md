@@ -15,7 +15,7 @@ lxdData:
     - "Understand the importance of proper citation."
     - "Analyze outcomes of landmark plagiarism cases."
   Topics:
-    - Title: "Roots, Literary Plagiarism in an Acclaimed Novel "
+    - Title: "Roots, Acclaimed Novel Plagiarism "
       Year: 1978
       Amount: "$650,000 (over $2 million today)"
       Outcome: "Settled out of court; public acknowledgment of plagiarism."
