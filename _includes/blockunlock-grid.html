@@ -1,7 +1,56 @@
+<!-- Tutorial Overlay -->
+<div id="tutorial-overlay">
+    <div id="tutorial-content">
+        <h1>How To Play</h1>
+        
+        <h2>🎯 Goal</h2>
+        <p>Get the KEY to touch the DOOR to complete the level!</p>
+        
+        <h2>🖱️ Selecting Tiles</h2>
+        <ul>
+            <li><strong>Click</strong> any tile in the green area to select it</li>
+            <li>Selected tiles get a yellow outline</li>
+            <li>You can only select tiles inside the green area</li>
+        </ul>
+        
+        <h2>🎨 Adding Tiles</h2>
+        <p><strong>Step 1:</strong> Click an empty green space<br>
+        <strong>Step 2:</strong> Press a number key to place a tile:</p>
+        <ul>
+            <li><strong>1</strong> - Block (Basic movable block)</li>
+            <li><strong>2</strong> - Pusher (Moves automatically, press O to start)</li>
+            <li><strong>3</strong> - Heavy Block (Can be pushed)</li>
+            <li><strong>4</strong> - Rotater (Can rotate)</li>
+            <li><strong>5</strong> - Slider (Slides across the grid)</li>
+        </ul>
+        
+        <h2>⌨️ Keyboard Controls</h2>
+        <ul>
+            <li><strong>←↑↓→</strong> - Move selected tiles</li>
+            <li><strong>Q</strong> - Rotate tile left</li>
+            <li><strong>R</strong> - Rotate tile right</li>
+            <li><strong>O</strong> - Start pushers moving</li>
+            <li><strong>ESC</strong> - Stop pushers</li>
+        </ul>
+        
+        <h2>🎮 Button Controls</h2>
+        <ul>
+            <li><strong>← Prev Level / Next Level →</strong> - Change levels</li>
+            <li><strong>🔄 Reset Level</strong> - Restart current level</li>
+            <li><strong>Rotate CW / CCW</strong> - Rotate selected tile</li>
+            <li><strong>Start Pushers</strong> - Make pusher tiles move</li>
+            <li><strong>Stop Pushers</strong> - Stop all pusher movement</li>
+        </ul>
+        
+        <button id="close-tutorial">Start Playing!</button>
+    </div>
+</div>
+
 <div id="controls">
     <div id="level-info">Level 1 of 3</div>
     <button id="prev-level">← Prev Level</button>
     <button id="next-level">Next Level →</button>
+    <button id="reset-level">🔄 Reset Level</button>
     <button id="rotate-cw">Rotate CW</button>
     <button id="rotate-ccw">Rotate CCW</button>
     <button id="start-pushers">Start Pushers (O)</button>
@@ -13,6 +62,41 @@
 <script type="module" src="/assets/js/block-unlock/tile.js"></script>
 <script type="module" src="/assets/js/block-unlock/grid-system.js"></script>
 <script type="module" src="/assets/js/block-unlock/level-system.js"></script>
+
+<script>
+// Close tutorial overlay - must run before module script
+let tutorialClosed = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('close-tutorial');
+    const overlay = document.getElementById('tutorial-overlay');
+    
+    if (closeBtn && overlay) {
+        closeBtn.addEventListener('click', () => {
+            console.log('Close button clicked!');
+            overlay.classList.add('hidden');
+            tutorialClosed = true;
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        });
+    }
+});
+
+// Allow closing tutorial with ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !tutorialClosed) {
+        const overlay = document.getElementById('tutorial-overlay');
+        if (overlay && !overlay.classList.contains('hidden')) {
+            console.log('ESC pressed - closing tutorial');
+            overlay.classList.add('hidden');
+            tutorialClosed = true;
+            e.preventDefault();
+            return;
+        }
+    }
+});
+</script>
 
 <script type="module">
 import { Grid } from "/assets/js/block-unlock/grid-system.js";
@@ -43,16 +127,28 @@ const levelLoader = new LevelLoader(g, container, cells);
 
 // Set up level completion callback
 g.onLevelComplete = () => {
-    console.log("🎉 Level completed!");
+    console.log("=== 🎉 LEVEL COMPLETION TRIGGERED 🎉 ===");
+    
+    // Stop all pushers immediately
+    g.stopAllPushers();
+    console.log("All pushers stopped");
+    
+    // Wait for visual feedback, then load next level
     setTimeout(async () => {
+        console.log("Loading next level...");
         const hasNext = await levelLoader.nextLevel();
+        
         if (!hasNext) {
+            console.log("No more levels - game complete!");
             alert("🎉 Congratulations! You completed all levels!");
         } else {
+            console.log("Next level loaded, updating display...");
             updateLevelDisplay();
             recreateDisplay();
+            console.log("Display updated successfully");
         }
-    }, 1000);
+        console.log("=== LEVEL TRANSITION COMPLETE ===");
+    }, 800);
 };
 
 // Helper: direction -> degrees
@@ -202,8 +298,18 @@ function updateSelectionVisual(){
 
 // Key handling
 window.addEventListener("keydown", e=>{
-    if(e.key==='o'||e.key==='O'){ g.startPushers(); e.preventDefault(); return; }
-    if(e.key==='Escape'){ g.stopAllPushers(); e.preventDefault(); return; }
+    if(e.key==='o'||e.key==='O'){ 
+        console.log("'O' key pressed - starting pushers");
+        console.log("Grid startGame flag:", g.startGame);
+        g.startPushers(); 
+        e.preventDefault(); 
+        return; 
+    }
+    if(e.key==='Escape' && tutorialClosed){ 
+        g.stopAllPushers(); 
+        e.preventDefault(); 
+        return; 
+    }
 
     // Number key tile placement (1-5)
     const num = parseInt(e.key);
@@ -279,6 +385,8 @@ document.getElementById("rotate-ccw")?.addEventListener("click", ()=>{
 });
 
 document.getElementById("start-pushers")?.addEventListener("click", ()=>{ 
+    console.log("Start Pushers button clicked!");
+    console.log("Grid startGame flag:", g.startGame);
     g.startPushers(); 
 });
 
@@ -286,9 +394,118 @@ document.getElementById("stop-pushers")?.addEventListener("click", ()=>{
     g.stopAllPushers(); 
 });
 
+document.getElementById("reset-level")?.addEventListener("click", async ()=>{ 
+    console.log("Reset level clicked");
+    await levelLoader.resetCurrentLevel(); 
+    updateLevelDisplay(); 
+    recreateDisplay(); 
+});
+
 </script>
 
 <style>
+/* Tutorial Overlay Styles */
+#tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+#tutorial-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#tutorial-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 3px solid #00ff88;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 50px rgba(0, 255, 136, 0.3);
+    color: #fff;
+}
+
+#tutorial-content h1 {
+    color: #00ff88;
+    text-align: center;
+    margin-top: 0;
+    font-size: 2em;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+#tutorial-content h2 {
+    color: #ffdd57;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+#tutorial-content p, #tutorial-content ul {
+    line-height: 1.6;
+    color: #e0e0e0;
+}
+
+#tutorial-content ul {
+    padding-left: 20px;
+}
+
+#tutorial-content li {
+    margin-bottom: 8px;
+}
+
+#tutorial-content strong {
+    color: #00ff88;
+}
+
+#close-tutorial {
+    display: block;
+    width: 200px;
+    margin: 30px auto 0;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #00ff88 0%, #00cc70 100%);
+    color: #1a1a2e;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+}
+
+#close-tutorial:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0, 255, 136, 0.6);
+}
+
+/* Scrollbar styling for tutorial */
+#tutorial-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+#tutorial-content::-webkit-scrollbar-track {
+    background: #16213e;
+    border-radius: 10px;
+}
+
+#tutorial-content::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 10px;
+}
+
+/* Game Styles */
 #controls{ text-align:center; margin-bottom:10px; }
 #controls button{ margin:0 5px; padding:6px 10px; cursor:pointer; }
 
@@ -369,3 +586,4 @@ document.getElementById("stop-pushers")?.addEventListener("click", ()=>{
 .grid-cell:hover .cell-bg.placeable{
     background:#3a5a3a;
 }
+</style>
