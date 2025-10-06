@@ -1,0 +1,37 @@
+<div class="container mx-auto px-4 py-8 bg-black/5 backdrop-blur-sm rounded-xl relative">
+  <!-- Pearly glow effect around container -->
+  <div class="relative z-10"> <!-- Wrapper div to ensure content stays above the glow -->
+
+    <!-- Title and Description -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">{{ page.lxdData.Title }}</h2>
+      <p class="text-xl text-gray-300 max-w-4xl mx-auto">{{ page.lxdData.Description }}</p>
+    </div>
+
+    <!-- Topics Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 mb-12">
+      {% for topic in page.lxdData.Topics %}
+        <div class="bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-2">
+          <!-- Image with Play Overlay -->
+          <div class="relative h-40 overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900 mb-4">
+            <a href="{{ topic.Video }}" class="block w-full h-full group">
+              <img src="{{ site.baseurl }}{{ topic.Image }}" alt="{{ topic.Alt }}" class="w-full h-full object-contain transition-all duration-300 group-hover:scale-110">
+              <!-- Play Button Overlay -->
+              <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div class="iridescent bg-white bg-opacity-90 rounded-full p-3">
+                  <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M8 5v10l8-5z"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-white mb-1">{{ topic.Title }}</h3>
+            <p class="text-gray-300 text-sm mb-4">{{ topic.Description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
