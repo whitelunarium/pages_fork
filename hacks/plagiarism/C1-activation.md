@@ -22,9 +22,8 @@ lxdData:
       Citation: "Haley v. Courlander, 84 F.R.D. 366 (S.D.N.Y. 1978)."
       Description: "<b>Haley v. Courlander (1978).</b> Author Alex Haley was sued by Harold Courlander for plagiarizing passages in his novel *Roots* from Courlander’s earlier novel <b>The African</b>. The case was settled out of court for <b>$650,000</b> (over $2 million in today’s currency), and Haley issued a statement acknowledging the use of Courlander’s work.  Reference: Haley v. Courlander, 84 F.R.D. 366 (S.D.N.Y. 1978)."
       Video: "/plagiarism/1/video"
-      Lessons: "/plagiarism/1"
       Image: "https://images.openai.com/thumbnails/url/ykmNbnicu1mUUVJSUGylr5-al1xUWVCSmqJbkpRnoJdeXJJYkpmsl5yfq5-Zm5ieWmxfaAuUsXL0S7F0Tw628Eit0K0MrHLPSU0qMfE0jzQJSC0JSPevCPR2TU93Kym2zHUuLCnXLXU3KfAJK8xy98lwyvP1CvRXKwYA064pkw"
-      Alt: "Alex Haley image from BlackPast.org, CC BY-SA 4.0"
+      Alt: "Alex Haley from BlackPast.org, CC BY-SA 4.0"
     - Title: "George Harrison, Musical Plagiarism"
       Year: 1976
       Amount: "$587,000"
