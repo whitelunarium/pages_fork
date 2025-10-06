@@ -8,7 +8,7 @@ breadcrumb: True
 lxdData:
   Title: "Landmark Plagiarism Cases"
   Description: >
-    Plagiarism isn't just a classroom rule—it's a real-world issue with serious, sometimes career-changing consequences. The following case studies show what actually happens when plagiarism is uncovered, from bestselling authors to world-famous musicians and public figures. Each case is factual, with documented outcomes -- lawsuits, lost money, damaged reputations, and public scrutiny.
+    Plagiarism has real consequences—lawsuits, lost money, damaged reputations, and public embarrassment. These true stories show what happens when famous authors, musicians, and leaders are caught copying. See what’s at stake when you don’t give credit.
   Audience: "High school and college students"
   LearningObjectives:
     - "Recognize real-world consequences of plagiarism."
