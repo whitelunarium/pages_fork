@@ -1,0 +1,57 @@
+<div class="container mx-auto px-4 py-8 bg-black/5 backdrop-blur-sm rounded-xl relative">
+  <!-- Pearly glow effect around container -->
+  <div class="relative z-10"> <!-- Wrapper div to ensure content stays above the glow -->
+
+    <!-- Title and Description -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">{{ page.lxdData.Title }}</h2>
+      <p class="text-xl text-gray-300 max-w-4xl mx-auto">{{ page.lxdData.Description }}</p>
+    </div>
+
+    <!-- Topics Cards Grid -->
+    <div class="grid grid-cols-1 gap-8 mb-12">
+      {% for topic in page.lxdData.Topics %}
+        <div class="bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group transform hover:-translate-y-2 flex flex-col">
+          <!-- Title on top, inside card -->
+          <div class="w-full px-6 pt-6 pb-2">
+            <h3 class="text-2xl xl:text-3xl font-bold text-white">{{ topic.Title }}</h3>
+          </div>
+          <!-- Picture | Data row -->
+          <div class="flex flex-col lg:flex-row w-full">
+            <!-- Image Left -->
+            <div class="flex-shrink-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-700 to-gray-900 lg:w-72 xl:w-80 h-56 lg:h-auto">
+              <img src="{{ topic.Image }}" alt="{{ topic.Alt }}" class="w-auto h-40 lg:h-56 object-contain rounded-lg shadow-lg m-4">
+              {% if topic.Alt %}
+                <div class="text-xs text-gray-400 text-center px-2 pb-2">{{ topic.Alt }}</div>
+              {% endif %}
+            </div>
+            <!-- Data Card Right -->
+            <div class="flex-1 p-6 flex flex-col justify-center">
+              <div class="flex flex-wrap gap-4 mb-4">
+                {% if topic.Year %}
+                  <div class="bg-blue-900 text-blue-200 text-lg font-semibold px-4 py-2 rounded shadow">Year: {{ topic.Year }}</div>
+                {% endif %}
+                {% if topic.Amount %}
+                  <div class="bg-green-900 text-green-200 text-lg font-semibold px-4 py-2 rounded shadow">Amount: {{ topic.Amount }}</div>
+                {% endif %}
+                {% if topic.Outcome %}
+                  <div class="bg-yellow-900 text-yellow-200 text-lg font-semibold px-4 py-2 rounded shadow">Outcome: {{ topic.Outcome }}</div>
+                {% endif %}
+              </div>
+              {% if topic.Video %}
+                <a href="{{ topic.Video }}" class="inline-block mt-4 bg-blue-700 hover:bg-blue-600 text-white text-sm font-bold px-4 py-2 rounded transition">Watch Video</a>
+              {% endif %}
+            </div>
+          </div>
+          <!-- Description on bottom, inside card -->
+          <div class="w-full px-6 pb-6 pt-2">
+            <p class="text-gray-300 text-base">{{ topic.Description }}</p>
+            {% if topic.Citation %}
+              <div class="text-xs text-gray-400 mt-2">Citation: {{ topic.Citation }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
