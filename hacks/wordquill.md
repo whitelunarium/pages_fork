@@ -31,7 +31,7 @@ permalink: /word
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 contents: [{
-                    parts: [{ text: `Please look at this text for examples of plagiarism ${text}` }]
+                    parts: [{ text: `Please look at this text for correct academic citations, and recommend APA references for each area of concern: ${text}` }]
                 }]
             })
         })
