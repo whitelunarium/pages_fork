@@ -1,7 +1,7 @@
 ---
 layout: post
-title: CodeMirror Demo
-permalink: /codemirror
+title: CodeMirror w/Python 
+permalink: /code
 ---
 
 <!-- CodeMirror CSS from CDN -->
@@ -24,27 +24,28 @@ permalink: /codemirror
       theme: "darcula"
     });
 
-    document.getElementById("runBtn").onclick = async function() {
+    document.getElementById("runBtn").onclick = function() {
       const code = editor.getValue();
       const outputDiv = document.getElementById("output");
       outputDiv.textContent = "⏳ Running...";
-      try {
-        const resp = await fetch("https://emkc.org/api/v2/piston/execute", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            language: "python",
-            version: "3.10.0",
-            files: [{ name: "main.py", content: code }]
-          })
-        });
-        const result = await resp.json();
+      fetch("https://emkc.org/api/v2/piston/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          language: "python",
+          version: "3.10.0",
+          files: [{ name: "main.py", content: code }]
+        })
+      })
+      .then(resp => resp.json())
+      .then(result => {
         if (result.run && result.run.output) outputDiv.textContent = result.run.output;
         else if (result.run && result.run.stdout) outputDiv.textContent = result.run.stdout;
         else outputDiv.textContent = "[no output]";
-      } catch (e) {
+      })
+      .catch(e => {
         outputDiv.textContent = "⚠️ " + e;
-      }
+      });
     };
   });
 </script>
