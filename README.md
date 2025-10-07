@@ -124,8 +124,26 @@ To run many of the IPYNB files you will need to install Jupyter kernels for the 
 
 - **Python3** (ipykernel): For Python code cells and most data science workflows.
 - **Java** (IJava or jbang-ijava): For Java code cells and Java notebooks.
+- **JavaScript** (tslab): For JavaScript code cells and JavaScript notebooks.
 
-#### Sample Installation Commands
+#### Installing tslab
+
+First, Install tslab
+```
+npm install -g tslab
+```
+
+Second, confirm it's installed
+```
+tslab install --version
+```
+
+Finally, register it to your Jupyter environment
+```
+tslab install
+```
+
+#### Installing IJava or JBang
 
 **macOS (Homebrew):**
 
@@ -159,6 +177,8 @@ Available kernels:
   python3        /Users/username/Library/Jupyter/kernels/python3
   java           /Users/username/Library/Jupyter/kernels/java
   jbang-ijava    /Users/username/Library/Jupyter/kernels/jbang-ijava
+  jslab          /Users/username/Library/Jupyter/kernels/jslab
+  tslab          /Users/username/Library/Jupyter/kernels/tslab
 ```
 
 Recommended Kernels
