@@ -249,4 +249,5 @@ services:
 
 ## Hacks
 
-Start your own Spring Project: https://github.com/open-coding-society/spring_2025
+Start your own Spring Project: 
+<a href="https://github.com/Open-Coding-Society/spring" target="_blank">https://github.com/Open-Coding-Society/spring</a>
