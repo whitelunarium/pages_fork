@@ -1,0 +1,35 @@
+// AUTO-GENERATED - Do not edit manually
+// Theme: minima
+// Updated by scripts/update_color_map.py
+
+// Standard color variables
+$std-bg-primary: #fdfdfd;
+$std-bg-secondary: #f0f0f0;
+$std-border: #e8e8e8;
+$std-error: #d33682;
+$std-link: #2a7ae2;
+$std-link-hover: #1756a9;
+$std-primary: #2a7ae2;
+$std-secondary: #828282;
+$std-success: #2a7ae2;
+$std-text-muted: #999;
+$std-text-primary: #111;
+$std-text-secondary: #828282;
+$std-warning: #828282;
+
+// Convert to CSS custom properties
+:root {
+  --color-bg-primary: #{$std-bg-primary};
+  --color-bg-secondary: #{$std-bg-secondary};
+  --color-border: #{$std-border};
+  --color-error: #{$std-error};
+  --color-link: #{$std-link};
+  --color-link-hover: #{$std-link-hover};
+  --color-primary: #{$std-primary};
+  --color-secondary: #{$std-secondary};
+  --color-success: #{$std-success};
+  --color-text-muted: #{$std-text-muted};
+  --color-text-primary: #{$std-text-primary};
+  --color-text-secondary: #{$std-text-secondary};
+  --color-warning: #{$std-warning};
+}
