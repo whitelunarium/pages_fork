@@ -1,12 +1,11 @@
 ---
-layout: opencs 
+layout: opencs
 title: "Peppa Pig Maze"
 description: "Guide Peppa Pig through a maze to learn CS fun facts"
 permalink: /peppa-maze/
 ---
 
 <style>
-  /* Body styling and background image */
   body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -15,7 +14,6 @@ permalink: /peppa-maze/
     background-size: cover;
   }
 
-  /* Canvas styling for the maze */
   canvas {
     border: 2px solid black;
     display: block;
@@ -23,19 +21,30 @@ permalink: /peppa-maze/
     background: rgba(240, 240, 240, 0.95);
   }
 
-  /* Question box styling */
   #questionBox {
     margin: 10px auto;
     padding: 20px;
     width: 80%;
     max-width: 600px;
-    background: #00BB00;
+    background: #fff;
     border-radius: 12px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
     text-align: left;
     display: none;
   }
 
+  #questionBox * {
+    color: black !important;
+  }
+
+
+  #questionText {
+    color: black;
+    /* Main question text color - dark blue */
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
 
   .answer-btn {
     display: block;
@@ -43,7 +52,7 @@ permalink: /peppa-maze/
     padding: 12px;
     margin: 8px 0;
     background: #4CAF50;
-    color: green;
+    color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -74,7 +83,6 @@ permalink: /peppa-maze/
     border: 1px solid #f5c6cb;
   }
 
-  /* Dice controls styling */
   #diceControls {
     margin: 20px auto;
     display: flex;
@@ -151,7 +159,6 @@ permalink: /peppa-maze/
     max-width: 300px;
   }
 
-  /* Mode selection styling */
   #modeSelection {
     position: fixed;
     top: 0;
@@ -196,532 +203,435 @@ permalink: /peppa-maze/
   .mode-btn:hover {
     transform: scale(1.05);
   }
-</style>
 
-<!-- Mode selection overlay -->
-<div id="modeSelection">
-  <div class="mode-container">
-    <h2>🐷 Choose Game Mode 🐖</h2>
-    <button class="mode-btn" onclick="startGame(1)">Single Player</button>
-    <button class="mode-btn" onclick="startGame(2)">Two Players</button>
-  </div>
-</div>
-
-<!-- Turn indicator -->
-<div id="turnIndicator">Peppa's Turn!</div>
-
-<!-- Container for the maze and controls -->
-<div id="gameContainer"></div>
-
-<!-- Dice controls for both players -->
-<div id="diceControls">
-  <div class="playerDice" id="player1Dice">
-    <div class="playerLabel player1Label">🐷 Peppa (WASD)</div>
-    <button id="rollDice1" class="diceButton">Roll Dice</button>
-    <div id="dice1" class="diceDisplay">🎲</div>
-    <div id="moves1" class="movesLeft">Moves left: 0</div>
-  </div>
-  <div class="playerDice" id="player2Dice">
-    <div class="playerLabel player2Label">🐖 George (Arrow Keys)</div>
-    <button id="rollDice2" class="diceButton" disabled>Roll Dice</button>
-    <div id="dice2" class="diceDisplay">🎲</div>
-    <div id="moves2" class="movesLeft">Moves left: 0</div>
-  </div>
-</div>
-
-<!-- Question box -->
-<div id="questionBox">
-  <h3 id="questionText"></h3>
-  <div id="answersContainer"></div>
-  <div id="feedback"></div>
-</div>
-
-<script>
-  let gameMode = 0; // 0 = not started, 1 = single player, 2 = two player
-
-  function startGame(mode) {
-    gameMode = mode;
-    document.getElementById('modeSelection').classList.add('hidden');
-
-    if (mode === 1) {
-      // Hide player 2 controls in single player
-      document.getElementById('player2Dice').style.display = 'none';
-      document.getElementById('turnIndicator').textContent = "Single Player Mode";
-    }
-
-    createPeppaMaze("gameContainer");
+  select {
+    padding: 12px 20px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    min-width: 250px;
   }
 
-  // Main function to create and run the Peppa Pig maze game
-  function createPeppaMaze(containerId) {
-    const container = document.getElementById(containerId);
+  select:focus {
+    outline: none;
+    border-color: #ff69b4;
+  }
 
-    // Insert canvas
-    container.innerHTML = `<canvas id="mazeCanvas"></canvas>`;
+  label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2a5d9f;
+    font-weight: bold;
+  }
+</style>
+</head>
 
-    // Grab canvas context and DOM elements
-    const canvas = container.querySelector("#mazeCanvas");
-    const ctx = canvas.getContext("2d");
-    const questionBox = document.getElementById("questionBox");
-    const questionText = document.getElementById("questionText");
-    const answersContainer = document.getElementById("answersContainer");
-    const feedback = document.getElementById("feedback");
-    const turnIndicator = document.getElementById("turnIndicator");
+<body>
 
-    // Dice controls
-    const rollDice1Btn = document.getElementById("rollDice1");
-    const rollDice2Btn = document.getElementById("rollDice2");
-    const dice1Display = document.getElementById("dice1");
-    const dice2Display = document.getElementById("dice2");
-    const moves1Display = document.getElementById("moves1");
-    const moves2Display = document.getElementById("moves2");
-    const player1DiceDiv = document.getElementById("player1Dice");
-    const player2DiceDiv = document.getElementById("player2Dice");
+  <div id="modeSelection">
+    <div class="mode-container">
+      <h2>🐷 Choose Game Mode 🐖</h2>
+      <label for="lessonSelect">Select Lesson Topic:</label>
+      <select id="lessonSelect">
+        <option value="variables">Variables & Assignments</option>
+        <option value="algorithms">Developing Algorithms</option>
+      </select><br>
+      <button class="mode-btn" onclick="startGame(1)">Single Player</button>
+      <button class="mode-btn" onclick="startGame(2)">Two Players</button>
+    </div>
+  </div>
 
-    // Canvas dimensions
-    canvas.width = 600;
-    canvas.height = 600;
+  <div id="turnIndicator">Peppa's Turn!</div>
 
-    // Maze configuration
-    const cellSize = 60;
-    const rows = 10;
-    const cols = 10;
-    const maze = [
-      [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-      [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-      [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-      [0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]
-    ];
+  <div id="gameContainer"></div>
 
-    // Number positions in the maze
-    const numbers = {
-      "1": { x: 1, y: 0 }, "2": { x: 4, y: 0 }, "3": { x: 8, y: 0 },
-      "4": { x: 0, y: 4 }, "5": { x: 5, y: 4 }, "6": { x: 9, y: 4 },
-      "7": { x: 0, y: 8 }, "8": { x: 5, y: 8 }, "9": { x: 9, y: 9 }
-    };
+  <div id="diceControls">
+    <div class="playerDice" id="player1Dice">
+      <div class="playerLabel player1Label">🐷 Peppa (WASD)</div>
+      <button id="rollDice1" class="diceButton">Roll Dice</button>
+      <div id="dice1" class="diceDisplay">🎲</div>
+      <div id="moves1" class="movesLeft">Moves left: 0</div>
+    </div>
+    <div class="playerDice" id="player2Dice">
+      <div class="playerLabel player2Label">🐖 George (Arrow Keys)</div>
+      <button id="rollDice2" class="diceButton" disabled>Roll Dice</button>
+      <div id="dice2" class="diceDisplay">🎲</div>
+      <div id="moves2" class="movesLeft">Moves left: 0</div>
+    </div>
+  </div>
 
-    // Questions about JavaScript and Python
-    const allQuestions = [
-      {
-        question: "In Python, what does the len() function return?",
-        answers: ["The length of a string or list", "The last element", "The data type", "The memory size"],
-        correct: 0,
-        explanation: "The len() function returns the number of items in an object like a string, list, or tuple."
-      },
-      {
-        question: "True or False: In JavaScript, '5' == 5 returns true.",
-        answers: ["True", "False"],
-        correct: 0,
-        explanation: "JavaScript's == operator performs type coercion, so '5' == 5 is true. Use === for strict equality without type coercion."
-      },
-      {
-        question: "What is the correct way to declare a variable in JavaScript ES6?",
-        answers: ["var name = 'John'", "let name = 'John'", "const name = 'John'", "All of the above"],
-        correct: 3,
-        explanation: "JavaScript has var (old), let (reassignable), and const (constant). All are valid, but let and const are modern ES6 standards."
-      },
-      {
-        question: "In Python, which symbol is used for exponentiation?",
-        answers: ["^", "**", "pow", "exp"],
-        correct: 1,
-        explanation: "Python uses ** for exponentiation. For example, 2**3 equals 8. The ^ symbol is used for XOR, not exponentiation."
-      },
-      {
-        question: "True or False: JavaScript is case-sensitive.",
-        answers: ["True", "False"],
-        correct: 0,
-        explanation: "JavaScript is case-sensitive. 'myVar', 'MyVar', and 'MYVAR' are three different identifiers."
-      },
-      {
-        question: "What does Python's print() function do?",
-        answers: ["Returns a value", "Outputs text to console", "Creates a variable", "Imports a module"],
-        correct: 1,
-        explanation: "print() displays output to the console/terminal. It's essential for debugging and showing results to users."
-      },
-      {
-        question: "In JavaScript, what will typeof null return?",
-        answers: ["'null'", "'undefined'", "'object'", "'error'"],
-        correct: 2,
-        explanation: "This is a famous JavaScript quirk! typeof null returns 'object' due to a legacy bug in the language design."
-      },
-      {
-        question: "Which Python data structure is ordered and mutable?",
-        answers: ["tuple", "set", "list", "dictionary"],
-        correct: 2,
-        explanation: "Lists are ordered (maintain insertion order) and mutable (can be changed). Tuples are immutable, sets are unordered."
-      },
-      {
-        question: "True or False: In JavaScript, you can add a number to a string.",
-        answers: ["True", "False"],
-        correct: 0,
-        explanation: "JavaScript allows this through type coercion. For example, '5' + 3 results in '53' (string concatenation)."
+  <div id="questionBox">
+    <h3 id="questionText"></h3>
+    <div id="answersContainer"></div>
+    <div id="feedback"></div>
+  </div>
+
+  <script>
+    let gameMode = 0;
+    let lessonType = "variables";
+
+    function startGame(mode) {
+      gameMode = mode;
+      lessonType = document.getElementById('lessonSelect').value;
+      document.getElementById('modeSelection').classList.add('hidden');
+
+      if (mode === 1) {
+        document.getElementById('player2Dice').style.display = 'none';
+        document.getElementById('turnIndicator').textContent = "Single Player Mode";
       }
-    ];
 
-    // Track used questions and create shuffled question pool
-    let availableQuestions = [...allQuestions];
-    let usedQuestions = new Set();
-
-    // Shuffle function
-    function shuffleArray(array) {
-      const shuffled = [...array];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
+      createPeppaMaze("gameContainer");
     }
 
-    // Initialize shuffled questions
-    availableQuestions = shuffleArray([...allQuestions]);
+    function createPeppaMaze(containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = `<canvas id="mazeCanvas"></canvas>`;
 
-    // Game state
-    let currentPlayer = 1;
-    let waitingForAnswer = false;
-    let questionedPlayer = null;
+      const canvas = container.querySelector("#mazeCanvas");
+      const ctx = canvas.getContext("2d");
+      const questionBox = document.getElementById("questionBox");
+      const questionText = document.getElementById("questionText");
+      const answersContainer = document.getElementById("answersContainer");
+      const feedback = document.getElementById("feedback");
+      const turnIndicator = document.getElementById("turnIndicator");
 
-    // Player objects
-    const player1 = {
-      x: 0,
-      y: 0,
-      moves: 0,
-      color: "#ff69b4",
-      name: "Peppa"
-    };
+      const rollDice1Btn = document.getElementById("rollDice1");
+      const rollDice2Btn = document.getElementById("rollDice2");
+      const dice1Display = document.getElementById("dice1");
+      const dice2Display = document.getElementById("dice2");
+      const moves1Display = document.getElementById("moves1");
+      const moves2Display = document.getElementById("moves2");
+      const player1DiceDiv = document.getElementById("player1Dice");
+      const player2DiceDiv = document.getElementById("player2Dice");
 
-    const player2 = {
-      x: 1,
-      y: 0,
-      moves: 0,
-      color: "#4169e1",
-      name: "George"
-    };
+      canvas.width = 600;
+      canvas.height = 600;
 
-    // Animation state
-    let animating = false;
-
-    // Function to draw the maze grid and numbers
-    function drawMaze() {
-      for (let y = 0; y < rows; y++) {
-        for (let x = 0; x < cols; x++) {
-          ctx.fillStyle = maze[y][x] === 1 ? "#444" : "#fff";
-          ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-          ctx.strokeStyle = "#000";
-          ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
-        }
-      }
-
-      // Draw numbers in blue
-      ctx.fillStyle = "blue";
-      ctx.font = "20px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      for (const num in numbers) {
-        const pos = numbers[num];
-        ctx.fillText(num, pos.x * cellSize + cellSize / 2, pos.y * cellSize + cellSize / 2);
-      }
-    }
-
-    // Function to draw a player with simple circle
-    function drawPlayer(player) {
-      // Draw circle
-      ctx.fillStyle = player.color;
-      ctx.beginPath();
-      ctx.arc(player.x * cellSize + cellSize / 2, player.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
-      ctx.fill();
-
-      // Draw eyes
-      ctx.fillStyle = "#000";
-      ctx.beginPath();
-      ctx.arc(player.x * cellSize + cellSize / 2 - 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(player.x * cellSize + cellSize / 2 + 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
-      ctx.fill();
-    }
-
-    // Main animation loop
-    function update() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawMaze();
-      drawPlayer(player1);
-      if (gameMode === 2) {
-        drawPlayer(player2);
-      }
-      requestAnimationFrame(update);
-    }
-
-    // Switch turns
-    function switchTurn() {
-      currentPlayer = currentPlayer === 1 ? 2 : 1;
-      updateTurnDisplay();
-    }
-
-    // Update turn display
-    function updateTurnDisplay() {
-      if (gameMode === 1) {
-        turnIndicator.textContent = "Single Player Mode";
-        turnIndicator.style.color = "#ff69b4";
-        return;
-      }
-
-      if (currentPlayer === 1) {
-        turnIndicator.textContent = "🐷 Peppa's Turn!";
-        turnIndicator.style.color = "#ff69b4";
-        player1DiceDiv.classList.add("current-turn");
-        player2DiceDiv.classList.remove("current-turn");
-        rollDice1Btn.disabled = false;
-        rollDice2Btn.disabled = true;
-      } else {
-        turnIndicator.textContent = "🐖 George's Turn!";
-        turnIndicator.style.color = "#4169e1";
-        player2DiceDiv.classList.add("current-turn");
-        player1DiceDiv.classList.remove("current-turn");
-        rollDice1Btn.disabled = true;
-        rollDice2Btn.disabled = false;
-      }
-    }
-
-    // Roll dice function
-    function rollDice(player, diceDisplay, movesDisplay, rollButton) {
-      const roll = Math.floor(Math.random() * 6) + 1;
-      player.moves += roll; // Add to existing moves instead of replacing
-      diceDisplay.textContent = `🎲 ${roll}`;
-      movesDisplay.textContent = `Moves left: ${player.moves}`;
-
-      // Only disable in multiplayer mode
-      if (gameMode === 2) {
-        rollButton.disabled = true;
-      }
-      // In single player mode, keep button enabled for multiple rolls
-    }
-
-    // Update moves display
-    function updateMovesDisplay(player, movesDisplay) {
-      movesDisplay.textContent = `Moves left: ${player.moves}`;
-
-      // In single player mode, re-enable dice button when moves are used up
-      if (gameMode === 1 && player.moves === 0) {
-        rollDice1Btn.disabled = false;
-      }
-    }
-
-    // Check if move is valid (only check walls, allow players to pass through each other)
-    function isValidMove(x, y, movingPlayer) {
-      // Check bounds and walls only
-      if (x < 0 || x >= cols || y < 0 || y >= rows || maze[y][x] === 1) {
-        return false;
-      }
-
-      // Allow players to pass through each other
-      return true;
-    }
-
-    // Move player with animation
-    function movePlayer(player, dx, dy, movesDisplay) {
-      if (animating || player.moves <= 0 || waitingForAnswer) return;
-      if ((currentPlayer === 1 && player !== player1) || (currentPlayer === 2 && player !== player2)) return;
-
-      // In single player mode, only allow player 1 to move
-      if (gameMode === 1 && player !== player1) return;
-
-      const newX = player.x + dx;
-      const newY = player.y + dy;
-
-      if (!isValidMove(newX, newY, player)) return;
-
-      animating = true;
-      const startX = player.x;
-      const startY = player.y;
-      let progress = 0;
-
-      function animate() {
-        progress += 0.1;
-        if (progress >= 1) {
-          player.x = newX;
-          player.y = newY;
-          player.moves--;
-          updateMovesDisplay(player, movesDisplay);
-          animating = false;
-          checkForQuestion(player);
-
-          // Switch turn if no moves left
-          if (player.moves === 0 && !waitingForAnswer && gameMode === 2) {
-            switchTurn();
-          }
-          return;
-        }
-        player.x = startX + (newX - startX) * progress;
-        player.y = startY + (newY - startY) * progress;
-        requestAnimationFrame(animate);
-      }
-      animate();
-    }
-
-    // Check if player reached a number position
-    function checkForQuestion(player) {
-      const playerX = Math.round(player.x);
-      const playerY = Math.round(player.y);
-
-      for (const num in numbers) {
-        const pos = numbers[num];
-        if (playerX === pos.x && playerY === pos.y) {
-          showQuestion(num, player);
-          break;
-        }
-      }
-    }
-
-    // Show question - get next random question from pool
-    function showQuestion(num, player) {
-      // Check if we've used all questions
-      if (availableQuestions.length === 0) {
-        availableQuestions = shuffleArray([...allQuestions]);
-        usedQuestions.clear();
-      }
-
-      // Get the next question from shuffled pool
-      const q = availableQuestions.shift();
-
-      if (!q) {
-        return;
-      }
-
-      waitingForAnswer = true;
-      questionedPlayer = player;
-
-      questionText.textContent = player.name + ", " + q.question;
-      answersContainer.innerHTML = '';
-      feedback.style.display = 'none';
-
-      q.answers.forEach((answer, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'answer-btn';
-        btn.textContent = answer;
-        btn.onclick = () => checkAnswer(index, q.correct, q.explanation, player);
-        answersContainer.appendChild(btn);
-      });
-
-      questionBox.style.display = 'block';
-    }
-
-    // Check answer
-    function checkAnswer(selected, correct, explanation, player) {
-      const buttons = answersContainer.querySelectorAll('.answer-btn');
-      buttons.forEach(btn => btn.disabled = true);
-
-      if (selected === correct) {
-        feedback.className = 'correct';
-        feedback.textContent = `✓ Correct! ${explanation}`;
-      } else {
-        feedback.className = 'incorrect';
-        feedback.textContent = `✗ Incorrect. ${explanation}`;
-
-        // Move player back one step
-        setTimeout(() => {
-          movePlayerBack(player);
-        }, 2000);
-      }
-
-      feedback.style.display = 'block';
-
-      setTimeout(() => {
-        questionBox.style.display = 'none';
-        waitingForAnswer = false;
-
-        // Switch turn after question
-        if (player.moves === 0 && gameMode === 2) {
-          switchTurn();
-        }
-      }, 3000);
-    }
-
-    // Move player back one step
-    function movePlayerBack(player) {
-      const directions = [
-        { dx: 0, dy: -1 }, { dx: 0, dy: 1 }, { dx: -1, dy: 0 }, { dx: 1, dy: 0 }
+      const cellSize = 60;
+      const rows = 10;
+      const cols = 10;
+      const maze = [
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 0]
       ];
 
-      // Try each direction to find a valid move back
-      for (const dir of directions) {
-        const newX = player.x + dir.dx;
-        const newY = player.y + dir.dy;
-        if (isValidMove(newX, newY, player)) {
-          // Animate the move back
-          animating = true;
-          const startX = player.x;
-          const startY = player.y;
-          let progress = 0;
+      const numbers = {
+        "1": { x: 1, y: 0 }, "2": { x: 4, y: 0 }, "3": { x: 8, y: 0 },
+        "4": { x: 0, y: 4 }, "5": { x: 5, y: 4 }, "6": { x: 9, y: 4 },
+        "7": { x: 0, y: 8 }, "8": { x: 5, y: 8 }, "9": { x: 9, y: 9 }
+      };
 
-          function animateBack() {
-            progress += 0.15; // Slightly faster animation for penalty
-            if (progress >= 1) {
-              player.x = newX;
-              player.y = newY;
-              animating = false;
-              return;
-            }
-            player.x = startX + (newX - startX) * progress;
-            player.y = startY + (newY - startY) * progress;
-            requestAnimationFrame(animateBack);
+      const variableFacts = [
+        { question: "Variables are named storage locations that hold data your program needs.", answers: ["True", "False"], correct: 0, explanation: "True! Think of variables as labeled boxes where you store and retrieve information." },
+        { question: "In Python, you need a special keyword to create a variable.", answers: ["True", "False"], correct: 1, explanation: "False! Python creates variables with simple assignment: peppa_x = 0" },
+        { question: "In JavaScript, you should use 'let' for values that change and 'const' for constants.", answers: ["True", "False"], correct: 0, explanation: "True! 'let' allows reassignment while 'const' keeps values constant." },
+        { question: "Python uses snake_case naming (like peppa_position).", answers: ["True", "False"], correct: 0, explanation: "True! Python convention uses lowercase with underscores between words." },
+        { question: "JavaScript uses snake_case naming (like peppa_position).", answers: ["True", "False"], correct: 1, explanation: "False! JavaScript uses camelCase (like peppaPosition) - capitalize first letter of each new word." },
+        { question: "The assignment operator '=' means 'store this value'.", answers: ["True", "False"], correct: 0, explanation: "True! In peppa_x = 0, the '=' stores the value 0 in the variable peppa_x." },
+        { question: "You can update a variable's value after creating it.", answers: ["True", "False"], correct: 0, explanation: "True! Variables are called 'variable' because their values can vary: x = x + 1" },
+        { question: "Good variable names should be short single letters like 'x' or 'p'.", answers: ["True", "False"], correct: 1, explanation: "False! Use descriptive names like 'movesLeft' instead of just 'm' to make code readable." },
+        { question: "Booleans can store true/false values.", answers: ["True", "False"], correct: 0, explanation: "True! Booleans flip between true and false, like: animating = true" },
+        { question: "You can change strings stored in variables.", answers: ["True", "False"], correct: 0, explanation: "True! You can reassign: currentMessage = 'Peppa's turn!' then later currentMessage = 'George's turn!'" },
+        { question: "Variables remember information while the program runs.", answers: ["True", "False"], correct: 0, explanation: "True! Without variables, games would forget positions, scores, and other important data." },
+        { question: "In the Peppa Maze, variables track position, moves, and game state.", answers: ["True", "False"], correct: 0, explanation: "True! The game uses peppaX, peppaY, movesLeft, currentPlayer, and more." },
+        { question: "When updating x = x + 1, the computer first reads the old value, then calculates and stores the new value.", answers: ["True", "False"], correct: 0, explanation: "True! Step 1: Read current value. Step 2: Calculate new value. Step 3: Store result back." },
+        { question: "You must use quotes around text when storing it in a variable.", answers: ["True", "False"], correct: 0, explanation: "True! Without quotes in name = Peppa, it thinks Peppa is a variable. Use name = 'Peppa'." },
+        { question: "Multiple variables can work together to track complex game state.", answers: ["True", "False"], correct: 0, explanation: "True! Games use many variables together: position (x,y), moves, player turn, animating state, etc." }
+      ];
+
+      const algorithmFacts = [
+        { question: "An algorithm is a clear, step-by-step process for solving a problem.", answers: ["True", "False"], correct: 0, explanation: "True! Like a recipe, each instruction must be followed in order to reach the correct result." },
+        { question: "Different algorithms can solve the same problem in different ways.", answers: ["True", "False"], correct: 0, explanation: "True! You can sum numbers manually with a loop, or use a built-in function - both work!" },
+        { question: "Boolean expressions evaluate to either true or false.", answers: ["True", "False"], correct: 0, explanation: "True! Conditions like x > y or isEven(num) return boolean values for decision-making." },
+        { question: "Conditional statements tell the computer to do something only if a condition is true.", answers: ["True", "False"], correct: 0, explanation: "True! if/else statements use boolean logic to make decisions in algorithms." },
+        { question: "In the Peppa Maze, the movement algorithm checks for walls before moving.", answers: ["True", "False"], correct: 0, explanation: "True! The canPeppaMove() function validates moves against boundaries and walls." },
+        { question: "Algorithms should only be written in code, never in plain English.", answers: ["True", "False"], correct: 1, explanation: "False! Many algorithms are first described in natural language or pseudocode before coding." },
+        { question: "The modulo operator (%) can check if a number is even or odd.", answers: ["True", "False"], correct: 0, explanation: "True! num % 2 === 0 checks if a number is even (remainder of 0 when divided by 2)." },
+        { question: "A loop is an algorithm that repeats steps multiple times.", answers: ["True", "False"], correct: 0, explanation: "True! Loops like 'for' and 'while' execute the same instructions repeatedly." },
+        { question: "Testing algorithms means trying many different inputs to ensure correctness.", answers: ["True", "False"], correct: 0, explanation: "True! Good testing covers edge cases, normal cases, and invalid inputs." },
+        { question: "The Peppa Maze uses an algorithm to animate smooth movement between cells.", answers: ["True", "False"], correct: 0, explanation: "True! The animate() function gradually moves Peppa using progress from 0 to 1." },
+        { question: "Algorithms can combine multiple operations like checking, updating, and drawing.", answers: ["True", "False"], correct: 0, explanation: "True! The movePeppa algorithm validates, animates, updates position, decrements moves, and checks for questions." },
+        { question: "Built-in functions like max() or sum() use optimized algorithms.", answers: ["True", "False"], correct: 0, explanation: "True! Languages provide pre-made, efficient algorithms for common tasks." },
+        { question: "An algorithm always produces the same result for the same input.", answers: ["True", "False"], correct: 0, explanation: "True! Deterministic algorithms are consistent and predictable." },
+        { question: "Breaking problems into smaller steps makes algorithms easier to understand.", answers: ["True", "False"], correct: 0, explanation: "True! Functions like drawMaze(), drawPlayer(), and checkForQuestion() each handle one clear task." },
+        { question: "Debugging means finding and fixing issues in an algorithm without starting over.", answers: ["True", "False"], correct: 0, explanation: "True! Debug by testing, identifying problems, and making targeted fixes." }
+      ];
+
+      const allQuestions = (lessonType === "algorithms" ? algorithmFacts : variableFacts).slice();
+      let availableQuestions = shuffleArray(allQuestions);
+      let usedQuestions = new Set();
+
+      function shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+      }
+
+      let currentPlayer = 1;
+      let waitingForAnswer = false;
+      let questionedPlayer = null;
+
+      const player1 = {
+        x: 0, y: 0, moves: 0, color: "#ff69b4", name: "Peppa"
+      };
+      const player2 = {
+        x: 1, y: 0, moves: 0, color: "#4169e1", name: "George"
+      };
+
+      let animating = false;
+
+      function drawMaze() {
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            ctx.fillStyle = maze[y][x] === 1 ? "#444" : "#fff";
+            ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+            ctx.strokeStyle = "#000";
+            ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
           }
-          animateBack();
-          break; // Exit after first valid move
+        }
+        ctx.fillStyle = "blue";
+        ctx.font = "20px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        for (const num in numbers) {
+          const pos = numbers[num];
+          ctx.fillText(num, pos.x * cellSize + cellSize / 2, pos.y * cellSize + cellSize / 2);
         }
       }
+
+      function drawPlayer(player) {
+        ctx.fillStyle = player.color;
+        ctx.beginPath();
+        ctx.arc(player.x * cellSize + cellSize / 2, player.y * cellSize + cellSize / 2, cellSize / 3, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = "#000";
+        ctx.beginPath();
+        ctx.arc(player.x * cellSize + cellSize / 2 - 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(player.x * cellSize + cellSize / 2 + 5, player.y * cellSize + cellSize / 2 - 5, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+
+      function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawMaze();
+        drawPlayer(player1);
+        if (gameMode === 2) drawPlayer(player2);
+        requestAnimationFrame(update);
+      }
+
+      function switchTurn() {
+        currentPlayer = (currentPlayer === 1 ? 2 : 1);
+        updateTurnDisplay();
+      }
+
+      function updateTurnDisplay() {
+        if (gameMode === 1) {
+          turnIndicator.textContent = "Single Player Mode";
+          turnIndicator.style.color = "#ff69b4";
+          return;
+        }
+        if (currentPlayer === 1) {
+          turnIndicator.textContent = "🐷 Peppa's Turn!";
+          turnIndicator.style.color = "#ff69b4";
+          player1DiceDiv.classList.add("current-turn");
+          player2DiceDiv.classList.remove("current-turn");
+          rollDice1Btn.disabled = false;
+          rollDice2Btn.disabled = true;
+        } else {
+          turnIndicator.textContent = "🐖 George's Turn!";
+          turnIndicator.style.color = "#4169e1";
+          player2DiceDiv.classList.add("current-turn");
+          player1DiceDiv.classList.remove("current-turn");
+          rollDice1Btn.disabled = true;
+          rollDice2Btn.disabled = false;
+        }
+      }
+
+      function rollDice(player, diceDisplay, movesDisplay, rollButton) {
+        const roll = Math.floor(Math.random() * 6) + 1;
+        player.moves += roll;
+        diceDisplay.textContent = `🎲 ${roll}`;
+        movesDisplay.textContent = `Moves left: ${player.moves}`;
+        if (gameMode === 2) rollButton.disabled = true;
+      }
+
+      function updateMovesDisplay(player, movesDisplay) {
+        movesDisplay.textContent = `Moves left: ${player.moves}`;
+        if (gameMode === 1 && player.moves === 0) {
+          rollDice1Btn.disabled = false;
+        }
+      }
+
+      function isValidMove(x, y, movingPlayer) {
+        if (x < 0 || x >= cols || y < 0 || y >= rows || maze[y][x] === 1) return false;
+        return true;
+      }
+
+      function movePlayer(player, dx, dy, movesDisplay) {
+        if (animating || player.moves <= 0 || waitingForAnswer) return;
+        if ((currentPlayer === 1 && player !== player1) || (currentPlayer === 2 && player !== player2)) return;
+        if (gameMode === 1 && player !== player1) return;
+
+        const newX = player.x + dx;
+        const newY = player.y + dy;
+        if (!isValidMove(newX, newY, player)) return;
+
+        animating = true;
+        const startX = player.x;
+        const startY = player.y;
+        let progress = 0;
+
+        function animate() {
+          progress += 0.1;
+          if (progress >= 1) {
+            player.x = newX;
+            player.y = newY;
+            player.moves--;
+            updateMovesDisplay(player, movesDisplay);
+            animating = false;
+            checkForQuestion(player);
+            if (player.moves === 0 && !waitingForAnswer && gameMode === 2) switchTurn();
+            return;
+          }
+          player.x = startX + (newX - startX) * progress;
+          player.y = startY + (newY - startY) * progress;
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      }
+
+      function checkForQuestion(player) {
+        const playerX = Math.round(player.x);
+        const playerY = Math.round(player.y);
+        for (const num in numbers) {
+          const pos = numbers[num];
+          if (playerX === pos.x && playerY === pos.y) {
+            showQuestion(num, player);
+            break;
+          }
+        }
+      }
+
+      function showQuestion(num, player) {
+        if (availableQuestions.length === 0) {
+          availableQuestions = shuffleArray(allQuestions);
+          usedQuestions.clear();
+        }
+        const q = availableQuestions.shift();
+        if (!q) return;
+
+        waitingForAnswer = true;
+        questionedPlayer = player;
+
+        questionText.textContent = player.name + ", " + q.question;
+        answersContainer.innerHTML = '';
+        feedback.style.display = 'none';
+
+        q.answers.forEach((answer, index) => {
+          const btn = document.createElement('button');
+          btn.className = 'answer-btn';
+          btn.textContent = answer;
+          btn.onclick = () => checkAnswer(index, q.correct, q.explanation, player);
+          answersContainer.appendChild(btn);
+        });
+
+        questionBox.style.display = 'block';
+      }
+
+      function checkAnswer(selected, correct, explanation, player) {
+        const buttons = answersContainer.querySelectorAll('.answer-btn');
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+          feedback.className = 'correct';
+          feedback.textContent = `✓ Correct! ${explanation}`;
+        } else {
+          feedback.className = 'incorrect';
+          feedback.textContent = `✗ Incorrect. ${explanation}`;
+          setTimeout(() => movePlayerBack(player), 2000);
+        }
+
+        feedback.style.display = 'block';
+
+        setTimeout(() => {
+          questionBox.style.display = 'none';
+          waitingForAnswer = false;
+          if (player.moves === 0 && gameMode === 2) switchTurn();
+        }, 3000);
+      }
+
+      function movePlayerBack(player) {
+        const directions = [
+          { dx: 0, dy: -1 }, { dx: 0, dy: 1 }, { dx: -1, dy: 0 }, { dx: 1, dy: 0 }
+        ];
+        for (const dir of directions) {
+          const newX = player.x + dir.dx;
+          const newY = player.y + dir.dy;
+          if (isValidMove(newX, newY, player)) {
+            animating = true;
+            const startX = player.x;
+            const startY = player.y;
+            let progress = 0;
+            function animateBack() {
+              progress += 0.15;
+              if (progress >= 1) {
+                player.x = newX;
+                player.y = newY;
+                animating = false;
+                return;
+              }
+              player.x = startX + (newX - startX) * progress;
+              player.y = startY + (newY - startY) * progress;
+              requestAnimationFrame(animateBack);
+            }
+            animateBack();
+            break;
+          }
+        }
+      }
+
+      rollDice1Btn.addEventListener("click", () => {
+        rollDice(player1, dice1Display, moves1Display, rollDice1Btn);
+      });
+      rollDice2Btn.addEventListener("click", () => {
+        rollDice(player2, dice2Display, moves2Display, rollDice2Btn);
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (gameMode === 1 || currentPlayer === 1) {
+          if (e.key === "w" || e.key === "W") movePlayer(player1, 0, -1, moves1Display);
+          else if (e.key === "a" || e.key === "A") movePlayer(player1, -1, 0, moves1Display);
+          else if (e.key === "s" || e.key === "S") movePlayer(player1, 0, 1, moves1Display);
+          else if (e.key === "d" || e.key === "D") movePlayer(player1, 1, 0, moves1Display);
+        }
+        if (gameMode === 2 && currentPlayer === 2) {
+          if (e.key === "ArrowUp") { e.preventDefault(); movePlayer(player2, 0, -1, moves2Display); }
+          else if (e.key === "ArrowLeft") { e.preventDefault(); movePlayer(player2, -1, 0, moves2Display); }
+          else if (e.key === "ArrowDown") { e.preventDefault(); movePlayer(player2, 0, 1, moves2Display); }
+          else if (e.key === "ArrowRight") { e.preventDefault(); movePlayer(player2, 1, 0, moves2Display); }
+        }
+      });
+
+      updateTurnDisplay();
+      update();
     }
-
-    // Dice roll event listeners
-    rollDice1Btn.addEventListener("click", () => {
-      rollDice(player1, dice1Display, moves1Display, rollDice1Btn);
-    });
-
-    rollDice2Btn.addEventListener("click", () => {
-      rollDice(player2, dice2Display, moves2Display, rollDice2Btn);
-    });
-
-    // Keyboard controls
-    document.addEventListener("keydown", function (e) {
-      if (gameMode === 1 || currentPlayer === 1) {
-        if (e.key === "w" || e.key === "W") {
-          movePlayer(player1, 0, -1, moves1Display);
-        } else if (e.key === "a" || e.key === "A") {
-          movePlayer(player1, -1, 0, moves1Display);
-        } else if (e.key === "s" || e.key === "S") {
-          movePlayer(player1, 0, 1, moves1Display);
-        } else if (e.key === "d" || e.key === "D") {
-          movePlayer(player1, 1, 0, moves1Display);
-        }
-      }
-
-      if (gameMode === 2 && currentPlayer === 2) {
-        if (e.key === "ArrowUp") {
-          e.preventDefault();
-          movePlayer(player2, 0, -1, moves2Display);
-        } else if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          movePlayer(player2, -1, 0, moves2Display);
-        } else if (e.key === "ArrowDown") {
-          e.preventDefault();
-          movePlayer(player2, 0, 1, moves2Display);
-        } else if (e.key === "ArrowRight") {
-          e.preventDefault();
-          movePlayer(player2, 1, 0, moves2Display);
-        }
-      }
-    });
-
-    // Initialize
-    updateTurnDisplay();
-    update();
-  }
-
-  // Don't auto-initialize - wait for mode selection
-
-</script>
+  </script>
