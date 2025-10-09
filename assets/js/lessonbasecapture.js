@@ -380,20 +380,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // Dynamic import helper for environments where this file is loaded as a normal script
 // (import statements at top-level require <script type="module">). We load the
 // config module only when needed using import(), and cache the promise.
-let __apiConfigPromise = null;
-function getApiConfig() {
-  if (__apiConfigPromise) return __apiConfigPromise;
-  // '{{site.baseurl}}' will be rendered by Jekyll; fall back to empty string if not set
-  const base = '{{site.baseurl}}' || '';
-  __apiConfigPromise = import(`${base}/assets/js/api/config.js`).then(mod => ({
-    javaURI: mod.javaURI,
-    fetchOptions: mod.fetchOptions
-  })).catch(err => {
-    console.warn('Failed to load API config module:', err);
-    return { javaURI: '', fetchOptions: {} };
-  });
-  return __apiConfigPromise;
+import { javaURI, fetchOptions } from '/assets/js/api/config.js';
+
+async function getApiConfig() {
+  return { javaURI, fetchOptions };
 }
+
 
 const userId = localStorage.getItem("userId") || "guest";
 const lessonKey = window.location.pathname.split("/").pop() || "lesson";
@@ -414,17 +406,7 @@ async function syncLessonProgress() {
     progress.reflectionText = localStorage.getItem(`reflection-${lessonKey}`) || "";
     progress.currentFlashcardIndex = window.flashcardsData?.currentIndex || 1;
 
-    // Flashcard progress
-    if (window.flashcardsData) {
-      progress.flashcardProgress = [];
-      window.flashcardsData.knownCards.forEach(idx => {
-        progress.flashcardProgress.push({ cardIndex: idx, status: "KNOWN", markedAt: new Date().toISOString() });
-      });
-      window.flashcardsData.reviewCards.forEach(idx => {
-        progress.flashcardProgress.push({ cardIndex: idx, status: "REVIEW", markedAt: new Date().toISOString() });
-      });
-    }
-
+    // ✅ PUT updated progress
     await fetch(`${javaURI}/api/lesson-progress/${progress.id}`, {
       ...fetchOptions,
       method: "PUT",
