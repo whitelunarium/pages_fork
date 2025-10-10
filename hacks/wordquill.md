@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Quill Editor & Writing Analysis
+title: Quill Editor & Gemini Analyzer
 permalink: /word
 ---
 
@@ -66,7 +66,7 @@ button:hover {
 </style>
 
 <details style="padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff;">
-  <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 18px;">Writing Help (Click to expand)</summary>
+  <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 18px;">Writing Helper (Click to see guide)</summary>
   <div style="margin-top: 10px;">
     <p>This writing analysis tool helps you improve your academic writing by providing AI-powered feedback on different aspects of your text.</p>
 
