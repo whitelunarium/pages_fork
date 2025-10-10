@@ -65,6 +65,23 @@ button:hover {
 }
 </style>
 
+<details style="padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff;">
+  <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 18px;">Writing Help (Click to expand)</summary>
+  <div style="margin-top: 10px;">
+    <p>This writing analysis tool helps you improve your academic writing by providing AI-powered feedback on different aspects of your text.</p>
+
+    <h4>Analysis Modes:</h4>
+    <ul>
+      <li><strong>Plagiarism Check:</strong> Identifies missing citations and suggests proper APA references</li>
+      <li><strong>Thesis Building:</strong> Evaluates thesis clarity, argument structure, and coherence</li>
+      <li><strong>5-Paragraph Outline:</strong> Checks essay structure and paragraph organization</li>
+      <li><strong>Research Paper:</strong> Assesses academic tone, evidence quality, and scholarly writing</li>
+    </ul>
+    
+    <p><em>Note: Sample texts are provided for each mode to help you explore different types of feedback. You can replace them with your own writing.</em></p>
+  </div>
+</details>
+
 <div class="controls">
     <div class="control-group">
         <select id="analysisMode">
