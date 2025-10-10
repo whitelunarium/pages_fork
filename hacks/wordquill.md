@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Editor & Plagiarism Checker
+title: Quill Editor & Flask/Gemini API request 
 permalink: /word
 ---
 
@@ -25,10 +25,8 @@ permalink: /word
 <div id="output"></div>
 
 <script>
-    // NOTE: Replace this with your actual, secure key
-    const API_KEY = "AIzaSyC4HYxzGJOXC3YDrSk2GHflfHPokk2nlTQ";
-    // Using the current recommended model
-    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+    // API Endpoint
+    const ENDPOINT = `https://flask.opencodingsociety.com/api/gemini`;
 
     document.addEventListener("DOMContentLoaded", function() {
     var quill = new Quill('#quill-editor', {
@@ -44,9 +42,8 @@ permalink: /word
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: `Please look at this text for correct academic citations, and recommend APA references for each area of concern: ${text}` }]
-                }]
+                prompt: "Please look at this text for correct academic citations, and recommend APA references for each area of concern: ",
+                text: text
             })
         })
         .then(resp => {
@@ -54,19 +51,32 @@ permalink: /word
             return resp.json();
         })
         .then(result => {
-            const generatedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (result.error || result.message) {
+                // Handle error responses - use the message from API
+                let errorMsg = result.error || result.message || "Unknown error";
 
-            if (result.error) {
-                // Keep error messages as plain text
-                outputDiv.textContent = "⚠️ " + result.error;
-            } else {
-                const markdown = generatedText || "✅ Analysis complete: No clear analysis provided by the model.";
+                // Add error code if present
+                if (result.error_code) {
+                    errorMsg += ` (Error ${result.error_code})`;
+                }
+
+                outputDiv.textContent = "⚠️ " + errorMsg;
+
+                // Special handling for authentication errors
+                if (result.message && result.message.includes("Authentication")) {
+                    outputDiv.textContent += " (Login required)";
+                }
+            } else if (result.success && result.text) {
+                // Handle successful response - the analysis is in result.text
+                const markdown = result.text;
 
                 // Convert the Markdown content into fully styled HTML
                 const htmlContent = marked.parse(markdown);
 
                 // Insert the formatted HTML into the output div
                 outputDiv.innerHTML = htmlContent;
+            } else {
+                outputDiv.textContent = "✅ Analysis complete: No clear analysis provided by the backend.";
             }
         })
         .catch(e => {
