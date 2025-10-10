@@ -35,27 +35,57 @@ default: serve-current
 	@sed '$$d' $(LOG_FILE)
 
 # Theme switching: copy config and Gemfile for the theme
+# use-minima:
+# 	@cp _themes/minima/_config.yml _config.yml
+#	@cp _themes/minima/Gemfile Gemfile
+#	@cp _themes/minima/opencs.html _layouts/opencs.html
+#	@cp _themes/minima/page.html _layouts/page.html
+#	@cp _themes/minima/post.html _layouts/post.html
+
+# use-text:
+#	@cp _themes/text/_config.yml _config.yml
+#	@cp _themes/text/Gemfile Gemfile
+#	@cp _themes/text/opencs.html _layouts/opencs.html
+#	@cp _themes/text/page.html _layouts/page.html
+#	@cp _themes/text/post.html _layouts/post.html
+#	@cp _themes/text/navigation.yml _data/navigation.yml
+
+# use-cayman:
+#	@cp _themes/cayman/_config.yml _config.yml
+#	@cp _themes/cayman/Gemfile Gemfile
+#	@cp _themes/cayman/opencs.html _layouts/opencs.html
+#	@cp _themes/cayman/page.html _layouts/page.html
+#	@cp _themes/cayman/post.html _layouts/post.html
+
 use-minima:
+	@echo "Switching to Minima theme..."
 	@cp _themes/minima/_config.yml _config.yml
 	@cp _themes/minima/Gemfile Gemfile
 	@cp _themes/minima/opencs.html _layouts/opencs.html
 	@cp _themes/minima/page.html _layouts/page.html
 	@cp _themes/minima/post.html _layouts/post.html
-
-use-text:
-	@cp _themes/text/_config.yml _config.yml
-	@cp _themes/text/Gemfile Gemfile
-	@cp _themes/text/opencs.html _layouts/opencs.html
-	@cp _themes/text/page.html _layouts/page.html
-	@cp _themes/text/post.html _layouts/post.html
-	@cp _themes/text/navigation.yml _data/navigation.yml
+	@python3 scripts/update_color_map.py minima || echo "⚠ Color map update failed, continuing..."
+	@echo "✓ Minima theme activated"
 
 use-cayman:
+	@echo "Switching to Cayman theme..."
 	@cp _themes/cayman/_config.yml _config.yml
 	@cp _themes/cayman/Gemfile Gemfile
 	@cp _themes/cayman/opencs.html _layouts/opencs.html
 	@cp _themes/cayman/page.html _layouts/page.html
 	@cp _themes/cayman/post.html _layouts/post.html
+	@python3 scripts/update_color_map.py cayman || echo "⚠ Color map update failed, continuing..."
+	@echo "✓ Cayman theme activated"
+
+use-hydejack:
+	@echo "Switching to Hydejack theme..."
+	@cp _themes/hydejack/_config.yml _config.yml
+	@cp _themes/hydejack/Gemfile Gemfile
+	@cp _themes/hydejack/opencs.html _layouts/opencs.html
+	@cp _themes/hydejack/page.html _layouts/page.html
+	@cp _themes/hydejack/post.html _layouts/post.html
+	@python3 scripts/update_color_map.py hydejack || echo "⚠ Color map update failed, continuing..."
+	@echo "✓ Hydejack theme activated"
 
 use-so-simple:
 	@cp _themes/so-simple/_config.yml _config.yml

@@ -1,2 +1,6 @@
+// Import root color map FIRST
+@import "root-color-map";
+
+// Then your existing imports
 @import "open-coding/main";
 @import "lessonbase";
