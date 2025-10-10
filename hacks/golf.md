@@ -36,6 +36,18 @@ permalink: /golf
         font-weight: bold;
         color: #333;
     }
+
+    #hole-info {
+        color: #000000ff !important;
+    }
+
+    .p {
+        color: #000000ff !important;
+    }
+
+    .h3 {
+        color: #000000ff !important;
+    }
 </style>
 
 <h2>Mini Golf Game</h2>
@@ -44,8 +56,17 @@ permalink: /golf
     <canvas id="game-canvas" width="800" height="400" style="border:1px solid #00a31eff;"></canvas>
     <div id="game-controls">
         <button id="start-button">Start Game</button>
+        <button id="settings-button">Settings</button>
         <p id="message"></p>
-        <p>Score: <span id="score">0</span></p>
+        <p style="color: #000000ff !important;">Score: <span id="score">0</span></p>
+        <p id="hole-info" style="display: none; color: #000000ff !important;">Hole: <span id="current-hole">1</span>/18 | Total: <span id="total-score">0</span></p>
+        <!-- Settings Menu -->
+        <div id="settings-menu" style="display: none; border: 1px solid #ccc; padding: 15px; margin-top: 10px; background: #f9f9f9; border-radius: 5px;">
+            <h3 style="color: #000000ff !important;">Game Mode</h3>
+            <label style="color: #000000ff !important;"><input type="radio" name="mode" value="freeplay" checked> Freeplay (Single Hole)</label><br>
+            <label style="color: #000000ff !important;"><input type="radio" name="mode" value="18hole"> 18-Hole Course</label><br><br>
+            <button id="apply-settings">Apply Settings</button>
+        </div>
     </div>
 </div>
 
@@ -54,8 +75,14 @@ permalink: /golf
     const canvas = document.getElementById('game-canvas');
     const ctx = canvas.getContext('2d');
     const startButton = document.getElementById('start-button');
+    const settingsButton = document.getElementById('settings-button');
+    const settingsMenu = document.getElementById('settings-menu');
+    const applySettingsButton = document.getElementById('apply-settings');
     const messageEl = document.getElementById('message');
     const scoreEl = document.getElementById('score');
+    const holeInfoEl = document.getElementById('hole-info');
+    const currentHoleEl = document.getElementById('current-hole');
+    const totalScoreEl = document.getElementById('total-score');
     
     let ball = { x: 0, y: 0, vx: 0, vy: 0 };
     let hole = { x: 0, y: 0 };
@@ -65,6 +92,12 @@ permalink: /golf
     let isGameActive = false;
     let isBallMoving = false;
     let animationId = null;
+
+    // NEW: game mode vars
+    let gameMode = "freeplay";
+    let currentHole = 1;
+    let totalHoles = 18;
+    let totalScore = 0;
 
     function drawSquare(x, y, size, color, filled = true, rotation = 0) {
         drawRectangle(x, y, size, size, color, filled, rotation);
@@ -185,17 +218,42 @@ permalink: /golf
 function generateObstacles() {
     obstacles = [];
     
-    // First, place a guaranteed obstacle in the direct path
-    placePathBlockingObstacle();
+    // Calculate difficulty based on current hole (for 18-hole mode)
+    let difficultyMultiplier = 1;
+    let numObstacles = 2; // base number for freeplay
     
-    const numAdditionalObstacles = Math.floor(Math.random() * 4) + 2;
+    if (gameMode === "18hole") {
+        // Progressive difficulty: easier start, harder finish
+        // Holes 1-6: Easy (2-3 obstacles)
+        // Holes 7-12: Medium (3-5 obstacles)  
+        // Holes 13-18: Hard (4-6 obstacles)
+        if (currentHole <= 6) {
+            numObstacles = Math.floor(Math.random() * 2) + 2; // 2-3 obstacles
+            difficultyMultiplier = 0.8; // smaller obstacles
+        } else if (currentHole <= 12) {
+            numObstacles = Math.floor(Math.random() * 3) + 3; // 3-5 obstacles
+            difficultyMultiplier = 1.0; // normal size
+        } else {
+            numObstacles = Math.floor(Math.random() * 3) + 4; // 4-6 obstacles
+            difficultyMultiplier = 1.2; // slightly larger obstacles
+        }
+    } else {
+        // Freeplay mode: keep original difficulty
+        numObstacles = Math.floor(Math.random() * 4) + 2; // 2-5 obstacles
+    }
     
-    for (let i = 0; i < numAdditionalObstacles; i++) {
+    // First, place a guaranteed obstacle in the direct path (but not on very early holes)
+    if (gameMode !== "18hole" || currentHole > 2) {
+        placePathBlockingObstacle(difficultyMultiplier);
+    }
+    
+    // Add additional obstacles based on calculated difficulty
+    for (let i = 0; i < numObstacles; i++) {
         let obstacle;
         let attempts = 0;
         
         do {
-            obstacle = createRandomObstacle();
+            obstacle = createRandomObstacle(difficultyMultiplier);
             attempts++;
         } while (attempts < 50 && (isObstacleBlocking(obstacle) || isObstacleOverlapping(obstacle)));
         
@@ -205,7 +263,7 @@ function generateObstacles() {
     }
 }
 
-function placePathBlockingObstacle() {
+function placePathBlockingObstacle(difficultyMultiplier = 1) {
     const midX = (ball.x + hole.x) / 2;
     const midY = (ball.y + hole.y) / 2;
     
@@ -221,7 +279,7 @@ function placePathBlockingObstacle() {
     let obstacle;
     
     if (shapeType === 0) {
-        const size = Math.random() * 40 + 30;
+        const size = (Math.random() * 40 + 30) * difficultyMultiplier;
         obstacle = {
             type: 'square',
             x: clampedX - size/2,
@@ -231,8 +289,8 @@ function placePathBlockingObstacle() {
             color: getRandomObstacleColor()
         };
     } else if (shapeType === 1) {
-        const width = Math.random() * 60 + 40;
-        const height = Math.random() * 40 + 30;
+        const width = (Math.random() * 60 + 40) * difficultyMultiplier;
+        const height = (Math.random() * 40 + 30) * difficultyMultiplier;
         obstacle = {
             type: 'rectangle',
             x: clampedX - width/2,
@@ -243,7 +301,7 @@ function placePathBlockingObstacle() {
             color: getRandomObstacleColor()
         };
     } else {
-        const radius = Math.random() * 25 + 20;
+        const radius = (Math.random() * 25 + 20) * difficultyMultiplier;
         obstacle = {
             type: 'circle',
             x: clampedX,
@@ -281,14 +339,14 @@ function placePathBlockingObstacle() {
     obstacles.push(obstacle);
 }
 
-function createRandomObstacle() {
+function createRandomObstacle(difficultyMultiplier = 1) {
     const shapeType = Math.floor(Math.random() * 3);
     const x = Math.random() * (canvas.width - 100) + 50;
     const y = Math.random() * (canvas.height - 100) + 50;
     const rotation = Math.random() * Math.PI * 2;
     
     if (shapeType === 0) {
-        const size = Math.random() * 40 + 20;
+        const size = (Math.random() * 40 + 20) * difficultyMultiplier;
         return {
             type: 'square',
             x: x,
@@ -298,8 +356,8 @@ function createRandomObstacle() {
             color: getRandomObstacleColor()
         };
     } else if (shapeType === 1) {
-        const width = Math.random() * 60 + 30;
-        const height = Math.random() * 40 + 20;
+        const width = (Math.random() * 60 + 30) * difficultyMultiplier;
+        const height = (Math.random() * 40 + 20) * difficultyMultiplier;
         return {
             type: 'rectangle',
             x: x,
@@ -310,7 +368,7 @@ function createRandomObstacle() {
             color: getRandomObstacleColor()
         };
     } else {
-        const radius = Math.random() * 25 + 15;
+        const radius = (Math.random() * 25 + 15) * difficultyMultiplier;
         return {
             type: 'circle',
             x: x,
@@ -557,14 +615,7 @@ function isObstacleOverlapping(newObstacle) {
         );
         
         if (distanceToHole < 15) {
-            messageEl.textContent = `Hole in ${score}! Click Start Game for a new round.`;
-            isGameActive = false;
-            isBallMoving = false;
-            document.removeEventListener('click', hitBall);
-            document.removeEventListener('mousemove', updateMouse);
-            ball.x = hole.x;
-            ball.y = hole.y;
-            drawCourse();
+            handleHoleCompletion();
             return;
         }
         
@@ -584,6 +635,76 @@ function isObstacleOverlapping(newObstacle) {
         }
     }
 
+    // === NEW: Hole handling for 18-hole mode ===
+    function handleHoleCompletion() {
+        if (gameMode === "18hole") {
+            totalScore += score;
+            totalScoreEl.textContent = totalScore;
+            
+            // Show difficulty level for completed hole
+            let difficultyText = "";
+            if (currentHole <= 6) difficultyText = " (Easy)";
+            else if (currentHole <= 12) difficultyText = " (Medium)"; 
+            else difficultyText = " (Hard)";
+            
+            messageEl.textContent = `Hole ${currentHole}${difficultyText} complete in ${score} strokes!`;
+
+            if (currentHole < totalHoles) {
+                currentHole++;
+                currentHoleEl.textContent = currentHole;
+                score = 0;
+                scoreEl.textContent = score;
+                setTimeout(startHole, 1500);
+            } else {
+                const par = 36; // 2 strokes per hole average
+                const scoreDiff = totalScore - par;
+                let scoreText = "";
+                if (scoreDiff === 0) scoreText = "Perfect Par!";
+                else if (scoreDiff < 0) scoreText = `${Math.abs(scoreDiff)} under par!`;
+                else scoreText = `${scoreDiff} over par`;
+                
+                messageEl.textContent = `Game Over! Total: ${totalScore} strokes (${scoreText})`;
+                holeInfoEl.style.display = "none";
+                startButton.disabled = false;
+                isGameActive = false;
+            }
+        } else {
+            messageEl.textContent = `Hole in ${score}! Click Start Game for a new round.`;
+            isGameActive = false;
+            startButton.disabled = false;
+        }
+
+        isBallMoving = false;
+        document.removeEventListener('click', hitBall);
+        document.removeEventListener('mousemove', updateMouse);
+        ball.x = hole.x;
+        ball.y = hole.y;
+        drawCourse();
+    }
+
+    // === NEW: Start individual hole for 18-hole mode ===
+    function startHole() {
+        obstacles = [];
+        do {
+            ball = getRandomPosition();
+            hole = getRandomPosition();
+        } while (Math.sqrt(Math.pow(ball.x - hole.x, 2) + Math.pow(ball.y - hole.y, 2)) < 100);
+        generateObstacles();
+        ball.vx = ball.vy = 0;
+        drawCourse();
+        
+        // Show difficulty level for current hole
+        let difficultyText = "";
+        if (currentHole <= 6) difficultyText = " (Easy)";
+        else if (currentHole <= 12) difficultyText = " (Medium)";
+        else difficultyText = " (Hard)";
+        
+        messageEl.textContent = `Hole ${currentHole}${difficultyText}: Aim and click to start!`;
+        document.addEventListener('click', hitBall);
+        document.addEventListener('mousemove', updateMouse);
+    }
+
+    // === NEW: Start game logic with mode detection ===
     function startGame() {
         if (animationId) {
             cancelAnimationFrame(animationId);
@@ -595,33 +716,49 @@ function isObstacleOverlapping(newObstacle) {
         document.removeEventListener('click', hitBall);
         document.removeEventListener('mousemove', updateMouse);
         
-        score = 0;
-        scoreEl.textContent = score;
-        isGameActive = true;
-        isBallMoving = false;
-        
-        // Generate obstacles first
-        obstacles = [];
-        
-        // Position ball and hole with sufficient distance from each other
-        do {
-            ball = getRandomPosition();
-            hole = getRandomPosition();
-        } while (Math.sqrt(Math.pow(ball.x - hole.x, 2) + Math.pow(ball.y - hole.y, 2)) < 100);
-        
-        // Generate obstacles after ball and hole are positioned
-        generateObstacles();
-        
-        ball.vx = 0;
-        ball.vy = 0;
-        
-        drawCourse();
-        messageEl.textContent = 'Aim and click to hit the ball!';
-        
-        // Add event listeners to the entire document for full-page interaction
-        document.addEventListener('click', hitBall);
-        document.addEventListener('mousemove', updateMouse);
+        if (gameMode === "18hole") {
+            totalScore = 0;
+            currentHole = 1;
+            startButton.disabled = true;
+            isGameActive = true;
+            score = 0;
+            scoreEl.textContent = score;
+            totalScoreEl.textContent = totalScore;
+            currentHoleEl.textContent = currentHole;
+            holeInfoEl.style.display = "block";
+            startHole();
+        } else {
+            score = 0;
+            scoreEl.textContent = score;
+            holeInfoEl.style.display = "none";
+            isGameActive = true;
+            isBallMoving = false;
+            startButton.disabled = false;
+            obstacles = [];
+            do {
+                ball = getRandomPosition();
+                hole = getRandomPosition();
+            } while (Math.sqrt(Math.pow(ball.x - hole.x, 2) + Math.pow(ball.y - hole.y, 2)) < 100);
+            generateObstacles();
+            ball.vx = ball.vy = 0;
+            drawCourse();
+            messageEl.textContent = 'Aim and click to hit the ball!';
+            document.addEventListener('click', hitBall);
+            document.addEventListener('mousemove', updateMouse);
+        }
     }
+
+    // === Settings Button Logic ===
+    settingsButton.addEventListener('click', () => {
+        settingsMenu.style.display = settingsMenu.style.display === "none" ? "block" : "none";
+    });
+
+    applySettingsButton.addEventListener('click', () => {
+        const selectedMode = document.querySelector('input[name="mode"]:checked').value;
+        gameMode = selectedMode;
+        settingsMenu.style.display = "none";
+        if (gameMode === "18hole") startGame();
+    });
 
     // Start button handler - no need for event prevention since hitBall handles it
     startButton.addEventListener('click', function(event) {
