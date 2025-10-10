@@ -24,9 +24,11 @@ permalink: /word
 <button id="checkBtn">Check for Plagiarism</button>
 <div id="output"></div>
 
-<script>
+<script type="module">
     // API Endpoint
-    const ENDPOINT = `https://flask.opencodingsociety.com/api/gemini`;
+    import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+    const ENDPOINT = `${pythonURI}/api/gemini`;
 
     document.addEventListener("DOMContentLoaded", function() {
     var quill = new Quill('#quill-editor', {
@@ -39,8 +41,8 @@ permalink: /word
         outputDiv.textContent = "⏳ Checking..."; // Use textContent for temporary status
 
         fetch(ENDPOINT, {
+            ...fetchOptions,
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 prompt: "Please look at this text for correct academic citations, and recommend APA references for each area of concern: ",
                 text: text
