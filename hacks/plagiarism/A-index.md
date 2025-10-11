@@ -11,7 +11,7 @@ lxdData:
   Description: "Explore this sequence of lessons and workshops to obtain anti-plagiarism mastery certificate"
   Prequisites:
     - title: "Why source ©?"
-      link: "/plagiarism/why-source"
+      link: "/plagiarism/gain-attention"
   Topics:
     - Title: "Plagiarism Case Studies"
       Genre: "Activation"
@@ -68,4 +68,4 @@ lxdData:
       Image: "/images/plagiarism/certificate.svg"
       Alt: "Certificate of completion"
 ---
-{%- include tailwind/lxd2.html -%}
+{%- include tailwind/plagiarism_info.html -%}

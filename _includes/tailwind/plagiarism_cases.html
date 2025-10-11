@@ -29,13 +29,13 @@
             <div class="flex-1 p-6 flex flex-col justify-center">
               <div class="flex flex-wrap gap-4 mb-4">
                 {% if topic.Year %}
-                  <div class="bg-blue-900 text-blue-200 text-lg font-semibold px-4 py-2 rounded shadow">Year: {{ topic.Year }}</div>
+                  <div class="bg-blue-700 text-blue-200 text-lg font-semibold px-4 py-2 rounded shadow">Year: {{ topic.Year }}</div>
                 {% endif %}
                 {% if topic.Amount %}
-                  <div class="bg-green-900 text-green-200 text-lg font-semibold px-4 py-2 rounded shadow">Amount: {{ topic.Amount }}</div>
+                  <div class="bg-green-600 text-green-200 text-lg font-semibold px-4 py-2 rounded shadow">Amount: {{ topic.Amount }}</div>
                 {% endif %}
                 {% if topic.Outcome %}
-                  <div class="bg-yellow-900 text-yellow-200 text-lg font-semibold px-4 py-2 rounded shadow">Outcome: {{ topic.Outcome }}</div>
+                  <div class="bg-red-500 text-yellow-200 text-lg font-semibold px-4 py-2 rounded shadow">Outcome: {{ topic.Outcome }}</div>
                 {% endif %}
               </div>
               {% if topic.Video %}

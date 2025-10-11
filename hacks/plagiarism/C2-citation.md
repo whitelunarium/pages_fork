@@ -7,6 +7,14 @@ permalink: /plagiarism/2
 breadcrumb: True
 ---
 
+## Sample Consequence
+
+Fictitious exampl *Salem, our workshop character found the perfect quote for their research paper: "Innovation distinguishes between a leader and a follower."It was exactly what they needed! They copy-pasted it into their paper and moved on. Later, their professor marked it as plagiarism - it was a Steve Jobs quote that needed proper citation. Alex's grade dropped from an A to a C.*
+
+Research this quote and use it to build an APA reference.
+
+---
+
 <style>
   .apa-tool-label { 
     display: block; 

@@ -52,4 +52,17 @@ lxdData:
       Alt: "Pete Hegseth Official Portrait, CC BY-SA 4.0"
 ---
 
-{%- include tailwind/lxd3.html -%}
+{%- include tailwind/plagiarism_cases.html -%}
+
+---
+
+## Real Scenarios - Real Consequences
+
+| Situation | Without Proper Citation | With Proper Citation |
+|-----------|------------------------|---------------------|
+| **College Paper** | F grade, academic probation | A grade, professor respect |
+| **Work Presentation** | Fired for plagiarism | Promoted for thorough research |
+| **Blog Post** | Copyright lawsuit | Professional credibility |
+| **Social Media** | Account suspended | Influencer partnership |
+
+---
