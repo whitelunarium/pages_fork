@@ -1,7 +1,7 @@
 ---
 layout: post 
 tailwind: True
-title: Plagiarism Workshop Overview
+title: Plagiarism Prevention Workshop Mockup 
 description: >
   Understand the importance of academic honesty, the consequences of plagiarism, and the skills needed to properly cite and reference sources.
 author: John Mortensen
