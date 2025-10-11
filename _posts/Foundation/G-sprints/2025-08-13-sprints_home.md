@@ -9,7 +9,7 @@ courses: {'csse': {'week': 1}, 'csp': {'week': 1}, 'csa': {'week': 1}}
 type: soft skills
 categories: [DevOps]
 permalink: /sprints/
-sticky_rank: 1
+sticky_rank: 2
 ---
 
 <!-- Infographic - this depends on page.infoGraph frontmatter being set -->
