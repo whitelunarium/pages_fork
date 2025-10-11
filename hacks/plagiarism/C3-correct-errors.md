@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  Tool
+title: Correct Errors Workshop 
 description: A tool to assist students in building an APA reference. 
 author: John Mortensen
-permalink: /plagiarism/2
+permalink: /plagiarism/3
 breadcrumb: True
 ---
 
@@ -74,6 +74,8 @@ button:hover {
 .sample-text {
     display: none;
 }
+
+/* File-specific styles only - iridescent styles moved to _sass/open-coding/elements/buttons/iridescent.scss */
 </style>
 
 <details style="padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff;">
@@ -102,10 +104,18 @@ button:hover {
             <option value="research">Research Paper</option>
         </select>
     </div>
+    <div class="control-group">
+        <button id="saveBtn" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">💾 Save Draft</button>
+        <button id="loadBtn" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">📂 Load Draft</button>
+    </div>
 </div>
 
 <div id="quill-editor" style="height: 200px;"></div>
-<button id="checkBtn">Analyze Text</button>
+<div class="controls">
+    <button id="checkBtn" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🔍 Analyze Text</button>
+    <button id="submitBtn" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" style="background-color: #28a745;" disabled>📤 Submit for Grading</button>
+</div>
+<div id="status-message" style="margin: 10px 0; padding: 8px; border-radius: 4px; display: none;"></div>
 <div id="output"></div>
 
 <!-- Hidden sample texts -->
@@ -151,6 +161,125 @@ Recent studies in cognitive psychology have revealed new insights into how memor
         var quill = new Quill('#quill-editor', {
             theme: 'snow'
         });
+
+        // Load a random sample on page load
+        loadRandomSample();
+
+        // Save Draft button
+        document.getElementById("saveBtn").onclick = function() {
+            const text = quill.getContents(); // Get full Delta format with formatting
+            const plainText = quill.getText(); // Get plain text
+            const mode = document.getElementById("analysisMode").value;
+
+            const draft = {
+                content: text,
+                plainText: plainText,
+                mode: mode,
+                timestamp: new Date().toISOString(),
+                id: 'writing-draft-v1' // Version for future compatibility
+            };
+
+            try {
+                localStorage.setItem('plagiarism-writing-draft', JSON.stringify(draft));
+                showStatusMessage("✅ Draft saved successfully!", "success");
+
+                // Enable submit button if there's content
+                if (plainText.trim().length > 0) {
+                    document.getElementById("submitBtn").disabled = false;
+                }
+            } catch (error) {
+                showStatusMessage("❌ Failed to save draft: " + error.message, "error");
+            }
+        };
+
+        // Load Draft button
+        document.getElementById("loadBtn").onclick = function() {
+            try {
+                const savedDraft = localStorage.getItem('plagiarism-writing-draft');
+
+                if (savedDraft) {
+                    const draft = JSON.parse(savedDraft);
+
+                    // Set the content with formatting
+                    quill.setContents(draft.content);
+
+                    // Set the analysis mode
+                    document.getElementById("analysisMode").value = draft.mode;
+
+                    // Show success message with timestamp
+                    const saveDate = new Date(draft.timestamp).toLocaleString();
+                    showStatusMessage(`✅ Draft loaded successfully! (Saved: ${saveDate})`, "success");
+
+                    // Enable submit button if there's content
+                    if (draft.plainText && draft.plainText.trim().length > 0) {
+                        document.getElementById("submitBtn").disabled = false;
+                    }
+                } else {
+                    showStatusMessage("⚠️ No saved draft found", "warning");
+                }
+            } catch (error) {
+                showStatusMessage("❌ Failed to load draft: " + error.message, "error");
+            }
+        };
+
+        // Submit button (placeholder for future grading functionality)
+        document.getElementById("submitBtn").onclick = function() {
+            const text = quill.getText().trim();
+            if (text.length === 0) {
+                showStatusMessage("⚠️ Cannot submit empty text", "warning");
+                return;
+            }
+
+            // TODO: Implement actual submission to grading system
+            showStatusMessage("🚀 Submission functionality coming soon!", "info");
+        };
+
+        // Auto-save on content change (optional)
+        let autoSaveTimeout;
+        quill.on('text-change', function() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(() => {
+                // Auto-enable submit button when there's content
+                const text = quill.getText().trim();
+                document.getElementById("submitBtn").disabled = text.length === 0;
+            }, 500);
+        });
+
+        // Status message helper function
+        function showStatusMessage(message, type) {
+            const statusDiv = document.getElementById("status-message");
+            statusDiv.textContent = message;
+            statusDiv.style.display = "block";
+
+            // Style based on message type
+            switch(type) {
+                case "success":
+                    statusDiv.style.backgroundColor = "#d4edda";
+                    statusDiv.style.color = "#155724";
+                    statusDiv.style.border = "1px solid #c3e6cb";
+                    break;
+                case "error":
+                    statusDiv.style.backgroundColor = "#f8d7da";
+                    statusDiv.style.color = "#721c24";
+                    statusDiv.style.border = "1px solid #f5c6cb";
+                    break;
+                case "warning":
+                    statusDiv.style.backgroundColor = "#fff3cd";
+                    statusDiv.style.color = "#856404";
+                    statusDiv.style.border = "1px solid #ffeaa7";
+                    break;
+                case "info":
+                    statusDiv.style.backgroundColor = "#d1ecf1";
+                    statusDiv.style.color = "#0c5460";
+                    statusDiv.style.border = "1px solid #bee5eb";
+                    break;
+            }
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                statusDiv.style.display = "none";
+            }, 3000);
+        }
 
         // Load a random sample on page load
         loadRandomSample();
@@ -206,7 +335,7 @@ Recent studies in cognitive psychology have revealed new insights into how memor
                 }
             })
             .catch(e => {
-                outputDiv.textContent = "⚠️ Fetch Error: " + e;
+                outputDiv.textContent = "⚠️ Login is required... " + e;
             });
         };
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Citation Tool
+title: APA Reference and Citation Workshop
 description: A tool to assist students in building an APA reference. 
 author: John Mortensen
 permalink: /plagiarism/2
@@ -16,6 +16,7 @@ Research this quote and use it to build an APA reference.
 ---
 
 <style>
+  /* File-specific styles only - iridescent styles moved to _sass/open-coding/elements/buttons/iridescent.scss */
   .apa-tool-label { 
     display: block; 
     margin-top: 8px; 
@@ -29,20 +30,6 @@ Research this quote and use it to build an APA reference.
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-  }
-  .apa-tool-btn { 
-    margin-top: 10px; 
-    padding: 10px 20px; 
-    background: #007bff; 
-    color: white;
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  .apa-tool-btn:hover {
-    background: #0056b3;
   }
   .apa-tool-output { 
     margin-top: 16px; 
@@ -106,7 +93,7 @@ Research this quote and use it to build an APA reference.
   <label class="apa-tool-label">URL:</label>
   <input class="apa-tool-input" id="apa-url" type="text" placeholder="e.g., https://www.nytimes.com/article-link" />
   
-  <button class="apa-tool-btn" onclick="generateAPA()">Generate APA Citation</button>
+  <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="generateAPA()">Generate APA Reference</button>
   
   <div class="apa-tool-output" id="apa-output">
     <strong>Generated Citation:</strong><br>
