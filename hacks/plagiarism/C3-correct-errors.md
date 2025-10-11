@@ -289,6 +289,8 @@ Recent studies in cognitive psychology have revealed new insights into how memor
             const text = quill.getText();
             const mode = document.getElementById("analysisMode").value;
             const outputDiv = document.getElementById("output");
+
+            // Clear previous output and show analyzing message
             outputDiv.textContent = "⏳ Analyzing...";
 
             const prompt = ANALYSIS_PROMPTS[mode] || ANALYSIS_PROMPTS.plagiarism;
@@ -307,7 +309,7 @@ Recent studies in cognitive psychology have revealed new insights into how memor
             })
             .then(result => {
                 if (result.error || result.message) {
-                    // Handle error responses - use the message from API
+                    // Handle error responses - use status messages instead of output div
                     let errorMsg = result.error || result.message || "Unknown error";
 
                     // Add error code if present
@@ -315,12 +317,14 @@ Recent studies in cognitive psychology have revealed new insights into how memor
                         errorMsg += ` (Error ${result.error_code})`;
                     }
 
-                    outputDiv.textContent = "⚠️ " + errorMsg;
-
                     // Special handling for authentication errors
                     if (result.message && result.message.includes("Authentication")) {
-                        outputDiv.textContent += " (Login required)";
+                        errorMsg += " (Login required)";
                     }
+
+                    // Clear the analyzing message and show status error
+                    outputDiv.textContent = "";
+                    showStatusMessage("⚠️ " + errorMsg, "error");
                 } else if (result.success && result.text) {
                     // Handle successful response - the analysis is in result.text
                     const markdown = result.text;
@@ -330,12 +334,19 @@ Recent studies in cognitive psychology have revealed new insights into how memor
 
                     // Insert the formatted HTML into the output div
                     outputDiv.innerHTML = htmlContent;
+
+                    // Show success status
+                    showStatusMessage("✅ Analysis completed successfully!", "success");
                 } else {
-                    outputDiv.textContent = "✅ Analysis complete: No clear analysis provided by the backend.";
+                    // Clear the analyzing message and show warning
+                    outputDiv.textContent = "";
+                    showStatusMessage("⚠️ Analysis complete: No clear analysis provided by the backend", "warning");
                 }
             })
             .catch(e => {
-                outputDiv.textContent = "⚠️ Login is required... " + e;
+                // Clear the analyzing message and show error status
+                outputDiv.textContent = "";
+                showStatusMessage("⚠️ Login is required or connection failed: " + e.message, "error");
             });
         };
 
