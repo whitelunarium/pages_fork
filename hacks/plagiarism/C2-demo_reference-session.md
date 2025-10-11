@@ -1,6 +1,6 @@
 ---
 layout: post
-title: APA Reference and Citation Workshop
+title: APA Reference Session
 description: A tool to assist students in building an APA reference. 
 author: John Mortensen
 permalink: /plagiarism/2

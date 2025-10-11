@@ -1,7 +1,7 @@
 ---
 layout: post 
 tailwind: True
-title: Plagiarism Prevention Workshop Mockup 
+title: Plagiarism Prevention Mockup 
 description: >
   Understand the importance of academic honesty, the consequences of plagiarism, and the skills needed to properly cite and reference sources.
 author: John Mortensen
@@ -22,7 +22,7 @@ lxdData:
       Lessons: "/plagiarism/1"
       Image: "/images/plagiarism/why-matters.svg"
       Alt: "Plagiarism consequences"
-    - Title: "APA Citation Overview Session"
+    - Title: "APA Reference Overview"
       Genre: "Demonstration"
       Level: 2
       Description: "Learn the essentials of APA citation style, including in-text citations and reference lists, through interactive examples."
@@ -31,7 +31,7 @@ lxdData:
       Lessons: "/plagiarism/2"
       Image: "/images/plagiarism/apa-citation.svg"
       Alt: "APA citation example"
-    - Title: "APA Citation Practice Session"
+    - Title: "APA Reference Analysis"
       Genre: "Practice"
       Level: 3
       Description: "Identify and correct citation and plagiarism errors in sample student work."
@@ -40,7 +40,7 @@ lxdData:
       Lessons: "/plagiarism/3"
       Image: "/images/plagiarism/correct-errors.svg"
       Alt: "Correct citation errors"
-    - Title: "APA Citation Workshop"
+    - Title: "Plagiarism Avoidance Workshop"
       Genre: "Application"
       Level: 4
       Description: "Work in small groups to review, discuss, and improve sample assignments for proper citation and academic honesty."

@@ -6,7 +6,7 @@ author: John Mortensen
 permalink: /plagiarism/1
 breadcrumb: True
 lxdData:
-  Title: "Landmark Plagiarism Cases"
+  Title: "Plagiarism Case Studies"
   Description: >
     Plagiarism has real consequences—lawsuits, lost money, damaged reputations, and public embarrassment. These true stories show what happens when famous authors, musicians, and leaders are caught copying. See what’s at stake when you don’t give credit.
   Audience: "High school and college students"

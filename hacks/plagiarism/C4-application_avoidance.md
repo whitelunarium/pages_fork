@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Correct Errors Workshop 
-description: A tool to assist students in building an APA reference. 
+title: Plagiarism Avoidance Workshop 
+description: A tool to assist students in building an APA reference in citations using AI. 
 author: John Mortensen
-permalink: /plagiarism/3
+permalink: /plagiarism/4
 breadcrumb: True
 ---
 
@@ -151,7 +151,7 @@ Recent studies in cognitive psychology have revealed new insights into how memor
 
     // Analysis prompts for different modes
     const ANALYSIS_PROMPTS = {
-        plagiarism: "Please look at this text for correct academic citations, and recommend APA references for each area of concern: ",
+        plagiarism: "Please look at this text for correct academic reference, document citations, and make recommendations for each area of concern: ",
         thesis: "Please analyze this text for thesis development. Check for clear thesis statement, supporting arguments, and overall coherence: ",
         "five-paragraph": "Please analyze this text for 5-paragraph essay structure. Check for introduction with thesis, three body paragraphs with supporting details, and conclusion: ",
         research: "Please analyze this text for research paper quality. Check for proper academic tone, evidence-based arguments, and scholarly writing style: "

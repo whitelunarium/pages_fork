@@ -97,4 +97,12 @@ flowchart LR
         
 ```
 
+## Rubric
+
+Key activities will capture results and send to the Instructor.  Mastery is reward after each submission.
+
+1. APA reference session samples.
+2. Landmark case studies APA reference revisions.
+3. Sample Paragraph, Avoiding Plagism, and Thesis completion.
+
 ---
