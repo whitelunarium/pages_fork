@@ -197,10 +197,16 @@ window.generativeQuoteToFillValuesForAPA = function() {
                 citationData = data;
             } else if (data.response) {
                 // If the response is wrapped in a 'response' field
-                citationData = typeof data.response === 'string' ? JSON.parse(data.response) : data.response;
+                let responseText = typeof data.response === 'string' ? data.response : JSON.stringify(data.response);
+                // Strip markdown code blocks if present
+                responseText = responseText.replace(/```json\s*|\s*```/g, '').trim();
+                citationData = JSON.parse(responseText);
             } else if (data.text) {
                 // If the response is in a 'text' field
-                citationData = JSON.parse(data.text);
+                let responseText = data.text;
+                // Strip markdown code blocks if present
+                responseText = responseText.replace(/```json\s*|\s*```/g, '').trim();
+                citationData = JSON.parse(responseText);
             } else {
                 // Try to parse the entire response as JSON
                 citationData = JSON.parse(JSON.stringify(data));
