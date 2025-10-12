@@ -103,7 +103,7 @@ Research this quote and use it to build an APA reference.
     <div id="ai-status" style="margin-top: 10px; padding: 8px; border-radius: 4px; display: none;"></div>
     
     <!-- Formal Quote Display -->
-    <div id="formal-quote-display" style="margin-top: 15px; padding: 12px; background-color: #f8f9fa; border-left: 4px solid #007bff; border-radius: 4px; display: none;">
+    <div id="formal-quote-display" style="margin-top: 15px; padding: 12px; border-left: 4px solid #007bff; border-radius: 4px; display: none;">
       <strong>📖 Formal Quote (from source):</strong><br>
       <em id="formal-quote-text" style="font-style: italic; color: #495057;"></em>
     </div>
