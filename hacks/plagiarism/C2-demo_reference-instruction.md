@@ -444,7 +444,7 @@ Create a flawed article then correct article with citation and reference.
   
   <!-- Exercise 1: Salem's Citation Problem -->
   <div class="exercise-card">
-    <h3>📚 Exercise 1: Fix Salem's Citation Problem</h3>
+    <h3>Exercise 1: Fix Salem's Citation Problem</h3>
 
     <p><strong>Your Task:</strong> Research this Steve Jobs quote and create both a proper in-text citation AND a reference list entry.</p>
 
@@ -468,7 +468,7 @@ Create a flawed article then correct article with citation and reference.
   
   <!-- Exercise 2: Uncited vs Cited Comparison -->
   <div class="exercise-card">
-    <h3>📝 Exercise 2: Create Uncited vs Cited Example</h3>
+    <h3>Exercise 2: Create Uncited vs Cited Example</h3>
 
     <p><strong>Your Task:</strong> Create a flawed paragraph (with plagiarism), then show the corrected version with proper citations.</p>
     
@@ -484,7 +484,7 @@ Create a flawed article then correct article with citation and reference.
     </div>
     <textarea id="cited-text" class="exercise-textarea" placeholder="Rewrite the paragraph above with proper APA in-text citations and attributions..."></textarea>
     
-    <label for="reference-list"><strong>📚 Reference List for Cited Sources:</strong></label>
+    <label for="reference-list"><strong>Reference List for Cited Sources:</strong></label>
     <textarea id="reference-list" class="exercise-textarea" placeholder="List all the references used in your cited version in proper APA format..."></textarea>
     
     <div class="button-group">
