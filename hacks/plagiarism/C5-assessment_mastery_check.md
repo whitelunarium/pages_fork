@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <strong>Writing Analysis Mode:</strong> ${safeValue(c4Work, 'studentWork.analysisMode')}<br>
                     <strong>Word Count:</strong> ${safeValue(c4Work, 'studentWork.wordCount')}<br><br>
                     <strong>Student Writing Sample:</strong><br>
-                    <div style="padding: 8px; background-color: #f8f9fa; border-radius: 4px; margin: 5px 0; white-space: pre-wrap;">${safeValue(c4Work, 'studentWork.writingContent')}</div>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0; white-space: pre-wrap;">${safeValue(c4Work, 'studentWork.writingContent')}</div>
                 `;
 
                 c4Container.innerHTML = `
