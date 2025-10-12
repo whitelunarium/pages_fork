@@ -84,18 +84,30 @@ Research this quote and use it to build an APA reference.
     <p style="margin-bottom: 12px; color: #6c757d; font-size: 14px;">
       Have a quote but don't know the source? Paste it below and let AI research the primary source and fill in the citation details automatically.
     </p>
-
+    
     <label class="apa-tool-label">Quote or Text to Research:</label>
     <textarea class="apa-tool-input" id="user-provided-quote" placeholder="Paste your quote here (e.g., 'Innovation distinguishes between a leader and a follower')" style="min-height: 80px; resize: vertical;"></textarea>
     
-    <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="generativeQuoteToFillValuesForAPA()" style="margin-top: 10px;">
-      🔍 Generate APA Citation from Quote
-    </button>
+    <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+      <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="generativeQuoteToFillValuesForAPA()">
+        🔍 Generate APA Citation from Quote
+      </button>
+      <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="saveCurrentCitation()" style="background-color: #28a745;">
+        � Save Current Citation
+      </button>
+      <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="loadSavedCitation()" style="background-color: #17a2b8;">
+        📂 Load Saved Citation
+      </button>
+    </div>
     
     <div id="ai-status" style="margin-top: 10px; padding: 8px; border-radius: 4px; display: none;"></div>
-  </div>
-  
-  <!-- Manual Citation Fields -->
+    
+    <!-- Formal Quote Display -->
+    <div id="formal-quote-display" style="margin-top: 15px; padding: 12px; background-color: #f8f9fa; border-left: 4px solid #007bff; border-radius: 4px; display: none;">
+      <strong>📖 Formal Quote (from source):</strong><br>
+      <em id="formal-quote-text" style="font-style: italic; color: #495057;"></em>
+    </div>
+  </div>  <!-- Manual Citation Fields -->
   <h4 style="margin-bottom: 15px; color: #495057;">📝 Manual Citation Builder</h4>
   
   <label class="apa-tool-label">Author(s):</label>
@@ -172,7 +184,7 @@ window.generativeQuoteToFillValuesForAPA = function() {
     }
 
     const ENDPOINT = `${pythonURI}/api/gemini`;
-    const PROMPT = `Please locate a primary source for the provided text and format response as JSON structure with these exact keys: author, date, title, source, url. The quote is: `;
+    const PROMPT = `Please locate a primary source for the provided text and format response as JSON structure with these exact keys: author, date, title, source, url, formal_quote. Include the formal_quote field with the exact/corrected version of the quote from the original source. The quote is: `;
 
     showAIStatus("🔍 Researching quote and finding primary source...", "loading");
 
@@ -214,6 +226,12 @@ window.generativeQuoteToFillValuesForAPA = function() {
         } catch (parseError) {
             console.error("Failed to parse AI response:", parseError);
             throw new Error("AI response was not in expected JSON format");
+        }
+
+        // Display formal quote if provided
+        if (citationData.formal_quote) {
+            document.getElementById('formal-quote-text').textContent = citationData.formal_quote;
+            document.getElementById('formal-quote-display').style.display = 'block';
         }
 
         // Fill the APA citation fields with the AI-generated data
@@ -277,9 +295,76 @@ function generateAPA() {
 // Expose function to global scope for onclick access
 window.generateAPA = generateAPA;
 
-// Show default example on page load
+// Save current citation data to localStorage
+window.saveCurrentCitation = function() {
+    const citationData = {
+        userQuote: document.getElementById('user-provided-quote').value.trim(),
+        formalQuote: document.getElementById('formal-quote-text').textContent,
+        author: document.getElementById('apa-author').value.trim(),
+        date: document.getElementById('apa-date').value.trim(),
+        title: document.getElementById('apa-title').value.trim(),
+        source: document.getElementById('apa-source').value.trim(),
+        url: document.getElementById('apa-url').value.trim(),
+        citation: document.getElementById('citation-text').innerHTML,
+        timestamp: new Date().toISOString()
+    };
+
+    // Only save if there's meaningful data
+    if (citationData.author || citationData.title || citationData.userQuote) {
+        try {
+            localStorage.setItem('plagiarism-c2-saved-citation', JSON.stringify(citationData));
+            showAIStatus("✅ Citation saved successfully!", "success");
+        } catch (error) {
+            showAIStatus("❌ Failed to save citation: " + error.message, "error");
+        }
+    } else {
+        showAIStatus("⚠️ No citation data to save", "error");
+    }
+};
+
+// Load saved citation data from localStorage
+window.loadSavedCitation = function() {
+    try {
+        const saved = localStorage.getItem('plagiarism-c2-saved-citation');
+        if (saved) {
+            const citationData = JSON.parse(saved);
+            
+            // Fill all the fields
+            document.getElementById('user-provided-quote').value = citationData.userQuote || '';
+            document.getElementById('apa-author').value = citationData.author || '';
+            document.getElementById('apa-date').value = citationData.date || '';
+            document.getElementById('apa-title').value = citationData.title || '';
+            document.getElementById('apa-source').value = citationData.source || '';
+            document.getElementById('apa-url').value = citationData.url || '';
+            
+            // Show formal quote if available
+            if (citationData.formalQuote) {
+                document.getElementById('formal-quote-text').textContent = citationData.formalQuote;
+                document.getElementById('formal-quote-display').style.display = 'block';
+            }
+            
+            // Regenerate the citation
+            generateAPA();
+            
+            const saveDate = new Date(citationData.timestamp).toLocaleString();
+            showAIStatus(`✅ Citation loaded! (Saved: ${saveDate})`, "success");
+        } else {
+            showAIStatus("⚠️ No saved citation found", "error");
+        }
+    } catch (error) {
+        showAIStatus("❌ Failed to load citation: " + error.message, "error");
+    }
+};
+
+// Show default example on page load, or load saved citation if available
 document.addEventListener('DOMContentLoaded', function() {
-  generateAPA();
+    // Try to load saved citation first
+    const saved = localStorage.getItem('plagiarism-c2-saved-citation');
+    if (saved) {
+        loadSavedCitation();
+    } else {
+        generateAPA();
+    }
 });
 </script>
 
