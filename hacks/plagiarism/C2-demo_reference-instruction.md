@@ -78,6 +78,26 @@ Research this quote and use it to build an APA reference.
 <div class="citation-container">
   <h3>APA Citation Generator</h3>
   
+  <!-- Optional Quote Input for AI Generation -->
+  <div style="padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #dee2e6;">
+    <h4 style="margin-top: 0; color: #495057;">🤖 AI-Powered Citation Helper</h4>
+    <p style="margin-bottom: 12px; color: #6c757d; font-size: 14px;">
+      Have a quote but don't know the source? Paste it below and let AI research the primary source and fill in the citation details automatically.
+    </p>
+
+    <label class="apa-tool-label">Quote or Text to Research:</label>
+    <textarea class="apa-tool-input" id="user-provided-quote" placeholder="Paste your quote here (e.g., 'Innovation distinguishes between a leader and a follower')" style="min-height: 80px; resize: vertical;"></textarea>
+    
+    <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="generativeQuoteToFillValuesForAPA()" style="margin-top: 10px;">
+      🔍 Generate APA Citation from Quote
+    </button>
+    
+    <div id="ai-status" style="margin-top: 10px; padding: 8px; border-radius: 4px; display: none;"></div>
+  </div>
+  
+  <!-- Manual Citation Fields -->
+  <h4 style="margin-bottom: 15px; color: #495057;">📝 Manual Citation Builder</h4>
+  
   <label class="apa-tool-label">Author(s):</label>
   <input class="apa-tool-input" id="apa-author" type="text" placeholder="e.g., Doe, J." />
   
@@ -101,7 +121,134 @@ Research this quote and use it to build an APA reference.
   </div>
 </div>
 
-<script>
+<script type="module">
+import { pythonURI, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+
+// Status message helper function for AI quote research
+function showAIStatus(message, type) {
+    const statusDiv = document.getElementById("ai-status");
+    statusDiv.textContent = message;
+    statusDiv.style.display = "block";
+
+    switch(type) {
+        case "loading":
+            statusDiv.style.backgroundColor = "#cce5ff";
+            statusDiv.style.color = "#004085";
+            statusDiv.style.border = "1px solid #99d3ff";
+            break;
+        case "success":
+            statusDiv.style.backgroundColor = "#d1ecf1";
+            statusDiv.style.color = "#0c5460";
+            statusDiv.style.border = "1px solid #bee5eb";
+            break;
+        case "error":
+            statusDiv.style.backgroundColor = "#f8d7da";
+            statusDiv.style.color = "#721c24";
+            statusDiv.style.border = "1px solid #f5c6cb";
+            break;
+    }
+
+    // Auto-hide success/error messages after 5 seconds
+    if (type !== "loading") {
+        setTimeout(() => {
+            statusDiv.style.display = "none";
+        }, 5000);
+    }
+}
+
+window.generativeQuoteToFillValuesForAPA = function() {
+    /* 1. Provide a generative AI prompt that expects a quote
+     * 2. Call generative API with payload
+           - quote: user input
+           - wrap with prompt to return search for primary reference of provided quote and return key:value JSON structure with author, date, title, source, url
+     * 3. Fill response key values into doc elements apa-author, apa-date, apa-title, apa-source, apa-url.
+     */
+
+    const text = document.getElementById('user-provided-quote').value.trim();
+
+    if (!text) {
+        showAIStatus("⚠️ Please enter a quote or text to research", "error");
+        return;
+    }
+
+    const ENDPOINT = `${pythonURI}/api/gemini`;
+    const PROMPT = `Please locate a primary source for the provided text and format response as JSON structure with these exact keys: author, date, title, source, url. The quote is: `;
+
+    showAIStatus("🔍 Researching quote and finding primary source...", "loading");
+
+    fetch(ENDPOINT, {
+        ...fetchOptions,
+        method: "POST",
+        body: JSON.stringify({
+            prompt: PROMPT,
+            text: text
+        })
+    })
+    .then(resp => {
+        if (!resp.ok) return resp.text().then(text => { throw new Error(text); });
+        return resp.json();
+    })
+    .then(data => {
+        // Parse the AI response - it should be JSON with citation fields
+        let citationData;
+        try {
+            // If the response is already an object with the fields we need
+            if (data.author || data.date || data.title) {
+                citationData = data;
+            } else if (data.response) {
+                // If the response is wrapped in a 'response' field
+                citationData = typeof data.response === 'string' ? JSON.parse(data.response) : data.response;
+            } else if (data.text) {
+                // If the response is in a 'text' field
+                citationData = JSON.parse(data.text);
+            } else {
+                // Try to parse the entire response as JSON
+                citationData = JSON.parse(JSON.stringify(data));
+            }
+        } catch (parseError) {
+            console.error("Failed to parse AI response:", parseError);
+            throw new Error("AI response was not in expected JSON format");
+        }
+
+        // Fill the APA citation fields with the AI-generated data
+        if (citationData.author) {
+            document.getElementById('apa-author').value = citationData.author;
+        }
+        if (citationData.date) {
+            document.getElementById('apa-date').value = citationData.date;
+        }
+        if (citationData.title) {
+            document.getElementById('apa-title').value = citationData.title;
+        }
+        if (citationData.source) {
+            document.getElementById('apa-source').value = citationData.source;
+        }
+        if (citationData.url) {
+            document.getElementById('apa-url').value = citationData.url;
+        }
+
+        // Auto-generate the APA citation with the filled fields
+        generateAPA();
+
+        showAIStatus("✅ Citation fields filled! Review and adjust as needed.", "success");
+    })
+    .catch(error => {
+        console.error("Error in AI quote research:", error);
+        showAIStatus("⚠️ Login is required or connection failed: " + error.message, "error");
+
+        // Fallback: Fill with example data for the Steve Jobs quote if that's what was entered
+        if (text.toLowerCase().includes("innovation distinguishes") || text.toLowerCase().includes("steve jobs")) {
+            document.getElementById('apa-author').value = "Jobs, S.";
+            document.getElementById('apa-date').value = "2005, June 12";
+            document.getElementById('apa-title').value = "Stanford University Commencement Address";
+            document.getElementById('apa-source').value = "Stanford News";
+            document.getElementById('apa-url').value = "https://news.stanford.edu/news/2005/june15/jobs-061505.html";
+            generateAPA();
+            showAIStatus("📚 Using known source for Steve Jobs quote (AI unavailable)", "success");
+        }
+    });
+};
+
 function generateAPA() {
   const author = document.getElementById('apa-author').value.trim();
   const date = document.getElementById('apa-date').value.trim();
@@ -120,6 +267,9 @@ function generateAPA() {
   
   document.getElementById('citation-text').innerHTML = citation;
 }
+
+// Expose function to global scope for onclick access
+window.generateAPA = generateAPA;
 
 // Show default example on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -305,12 +455,12 @@ document.addEventListener("DOMContentLoaded", function() {
             // Exercise 1: Salem's Citation Problem
             document.getElementById("salem-citation").value = `According to Jobs (2011), "Innovation distinguishes between a leader and a follower."`;
             document.getElementById("salem-reference").value = `Jobs, S. (2011, October). Innovation quote. Stanford University Commencement Address. https://news.stanford.edu/news/2005/june15/jobs-061505.html`;
-            
+
             // Exercise 2: Uncited vs Cited Comparison
             document.getElementById("uncited-text").value = `Artificial intelligence is transforming education by providing personalized learning experiences. Studies show that AI can improve student outcomes by 40%. Machine learning algorithms can adapt to individual learning styles and provide instant feedback. This technology is revolutionizing how we think about teaching and learning.`;
-            
+
             document.getElementById("cited-text").value = `Artificial intelligence is transforming education by providing personalized learning experiences (Chen, 2023). Studies show that AI can improve student outcomes by 40% (Johnson & Smith, 2024). According to Rodriguez (2023), machine learning algorithms can adapt to individual learning styles and provide instant feedback. This technology is revolutionizing how we think about teaching and learning (AI Education Consortium, 2024).`;
-            
+
             document.getElementById("reference-list").value = `AI Education Consortium. (2024). The future of AI in education. Journal of Educational Technology, 15(3), 45-62. https://doi.org/10.1234/jet.2024.15.3.45
 
 Chen, L. (2023). Personalized learning through artificial intelligence. Educational Psychology Review, 28(4), 123-145. https://doi.org/10.1234/epr.2023.28.4.123
@@ -442,7 +592,7 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
             };
 
             localStorage.setItem('plagiarism-c2-assessment', JSON.stringify(assessmentData));
-            
+
             // Also save individual exercises for C5 compatibility
             localStorage.setItem('plagiarism-c2-1', JSON.stringify({
                 citation: salemCitation,
@@ -450,7 +600,7 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
                 timestamp: new Date().toISOString(),
                 exercise: 'Salem Citation Exercise'
             }));
-            
+
             localStorage.setItem('plagiarism-c2-2', JSON.stringify({
                 uncited: uncited,
                 cited: cited,
@@ -458,7 +608,7 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
                 timestamp: new Date().toISOString(),
                 exercise: 'Comparison Exercise'
             }));
-            
+
             showStatusMessage("🎓 All exercises saved for instructor assessment!", "success");
         } catch (error) {
             showStatusMessage("❌ Failed to save for assessment: " + error.message, "error");
@@ -489,6 +639,3 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
     document.getElementById("load-comparison").click();
 });
 </script>
-
-
-
