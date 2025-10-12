@@ -22,7 +22,7 @@ lxdData:
       Lessons: "/plagiarism/1"
       Image: "/images/plagiarism/why-matters.svg"
       Alt: "Plagiarism consequences"
-    - Title: "APA Reference Overview"
+    - Title: "APA Reference Instruction"
       Genre: "Demonstration"
       Level: 2
       Description: "Learn the essentials of APA citation style, including in-text citations and reference lists, through interactive examples."
@@ -31,7 +31,7 @@ lxdData:
       Lessons: "/plagiarism/2"
       Image: "/images/plagiarism/apa-citation.svg"
       Alt: "APA citation example"
-    - Title: "APA Reference Analysis"
+    - Title: "APA Reference Correction"
       Genre: "Practice"
       Level: 3
       Description: "Identify and correct citation and plagiarism errors in sample student work."

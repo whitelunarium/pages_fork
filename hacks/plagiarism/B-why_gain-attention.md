@@ -97,12 +97,34 @@ flowchart LR
         
 ```
 
-## Rubric
+## Assessment Rubric
 
-Key activities will capture results and send to the Instructor.  Mastery is reward after each submission.
+This workshop uses a **mastery-based assessment** where students progress through practice sessions and receive personalized feedback. All activities automatically save progress and send results to instructors for review.
 
-1. APA reference session samples.
-2. Landmark case studies APA reference revisions.
-3. Sample Paragraph, Avoiding Plagism, and Thesis completion.
+### 📋 Assessment Components
+
+| Component | Description | Mastery Criteria |
+|-----------|-------------|------------------|
+| **C2: Citation Practice** | Interactive APA reference formatting with real-time feedback | ✅ Correctly format 2+ different source types  ✅ Demonstrate understanding of in-text citations  ✅ Show proper use of citation tools |
+| **C3: APA Reference Instruction** | Identify and fix plagiarism issues in sample texts | ✅ Recognize all forms of plagiarism (direct, mosaic, self)  ✅ Apply proper paraphrasing techniques  ✅ Create original thesis statements |
+| **C4: Case Study Analysis** | Examine real-world plagiarism consequences | ✅ Analyze landmark academic integrity cases  ✅ Connect consequences to workshop principles  ✅ Demonstrate ethical reasoning |
+
+### 🏆 Completion Requirements
+
+**To earn your certificate, you must:**
+
+- Complete all C2, C3, C4 practice sessions with passing scores
+- Submit thoughtful responses to case study prompts
+- Receive "Pass" status from instructor assessment
+- Demonstrate consistent application of citation principles
+
+### 💾 Progress Tracking
+
+- **Automatic Save**: All work is preserved in your browser
+- **Real-time Feedback**: Immediate scoring on practice exercises  
+- **Instructor Dashboard**: Teachers can monitor progress and provide targeted support
+- **Certificate Generation**: Automatic certificate creation upon successful completion
+
+*Remember: This is about building lasting skills, not just completing assignments. Take time to understand each concept before moving forward.*
 
 ---
