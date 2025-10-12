@@ -101,7 +101,7 @@ flowchart LR
 
 This workshop uses a **mastery-based assessment** where students progress through practice sessions and receive personalized feedback. All activities automatically save progress and send results to instructors for review.
 
-### 📋 Assessment Components
+### Plagiarism Avoidance Assignments
 
 | Component | Description | Mastery Criteria |
 |-----------|-------------|------------------|
@@ -118,7 +118,7 @@ This workshop uses a **mastery-based assessment** where students progress throug
 - Receive "Pass" status from instructor assessment
 - Demonstrate consistent application of citation and reference principles
 
-### 💾 Progress Tracking
+### Progress Tracking
 
 - **Automatic Save**: All work is preserved in your browser
 - **Real-time Feedback**: Immediate scoring on practice exercises  
