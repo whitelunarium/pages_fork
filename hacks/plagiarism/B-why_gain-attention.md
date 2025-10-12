@@ -105,9 +105,9 @@ This workshop uses a **mastery-based assessment** where students progress throug
 
 | Component | Description | Mastery Criteria |
 |-----------|-------------|------------------|
-| **C2: Citation Practice** | Interactive APA reference formatting with real-time feedback | ✅ Correctly format 2+ different source types  ✅ Demonstrate understanding of in-text citations  ✅ Show proper use of citation tools |
-| **C3: APA Reference Instruction** | Identify and fix plagiarism issues in sample texts | ✅ Recognize all forms of plagiarism (direct, mosaic, self)  ✅ Apply proper paraphrasing techniques  ✅ Create original thesis statements |
-| **C4: Case Study Analysis** | Examine real-world plagiarism consequences | ✅ Analyze landmark academic integrity cases  ✅ Connect consequences to workshop principles  ✅ Demonstrate ethical reasoning |
+| **C2: APA Reference Instruction** | Identify and fix issues in sample texts | ✅ Recognize many forms of citation (text, audio, videoo)  ✅ Apply proper paraphrasing techniques |
+| **C4: Case Study Correction** | Examine real-world cases | ✅ Analyze APA formating errors  ✅ Demonstrate correction and reasoning |
+| **C4: Avoidance Workshop** | Interactive APA reference formatting with real-time feedback | ✅ Correctly format 2+ different source types  ✅ Demonstrate understanding of in-text citations  ✅ Show proper use of citation |
 
 ### 🏆 Completion Requirements
 
