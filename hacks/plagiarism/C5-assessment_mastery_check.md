@@ -1,5 +1,5 @@
 ---
-layout: opencs 
+layout: post 
 title: Plagiarism Avoidance Assessment
 description: A tool to assist instructor in evaluating student competency in APA reference and citations. 
 author: John Mortensen
