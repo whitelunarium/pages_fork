@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: opencs 
 title: Plagiarism Avoidance Assessment
 description: A tool to assist instructor in evaluating student competency in APA reference and citations. 
 author: John Mortensen
@@ -184,6 +184,8 @@ Instructor has view of each with context description as above.  There is a singl
 </div>
 
 <script>
+console.log("C5 script tag loaded!");
+
 document.addEventListener("DOMContentLoaded", function() {
     console.log("C5 Assessment page script loaded!");
 
@@ -219,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Load and display student work
     function loadStudentWork() {
         console.log("loadStudentWork() function called!");
-        
+
         // Helper function to safely get value or show 'Not available'
         function safeValue(obj, path, defaultValue = 'Not available') {
             return path.split('.').reduce((current, key) => current && current[key], obj) || defaultValue;
@@ -228,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Load C2 Work - Parse from assessment data
         const c2Container = document.getElementById('c2-content');
         const c2AssessmentData = localStorage.getItem('plagiarism-c2-assessment');
-        
+
         console.log("C2 localStorage check:", c2AssessmentData ? "Data found" : "No data found");
 
         let c2HasData = false;
@@ -376,8 +378,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // Load instructor assessment
-    document.getElementById("load-assessment").onclick = function() {
+    // Load instructor assessment function (extracted from button click)
+    function loadInstructorAssessment() {
         try {
             const saved = localStorage.getItem('plagiarism-instructor-assessment');
             if (saved) {
@@ -387,10 +389,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 const saveDate = new Date(data.timestamp).toLocaleString();
                 showStatusMessage(`Assessment loaded! (Saved: ${saveDate})`, "success");
             } else {
-                showStatusMessage("⚠️ No saved assessment found", "info");
+                // Don't show warning on initial load if no saved assessment
+                console.log("No saved instructor assessment found");
             }
         } catch (error) {
-            showStatusMessage("❌ Failed to load assessment: " + error.message, "error");
+            console.error("Error loading instructor assessment:", error);
+        }
+    }
+
+    // Load instructor assessment button (now calls the function)
+    document.getElementById("load-assessment").onclick = function() {
+        loadInstructorAssessment();
+        // Show user feedback for manual clicks
+        if (!localStorage.getItem('plagiarism-instructor-assessment')) {
+            showStatusMessage("⚠️ No saved assessment found", "info");
         }
     };
 
@@ -427,7 +439,7 @@ document.addEventListener("DOMContentLoaded", function() {
         addQuickComment("Good Progress! You're showing solid understanding of the material. Your work demonstrates effort and learning. Continue to focus on proper citation techniques and original expression of ideas.");
     };
 
-    document.getElementById('comment-needs-revision').onclick = function() {
+    document.getElementById('comment-needs-work').onclick = function() {
         addQuickComment("Needs Revision: Review the reported sections that are incomplete or need improvement. Please pay special attention to citation formatting and ensure all sources are properly attributed. Resubmit after making necessary corrections.");
     };
 
@@ -435,10 +447,28 @@ document.addEventListener("DOMContentLoaded", function() {
         addQuickComment("Incomplete Sections: Several required components are missing or inadequately completed. Please review the assignment requirements and complete all sections before resubmission. Focus on thoroughness and attention to detail.");
     };
 
-    // Initial load
-    console.log("About to call loadStudentWork() and load-assessment click");
-    loadStudentWork();
-    document.getElementById("load-assessment").click();
-    console.log("Initial setup complete");
+    // Initial load - call functions directly like C6 does
+    console.log("C5 Assessment page - performing initial load");
+
+    // Try immediate load
+    try {
+        loadStudentWork();
+        loadInstructorAssessment();
+        console.log("Initial setup complete - immediate");
+    } catch (error) {
+        console.error("Error in immediate initial load:", error);
+    }
+
+    // Also try with a small delay as backup
+    setTimeout(function() {
+        console.log("C5 Assessment page - backup delayed load");
+        try {
+            loadStudentWork();
+            loadInstructorAssessment();
+            console.log("Backup load complete");
+        } catch (error) {
+            console.error("Error in backup load:", error);
+        }
+    }, 500);
 });
 </script>

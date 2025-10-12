@@ -255,20 +255,20 @@ document.addEventListener("DOMContentLoaded", function() {
         function safeValue(obj, path, defaultValue = 'Not available') {
             return path.split('.').reduce((current, key) => current && current[key], obj) || defaultValue;
         }
-        
+
         // Load C2 Work - Check both new individual keys and old assessment format
         const c2Container = document.getElementById('c2-content');
         const c2_1_data = localStorage.getItem('plagiarism-c2-1');
         const c2_2_data = localStorage.getItem('plagiarism-c2-2');
         const c2AssessmentData = localStorage.getItem('plagiarism-c2-assessment');
-        
+
         let c2HasData = false;
         let c2Content = '';
-        
+
         if (c2_1_data || c2_2_data || c2AssessmentData) {
             c2HasData = true;
             c2Content = '<div class="work-section">';
-            
+
             // Try to get data from individual exercises first
             if (c2_1_data) {
                 try {
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     c2Content += '<div style="color: red;">❌ Error loading Salem exercise data</div><br>';
                 }
             }
-            
+
             if (c2_2_data) {
                 try {
                     const comparisonData = JSON.parse(c2_2_data);
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     c2Content += '<div style="color: red;">❌ Error loading comparison exercise data</div>';
                 }
             }
-            
+
             // Fallback to old assessment format if individual exercises not found
             if (!c2_1_data && !c2_2_data && c2AssessmentData) {
                 try {
@@ -350,10 +350,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     c2Content += '<div style="color: red;">❌ Error loading C2 assessment data</div>';
                 }
             }
-            
+
             c2Content += '</div>';
         }
-        
+
         if (c2HasData) {
             c2Container.innerHTML = c2Content;
         }
@@ -363,14 +363,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const c3_1_data = localStorage.getItem('plagiarism-c3-1');
         const c3_2_data = localStorage.getItem('plagiarism-c3-2');
         const c3AssessmentData = localStorage.getItem('plagiarism-c3-assessment');
-        
+
         let c3HasData = false;
         let c3Content = '';
-        
+
         if (c3_1_data || c3_2_data || c3AssessmentData) {
             c3HasData = true;
             c3Content = '<div class="work-section">';
-            
+
             // Try to get data from individual exercises first
             if (c3_1_data) {
                 try {
@@ -389,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     c3Content += '<div style="color: red;">❌ Error loading Taylor Swift exercise data</div><br>';
                 }
             }
-            
+
             if (c3_2_data) {
                 try {
                     const peteData = JSON.parse(c3_2_data);
@@ -407,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     c3Content += '<div style="color: red;">❌ Error loading Pete Hegseth exercise data</div>';
                 }
             }
-            
+
             // Fallback to old assessment format if individual exercises not found
             if (!c3_1_data && !c3_2_data && c3AssessmentData) {
                 try {
@@ -432,18 +432,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     c3Content += '<div style="color: red;">❌ Error loading C3 assessment data</div>';
                 }
             }
-            
+
             c3Content += '</div>';
         }
-        
+
         if (c3HasData) {
             c3Container.innerHTML = c3Content;
         }
-        
+
         // Load C4 Work - Parse from assessment data (submitted work)
         const c4Container = document.getElementById('c4-content');
         const c4AssessmentData = localStorage.getItem('plagiarism-c4-assessment');
-        
+
         if (c4AssessmentData) {
             try {
                 const c4Work = JSON.parse(c4AssessmentData);
@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const isCompleted = c4Work.completed !== false;
                 const statusIcon = isCompleted ? '✅' : '📝';
                 const statusText = isCompleted ? 'Submitted for Grading' : 'Draft Only';
-                
+
                 c4Container.innerHTML = `
                     <div class="work-section">
                         <strong>📅 ${isCompleted ? 'Completed' : 'Last Saved'}:</strong> ${completedDate}<br><br>
@@ -475,28 +475,28 @@ document.addEventListener("DOMContentLoaded", function() {
             if (saved) {
                 const data = JSON.parse(saved);
                 document.getElementById("instructor-comment").value = data.instructorComment;
-                document.getElementById("assessment-status").textContent = 
-                    data.assessmentStatus === 'pass' ? 'Pass - Demonstrates Mastery' : 
-                    data.assessmentStatus === 'retry' ? 'Retry - Needs Additional Work' : 
+                document.getElementById("assessment-status").textContent =
+                    data.assessmentStatus === 'pass' ? 'Pass - Demonstrates Mastery' :
+                    data.assessmentStatus === 'retry' ? 'Retry - Needs Additional Work' :
                     '-- Pending Assessment --';
-                
+
                 const saveDate = new Date(data.timestamp).toLocaleString();
                 const statusNotice = document.getElementById("status-notice");
-                
+
                 if (data.assessmentStatus === 'pass') {
                     statusNotice.className = "certificate-notice";
                     statusNotice.textContent = `🎓 Assessment Completed: ${saveDate} - Congratulations on achieving mastery!`;
                     statusNotice.style.display = "block";
-                    
+
                     // Show certificate confirmation section
                     document.getElementById("certificate-confirmation").style.display = "block";
                     document.getElementById("retry-instructions").style.display = "none";
-                    
+
                 } else if (data.assessmentStatus === 'retry') {
                     statusNotice.className = "retry-notice";
                     statusNotice.textContent = `Assessment Completed: ${saveDate} - Additional work required`;
                     statusNotice.style.display = "block";
-                    
+
                     // Show retry instructions section
                     document.getElementById("retry-instructions").style.display = "block";
                     document.getElementById("certificate-confirmation").style.display = "none";
@@ -514,7 +514,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("confirm-receipt").onchange = function() {
         const submitButton = document.getElementById("submit-confirmation");
         submitButton.disabled = !this.checked;
-        
+
         if (this.checked) {
             submitButton.style.opacity = "1";
             submitButton.style.cursor = "pointer";
@@ -539,20 +539,20 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             localStorage.setItem('plagiarism-certificate-confirmation', JSON.stringify(confirmationData));
-            
+
             // Update the UI to show confirmation success
             const confirmationSection = document.getElementById("certificate-confirmation");
             confirmationSection.innerHTML = `
                 <h3 style="margin-top: 0; color: #155724;">✅ Certificate Confirmation Received</h3>
                 <p style="color: #155724;">
-                    Thank you for confirming receipt of your APA Reference and Citation Mastery Certificate. 
+                    Thank you for confirming receipt of your APA Reference and Citation Mastery Certificate.
                     Your confirmation was recorded on ${new Date().toLocaleString()}.
                 </p>
                 <p style="color: #155724; font-weight: bold;">
                     You have successfully completed the Plagiarism Avoidance Workshop!
                 </p>
             `;
-            
+
             showStatusMessage("Certificate confirmation submitted successfully!", "success");
         } catch (error) {
             showStatusMessage("❌ Failed to save confirmation: " + error.message, "error");
@@ -562,7 +562,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initial load
     loadStudentWork();
     loadInstructorAssessment();
-    
+
     // Check if certificate was already confirmed
     const existingConfirmation = localStorage.getItem('plagiarism-certificate-confirmation');
     if (existingConfirmation) {
@@ -575,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     confirmationSection.innerHTML = `
                         <h3 style="margin-top: 0; color: #155724;">✅ Certificate Confirmation Received</h3>
                         <p style="color: #155724;">
-                            Thank you for confirming receipt of your APA Reference and Citation Mastery Certificate. 
+                            Thank you for confirming receipt of your APA Reference and Citation Mastery Certificate.
                             Your confirmation was recorded on ${confirmDate}.
                         </p>
                         <p style="color: #155724; font-weight: bold;">
