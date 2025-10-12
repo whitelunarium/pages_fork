@@ -447,11 +447,12 @@ Create a flawed article then correct article with citation and reference.
     <h3>📚 Exercise 1: Fix Salem's Citation Problem</h3>
 
     <p><strong>Your Task:</strong> Research this Steve Jobs quote and create both a proper in-text citation AND a reference list entry.</p>
-    <div class="scenario-box">
-      <strong>🎯 The Problem:</strong><br>
-      Salem found this perfect quote: <em>"Innovation distinguishes between a leader and a follower."</em><br>
+
+    <label for="uncited-text"><strong>❌ Uncited Quote:</strong></label>
+    <div class="uncited-box">
+    <strong>Salem found this perfect quote: <em>"Innovation distinguishes between a leader and a follower."</em></strong>
     </div>
-    
+    <textarea id="uncited-text" class="exercise-textarea" placeholder="Write a sentance with reference."></textarea> 
     
     <label for="salem-citation"><strong>In-text Citation (how it should appear in the paper):</strong></label>
     <textarea id="salem-citation" class="exercise-textarea" placeholder="Write the in-text citation here. Example: According to Jobs (2005), 'Innovation distinguishes...'"></textarea>
