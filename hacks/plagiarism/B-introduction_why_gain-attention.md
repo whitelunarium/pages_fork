@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Why Source? The Power and Peril of Words
+title: Introduction -- Why Source? 
 author: John Mortensen
 permalink: /plagiarism/gain-attention
 breadcrumb: True
 ---
 
-## The Power of Memorable Words
+## The Power and Peril of Words
 
 Literature has shaped culture and society through memorable phrases that continue to resonate today. For example, `"It was the best of times, it was the worst of times"` captures the contrasts of life in a way that still feels relevant. Another famous phrase, `"Romeo, Romeo, wherefore art thou Romeo?"` has been quoted in countless settings as a symbol of love and longing. Likewise, in film and popular culture, lines such as `"Frankly, my dear, I don't give a damn"` are recognized across generations.
 
