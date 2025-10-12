@@ -61,7 +61,7 @@ Research this quote and use it to build an APA reference.
       <li><strong>Manual Method:</strong> Enter citation information directly in the fields below</li>
       <li>Review and adjust the auto-filled information as needed</li>
       <li>Use "Save" and "Load" buttons to preserve your work across sessions</li>
-      <li>Copy the generated citation for use in your work</li>
+      <li>Copy the generated reference for use in your work</li>
     </ol>
     
     <h4>Features</h4>
@@ -70,7 +70,7 @@ Research this quote and use it to build an APA reference.
       <li><strong>Formal quote display:</strong> Shows the exact/corrected version from the original source</li>
       <li><strong>Real-time formatting:</strong> Automatically formats your citation in proper APA style</li>
       <li><strong>Save/Restore:</strong> Preserves your work and avoids repeated API calls</li>
-      <li><strong>Clickable URLs:</strong> Generated citations include working links to sources</li>
+      <li><strong>Clickable URLs:</strong> Generated References include working links to sources</li>
       <li><strong>Educational comparison:</strong> Compare your input quote with the formal version</li>
     </ul>
     
@@ -108,6 +108,12 @@ Research this quote and use it to build an APA reference.
       <strong>📖 Formal Quote (from source):</strong><br>
       <em id="formal-quote-text" style="font-style: italic; color: #495057;"></em>
     </div>
+    
+    <!-- In-Text Citation Display -->
+    <div id="intext-citation-display" style="margin-top: 15px; padding: 12px; border-left: 4px solid #28a745; border-radius: 4px; display: none;">
+      <strong>📝 In-Text Citation:</strong><br>
+      <code id="intext-citation-text" style="padding: 4px 8px; border-radius: 3px; font-family: monospace;"></code>
+    </div>
   </div>  <!-- Manual Citation Fields -->
   <h4 style="margin-bottom: 15px; color: #495057;">Manual Citation Builder</h4>
   
@@ -126,10 +132,10 @@ Research this quote and use it to build an APA reference.
   <label class="apa-tool-label">URL:</label>
   <input class="apa-tool-input" id="apa-url" type="text" placeholder="e.g., https://www.nytimes.com/article-link" />
   
-  <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="generateAPA()">Generate APA Reference</button>
+  <button class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" onclick="generateAPA()">Generate APA Reference & Citation</button>
   
   <div class="apa-tool-output" id="apa-output">
-    <strong>Generated Citation:</strong><br>
+    <strong>Generated Reference:</strong><br>
     <span id="citation-text"></span>
   </div>
 </div>
@@ -185,7 +191,7 @@ window.generativeQuoteToFillValuesForAPA = function() {
     }
 
     const ENDPOINT = `${pythonURI}/api/gemini`;
-    const PROMPT = `Please locate a primary source for the provided text and format response as JSON structure with these exact keys: author, date, title, source, url, formal_quote. Include the formal_quote field with the exact/corrected version of the quote from the original source. The quote is: `;
+    const PROMPT = `Please locate a primary source for the provided text and format response as JSON structure with these exact keys: author, date, title, source, url, formal_quote, intext_citation. Include the formal_quote field with the exact/corrected version of the quote from the original source. Include the intext_citation field with a proper APA in-text citation format (e.g., "(Smith, 2023)" or "Smith (2023)"). The quote is: `;
 
     showAIStatus("🔍 Researching quote and finding primary source...", "loading");
 
@@ -231,8 +237,22 @@ window.generativeQuoteToFillValuesForAPA = function() {
 
         // Display formal quote if provided
         if (citationData.formal_quote) {
-            document.getElementById('formal-quote-text').textContent = citationData.formal_quote;
-            document.getElementById('formal-quote-display').style.display = 'block';
+            const formalQuoteElement = document.getElementById('formal-quote-text');
+            const formalDisplayElement = document.getElementById('formal-quote-display');
+            if (formalQuoteElement && formalDisplayElement) {
+                formalQuoteElement.textContent = citationData.formal_quote;
+                formalDisplayElement.style.display = 'block';
+            }
+        }
+
+        // Display in-text citation if provided
+        if (citationData.intext_citation) {
+            const inTextElement = document.getElementById('intext-citation-text');
+            const inTextDisplayElement = document.getElementById('intext-citation-display');
+            if (inTextElement && inTextDisplayElement) {
+                inTextElement.textContent = citationData.intext_citation;
+                inTextDisplayElement.style.display = 'block';
+            }
         }
 
         // Fill the APA citation fields with the AI-generated data
@@ -268,6 +288,22 @@ window.generativeQuoteToFillValuesForAPA = function() {
             document.getElementById('apa-title').value = "Stanford University Commencement Address";
             document.getElementById('apa-source').value = "Stanford News";
             document.getElementById('apa-url').value = "https://news.stanford.edu/news/2005/june15/jobs-061505.html";
+            
+            // Show formal quote and citation for fallback
+            const formalQuoteElement = document.getElementById('formal-quote-text');
+            const formalDisplayElement = document.getElementById('formal-quote-display');
+            const inTextElement = document.getElementById('intext-citation-text');
+            const inTextDisplayElement = document.getElementById('intext-citation-display');
+            
+            if (formalQuoteElement && formalDisplayElement) {
+                formalQuoteElement.textContent = "Innovation distinguishes between a leader and a follower.";
+                formalDisplayElement.style.display = 'block';
+            }
+            if (inTextElement && inTextDisplayElement) {
+                inTextElement.textContent = "(Jobs, 2005)";
+                inTextDisplayElement.style.display = 'block';
+            }
+            
             generateAPA();
             showAIStatus("📚 Using known source for Steve Jobs quote (AI unavailable)", "success");
         }
@@ -291,16 +327,51 @@ function generateAPA() {
   }
   
   document.getElementById('citation-text').innerHTML = citation;
+  
+  // Also generate in-text citation
+  generateInTextCitation();
+}
+
+function generateInTextCitation() {
+  const author = document.getElementById('apa-author').value.trim();
+  const date = document.getElementById('apa-date').value.trim();
+  
+  let inTextCitation = '';
+  
+  if (author && date) {
+    // Extract just the year from the date
+    const yearMatch = date.match(/(\d{4})/);
+    const year = yearMatch ? yearMatch[1] : date;
+    
+    // Extract last name from author (assuming format "LastName, F.")
+    const lastNameMatch = author.match(/^([^,]+)/);
+    const lastName = lastNameMatch ? lastNameMatch[1].trim() : author;
+    
+    inTextCitation = `(${lastName}, ${year})`;
+  } else {
+    // Default example
+    inTextCitation = `(Doe, 2025)`;
+  }
+  
+  const inTextElement = document.getElementById('intext-citation-text');
+  const inTextDisplayElement = document.getElementById('intext-citation-display');
+  
+  if (inTextElement && inTextDisplayElement) {
+    inTextElement.textContent = inTextCitation;
+    inTextDisplayElement.style.display = 'block';
+  }
 }
 
 // Expose function to global scope for onclick access
 window.generateAPA = generateAPA;
+window.generateInTextCitation = generateInTextCitation;
 
 // Save current citation data to localStorage
 window.saveCurrentCitation = function() {
     const citationData = {
         userQuote: document.getElementById('user-provided-quote').value.trim(),
-        formalQuote: document.getElementById('formal-quote-text').textContent,
+        formalQuote: document.getElementById('formal-quote-text')?.textContent || '',
+        inTextCitation: document.getElementById('intext-citation-text')?.textContent || '',
         author: document.getElementById('apa-author').value.trim(),
         date: document.getElementById('apa-date').value.trim(),
         title: document.getElementById('apa-title').value.trim(),
@@ -340,11 +411,25 @@ window.loadSavedCitation = function() {
 
             // Show formal quote if available
             if (citationData.formalQuote) {
-                document.getElementById('formal-quote-text').textContent = citationData.formalQuote;
-                document.getElementById('formal-quote-display').style.display = 'block';
+                const formalQuoteElement = document.getElementById('formal-quote-text');
+                const formalDisplayElement = document.getElementById('formal-quote-display');
+                if (formalQuoteElement && formalDisplayElement) {
+                    formalQuoteElement.textContent = citationData.formalQuote;
+                    formalDisplayElement.style.display = 'block';
+                }
             }
 
-            // Regenerate the citation
+            // Show in-text citation if available
+            if (citationData.inTextCitation) {
+                const inTextElement = document.getElementById('intext-citation-text');
+                const inTextDisplayElement = document.getElementById('intext-citation-display');
+                if (inTextElement && inTextDisplayElement) {
+                    inTextElement.textContent = citationData.inTextCitation;
+                    inTextDisplayElement.style.display = 'block';
+                }
+            }
+
+            // Regenerate the citation (this will also regenerate in-text citation)
             generateAPA();
 
             const saveDate = new Date(citationData.timestamp).toLocaleString();
@@ -369,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-## Provide 2 examples to show understading of APA reference and citation.
+## Provide 2 examples to show understanding of APA reference and citation
 
 Fix Salem's delima to boost grade to an 'A".
 
