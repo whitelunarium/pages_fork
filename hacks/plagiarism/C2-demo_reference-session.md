@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         try {
-            localStorage.setItem('plagiarism-salem-exercise', JSON.stringify({
+            localStorage.setItem('plagiarism-c2-1', JSON.stringify({
                 citation: citation,
                 reference: reference,
                 timestamp: new Date().toISOString(),
@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Load Salem's Exercise
     document.getElementById("load-salem").onclick = function() {
         try {
-            const saved = localStorage.getItem('plagiarism-salem-exercise');
+            const saved = localStorage.getItem('plagiarism-c2-1');
             if (saved) {
                 const data = JSON.parse(saved);
                 document.getElementById("salem-citation").value = data.citation;
@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         try {
-            localStorage.setItem('plagiarism-comparison-exercise', JSON.stringify({
+            localStorage.setItem('plagiarism-c2-2', JSON.stringify({
                 uncited: uncited,
                 cited: cited,
                 references: references,
@@ -367,7 +367,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Load Comparison Exercise
     document.getElementById("load-comparison").onclick = function() {
         try {
-            const saved = localStorage.getItem('plagiarism-comparison-exercise');
+            const saved = localStorage.getItem('plagiarism-c2-2');
             if (saved) {
                 const data = JSON.parse(saved);
                 document.getElementById("uncited-text").value = data.uncited;
@@ -434,8 +434,8 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("reference-list").value = "";
 
             // Clear individual saves
-            localStorage.removeItem('plagiarism-salem-exercise');
-            localStorage.removeItem('plagiarism-comparison-exercise');
+            localStorage.removeItem('plagiarism-c2-1');
+            localStorage.removeItem('plagiarism-c2-2');
             localStorage.removeItem('plagiarism-c2-assessment');
 
             showStatusMessage("🗑️ All work cleared", "info");

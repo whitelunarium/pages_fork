@@ -192,10 +192,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         try {
-            localStorage.setItem('plagiarism-taylor-reference', JSON.stringify({
-                content: reference,
+            localStorage.setItem('plagiarism-c3-1', JSON.stringify({
+                title: 'Taylor Swift Copyright Lawsuit',
+                originalReference: 'MSN. (2025). Taylor Swift\'s legal odyssey: Unpacking the Shake It Off copyright resolution, industry repercussions, and emerging 2025 courtroom dramas.',
+                correctedReference: reference,
                 timestamp: new Date().toISOString(),
-                case: 'Taylor Swift Copyright Lawsuit'
+                exercise: 'Reference Correction - Taylor Swift Case'
             }));
             showStatusMessage("✅ Taylor Swift reference saved successfully!", "success");
         } catch (error) {
@@ -206,10 +208,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Load Taylor Swift Reference
     document.getElementById("load-taylor").onclick = function() {
         try {
-            const saved = localStorage.getItem('plagiarism-taylor-reference');
+            const saved = localStorage.getItem('plagiarism-c3-1');
             if (saved) {
                 const data = JSON.parse(saved);
-                document.getElementById("taylor-reference").value = data.content;
+                document.getElementById("taylor-reference").value = data.correctedReference || data.content || '';
                 const saveDate = new Date(data.timestamp).toLocaleString();
                 showStatusMessage(`✅ Taylor Swift reference loaded! (Saved: ${saveDate})`, "success");
             } else {
@@ -230,10 +232,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         try {
-            localStorage.setItem('plagiarism-pete-reference', JSON.stringify({
-                content: reference,
+            localStorage.setItem('plagiarism-c3-2', JSON.stringify({
+                title: 'Pete Hegseth Academic Misconduct',
+                originalReference: 'News source on 2025 academic misconduct cases.',
+                correctedReference: reference,
                 timestamp: new Date().toISOString(),
-                case: 'Pete Hegseth Academic Misconduct'
+                exercise: 'Reference Correction - Pete Hegseth Case'
             }));
             showStatusMessage("✅ Pete Hegseth reference saved successfully!", "success");
         } catch (error) {
@@ -244,10 +248,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Load Pete Hegseth Reference
     document.getElementById("load-pete").onclick = function() {
         try {
-            const saved = localStorage.getItem('plagiarism-pete-reference');
+            const saved = localStorage.getItem('plagiarism-c3-2');
             if (saved) {
                 const data = JSON.parse(saved);
-                document.getElementById("pete-reference").value = data.content;
+                document.getElementById("pete-reference").value = data.correctedReference || data.content || '';
                 const saveDate = new Date(data.timestamp).toLocaleString();
                 showStatusMessage(`✅ Pete Hegseth reference loaded! (Saved: ${saveDate})`, "success");
             } else {
@@ -294,8 +298,8 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("pete-reference").value = "";
 
             // Clear individual saves
-            localStorage.removeItem('plagiarism-taylor-reference');
-            localStorage.removeItem('plagiarism-pete-reference');
+            localStorage.removeItem('plagiarism-c3-1');
+            localStorage.removeItem('plagiarism-c3-2');
             localStorage.removeItem('plagiarism-c3-assessment');
 
             showStatusMessage("🗑️ All work cleared", "info");

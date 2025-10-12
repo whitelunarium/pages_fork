@@ -76,6 +76,7 @@ Instructor has view of each with context description as above.  There is a singl
     border-radius: 4px;
     font-size: 16px;
     margin-left: 10px;
+    color: #495057;
   }
   
   .button-group {
@@ -205,82 +206,214 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Load and display student work
     function loadStudentWork() {
-        // Load C2 Work
-        const c2Data = localStorage.getItem('plagiarism-c2-assessment');
+        // Helper function to safely get value or show 'Not available'
+        function safeValue(obj, path, defaultValue = 'Not available') {
+            return path.split('.').reduce((current, key) => current && current[key], obj) || defaultValue;
+        }
+        
+        // Load C2 Work - Check both new individual keys and old assessment format
         const c2Container = document.getElementById('c2-content');
-
-        if (c2Data) {
-            try {
-                const c2Work = JSON.parse(c2Data);
-                const completedDate = new Date(c2Work.timestamp).toLocaleString();
-
-                c2Container.innerHTML = `
-                    <div class="work-section">
-                        <strong>📅 Completed:</strong> ${completedDate}<br><br>
-
+        const c2_1_data = localStorage.getItem('plagiarism-c2-1');
+        const c2_2_data = localStorage.getItem('plagiarism-c2-2');
+        const c2AssessmentData = localStorage.getItem('plagiarism-c2-assessment');
+        
+        let c2HasData = false;
+        let c2Content = '';
+        
+        if (c2_1_data || c2_2_data || c2AssessmentData) {
+            c2HasData = true;
+            c2Content = '<div class="work-section">';
+            
+            // Try to get data from individual exercises first
+            if (c2_1_data) {
+                try {
+                    const salemData = JSON.parse(c2_1_data);
+                    const saveDate = new Date(salemData.timestamp).toLocaleString();
+                    c2Content += `
+                        <strong>📅 Salem Exercise Completed:</strong> ${saveDate}<br><br>
                         <strong>🎯 Salem's Citation Exercise:</strong><br>
                         <em>In-text Citation:</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c2Work.studentWork.salemExercise.citation || 'Not completed'}
+                            ${safeValue(salemData, 'citation')}
                         </div>
-
                         <em>Reference List Entry:</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c2Work.studentWork.salemExercise.reference || 'Not completed'}
-                        </div>
-
+                            ${safeValue(salemData, 'reference')}
+                        </div><br>
+                    `;
+                } catch (error) {
+                    c2Content += '<div style="color: red;">❌ Error loading Salem exercise data</div><br>';
+                }
+            }
+            
+            if (c2_2_data) {
+                try {
+                    const comparisonData = JSON.parse(c2_2_data);
+                    const saveDate = new Date(comparisonData.timestamp).toLocaleString();
+                    c2Content += `
+                        <strong>📅 Comparison Exercise Completed:</strong> ${saveDate}<br><br>
                         <strong>📝 Comparison Exercise:</strong><br>
                         <em>Uncited Version (showing plagiarism):</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c2Work.studentWork.comparisonExercise.uncited || 'Not completed'}
+                            ${safeValue(comparisonData, 'uncited')}
                         </div>
-
                         <em>Properly Cited Version:</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c2Work.studentWork.comparisonExercise.cited || 'Not completed'}
+                            ${safeValue(comparisonData, 'cited')}
                         </div>
-
                         <em>Reference List:</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c2Work.studentWork.comparisonExercise.references || 'Not completed'}
+                            ${safeValue(comparisonData, 'references')}
                         </div>
-                    </div>
-                `;
-            } catch (error) {
-                c2Container.innerHTML = '<div class="missing-work">❌ Error loading C2 data: ' + error.message + '</div>';
+                    `;
+                } catch (error) {
+                    c2Content += '<div style="color: red;">❌ Error loading comparison exercise data</div>';
+                }
             }
+            
+            // Fallback to old assessment format if individual exercises not found
+            if (!c2_1_data && !c2_2_data && c2AssessmentData) {
+                try {
+                    const c2Work = JSON.parse(c2AssessmentData);
+                    const completedDate = new Date(c2Work.timestamp).toLocaleString();
+                    c2Content += `
+                        <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
+                        <strong>🎯 Salem's Citation Exercise:</strong><br>
+                        <em>In-text Citation:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(c2Work, 'studentWork.salemExercise.citation')}
+                        </div>
+                        <em>Reference List Entry:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(c2Work, 'studentWork.salemExercise.reference')}
+                        </div>
+                        <strong>📝 Comparison Exercise:</strong><br>
+                        <em>Uncited Version:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(c2Work, 'studentWork.comparisonExercise.uncited')}
+                        </div>
+                        <em>Properly Cited Version:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(c2Work, 'studentWork.comparisonExercise.cited')}
+                        </div>
+                        <em>Reference List:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(c2Work, 'studentWork.comparisonExercise.references')}
+                        </div>
+                    `;
+                } catch (error) {
+                    c2Content += '<div style="color: red;">❌ Error loading C2 assessment data</div>';
+                }
+            }
+            
+            c2Content += '</div>';
+        }
+        
+        if (c2HasData) {
+            c2Container.innerHTML = c2Content;
         }
 
-        // Load C3 Work
-        const c3Data = localStorage.getItem('plagiarism-c3-assessment');
+        // Load C3 Work - Check both new individual keys and old assessment format
         const c3Container = document.getElementById('c3-content');
-
-        if (c3Data) {
-            try {
-                const c3Work = JSON.parse(c3Data);
-                const completedDate = new Date(c3Work.timestamp).toLocaleString();
-
-                c3Container.innerHTML = `
-                    <div class="work-section">
-                        <strong>📅 Completed:</strong> ${completedDate}<br><br>
-
+        const c3_1_data = localStorage.getItem('plagiarism-c3-1');
+        const c3_2_data = localStorage.getItem('plagiarism-c3-2');
+        const c3AssessmentData = localStorage.getItem('plagiarism-c3-assessment');
+        
+        let c3HasData = false;
+        let c3Content = '';
+        
+        if (c3_1_data || c3_2_data || c3AssessmentData) {
+            c3HasData = true;
+            c3Content = '<div class="work-section">';
+            
+            // Try to get data from individual exercises first
+            if (c3_1_data) {
+                try {
+                    const taylorData = JSON.parse(c3_1_data);
+                    const saveDate = new Date(taylorData.timestamp).toLocaleString();
+                    c3Content += `
+                        <strong>📅 Taylor Swift Exercise Completed:</strong> ${saveDate}<br><br>
+                        <strong>🎵 Taylor Swift Reference Correction:</strong><br>
+                        <em>Original weak reference:</em> ${safeValue(taylorData, 'originalReference', 'MSN. (2025). Taylor Swift\'s legal odyssey...')}<br>
+                        <em>Student's improved version:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(taylorData, 'correctedReference')}
+                        </div><br>
+                    `;
+                } catch (error) {
+                    c3Content += '<div style="color: red;">❌ Error loading Taylor Swift exercise data</div><br>';
+                }
+            }
+            
+            if (c3_2_data) {
+                try {
+                    const peteData = JSON.parse(c3_2_data);
+                    const saveDate = new Date(peteData.timestamp).toLocaleString();
+                    c3Content += `
+                        <strong>📅 Pete Hegseth Exercise Completed:</strong> ${saveDate}<br><br>
+                        <strong>⚖️ Pete Hegseth Reference Correction:</strong><br>
+                        <em>Original weak reference:</em> ${safeValue(peteData, 'originalReference', 'News source on 2025 academic misconduct cases.')}<br>
+                        <em>Student's improved version:</em><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(peteData, 'correctedReference')}
+                        </div>
+                    `;
+                } catch (error) {
+                    c3Content += '<div style="color: red;">❌ Error loading Pete Hegseth exercise data</div>';
+                }
+            }
+            
+            // Fallback to old assessment format if individual exercises not found
+            if (!c3_1_data && !c3_2_data && c3AssessmentData) {
+                try {
+                    const c3Work = JSON.parse(c3AssessmentData);
+                    const completedDate = new Date(c3Work.timestamp).toLocaleString();
+                    c3Content += `
+                        <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
                         <strong>🎵 Taylor Swift Reference Correction:</strong><br>
                         <em>Original weak reference:</em> MSN. (2025). Taylor Swift's legal odyssey...<br>
                         <em>Student's improved version:</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c3Work.studentWork.taylorSwiftReference || 'Not completed'}
+                            ${safeValue(c3Work, 'studentWork.taylorSwiftReference')}
                         </div>
-
                         <strong>⚖️ Pete Hegseth Reference Correction:</strong><br>
                         <em>Original weak reference:</em> News source on 2025 academic misconduct cases.<br>
                         <em>Student's improved version:</em><br>
                         <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
-                            ${c3Work.studentWork.peteHegsethReference || 'Not completed'}
+                            ${safeValue(c3Work, 'studentWork.peteHegsethReference')}
+                        </div>
+                    `;
+                } catch (error) {
+                    c3Content += '<div style="color: red;">❌ Error loading C3 assessment data</div>';
+                }
+            }
+            
+            c3Content += '</div>';
+        }
+        
+        if (c3HasData) {
+            c3Container.innerHTML = c3Content;
+        }
+        
+        // Load C4 Work (placeholder for future - check for c4-1)
+        const c4Container = document.getElementById('c4-content');
+        const c4_1_data = localStorage.getItem('plagiarism-c4-1');
+        
+        if (c4_1_data) {
+            try {
+                const c4Work = JSON.parse(c4_1_data);
+                const completedDate = new Date(c4Work.timestamp).toLocaleString();
+                c4Container.innerHTML = `
+                    <div class="work-section">
+                        <strong>📅 Completed:</strong> ${completedDate}<br><br>
+                        <strong>✍️ C4 Exercise:</strong><br>
+                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                            ${safeValue(c4Work, 'content', 'C4 content structure to be defined')}
                         </div>
                     </div>
                 `;
             } catch (error) {
-                c3Container.innerHTML = '<div class="missing-work">❌ Error loading C3 data: ' + error.message + '</div>';
+                c4Container.innerHTML = '<div class="missing-work">❌ Error loading C4 data: ' + error.message + '</div>';
             }
         }
     }
