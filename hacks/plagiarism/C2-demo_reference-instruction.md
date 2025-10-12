@@ -53,25 +53,29 @@ Research this quote and use it to build an APA reference.
 
   <div style="margin-top: 15px;">
     <h4>Purpose</h4>
-    <p>Automate and scaffold the citation correction workflow for students.</p>
+    <p>Automate and scaffold the citation correction workflow for students using AI-powered quote research and manual citation building.</p>
 
     <h4>How to Use</h4>
     <ol>
-      <li>Enter the required information in each field below</li>
-      <li>Click "Generate APA Citation" to see the formatted result</li>
+      <li><strong>AI Method:</strong> Paste a quote or text snippet in the research box and click "Generate APA Citation from Quote" - AI will find the source and fill all fields automatically</li>
+      <li><strong>Manual Method:</strong> Enter citation information directly in the fields below</li>
+      <li>Review and adjust the auto-filled information as needed</li>
+      <li>Use "Save" and "Load" buttons to preserve your work across sessions</li>
       <li>Copy the generated citation for use in your work</li>
     </ol>
     
     <h4>Features</h4>
     <ul>
+      <li><strong>AI-powered research:</strong> Automatically finds primary sources from partial quotes or text snippets</li>
+      <li><strong>Formal quote display:</strong> Shows the exact/corrected version from the original source</li>
       <li><strong>Real-time formatting:</strong> Automatically formats your citation in proper APA style</li>
-      <li><strong>Clickable URLs:</strong> Generated citations include working links</li>
-      <li><strong>Example data:</strong> Pre-filled with sample information to demonstrate format</li>
-      <li><strong>Interactive:</strong> Can be used as standalone activity or embedded in group work</li>
+      <li><strong>Save/Restore:</strong> Preserves your work and avoids repeated API calls</li>
+      <li><strong>Clickable URLs:</strong> Generated citations include working links to sources</li>
+      <li><strong>Educational comparison:</strong> Compare your input quote with the formal version</li>
     </ul>
     
     <h4>Instructions</h4>
-    <p>Input the author, date, title, source, and URL information to output a correctly formatted APA citation. This tool can be further customized to support additional citation styles or integration with AI and external databases.</p>
+    <p>Have a quote but don't know the source? Paste it in the AI research box - even partial or imperfect quotes work! The AI will research the primary source, provide the formal quote, and fill in all citation details automatically. You can then save your work and reload it later without needing to call the AI again.</p>
   </div>
 </details>
 
@@ -81,10 +85,7 @@ Research this quote and use it to build an APA reference.
   <!-- Optional Quote Input for AI Generation -->
   <div style="padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #dee2e6;">
     <h4 style="margin-top: 0; color: #495057;">🤖 AI-Powered Citation Helper</h4>
-    <p style="margin-bottom: 12px; color: #6c757d; font-size: 14px;">
-      Have a quote but don't know the source? Paste it below and let AI research the primary source and fill in the citation details automatically.
-    </p>
-    
+
     <label class="apa-tool-label">Quote or Text to Research:</label>
     <textarea class="apa-tool-input" id="user-provided-quote" placeholder="Paste your quote here (e.g., 'Innovation distinguishes between a leader and a follower')" style="min-height: 80px; resize: vertical;"></textarea>
     
@@ -328,7 +329,7 @@ window.loadSavedCitation = function() {
         const saved = localStorage.getItem('plagiarism-c2-saved-citation');
         if (saved) {
             const citationData = JSON.parse(saved);
-            
+
             // Fill all the fields
             document.getElementById('user-provided-quote').value = citationData.userQuote || '';
             document.getElementById('apa-author').value = citationData.author || '';
@@ -336,16 +337,16 @@ window.loadSavedCitation = function() {
             document.getElementById('apa-title').value = citationData.title || '';
             document.getElementById('apa-source').value = citationData.source || '';
             document.getElementById('apa-url').value = citationData.url || '';
-            
+
             // Show formal quote if available
             if (citationData.formalQuote) {
                 document.getElementById('formal-quote-text').textContent = citationData.formalQuote;
                 document.getElementById('formal-quote-display').style.display = 'block';
             }
-            
+
             // Regenerate the citation
             generateAPA();
-            
+
             const saveDate = new Date(citationData.timestamp).toLocaleString();
             showAIStatus(`✅ Citation loaded! (Saved: ${saveDate})`, "success");
         } else {
