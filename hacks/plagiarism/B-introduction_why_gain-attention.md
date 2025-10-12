@@ -106,7 +106,7 @@ This workshop uses a **mastery-based assessment** where students progress throug
 | Component | Description | Mastery Criteria |
 |-----------|-------------|------------------|
 | **C2: APA Reference Instruction** | Identify and fix issues in sample texts | ✅ Recognize many forms of citation (text, audio, videoo)  ✅ Apply proper paraphrasing techniques |
-| **C4: Case Study Correction** | Examine real-world cases | ✅ Analyze APA formating errors  ✅ Demonstrate correction and reasoning |
+| **C3: Case Study Correction** | Examine real-world cases | ✅ Analyze APA formating errors  ✅ Demonstrate correction and reasoning |
 | **C4: Avoidance Workshop** | Interactive APA reference formatting with real-time feedback | ✅ Correctly format 2+ different source types  ✅ Demonstrate understanding of in-text citations  ✅ Show proper use of citation |
 
 ### 🏆 Completion Requirements
@@ -116,7 +116,7 @@ This workshop uses a **mastery-based assessment** where students progress throug
 - Complete all C2, C3, C4 practice sessions with passing scores
 - Submit thoughtful responses to case study prompts
 - Receive "Pass" status from instructor assessment
-- Demonstrate consistent application of citation principles
+- Demonstrate consistent application of citation and reference principles
 
 ### 💾 Progress Tracking
 
