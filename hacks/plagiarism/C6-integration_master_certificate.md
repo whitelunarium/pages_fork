@@ -440,21 +440,26 @@ document.addEventListener("DOMContentLoaded", function() {
             c3Container.innerHTML = c3Content;
         }
         
-        // Load C4 Work (placeholder for future)
+        // Load C4 Work - Parse from assessment data (submitted work)
         const c4Container = document.getElementById('c4-content');
-        const c4_1_data = localStorage.getItem('plagiarism-c4-1');
+        const c4AssessmentData = localStorage.getItem('plagiarism-c4-assessment');
         
-        if (c4_1_data) {
+        if (c4AssessmentData) {
             try {
-                const c4Work = JSON.parse(c4_1_data);
+                const c4Work = JSON.parse(c4AssessmentData);
                 const completedDate = new Date(c4Work.timestamp).toLocaleString();
+                const isCompleted = c4Work.completed !== false;
+                const statusIcon = isCompleted ? '✅' : '📝';
+                const statusText = isCompleted ? 'Submitted for Grading' : 'Draft Only';
+                
                 c4Container.innerHTML = `
                     <div class="work-section">
-                        <strong>📅 Completed:</strong> ${completedDate}<br><br>
-                        <strong>C4 Exercise:</strong><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c4Work, 'content', 'C4 content structure to be defined')}
-                        </div>
+                        <strong>📅 ${isCompleted ? 'Completed' : 'Last Saved'}:</strong> ${completedDate}<br><br>
+                        <strong>Status:</strong> ${statusIcon} ${statusText}<br>
+                        <strong>Writing Analysis Mode:</strong> ${safeValue(c4Work, 'studentWork.analysisMode')}<br>
+                        <strong>Word Count:</strong> ${safeValue(c4Work, 'studentWork.wordCount')}<br><br>
+                        <strong>Student Writing Sample:</strong><br>
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0; white-space: pre-wrap; max-height: 200px; overflow-y: auto;">${safeValue(c4Work, 'studentWork.writingContent')}</div>
                     </div>
                 `;
             } catch (error) {
