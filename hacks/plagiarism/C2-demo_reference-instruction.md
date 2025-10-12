@@ -49,7 +49,7 @@ Research this quote and use it to build an APA reference.
 </style>
 
 <details style="padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #007bff ">
-  <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 18px;">📚 Citation Tool Helper (Click to see guide)</summary>
+  <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 18px;">Citation Tool Helper (Click to see guide)</summary>
 
   <div style="margin-top: 15px;">
     <h4>Purpose</h4>
@@ -84,7 +84,7 @@ Research this quote and use it to build an APA reference.
   
   <!-- Optional Quote Input for AI Generation -->
   <div style="padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #dee2e6;">
-    <h4 style="margin-top: 0; color: #495057;">🤖 AI-Powered Citation Helper</h4>
+    <h4 style="margin-top: 0; color: #495057;">AI-Powered Citation Helper</h4>
 
     <label class="apa-tool-label">Quote or Text to Research:</label>
     <textarea class="apa-tool-input" id="user-provided-quote" placeholder="Paste your quote here (e.g., 'Innovation distinguishes between a leader and a follower')" style="min-height: 80px; resize: vertical;"></textarea>
@@ -109,7 +109,7 @@ Research this quote and use it to build an APA reference.
       <em id="formal-quote-text" style="font-style: italic; color: #495057;"></em>
     </div>
   </div>  <!-- Manual Citation Fields -->
-  <h4 style="margin-bottom: 15px; color: #495057;">📝 Manual Citation Builder</h4>
+  <h4 style="margin-bottom: 15px; color: #495057;">Manual Citation Builder</h4>
   
   <label class="apa-tool-label">Author(s):</label>
   <input class="apa-tool-input" id="apa-author" type="text" placeholder="e.g., Doe, J." />
@@ -447,17 +447,23 @@ Create a flawed article then correct article with citation and reference.
     <h3>Exercise 1: Fix Salem's Citation Problem</h3>
 
     <p><strong>Your Task:</strong> Research this Steve Jobs quote and create both a proper in-text citation AND a reference list entry.</p>
-
-    <label for="uncited-text"><strong>❌ Uncited Quote:</strong></label>
-    <div class="uncited-box">
-    <strong>Salem found this perfect quote: <em>"Innovation distinguishes between a leader and a follower."</em></strong>
-    </div>
-    <textarea id="uncited-text" class="exercise-textarea" placeholder="Write a sentance with reference."></textarea> 
     
-    <label for="salem-citation"><strong>In-text Citation (how it should appear in the paper):</strong></label>
+    <label for="salem-uncited"><strong>❌ Uncited Quote:</strong></label>
+    <div class="uncited-box">
+      <strong>Instructions:</strong> Salem found this perfect quote but used it without citation (this shows what NOT to do)
+    </div>
+    <textarea id="salem-uncited" class="exercise-textarea" placeholder="Write how Salem incorrectly used the quote: 'Innovation distinguishes between a leader and a follower.' without citation..."></textarea>
+    
+    <label for="salem-citation"><strong>✅ In-text Citation (how it should appear in the paper):</strong></label>
+    <div class="cited-box">
+      <strong>Instructions:</strong> Write the proper in-text citation for the Steve Jobs quote
+    </div>
     <textarea id="salem-citation" class="exercise-textarea" placeholder="Write the in-text citation here. Example: According to Jobs (2005), 'Innovation distinguishes...'"></textarea>
     
     <label for="salem-reference"><strong>Reference List Entry (for bibliography):</strong></label>
+    <div class="cited-box">
+      <strong>Instructions:</strong> Write the full APA reference for the bibliography
+    </div>
     <textarea id="salem-reference" class="exercise-textarea" placeholder="Write the full APA reference here. Include author, date, source, URL, etc."></textarea>
     
     <div class="button-group">
@@ -546,8 +552,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("test-mode-button").onclick = function() {
         if (confirm("This will fill all exercises with sample data for testing. Continue?")) {
             // Exercise 1: Salem's Citation Problem
-            document.getElementById("salem-citation").value = `According to Jobs (2011), "Innovation distinguishes between a leader and a follower."`;
-            document.getElementById("salem-reference").value = `Jobs, S. (2011, October). Innovation quote. Stanford University Commencement Address. https://news.stanford.edu/news/2005/june15/jobs-061505.html`;
+            document.getElementById("salem-uncited").value = `Innovation distinguishes between a leader and a follower. This quote perfectly captures the essence of entrepreneurship and leadership in business.`;
+            document.getElementById("salem-citation").value = `According to Jobs (2005), "Innovation distinguishes between a leader and a follower."`;
+            document.getElementById("salem-reference").value = `Jobs, S. (2005, June 12). Stanford University Commencement Address. Stanford News. https://news.stanford.edu/news/2005/june15/jobs-061505.html`;
 
             // Exercise 2: Uncited vs Cited Comparison
             document.getElementById("uncited-text").value = `Artificial intelligence is transforming education by providing personalized learning experiences. Studies show that AI can improve student outcomes by 40%. Machine learning algorithms can adapt to individual learning styles and provide instant feedback. This technology is revolutionizing how we think about teaching and learning.`;
@@ -568,16 +575,18 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
 
     // Save Salem's Exercise
     document.getElementById("save-salem").onclick = function() {
+        const uncited = document.getElementById("salem-uncited").value.trim();
         const citation = document.getElementById("salem-citation").value.trim();
         const reference = document.getElementById("salem-reference").value.trim();
 
-        if (citation.length === 0 || reference.length === 0) {
-            showStatusMessage("⚠️ Please complete both citation and reference before saving", "warning");
+        if (uncited.length === 0 || citation.length === 0 || reference.length === 0) {
+            showStatusMessage("⚠️ Please complete all three sections before saving", "warning");
             return;
         }
 
         try {
             localStorage.setItem('plagiarism-c2-1', JSON.stringify({
+                uncited: uncited,
                 citation: citation,
                 reference: reference,
                 timestamp: new Date().toISOString(),
@@ -595,8 +604,9 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
             const saved = localStorage.getItem('plagiarism-c2-1');
             if (saved) {
                 const data = JSON.parse(saved);
-                document.getElementById("salem-citation").value = data.citation;
-                document.getElementById("salem-reference").value = data.reference;
+                document.getElementById("salem-uncited").value = data.uncited || '';
+                document.getElementById("salem-citation").value = data.citation || '';
+                document.getElementById("salem-reference").value = data.reference || '';
                 const saveDate = new Date(data.timestamp).toLocaleString();
                 showStatusMessage(`✅ Salem's solution loaded! (Saved: ${saveDate})`, "success");
             } else {
@@ -653,13 +663,14 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
 
     // Save All for Assessment
     document.getElementById("save-all-exercises").onclick = function() {
+        const salemUncited = document.getElementById("salem-uncited").value.trim();
         const salemCitation = document.getElementById("salem-citation").value.trim();
         const salemReference = document.getElementById("salem-reference").value.trim();
         const uncited = document.getElementById("uncited-text").value.trim();
         const cited = document.getElementById("cited-text").value.trim();
         const references = document.getElementById("reference-list").value.trim();
 
-        if (salemCitation.length === 0 || salemReference.length === 0 ||
+        if (salemUncited.length === 0 || salemCitation.length === 0 || salemReference.length === 0 ||
             uncited.length === 0 || cited.length === 0 || references.length === 0) {
             showStatusMessage("⚠️ Please complete all exercises before saving for assessment", "warning");
             return;
@@ -671,6 +682,7 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
                 lesson: 'C2-demo_reference-session',
                 studentWork: {
                     salemExercise: {
+                        uncited: salemUncited,
                         citation: salemCitation,
                         reference: salemReference
                     },
@@ -688,6 +700,7 @@ Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching a
 
             // Also save individual exercises for C5 compatibility
             localStorage.setItem('plagiarism-c2-1', JSON.stringify({
+                uncited: salemUncited,
                 citation: salemCitation,
                 reference: salemReference,
                 timestamp: new Date().toISOString(),

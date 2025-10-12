@@ -246,6 +246,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 c2Content += `
                     <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
                     <strong>Salem's Citation Exercise:</strong><br>
+                    <em>Original Uncited Text:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c2Work, 'studentWork.salemExercise.uncited')}
+                    </div>
                     <em>In-text Citation:</em><br>
                     <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                         ${safeValue(c2Work, 'studentWork.salemExercise.citation')}
