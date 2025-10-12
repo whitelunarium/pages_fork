@@ -100,15 +100,15 @@ Instructor has view of each with context description as above.  There is a singl
 <div class="assessment-container">
   
   <div class="mockup-notice">
-    🎭 INSTRUCTOR ASSESSMENT MOCKUP - This simulates how an instructor would view student work stored in browser localStorage
+    INSTRUCTOR ASSESSMENT MOCKUP - This simulates how an instructor would view student work stored in browser localStorage
   </div>
   
-  <h2>📊 Student Work Review</h2>
+  <h2>Student Work Review</h2>
   
   <!-- C2 Work Display -->
   <div class="student-work-card">
     <div class="lesson-header">
-      📚 C2: APA Reference Session Samples
+      C2: APA Reference Session Samples
     </div>
 
     <div id="c2-content">
@@ -121,7 +121,7 @@ Instructor has view of each with context description as above.  There is a singl
   <!-- C3 Work Display -->
   <div class="student-work-card">
     <div class="lesson-header">
-      🔍 C3: Landmark Case Studies APA Reference Revisions
+      C3: Landmark Case Studies APA Reference Revisions
     </div>
 
     <div id="c3-content">
@@ -134,7 +134,7 @@ Instructor has view of each with context description as above.  There is a singl
   <!-- C4 Work Display (Placeholder for future) -->
   <div class="student-work-card">
     <div class="lesson-header">
-      ✍️ C4: Sample Paragraph, Avoiding Plagiarism, and Thesis Completion
+      C4: Sample Paragraph, Avoiding Plagiarism, and Thesis Completion
     </div>
 
     <div id="c4-content">
@@ -147,7 +147,7 @@ Instructor has view of each with context description as above.  There is a singl
   <!-- Instructor Assessment -->
   <div class="student-work-card">
     <div class="lesson-header">
-      🎓 Instructor Assessment
+      Instructor Assessment
     </div>
 
     <label for="instructor-comment"><strong>Instructor Comments:</strong></label>
@@ -157,15 +157,15 @@ Instructor has view of each with context description as above.  There is a singl
       <label for="assessment-status"><strong>Assessment Status:</strong></label>
       <select id="assessment-status" class="status-select">
         <option value="">-- Select Status --</option>
-        <option value="pass">✅ Pass - Demonstrates Mastery</option>
-        <option value="retry">🔄 Retry - Needs Additional Work</option>
+        <option value="pass">Pass - Demonstrates Mastery</option>
+        <option value="retry">Retry - Needs Additional Work</option>
       </select>
     </div>
     
     <div class="button-group">
-      <button id="save-assessment" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">💾 Save Assessment</button>
-      <button id="load-assessment" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">📂 Load Previous Assessment</button>
-      <button id="refresh-student-work" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🔄 Refresh Student Work</button>
+      <button id="save-assessment" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">Save Assessment</button>
+      <button id="load-assessment" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">Load Previous Assessment</button>
+      <button id="refresh-student-work" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">Refresh Student Work</button>
     </div>
   </div>
   
@@ -231,13 +231,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     const saveDate = new Date(salemData.timestamp).toLocaleString();
                     c2Content += `
                         <strong>📅 Salem Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>🎯 Salem's Citation Exercise:</strong><br>
+                        <strong>Salem's Citation Exercise:</strong><br>
                         <em>In-text Citation:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(salemData, 'citation')}
                         </div>
                         <em>Reference List Entry:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(salemData, 'reference')}
                         </div><br>
                     `;
@@ -252,17 +252,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     const saveDate = new Date(comparisonData.timestamp).toLocaleString();
                     c2Content += `
                         <strong>📅 Comparison Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>📝 Comparison Exercise:</strong><br>
+                        <strong>Comparison Exercise:</strong><br>
                         <em>Uncited Version (showing plagiarism):</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(comparisonData, 'uncited')}
                         </div>
                         <em>Properly Cited Version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(comparisonData, 'cited')}
                         </div>
                         <em>Reference List:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(comparisonData, 'references')}
                         </div>
                     `;
@@ -278,26 +278,26 @@ document.addEventListener("DOMContentLoaded", function() {
                     const completedDate = new Date(c2Work.timestamp).toLocaleString();
                     c2Content += `
                         <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
-                        <strong>🎯 Salem's Citation Exercise:</strong><br>
+                        <strong>Salem's Citation Exercise:</strong><br>
                         <em>In-text Citation:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c2Work, 'studentWork.salemExercise.citation')}
                         </div>
                         <em>Reference List Entry:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c2Work, 'studentWork.salemExercise.reference')}
                         </div>
-                        <strong>📝 Comparison Exercise:</strong><br>
+                        <strong>Comparison Exercise:</strong><br>
                         <em>Uncited Version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c2Work, 'studentWork.comparisonExercise.uncited')}
                         </div>
                         <em>Properly Cited Version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c2Work, 'studentWork.comparisonExercise.cited')}
                         </div>
                         <em>Reference List:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c2Work, 'studentWork.comparisonExercise.references')}
                         </div>
                     `;
@@ -333,10 +333,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     const saveDate = new Date(taylorData.timestamp).toLocaleString();
                     c3Content += `
                         <strong>📅 Taylor Swift Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>🎵 Taylor Swift Reference Correction:</strong><br>
+                        <strong>Taylor Swift Reference Correction:</strong><br>
                         <em>Original weak reference:</em> ${safeValue(taylorData, 'originalReference', 'MSN. (2025). Taylor Swift\'s legal odyssey...')}<br>
                         <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(taylorData, 'correctedReference')}
                         </div><br>
                     `;
@@ -351,10 +351,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     const saveDate = new Date(peteData.timestamp).toLocaleString();
                     c3Content += `
                         <strong>📅 Pete Hegseth Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>⚖️ Pete Hegseth Reference Correction:</strong><br>
+                        <strong>Pete Hegseth Reference Correction:</strong><br>
                         <em>Original weak reference:</em> ${safeValue(peteData, 'originalReference', 'News source on 2025 academic misconduct cases.')}<br>
                         <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(peteData, 'correctedReference')}
                         </div>
                     `;
@@ -370,16 +370,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     const completedDate = new Date(c3Work.timestamp).toLocaleString();
                     c3Content += `
                         <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
-                        <strong>🎵 Taylor Swift Reference Correction:</strong><br>
+                        <strong>Taylor Swift Reference Correction:</strong><br>
                         <em>Original weak reference:</em> MSN. (2025). Taylor Swift's legal odyssey...<br>
                         <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c3Work, 'studentWork.taylorSwiftReference')}
                         </div>
-                        <strong>⚖️ Pete Hegseth Reference Correction:</strong><br>
+                        <strong>Pete Hegseth Reference Correction:</strong><br>
                         <em>Original weak reference:</em> News source on 2025 academic misconduct cases.<br>
                         <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c3Work, 'studentWork.peteHegsethReference')}
                         </div>
                     `;
@@ -406,8 +406,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 c4Container.innerHTML = `
                     <div class="work-section">
                         <strong>📅 Completed:</strong> ${completedDate}<br><br>
-                        <strong>✍️ C4 Exercise:</strong><br>
-                        <div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+                        <strong>C4 Exercise:</strong><br>
+                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
                             ${safeValue(c4Work, 'content', 'C4 content structure to be defined')}
                         </div>
                     </div>
@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             localStorage.setItem('plagiarism-instructor-assessment', JSON.stringify(assessmentData));
-            showStatusMessage("✅ Assessment saved successfully!", "success");
+            showStatusMessage("Assessment saved successfully!", "success");
         } catch (error) {
             showStatusMessage("❌ Failed to save assessment: " + error.message, "error");
         }
@@ -456,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("instructor-comment").value = data.instructorComment;
                 document.getElementById("assessment-status").value = data.assessmentStatus;
                 const saveDate = new Date(data.timestamp).toLocaleString();
-                showStatusMessage(`✅ Assessment loaded! (Saved: ${saveDate})`, "success");
+                showStatusMessage(`Assessment loaded! (Saved: ${saveDate})`, "success");
             } else {
                 showStatusMessage("⚠️ No saved assessment found", "info");
             }
@@ -468,7 +468,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Refresh student work
     document.getElementById("refresh-student-work").onclick = function() {
         loadStudentWork();
-        showStatusMessage("🔄 Student work refreshed from localStorage", "info");
+        showStatusMessage("Student work refreshed from localStorage", "info");
     };
 
     // Initial load
