@@ -252,6 +252,7 @@ Create a flawed article then correct article with citation and reference.
   
   <!-- Save All for Assessment -->
   <div class="button-group">
+    <button id="test-mode-button" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🧪 Test Mode - Fill All Exercises</button>
     <button id="save-all-exercises" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">📤 Save All for Assessment</button>
     <button id="clear-all-exercises" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🗑️ Clear All Work</button>
   </div>
@@ -297,6 +298,30 @@ document.addEventListener("DOMContentLoaded", function() {
             statusDiv.style.display = "none";
         }, 4000);
     }
+
+    // Test Mode - Fill all exercises with sample data
+    document.getElementById("test-mode-button").onclick = function() {
+        if (confirm("This will fill all exercises with sample data for testing. Continue?")) {
+            // Exercise 1: Salem's Citation Problem
+            document.getElementById("salem-citation").value = `According to Jobs (2011), "Innovation distinguishes between a leader and a follower."`;
+            document.getElementById("salem-reference").value = `Jobs, S. (2011, October). Innovation quote. Stanford University Commencement Address. https://news.stanford.edu/news/2005/june15/jobs-061505.html`;
+            
+            // Exercise 2: Uncited vs Cited Comparison
+            document.getElementById("uncited-text").value = `Artificial intelligence is transforming education by providing personalized learning experiences. Studies show that AI can improve student outcomes by 40%. Machine learning algorithms can adapt to individual learning styles and provide instant feedback. This technology is revolutionizing how we think about teaching and learning.`;
+            
+            document.getElementById("cited-text").value = `Artificial intelligence is transforming education by providing personalized learning experiences (Chen, 2023). Studies show that AI can improve student outcomes by 40% (Johnson & Smith, 2024). According to Rodriguez (2023), machine learning algorithms can adapt to individual learning styles and provide instant feedback. This technology is revolutionizing how we think about teaching and learning (AI Education Consortium, 2024).`;
+            
+            document.getElementById("reference-list").value = `AI Education Consortium. (2024). The future of AI in education. Journal of Educational Technology, 15(3), 45-62. https://doi.org/10.1234/jet.2024.15.3.45
+
+Chen, L. (2023). Personalized learning through artificial intelligence. Educational Psychology Review, 28(4), 123-145. https://doi.org/10.1234/epr.2023.28.4.123
+
+Johnson, M., & Smith, R. (2024). Measuring AI impact on student performance. Computers & Education, 89, 67-78. https://doi.org/10.1234/ce.2024.89.67
+
+Rodriguez, A. (2023). Adaptive learning systems in modern classrooms. Teaching and Technology Quarterly, 12(2), 89-104. https://doi.org/10.1234/ttq.2023.12.2.89`;
+
+            showStatusMessage("🧪 Test mode activated! All exercises filled with sample data.", "info");
+        }
+    };
 
     // Save Salem's Exercise
     document.getElementById("save-salem").onclick = function() {
@@ -417,6 +442,23 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             localStorage.setItem('plagiarism-c2-assessment', JSON.stringify(assessmentData));
+            
+            // Also save individual exercises for C5 compatibility
+            localStorage.setItem('plagiarism-c2-1', JSON.stringify({
+                citation: salemCitation,
+                reference: salemReference,
+                timestamp: new Date().toISOString(),
+                exercise: 'Salem Citation Exercise'
+            }));
+            
+            localStorage.setItem('plagiarism-c2-2', JSON.stringify({
+                uncited: uncited,
+                cited: cited,
+                references: references,
+                timestamp: new Date().toISOString(),
+                exercise: 'Comparison Exercise'
+            }));
+            
             showStatusMessage("🎓 All exercises saved for instructor assessment!", "success");
         } catch (error) {
             showStatusMessage("❌ Failed to save for assessment: " + error.message, "error");

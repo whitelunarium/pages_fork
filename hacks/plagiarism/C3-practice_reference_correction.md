@@ -136,6 +136,7 @@ lxdData:
   </div>
   
   <div class="button-group">
+    <button id="test-mode-c3" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🧪 Test Mode - Fill References</button>
     <button id="save-all" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">📤 Save All for Assessment</button>
     <button id="clear-all" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🗑️ Clear All Work</button>
   </div>
@@ -181,6 +182,19 @@ document.addEventListener("DOMContentLoaded", function() {
             statusDiv.style.display = "none";
         }, 4000);
     }
+
+    // Test Mode - Fill all references with sample data
+    document.getElementById("test-mode-c3").onclick = function() {
+        if (confirm("This will fill both reference corrections with sample data for testing. Continue?")) {
+            // Taylor Swift Reference Correction
+            document.getElementById("taylor-reference").value = `Marasco, K. (2025, April 15). Copyright infringement lawsuit against Taylor Swift. Entertainment Law Review, 45(8), 123-135. https://doi.org/10.1234/elr.2025.45.8.123`;
+            
+            // Pete Hegseth Reference Correction  
+            document.getElementById("pete-reference").value = `Princeton University Academic Integrity Office. (2025, May 20). Investigation findings: Senior thesis plagiarism case. Princeton Academic Review, 78(3), 45-52. https://www.princeton.edu/academic-integrity/cases/2025-hegseth`;
+
+            showStatusMessage("🧪 Test mode activated! Both references filled with corrected APA format.", "info");
+        }
+    };
 
     // Save Taylor Swift Reference
     document.getElementById("save-taylor").onclick = function() {
@@ -285,6 +299,24 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             localStorage.setItem('plagiarism-c3-assessment', JSON.stringify(assessmentData));
+            
+            // Also save individual exercises for C5 compatibility
+            localStorage.setItem('plagiarism-c3-1', JSON.stringify({
+                title: 'Taylor Swift Copyright Lawsuit',
+                originalReference: 'MSN. (2025). Taylor Swift\'s legal odyssey: Unpacking the Shake It Off copyright resolution, industry repercussions, and emerging 2025 courtroom dramas.',
+                correctedReference: taylorRef,
+                timestamp: new Date().toISOString(),
+                exercise: 'Reference Correction - Taylor Swift Case'
+            }));
+            
+            localStorage.setItem('plagiarism-c3-2', JSON.stringify({
+                title: 'Pete Hegseth Academic Misconduct',
+                originalReference: 'News source on 2025 academic misconduct cases.',
+                correctedReference: peteRef,
+                timestamp: new Date().toISOString(),
+                exercise: 'Reference Correction - Pete Hegseth Case'
+            }));
+            
             showStatusMessage("🎓 All references saved for instructor assessment!", "success");
         } catch (error) {
             showStatusMessage("❌ Failed to save for assessment: " + error.message, "error");

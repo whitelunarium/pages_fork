@@ -112,6 +112,7 @@ button:hover {
 
 <div id="quill-editor" style="height: 200px;"></div>
 <div class="controls">
+    <button id="test-mode-c4" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🧪 Test Mode - Fill Editor</button>
     <button id="checkBtn" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition">🔍 Analyze Text</button>
     <button id="submitBtn" class="iridescent flex-1 text-white text-center py-2 rounded-lg font-semibold transition" style="background-color: #28a745;" disabled>📤 Submit for Grading</button>
 </div>
@@ -164,6 +165,23 @@ Recent studies in cognitive psychology have revealed new insights into how memor
 
         // Load a random sample on page load
         loadRandomSample();
+
+        // Test Mode - Fill editor with sample text
+        document.getElementById("test-mode-c4").onclick = function() {
+            if (confirm("This will fill the editor with sample text for testing. Continue?")) {
+                const sampleText = `Artificial intelligence is transforming education by providing personalized learning experiences. Many educators are exploring how AI can enhance traditional teaching methods. According to recent research, AI-powered adaptive learning systems can significantly improve student outcomes.
+
+Machine learning algorithms analyze student performance data to identify areas where individual learners need additional support. This technology enables teachers to provide more targeted interventions and customized learning paths.
+
+However, the integration of AI in education also raises important questions about data privacy, algorithmic bias, and the changing role of human instructors. As educational institutions continue to adopt these technologies, it becomes crucial to establish proper guidelines for citation and attribution when using AI-generated content in academic work.
+
+The future of education will likely involve a collaborative approach between human educators and AI systems, working together to create more effective and inclusive learning environments for all students.`;
+                
+                quill.setText(sampleText);
+                document.getElementById("submitBtn").disabled = false;
+                showStatusMessage("🧪 Test mode: Editor filled with sample text for plagiarism analysis!", "info");
+            }
+        };
 
         // Save Draft button
         document.getElementById("saveBtn").onclick = function() {
@@ -222,16 +240,44 @@ Recent studies in cognitive psychology have revealed new insights into how memor
             }
         };
 
-        // Submit button (placeholder for future grading functionality)
+        // Submit button - Move from draft to assessment storage
         document.getElementById("submitBtn").onclick = function() {
             const text = quill.getText().trim();
+            const content = quill.getContents();
+            const mode = document.getElementById("analysisMode").value;
+            
             if (text.length === 0) {
                 showStatusMessage("⚠️ Cannot submit empty text", "warning");
                 return;
             }
 
-            // TODO: Implement actual submission to grading system
-            showStatusMessage("🚀 Submission functionality coming soon!", "info");
+            try {
+                // Create assessment data from current editor content
+                const assessmentData = {
+                    lesson: 'C4-application_avoidance-workshop',
+                    studentWork: {
+                        writingContent: text,
+                        deltaContent: content, // Full Quill.js Delta format
+                        analysisMode: mode,
+                        wordCount: text.split(/\s+/).filter(word => word.length > 0).length
+                    },
+                    timestamp: new Date().toISOString(),
+                    completed: true
+                };
+
+                // Move from draft storage to instructor assessment storage
+                localStorage.setItem('plagiarism-c4-assessment', JSON.stringify(assessmentData));
+                
+                // Remove the draft since it's now submitted
+                localStorage.removeItem('plagiarism-writing-draft');
+                
+                showStatusMessage("🎓 Writing sample submitted for instructor assessment! Draft cleared.", "success");
+                
+                // Disable submit button after successful submission
+                document.getElementById("submitBtn").disabled = true;
+            } catch (error) {
+                showStatusMessage("❌ Failed to submit for assessment: " + error.message, "error");
+            }
         };
 
         // Auto-save on content change (optional)

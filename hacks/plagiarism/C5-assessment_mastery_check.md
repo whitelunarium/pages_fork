@@ -153,6 +153,17 @@ Instructor has view of each with context description as above.  There is a singl
     <label for="instructor-comment"><strong>Instructor Comments:</strong></label>
     <textarea id="instructor-comment" class="assessment-textarea" placeholder="Provide feedback on student's understanding of APA citations, reference formatting, and plagiarism avoidance..."></textarea>
     
+    <!-- Quick Comment Options -->
+    <div style="margin: 10px 0; padding: 10px; border: 1px solid #6c757d; border-radius: 4px;">
+      <strong>Quick Comment Templates:</strong>
+      <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+        <button id="comment-excellent" class="iridescent text-white py-1 px-3 rounded text-sm transition">✅ Excellent Work</button>
+        <button id="comment-good" class="iridescent text-white py-1 px-3 rounded text-sm transition">👍 Good Progress</button>
+        <button id="comment-needs-work" class="iridescent text-white py-1 px-3 rounded text-sm transition">📝 Needs Revision</button>
+        <button id="comment-incomplete" class="iridescent text-white py-1 px-3 rounded text-sm transition">⚠️ Incomplete Sections</button>
+      </div>
+    </div>
+    
     <div style="margin-top: 15px;">
       <label for="assessment-status"><strong>Assessment Status:</strong></label>
       <select id="assessment-status" class="status-select">
@@ -174,6 +185,7 @@ Instructor has view of each with context description as above.  There is a singl
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("C5 Assessment page script loaded!");
 
     // Status message helper function
     function showStatusMessage(message, type) {
@@ -206,209 +218,126 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Load and display student work
     function loadStudentWork() {
+        console.log("loadStudentWork() function called!");
+        
         // Helper function to safely get value or show 'Not available'
         function safeValue(obj, path, defaultValue = 'Not available') {
             return path.split('.').reduce((current, key) => current && current[key], obj) || defaultValue;
         }
-        
-        // Load C2 Work - Check both new individual keys and old assessment format
+
+        // Load C2 Work - Parse from assessment data
         const c2Container = document.getElementById('c2-content');
-        const c2_1_data = localStorage.getItem('plagiarism-c2-1');
-        const c2_2_data = localStorage.getItem('plagiarism-c2-2');
         const c2AssessmentData = localStorage.getItem('plagiarism-c2-assessment');
         
+        console.log("C2 localStorage check:", c2AssessmentData ? "Data found" : "No data found");
+
         let c2HasData = false;
         let c2Content = '';
-        
-        if (c2_1_data || c2_2_data || c2AssessmentData) {
-            c2HasData = true;
-            c2Content = '<div class="work-section">';
-            
-            // Try to get data from individual exercises first
-            if (c2_1_data) {
-                try {
-                    const salemData = JSON.parse(c2_1_data);
-                    const saveDate = new Date(salemData.timestamp).toLocaleString();
-                    c2Content += `
-                        <strong>📅 Salem Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>Salem's Citation Exercise:</strong><br>
-                        <em>In-text Citation:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(salemData, 'citation')}
-                        </div>
-                        <em>Reference List Entry:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(salemData, 'reference')}
-                        </div><br>
-                    `;
-                } catch (error) {
-                    c2Content += '<div style="color: red;">❌ Error loading Salem exercise data</div><br>';
-                }
+
+        if (c2AssessmentData) {
+            try {
+                const c2Work = JSON.parse(c2AssessmentData);
+                const completedDate = new Date(c2Work.timestamp).toLocaleString();
+                c2HasData = true;
+                c2Content = '<div class="work-section">';
+
+                c2Content += `
+                    <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
+                    <strong>Salem's Citation Exercise:</strong><br>
+                    <em>In-text Citation:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c2Work, 'studentWork.salemExercise.citation')}
+                    </div>
+                    <em>Reference List Entry:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c2Work, 'studentWork.salemExercise.reference')}
+                    </div>
+                    <strong>Comparison Exercise:</strong><br>
+                    <em>Uncited Version:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c2Work, 'studentWork.comparisonExercise.uncited')}
+                    </div>
+                    <em>Properly Cited Version:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c2Work, 'studentWork.comparisonExercise.cited')}
+                    </div>
+                    <em>Reference List:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c2Work, 'studentWork.comparisonExercise.references')}
+                    </div>
+                `;
+
+                c2Content += '</div>';
+            } catch (error) {
+                c2Content = '<div class="missing-work">❌ Error loading C2 assessment data: ' + error.message + '</div>';
             }
-            
-            if (c2_2_data) {
-                try {
-                    const comparisonData = JSON.parse(c2_2_data);
-                    const saveDate = new Date(comparisonData.timestamp).toLocaleString();
-                    c2Content += `
-                        <strong>📅 Comparison Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>Comparison Exercise:</strong><br>
-                        <em>Uncited Version (showing plagiarism):</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(comparisonData, 'uncited')}
-                        </div>
-                        <em>Properly Cited Version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(comparisonData, 'cited')}
-                        </div>
-                        <em>Reference List:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(comparisonData, 'references')}
-                        </div>
-                    `;
-                } catch (error) {
-                    c2Content += '<div style="color: red;">❌ Error loading comparison exercise data</div>';
-                }
-            }
-            
-            // Fallback to old assessment format if individual exercises not found
-            if (!c2_1_data && !c2_2_data && c2AssessmentData) {
-                try {
-                    const c2Work = JSON.parse(c2AssessmentData);
-                    const completedDate = new Date(c2Work.timestamp).toLocaleString();
-                    c2Content += `
-                        <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
-                        <strong>Salem's Citation Exercise:</strong><br>
-                        <em>In-text Citation:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c2Work, 'studentWork.salemExercise.citation')}
-                        </div>
-                        <em>Reference List Entry:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c2Work, 'studentWork.salemExercise.reference')}
-                        </div>
-                        <strong>Comparison Exercise:</strong><br>
-                        <em>Uncited Version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c2Work, 'studentWork.comparisonExercise.uncited')}
-                        </div>
-                        <em>Properly Cited Version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c2Work, 'studentWork.comparisonExercise.cited')}
-                        </div>
-                        <em>Reference List:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c2Work, 'studentWork.comparisonExercise.references')}
-                        </div>
-                    `;
-                } catch (error) {
-                    c2Content += '<div style="color: red;">❌ Error loading C2 assessment data</div>';
-                }
-            }
-            
-            c2Content += '</div>';
         }
-        
+
         if (c2HasData) {
             c2Container.innerHTML = c2Content;
         }
 
-        // Load C3 Work - Check both new individual keys and old assessment format
+        // Load C3 Work - Parse from assessment data  
         const c3Container = document.getElementById('c3-content');
-        const c3_1_data = localStorage.getItem('plagiarism-c3-1');
-        const c3_2_data = localStorage.getItem('plagiarism-c3-2');
         const c3AssessmentData = localStorage.getItem('plagiarism-c3-assessment');
-        
+
         let c3HasData = false;
         let c3Content = '';
-        
-        if (c3_1_data || c3_2_data || c3AssessmentData) {
-            c3HasData = true;
-            c3Content = '<div class="work-section">';
-            
-            // Try to get data from individual exercises first
-            if (c3_1_data) {
-                try {
-                    const taylorData = JSON.parse(c3_1_data);
-                    const saveDate = new Date(taylorData.timestamp).toLocaleString();
-                    c3Content += `
-                        <strong>📅 Taylor Swift Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>Taylor Swift Reference Correction:</strong><br>
-                        <em>Original weak reference:</em> ${safeValue(taylorData, 'originalReference', 'MSN. (2025). Taylor Swift\'s legal odyssey...')}<br>
-                        <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(taylorData, 'correctedReference')}
-                        </div><br>
-                    `;
-                } catch (error) {
-                    c3Content += '<div style="color: red;">❌ Error loading Taylor Swift exercise data</div><br>';
-                }
+
+        if (c3AssessmentData) {
+            try {
+                const c3Work = JSON.parse(c3AssessmentData);
+                const completedDate = new Date(c3Work.timestamp).toLocaleString();
+                c3HasData = true;
+                c3Content = '<div class="work-section">';
+
+                c3Content += `
+                    <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
+                    <strong>Taylor Swift Reference Correction:</strong><br>
+                    <em>Original weak reference:</em> MSN. (2025). Taylor Swift's legal odyssey...<br>
+                    <em>Student's improved version:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c3Work, 'studentWork.taylorSwiftReference')}
+                    </div>
+                    <strong>Pete Hegseth Reference Correction:</strong><br>
+                    <em>Original weak reference:</em> News source on 2025 academic misconduct cases.<br>
+                    <em>Student's improved version:</em><br>
+                    <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
+                        ${safeValue(c3Work, 'studentWork.peteHegsethReference')}
+                    </div>
+                `;
+
+                c3Content += '</div>';
+            } catch (error) {
+                c3Content = '<div class="missing-work">❌ Error loading C3 assessment data: ' + error.message + '</div>';
             }
-            
-            if (c3_2_data) {
-                try {
-                    const peteData = JSON.parse(c3_2_data);
-                    const saveDate = new Date(peteData.timestamp).toLocaleString();
-                    c3Content += `
-                        <strong>📅 Pete Hegseth Exercise Completed:</strong> ${saveDate}<br><br>
-                        <strong>Pete Hegseth Reference Correction:</strong><br>
-                        <em>Original weak reference:</em> ${safeValue(peteData, 'originalReference', 'News source on 2025 academic misconduct cases.')}<br>
-                        <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(peteData, 'correctedReference')}
-                        </div>
-                    `;
-                } catch (error) {
-                    c3Content += '<div style="color: red;">❌ Error loading Pete Hegseth exercise data</div>';
-                }
-            }
-            
-            // Fallback to old assessment format if individual exercises not found
-            if (!c3_1_data && !c3_2_data && c3AssessmentData) {
-                try {
-                    const c3Work = JSON.parse(c3AssessmentData);
-                    const completedDate = new Date(c3Work.timestamp).toLocaleString();
-                    c3Content += `
-                        <strong>📅 Assessment Completed:</strong> ${completedDate}<br><br>
-                        <strong>Taylor Swift Reference Correction:</strong><br>
-                        <em>Original weak reference:</em> MSN. (2025). Taylor Swift's legal odyssey...<br>
-                        <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c3Work, 'studentWork.taylorSwiftReference')}
-                        </div>
-                        <strong>Pete Hegseth Reference Correction:</strong><br>
-                        <em>Original weak reference:</em> News source on 2025 academic misconduct cases.<br>
-                        <em>Student's improved version:</em><br>
-                        <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c3Work, 'studentWork.peteHegsethReference')}
-                        </div>
-                    `;
-                } catch (error) {
-                    c3Content += '<div style="color: red;">❌ Error loading C3 assessment data</div>';
-                }
-            }
-            
-            c3Content += '</div>';
         }
-        
+
         if (c3HasData) {
             c3Container.innerHTML = c3Content;
         }
-        
-        // Load C4 Work (placeholder for future - check for c4-1)
+
+        // Load C4 Work - Parse from assessment data
         const c4Container = document.getElementById('c4-content');
-        const c4_1_data = localStorage.getItem('plagiarism-c4-1');
-        
-        if (c4_1_data) {
+        const c4AssessmentData = localStorage.getItem('plagiarism-c4-assessment');
+
+        if (c4AssessmentData) {
             try {
-                const c4Work = JSON.parse(c4_1_data);
+                const c4Work = JSON.parse(c4AssessmentData);
                 const completedDate = new Date(c4Work.timestamp).toLocaleString();
+                const content = `
+                    <strong>Writing Analysis Mode:</strong> ${safeValue(c4Work, 'studentWork.analysisMode')}<br>
+                    <strong>Word Count:</strong> ${safeValue(c4Work, 'studentWork.wordCount')}<br><br>
+                    <strong>Student Writing Sample:</strong><br>
+                    <div style="padding: 8px; background-color: #f8f9fa; border-radius: 4px; margin: 5px 0; white-space: pre-wrap;">${safeValue(c4Work, 'studentWork.writingContent')}</div>
+                `;
+
                 c4Container.innerHTML = `
                     <div class="work-section">
                         <strong>📅 Completed:</strong> ${completedDate}<br><br>
-                        <strong>C4 Exercise:</strong><br>
+                        <strong>C4 Writing Workshop:</strong><br>
                         <div style="padding: 8px; border-radius: 4px; margin: 5px 0;">
-                            ${safeValue(c4Work, 'content', 'C4 content structure to be defined')}
+                            ${content}
                         </div>
                     </div>
                 `;
@@ -436,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 studentDataReviewed: {
                     c2Available: !!localStorage.getItem('plagiarism-c2-assessment'),
                     c3Available: !!localStorage.getItem('plagiarism-c3-assessment'),
-                    c4Available: false // Not implemented yet
+                    c4Available: !!localStorage.getItem('plagiarism-c4-assessment')
                 }
             };
 
@@ -471,8 +400,45 @@ document.addEventListener("DOMContentLoaded", function() {
         showStatusMessage("Student work refreshed from localStorage", "info");
     };
 
+    // Quick comment templates functionality
+    function addQuickComment(template) {
+        const commentArea = document.getElementById('instructor-comment'); // Fixed: removed 's'
+        if (commentArea) {
+            const currentText = commentArea.value;
+            const separator = currentText.trim() ? '\n\n' : '';
+            commentArea.value = currentText + separator + template;
+
+            // Trigger the input event to ensure any validation or auto-save works
+            commentArea.dispatchEvent(new Event('input', { bubbles: true }));
+
+            // Show feedback
+            showStatusMessage("Comment template added", "success");
+        } else {
+            console.error("Could not find instructor-comment textarea");
+        }
+    }
+
+    // Add event listeners for comment template buttons
+    document.getElementById('comment-excellent').onclick = function() {
+        addQuickComment("Excellent Work! You've demonstrated a comprehensive understanding of academic integrity principles. Your citations are properly formatted, your writing shows clear original thinking, and you've successfully avoided plagiarism pitfalls. Keep up the outstanding work!");
+    };
+
+    document.getElementById('comment-good').onclick = function() {
+        addQuickComment("Good Progress! You're showing solid understanding of the material. Your work demonstrates effort and learning. Continue to focus on proper citation techniques and original expression of ideas.");
+    };
+
+    document.getElementById('comment-needs-revision').onclick = function() {
+        addQuickComment("Needs Revision: Review the reported sections that are incomplete or need improvement. Please pay special attention to citation formatting and ensure all sources are properly attributed. Resubmit after making necessary corrections.");
+    };
+
+    document.getElementById('comment-incomplete').onclick = function() {
+        addQuickComment("Incomplete Sections: Several required components are missing or inadequately completed. Please review the assignment requirements and complete all sections before resubmission. Focus on thoroughness and attention to detail.");
+    };
+
     // Initial load
+    console.log("About to call loadStudentWork() and load-assessment click");
     loadStudentWork();
     document.getElementById("load-assessment").click();
+    console.log("Initial setup complete");
 });
 </script>
