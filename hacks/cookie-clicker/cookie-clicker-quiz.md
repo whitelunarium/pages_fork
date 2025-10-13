@@ -60,7 +60,38 @@ Test your knowledge about JavaScript classes.
         "Binds all methods"
       ],
       answer: 0
-    }
+    },
+    {
+  q: "What keyword is used to define a class in JavaScript?",
+  choices: [
+    "object",
+    "class",
+    "function",
+    "new"
+  ],
+  answer: 1
+},
+{
+  q: "Which keyword is used to create a new object from a class?",
+  choices: [
+    "build",
+    "instance",
+    "new",
+    "create"
+  ],
+  answer: 2
+},
+{
+  q: "What does the 'extends' keyword do in a class definition?",
+  choices: [
+    "Copies methods into another class",
+    "Creates a subclass that inherits from a parent",
+    "Links a static field to the child",
+    "Deletes parent methods"
+  ],
+  answer: 1
+}
+
   ];
 
   const form = document.getElementById("quizForm");
