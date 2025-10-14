@@ -753,7 +753,7 @@ class Game {
                             // PILOT TASKS
                             } else if (selectedTask === 'Navigation Systems - Discover New Missions' || selectedTask === 'Communications Array - Maintain Contact') {
                                 intervalId = setInterval(() => {
-                                    const missions = ['Supply Cache Found!', 'Rescue Mission Available!', 'Resource Depot Located!', 'Trade Route Established!', 'New Colony Discovered!'];
+                                    const missions = ['Supply Cache Found!', 'Rescue Mission Successful!', 'Resource Depot Located!', 'Trade Route Established!', 'New Colony Discovered!'];
                                     const randomMission = missions[Math.floor(Math.random() * missions.length)];
                                     if (vim && vim.contentLines) {
                                         vim.contentLines.push(`🚀 PILOT: ${randomMission}`);
@@ -770,7 +770,7 @@ class Game {
                                         modifyEnergy(5);
                                         modifyOxygen(5);
                                     }
-                                    if (randomMission == 'Rescue Mission Available!') {
+                                    if (randomMission == 'Rescue Mission Successful!') {
                                         modifyHealth(10);
                                     }
                                     if (randomMission == 'Trade Route Established!') {
@@ -878,9 +878,9 @@ class Game {
                                 // Prevent energy loss, small energy boost
                                 intervalId = setInterval(() => {
                                     if (this.rightBoxStats.energy < 95) {
-                                        modifyEnergy(2);
+                                        modifyEnergy(4);
                                     }
-                                }, 6000); // Every 6 seconds
+                                }, 1000);
                                 taskEffect = 'Equipment maintenance active! Power systems running smoothly!';
                             } else if (selectedTask === 'Facility Upkeep - Maintain All Systems') {
                                 // All-around maintenance
