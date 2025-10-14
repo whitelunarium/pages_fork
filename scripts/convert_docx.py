@@ -221,7 +221,7 @@ class DocxConverter:
 layout: post
 title: "{doc_name.replace('-', ' ').replace('_', ' ').title()}"
 date: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} +0000
-categories: [DOCX, Documents]
+categories: [DOCX]
 tags: [docx, converted]
 author: Generated from DOCX
 description: "Converted from {docx_path.name}"
