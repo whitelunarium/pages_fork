@@ -274,7 +274,7 @@
         .checklist{ list-style: none; padding-left: 0; }
         .checklist li{ position: relative; padding-left: 1.8rem; margin: .5rem 0; color: var(--text); }
         .checklist li::before{
-          content: "✔"; position: absolute; left: 0; top: 0; line-height: 1.4; width: 1.2rem; height: 1.2rem;
+          content: "\2714"; position: absolute; left: 0; top: 0; line-height: 1.4; width: 1.2rem; height: 1.2rem;
           display: inline-grid; place-items: center; border-radius: 6px;
           background: rgba(63,185,80,.25); color: var(--ok); border: 1px solid rgba(63,185,80,.4);
         }
