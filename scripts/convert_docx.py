@@ -113,235 +113,12 @@ class DocxConverter:
         return markdown_text
 
     def extract_tables_from_docx(self, docx_path):
-        """Extract table data from DOCX using python-docx"""
-        try:
-            from docx import Document
-            doc = Document(docx_path)
-            tables_data = []
-            
-            for table in doc.tables:
-                table_rows = []
-                for row in table.rows:
-                    row_data = []
-                    for cell in row.cells:
-                        # Clean cell text
-                        cell_text = cell.text.strip().replace('\n', ' ')
-                        row_data.append(cell_text)
-                    table_rows.append(row_data)
-                
-                if table_rows:  # Only add non-empty tables
-                    tables_data.append(table_rows)
-            
-            return tables_data
-        except Exception as e:
-            print(f"  ⚠️ Warning: Could not extract tables: {e}")
-            return []
+        """Simplified table handling - let mammoth handle table conversion"""
+        # Tables are now handled directly by mammoth during conversion
+        # This avoids complex custom table parsing that was causing issues
+        return []
 
-    def fix_table_formatting(self, markdown_text, tables_data):
-        """Enhanced table formatting with multiple detection strategies"""
-        if not tables_data:
-            return markdown_text
-            
-        lines = markdown_text.split('\n')
-        result_lines = []
-        table_index = 0
-        
-        i = 0
-        while i < len(lines) and table_index < len(tables_data):
-            line = lines[i].strip()
-            
-            # Strategy 1: Look for academic matrix patterns (like "Framing questions")
-            if self.is_academic_matrix_start(line, lines, i):
-                matrix_lines, end_index = self.extract_academic_matrix(lines, i)
-                if matrix_lines and table_index < len(tables_data):
-                    table_md = self.create_academic_matrix_table(matrix_lines, tables_data[table_index])
-                    result_lines.extend(table_md)
-                    result_lines.append("")
-                    table_index += 1
-                    i = end_index
-                    continue
-            
-            # Strategy 2: Look for sticky note/brainstorming patterns  
-            elif self.is_sticky_notes_pattern(line, lines, i):
-                notes_lines, end_index = self.extract_sticky_notes(lines, i)
-                if notes_lines:
-                    formatted_notes = self.format_sticky_notes(notes_lines)
-                    result_lines.extend(formatted_notes)
-                    result_lines.append("")
-                    i = end_index
-                    continue
-            
-            # Strategy 3: Original table detection for structured data
-            elif (table_index < len(tables_data) and 
-                  self.is_table_candidate_line(line) and
-                  self.has_table_sequence(lines, i)):
-                
-                table_candidate_lines, end_index = self.extract_table_sequence(lines, i)
-                if len(table_candidate_lines) >= 3:
-                    table_md = self.create_markdown_table_from_data(tables_data[table_index])
-                    result_lines.extend(table_md)
-                    result_lines.append("")
-                    table_index += 1
-                    i = end_index
-                    continue
-            
-            result_lines.append(lines[i])
-            i += 1
-            
-        return '\n'.join(result_lines)
-    
-    def is_academic_matrix_start(self, line, lines, index):
-        """Detect start of academic matrix like 'Framing questions using lower Bloom's...'"""
-        keywords = ['framing questions', 'bloom', 'cognitive approach', 'how might we']
-        return any(keyword in line.lower() for keyword in keywords)
-    
-    def extract_academic_matrix(self, lines, start_index):
-        """Extract academic matrix pattern"""
-        matrix_lines = []
-        i = start_index
-        
-        # Skip the header line
-        if i < len(lines):
-            matrix_lines.append(lines[i].strip())
-            i += 1
-        
-        # Look for the matrix pattern: header row then data rows
-        collecting = False
-        while i < len(lines) and i < start_index + 20:  # Reasonable limit
-            line = lines[i].strip()
-            
-            if not line:
-                i += 1
-                continue
-                
-            # Look for patterns like "How Might We?" or "Idea #1", "Idea #2"
-            if any(pattern in line.lower() for pattern in ['how might', 'idea #', 'understand', 'apply', 'evaluate']):
-                collecting = True
-                matrix_lines.append(line)
-            elif collecting and self.is_table_candidate_line(line):
-                matrix_lines.append(line)
-            elif collecting and (line.startswith('#') or len(line.split()) > 15):
-                break
-            elif not collecting and line:
-                matrix_lines.append(line)
-                
-            i += 1
-        
-        return matrix_lines, i
-    
-    def create_academic_matrix_table(self, matrix_lines, table_data):
-        """Create table from academic matrix pattern using extracted data"""
-        if not table_data or len(table_data) < 2:
-            return self.format_as_structured_list(matrix_lines)
-            
-        # Use the actual table data structure
-        return self.create_markdown_table_from_data(table_data)
-    
-    def is_sticky_notes_pattern(self, line, lines, index):
-        """Detect sticky notes brainstorming pattern"""
-        return ('sticky' in line.lower() and 'note' in line.lower()) or 'brainstorming' in line.lower()
-    
-    def extract_sticky_notes(self, lines, start_index):
-        """Extract sticky notes content"""
-        notes_lines = [lines[start_index].strip()]  # Include header
-        i = start_index + 1
-        
-        while i < len(lines) and i < start_index + 15:
-            line = lines[i].strip()
-            
-            if not line:
-                i += 1
-                continue
-            elif line.startswith('#') or 'framing questions' in line.lower():
-                break
-            elif len(line.split()) > 2 and len(line) < 150:  # Reasonable sticky note length
-                notes_lines.append(line)
-            
-            i += 1
-            
-        return notes_lines, i
-    
-    def format_sticky_notes(self, notes_lines):
-        """Format sticky notes as a clean list or grid"""
-        if len(notes_lines) <= 1:
-            return notes_lines
-            
-        formatted = [notes_lines[0]]  # Keep header
-        formatted.append("")
-        
-        # Group notes into a grid-like structure
-        notes_content = notes_lines[1:]
-        for i, note in enumerate(notes_content):
-            if i % 3 == 0 and i > 0:
-                formatted.append("")  # Add spacing every 3 items
-            formatted.append(f"- {note}")
-            
-        return formatted
-    
-    def is_table_candidate_line(self, line):
-        """Check if line looks like table content"""
-        return (line and 
-                not line.startswith('#') and 
-                not line.startswith('![') and
-                len(line.split()) <= 8 and
-                len(line) < 120)
-    
-    def has_table_sequence(self, lines, start_index):
-        """Check if there's a sequence of table-like lines"""
-        count = 0
-        for i in range(start_index, min(len(lines), start_index + 8)):
-            if self.is_table_candidate_line(lines[i].strip()):
-                count += 1
-        return count >= 3
-    
-    def extract_table_sequence(self, lines, start_index):
-        """Extract sequence of table-like lines"""
-        table_lines = []
-        i = start_index
-        
-        while i < len(lines) and self.is_table_candidate_line(lines[i].strip()):
-            table_lines.append(lines[i].strip())
-            i += 1
-            
-        return table_lines, i
-    
-    def format_as_structured_list(self, lines):
-        """Fallback formatting as structured list"""
-        if not lines:
-            return []
-            
-        formatted = [lines[0]]  # Header
-        formatted.append("")
-        
-        for line in lines[1:]:
-            if line:
-                formatted.append(f"- {line}")
-                
-        return formatted
-    
-    def create_markdown_table_from_data(self, table_data):
-        """Create markdown table from extracted table data"""
-        if not table_data or len(table_data) < 1:
-            return []
-            
-        markdown_table = []
-        
-        # Header row
-        if table_data[0]:
-            header = "| " + " | ".join(str(cell) for cell in table_data[0]) + " |"
-            markdown_table.append(header)
-            
-            # Separator row
-            separator = "|" + "|".join("---" for _ in table_data[0]) + "|"
-            markdown_table.append(separator)
-        
-        # Data rows
-        for row in table_data[1:]:
-            if row:  # Skip empty rows
-                row_md = "| " + " | ".join(str(cell) for cell in row) + " |"
-                markdown_table.append(row_md)
-        
-        return markdown_table
+
 
     def convert_docx_to_markdown(self, docx_path):
         """Convert a single DOCX file to markdown"""
@@ -351,10 +128,7 @@ class DocxConverter:
         # Extract images first
         images = self.extract_images_from_docx(docx_path, doc_name)
         
-        # Extract tables
-        tables = self.extract_tables_from_docx(docx_path)
-        if tables:
-            print(f"  📊 Found {len(tables)} tables")
+        # Tables will be handled directly by mammoth conversion
         
         try:
             # Convert DOCX to markdown using mammoth
@@ -413,9 +187,6 @@ class DocxConverter:
                 )
                 
                 markdown_content = result.value
-                
-                # Post-process to fix table formatting
-                markdown_content = self.fix_table_formatting(markdown_content, tables)
                 
                 if result.messages:
                     print(f"  ℹ️ Conversion messages: {len(result.messages)} items")
