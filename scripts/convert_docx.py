@@ -261,7 +261,7 @@ image:
             print(f"❌ DOCX directory not found: {self.docx_dir}")
             return []
         
-        docx_files = list(self.docx_dir.glob("*.docx"))
+        docx_files = sorted(list(self.docx_dir.glob("*.docx")))
         
         if not docx_files:
             return []
@@ -324,7 +324,10 @@ This page contains documents converted from DOCX files.
 
 """
         
-        for result in results:
+        # Sort results by filename for consistent ordering
+        sorted_results = sorted(results, key=lambda x: x['docx_path'].name)
+        
+        for result in sorted_results:
             doc_title = result['docx_path'].stem.replace('-', ' ').replace('_', ' ').title()
             doc_name = result['docx_path'].stem
             post_url = f"/docx/{doc_name}/"
