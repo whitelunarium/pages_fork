@@ -19,7 +19,7 @@ try:
     from PIL import Image
 except ImportError:
     print("❌ Required packages not found.")
-    print("📦 Please install dependencies:")
+    print("Please install dependencies:")
     print("   pip install mammoth pillow python-docx")
     print("   or run: pip install -r requirements.txt")
     sys.exit(1)
@@ -35,9 +35,9 @@ class DocxConverter:
         self.posts_dir.mkdir(exist_ok=True)
         self.images_dir.mkdir(parents=True, exist_ok=True)
         
-        print(f"📁 DOCX Source: {self.docx_dir}")
-        print(f"📝 Posts Output: {self.posts_dir}")
-        print(f"🖼️ Images Output: {self.images_dir}")
+        print(f"DOCX Source: {self.docx_dir}")
+        print(f"Posts Output: {self.posts_dir}")
+        print(f"Images Output: {self.images_dir}")
 
     def extract_images_from_docx(self, docx_path, doc_name):
         """Extract images from DOCX file"""
@@ -65,7 +65,7 @@ class DocxConverter:
                         # Verify it's actually an image file
                         image_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.tif', '.webp'}
                         if ext not in image_extensions:
-                            print(f"  ⏭️ Skipping non-image file: {original_name}")
+                            print(f"  Skipping non-image file: {original_name}")
                             continue
                         
                         # Create new filename with document prefix
@@ -86,7 +86,7 @@ class DocxConverter:
                                 'size': len(image_data)
                             })
                             
-                            print(f"  📷 Extracted: {image_name} ({len(image_data):,} bytes)")
+                            print(f"  Extracted: {image_name} ({len(image_data):,} bytes)")
                         else:
                             print(f"  ❌ Failed to write: {image_name}")
                         
@@ -123,7 +123,7 @@ class DocxConverter:
     def convert_docx_to_markdown(self, docx_path):
         """Convert a single DOCX file to markdown"""
         doc_name = docx_path.stem
-        print(f"\n🔄 Converting: {docx_path.name}")
+        print(f"\nConverting: {docx_path.name}")
         
         # Extract images first
         images = self.extract_images_from_docx(docx_path, doc_name)
@@ -143,7 +143,7 @@ class DocxConverter:
                     # Use sequential mapping if we have extracted images
                     if images and image_counter < len(images):
                         current_image = images[image_counter]
-                        print(f"    🔗 Image {image_counter + 1}: {current_image['original']} → {current_image['relative_path']}")
+                        print(f"   🔗 Image {image_counter + 1}: {current_image['original']} -> {current_image['relative_path']}")
                         
                         image_counter += 1
                         return {
@@ -156,7 +156,7 @@ class DocxConverter:
                         src_filename = Path(image.src).name
                         for img_info in images:
                             if img_info['original'] == src_filename:
-                                print(f"    ✅ Filename match: {src_filename} → {img_info['relative_path']}")
+                                print(f"    Filename match: {src_filename} -> {img_info['relative_path']}")
                                 return {
                                     "src": img_info['relative_path'],
                                     "alt": image.alt_text or img_info['original']
@@ -167,7 +167,7 @@ class DocxConverter:
                         cycle_index = image_counter % len(images)
                         current_image = images[cycle_index]
                         image_counter += 1
-                        print(f"    🔄 Cycling to image {cycle_index + 1}: {current_image['relative_path']}")
+                        print(f"    Cycling to image {cycle_index + 1}: {current_image['relative_path']}")
                         return {
                             "src": current_image['relative_path'],
                             "alt": image.alt_text or f"Document Image {cycle_index + 1}"
@@ -200,14 +200,14 @@ class DocxConverter:
                     markdown_content = result_md.value
                 
                 if result.messages:
-                    print(f"  ℹ️ Conversion messages: {len(result.messages)} items")
+                    print(f"  Conversion messages: {len(result.messages)} items")
                     for msg in result.messages:
-                        print(f"    📝 {msg.message}")
+                        print(f"    {msg.message}")
                         
                 # Count images in the converted content
                 import re
                 image_count = len(re.findall(r'!\[.*?\]\(.*?\)', markdown_content))
-                print(f"  🖼️ Images in markdown: {image_count}")
+                print(f"  Images in markdown: {image_count}")
                 
         except Exception as e:
             print(f"  ❌ Error converting {docx_path}: {e}")
@@ -249,8 +249,8 @@ image:
         with open(output_path, 'w', encoding='utf-8') as md_file:
             md_file.write(full_content)
         
-        print(f"  ✅ Created: {filename}")
-        print(f"  📊 Images: {len(images)} extracted")
+        print(f"  Created: {filename}")
+        print(f"  Images: {len(images)} extracted")
         
         return {
             'docx_path': docx_path,
@@ -268,16 +268,16 @@ image:
         docx_files = list(self.docx_dir.glob("*.docx"))
         
         if not docx_files:
-            print(f"📂 No DOCX files found in {self.docx_dir}")
+            print(f"No DOCX files found in {self.docx_dir}")
             return []
         
-        print(f"🎯 Found {len(docx_files)} DOCX files to convert")
+        print(f"Found {len(docx_files)} DOCX files to convert")
         
         results = []
         for docx_file in docx_files:
             # Skip temporary files (start with ~$)
             if docx_file.name.startswith('~$'):
-                print(f"⏭️ Skipping temporary file: {docx_file.name}")
+                print(f"Skipping temporary file: {docx_file.name}")
                 continue
                 
             result = self.convert_docx_to_markdown(docx_file)
@@ -344,10 +344,10 @@ These documents were automatically converted from DOCX format using:
         with open(index_path, 'w', encoding='utf-8') as index_file:
             index_file.write(index_content)
         
-        print(f"📋 Created index page: docx-index.md")
+        print(f"Created index page: docx-index.md")
 
 def main():
-    print("🚀 DOCX to Markdown Converter for Jekyll")
+    print("DOCX to Markdown Converter for Jekyll")
     print("=" * 50)
     
     converter = DocxConverter()
@@ -355,14 +355,9 @@ def main():
     
     if results:
         converter.create_index_page(results)
-        print(f"\n✨ Conversion complete!")
-        print(f"📈 Converted: {len(results)} documents")
-        print(f"🖼️ Images: {sum(len(r['images']) for r in results)} extracted")
-        print("\n🔍 Next steps:")
-        print("  1. Review generated markdown files in _posts/")
-        print("  2. Check extracted images in images/docx/")
-        print("  3. Run 'make serve' to preview locally")
-        print("  4. Commit and push to deploy via GitHub Actions")
+        print(f"\nConversion complete!")
+        print(f"Converted: {len(results)} documents")
+        print(f"Images: {sum(len(r['images']) for r in results)} extracted")
     else:
         print("\n⚠️ No documents were converted")
         print("Make sure you have DOCX files in the _docx directory")
