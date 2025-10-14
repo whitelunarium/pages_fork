@@ -34,10 +34,6 @@ class DocxConverter:
         # Create directories if they don't exist
         self.posts_dir.mkdir(exist_ok=True)
         self.images_dir.mkdir(parents=True, exist_ok=True)
-        
-        print(f"DOCX Source: {self.docx_dir}")
-        print(f"Posts Output: {self.posts_dir}")
-        print(f"Images Output: {self.images_dir}")
 
     def extract_images_from_docx(self, docx_path, doc_name):
         """Extract images from DOCX file"""
@@ -268,21 +264,41 @@ image:
         docx_files = list(self.docx_dir.glob("*.docx"))
         
         if not docx_files:
-            print(f"No DOCX files found in {self.docx_dir}")
             return []
         
-        print(f"Found {len(docx_files)} DOCX files to convert")
-        
         results = []
+        skipped_count = 0
+        converted_count = 0
         for docx_file in docx_files:
             # Skip temporary files (start with ~$)
             if docx_file.name.startswith('~$'):
-                print(f"Skipping temporary file: {docx_file.name}")
                 continue
+            
+            # Check if conversion is needed based on file timestamps
+            doc_name = docx_file.stem
+            date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+            expected_output = self.posts_dir / f"{date_str}-{doc_name}_DOCX_.md"
+            
+            if expected_output.exists():
+                docx_mtime = docx_file.stat().st_mtime
+                output_mtime = expected_output.stat().st_mtime
+                
+                if docx_mtime <= output_mtime:
+                    skipped_count += 1
+                    # Still add to results for index page generation, but mark as skipped
+                    results.append({
+                        'docx_path': docx_file,
+                        'markdown_path': expected_output,
+                        'images': None,  # Mark as skipped with None
+                        'filename': expected_output.name,
+                        'skipped': True
+                    })
+                    continue
                 
             result = self.convert_docx_to_markdown(docx_file)
             if result:
                 results.append(result)
+                converted_count += 1
         
         return results
 
@@ -317,7 +333,7 @@ This page contains documents converted from DOCX files.
 ### [{doc_title}]({post_url})
 
 - **Source**: `{result['docx_path'].name}`
-- **Images**: {len(result['images'])} extracted
+- **Images**: {len(result.get('images') or [])} extracted
 - **Generated**: {datetime.datetime.now().strftime("%Y-%m-%d")}
 
 """
@@ -343,24 +359,23 @@ These documents were automatically converted from DOCX format using:
         index_path = self.base_dir / "docx-index.md"
         with open(index_path, 'w', encoding='utf-8') as index_file:
             index_file.write(index_content)
-        
-        print(f"Created index page: docx-index.md")
 
 def main():
-    print("DOCX to Markdown Converter for Jekyll")
-    print("=" * 50)
-    
     converter = DocxConverter()
     results = converter.convert_all_docx()
     
-    if results:
+    # Only count files that were actually converted (not skipped)
+    converted_files = [r for r in results if not r.get('skipped', False)]
+    
+    if converted_files:
         converter.create_index_page(results)
-        print(f"\nConversion complete!")
-        print(f"Converted: {len(results)} documents")
-        print(f"Images: {sum(len(r['images']) for r in results)} extracted")
-    else:
-        print("\n⚠️ No documents were converted")
-        print("Make sure you have DOCX files in the _docx directory")
+        print(f"Converted: {len(converted_files)} documents")
+        print(f"Images: {sum(len(r.get('images', [])) for r in converted_files)} extracted")
+    elif not results:
+        # Only show this if no DOCX files exist at all
+        if not converter.docx_dir.exists() or not list(converter.docx_dir.glob("*.docx")):
+            print("No DOCX files found to convert")
+    # Otherwise, all files were up-to-date, so stay completely silent
 
 if __name__ == "__main__":
     main()

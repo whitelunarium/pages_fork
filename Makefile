@@ -169,7 +169,6 @@ $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 
 # DOCX conversion
 convert-docx:
-	@echo "🔄 Converting DOCX files..."
 	@if [ -d "_docx" ] && [ "$(shell ls -A _docx 2>/dev/null)" ]; then \
 		python3 scripts/convert_docx.py; \
 	else \
