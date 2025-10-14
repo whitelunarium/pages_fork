@@ -345,10 +345,11 @@ All extracted images are available in the [images/docx](/images/docx/) directory
 
 ## Conversion Process
 
-These documents were automatically converted from DOCX format using:
-- **mammoth** for DOCX to Markdown conversion
-- **PIL** for image processing  
-- Custom scripts for Jekyll integration
+These documents were automatically converted from DOCX format using a two-step process:
+- **mammoth** converts DOCX to HTML (better table handling)
+- **markdownify** converts HTML to Markdown (with fallback to direct conversion)
+- **PIL** for image processing and extraction
+- Custom scripts for Jekyll integration and timestamp checking
 
 ---
 
