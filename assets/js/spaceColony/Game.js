@@ -88,24 +88,10 @@ class Game {
         const boxWidthChars = 90;
         const boxHeightLines = logo.length;
 
-        const createHashBox = (widthChars, heightLines) => {
-            const box = [];
-            const full = '#'.repeat(widthChars);
-            const emptyLine = '#' + ' '.repeat(widthChars - 2) + '#';
-            for (let i = 0; i < heightLines; i++) {
-                if (i === 0 || i === heightLines - 1) box.push(full);
-                else box.push(emptyLine);
-            }
-            return box;
-        };
-
-        const hashBox = createHashBox(boxWidthChars, boxHeightLines);
-
         const logoLineWidthPx = this.ctx.measureText(logo[0]).width;
         const gapPx = 24;
         const startX2 = startX + logoLineWidthPx + gapPx;
 
-        const charWidth = this.ctx.measureText('M').width; 
         const lineHeightPx = lineHeight; 
 
         const boxPxWidth = logoLineWidthPx;
@@ -127,12 +113,12 @@ class Game {
         };
 
         const buildContentLines = () => {
-            const innerWidthChars = boxWidthChars - 2; // remove border '#'
+            const innerWidthChars = boxWidthChars - 2;
             const innerWidthForBar = Math.max(10, Math.min(40, innerWidthChars - 12));
 
             const lines = [];
-            lines.push(' COLONY STATS'.padEnd(innerWidthChars)); // header (left-aligned)
-            lines.push(''.padEnd(innerWidthChars)); // blank line
+            lines.push(' COLONY STATS'.padEnd(innerWidthChars));
+            lines.push(''.padEnd(innerWidthChars));
 
             // Health
             const healthLine = ` HEALTH ${makeBar(this.rightBoxStats.health, 100, innerWidthForBar)} ${String(this.rightBoxStats.health).padStart(3)}%`;
@@ -151,17 +137,16 @@ class Game {
 
             lines.push(''.padEnd(innerWidthChars));
             lines.push(` TIME ELAPSED: ${String(this.rightBoxStats.time).padStart(3)} seconds`.padEnd(innerWidthChars));
-            lines.push(''.padEnd(innerWidthChars)); // blank line
+            lines.push(''.padEnd(innerWidthChars));
 
-            lines.push(' YOUR GOAL, SURVIVE.'.padEnd(innerWidthChars)); // header (left-aligned)
-            lines.push(''.padEnd(innerWidthChars)); // blank line
+            lines.push(' YOUR GOAL, SURVIVE.'.padEnd(innerWidthChars));
+            lines.push(''.padEnd(innerWidthChars));
 
             return lines;
         };
 
         const composeBoxLines = (contentLines) => {
             const full = '#'.repeat(boxWidthChars);
-            const emptyInner = ' '.repeat(boxWidthChars - 2);
             const result = [];
             result.push(full);
             for (let i = 0; i < boxHeightLines - 2; i++) {
@@ -193,7 +178,6 @@ class Game {
             drawRightBox();
         };
 
-        // Move vim and warning variables to higher scope
         let vim = null;
         let healthWarned = false;
         let gameEnded = false;
@@ -206,7 +190,6 @@ class Game {
         const modifyHealth = (i) => {
             this.rightBoxStats.health = Math.max(0, Math.min(100, this.rightBoxStats.health + i));
             
-            // Health warning logic
             if (this.rightBoxStats.health <= 20 && !healthWarned) {
                 if (vim && vim.contentLines) {
                     vim.contentLines.push('⚠️ WARNING: Colony health critical! Immediate repairs needed!');
@@ -214,10 +197,9 @@ class Game {
                     healthWarned = true;
                 }
             } else if (this.rightBoxStats.health > 20) {
-                healthWarned = false; // Reset warning when health improves
+                healthWarned = false;
             }
             
-            // Game over logic
             if (this.rightBoxStats.health <= 0 && !gameEnded) {
                 gameEnded = true;
                 endGame();
@@ -227,9 +209,8 @@ class Game {
         };
 
         const winGame = () => {
-            if (gameEnded) return; // Prevent multiple calls
+            if (gameEnded) return;
             gameEnded = true;
-            // Clear all intervals
             stopTimer();
             if (this._energyDecreaseInterval) clearInterval(this._energyDecreaseInterval);
             if (this._energyIncreaseInterval) clearInterval(this._energyIncreaseInterval);
@@ -237,20 +218,17 @@ class Game {
             if (this._oxygenIncreaseInterval) clearInterval(this._oxygenIncreaseInterval);
             if (this._oxygenCrisisInterval) clearInterval(this._oxygenCrisisInterval);
             
-            // Clear crew assignment intervals (will be available later)
             if (typeof crewAssignments !== 'undefined') {
                 Object.values(crewAssignments).forEach(assignment => {
                     if (assignment && assignment.intervalId) clearInterval(assignment.intervalId);
                 });
             }
-            // stop all intervals
             if (typeof crewAssignments !== 'undefined') {
                 Object.values(crewAssignments).forEach(assignment => {
                     if (assignment && assignment.intervalId) clearInterval(assignment.intervalId);
                 });
             }
 
-            // Clear all crew assignments
             if (typeof crewAssignments !== 'undefined') {
                 Object.keys(crewAssignments).forEach(crewName => {
                     const assignment = crewAssignments[crewName];
@@ -261,12 +239,10 @@ class Game {
                 });
             }
             
-            // Clear the canvas and show game over screen
             this.ctx.fillStyle = '#000000';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             
-            // Game over text
-            this.ctx.fillStyle = '#00ff00'; // Red color for game over
+            this.ctx.fillStyle = '#00ff00';
             this.ctx.font = 'bold 32px monospace';
             this.ctx.fillText('COLONY SUCCESS', 50, 100);
             
@@ -278,7 +254,6 @@ class Game {
             this.ctx.fillText('Your colony has lived. The crew survived.', 50, 200);
             this.ctx.fillText('Press F5 to restart and try again.', 50, 230);
             
-            // Clear VIM terminal if it exists
             if (vim && vim.contentLines) {
                 vim.contentLines = [];
                 vim.contentLines.push('🎉 COLONY SUCCESS - ALL SYSTEMS NOMINAL');
@@ -286,14 +261,12 @@ class Game {
                 vim.contentLines.push('> ');
             }
             
-            // Update the stats display one last time
             drawRightBox();
             
             console.log('Game Over - Colony Lived');
         }
 
         const endGame = () => {
-            // Clear all intervals
             stopTimer();
             if (this._energyDecreaseInterval) clearInterval(this._energyDecreaseInterval);
             if (this._energyIncreaseInterval) clearInterval(this._energyIncreaseInterval);
@@ -301,20 +274,17 @@ class Game {
             if (this._oxygenIncreaseInterval) clearInterval(this._oxygenIncreaseInterval);
             if (this._oxygenCrisisInterval) clearInterval(this._oxygenCrisisInterval);
             
-            // Clear crew assignment intervals (will be available later)
             if (typeof crewAssignments !== 'undefined') {
                 Object.values(crewAssignments).forEach(assignment => {
                     if (assignment && assignment.intervalId) clearInterval(assignment.intervalId);
                 });
             }
-            // stop all intervals
             if (typeof crewAssignments !== 'undefined') {
                 Object.values(crewAssignments).forEach(assignment => {
                     if (assignment && assignment.intervalId) clearInterval(assignment.intervalId);
                 });
             }
 
-            // Clear all crew assignments
             if (typeof crewAssignments !== 'undefined') {
                 Object.keys(crewAssignments).forEach(crewName => {
                     const assignment = crewAssignments[crewName];
@@ -325,12 +295,10 @@ class Game {
                 });
             }
             
-            // Clear the canvas and show game over screen
             this.ctx.fillStyle = '#000000';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             
-            // Game over text
-            this.ctx.fillStyle = '#ff0000'; // Red color for game over
+            this.ctx.fillStyle = '#ff0000';
             this.ctx.font = 'bold 32px monospace';
             this.ctx.fillText('COLONY FAILURE', 50, 100);
             
@@ -342,7 +310,6 @@ class Game {
             this.ctx.fillText('Your colony has fallen. The crew did not survive.', 50, 200);
             this.ctx.fillText('Press F5 to restart and try again.', 50, 230);
             
-            // Clear VIM terminal if it exists
             if (vim && vim.contentLines) {
                 vim.contentLines = [];
                 vim.contentLines.push('🚨 COLONY FAILURE - ALL SYSTEMS LOST');
@@ -350,7 +317,6 @@ class Game {
                 vim.contentLines.push('> ');
             }
             
-            // Update the stats display one last time
             drawRightBox();
             
             console.log('Game Over - Colony Failed');
@@ -438,12 +404,9 @@ class Game {
                     modifyEnergy(-1);
                 }, 1500); // Normal rate
             }
-            // If mode is 'stop', nothing happens - all intervals are cleared
         };
 
-        // Method to handle oxygen production and consumption
         this.setOxygenMode = (mode) => {
-            // Stop ALL existing oxygen intervals first
             if (this._oxygenDecreaseInterval) {
                 clearInterval(this._oxygenDecreaseInterval);
                 this._oxygenDecreaseInterval = null;
@@ -453,9 +416,7 @@ class Game {
                 this._oxygenIncreaseInterval = null;
             }
             
-            // Apply the new oxygen mode
             if (mode === 'increase') {
-                // Hydroponics Maintenance - oxygen increases
                 this._oxygenIncreaseInterval = setInterval(() => {
                     modifyOxygen(2); // +2% per 2 seconds (faster than energy)
                 }, 2000);
@@ -465,7 +426,6 @@ class Game {
                     if (this.rightBoxStats.crew > 0) {
                         const oxygenLoss = -1 * this.rightBoxStats.crew;
                         
-                        // If energy is depleted, oxygen systems fail - faster depletion
                         if (this.rightBoxStats.energy <= 0) {
                             modifyOxygen(oxygenLoss * 3); // 3x faster depletion when no power
                         } else {
@@ -474,7 +434,6 @@ class Game {
                     }
                 }, 2000);
             }
-            // If mode is 'stop', nothing happens - all intervals are cleared
         };
 
         decreaseEnergyRate.call(this, 1500); // decrease energy by 1 every 1.5 seconds
@@ -488,9 +447,7 @@ class Game {
                 // Oxygen depleted - health decreases rapidly (7 per second)
                 modifyHealth(-7);
                 
-                // Show warning message in terminal (if it exists)
                 if (vim && vim.contentLines && !gameEnded) {
-                    // Only add warning if the last line isn't already a warning
                     const lastLine = vim.contentLines[vim.contentLines.length - 1];
                     if (!lastLine.includes('OXYGEN CRITICAL')) {
                         vim.contentLines.push('🚨 OXYGEN CRITICAL! Colony health declining rapidly!');
@@ -530,15 +487,12 @@ class Game {
                     timeleft = 0;
                 }
             }, 1000);
-            // Assign to the existing vim variable instead of creating a new const
             vim = {
-                // Permanent header lines that cannot be edited
                 headerLines: [
                     'Welcome to Space Colony Terminal. Type "help" for commands.',
                     '────────────────────────────────────────────────────────────────────',
                     ''
                 ],
-                // User input and command output lines (scrollable)
                 contentLines: [],
                 font: '14px monospace',
                 lineHeight: 18,
@@ -548,14 +502,11 @@ class Game {
                 height: Math.max(120, this.canvas.height - (startY + (logo.length * lineHeight) + 40))
             };
 
-            // Calculate how many lines can fit in the terminal
             vim.maxVisibleLines = Math.floor(vim.height / vim.lineHeight) - 1;
             vim.maxContentLines = vim.maxVisibleLines - vim.headerLines.length;
 
-            // Track crew assignments - each crew member can only have one active task
             let crewAssignments = {};
 
-            // State management for multi-step commands
             let commandState = {
                 mode: 'normal', // 'normal', 'assign_job_select_crew', 'assign_job_select_task'
                 selectedCrew: null,
@@ -563,7 +514,6 @@ class Game {
                 availableTasks: []
             };
 
-            // Define crew members with their specializations and allowed tasks
             const crewDatabase = {
                 "Engineer Sarah": {
                     specialization: "Engineering & Hydroponics",
@@ -621,17 +571,14 @@ class Game {
                 }
             };
 
-            // Function to clear a crew member's current assignment
             const clearCrewAssignment = (crewName) => {
                 const assignment = crewAssignments[crewName];
                 if (!assignment) return;
 
-                // Stop the associated interval based on task type
                 if (assignment.intervalId) {
                     clearInterval(assignment.intervalId);
                 }
 
-                // Reset specific system modes if needed
                 if (assignment.task === 'Power Grid Maintenance - Increase Energy Over Time') {
                     this.setPowerMode('normal'); // Return to normal power consumption
                 } else if (assignment.task === 'System Diagnostics - Improve Power Efficiency') {
@@ -643,7 +590,6 @@ class Game {
                 delete crewAssignments[crewName];
             };
 
-            // Command system for dialogue
             const commands = {
                 'help': () => {
                     return [
@@ -684,7 +630,6 @@ class Game {
                         return ['No crew members available to assign jobs.'];
                     }
                     
-                    // Enter crew selection mode
                     commandState.mode = 'assign_job_select_crew';
                     commandState.availableCrew = unlockedCrew;
                     
@@ -725,13 +670,9 @@ class Game {
                 // }
             };
 
-            // Process command function
-                        // Replace the processCommand function in your initializeGame method
-            
             const processCommand = (command) => {
                 const cmd = command.toLowerCase().trim();
                 
-                // Handle multi-step command states
                 if (commandState.mode === 'assign_job_select_crew') {
                     if (cmd === 'cancel') {
                         commandState.mode = 'normal';
@@ -743,20 +684,16 @@ class Game {
                         if (!isNaN(crewIndex) && crewIndex >= 0 && crewIndex < commandState.availableCrew.length) {
                             commandState.selectedCrew = commandState.availableCrew[crewIndex];
                             
-                            // Check if crew member is already assigned
                             const currentAssignment = crewAssignments[commandState.selectedCrew];
                             if (currentAssignment) {
-                                // Automatically clear previous assignment and proceed
                                 clearCrewAssignment(commandState.selectedCrew);
                                 vim.contentLines.push('');
                                 vim.contentLines.push(`${commandState.selectedCrew} reassigned from: ${currentAssignment.task}`);
                                 vim.contentLines.push('');
                             }
                             
-                            // Always proceed to task selection
                             commandState.mode = 'assign_job_select_task';
                             
-                            // Get tasks specific to this crew member
                             commandState.availableTasks = crewDatabase[commandState.selectedCrew].allowedTasks;
                             const specialization = crewDatabase[commandState.selectedCrew].specialization;
                             
@@ -792,13 +729,11 @@ class Game {
                         if (!isNaN(taskIndex) && taskIndex >= 0 && taskIndex < commandState.availableTasks.length) {
                             const selectedTask = commandState.availableTasks[taskIndex];
                             
-                            // Clear any existing assignment first (redundant safety check)
                             clearCrewAssignment(commandState.selectedCrew);
                             
                             let intervalId = null;
                             let taskEffect = '';
                             
-                            // Handle task effects - match task names with their descriptions
                             if (selectedTask === 'Power Grid Maintenance - Increase Energy Over Time') {
                                 this.setPowerMode('increase'); // Stop all, then start increasing power
                                 taskEffect = 'Power grid optimized! Energy now increasing!';
@@ -817,7 +752,6 @@ class Game {
                             
                             // PILOT TASKS
                             } else if (selectedTask === 'Navigation Systems - Discover New Missions' || selectedTask === 'Communications Array - Maintain Contact') {
-                                // Unlock new missions/resources periodically
                                 intervalId = setInterval(() => {
                                     const missions = ['Supply Cache Found!', 'Rescue Mission Available!', 'Resource Depot Located!', 'Trade Route Established!', 'New Colony Discovered!'];
                                     const randomMission = missions[Math.floor(Math.random() * missions.length)];
@@ -847,7 +781,6 @@ class Game {
                                 }, 15000); // New mission every 15 seconds
                                 taskEffect = 'Navigation systems active! Pilot will locate new opportunities!';
                             } else if (selectedTask === 'Supply Run Coordination - Regular Resource Drops') {
-                                // Periodic resource boosts
                                 intervalId = setInterval(() => {
                                     modifyEnergy(5);
                                     modifyOxygen(7);
@@ -963,7 +896,6 @@ class Game {
                                 taskEffect = 'Task assigned successfully! Minor colony improvement!';
                             }
                             
-                            // Record the assignment
                             crewAssignments[commandState.selectedCrew] = {
                                 task: selectedTask,
                                 intervalId: intervalId,
@@ -978,7 +910,6 @@ class Game {
                             vim.contentLines.push('Job assignment complete!');
                             vim.contentLines.push('');
                             
-                            // Reset state
                             commandState.mode = 'normal';
                             commandState.selectedCrew = null;
                             commandState.availableTasks = [];
@@ -989,7 +920,6 @@ class Game {
                         }
                     }
                 } else if (commands[cmd]) {
-                    // Normal command processing
                     const response = commands[cmd]();
                     if (response.length > 0) {
                         vim.contentLines.push(''); // Add blank line
@@ -1005,12 +935,10 @@ class Game {
                     vim.contentLines.push('');
                 }
                 
-                // Keep only the last maxLines to prevent infinite scroll buildup
                 if (vim.contentLines.length > vim.maxContentLines * 2) {
                     vim.contentLines = vim.contentLines.slice(-vim.maxContentLines);
                 }
                 
-                // Add new prompt line
                 vim.contentLines.push('> ');
             };
 
@@ -1018,13 +946,10 @@ class Game {
             let lastBlink = performance.now();
             let rafId = null;
 
-            // Enhanced draw function
             const drawVim = () => {
-                // Clear the VIM area
                 this.ctx.fillStyle = '#000000';
                 this.ctx.fillRect(vim.x - 4, vim.y - vim.lineHeight, vim.width + 8, vim.height + 8);
 
-                // Draw border
                 this.ctx.strokeStyle = '#00ff00';
                 this.ctx.lineWidth = 1;
                 this.ctx.strokeRect(vim.x - 6, vim.y - vim.lineHeight - 4, vim.width + 12, vim.height + 12);
@@ -1034,26 +959,21 @@ class Game {
                 
                 let currentY = vim.y;
                 
-                // Always draw header lines first (non-scrolling)
                 vim.headerLines.forEach((line, index) => {
                     this.ctx.fillText(line, vim.x, currentY);
                     currentY += vim.lineHeight;
                 });
 
-                // Calculate which content lines to show (scrollable)
                 let displayContentLines = vim.contentLines;
                 if (vim.contentLines.length > vim.maxContentLines) {
-                    // Show the last N lines that fit in the remaining space
                     displayContentLines = vim.contentLines.slice(-vim.maxContentLines);
                 }
 
-                // Draw content lines
                 displayContentLines.forEach((line, index) => {
                     this.ctx.fillText(line, vim.x, currentY);
                     currentY += vim.lineHeight;
                 });
 
-                // Draw cursor on the last content line (if it exists)
                 if (vim.contentLines.length > 0) {
                     const lastContentLine = vim.contentLines[vim.contentLines.length - 1] || '';
                     const cursorLineIndex = displayContentLines.length - 1;
@@ -1078,11 +998,9 @@ class Game {
                 rafId = requestAnimationFrame(animate);
             };
 
-            // Enhanced key handler
             const onKeyDown = (ev) => {
                 if (ev.key === 'Backspace' || ev.key === 'Tab') ev.preventDefault();
 
-                // Ensure there's always at least one content line (the prompt)
                 if (vim.contentLines.length === 0) {
                     vim.contentLines.push('> ');
                 }
@@ -1090,7 +1008,6 @@ class Game {
                 const lastIndex = vim.contentLines.length - 1;
                 
                 if (ev.key === 'Backspace') {
-                    // Only allow backspace if we have more than 2 characters (don't delete "> " prompt)
                     if (vim.contentLines[lastIndex].length > 2) {
                         vim.contentLines[lastIndex] = vim.contentLines[lastIndex].slice(0, -1);
                     }
@@ -1110,7 +1027,6 @@ class Game {
                 drawVim();
             };
 
-            // Initialize with first prompt
             vim.contentLines.push('> ');
 
             rafId = requestAnimationFrame(animate);
@@ -1128,7 +1044,6 @@ class Game {
             if (this._healthIncreaseInterval) clearInterval(this._healthIncreaseInterval);
             if (this._oxygenCrisisInterval) clearInterval(this._oxygenCrisisInterval);
             
-            // Clear all crew assignment intervals
             Object.values(crewAssignments).forEach(assignment => {
                 if (assignment.intervalId) {
                     clearInterval(assignment.intervalId);
