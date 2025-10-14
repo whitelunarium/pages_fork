@@ -11,3 +11,4 @@ progress
 mammoth
 pillow
 python-docx
+markdownify

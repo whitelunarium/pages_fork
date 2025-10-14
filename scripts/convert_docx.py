@@ -180,13 +180,24 @@ class DocxConverter:
                         "alt": image.alt_text or "Image not found"
                     }
                 
-                # Configure mammoth with custom image handling and table support
-                result = mammoth.convert_to_markdown(
+                # Configure mammoth to convert to HTML first (better table handling)
+                result = mammoth.convert_to_html(
                     docx_file,
                     convert_image=mammoth.images.img_element(convert_image)
                 )
                 
-                markdown_content = result.value
+                # Convert HTML to markdown using markdownify for better table support
+                try:
+                    from markdownify import markdownify as md
+                    markdown_content = md(result.value, heading_style="ATX")
+                except ImportError:
+                    print("  ⚠️ markdownify not available, falling back to direct conversion")
+                    # Fallback to direct markdown conversion
+                    result_md = mammoth.convert_to_markdown(
+                        docx_file,
+                        convert_image=mammoth.images.img_element(convert_image)
+                    )
+                    markdown_content = result_md.value
                 
                 if result.messages:
                     print(f"  ℹ️ Conversion messages: {len(result.messages)} items")
