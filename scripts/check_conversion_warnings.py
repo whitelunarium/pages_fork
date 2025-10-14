@@ -37,6 +37,37 @@ def check_notebook_for_real_warnings(notebook_path_str):
                     'source': 'nbformat'
                 })
         
+        # Check for Unicode encoding issues that would break conversion
+        try:
+            # Try to simulate what the conversion script does - convert to string and encode
+            nb_content = str(nb)
+            nb_content.encode('utf-8')
+            
+            # Also check individual cell content for problematic characters
+            for cell in nb.cells:
+                if 'source' in cell:
+                    cell_source = cell['source']
+                    if isinstance(cell_source, list):
+                        cell_source = ''.join(cell_source)
+                    # Try to encode the cell content
+                    cell_source.encode('utf-8')
+                    
+                    # Check for surrogate characters specifically
+                    if any(0xD800 <= ord(char) <= 0xDFFF for char in cell_source):
+                        issues.append({
+                            'type': 'error',
+                            'category': 'UnicodeEncodeError',
+                            'message': 'Cell contains surrogate Unicode characters that cannot be encoded',
+                            'source': 'conversion'
+                        })
+        except UnicodeEncodeError as e:
+            issues.append({
+                'type': 'error',
+                'category': 'UnicodeEncodeError',
+                'message': f'Unicode encoding error: {str(e)}',
+                'source': 'conversion'
+            })
+        
         return {
             'path': notebook_path_str,
             'issues': issues,
@@ -67,6 +98,37 @@ def fix_notebook_issues(notebook_path_str, issues):
                 nb = nbformat.validator.normalize(nb)[1]
                 needs_save = True
                 fixed_issues.append('MissingIDFieldWarning')
+                break
+        
+        # Fix Unicode encoding issues
+        for issue in issues:
+            if issue['category'] == 'UnicodeEncodeError':
+                # Clean up problematic Unicode characters in cells
+                for cell in nb.cells:
+                    if 'source' in cell:
+                        cell_source = cell['source']
+                        if isinstance(cell_source, list):
+                            cell_source = ''.join(cell_source)
+                        
+                        # Remove or replace surrogate characters
+                        cleaned_source = ''
+                        for char in cell_source:
+                            if 0xD800 <= ord(char) <= 0xDFFF:
+                                # Replace surrogate characters with a replacement character
+                                cleaned_source += '\uFFFD'  # Unicode replacement character
+                            else:
+                                cleaned_source += char
+                        
+                        # Update the cell source if changes were made
+                        if cleaned_source != cell_source:
+                            if isinstance(cell['source'], list):
+                                cell['source'] = [cleaned_source]
+                            else:
+                                cell['source'] = cleaned_source
+                            needs_save = True
+                
+                if needs_save:
+                    fixed_issues.append('UnicodeEncodeError')
                 break
         
         # Save if changes were made
@@ -189,34 +251,67 @@ def main():
         for issue_type in sorted(issue_summary.keys()):
             count = issue_summary[issue_type]
             affected_notebooks = len(notebooks_per_issue[issue_type])
-            print(f"  🔹 {issue_type}: {count} warnings across {affected_notebooks} notebook(s)")
+            print(f"  🔹 {issue_type}: {count} issues across {affected_notebooks} notebook(s)")
         
-        print(f"\n💡 Run 'make convert-fix' to fix {issue_summary.get('MissingIDFieldWarning', 0)} automatically resolvable MissingIDFieldWarning issues")
+        # Show fix recommendations for different issue types
+        fixable_issues = []
+        if 'MissingIDFieldWarning' in issue_summary:
+            fixable_issues.append(f"{issue_summary['MissingIDFieldWarning']} MissingIDFieldWarning")
+        if 'UnicodeEncodeError' in issue_summary:
+            fixable_issues.append(f"{issue_summary['UnicodeEncodeError']} UnicodeEncodeError")
+        
+        if fixable_issues:
+            print(f"\n💡 Run 'make convert-fix' to fix {', '.join(fixable_issues)} issues")
         
         # Add detailed notebook list at the end
-        print(f"\n📝 Notebooks with {list(issue_summary.keys())[0]} Issues:")
+        if len(issue_summary) == 1:
+            issue_type_name = list(issue_summary.keys())[0]
+            print(f"\n📝 Notebooks with {issue_type_name} Issues:")
+        else:
+            print(f"\n📝 Notebooks with Issues:")
         notebook_list = []
         for notebook_path, issues_list in all_issues.items():
             rel_path = Path(notebook_path).relative_to(base_dir)
             warning_count = len(issues_list)
-            notebook_list.append((str(rel_path), warning_count))
+            
+            # Get breakdown by issue type for this notebook
+            issue_breakdown = {}
+            for issue in issues_list:
+                issue_type = issue['category']
+                issue_breakdown[issue_type] = issue_breakdown.get(issue_type, 0) + 1
+            
+            notebook_list.append((str(rel_path), warning_count, issue_breakdown))
         
         # Sort by warning count (highest first) for priority
         notebook_list.sort(key=lambda x: x[1], reverse=True)
         
         total_warnings = 0
-        for i, (notebook_path, warning_count) in enumerate(notebook_list, 1):
+        for i, (notebook_path, warning_count, issue_breakdown) in enumerate(notebook_list, 1):
             print(f"{i:2d}. **`{notebook_path}`**")
-            print(f"    - **{warning_count} warning{'s' if warning_count != 1 else ''}**")
+            print(f"    - **{warning_count} issue{'s' if warning_count != 1 else ''}**")
+            
+            # Show breakdown by issue type if multiple types exist
+            if len(issue_breakdown) > 1:
+                for issue_type, count in sorted(issue_breakdown.items()):
+                    print(f"      - {issue_type}: {count}")
+            
             total_warnings += warning_count
         
         print(f"\n📊 Summary:")
         print(f"- **Total notebooks with issues**: {len(notebook_list)}")
-        print(f"- **Total warnings**: {total_warnings}")
+        print(f"- **Total issues**: {total_warnings}")
         if notebook_list:
             highest_priority = notebook_list[0]
-            print(f"- **Highest priority**: `{Path(highest_priority[0]).name}` with {highest_priority[1]} warnings")
-        print(f"- **All warnings are {list(issue_summary.keys())[0]}** which can be automatically fixed with `make convert-fix`")
+            print(f"- **Highest priority**: `{Path(highest_priority[0]).name}` with {highest_priority[1]} issues")
+        
+        # Show what types of issues can be fixed
+        all_issue_types = list(issue_summary.keys())
+        if all(issue_type in ['MissingIDFieldWarning', 'UnicodeEncodeError'] for issue_type in all_issue_types):
+            print(f"- **All issues can be automatically fixed** with `make convert-fix`")
+        else:
+            fixable_types = [t for t in all_issue_types if t in ['MissingIDFieldWarning', 'UnicodeEncodeError']]
+            if fixable_types:
+                print(f"- **Fixable issue types**: {', '.join(fixable_types)} can be automatically fixed with `make convert-fix`")
     else:
         print("✅ No build warnings found")
     
