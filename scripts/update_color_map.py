@@ -172,7 +172,7 @@ class ColorMapUpdater:
                         self.all_colors[var_name]['value'] = info['value']
                         self.all_colors[var_name]['files'].extend(info['files'])
             except Exception as e:
-                print(f"   ⚠️  Error reading {scss_file}: {e}")
+                print(f"   Error reading {scss_file}: {e}")
         
         print(f"   ✓ Found {len(self.all_colors)} unique color variable(s)\n")
         
@@ -248,7 +248,11 @@ class ColorMapUpdater:
 def main():
     updater = ColorMapUpdater()
     updater.update_map()
-    print(f"\n🎉 Color map updated!")
+    print(f"\nColor map updated!")
+    print(f"\nNext steps:")
+    print(f"   1. Edit _sass/user-colors.scss to customize colors")
+    print(f"   2. Run: make update-colors (or python3 scripts/apply_user_colors.py)")
+    print(f"   3. Rebuild your site")
 
 if __name__ == "__main__":
     main()

@@ -257,97 +257,113 @@
     "black1": {
       "value": "rgba(0, 0, 0, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gray1": {
       "value": "rgba(142, 142, 147, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gray2": {
       "value": "rgba(99, 99, 102, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gray3": {
       "value": "rgba(72, 72, 74, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gray4": {
       "value": "rgba(58, 58, 60, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gray5": {
       "value": "rgba(44, 44, 46, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gray6": {
       "value": "rgba(28, 28, 30, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "white1": {
       "value": "rgba(255, 255, 255, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "white2": {
       "value": "rgba(white, 0.87)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "white3": {
       "value": "rgba(225, 225, 230, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "gradient1": {
       "value": "linear-gradient(120deg, #1e1e1e 45%, #2a2a2a)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "blue1": {
       "value": "#007aff",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "green1": {
       "value": "#34c759",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "lightBlue1": {
       "value": "rgba(75, 186, 255, 1)",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "blueShadow1": {
       "value": "#2196f3",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "background": {
       "value": "#121212",
       "source_files": [
-        "_sass/open-coding/materials/colors.scss"
+        "_sass/open-coding/materials/colors.scss",
+        "_sass/user-colors.scss"
       ]
     },
     "dt-leaderboard": {
