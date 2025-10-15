@@ -169,7 +169,6 @@ $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 
 # DOCX conversion
 convert-docx:
-	@echo "🔄 Converting DOCX files..."
 	@if [ -d "_docx" ] && [ "$(shell ls -A _docx 2>/dev/null)" ]; then \
 		python3 scripts/convert_docx.py; \
 	else \
@@ -261,3 +260,18 @@ help:
 	@echo "🗑️ Cleanup Commands:"
 	@echo "  make clean          - Remove all generated files"
 	@echo "  make clean-docx     - Remove DOCX-generated files only"
+	@echo ""
+	@echo "🔍 Diagnostic Commands:"
+	@echo "  make convert-check  - Check notebooks for conversion warnings"
+	@echo "  make convert-fix    - Fix identified notebook conversion issues"
+
+# Notebook diagnostic and fix targets
+convert-check:
+	@echo "🔍 Running conversion diagnostics..."
+	@echo "📋 Checking for notebook conversion warnings or errors..."
+	@python3 scripts/check_conversion_warnings.py
+
+convert-fix:
+	@echo "🔧 Running conversion fixes..."
+	@echo "🛠️  Fixing notebooks with known warnings or errors..."
+	@python3 scripts/check_conversion_warnings.py --fix
