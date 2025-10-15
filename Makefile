@@ -185,6 +185,21 @@ clean-docx:
 	@rm -f docx-index.md 2>/dev/null || true
 	@echo "✅ DOCX cleanup complete"
 
+# Color mapping
+update-colors:
+	@echo "🎨 Updating local color map..."
+	@python3 scripts/create_local_color_map.py
+	@echo "✅ Color map updated successfully"
+	@echo "📄 Generated files:"
+	@echo "   - _sass/root-color-map.scss"
+	@echo "   - local-color-usage-report.md"
+	@echo "   - colors.json"
+
+# Update colors and preview
+update-colors-preview: update-colors
+	@echo "🔍 Starting server to preview color changes..."
+	@make serve-current
+
 clean: stop
 	@echo "Cleaning converted IPYNB files..."
 	@find _posts -type f -name '*_IPYNB_2_.md' -exec rm {} +
@@ -243,6 +258,10 @@ help:
 	@echo "  make build-cayman   - Switch to Cayman and build"
 	@echo "  make build-so-simple   - Switch to So Simple and build"
 	@echo "  make build-yat      - Switch to Yat and build"
+	@echo ""
+	@echo "🎨 Color Mapping Commands:"
+	@echo "  make update-colors         - Update local color map"
+	@echo "  make update-colors-preview - Update colors and start server"
 	@echo ""
 	@echo "🚀 Server Commands:"
 	@echo "  make serve          - Serve with current config"
