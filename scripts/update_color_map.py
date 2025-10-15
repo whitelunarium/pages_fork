@@ -179,6 +179,7 @@ class ColorMapUpdater:
         # Generate files
         self.write_map_file()
         self.write_json_manifest()
+        self.write_usage_report()
     
     def write_map_file(self):
         """Write the updated root-color-map.scss file"""
@@ -219,8 +220,7 @@ class ColorMapUpdater:
         for var_name in sorted(self.all_colors.keys()):
             sanitized = self.sanitize_variable_name(var_name)
             css_var = sanitized.replace('_', '-')
-            value = self.all_colors[var_name]['value']
-            output += f"  --{css_var}: {value};\n"
+            output += f"  --{css_var}: #{{{sanitized}}};\n"
         
         output += "}\n"
         
@@ -244,6 +244,63 @@ class ColorMapUpdater:
         
         self.json_manifest.write_text(json.dumps(manifest, indent=2))
         print(f"Successfully updated: {self.json_manifest}")
+    
+    def write_usage_report(self):
+        """Create a detailed markdown report of color usage"""
+        report = "# Local Color Usage Report\n\n"
+        
+        report += f"## Summary\n\n"
+        report += f"- Total unique colors found: {len(self.all_colors)}\n"
+        
+        # Count unique files
+        all_files = set()
+        for info in self.all_colors.values():
+            all_files.update(info['files'])
+        report += f"- Files with colors: {len(all_files)}\n\n"
+        
+        # Group colors by file
+        report += "## Colors by File\n\n"
+        files_dict = {}
+        for var_name, info in self.all_colors.items():
+            for file in info['files']:
+                if file not in files_dict:
+                    files_dict[file] = []
+                files_dict[file].append((var_name, info))
+        
+        for file in sorted(files_dict.keys()):
+            file_name = Path(file).name
+            report += f"### {file_name} ({len(files_dict[file])} colors)\n\n"
+            
+            for var_name, info in sorted(files_dict[file], key=lambda x: x[0]):
+                report += f"- `${var_name}`: `{info['value']}`\n"
+            
+            report += "\n"
+        
+        # Most used colors (colors that appear in multiple files)
+        report += "## Colors Used in Multiple Files\n\n"
+        
+        multi_file_colors = [(var_name, info) for var_name, info in self.all_colors.items() 
+                             if len(info['files']) > 1]
+        multi_file_colors.sort(key=lambda x: len(x[1]['files']), reverse=True)
+        
+        if multi_file_colors:
+            for var_name, info in multi_file_colors[:20]:  # Top 20
+                report += f"### `${var_name}` ({len(info['files'])} files)\n\n"
+                report += f"**Value**: `{info['value']}`\n\n"
+                report += f"**Files**: {', '.join([Path(f).name for f in sorted(info['files'])])}\n\n"
+        else:
+            report += "No colors are used in multiple files.\n\n"
+        
+        # All colors alphabetically
+        report += "## All Colors (Alphabetical)\n\n"
+        
+        for var_name in sorted(self.all_colors.keys()):
+            info = self.all_colors[var_name]
+            report += f"- **${var_name}**: `{info['value']}`\n"
+        
+        report_path = Path('local-color-usage-report.md')
+        report_path.write_text(report)
+        print(f"Successfully updated: {report_path}")
 
 def main():
     updater = ColorMapUpdater()
@@ -251,7 +308,7 @@ def main():
     print(f"\nColor map updated!")
     print(f"\nNext steps:")
     print(f"   1. Edit _sass/user-colors.scss to customize colors")
-    print(f"   2. Run: make update-colors (or python3 scripts/apply_user_colors.py)")
+    print(f"   2. Run: make update-colors")
     print(f"   3. Rebuild your site")
 
 if __name__ == "__main__":
