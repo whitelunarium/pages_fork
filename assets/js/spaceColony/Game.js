@@ -208,64 +208,6 @@ class Game {
             drawRightBox();
         };
 
-        const winGame = () => {
-            if (gameEnded) return;
-            gameEnded = true;
-            stopTimer();
-            if (this._energyDecreaseInterval) clearInterval(this._energyDecreaseInterval);
-            if (this._energyIncreaseInterval) clearInterval(this._energyIncreaseInterval);
-            if (this._oxygenDecreaseInterval) clearInterval(this._oxygenDecreaseInterval);
-            if (this._oxygenIncreaseInterval) clearInterval(this._oxygenIncreaseInterval);
-            if (this._oxygenCrisisInterval) clearInterval(this._oxygenCrisisInterval);
-            
-            if (typeof crewAssignments !== 'undefined') {
-                Object.values(crewAssignments).forEach(assignment => {
-                    if (assignment && assignment.intervalId) clearInterval(assignment.intervalId);
-                });
-            }
-            if (typeof crewAssignments !== 'undefined') {
-                Object.values(crewAssignments).forEach(assignment => {
-                    if (assignment && assignment.intervalId) clearInterval(assignment.intervalId);
-                });
-            }
-
-            if (typeof crewAssignments !== 'undefined') {
-                Object.keys(crewAssignments).forEach(crewName => {
-                    const assignment = crewAssignments[crewName];
-                    if (assignment && assignment.intervalId) {
-                        clearInterval(assignment.intervalId);
-                    }
-                    delete crewAssignments[crewName];
-                });
-            }
-            
-            this.ctx.fillStyle = '#000000';
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            
-            this.ctx.fillStyle = '#00ff00';
-            this.ctx.font = 'bold 32px monospace';
-            this.ctx.fillText('COLONY SUCCESS', 50, 100);
-            
-            this.ctx.font = '24px monospace';
-            this.ctx.fillText('ALL SYSTEMS NOMINAL', 50, 150);
-            
-            this.ctx.font = '18px monospace';
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.fillText('Your colony has lived. The crew survived.', 50, 200);
-            this.ctx.fillText('Press F5 to restart and try again.', 50, 230);
-            
-            if (vim && vim.contentLines) {
-                vim.contentLines = [];
-                vim.contentLines.push('🎉 COLONY SUCCESS - ALL SYSTEMS NOMINAL');
-                vim.contentLines.push('The colony has lived. Press F5 to restart.');
-                vim.contentLines.push('> ');
-            }
-            
-            drawRightBox();
-            
-            console.log('Game Over - Colony Lived');
-        }
-
         const endGame = () => {
             stopTimer();
             if (this._energyDecreaseInterval) clearInterval(this._energyDecreaseInterval);
@@ -329,9 +271,6 @@ class Game {
         
         const modifyCrew = (i) => {
             this.rightBoxStats.crew = Math.max(0, this.rightBoxStats.crew + i);
-            if (this.rightBoxStats.crew === 6) {
-                winGame();
-            }
             drawRightBox();
         };
         
