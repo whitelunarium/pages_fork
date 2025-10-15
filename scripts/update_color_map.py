@@ -96,6 +96,19 @@ class ColorMapUpdater:
         
         return value
     
+    def sanitize_variable_name(self, name):
+        """
+        Convert a variable name to a valid SCSS identifier.
+        Removes or replaces invalid characters.
+        """
+        # Replace spaces and special characters with hyphens
+        name = re.sub(r'[\s/\\()]+', '-', name)
+        # Remove any remaining invalid characters (keep only alphanumeric, hyphens, underscores)
+        name = re.sub(r'[^a-zA-Z0-9_-]', '', name)
+        # Remove leading numbers and hyphens
+        name = re.sub(r'^[0-9-]+', '', name)
+        return name if name else 'color'
+    
     def update_map(self, theme_name):
         """Update the root color map for the specified theme"""
         if theme_name not in self.themes:
@@ -157,18 +170,20 @@ class ColorMapUpdater:
 // Standard color variables
 """
         
-        # Write variable definitions
+        # Write variable definitions with sanitized names
         for var_name in sorted(colors.keys()):
-            output += f"${var_name}: {colors[var_name]};\n"
+            sanitized_name = self.sanitize_variable_name(var_name)
+            output += f"${sanitized_name}: {colors[var_name]};\n"
         
         output += """
 // Convert to CSS custom properties
 :root {
 """
         
-        # Write CSS custom properties
+        # Write CSS custom properties with sanitized names
         for var_name in sorted(colors.keys()):
-            css_var = var_name.replace('std-', 'color-')
+            sanitized_name = self.sanitize_variable_name(var_name)
+            css_var = sanitized_name.replace('std-', 'color-')
             output += f"  --{css_var}: #{{{colors[var_name]}}};\n"
         
         output += "}\n"
