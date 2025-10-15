@@ -2,417 +2,270 @@
 
 ## Summary
 
-- Total unique colors found: 264
-- Existing variables: 18
-- Components with colors: 25
+- Total unique colors found: 61
+- Files with colors: 8
+
+## Colors by File
+
+### lessonbase.scss (21 colors)
+
+- `$accent`: `#4CAFEF`
+- `$accent-700`: `#007ACC`
+- `$accent-700-hover`: `#005FA3`
+- `$bg-0`: `#000`
+- `$bg-1`: `#1F2020`
+- `$bg-2`: `#1F1F1F`
+- `$bg-3`: `#2A2D2D`
+- `$blue`: `#3182CE`
+- `$green`: `#4ADE80`
+- `$green-bg`: `#2D5A3D`
+- `$orange`: `#ED8936`
+- `$panel`: `#2B2B2B`
+- `$popup-bg`: `#222`
+- `$red`: `#E53E3E`
+- `$success-green`: `#28A745`
+- `$surface`: `#333`
+- `$teal`: `#38B2AC`
+- `$text`: `#F0F0F0`
+- `$text-muted`: `#aaa`
+- `$warn`: `#FBBF24`
+- `$warn-bg`: `#5A3D2D`
+
+### chatbot.scss (6 colors)
+
+- `$left-msg-bg`: `white`
+- `$msger-send-btn-bg`: `blue`
+- `$msger-send-btn-hover-bg`: `darkblue`
+- `$right-msg-bg`: `lightBlue1`
+- `$toggle-btn-bg`: `green`
+- `$toggle-btn-hover-bg`: `darkgreen`
+
+### containers.scss (1 colors)
+
+- `$login-container-bg`: `#1e1e1e`
+
+### passwordvalidation.scss (3 colors)
 
-## Colors by Component
+- `$validation-error-color`: `#ef4444`
+- `$validation-focus-color`: `#6366f1`
+- `$validation-success-color`: `#10b981`
 
-### _main copy.scss (11 unique colors)
+### common.scss (11 colors)
 
-- **background**: 2 colors
-- **text**: 9 colors
+- `$status-indicator-base-bg`: `rgba(255, 255, 255, 0.05)`
+- `$status-indicator-base-border`: `rgba(255, 255, 255, 0.1)`
+- `$status-indicator-error-bg`: `rgba(220, 53, 69, 0.2)`
+- `$status-indicator-error-border`: `rgba(220, 53, 69, 0.3)`
+- `$status-indicator-error-color`: `#dc3545`
+- `$status-indicator-pending-bg`: `rgba(255, 193, 7, 0.2)`
+- `$status-indicator-pending-border`: `rgba(255, 193, 7, 0.3)`
+- `$status-indicator-pending-color`: `#ffc107`
+- `$status-indicator-success-bg`: `rgba(40, 167, 69, 0.2)`
+- `$status-indicator-success-border`: `rgba(40, 167, 69, 0.3)`
+- `$status-indicator-success-color`: `#28a745`
 
-### bathroom.scss (3 unique colors)
+### colors.scss (16 colors)
 
-- **background**: 1 colors
-- **border**: 1 colors
-- **shadow**: 1 colors
+- `$background`: `#121212`
+- `$black1`: `rgba(0, 0, 0, 1)`
+- `$blue1`: `#007aff`
+- `$blueShadow1`: `#2196f3`
+- `$gradient1`: `linear-gradient(120deg, #1e1e1e 45%, #2a2a2a)`
+- `$gray1`: `rgba(142, 142, 147, 1)`
+- `$gray2`: `rgba(99, 99, 102, 1)`
+- `$gray3`: `rgba(72, 72, 74, 1)`
+- `$gray4`: `rgba(58, 58, 60, 1)`
+- `$gray5`: `rgba(44, 44, 46, 1)`
+- `$gray6`: `rgba(28, 28, 30, 1)`
+- `$green1`: `#34c759`
+- `$lightBlue1`: `rgba(75, 186, 255, 1)`
+- `$white1`: `rgba(255, 255, 255, 1)`
+- `$white2`: `rgba(white, 0.87)`
+- `$white3`: `rgba(225, 225, 230, 1)`
 
-### blogs.scss (2 unique colors)
+### platformer-game.scss (1 colors)
 
-- **background**: 1 colors
-- **shadow**: 1 colors
+- `$dt-leaderboard`: `#e85252`
 
-### calendar.scss (11 unique colors)
+### user-colors.scss (18 colors)
 
-- **background**: 4 colors
-- **border**: 1 colors
-- **general**: 1 colors
-- **shadow**: 1 colors
-- **text**: 4 colors
+- `$background`: `#121212`
+- `$black1`: `rgba(0, 0, 0, 1)`
+- `$blue1`: `#007aff`
+- `$blueShadow1`: `#2196f3`
+- `$gradient1`: `linear-gradient(120deg, #1e1e1e 45%, #2a2a2a)`
+- `$gray1`: `rgba(142, 142, 147, 1)`
+- `$gray2`: `rgba(99, 99, 102, 1)`
+- `$gray3`: `rgba(72, 72, 74, 1)`
+- `$gray4`: `rgba(58, 58, 60, 1)`
+- `$gray5`: `rgba(44, 44, 46, 1)`
+- `$gray6`: `rgba(28, 28, 30, 1)`
+- `$green1`: `#34c759`
+- `$lightBlue1`: `rgba(75, 186, 255, 1)`
+- `$my-custom-cat`: `#02375a`
+- `$my-custom-dog`: `#cafff3`
+- `$white1`: `rgba(255, 255, 255, 1)`
+- `$white2`: `rgba(white, 0.87)`
+- `$white3`: `rgba(225, 225, 230, 1)`
 
-### chatbot.scss (18 unique colors)
+## Colors Used in Multiple Files
 
-- **background**: 12 colors
-- **border**: 1 colors
-- **shadow**: 1 colors
-- **text**: 4 colors
+### `$black1` (2 files)
 
-### elements-buttons (24 unique colors)
+**Value**: `rgba(0, 0, 0, 1)`
 
-- **active**: 4 colors
-- **background**: 9 colors
-- **border**: 1 colors
-- **general**: 2 colors
-- **hover**: 4 colors
-- **text**: 4 colors
+**Files**: colors.scss, user-colors.scss
 
-### elements-dropdown (11 unique colors)
+### `$gray1` (2 files)
 
-- **background**: 1 colors
-- **general**: 7 colors
-- **shadow**: 1 colors
-- **text**: 2 colors
+**Value**: `rgba(142, 142, 147, 1)`
 
-### elements-forms (15 unique colors)
+**Files**: colors.scss, user-colors.scss
 
-- **background**: 6 colors
-- **border**: 2 colors
-- **shadow**: 2 colors
-- **text**: 5 colors
+### `$gray2` (2 files)
 
-### elements-loaders (3 unique colors)
+**Value**: `rgba(99, 99, 102, 1)`
 
-- **background**: 1 colors
-- **border**: 2 colors
+**Files**: colors.scss, user-colors.scss
 
-### elements-status-indicators (12 unique colors)
+### `$gray3` (2 files)
 
-- **background**: 4 colors
-- **border**: 4 colors
-- **general**: 1 colors
-- **text**: 3 colors
+**Value**: `rgba(72, 72, 74, 1)`
 
-### elements-text_input (7 unique colors)
+**Files**: colors.scss, user-colors.scss
 
-- **border**: 1 colors
-- **shadow**: 2 colors
-- **text**: 4 colors
+### `$gray4` (2 files)
 
-### elements-toggles (6 unique colors)
+**Value**: `rgba(58, 58, 60, 1)`
 
-- **background**: 1 colors
-- **general**: 3 colors
-- **shadow**: 1 colors
-- **text**: 1 colors
+**Files**: colors.scss, user-colors.scss
 
-### hacks.scss (5 unique colors)
+### `$gray5` (2 files)
 
-- **background**: 5 colors
+**Value**: `rgba(44, 44, 46, 1)`
 
-### hacks_lxd.scss (10 unique colors)
+**Files**: colors.scss, user-colors.scss
 
-- **general**: 10 colors
+### `$gray6` (2 files)
 
-### hallpass.scss (2 unique colors)
+**Value**: `rgba(28, 28, 30, 1)`
 
-- **shadow**: 1 colors
-- **text**: 1 colors
+**Files**: colors.scss, user-colors.scss
 
-### lessonbase (52 unique colors)
+### `$white1` (2 files)
 
-- **background**: 16 colors
-- **border**: 4 colors
-- **general**: 15 colors
-- **hover**: 1 colors
-- **info**: 2 colors
-- **shadow**: 2 colors
-- **success**: 2 colors
-- **text**: 8 colors
-- **warning**: 2 colors
+**Value**: `rgba(255, 255, 255, 1)`
 
-### login.scss (3 unique colors)
+**Files**: colors.scss, user-colors.scss
 
-- **background**: 1 colors
-- **border**: 1 colors
-- **text**: 1 colors
+### `$white2` (2 files)
 
-### materials (29 unique colors)
+**Value**: `rgba(white, 0.87)`
 
-- **background**: 11 colors
-- **general**: 14 colors
-- **gradient**: 2 colors
-- **shadow**: 1 colors
-- **text**: 1 colors
+**Files**: colors.scss, user-colors.scss
 
-### navbar.scss (1 unique colors)
+### `$white3` (2 files)
 
-- **border**: 1 colors
+**Value**: `rgba(225, 225, 230, 1)`
 
-### platformer-game.scss (16 unique colors)
+**Files**: colors.scss, user-colors.scss
 
-- **background**: 9 colors
-- **border**: 2 colors
-- **general**: 1 colors
-- **text**: 4 colors
+### `$gradient1` (2 files)
 
-### quiz.scss (8 unique colors)
+**Value**: `linear-gradient(120deg, #1e1e1e 45%, #2a2a2a)`
 
-- **background**: 4 colors
-- **border**: 1 colors
-- **text**: 3 colors
+**Files**: colors.scss, user-colors.scss
 
-### rps.scss (106 unique colors)
+### `$blue1` (2 files)
 
-- **background**: 52 colors
-- **border**: 8 colors
-- **error**: 2 colors
-- **general**: 16 colors
-- **gradient**: 6 colors
-- **link**: 2 colors
-- **shadow**: 2 colors
-- **success**: 2 colors
-- **text**: 14 colors
-- **warning**: 2 colors
+**Value**: `#007aff`
 
-### rps_lesson.scss (31 unique colors)
+**Files**: colors.scss, user-colors.scss
 
-- **background**: 9 colors
-- **border**: 9 colors
-- **shadow**: 6 colors
-- **text**: 7 colors
+### `$green1` (2 files)
 
-### search.scss (1 unique colors)
+**Value**: `#34c759`
 
-- **background**: 1 colors
+**Files**: colors.scss, user-colors.scss
 
-### user-colors (22 unique colors)
+### `$lightBlue1` (2 files)
 
-- **background**: 1 colors
-- **general**: 18 colors
-- **gradient**: 2 colors
-- **shadow**: 1 colors
+**Value**: `rgba(75, 186, 255, 1)`
 
-## Most Used Colors
+**Files**: colors.scss, user-colors.scss
 
-### `white` (34 usages)
+### `$blueShadow1` (2 files)
 
-**Components**: calendar.scss, chatbot.scss, elements-buttons, elements-forms, elements-status-indicators, elements-text_input, hallpass.scss, lessonbase, materials, platformer-game.scss, quiz.scss, rps.scss, user-colors
+**Value**: `#2196f3`
 
-**Contexts**: background, general, text
+**Files**: colors.scss, user-colors.scss
 
-**Files**: minima/lessonbase.scss, open-coding/calendar.scss, open-coding/chatbot.scss, open-coding/elements/buttons/iridescent.scss, open-coding/elements/forms/oauth.scss
+### `$background` (2 files)
 
-### `#fff` (20 usages)
+**Value**: `#121212`
 
-**Components**: chatbot.scss, elements-toggles, lessonbase, materials, rps_lesson.scss
+**Files**: colors.scss, user-colors.scss
 
-**Contexts**: background, border, text
+## All Colors (Alphabetical)
 
-**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/toggles/common.scss, open-coding/elements/toggles/styles.scss, open-coding/elements/toggles/toggles.scss
-
-### `blue` (17 usages)
-
-**Components**: chatbot.scss, elements-buttons, hacks.scss, lessonbase, rps.scss, user-colors
-
-**Contexts**: background, general, info, text
-
-**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/buttons/iridescent.scss, open-coding/hacks.scss, open-coding/rps.scss
-
-### `#f8f8f2` (13 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `green` (12 usages)
-
-**Components**: chatbot.scss, elements-toggles, hacks.scss, lessonbase, quiz.scss, rps.scss
-
-**Contexts**: background, general, success, text
-
-**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/toggles/styles.scss, open-coding/elements/toggles/toggles.scss, open-coding/hacks.scss
-
-### `#e6db74` (12 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `purple` (11 usages)
-
-**Components**: rps.scss
-
-**Contexts**: background, border, general, link, text
-
-**Files**: open-coding/rps.scss
-
-### `#121212` (9 usages)
-
-**Components**: elements-forms, materials, rps_lesson.scss, user-colors
-
-**Contexts**: background
-
-**Files**: open-coding/elements/forms/containers.scss, open-coding/materials/colors.scss, open-coding/rps_lesson.scss, user-colors.scss
-
-### `pink` (9 usages)
-
-**Components**: rps.scss
-
-**Contexts**: background, general, text
-
-**Files**: open-coding/rps.scss
-
-### `#ae81ff` (8 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `#1e1e1e` (7 usages)
-
-**Components**: elements-forms, materials, search.scss, user-colors
-
-**Contexts**: background, gradient
-
-**Files**: open-coding/elements/forms/containers.scss, open-coding/materials/colors.scss, open-coding/materials/glow.scss, open-coding/search.scss, user-colors.scss
-
-### `red` (7 usages)
-
-**Components**: hacks.scss, lessonbase, quiz.scss, rps.scss, user-colors
-
-**Contexts**: background, error, general, text, warning
-
-**Files**: minima/lessonbase.scss, open-coding/hacks.scss, open-coding/quiz.scss, open-coding/rps.scss, user-colors.scss
-
-### `#66d9ef` (7 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `#a6e22e` (7 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `#ddd` (7 usages)
-
-**Components**: chatbot.scss, quiz.scss
-
-**Contexts**: background, border
-
-**Files**: open-coding/chatbot.scss, open-coding/quiz.scss
-
-### `yellow` (7 usages)
-
-**Components**: hacks.scss, rps.scss
-
-**Contexts**: background, general, text, warning
-
-**Files**: open-coding/hacks.scss, open-coding/rps.scss
-
-### `rgba(244,114,182,.3)` (7 usages)
-
-**Components**: rps.scss
-
-**Contexts**: background, border, shadow, text
-
-**Files**: open-coding/rps.scss
-
-### `rgba(0, 0, 0, 0.3)` (6 usages)
-
-**Components**: bathroom.scss, elements-forms, elements-text_input, hallpass.scss, lessonbase
-
-**Contexts**: shadow
-
-**Files**: minima/lessonbase.scss, open-coding/bathroom.scss, open-coding/elements/forms/containers.scss, open-coding/elements/text_input/common.scss, open-coding/hallpass.scss
-
-### `black` (6 usages)
-
-**Components**: chatbot.scss, elements-buttons, elements-dropdown, platformer-game.scss
-
-**Contexts**: border, general, text
-
-**Files**: open-coding/chatbot.scss, open-coding/elements/buttons/hacks-button.scss, open-coding/elements/dropdown/dropdown.scss, open-coding/platformer-game.scss
-
-### `#979381` (6 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `#222222` (5 usages)
-
-**Components**: blogs.scss, calendar.scss
-
-**Contexts**: background
-
-**Files**: open-coding/blogs.scss, open-coding/calendar.scss
-
-### `#ef4444` (5 usages)
-
-**Components**: elements-forms, rps.scss, rps_lesson.scss
-
-**Contexts**: border, error, shadow, text
-
-**Files**: open-coding/elements/forms/passwordvalidation.scss, open-coding/rps.scss, open-coding/rps_lesson.scss
-
-### `#f92672` (5 usages)
-
-**Components**: _main copy.scss
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss
-
-### `#007aff` (5 usages)
-
-**Components**: elements-buttons, materials
-
-**Contexts**: active, background, general, hover, text
-
-**Files**: open-coding/elements/buttons/filled.scss, open-coding/materials/colors.scss
-
-### `#FFFFFF` (4 usages)
-
-**Components**: calendar.scss, elements-text_input, platformer-game.scss, rps_lesson.scss
-
-**Contexts**: text
-
-**Files**: open-coding/calendar.scss, open-coding/elements/text_input/common.scss, open-coding/platformer-game.scss, open-coding/rps_lesson.scss
-
-### `#c06c84` (4 usages)
-
-**Components**: rps_lesson.scss
-
-**Contexts**: background, border, shadow
-
-**Files**: open-coding/rps_lesson.scss
-
-### `gray` (4 usages)
-
-**Components**: chatbot.scss, platformer-game.scss, rps.scss
-
-**Contexts**: background, general, text
-
-**Files**: open-coding/chatbot.scss, open-coding/platformer-game.scss, open-coding/rps.scss
-
-### `rgba(255, 255, 255, 0.2)` (4 usages)
-
-**Components**: bathroom.scss, elements-buttons, elements-forms
-
-**Contexts**: border, general
-
-**Files**: open-coding/bathroom.scss, open-coding/elements/buttons/iridescent.scss, open-coding/elements/forms/containers.scss
-
-### `rgba(168,85,247,.3)` (4 usages)
-
-**Components**: rps.scss
-
-**Contexts**: background, text
-
-**Files**: open-coding/rps.scss
-
-### `rgba(59,130,246,.3)` (4 usages)
-
-**Components**: rps.scss
-
-**Contexts**: background, text
-
-**Files**: open-coding/rps.scss
-
+- **$accent**: `#4CAFEF`
+- **$accent-700**: `#007ACC`
+- **$accent-700-hover**: `#005FA3`
+- **$background**: `#121212`
+- **$bg-0**: `#000`
+- **$bg-1**: `#1F2020`
+- **$bg-2**: `#1F1F1F`
+- **$bg-3**: `#2A2D2D`
+- **$black1**: `rgba(0, 0, 0, 1)`
+- **$blue**: `#3182CE`
+- **$blue1**: `#007aff`
+- **$blueShadow1**: `#2196f3`
+- **$dt-leaderboard**: `#e85252`
+- **$gradient1**: `linear-gradient(120deg, #1e1e1e 45%, #2a2a2a)`
+- **$gray1**: `rgba(142, 142, 147, 1)`
+- **$gray2**: `rgba(99, 99, 102, 1)`
+- **$gray3**: `rgba(72, 72, 74, 1)`
+- **$gray4**: `rgba(58, 58, 60, 1)`
+- **$gray5**: `rgba(44, 44, 46, 1)`
+- **$gray6**: `rgba(28, 28, 30, 1)`
+- **$green**: `#4ADE80`
+- **$green-bg**: `#2D5A3D`
+- **$green1**: `#34c759`
+- **$left-msg-bg**: `white`
+- **$lightBlue1**: `rgba(75, 186, 255, 1)`
+- **$login-container-bg**: `#1e1e1e`
+- **$msger-send-btn-bg**: `blue`
+- **$msger-send-btn-hover-bg**: `darkblue`
+- **$my-custom-cat**: `#02375a`
+- **$my-custom-dog**: `#cafff3`
+- **$orange**: `#ED8936`
+- **$panel**: `#2B2B2B`
+- **$popup-bg**: `#222`
+- **$red**: `#E53E3E`
+- **$right-msg-bg**: `lightBlue1`
+- **$status-indicator-base-bg**: `rgba(255, 255, 255, 0.05)`
+- **$status-indicator-base-border**: `rgba(255, 255, 255, 0.1)`
+- **$status-indicator-error-bg**: `rgba(220, 53, 69, 0.2)`
+- **$status-indicator-error-border**: `rgba(220, 53, 69, 0.3)`
+- **$status-indicator-error-color**: `#dc3545`
+- **$status-indicator-pending-bg**: `rgba(255, 193, 7, 0.2)`
+- **$status-indicator-pending-border**: `rgba(255, 193, 7, 0.3)`
+- **$status-indicator-pending-color**: `#ffc107`
+- **$status-indicator-success-bg**: `rgba(40, 167, 69, 0.2)`
+- **$status-indicator-success-border**: `rgba(40, 167, 69, 0.3)`
+- **$status-indicator-success-color**: `#28a745`
+- **$success-green**: `#28A745`
+- **$surface**: `#333`
+- **$teal**: `#38B2AC`
+- **$text**: `#F0F0F0`
+- **$text-muted**: `#aaa`
+- **$toggle-btn-bg**: `green`
+- **$toggle-btn-hover-bg**: `darkgreen`
+- **$validation-error-color**: `#ef4444`
+- **$validation-focus-color**: `#6366f1`
+- **$validation-success-color**: `#10b981`
+- **$warn**: `#FBBF24`
+- **$warn-bg**: `#5A3D2D`
+- **$white1**: `rgba(255, 255, 255, 1)`
+- **$white2**: `rgba(white, 0.87)`
+- **$white3**: `rgba(225, 225, 230, 1)`

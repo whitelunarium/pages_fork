@@ -220,7 +220,7 @@ class ColorMapUpdater:
         for var_name in sorted(self.all_colors.keys()):
             sanitized = self.sanitize_variable_name(var_name)
             css_var = sanitized.replace('_', '-')
-            output += f"  --{css_var}: #{{{sanitized}}};\n"
+            output += f"  --{css_var}: #{{${sanitized}}};\n"
         
         output += "}\n"
         
