@@ -1,6 +1,6 @@
 {
   "generated_by": "scripts/update_color_map.py",
-  "total_colors": 59,
+  "total_colors": 61,
   "colors": {
     "bg-0": {
       "value": "#000",
@@ -332,7 +332,7 @@
       ]
     },
     "blue1": {
-      "value": "#007aff",
+      "value": "#ff6b00",
       "source_files": [
         "_sass/open-coding/materials/colors.scss",
         "_sass/user-colors.scss"
@@ -370,6 +370,18 @@
       "value": "#e85252",
       "source_files": [
         "_sass/open-coding/platformer-game.scss"
+      ]
+    },
+    "my-custom-red": {
+      "value": "#025a23",
+      "source_files": [
+        "_sass/user-colors.scss"
+      ]
+    },
+    "my-custom-blue": {
+      "value": "#cafff3",
+      "source_files": [
+        "_sass/user-colors.scss"
       ]
     }
   }

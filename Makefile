@@ -188,7 +188,7 @@ clean-docx:
 # Color mapping
 update-colors:
 	@echo "🎨 Updating local color map..."
-	@python3 scripts/create_local_color_map.py
+	@python3 scripts/update_color_map.py
 	@echo "✅ Color map updated successfully"
 	@echo "📄 Generated files:"
 	@echo "   - _sass/root-color-map.scss"

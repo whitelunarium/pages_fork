@@ -109,7 +109,11 @@ class LocalColorMapper:
         print("\n🔍 Scanning local SCSS files for colors...")
         
         scss_files = list(self.scss_dir.rglob('*.scss'))
-        print(f"   Found {len(scss_files)} SCSS files to scan")
+        
+        # CRITICAL: Exclude the auto-generated root-color-map.scss to avoid circular references
+        scss_files = [f for f in scss_files if f.name != 'root-color-map.scss']
+        
+        print(f"   Found {len(scss_files)} SCSS files to scan (excluding root-color-map.scss)")
         
         for scss_file in scss_files:
             relative_path = scss_file.relative_to(self.scss_dir)

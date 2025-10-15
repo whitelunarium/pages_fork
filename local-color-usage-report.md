@@ -4,7 +4,7 @@
 
 - Total unique colors found: 264
 - Existing variables: 18
-- Components with colors: 26
+- Components with colors: 25
 
 ## Colors by Component
 
@@ -143,19 +143,6 @@
 - **border**: 1 colors
 - **text**: 3 colors
 
-### root-color-map (274 unique colors)
-
-- **background**: 112 colors
-- **border**: 29 colors
-- **general**: 77 colors
-- **gradient**: 8 colors
-- **hover**: 1 colors
-- **link**: 3 colors
-- **shadow**: 9 colors
-- **success**: 1 colors
-- **text**: 32 colors
-- **warning**: 2 colors
-
 ### rps.scss (106 unique colors)
 
 - **background**: 52 colors
@@ -189,243 +176,243 @@
 
 ## Most Used Colors
 
-### `blue` (42 usages)
+### `white` (34 usages)
 
-**Components**: chatbot.scss, elements-buttons, hacks.scss, lessonbase, root-color-map, rps.scss, user-colors
-
-**Contexts**: background, border, general, info, link, text
-
-**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/buttons/iridescent.scss, open-coding/hacks.scss, open-coding/rps.scss
-
-### `red` (37 usages)
-
-**Components**: hacks.scss, lessonbase, quiz.scss, root-color-map, rps.scss, user-colors
-
-**Contexts**: background, border, error, general, text, warning
-
-**Files**: minima/lessonbase.scss, open-coding/hacks.scss, open-coding/quiz.scss, open-coding/rps.scss, root-color-map.scss
-
-### `white` (36 usages)
-
-**Components**: calendar.scss, chatbot.scss, elements-buttons, elements-forms, elements-status-indicators, elements-text_input, hallpass.scss, lessonbase, materials, platformer-game.scss, quiz.scss, root-color-map, rps.scss, user-colors
+**Components**: calendar.scss, chatbot.scss, elements-buttons, elements-forms, elements-status-indicators, elements-text_input, hallpass.scss, lessonbase, materials, platformer-game.scss, quiz.scss, rps.scss, user-colors
 
 **Contexts**: background, general, text
 
 **Files**: minima/lessonbase.scss, open-coding/calendar.scss, open-coding/chatbot.scss, open-coding/elements/buttons/iridescent.scss, open-coding/elements/forms/oauth.scss
 
-### `green` (24 usages)
+### `#fff` (20 usages)
 
-**Components**: chatbot.scss, elements-toggles, hacks.scss, lessonbase, quiz.scss, root-color-map, rps.scss
-
-**Contexts**: background, general, success, text
-
-**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/toggles/styles.scss, open-coding/elements/toggles/toggles.scss, open-coding/hacks.scss
-
-### `#fff` (21 usages)
-
-**Components**: chatbot.scss, elements-toggles, lessonbase, materials, root-color-map, rps_lesson.scss
+**Components**: chatbot.scss, elements-toggles, lessonbase, materials, rps_lesson.scss
 
 **Contexts**: background, border, text
 
 **Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/toggles/common.scss, open-coding/elements/toggles/styles.scss, open-coding/elements/toggles/toggles.scss
 
-### `#f8f8f2` (14 usages)
+### `blue` (17 usages)
 
-**Components**: _main copy.scss, root-color-map
+**Components**: chatbot.scss, elements-buttons, hacks.scss, lessonbase, rps.scss, user-colors
+
+**Contexts**: background, general, info, text
+
+**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/buttons/iridescent.scss, open-coding/hacks.scss, open-coding/rps.scss
+
+### `#f8f8f2` (13 usages)
+
+**Components**: _main copy.scss
 
 **Contexts**: text
 
-**Files**: open-coding/_main copy.scss, root-color-map.scss
+**Files**: open-coding/_main copy.scss
 
-### `#e6db74` (13 usages)
+### `green` (12 usages)
 
-**Components**: _main copy.scss, root-color-map
+**Components**: chatbot.scss, elements-toggles, hacks.scss, lessonbase, quiz.scss, rps.scss
+
+**Contexts**: background, general, success, text
+
+**Files**: minima/lessonbase.scss, open-coding/chatbot.scss, open-coding/elements/toggles/styles.scss, open-coding/elements/toggles/toggles.scss, open-coding/hacks.scss
+
+### `#e6db74` (12 usages)
+
+**Components**: _main copy.scss
 
 **Contexts**: text
 
-**Files**: open-coding/_main copy.scss, root-color-map.scss
+**Files**: open-coding/_main copy.scss
 
-### `purple` (12 usages)
+### `purple` (11 usages)
 
-**Components**: root-color-map, rps.scss
+**Components**: rps.scss
 
 **Contexts**: background, border, general, link, text
 
-**Files**: open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/rps.scss
 
-### `#121212` (10 usages)
+### `#121212` (9 usages)
 
-**Components**: elements-forms, materials, root-color-map, rps_lesson.scss, user-colors
+**Components**: elements-forms, materials, rps_lesson.scss, user-colors
 
 **Contexts**: background
 
-**Files**: open-coding/elements/forms/containers.scss, open-coding/materials/colors.scss, open-coding/rps_lesson.scss, root-color-map.scss, user-colors.scss
+**Files**: open-coding/elements/forms/containers.scss, open-coding/materials/colors.scss, open-coding/rps_lesson.scss, user-colors.scss
 
-### `pink` (10 usages)
+### `pink` (9 usages)
 
-**Components**: root-color-map, rps.scss
+**Components**: rps.scss
 
 **Contexts**: background, general, text
 
-**Files**: open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/rps.scss
 
-### `#1e1e1e` (9 usages)
+### `#ae81ff` (8 usages)
 
-**Components**: elements-forms, materials, root-color-map, search.scss, user-colors
+**Components**: _main copy.scss
+
+**Contexts**: text
+
+**Files**: open-coding/_main copy.scss
+
+### `#1e1e1e` (7 usages)
+
+**Components**: elements-forms, materials, search.scss, user-colors
 
 **Contexts**: background, gradient
 
-**Files**: open-coding/elements/forms/containers.scss, open-coding/materials/colors.scss, open-coding/materials/glow.scss, open-coding/search.scss, root-color-map.scss
+**Files**: open-coding/elements/forms/containers.scss, open-coding/materials/colors.scss, open-coding/materials/glow.scss, open-coding/search.scss, user-colors.scss
 
-### `#ae81ff` (9 usages)
+### `red` (7 usages)
 
-**Components**: _main copy.scss, root-color-map
+**Components**: hacks.scss, lessonbase, quiz.scss, rps.scss, user-colors
+
+**Contexts**: background, error, general, text, warning
+
+**Files**: minima/lessonbase.scss, open-coding/hacks.scss, open-coding/quiz.scss, open-coding/rps.scss, user-colors.scss
+
+### `#66d9ef` (7 usages)
+
+**Components**: _main copy.scss
 
 **Contexts**: text
 
-**Files**: open-coding/_main copy.scss, root-color-map.scss
+**Files**: open-coding/_main copy.scss
 
-### `rgba(244,114,182,.3)` (8 usages)
+### `#a6e22e` (7 usages)
 
-**Components**: root-color-map, rps.scss
+**Components**: _main copy.scss
 
-**Contexts**: background, border, shadow, text
+**Contexts**: text
 
-**Files**: open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/_main copy.scss
 
-### `#ddd` (8 usages)
+### `#ddd` (7 usages)
 
-**Components**: chatbot.scss, quiz.scss, root-color-map
+**Components**: chatbot.scss, quiz.scss
 
 **Contexts**: background, border
 
-**Files**: open-coding/chatbot.scss, open-coding/quiz.scss, root-color-map.scss
+**Files**: open-coding/chatbot.scss, open-coding/quiz.scss
 
-### `yellow` (8 usages)
+### `yellow` (7 usages)
 
-**Components**: hacks.scss, root-color-map, rps.scss
+**Components**: hacks.scss, rps.scss
 
 **Contexts**: background, general, text, warning
 
-**Files**: open-coding/hacks.scss, open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/hacks.scss, open-coding/rps.scss
 
-### `#66d9ef` (8 usages)
+### `rgba(244,114,182,.3)` (7 usages)
 
-**Components**: _main copy.scss, root-color-map
+**Components**: rps.scss
 
-**Contexts**: text
+**Contexts**: background, border, shadow, text
 
-**Files**: open-coding/_main copy.scss, root-color-map.scss
+**Files**: open-coding/rps.scss
 
-### `#a6e22e` (8 usages)
+### `rgba(0, 0, 0, 0.3)` (6 usages)
 
-**Components**: _main copy.scss, root-color-map
-
-**Contexts**: text
-
-**Files**: open-coding/_main copy.scss, root-color-map.scss
-
-### `#007aff` (7 usages)
-
-**Components**: elements-buttons, materials, root-color-map, user-colors
-
-**Contexts**: active, background, general, hover, text
-
-**Files**: open-coding/elements/buttons/filled.scss, open-coding/materials/colors.scss, root-color-map.scss, user-colors.scss
-
-### `black` (7 usages)
-
-**Components**: chatbot.scss, elements-buttons, elements-dropdown, platformer-game.scss, root-color-map
-
-**Contexts**: border, general, text
-
-**Files**: open-coding/chatbot.scss, open-coding/elements/buttons/hacks-button.scss, open-coding/elements/dropdown/dropdown.scss, open-coding/platformer-game.scss, root-color-map.scss
-
-### `rgba(0, 0, 0, 0.3)` (7 usages)
-
-**Components**: bathroom.scss, elements-forms, elements-text_input, hallpass.scss, lessonbase, root-color-map
+**Components**: bathroom.scss, elements-forms, elements-text_input, hallpass.scss, lessonbase
 
 **Contexts**: shadow
 
 **Files**: minima/lessonbase.scss, open-coding/bathroom.scss, open-coding/elements/forms/containers.scss, open-coding/elements/text_input/common.scss, open-coding/hallpass.scss
 
-### `#979381` (7 usages)
+### `black` (6 usages)
 
-**Components**: _main copy.scss, root-color-map
+**Components**: chatbot.scss, elements-buttons, elements-dropdown, platformer-game.scss
+
+**Contexts**: border, general, text
+
+**Files**: open-coding/chatbot.scss, open-coding/elements/buttons/hacks-button.scss, open-coding/elements/dropdown/dropdown.scss, open-coding/platformer-game.scss
+
+### `#979381` (6 usages)
+
+**Components**: _main copy.scss
 
 **Contexts**: text
 
-**Files**: open-coding/_main copy.scss, root-color-map.scss
+**Files**: open-coding/_main copy.scss
 
-### `#222222` (6 usages)
+### `#222222` (5 usages)
 
-**Components**: blogs.scss, calendar.scss, root-color-map
+**Components**: blogs.scss, calendar.scss
 
 **Contexts**: background
 
-**Files**: open-coding/blogs.scss, open-coding/calendar.scss, root-color-map.scss
+**Files**: open-coding/blogs.scss, open-coding/calendar.scss
 
-### `#ef4444` (6 usages)
+### `#ef4444` (5 usages)
 
-**Components**: elements-forms, root-color-map, rps.scss, rps_lesson.scss
+**Components**: elements-forms, rps.scss, rps_lesson.scss
 
 **Contexts**: border, error, shadow, text
 
-**Files**: open-coding/elements/forms/passwordvalidation.scss, open-coding/rps.scss, open-coding/rps_lesson.scss, root-color-map.scss
+**Files**: open-coding/elements/forms/passwordvalidation.scss, open-coding/rps.scss, open-coding/rps_lesson.scss
 
-### `#f92672` (6 usages)
+### `#f92672` (5 usages)
 
-**Components**: _main copy.scss, root-color-map
+**Components**: _main copy.scss
 
 **Contexts**: text
 
-**Files**: open-coding/_main copy.scss, root-color-map.scss
+**Files**: open-coding/_main copy.scss
 
-### `gray` (5 usages)
+### `#007aff` (5 usages)
 
-**Components**: chatbot.scss, platformer-game.scss, root-color-map, rps.scss
+**Components**: elements-buttons, materials
 
-**Contexts**: background, general, text
+**Contexts**: active, background, general, hover, text
 
-**Files**: open-coding/chatbot.scss, open-coding/platformer-game.scss, open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/elements/buttons/filled.scss, open-coding/materials/colors.scss
 
-### `rgba(120, 120, 128, 0.12)` (5 usages)
+### `#FFFFFF` (4 usages)
 
-**Components**: elements-buttons, root-color-map
+**Components**: calendar.scss, elements-text_input, platformer-game.scss, rps_lesson.scss
 
-**Contexts**: active, background, hover
+**Contexts**: text
 
-**Files**: open-coding/elements/buttons/filled.scss, open-coding/elements/buttons/states.scss, root-color-map.scss
+**Files**: open-coding/calendar.scss, open-coding/elements/text_input/common.scss, open-coding/platformer-game.scss, open-coding/rps_lesson.scss
 
-### `#c06c84` (5 usages)
+### `#c06c84` (4 usages)
 
-**Components**: root-color-map, rps_lesson.scss
+**Components**: rps_lesson.scss
 
 **Contexts**: background, border, shadow
 
-**Files**: open-coding/rps_lesson.scss, root-color-map.scss
+**Files**: open-coding/rps_lesson.scss
 
-### `rgba(255, 255, 255, 0.2)` (5 usages)
+### `gray` (4 usages)
 
-**Components**: bathroom.scss, elements-buttons, elements-forms, root-color-map
+**Components**: chatbot.scss, platformer-game.scss, rps.scss
+
+**Contexts**: background, general, text
+
+**Files**: open-coding/chatbot.scss, open-coding/platformer-game.scss, open-coding/rps.scss
+
+### `rgba(255, 255, 255, 0.2)` (4 usages)
+
+**Components**: bathroom.scss, elements-buttons, elements-forms
 
 **Contexts**: border, general
 
-**Files**: open-coding/bathroom.scss, open-coding/elements/buttons/iridescent.scss, open-coding/elements/forms/containers.scss, root-color-map.scss
+**Files**: open-coding/bathroom.scss, open-coding/elements/buttons/iridescent.scss, open-coding/elements/forms/containers.scss
 
-### `rgba(168,85,247,.3)` (5 usages)
+### `rgba(168,85,247,.3)` (4 usages)
 
-**Components**: root-color-map, rps.scss
+**Components**: rps.scss
 
-**Contexts**: background, general, text
+**Contexts**: background, text
 
-**Files**: open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/rps.scss
 
-### `rgba(59,130,246,.3)` (5 usages)
+### `rgba(59,130,246,.3)` (4 usages)
 
-**Components**: root-color-map, rps.scss
+**Components**: rps.scss
 
-**Contexts**: background, general, text
+**Contexts**: background, text
 
-**Files**: open-coding/rps.scss, root-color-map.scss
+**Files**: open-coding/rps.scss
 
