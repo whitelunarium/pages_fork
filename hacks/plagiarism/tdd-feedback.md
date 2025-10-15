@@ -146,8 +146,7 @@ Students successfully absorbed sophisticated instructional design principles:
 #### Suggested Topics for Undecided Classes
 
 - **Creative Media Quests** - "UI Designs that High Schoolers like"
-- **Digital Citizenship** - Privacy, security, online behavior
-- **Problem-Solving Algorithms** - Computational thinking development
+- **Cyber Society** - Privacy, security, online behavior, digital citizenship, combating bias, AI usage
 
 ---
 
@@ -155,21 +154,21 @@ Students successfully absorbed sophisticated instructional design principles:
 
 ### Educational Success
 
-✅ **Dual Learning Achievement:** Students learned both plagiarism prevention content AND instructional design principles  
-✅ **Transfer Evidence:** Students can articulate specific design elements to implement in their own quests  
-✅ **Engagement:** Students demonstrated genuine interest and provided detailed, constructive feedback  
+**Dual Learning Achievement:** Students learned both plagiarism prevention content AND instructional design principles  
+**Transfer Evidence:** Students can articulate specific design elements to implement in their own quests  
+**Engagement:** Students demonstrated genuine interest and provided detailed, constructive feedback  
 
 ### TDD Process Success
 
-✅ **Clear Priorities:** Feedback created actionable improvement roadmap  
-✅ **User-Centered:** Students identified real usability problems  
-✅ **Learning Focus:** Technical issues didn't prevent educational objectives  
+**Clear Priorities:** Feedback created actionable improvement roadmap  
+**User-Centered:** Students identified real usability problems  
+**Learning Focus:** Technical issues didn't prevent educational objectives  
 
 ### Future Implementation
 
-✅ **Student Readiness:** Classes prepared to build sophisticated e-learning experiences  
-✅ **Template Success:** Quest structure proven effective for various topics  
-✅ **Scalable Process:** TDD method works for multiple classes and topics  
+**Student Readiness:** Classes prepared to build sophisticated e-learning experiences  
+**Template Success:** Quest structure proven effective for various topics  
+**Scalable Process:** TDD method works for multiple classes and topics  
 
 ---
 
