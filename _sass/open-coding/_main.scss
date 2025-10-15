@@ -1,3 +1,4 @@
+@import 'root-color-map.scss';
 @import "platformer-game";
 @import "chatbot";
 @import "hacks";
@@ -13,7 +14,6 @@
 // aesthetihawk stuff
 @import "materials/main.scss";
 @import "elements/main.scss";
-@import 'root-color-map.scss';
 
 
 html,
