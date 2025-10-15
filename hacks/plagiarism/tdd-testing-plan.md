@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Plagiarism TDD plan
-description: In the Plagiarism Prevention Quest we will use Test-Driven Development (TDD) and enable a Feedback Plan
+description: In the Plagiarism Prevention Quest we will use Test-Driven Development (TDD) and enable a Feedback Plan,  Ceremony to introduce a "Quest sytle" project.  Student will have similar Test ceremony at N@tM for their projects.
 author: John Mortensen
 permalink: /plagiarism/tdd-plan
 breadcrumb: True
@@ -9,19 +9,19 @@ breadcrumb: True
 
 ## Overview
 
-Ceremony to introduce a Quest project and get to the goal of having a Test ceremony at N@tM.
-
-Also, this serves as the TDD for the plagiarism task.
-
 **Mission:** Students test the plagiarism prevention prototype in pairs/groups of 3, providing rapid feedback to drive iterative improvements while learning user testing methods for their own e-learning quests.
 
+**Format:** Action-packed 25-30 minute testing sessions with immediate feedback capture
+
+```text
 1 person test on phone
 1 person test on computer
 1 person records results on Google form
+```
 
-[https://pages.opencodingsociety.com/plagiarism]({{site.baseurl}}/plagiarism)
-
-**Format:** Action-packed 25-30 minute testing sessions with immediate feedback capture
+**Links:**
+* Test Plagiarism Prevention [https://pages.opencodingsociety.com/plagiarism]({{site.baseurl}}/plagiarism)
+* Capure feedback [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScskmHgeLNnJR_ZGs6DurqFgVP6LZob80RbWLBQb2r25OXHQA/viewform?usp=sharing&ouid=115023546255406346351)
 
 ---
 
@@ -40,11 +40,6 @@ Also, this serves as the TDD for the plagiarism task.
 4. Show quest progress
 5. Introduce form
 6. Be sure everyone is engated.
-
-
-
-Use [form]([Google Form](https://docs.google.com/forms/d/e/1FAIpQLScskmHgeLNnJR_ZGs6DurqFgVP6LZob80RbWLBQb2r25OXHQA/viewform?usp=sharing&ouid=115023546255406346351)
-) to guide progress.
 
 ---
 
