@@ -1,208 +1,224 @@
 #!/usr/bin/env python3
 """
-Update root-color-map.scss based on active theme
-Usage: python3 scripts/update_color_map.py <theme-name>
-Example: python3 scripts/update_color_map.py minima
+Consolidate all local SCSS colors into a root color map
+Usage: python3 scripts/consolidate_colors.py
+Generates: _sass/root-color-map.scss and colors.json
 """
 
-import sys
 import json
 import re
-import requests
 from pathlib import Path
+from collections import OrderedDict
 
-class ColorMapUpdater:
-    def __init__(self, config_path='scripts/theme_colors.json'):
-        with open(config_path) as f:
-            self.themes = json.load(f)
+class LocalColorConsolidator:
+    def __init__(self):
+        self.scss_dir = Path('_sass')
+        self.open_coding_dir = Path('open-coding')
+        self.root_color_map = Path('_sass/root-color-map.scss')
+        self.json_manifest = Path('colors.json')
+        self.all_colors = OrderedDict()
         
-        self.map_file = Path('_sass/root-color-map.scss')
-        self.fallback_colors = {
-            'std-primary': '#2a7ae2',
-            'std-secondary': '#828282',
-            'std-bg-primary': '#fdfdfd',
-            'std-bg-secondary': '#f0f0f0',
-            'std-text-primary': '#111',
-            'std-text-secondary': '#828282',
-            'std-text-muted': '#999',
-            'std-border': '#e8e8e8',
-            'std-link': '#2a7ae2',
-            'std-link-hover': '#1756a9',
-            'std-success': '#2a7ae2',
-            'std-warning': '#828282',
-            'std-error': '#d33682'
-        }
-    
-    def fetch_scss_content(self, repo, branch, file_path, commit=None):
-        """Fetch SCSS file from GitHub"""
-        # Use commit if specified, otherwise use branch
-        ref = commit if commit else branch
-        url = f"https://raw.githubusercontent.com/{repo}/{ref}/{file_path}"
-        print(f"  Fetching: {file_path}")
+    def find_all_scss_files(self):
+        """Find all .scss files in project (excluding root-color-map)"""
+        scss_files = []
         
-        try:
-            response = requests.get(url, timeout=10)
-            if response.status_code == 200:
-                return response.text
-            else:
-                print(f"  ⚠ Warning: Could not fetch {file_path} (HTTP {response.status_code})")
-                return ""
-        except Exception as e:
-            print(f"  ⚠ Warning: Error fetching {file_path}: {e}")
-            return ""
+        # Search _sass directory
+        if self.scss_dir.exists():
+            scss_files.extend([f for f in self.scss_dir.rglob('*.scss') 
+                              if f.name != 'root-color-map.scss'])
+        
+        # Search open-coding directory
+        if self.open_coding_dir.exists():
+            scss_files.extend([f for f in self.open_coding_dir.rglob('*.scss')])
+        
+        return sorted(scss_files)
     
-    def extract_variable_value(self, scss_content, variable_name):
+    def extract_all_color_variables(self, scss_content, file_path):
         """
-        Extract the value of an SCSS variable
-        Handles: $var: value; and $var: value !default;
+        Extract all SCSS color variables from content
+        Returns dict of {variable_name: value}
         """
-        # Remove comments first
+        colors = {}
+        
+        # Remove comments
         scss_content = re.sub(r'//.*$', '', scss_content, flags=re.MULTILINE)
         scss_content = re.sub(r'/\*.*?\*/', '', scss_content, flags=re.DOTALL)
         
-        # Match variable definition (handle both : and :=)
-        pattern = rf'{re.escape(variable_name)}\s*:=?\s*([^;]+);'
+        # Find all variable definitions: $var: value;
+        pattern = r'\$([a-zA-Z_][a-zA-Z0-9_-]*)\s*:=?\s*([^;]+);'
         matches = re.findall(pattern, scss_content)
         
-        if matches:
-            # Return the last definition (in case of multiple)
-            value = matches[-1].strip()
+        for var_name, value in matches:
+            value = value.strip()
             # Remove !default if present
             value = re.sub(r'\s*!default\s*$', '', value)
-            return value
-        
-        return None
-    
-    def resolve_variable_references(self, value, scss_content, depth=0):
-        """
-        If value contains a variable reference (e.g., $other-var),
-        recursively resolve it (with depth limit to prevent infinite loops)
-        """
-        if depth > 10:  # Prevent infinite recursion
-            return value
             
-        if not value or not '$' in value:
+            # Only keep color-like values (hex, rgb, color names, hsl)
+            if self.is_color_value(value):
+                # Track all occurrences
+                if var_name not in colors:
+                    colors[var_name] = {
+                        'value': value,
+                        'files': [str(file_path.relative_to(Path.cwd()))]
+                    }
+                else:
+                    # Variable defined in multiple files - keep last definition
+                    colors[var_name]['value'] = value
+                    colors[var_name]['files'].append(str(file_path.relative_to(Path.cwd())))
+        
+        return colors
+    
+    def is_color_value(self, value):
+        """Check if value looks like a color"""
+        # Hex colors
+        if re.match(r'^#[0-9a-fA-F]{3,8}$', value):
+            return True
+        # RGB/RGBA
+        if re.match(r'^rgba?\(', value):
+            return True
+        # HSL/HSLA
+        if re.match(r'^hsla?\(', value):
+            return True
+        # Linear gradients
+        if 'linear-gradient' in value or 'radial-gradient' in value:
+            return True
+        # Variable references
+        if re.match(r'^\$[a-zA-Z_]', value):
+            return True
+        # Named colors
+        color_names = ['white', 'black', 'red', 'green', 'blue', 'transparent']
+        if any(name in value.lower() for name in color_names):
+            return True
+        return False
+    
+    def resolve_variable_references(self, value, all_vars, depth=0):
+        """Recursively resolve variable references"""
+        if depth > 10:
             return value
         
-        # Extract all variable references
-        var_refs = re.findall(r'\$[\w-]+', value)
+        if not '$' in value:
+            return value
+        
+        var_refs = re.findall(r'\$([a-zA-Z_][a-zA-Z0-9_-]*)', value)
         
         for var_ref in var_refs:
-            resolved = self.extract_variable_value(scss_content, var_ref)
-            if resolved and resolved != var_ref:
-                # Recursively resolve
-                resolved = self.resolve_variable_references(resolved, scss_content, depth + 1)
-                value = value.replace(var_ref, resolved)
+            if var_ref in all_vars:
+                resolved = all_vars[var_ref]['value']
+                resolved = self.resolve_variable_references(resolved, all_vars, depth + 1)
+                value = value.replace(f'${var_ref}', resolved)
         
         return value
     
-    def sanitize_variable_name(self, name):
-        """
-        Convert a variable name to a valid SCSS identifier.
-        Removes or replaces invalid characters.
-        """
-        # Replace spaces and special characters with hyphens
-        name = re.sub(r'[\s/\\()]+', '-', name)
-        # Remove any remaining invalid characters (keep only alphanumeric, hyphens, underscores)
-        name = re.sub(r'[^a-zA-Z0-9_-]', '', name)
-        # Remove leading numbers and hyphens
-        name = re.sub(r'^[0-9-]+', '', name)
-        return name if name else 'color'
+    def consolidate_colors(self):
+        """Scan all SCSS files and consolidate colors"""
+        print("\nConsolidating local SCSS colors...\n")
+        
+        scss_files = self.find_all_scss_files()
+        print(f"Found {len(scss_files)} SCSS file(s)")
+        
+        print(f"\nExtracting color variables:")
+        
+        # Extract all variables
+        for scss_file in scss_files:
+            try:
+                content = scss_file.read_text(encoding='utf-8', errors='ignore')
+                colors = self.extract_all_color_variables(content, scss_file)
+                for var_name, info in colors.items():
+                    if var_name not in self.all_colors:
+                        self.all_colors[var_name] = info
+                    else:
+                        # Merge file lists
+                        self.all_colors[var_name]['value'] = info['value']
+                        self.all_colors[var_name]['files'].extend(info['files'])
+            except Exception as e:
+                print(f" Error reading {scss_file}: {e}")
+        
+        # Resolve variable references
+        for var_name in self.all_colors:
+            original_value = self.all_colors[var_name]['value']
+            resolved = self.resolve_variable_references(original_value, self.all_colors)
+            self.all_colors[var_name]['resolved_value'] = resolved
+        
+        print(f"   ✓ Found {len(self.all_colors)} unique color variable(s)\n")
+        
+        # Generate files
+        self.write_root_color_map()
+        self.write_json_manifest()
     
-    def update_map(self, theme_name):
-        """Update the root color map for the specified theme"""
-        if theme_name not in self.themes:
-            print(f"❌ Error: Theme '{theme_name}' not found in configuration")
-            print(f"Available themes: {', '.join(self.themes.keys())}")
-            sys.exit(1)
-        
-        theme = self.themes[theme_name]
-        print(f"\n🎨 Updating color map for theme: {theme_name}")
-        print(f"Repository: {theme['repo']}")
-        
-        # Fetch all SCSS content
-        all_scss = ""
-        for file_path in theme['files']:
-            content = self.fetch_scss_content(
-                theme['repo'], 
-                theme['branch'], 
-                file_path,
-                theme.get('commit')
-            )
-            all_scss += content + "\n"
-        
-        if not all_scss.strip():
-            print(f"⚠ Warning: No SCSS content fetched. Using fallback colors.")
-        
-        # Extract color values
-        extracted_colors = {}
-        print(f"\n📝 Extracting colors:")
-        
-        for std_name, theme_var in theme['mappings'].items():
-            value = self.extract_variable_value(all_scss, theme_var)
-            
-            if value:
-                # Resolve variable references
-                resolved_value = self.resolve_variable_references(value, all_scss)
-                extracted_colors[std_name] = resolved_value
-                print(f"  ✓ {std_name}: {resolved_value} (from {theme_var})")
-            else:
-                # Use fallback
-                fallback = self.fallback_colors.get(std_name, '#000000')
-                extracted_colors[std_name] = fallback
-                print(f"  ⚠ {std_name}: using fallback {fallback} (couldn't find {theme_var})")
-        
-        # Fill in any missing standard colors with fallbacks
-        for std_name in self.fallback_colors:
-            if std_name not in extracted_colors:
-                extracted_colors[std_name] = self.fallback_colors[std_name]
-                print(f"  + {std_name}: {self.fallback_colors[std_name]} (fallback)")
-        
-        # Generate the new SCSS file
-        self.write_map_file(theme_name, extracted_colors)
-    
-    def write_map_file(self, theme_name, colors):
-        """Write the updated root-color-map.scss file"""
-        output = f"""// AUTO-GENERATED - Do not edit manually
-// Theme: {theme_name}
-// Updated by scripts/update_color_map.py
+    def write_root_color_map(self):
+        """Write the root color map SCSS"""
+        output = """// AUTO-GENERATED ROOT COLOR MAP FOR LOCAL STYLING
+// This file contains all color variables used across the local repository
+// Generated by scripts/consolidate_colors.py
+//
+// EDIT THIS FILE to change colors, then run:
+// python3 scripts/consolidate_colors.py (to regenerate)
+// OR just edit colors here and rebuild your project
 
-// Standard color variables
 """
         
-        # Write variable definitions with sanitized names
-        for var_name in sorted(colors.keys()):
-            sanitized_name = self.sanitize_variable_name(var_name)
-            output += f"${sanitized_name}: {colors[var_name]};\n"
+        # Group by file for organization
+        files_dict = {}
+        for var_name, info in self.all_colors.items():
+            for file in info['files']:
+                if file not in files_dict:
+                    files_dict[file] = []
+                files_dict[file].append((var_name, info))
+        
+        # Write variables grouped by source file
+        for file in sorted(files_dict.keys()):
+            file_name = Path(file).name.upper()
+            output += f"\n// {file_name}\n"
+            output += "// " + "-" * 77 + "\n\n"
+            
+            for var_name, info in sorted(files_dict[file], key=lambda x: x[0]):
+                output += f"${var_name}: {info['value']};\n"
         
         output += """
-// Convert to CSS custom properties
+// =============================================================================
+// CSS CUSTOM PROPERTIES
+// =============================================================================
+
 :root {
 """
         
-        # Write CSS custom properties with sanitized names
-        for var_name in sorted(colors.keys()):
-            sanitized_name = self.sanitize_variable_name(var_name)
-            css_var = sanitized_name.replace('std-', 'color-')
-            output += f"  --{css_var}: #{{{colors[var_name]}}};\n"
+        for var_name in sorted(self.all_colors.keys()):
+            css_var = var_name.replace('_', '-')
+            value = self.all_colors[var_name]['resolved_value']
+            output += f"  --{css_var}: {value};\n"
         
         output += "}\n"
         
-        # Write the file
-        self.map_file.parent.mkdir(parents=True, exist_ok=True)
-        self.map_file.write_text(output)
-        print(f"\n✅ Successfully updated: {self.map_file}")
-        print(f"   Theme colors from {theme_name} are now active!")
+        self.root_color_map.write_text(output)
+        print(f"Generated: {self.root_color_map}")
+        print(f"   → Edit this file directly to change colors")
+    
+    def write_json_manifest(self):
+        """Write JSON manifest of all colors"""
+        manifest = {
+            'generated_by': 'scripts/consolidate_colors.py',
+            'total_colors': len(self.all_colors),
+            'colors': {}
+        }
+        
+        for var_name, info in self.all_colors.items():
+            manifest['colors'][var_name] = {
+                'value': info['value'],
+                'resolved_value': info['resolved_value'],
+                'source_files': info['files']
+            }
+        
+        self.json_manifest.write_text(json.dumps(manifest, indent=2))
+        print(f"Generated: {self.json_manifest}")
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python3 scripts/update_color_map.py <theme-name>")
-        print("Example: python3 scripts/update_color_map.py minima")
-        sys.exit(1)
-    
-    theme_name = sys.argv[1]
-    updater = ColorMapUpdater()
-    updater.update_map(theme_name)
+    consolidator = LocalColorConsolidator()
+    consolidator.consolidate_colors()
+    print(f"\nColor consolidation complete!")
+    print(f"\nNext steps:")
+    print(f"   1. Edit _sass/root-color-map.scss to customize colors")
+    print(f"   2. Import it in your main SCSS: @import 'root-color-map';")
+    print(f"   3. Rebuild your project")
 
 if __name__ == "__main__":
     main()
