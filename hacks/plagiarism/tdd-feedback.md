@@ -33,7 +33,7 @@ The positive-to-negative feedback ratio shows the Plagiarism Prototype Phase is 
 #### Authentication Barriers
 
 - **Evidence:** Students unable to access without login
-- **Instructor Note:** "Resolve authentication barriers, perhaps by using in place authentication."
+- **Instructor Note:** "Resolve authentication barriers with users, perhaps by using in place authentication to avoid confusion."
 - **Action:** Implement guest access or simplified authentication
 
 #### Performance Optimization
