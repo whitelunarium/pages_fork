@@ -1,5 +1,6 @@
 ---
 layout: post
+toc: True
 title: Plagiarism Quest TDD Feedback Analysis
 description: In the Plagiarism Prevention Quest we will use Test-Driven Development (TDD) to drive future sprints. 
 author: John Mortensen
@@ -19,7 +20,7 @@ breadcrumb: True
 
 The positive-to-negative feedback ratio shows the Plagiarism Prototype Phase is ready to move to Development. All issues will be addressed as priorities in the project. The next step is to introduce backend infrastructure with user and instructor roles.
 
-### Sprint 1: Critical Infrastructure
+### Critical Infrastructure
 
 **Priority:** Fix blockers preventing quest completion
 
@@ -41,7 +42,7 @@ The positive-to-negative feedback ratio shows the Plagiarism Prototype Phase is 
 - **Instructor Note:** "Optimize tool loading performance, this may be AI time"
 - **Action:** Improve AI response times, improve loading/action indicators. Review load times on backend services to support 50 simultaneous users in lecture scenario.
 
-### Sprint 2: Navigation & Flow
+### Navigation & Flow
 
 **Priority:** Fix user experience friction points
 
@@ -63,7 +64,7 @@ The positive-to-negative feedback ratio shows the Plagiarism Prototype Phase is 
 - **Instructor Note:** "Implement progress tracking, I think this is on page not on modules"
 - **Action:** Add visual progress indicators and completion checkmarks
 
-### Sprint 3: Visual Design & Engagement
+### Visual Design & Engagement
 
 **Priority:** Enhance appeal and usability
 
@@ -85,7 +86,7 @@ The positive-to-negative feedback ratio shows the Plagiarism Prototype Phase is 
 - **Instructor Note:** "This would be something I would really expect from you all on your projects, particularly after seeing the plainness of many lessons. This could be a preference versus design issue."
 - **Action:** Incorporate approved and well-defined design preferences, modern UI elements
 
-### Sprint 4: Advanced Features (Week 4)
+### Advanced Features (Week 4)
 
 **Priority:** Polish and enhance learning experience
 
@@ -179,6 +180,7 @@ Students successfully absorbed sophisticated instructional design principles:
 **"If you were to improve one part of this system, what would it be and why?"**
 
 **Sample Responses:**
+
 - "My team suggested editing the layout of the page to be extra visually appealing. Such as adding visuals like diagrams, editing font colors and sizes, etc. Just appealing for kids our age in general."
 - "We would improve the UI because we found it difficult to keep going back to the main page to proceed to the next stage."
 - "Watch Videos Sometimes dont load"
@@ -190,6 +192,7 @@ Students successfully absorbed sophisticated instructional design principles:
 **"What did you learn from observing this system that could help you design your own quest?"**
 
 **Sample Responses:**
+
 - "I learned the progression system and how it locks features and we can implement that into our own design."
 - "We learned to make our quest progressive and include elements of 'leveling up' to make it a more interactive and genuine experience."
 - "I learned to break up the quest into different sections ranging from activation, demonstration, practice, application, assessment, and integration."
@@ -201,6 +204,7 @@ Students successfully absorbed sophisticated instructional design principles:
 **"Did you find anything hard? If yes, what?"**
 
 **Sample Responses:**
+
 - "Our team didn't find any major issues, but one minor problem that occurred was that each feature, such as the 'Analyzing text' feature took a while to load would end up not working."
 - "It was a little difficult to understand what each of the settings can be used for, so at the top there could be more explanation on the purpose of the different tools and their applications"
 - "For the phone, some instructions are hard to read because they did not fit onto the screen."
