@@ -11,7 +11,7 @@
 /// the double slash comments (//) are considered regular comments in Sass.
 /// the triple slash comments (///) are considered documentation comments in Sass.
 /// comments are not included in the compiled CSS file.
-/// @import is used to import other stylesheets, see @import of this file in “_sass/minima/custom-styles.sccs”.
+/// @import is used to import other stylesheets, see @import of this file in "_sass/minima/custom-styles.sccs".
 /// see https://sass-lang.com/documentation/syntax for more information.
 /// Score for the game
 /// @description This ID is used to style the score for the game, key style is to ensure it is on top of other elements.
@@ -60,7 +60,7 @@ $spacing-unit: 2rem;
     border: none; // remove setting as submenu
     position: fixed;
     z-index: 3; // Position on Top of other elements, as well as ID buttons above
-    top: $spacing-unit * 1.865; // matches minima “.site-header min-height height”, reference: https://github.com/jekyll/minima/blob/master/_sass/minima/_layout.scss
+    top: $spacing-unit * 1.865; // matches minima ".site-header min-height height", reference: https://github.com/jekyll/minima/blob/master/_sass/minima/_layout.scss
     width: fit-content;
 
     // Styles for the score and buttons
@@ -207,7 +207,7 @@ td {
     text-align: right; // right-align input for numbers
 }
 
-/// @import is used to import other stylesheets, see @import of this file in “_sass/minima/custom-styles.sccs”.
+/// @import is used to import other stylesheets, see @import of this file in "_sass/minima/custom-styles.sccs".
 #toggleCanvasEffect,
 #background,
 #platform {

@@ -291,7 +291,7 @@ Empower yourself to solve real-world problems, unlock creativity, and open doors
 
 ## Project-based learning
 
-Intructor created projects, project requirements, technical materials, and support.
+Instructor created projects, project requirements, technical materials, and support.
 
 > Grades are based on projects, time invested, engagement, learned concepts, participation with peers, and live reviews between student(s) and instructor.
 
@@ -303,7 +303,7 @@ Intructor created projects, project requirements, technical materials, and suppo
 
 ### Time Breakdown
 
-Instuctor is extremely focussed on work, routines, and culture established in the classroom.
+Instructor is extremely focused on work, routines, and culture established in the classroom.
 
 > If individuals, groups and teams, and classroom are effective with class time, homework will not be assigned.
 
@@ -319,7 +319,7 @@ Instuctor is extremely focussed on work, routines, and culture established in th
 
 ### Make-up Policy
 
-Instructor believes abscences disrupt work culture and routines.
+Instructor believes absences disrupt work culture and routines.
 
 - Communicate absence beforehand with the instructor and team members.
 - Make a make-up plan and try to recreate situation missed.
