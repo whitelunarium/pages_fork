@@ -3,7 +3,7 @@ layout: post
 title: Plagiarism Quest TDD Feedback Analysis
 description: In the Plagiarism Prevention Quest we will use Test-Driven Development (TDD) to drive future sprints. 
 author: John Mortensen
-permalink: /plagiarism/tdd-plan
+permalink: /plagiarism/tdd-feedback
 breadcrumb: True
 ---
 
