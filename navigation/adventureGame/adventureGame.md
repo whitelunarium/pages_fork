@@ -18,7 +18,7 @@ permalink: /gamify/adventureGame
     import GameLevelOverworld from "{{site.baseurl}}/assets/js/adventureGame/GameLevelOverworld.js";
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    const gameLevelClasses = [GameLevelDesert, GameLevelOverworld];
+    const gameLevelClasses = [GameLevelDesert, GameLevelEnd, GameLevelOverworld ];
 
     // Web Server Environment data
     const environment = {
