@@ -52,7 +52,7 @@ class GameLevelEnd {
         zIndex: 5  // Higher z-index to appear above parallax
     };
     
-    const sprite_src_chillguy = path + "/images/gamify/steve.png";
+    const sprite_src_chillguy = path + "/images/gamify/end_steve.png";
     const CHILLGUY_SCALE_FACTOR = 7;
     const sprite_data_chillguy = {
         id: 'Steve',
