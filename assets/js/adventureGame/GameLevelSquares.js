@@ -18,9 +18,6 @@ class GameLevelSquares {
       }},
     ];
     
-    // Track instances of created objects for easier cleanup
-    this.instances = [];
-    
     console.log("GameLevelSquares constructor finished");
   }
 }
