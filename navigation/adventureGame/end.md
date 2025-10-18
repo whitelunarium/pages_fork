@@ -1,6 +1,6 @@
 ---
 layout: opencs
-title: Adventure Game
+title: End Game
 permalink: /gamify/end
 ---
 
