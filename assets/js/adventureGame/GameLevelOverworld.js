@@ -3,7 +3,7 @@ import Player from './GameEngine/Player.js';
 import Npc from './GameEngine/Npc.js';
 import GameControl from './GameEngine/GameControl.js';
 import Creeper from './GameEngine/Creeper.js';
-import Game from './Game.js';
+import Game from './GameEngine/Game.js';
 import GameLevelDesert from './GameLevelDesert.js';
 
 class GameLevelOverworld {
