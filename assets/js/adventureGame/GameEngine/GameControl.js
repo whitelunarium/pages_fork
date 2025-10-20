@@ -24,6 +24,8 @@ class GameControl {
         
         // Capture all global interactions for cleaning up during transitions
         this.globalInteractionHandlers = new Set();
+        // Save interaction handlers for game-in-game restore functionality
+        this.savedInteractionHandlers = new Set();
     }
 
     
@@ -54,14 +56,48 @@ class GameControl {
 
     /**
      * Clean up all registered global interaction handlers
+     * @param {boolean} saveForRestore - Whether to save handlers for later restoration
      */
-    cleanupInteractionHandlers() {
+    cleanupInteractionHandlers(saveForRestore = false) {
+        if (saveForRestore) {
+            // Save current handlers before cleaning up
+            this.savedInteractionHandlers = new Set(this.globalInteractionHandlers);
+        }
+        
         this.globalInteractionHandlers.forEach(handler => {
             if (handler.removeInteractKeyListeners) {
                 handler.removeInteractKeyListeners();
             }
         });
         this.globalInteractionHandlers.clear();
+    }
+
+    /**
+     * Restore previously saved interaction handlers (for game-in-game functionality)
+     */
+    restoreInteractionHandlers() {
+        this.savedInteractionHandlers.forEach(handler => {
+            
+            // Try multiple possible method names for adding listeners
+            if (handler.bindInteractKeyListeners) {
+                handler.bindInteractKeyListeners();
+            } else if (handler.addInteractKeyListeners) {
+                handler.addInteractKeyListeners();
+            } else if (handler.setupEventListeners) {
+                handler.setupEventListeners();
+            } else if (handler.addEventListener) {
+                handler.addEventListener();
+            } else if (handler.init) {
+                handler.init();
+            } else {
+                console.log("No suitable add method found for handler");
+            }
+            
+            // Re-register the handler
+            this.globalInteractionHandlers.add(handler);
+        });
+        // Clear saved handlers after restoration
+        this.savedInteractionHandlers.clear();
     }
 
     /**
@@ -209,8 +245,8 @@ class GameControl {
         this.saveCanvasState();
         this.hideCanvasState();
         
-        // Also clean up interaction handlers
-        this.cleanupInteractionHandlers();
+        // Save interaction handlers before cleaning up for game-in-game
+        this.cleanupInteractionHandlers(true);
      }
 
      /**
@@ -225,6 +261,9 @@ class GameControl {
         this.addExitKeyListener();
         this.showCanvasState();
         this.gameLoop();
+
+        // Restore interaction handlers for outer game
+        this.restoreInteractionHandlers();
     }
 }
 
