@@ -13,6 +13,7 @@ permalink: /gamify/basic
     // Adnventure Game assets locations
     import Game from "{{site.baseurl}}/assets/js/adventureGame/GameEngine/Game.js";
     import GameLevelBasic from "{{site.baseurl}}/assets/js/adventureGame/GameLevelBasic.js";
+    import GameLevelBasicWater from "{{site.baseurl}}/assets/js/adventureGame/GameLevelBasicWater.js";
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
     // Web Server Environment data
@@ -23,7 +24,7 @@ permalink: /gamify/basic
         fetchOptions: fetchOptions,
         gameContainer: document.getElementById("gameContainer"),
         gameCanvas: document.getElementById("gameCanvas"),
-        gameLevelClasses: [GameLevelBasic]
+        gameLevelClasses: [GameLevelBasic, GameLevelBasicWater]
 
     }
     // Launch Adventure Game
