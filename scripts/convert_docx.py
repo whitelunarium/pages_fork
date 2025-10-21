@@ -273,8 +273,19 @@ class DocxConverter:
         # Get relative output path (preserves folder structure)
         relative_output_path = self.get_relative_output_path(docx_path)
         
+        # Get file creation time for more meaningful dates
+        file_stat = docx_path.stat()
+        # Use creation time (birth time) if available, otherwise use modification time
+        try:
+            creation_time = file_stat.st_birthtime  # macOS/BSD specific
+        except AttributeError:
+            creation_time = file_stat.st_mtime  # Fallback to modification time
+        
+        file_date = datetime.datetime.fromtimestamp(creation_time)
+        date_str = file_date.strftime("%Y-%m-%d")
+        date_time_str = file_date.strftime("%Y-%m-%d %H:%M:%S")
+        
         # Create Jekyll front matter with DOCX suffix for safe cleanup
-        date_str = datetime.datetime.now().strftime("%Y-%m-%d")
         filename = f"{date_str}-{doc_name}_DOCX_.md"
         
         # If in subfolder, create subfolder-aware filename
@@ -288,11 +299,11 @@ class DocxConverter:
         # Ensure the output directory exists
         self.ensure_directory_exists(output_path)
         
-        # Generate Jekyll-compatible front matter
+        # Generate Jekyll-compatible front matter with file creation date
         front_matter = f"""---
 layout: post
 title: "{doc_name.replace('-', ' ').replace('_', ' ').title()}"
-date: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} +0000
+date: {date_time_str} +0000
 categories: [DOCX]
 tags: [docx, converted]
 author: Generated from DOCX
@@ -304,6 +315,7 @@ image:
 ---
 
 <!-- Converted from: {docx_path.name} -->
+<!-- File creation date: {date_time_str} -->
 <!-- Conversion date: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -->
 <!-- Images extracted: {len(images)} -->
 
@@ -360,7 +372,16 @@ image:
             
             # Check if conversion is needed based on file timestamps
             doc_name = docx_file.stem
-            date_str = datetime.datetime.now().strftime("%Y-%m-%d")
+            
+            # Get file creation time for consistent filename generation
+            file_stat = docx_file.stat()
+            try:
+                creation_time = file_stat.st_birthtime  # macOS/BSD specific
+            except AttributeError:
+                creation_time = file_stat.st_mtime  # Fallback to modification time
+            
+            file_date = datetime.datetime.fromtimestamp(creation_time)
+            date_str = file_date.strftime("%Y-%m-%d")
             
             # Generate expected filename with subfolder context
             if subfolder:
