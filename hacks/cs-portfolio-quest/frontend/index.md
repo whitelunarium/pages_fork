@@ -1,34 +1,69 @@
 ---
-layout: post
-title: "Frontend Development Mini-Quest"
-description: "UI Design & Interactivity for CS Portfolio Quest"
-permalink: /cs-portfolio-quest/frontend/
-team: "Creators"
-focus_area: "UI Design & Interactivity"
-categories: [CSP, Mini-Quest, Frontend]
-tags: [ui, design, interactivity, html, css, javascript]
+layout: post 
+tailwind: True
+title: Frontend Development Mini-Quest
+description: >
+ UI Design & Interactivity for CS Portfolio Quest
 author: "Creators Team"
-date: 2025-10-21
+permalink: /cs-portfolio-quest/frontend/
+team: "Applicators"
+lxdData:
+  Title: "Learning Modules"
+  Description: "UI Design & Interactivity"
+  Topics:
+    - Title: "C1: Submodule 1"
+      Genre: "Placeholder Genre"
+      Level: 1
+      Description: "Placeholder Description"
+      Categories: ["cat1", "cat2", "cat3"]
+      Video: "/cs-portfolio-quest/frontend/submodule1-video"
+      Lessons: "/cs-portfolio-quest/frontend/submodule1"
+      Image: "/images/cs-portfolio-quest/frontend/submodule1.svg"
+      Alt: "CS Portfolio Quest Data Viz Submodule 1"
+    - Title: "C2: Submodule 2"
+      Genre: "Placeholder Genre"
+      Level: 2
+      Description: "Placeholder Description"
+      Categories: ["cat1", "cat2", "cat3"]
+      Video: "/cs-portfolio-quest/frontend/submodule2-video"
+      Lessons: "/cs-portfolio-quest/frontend/submodule2"
+      Image: "/images/cs-portfolio-quest/frontend/submodule2.svg"
+      Alt: "CS Portfolio Quest Data Viz Submodule 2"
+    - Title: "C3: Submodule 3"
+      Genre: "Placeholder Genre"
+      Level: 3
+      Description: "Placeholder Description"
+      Categories: ["cat1", "cat2", "cat3"]
+      Video: "/cs-portfolio-quest/frontend/submodule3-video"
+      Lessons: "/cs-portfolio-quest/frontend/submodule3"
+      Image: "/images/cs-portfolio-quest/frontend/submodule3.svg"
+      Alt: "CS Portfolio Quest Data Viz Submodule 3"
+    - Title: "C4: Submodule 4"
+      Genre: "Placeholder Genre"
+      Level: 4
+      Description: "Placeholder Description"
+      Categories: ["cat1", "cat2", "cat3"]
+      Video: "/cs-portfolio-quest/frontend/submodule4-video"
+      Lessons: "/cs-portfolio-quest/frontend/submodule4"
+      Image: "/images/cs-portfolio-quest/frontend/submodule4.svg"
+      Alt: "CS Portfolio Quest Data Viz Submodule 4"
+    - Title: "C5: Submodule 5"
+      Genre: "Placeholder Genre"
+      Level: 5
+      Description: "Placeholder Description"
+      Categories: ["cat1", "cat2", "cat3"]
+      Video: "/cs-portfolio-quest/frontend/submodule5-video"
+      Lessons: "/cs-portfolio-quest/frontend/submodule5"
+      Image: "/images/cs-portfolio-quest/frontend/submodule5.svg"
+      Alt: "CS Portfolio Quest Data Viz Submodule 5"
+    - Title: "C6: Submodule 6"
+      Genre: "Placeholder Genre"
+      Level: 6
+      Description: "Placeholder Description"
+      Categories: ["cat1", "cat2", "cat3"]
+      Video: "/cs-portfolio-quest/frontend/submodule6-video"
+      Lessons: "/cs-portfolio-quest/frontend/submodule6"
+      Image: "/images/cs-portfolio-quest/frontend/submodule6.svg"
+      Alt: "CS Portfolio Quest Data Viz Submodule 6"
 ---
-
-# Frontend Development - Creators Team
-
-## Focus Area
-UI Design & Interactivity
-
-## Mission
-Build engaging user interfaces and interactive components for the CS Portfolio mega-quest using modern web technologies.
-
-## Submodules
-1. [Submodule 1](/cs-portfolio-quest/frontend/submodule_1/)
-2. [Submodule 2](/cs-portfolio-quest/frontend/submodule_2/)
-3. [Submodule 3](/cs-portfolio-quest/frontend/submodule_3/)
-4. [Submodule 4](/cs-portfolio-quest/frontend/submodule_4/)
-5. [Submodule 5](/cs-portfolio-quest/frontend/submodule_5/)
-6. [Submodule 6](/cs-portfolio-quest/frontend/submodule_6/)
-
-## Learning Objectives
-- Understand frontend development principles
-- Master HTML, CSS, and JavaScript
-- Create responsive, interactive web components
-- Integrate frontend with backend systems
+{%- include tailwind/cs-portfolio-quest_info.html -%}
