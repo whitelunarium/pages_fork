@@ -3,6 +3,7 @@ import GamEnvBackground from '/assets/js/adventureGame/GameEngine/GameEnvBackgro
 import Player from '/assets/js/adventureGame/GameEngine/Player.js';
 import Npc from '/assets/js/adventureGame/GameEngine/Npc.js';
 import GameControl from '/assets/js/adventureGame/GameEngine/GameControl.js';
+import DialogueSystem from '/assets/js/adventureGame/DialogueSystem.js';
 
 class GameLevelHomePage {
   constructor(gameEnv) {
@@ -10,6 +11,7 @@ class GameLevelHomePage {
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
 
+    this.dialogueSystem = new DialogueSystem();
     // Background data
     const image_src_desert = path + "/images/gamify/desert.png"; // be sure to include the path
     const image_data_desert = {
@@ -44,13 +46,65 @@ class GameLevelHomePage {
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 
+    //End Ship
+    const sprite_src_endship = path + "/images/gamify/endship.png";
+    const sprite_greet_endship = "Find the elytra";
+
+    // Store a reference to the dialogueSystem for use in sprite data
+    const dialogueSystem = this.dialogueSystem;
+
+    const sprite_data_endship = {
+        id: 'Endship',
+        greeting: sprite_greet_endship,
+        src: sprite_src_endship,
+        SCALE_FACTOR: 5,
+        ANIMATION_RATE: 1000000,
+        pixels: {height: 982, width: 900},
+        INIT_POSITION: { x: (width / 2), y: (height / 2) },
+        orientation: {rows: 1, columns: 1 },
+        down: {row: 0, start: 0, columns: 1 },
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+        zIndex: 10,  // Same z-index as player
+        dialogues: [
+          "The end ship looms before you...",
+          "The end ship seems to beckon you to loot the treasure within...",
+          "funny purple spaceship heheheheheh",
+          "Press 'M' to enter the ship's adventure...",
+          // Add more later?
+        ],
+        reaction: function() {
+          //silent reaction for interaction to work
+        },
+        interact: function() {
+          dialogueSystem.showRandomDialogue(); // Using Dialogue system instead of alert
+          // Add event listener for 'e' key press during interaction
+          const handleKeyPress = (event) => {
+            if (event.key.toLowerCase() === 'e') {
+              // Remove the event listener to prevent multiple bindings
+              document.removeEventListener('keydown', handleKeyPress);
+              
+              // Redirect to the specified URL
+              window.location.href = '/digital-famine/';
+            }
+          };
+          
+          // Add the event listener
+          document.addEventListener('keydown', handleKeyPress);
+          
+          // Optional: Remove the event listener after a timeout to prevent it from staying active indefinitely
+          setTimeout(() => {
+            document.removeEventListener('keydown', handleKeyPress);
+          }, 10000); // Remove after 10 seconds
+        }
+    };
+
     // List of objects defnitions for this level
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
+      { class: Npc, data: sprite_data_endship },
     ];
   }
-
 }
 
 export default GameLevelHomePage;
