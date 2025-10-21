@@ -2,6 +2,7 @@
 """
 DOCX to Markdown Converter for Jekyll
 Converts Word documents to Jekyll-compatible markdown with image extraction
+Supports folder organization within _docx directory
 """
 
 import os
@@ -9,6 +10,7 @@ import sys
 import shutil
 import zipfile
 import datetime
+import glob
 from pathlib import Path
 import xml.etree.ElementTree as ET
 from urllib.parse import unquote
@@ -25,19 +27,68 @@ except ImportError:
     sys.exit(1)
 
 class DocxConverter:
-    def __init__(self):
+    def __init__(self, docx_dir="_docx", posts_dir="_posts", images_dir="images/docx"):
+        """
+        Initialize DocxConverter
+        
+        Args:
+            docx_dir: Directory containing DOCX files (supports subdirectories)
+            posts_dir: Jekyll posts directory  
+            images_dir: Directory for extracted images
+        """
         self.base_dir = Path.cwd()
-        self.docx_dir = self.base_dir / "_docx"
-        self.posts_dir = self.base_dir / "_posts"
-        self.images_dir = self.base_dir / "images" / "docx"
+        self.docx_dir = self.base_dir / docx_dir
+        self.posts_dir = self.base_dir / posts_dir
+        self.images_dir = self.base_dir / images_dir
         
         # Create directories if they don't exist
         self.posts_dir.mkdir(exist_ok=True)
         self.images_dir.mkdir(parents=True, exist_ok=True)
+    
+    def get_relative_output_path(self, input_path):
+        """
+        Get the relative path for output file based on input path structure
+        
+        Args:
+            input_path: Path to the input DOCX file
+            
+        Returns:
+            Path: Relative path for the output markdown file
+        """
+        # Get path relative to docx_dir
+        try:
+            relative_path = Path(input_path).relative_to(self.docx_dir)
+        except ValueError:
+            # If not relative to docx_dir, just use the filename
+            relative_path = Path(input_path).name
+        
+        # Change extension to .md
+        output_relative_path = relative_path.with_suffix('.md')
+        
+        return output_relative_path
+    
+    def ensure_directory_exists(self, file_path):
+        """Ensure the directory for a file path exists"""
+        file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    def extract_images_from_docx(self, docx_path, doc_name):
-        """Extract images from DOCX file"""
+    def extract_images_from_docx(self, docx_path, doc_name, subfolder=""):
+        """
+        Extract images from DOCX file
+        
+        Args:
+            docx_path: Path to the DOCX file
+            doc_name: Base name for the document
+            subfolder: Subfolder context for unique naming
+        """
         images_found = []
+        
+        # Include subfolder in doc_name if present
+        if subfolder:
+            # Replace path separators with underscores for safe filenames
+            folder_prefix = subfolder.replace(os.sep, "_").replace("/", "_")
+            full_doc_name = f"{folder_prefix}_{doc_name}"
+        else:
+            full_doc_name = doc_name
         
         try:
             with zipfile.ZipFile(docx_path, 'r') as zip_ref:
@@ -64,8 +115,8 @@ class DocxConverter:
                             print(f"  Skipping non-image file: {original_name}")
                             continue
                         
-                        # Create new filename with document prefix
-                        image_name = f"{doc_name}_{original_name}"
+                        # Create new filename with document prefix (including folder context)
+                        image_name = f"{full_doc_name}_{original_name}"
                         image_path = self.images_dir / image_name
                         
                         # Write image file
@@ -121,8 +172,15 @@ class DocxConverter:
         doc_name = docx_path.stem
         print(f"\nConverting: {docx_path.name}")
         
-        # Extract images first
-        images = self.extract_images_from_docx(docx_path, doc_name)
+        # Get subfolder context for unique naming
+        try:
+            relative_to_docx = docx_path.relative_to(self.docx_dir)
+            subfolder = str(relative_to_docx.parent) if relative_to_docx.parent != Path('.') else ""
+        except ValueError:
+            subfolder = ""
+        
+        # Extract images first (with subfolder context)
+        images = self.extract_images_from_docx(docx_path, doc_name, subfolder)
         
         # Tables will be handled directly by mammoth conversion
         
@@ -212,9 +270,23 @@ class DocxConverter:
         # Clean up the markdown
         markdown_content = self.clean_markdown(markdown_content)
         
+        # Get relative output path (preserves folder structure)
+        relative_output_path = self.get_relative_output_path(docx_path)
+        
         # Create Jekyll front matter with DOCX suffix for safe cleanup
         date_str = datetime.datetime.now().strftime("%Y-%m-%d")
         filename = f"{date_str}-{doc_name}_DOCX_.md"
+        
+        # If in subfolder, create subfolder-aware filename
+        if subfolder:
+            folder_prefix = subfolder.replace(os.sep, "_").replace("/", "_")
+            filename = f"{date_str}-{folder_prefix}_{doc_name}_DOCX_.md"
+        
+        # Determine final output path
+        output_path = self.posts_dir / filename
+        
+        # Ensure the output directory exists
+        self.ensure_directory_exists(output_path)
         
         # Generate Jekyll-compatible front matter
         front_matter = f"""---
@@ -241,11 +313,12 @@ image:
         full_content = front_matter + markdown_content
         
         # Write markdown file
-        output_path = self.posts_dir / filename
         with open(output_path, 'w', encoding='utf-8') as md_file:
             md_file.write(full_content)
         
         print(f"  Created: {filename}")
+        if subfolder:
+            print(f"  Subfolder: {subfolder}")
         print(f"  Images: {len(images)} extracted")
         
         return {
@@ -256,15 +329,19 @@ image:
         }
 
     def convert_all_docx(self):
-        """Convert all DOCX files in the _docx directory"""
+        """Convert all DOCX files in the _docx directory (including subdirectories)"""
         if not self.docx_dir.exists():
             print(f"❌ DOCX directory not found: {self.docx_dir}")
             return []
         
-        docx_files = sorted(list(self.docx_dir.glob("*.docx")))
+        # Use recursive glob to find all DOCX files
+        docx_files = sorted(list(self.docx_dir.glob("**/*.docx")))
         
         if not docx_files:
+            print(f"No DOCX files found in {self.docx_dir} (including subdirectories)")
             return []
+        
+        print(f"Found {len(docx_files)} DOCX file(s) in {self.docx_dir} (including subdirectories)")
         
         results = []
         skipped_count = 0
@@ -273,11 +350,26 @@ image:
             # Skip temporary files (start with ~$)
             if docx_file.name.startswith('~$'):
                 continue
+                
+            # Get subfolder context for filename generation
+            try:
+                relative_to_docx = docx_file.relative_to(self.docx_dir)
+                subfolder = str(relative_to_docx.parent) if relative_to_docx.parent != Path('.') else ""
+            except ValueError:
+                subfolder = ""
             
             # Check if conversion is needed based on file timestamps
             doc_name = docx_file.stem
             date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-            expected_output = self.posts_dir / f"{date_str}-{doc_name}_DOCX_.md"
+            
+            # Generate expected filename with subfolder context
+            if subfolder:
+                folder_prefix = subfolder.replace(os.sep, "_").replace("/", "_")
+                expected_filename = f"{date_str}-{folder_prefix}_{doc_name}_DOCX_.md"
+            else:
+                expected_filename = f"{date_str}-{doc_name}_DOCX_.md"
+                
+            expected_output = self.posts_dir / expected_filename
             
             if expected_output.exists():
                 docx_mtime = docx_file.stat().st_mtime
