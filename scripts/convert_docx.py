@@ -2,7 +2,7 @@
 """
 DOCX to Markdown Converter for Jekyll
 Converts Word documents to Jekyll-compatible markdown with image extraction
-Supports folder organization within _docx directory
+Supports folder organization within _docx directory and intelligent front matter generation
 """
 
 import os
@@ -15,6 +15,13 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from urllib.parse import unquote
 import re
+
+# Import the FrontMatterManager
+try:
+    from frontmatter_manager import FrontMatterManager
+except ImportError:
+    print("❌ FrontMatterManager not found. Please ensure frontmatter_manager.py is in the same directory.")
+    FrontMatterManager = None
 
 try:
     import mammoth
@@ -40,6 +47,17 @@ class DocxConverter:
         self.docx_dir = self.base_dir / docx_dir
         self.posts_dir = self.base_dir / posts_dir
         self.images_dir = self.base_dir / images_dir
+        
+        # Initialize FrontMatterManager
+        if FrontMatterManager:
+            try:
+                self.fm_manager = FrontMatterManager(self.docx_dir)
+                print(f"  FrontMatterManager initialized for {self.docx_dir}")
+            except Exception as e:
+                print(f"  ⚠️ FrontMatterManager failed to initialize: {e}")
+                self.fm_manager = None
+        else:
+            self.fm_manager = None
         
         # Create directories if they don't exist
         self.posts_dir.mkdir(exist_ok=True)
@@ -299,8 +317,39 @@ class DocxConverter:
         # Ensure the output directory exists
         self.ensure_directory_exists(output_path)
         
-        # Generate Jekyll-compatible front matter with file creation date
-        front_matter = f"""---
+        # Generate front matter using FrontMatterManager
+        if self.fm_manager:
+            try:
+                frontmatter_dict, _ = self.fm_manager.generate_frontmatter(
+                    file_path=docx_path,
+                    doc_name=doc_name,
+                    file_date=file_date,
+                    images_count=len(images),
+                    existing_content=""  # DOCX files don't have existing front matter
+                )
+                
+                # Format front matter manually instead of using YAML
+                front_matter = f"""---
+layout: {frontmatter_dict.get('layout', 'post')}
+title: "{frontmatter_dict.get('title', doc_name)}"
+date: {frontmatter_dict.get('date', date_time_str)}
+categories: {frontmatter_dict.get('categories', ['DOCX'])}
+tags: {frontmatter_dict.get('tags', ['docx', 'converted'])}
+author: {frontmatter_dict.get('author', 'Generated from DOCX')}
+description: "{frontmatter_dict.get('description', f'Converted from {docx_path.name}')}"
+permalink: {frontmatter_dict.get('permalink', f'/docx/{doc_name}/')}
+---
+
+"""
+                print(f"  📝 Using enhanced front matter from config")
+                
+            except Exception as e:
+                print(f"  ⚠️ Front matter generation failed: {e}")
+                self.fm_manager = None  # Disable for subsequent files
+        
+        if not self.fm_manager:
+            # Fallback to simple front matter
+            front_matter = f"""---
 layout: post
 title: "{doc_name.replace('-', ' ').replace('_', ' ').title()}"
 date: {date_time_str} +0000
@@ -309,12 +358,13 @@ tags: [docx, converted]
 author: Generated from DOCX
 description: "Converted from {docx_path.name}"
 permalink: /docx/{doc_name}/
-image:
-  path: /images/docx/
-  alt: "{doc_name} document images"
 ---
 
-<!-- Converted from: {docx_path.name} -->
+"""
+            print(f"  📝 Using fallback front matter")
+        
+        # Add conversion metadata as comments
+        conversion_comments = f"""<!-- Converted from: {docx_path.name} -->
 <!-- File creation date: {date_time_str} -->
 <!-- Conversion date: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -->
 <!-- Images extracted: {len(images)} -->
@@ -322,7 +372,7 @@ image:
 """
         
         # Combine front matter with content
-        full_content = front_matter + markdown_content
+        full_content = front_matter + conversion_comments + markdown_content
         
         # Write markdown file
         with open(output_path, 'w', encoding='utf-8') as md_file:
