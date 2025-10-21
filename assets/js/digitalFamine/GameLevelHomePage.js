@@ -13,7 +13,7 @@ class GameLevelHomePage {
 
     this.dialogueSystem = new DialogueSystem();
     // Background data
-    const image_src_desert = path + "/images/gamify/desert.png"; // be sure to include the path
+    const image_src_desert = path + "/images/digital-famine/galaxy.jpg"; // be sure to include the path
     const image_data_desert = {
         name: 'desert',
         greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
@@ -47,36 +47,32 @@ class GameLevelHomePage {
     };
 
     //End Ship
-    const sprite_src_endship = path + "/images/gamify/endship.png";
-    const sprite_greet_endship = "Find the elytra";
+    const sprite_src_cyberplanet = path + "/images/digital-famine/planet-3.png";
+    const sprite_greet_cyberplanet = "Go To Cyber Planet";
 
     // Store a reference to the dialogueSystem for use in sprite data
     const dialogueSystem = this.dialogueSystem;
 
-    const sprite_data_endship = {
-        id: 'Endship',
-        greeting: sprite_greet_endship,
-        src: sprite_src_endship,
+    const sprite_data_cyberplanet = {
+        id: 'CyberPlanet',
+        greeting: sprite_greet_cyberplanet,
+        src: sprite_src_cyberplanet,
         SCALE_FACTOR: 5,
-        ANIMATION_RATE: 1000000,
-        pixels: {height: 982, width: 900},
+        ANIMATION_RATE: 1,
+        pixels: {height: 512, width: 512},
         INIT_POSITION: { x: (width / 2), y: (height / 2) },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,  // Same z-index as player
         dialogues: [
-          "The end ship looms before you...",
-          "The end ship seems to beckon you to loot the treasure within...",
-          "funny purple spaceship heheheheheh",
-          "Press 'M' to enter the ship's adventure...",
-          // Add more later?
+          "Press E to travel or close"
         ],
         reaction: function() {
           //silent reaction for interaction to work
         },
         interact: function() {
-          dialogueSystem.showRandomDialogue(); // Using Dialogue system instead of alert
+          dialogueSystem.showDialogue("Press E to travel or click close to cancel"); // Show specific dialogue
           // Add event listener for 'e' key press during interaction
           const handleKeyPress = (event) => {
             if (event.key.toLowerCase() === 'e') {
@@ -102,7 +98,7 @@ class GameLevelHomePage {
     this.classes = [
       { class: GamEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
-      { class: Npc, data: sprite_data_endship },
+      { class: Npc, data: sprite_data_cyberplanet },
     ];
   }
 }
