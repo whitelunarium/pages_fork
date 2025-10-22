@@ -11,6 +11,7 @@ import shutil
 import zipfile
 import datetime
 import glob
+import argparse
 from pathlib import Path
 import xml.etree.ElementTree as ET
 from urllib.parse import unquote
@@ -20,8 +21,13 @@ import re
 try:
     from frontmatter_manager import FrontMatterManager
 except ImportError:
-    print("❌ FrontMatterManager not found. Please ensure frontmatter_manager.py is in the same directory.")
-    FrontMatterManager = None
+    try:
+        # Try importing from the scripts directory
+        sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+        from frontmatter_manager import FrontMatterManager
+    except ImportError:
+        print("❌ FrontMatterManager not found. Please ensure frontmatter_manager.py is in the scripts directory.")
+        FrontMatterManager = None
 
 try:
     import mammoth
@@ -341,7 +347,7 @@ permalink: {frontmatter_dict.get('permalink', f'/docx/{doc_name}/')}
 ---
 
 """
-                print(f"  📝 Using enhanced front matter from config")
+                print(f"  Using enhanced front matter from config")
                 
             except Exception as e:
                 print(f"  ⚠️ Front matter generation failed: {e}")
@@ -390,20 +396,40 @@ permalink: /docx/{doc_name}/
             'filename': filename
         }
 
-    def convert_all_docx(self):
-        """Convert all DOCX files in the _docx directory (including subdirectories)"""
+    def convert_all_docx(self, target_dir=None):
+        """Convert all DOCX files in the _docx directory (including subdirectories)
+        
+        Args:
+            target_dir (str, optional): Specific subdirectory to target for conversion.
+                                      If provided, only converts files in that directory.
+        """
         if not self.docx_dir.exists():
             print(f"❌ DOCX directory not found: {self.docx_dir}")
             return []
         
         # Use recursive glob to find all DOCX files
-        docx_files = sorted(list(self.docx_dir.glob("**/*.docx")))
+        if target_dir:
+            # Convert relative path to absolute and verify it's within _docx
+            target_path = self.docx_dir / target_dir
+            if not target_path.exists():
+                print(f"❌ Target directory not found: {target_path}")
+                return []
+            if not str(target_path).startswith(str(self.docx_dir)):
+                print(f"❌ Target directory must be within {self.docx_dir}")
+                return []
+            
+            print(f"🎯 Targeting directory: {target_path}")
+            docx_files = sorted(list(target_path.glob("**/*.docx")))
+        else:
+            docx_files = sorted(list(self.docx_dir.glob("**/*.docx")))
         
         if not docx_files:
-            print(f"No DOCX files found in {self.docx_dir} (including subdirectories)")
+            search_location = target_path if target_dir else self.docx_dir
+            print(f"No DOCX files found in {search_location} (including subdirectories)")
             return []
         
-        print(f"Found {len(docx_files)} DOCX file(s) in {self.docx_dir} (including subdirectories)")
+        search_location = target_path if target_dir else self.docx_dir
+        print(f"Found {len(docx_files)} DOCX file(s) in {search_location} (including subdirectories)")
         
         results = []
         skipped_count = 0
@@ -528,8 +554,34 @@ These documents were automatically converted from DOCX format using a two-step p
             index_file.write(index_content)
 
 def main():
+    parser = argparse.ArgumentParser(description='Convert DOCX files to Jekyll markdown')
+    parser.add_argument('--target-dir', '-t', type=str, 
+                       help='Specific subdirectory within _docx to target for conversion')
+    parser.add_argument('--config-changed', '-c', type=str,
+                       help='Config file that changed (automatically determines target directory)')
+    
+    args = parser.parse_args()
+    
+    target_dir = None
+    if args.config_changed:
+        # Extract directory from config file path
+        config_path = Path(args.config_changed)
+        if config_path.name == '_config.yml' and '_docx' in str(config_path):
+            # Get the directory containing the config file, relative to _docx
+            parts = config_path.parts
+            try:
+                docx_index = parts.index('_docx')
+                if docx_index + 1 < len(parts) - 1:  # There's a subdirectory
+                    target_dir = '/'.join(parts[docx_index + 1:-1])
+                    print(f"🔧 Config file changed: {config_path}")
+                    print(f"🎯 Targeting affected directory: {target_dir}")
+            except ValueError:
+                pass
+    elif args.target_dir:
+        target_dir = args.target_dir
+    
     converter = DocxConverter()
-    results = converter.convert_all_docx()
+    results = converter.convert_all_docx(target_dir)
     
     # Only count files that were actually converted (not skipped)
     converted_files = [r for r in results if not r.get('skipped', False)]
