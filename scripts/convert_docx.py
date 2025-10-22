@@ -16,6 +16,8 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from urllib.parse import unquote
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
 
 # Import the FrontMatterManager
 try:
@@ -396,12 +398,14 @@ permalink: /docx/{doc_name}/
             'filename': filename
         }
 
-    def convert_all_docx(self, target_dir=None):
+    def convert_all_docx(self, target_dir=None, force_regeneration=False):
         """Convert all DOCX files in the _docx directory (including subdirectories)
         
         Args:
             target_dir (str, optional): Specific subdirectory to target for conversion.
                                       If provided, only converts files in that directory.
+            force_regeneration (bool, optional): If True, regenerate files even if they appear up-to-date.
+                                               Used when config files change.
         """
         if not self.docx_dir.exists():
             print(f"❌ DOCX directory not found: {self.docx_dir}")
@@ -434,6 +438,9 @@ permalink: /docx/{doc_name}/
         results = []
         skipped_count = 0
         converted_count = 0
+        
+        # Separate files that need conversion from those that can be skipped
+        files_to_convert = []
         for docx_file in docx_files:
             # Skip temporary files (start with ~$)
             if docx_file.name.startswith('~$'):
@@ -468,7 +475,7 @@ permalink: /docx/{doc_name}/
                 
             expected_output = self.posts_dir / expected_filename
             
-            if expected_output.exists():
+            if expected_output.exists() and not force_regeneration:
                 docx_mtime = docx_file.stat().st_mtime
                 output_mtime = expected_output.stat().st_mtime
                 
@@ -483,11 +490,37 @@ permalink: /docx/{doc_name}/
                         'skipped': True
                     })
                     continue
+            
+            files_to_convert.append(docx_file)
+        
+        # Convert files in parallel if there are multiple files
+        if len(files_to_convert) > 1:
+            print(f"🚀 Converting {len(files_to_convert)} files in parallel...")
+            with ThreadPoolExecutor(max_workers=min(4, len(files_to_convert))) as executor:
+                # Submit all conversion tasks
+                future_to_file = {
+                    executor.submit(self.convert_docx_to_markdown, docx_file): docx_file 
+                    for docx_file in files_to_convert
+                }
                 
-            result = self.convert_docx_to_markdown(docx_file)
-            if result:
-                results.append(result)
-                converted_count += 1
+                # Collect results as they complete
+                for future in as_completed(future_to_file):
+                    docx_file = future_to_file[future]
+                    try:
+                        result = future.result()
+                        if result:
+                            results.append(result)
+                            converted_count += 1
+                            print(f"✅ Completed: {docx_file.name}")
+                    except Exception as exc:
+                        print(f"❌ Error converting {docx_file.name}: {exc}")
+        else:
+            # Single file or no files - use sequential processing
+            for docx_file in files_to_convert:
+                result = self.convert_docx_to_markdown(docx_file)
+                if result:
+                    results.append(result)
+                    converted_count += 1
         
         return results
 
@@ -563,10 +596,14 @@ def main():
     args = parser.parse_args()
     
     target_dir = None
+    force_regeneration = False
+    
     if args.config_changed:
         # Extract directory from config file path
         config_path = Path(args.config_changed)
         if config_path.name == '_config.yml' and '_docx' in str(config_path):
+            # Config file changed, force regeneration
+            force_regeneration = True
             # Get the directory containing the config file, relative to _docx
             parts = config_path.parts
             try:
@@ -581,7 +618,7 @@ def main():
         target_dir = args.target_dir
     
     converter = DocxConverter()
-    results = converter.convert_all_docx(target_dir)
+    results = converter.convert_all_docx(target_dir, force_regeneration)
     
     # Only count files that were actually converted (not skipped)
     converted_files = [r for r in results if not r.get('skipped', False)]
