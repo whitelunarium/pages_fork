@@ -60,7 +60,7 @@ class DocxConverter:
         if FrontMatterManager:
             try:
                 self.fm_manager = FrontMatterManager(self.docx_dir)
-                print(f"  FrontMatterManager initialized for {self.docx_dir}")
+                # print(f"  FrontMatterManager initialized for {self.docx_dir}")
             except Exception as e:
                 print(f"  ⚠️ FrontMatterManager failed to initialize: {e}")
                 self.fm_manager = None
@@ -369,7 +369,7 @@ permalink: /docx/{doc_name}/
 ---
 
 """
-            print(f"  📝 Using fallback front matter")
+            print(f"  Using fallback front matter")
         
         # Add conversion metadata as comments
         conversion_comments = f"""<!-- Converted from: {docx_path.name} -->
@@ -422,7 +422,7 @@ permalink: /docx/{doc_name}/
                 print(f"❌ Target directory must be within {self.docx_dir}")
                 return []
             
-            print(f"🎯 Targeting directory: {target_path}")
+            print(f"Targeting directory: {target_path}")
             docx_files = sorted(list(target_path.glob("**/*.docx")))
         else:
             docx_files = sorted(list(self.docx_dir.glob("**/*.docx")))
@@ -433,7 +433,7 @@ permalink: /docx/{doc_name}/
             return []
         
         search_location = target_path if target_dir else self.docx_dir
-        print(f"Found {len(docx_files)} DOCX file(s) in {search_location} (including subdirectories)")
+        #print(f"Found {len(docx_files)} DOCX file(s) in {search_location} (including subdirectories)")
         
         results = []
         skipped_count = 0
@@ -495,7 +495,7 @@ permalink: /docx/{doc_name}/
         
         # Convert files in parallel if there are multiple files
         if len(files_to_convert) > 1:
-            print(f"🚀 Converting {len(files_to_convert)} files in parallel...")
+            print(f"Converting {len(files_to_convert)} files in parallel...")
             with ThreadPoolExecutor(max_workers=min(4, len(files_to_convert))) as executor:
                 # Submit all conversion tasks
                 future_to_file = {
@@ -610,8 +610,8 @@ def main():
                 docx_index = parts.index('_docx')
                 if docx_index + 1 < len(parts) - 1:  # There's a subdirectory
                     target_dir = '/'.join(parts[docx_index + 1:-1])
-                    print(f"🔧 Config file changed: {config_path}")
-                    print(f"🎯 Targeting affected directory: {target_dir}")
+                    print(f"Config file changed: {config_path}")
+                    print(f"Targeting affected directory: {target_dir}")
             except ValueError:
                 pass
     elif args.target_dir:

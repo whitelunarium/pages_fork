@@ -155,7 +155,7 @@ convert-docx:
 	@if [ -d "_docx" ] && [ "$(shell ls -A _docx 2>/dev/null)" ]; then \
 		python3 scripts/convert_docx.py; \
 	else \
-		echo "📂 No DOCX files found in _docx directory"; \
+		echo "No DOCX files found in _docx directory"; \
 	fi
 
 # DOCX conversion for specific config change
