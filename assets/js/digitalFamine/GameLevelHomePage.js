@@ -79,7 +79,7 @@ class GameLevelHomePage {
         SCALE_FACTOR: 5,
         ANIMATION_RATE: 1,
         pixels: {height: 512, width: 512},
-        INIT_POSITION: { x: (width / 2), y: (height / 2) },
+        INIT_POSITION: { x: (width * 0.15), y: (height * 0.15) },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -109,7 +109,7 @@ class GameLevelHomePage {
         SCALE_FACTOR: 4,
         ANIMATION_RATE: 1,
         pixels: {height: 512, width: 512},
-        INIT_POSITION: { x: (width / 4), y: (height / 4) },
+        INIT_POSITION: { x: (width * 0.25), y: (height * 0.75) },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -125,7 +125,7 @@ class GameLevelHomePage {
             }
           };
           
-          dialogueSystem.showDialogue("Press E to travel to Media Literacy Planet");
+          dialogueSystem.showDialogue("Press E to travel or close");
           document.addEventListener('keydown', this.activeKeyListener);
         }.bind(this)
     };
@@ -139,7 +139,7 @@ class GameLevelHomePage {
         SCALE_FACTOR: 4,
         ANIMATION_RATE: 1,
         pixels: {height: 512, width: 512},
-        INIT_POSITION: { x: (width * 3/4), y: (height / 4) },
+        INIT_POSITION: { x: (width * 0.55), y: (height * 0.25) },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -155,7 +155,7 @@ class GameLevelHomePage {
             }
           };
           
-          dialogueSystem.showDialogue("Press E to travel to AI Planet");
+          dialogueSystem.showDialogue("Press E to travel or close");
           document.addEventListener('keydown', this.activeKeyListener);
         }.bind(this)
     };
@@ -169,7 +169,7 @@ class GameLevelHomePage {
         SCALE_FACTOR: 4,
         ANIMATION_RATE: 1,
         pixels: {height: 512, width: 512},
-        INIT_POSITION: { x: (width / 4), y: (height * 3/4) },
+        INIT_POSITION: { x: (width * 0.55), y: (height * 0.75) },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -185,13 +185,13 @@ class GameLevelHomePage {
             }
           };
           
-          dialogueSystem.showDialogue("Press E to travel to Microblogging Planet");
+          dialogueSystem.showDialogue("Press E to travel or close");
           document.addEventListener('keydown', this.activeKeyListener);
         }.bind(this)
     };
 
     // Home Planet (Earth)
-    const sprite_src_home = path + "/images/digital-famine/planet-3.png";
+    const sprite_src_home = path + "/images/digital-famine/home-planet.png";
     const sprite_data_home = {
         id: 'HomePlanet',
         greeting: "Return to Home Planet (Earth)",
@@ -199,7 +199,7 @@ class GameLevelHomePage {
         SCALE_FACTOR: 4,
         ANIMATION_RATE: 1,
         pixels: {height: 512, width: 512},
-        INIT_POSITION: { x: (width * 3/4), y: (height * 3/4) },
+        INIT_POSITION: { x: (width * 0.82), y: (height * 0.5) },
         orientation: {rows: 1, columns: 1 },
         down: {row: 0, start: 0, columns: 1 },
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
@@ -215,7 +215,7 @@ class GameLevelHomePage {
             }
           };
           
-          dialogueSystem.showDialogue("Press E to return to Home Planet");
+          dialogueSystem.showDialogue("Press E to travel or close");
           document.addEventListener('keydown', this.activeKeyListener);
         }.bind(this)
     };
