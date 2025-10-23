@@ -20,13 +20,44 @@ class FrontMatterManager:
         """
         self.source_dir = Path(source_dir)
         self.config_cache = {}
+        self.config_timestamps = {}  # Track file modification times
         
     def load_directory_config(self, directory_path):
         """Load Jekyll-style YAML configuration for a specific directory"""
-        if directory_path in self.config_cache:
-            return self.config_cache[directory_path]
+        # Check if cached config is still valid
+        cache_key = str(directory_path)
+        
+        # Collect all config files that could affect this directory
+        config_files = []
+        current = directory_path
+        while current != current.parent and current.parts:
+            if '_docx' in current.parts:  # Only look within _docx
+                config_file = current / "_config.yml"
+                if config_file.exists():
+                    config_files.append(config_file)
+            current = current.parent
+            if current == self.source_dir:
+                break
+        
+        # Check if any config file has been modified since last cache
+        cache_valid = cache_key in self.config_cache
+        if cache_valid:
+            for config_file in config_files:
+                file_mtime = config_file.stat().st_mtime
+                cached_mtime = self.config_timestamps.get(str(config_file), 0)
+                if file_mtime > cached_mtime:
+                    cache_valid = False
+                    break
+        
+        if cache_valid:
+            return self.config_cache[cache_key]
             
+        # Cache is invalid or doesn't exist, reload config
         config = {}
+        
+        # Update timestamps for all config files
+        for config_file in config_files:
+            self.config_timestamps[str(config_file)] = config_file.stat().st_mtime
         
         # Try to load _config.yml from current directory
         config_file = directory_path / "_config.yml"
@@ -49,7 +80,7 @@ class FrontMatterManager:
                             config[key] = value
             current = current.parent
             
-        self.config_cache[directory_path] = config
+        self.config_cache[cache_key] = config
         return config
         
     def get_file_metadata(self, file_path, doc_name=None):
