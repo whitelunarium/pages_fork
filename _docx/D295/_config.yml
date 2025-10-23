@@ -1,0 +1,14 @@
+# Jekyll-style configuration for D292 WGU files
+
+# Directory defaults for all D292 files
+defaults:
+  categories: ["WGU" ]
+  tags: ["wgu", "d295"]
+  author: "John Mortensen"
+
+# File-specific overrides
+files:
+  QuestOfCode-WGU-Digital-Citizenship:
+    title: "D295 Task 1: Digital Citizenship Ideation"
+    description: "WGU D295 assessment focusing on digital citizenship education ideation phase"
+    permalink: "/wgu/d295/task1-ideation/"
