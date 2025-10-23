@@ -1,2 +1,2 @@
-import GameEnvBackground from './GameEngine/<path>.js'
-import AnimatedPlayer from './GameEngine/<path>.js'
+import GameEnvBackground from './GameEngine/GameEnvBackground.js'
+import AnimatedPlayer from './GameEngine/AnimatedPlayer.js'
