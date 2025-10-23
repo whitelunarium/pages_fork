@@ -5,7 +5,7 @@ title: Frontend Development Quest
 description: >
   Learn how to develop blogs and projects that convey information effectively and are visually appealing
 author: CSA 2025-26
-permalink: /west-coast/frontend/
+permalink: /west-coast/food/
 lxdData:
   Title: "Frontend Development Modules"
   Description: "Master frontend development skills through hands-on projects and earn certificates!"
@@ -65,4 +65,4 @@ lxdData:
       Image: "/images/west-coast/frontend.svg"
       Alt: "Frontend Submodule 6"
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/quests/west-coast.html -%}

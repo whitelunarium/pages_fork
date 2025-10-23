@@ -58,4 +58,4 @@ lxdData:
 
       
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/quests/digital-famine.html -%}

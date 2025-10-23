@@ -5,7 +5,7 @@ title: Backend Development Quest
 description: >
   Learn about database structures, types, and integration with frontend for real-world full-stack development
 author: CSA 2025-26
-permalink: /west-coast/backend/
+permalink: /west-coast/sports/
 lxdData:
   Title: "Backend Development Modules"
   Description: "Master backend development and database integration skills!"
@@ -65,4 +65,4 @@ lxdData:
       Image: "/images/west-coast/backend.svg"
       Alt: "Backend Submodule 6"
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/quests/west-coast.html -%}
