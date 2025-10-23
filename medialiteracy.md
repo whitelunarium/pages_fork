@@ -46,14 +46,13 @@ Use “when this sprite clicked → hide → change shieldLevel by 1.”
 *Story:* The invaders are twisting our signals! Calibrate your sensors by sorting headlines by bias.
 
 Activity:
-- Show 3–5 short headlines.
+- Show news sources.
 - Player drags each one to one of three boxes: Liberal, Conservative, or Neutral.
 - When all are placed, show “Bias Detector Calibrated!”
 - Shield 2 appears.
 
 Easy to code:
 Use “drag and drop” or simple multiple-choice clicks.
-(If Scratch: use “touching sprite?” blocks for checking placement.)
 
 **Mission 3 – Truth Scanner**
 
@@ -62,8 +61,8 @@ Use “drag and drop” or simple multiple-choice clicks.
 *Story:* The final attack! Separate real from fake stories to unlock the vault and save the planet.
 
 Activity:
-- Show 5 short “news snippets.”
-- Click “Real” or “Fake” under each one.
+- Show 5 short “news snippets" displayed in a webpage (shows url and other info)
+- Click “Real” or “Fake” buttons under each one.
 - Each correct answer gives a number (like 4, 2, or 7).
 - When all correct → player enters code → vault opens → confetti animation!
 
