@@ -10,7 +10,7 @@ lxdData:
   Title: "Analytics and Mastery Modules"
   Description: "Complete your CS Portfolio journey and earn your mastery certificate!"
   Topics:
-    - Title: "Submodule 1"
+    - Title: "Awareness"
       Genre: "Integration"
       Level: 1
       Description: "Team-defined analytics and mastery module"
@@ -19,7 +19,7 @@ lxdData:
       Lessons: "/digital-famine/media-lit/submodule_1/"
       Image: "/images/digital-famine/media-lit.svg"
       Alt: "Analytics Submodule 1"
-    - Title: "Submodule 2"
+    - Title: "Bias Detector"
       Genre: "Integration"
       Level: 2
       Description: "Team-defined analytics and mastery module"
@@ -28,7 +28,7 @@ lxdData:
       Lessons: "/digital-famine/media-lit/submodule_2/"
       Image: "/images/digital-famine/media-lit.svg"
       Alt: "Analytics Submodule 2"
-    - Title: "Submodule 3"
+    - Title: "Truth Scanner"
       Genre: "Integration"
       Level: 3
       Description: "Team-defined analytics and mastery module"
