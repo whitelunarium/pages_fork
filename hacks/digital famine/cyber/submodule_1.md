@@ -2,7 +2,7 @@
 layout: post
 title: "Purpose of Frontend"
 description: "Submodule 1 of Frontend Development Mini-Quest"
-permalink: /digital-famine/frontend/submodule_1/
+permalink: /digital-famine/cyber/submodule_1/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 1

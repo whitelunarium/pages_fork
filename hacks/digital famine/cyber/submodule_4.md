@@ -2,7 +2,7 @@
 layout: post
 title: "JavaScript Event Handling"
 description: "Submodule 4 of Frontend Development Mini-Quest"
-permalink: /digital-famine/frontend/submodule_4/
+permalink: /digital-famine/cyber/submodule_4/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 4

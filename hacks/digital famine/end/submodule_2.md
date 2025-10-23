@@ -1,18 +1,18 @@
 ---
 layout: post
-title: "Submodule 3"
-description: "Submodule 3 of Backend Development Mini-Quest"
-permalink: /digital-famine/backend/submodule_3/
+title: "Submodule 2"
+description: "Submodule 2 of Backend Development Mini-Quest"
+permalink: /digital-famine/end/submodule_2/
 parent: "Backend Development"
 team: "Encrypters"
-submodule: 3
+submodule: 2
 categories: [CSP, Submodule, Backend]
 tags: [backend, submodule, encrypters]
 author: "Encrypters Team"
 date: 2025-10-21
 ---
 
-# Submodule 3
+# Submodule 2
 
 ## Content Coming Soon
 This submodule will be developed by the Encrypters team.

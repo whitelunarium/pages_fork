@@ -2,7 +2,7 @@
 layout: post
 title: "CSS Styling Fundamentals"
 description: "Submodule 3 of Frontend Development Mini-Quest"
-permalink: /digital-famine/frontend/submodule_3/
+permalink: /digital-famine/cyber/submodule_3/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 3

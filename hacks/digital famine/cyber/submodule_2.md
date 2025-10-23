@@ -2,7 +2,7 @@
 layout: post
 title: "Markdown to HTML"
 description: "Submodule 2 of Frontend Development Mini-Quest"
-permalink: /digital-famine/frontend/submodule_2/
+permalink: /digital-famine/cyber/submodule_2/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 2

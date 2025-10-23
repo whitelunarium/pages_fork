@@ -2,7 +2,7 @@
 layout: post
 title: "Submodule 4"
 description: "Submodule 4 of Analytics/Admin Mini-Quest"
-permalink: /digital-famine/analytics/submodule_4/
+permalink: /digital-famine/media-lit/submodule_4/
 parent: "Analytics/Admin"
 team: "Curators"
 submodule: 4

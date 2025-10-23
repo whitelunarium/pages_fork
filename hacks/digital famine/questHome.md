@@ -10,24 +10,24 @@ lxdData:
   Title: "Learning Modules"
   Description: "Build critical project development skills and earn a certificate upon completion!"
   Topics:
-    - Title: "C1: Frontend"
+    - Title: "C1: cyber"
       Genre: "Project Creation"
       Level: 1
       Description: "Learn how to develop blogs and projects that convey information effectively and are visually appealing"
-      Categories: ["Frontend", "HTML", "CSS","Javascript"]
-      Video: "/digital-famine/frontend-video"
-      Lessons: "/digital-famine/frontend/"
-      Image: "/images/digital-famine/frontend.svg"
-      Alt: "CS Portfolio Quest Frontend"
-    - Title: "C2: Backend"
+      Categories: ["cyber", "HTML", "CSS","Javascript"]
+      Video: "/digital-famine/cyber-video"
+      Lessons: "/digital-famine/cyber/"
+      Image: "/images/digital-famine/cyber.svg"
+      Alt: "CS Portfolio Quest cyber"
+    - Title: "C2: media"
       Genre: "Project Creation"
       Level: 2
-      Description: "Learn about database structures, types, and integration with frontend for real-world full-stack development"
-      Categories: ["Backend", "Flask", "Spring", "Databases"]
-      Video: "/digital-famine/backend-video"
-      Lessons: "/digital-famine/backend/"
-      Image: "/images/digital-famine/backend.svg"
-      Alt: "CS Portfolio Quest Backend"
+      Description: "Learn about database structures, types, and integration with cyber for real-world full-stack development"
+      Categories: ["media", "Flask", "Spring", "Databases"]
+      Video: "/digital-famine/media-video"
+      Lessons: "/digital-famine/media/"
+      Image: "/images/digital-famine/media.svg"
+      Alt: "CS Portfolio Quest media"
     - Title: "C3: AI"
       Genre: "Practice"
       Level: 3
@@ -37,14 +37,25 @@ lxdData:
       Lessons: "/digital-famine/ai/"
       Image: "/images/digital-famine/ai.svg"
       Alt: "CS Portfolio Quest Data Visualization"
-    - Title: "C4: Analytics"
+    - Title: "C4: microblog"
       Genre: "Application"
       Level: 4
-      Description: "Learn to write about your CS projects for inclusion on your analytics, both in technical and non-technical terms"
-      Categories: ["CV", "analytics", "Blogging"]
-      Video: "/digital-famine/analytics-video"
-      Lessons: "/digital-famine/analytics/"
-      Image: "/images/west-coast/analytics.svg"
-      Alt: "CS Portfolio Quest analytics"
+      Description: "Learn to write about your CS projects for inclusion on your microblog, both in technical and non-technical terms"
+      Categories: ["CV", "microblog", "Blogging"]
+      Video: "/digital-famine/microblog-video"
+      Lessons: "/digital-famine/microblog/"
+      Image: "/images/west-coast/microblog.svg"
+      Alt: "CS Portfolio Quest microblog"
+    - Title: "C5: end"
+      Genre: "Application"
+      Level: 4
+      Description: "Learn to write about your CS projects for inclusion on your end, both in technical and non-technical terms"
+      Categories: ["CV", "end", "Blogging"]
+      Video: "/digital-famine/end-video"
+      Lessons: "/digital-famine/end/"
+      Image: "/images/west-coast/end.svg"
+      Alt: "CS Portfolio Quest end"
+
+      
 ---
 {%- include tailwind/cs-portfolio-quest_info.html -%}
