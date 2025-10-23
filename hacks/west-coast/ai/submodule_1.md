@@ -14,5 +14,6 @@ date: 2025-10-21
 
 # Key 1
 
-## Prompt Engineering
-We will craft an itinerary using an AI
+## The Central Concept of AI
+
+Central Dogma and workflow of AI

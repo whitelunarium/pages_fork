@@ -12,7 +12,8 @@ author: "Thinkers Team"
 date: 2025-10-21
 ---
 
-# Submodule 4
+# Final Key
 
-## Content Coming Soon
-This submodule will be developed by the Thinkers team.
+## Generating the Itinerary
+
+Using what you learn't now we will generate you your dream west coast trips

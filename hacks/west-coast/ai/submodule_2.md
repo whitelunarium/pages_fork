@@ -15,4 +15,5 @@ date: 2025-10-21
 # Submodule 2
 
 ## Content Coming Soon
+
 This submodule will be developed by the Thinkers team.
