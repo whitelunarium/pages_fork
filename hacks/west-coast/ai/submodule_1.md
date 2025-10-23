@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Submodule 1"
-description: "Submodule 1 of AI Usage Mini-Quest"
+title: "Key 1"
+description: "Key 1 of AI Usage Mini-Quest"
 permalink: /west-coast/ai/submodule_1/
 parent: "AI Usage"
 team: "Thinkers"
@@ -12,7 +12,7 @@ author: "Thinkers Team"
 date: 2025-10-21
 ---
 
-# Submodule 1
+# Key 1
 
-## Content Coming Soon
-This submodule will be developed by the Thinkers team.
+## Prompt Engineering
+We will craft an itinerary using an AI
