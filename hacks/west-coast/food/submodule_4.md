@@ -2,7 +2,7 @@
 layout: post
 title: "JavaScript Event Handling"
 description: "Submodule 4 of Frontend Development Mini-Quest"
-permalink: /west-coast/frontend/submodule_4/
+permalink: /west-coast/food/seattle/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 4

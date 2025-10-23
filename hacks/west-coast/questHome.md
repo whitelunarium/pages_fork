@@ -25,7 +25,7 @@ lxdData:
       Description: "Learn about database structures, types, and integration with frontend for real-world full-stack development"
       Categories: ["Backend", "Flask", "Spring", "Databases"]
       Video: "/west-coast/backend-video"
-      Lessons: "/west-coast/backend/"
+      Lessons: "/west-coast/food/"
       Image: "/images/west-coast/backend.svg"
       Alt: "CS Portfolio Quest Backend"
     - Title: "C3: Sports"

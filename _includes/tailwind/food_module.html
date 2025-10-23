@@ -394,8 +394,16 @@
             <div class="travel-route">
               <div class="route-line" id="route-{{ forloop.index0 }}">
                 <!-- Route link for each city -->
-                {% assign city_slug = city.Name | downcase | replace: ' ', '-' %}
-                <a href="{{ site.baseurl }}/food/{{ city_slug }}" 
+                {% if forloop.index0 == 0 %}
+                  {% assign city_permalink = "/west-coast/food/sandiego" %}
+                {% elsif forloop.index0 == 1 %}
+                  {% assign city_permalink = "/west-coast/food/LA" %}
+                {% elsif forloop.index0 == 2 %}
+                  {% assign city_permalink = "/west-coast/food/sanfrancisco" %}
+                {% else %}
+                  {% assign city_permalink = "/west-coast/food/seattle" %}
+                {% endif %}
+                <a href="{{ site.baseurl }}{{ city_permalink }}" 
                    class="route-link {% if forloop.first %}start-journey{% endif %}" 
                    id="route-link-{{ forloop.index0 }}" 
                    data-route="{{ forloop.index0 }}" 
@@ -427,7 +435,7 @@
       <!-- Back to Hub Button -->
       <div class="text-center mt-20">
         <a href="{{ site.baseurl }}/west-coast" class="prereq-button cute-text inline-block">
-          🏠 Back to Travel Hub
+          🏠 Back to Main
         </a>
       </div>
 
