@@ -122,7 +122,7 @@ class GameLevelHomePage {
           
           this.activeKeyListener = (event) => {
             if (event.key.toLowerCase() === 'e' && dialogueSystem.isDialogueOpen()) {
-              window.location.href = '/digital-famine/media-lit/';
+              window.location.href = '/digital-famine/media/';
             }
           };
           
@@ -212,7 +212,7 @@ class GameLevelHomePage {
           
           this.activeKeyListener = (event) => {
             if (event.key.toLowerCase() === 'e' && dialogueSystem.isDialogueOpen()) {
-              window.location.href = '/digital-famine/home/';
+              window.location.href = '/digital-famine/end/';
             }
           };
           

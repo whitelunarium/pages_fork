@@ -1,7 +1,7 @@
 ---
 layout: opencs
 title: Platformer
-permalink: /digital-famine/
+permalink: /digital-famine/planets
 ---
  
 <div id="gameContainer">
