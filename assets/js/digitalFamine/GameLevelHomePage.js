@@ -1,5 +1,5 @@
 // To build GameLevels, each contains GameObjects from below imports
-import GamEnvBackground from '/assets/js/adventureGame/GameEngine/GameEnvBackground.js';
+import GameEnvBackground from '/assets/js/adventureGame/GameEngine/GameEnvBackground.js';
 import Player from '/assets/js/adventureGame/GameEngine/Player.js';
 import Npc from '/assets/js/adventureGame/GameEngine/Npc.js';
 import GameControl from '/assets/js/adventureGame/GameEngine/GameControl.js';
@@ -41,7 +41,7 @@ class GameLevelHomePage {
     };
 
     // Player data for Chillguy
-    const sprite_src_chillguy = path + "/images/digital-famine/rocketship-left-no-bg.png"; // be sure to include the path
+    const sprite_src_chillguy = path + "/images/digital-famine/rocketship_sprite_2x1.png"; // be sure to include the path
     const CHILLGUY_SCALE_FACTOR = 5;
     const sprite_data_chillguy = {
         id: 'Chill Guy',
@@ -49,19 +49,19 @@ class GameLevelHomePage {
         src: sprite_src_chillguy,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
-        ANIMATION_RATE: 0,
+        ANIMATION_RATE: 10,
         INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
-        pixels: {height: 681, width: 346},
-        orientation: {rows: 1, columns: 1},
+        pixels: {height: 681, width: 692},
+        orientation: {rows: 1, columns: 2},
         pivot: { x: 0.5, y: 0.5 },  // Center the rotation point
-        down: {row: 0, start: 0, columns: 1, rotate: Math.PI},
-        downRight: {row: 0, start: 0, columns: 1, rotate: 3*Math.PI/4},
-        downLeft: {row: 0, start: 0, columns: 1, rotate: 5*Math.PI/4},
-        left: {row: 0, start: 0, columns: 1, rotate: 3*Math.PI/2},
-        right: {row: 0, start: 0, columns: 1, rotate: Math.PI/2},
-        up: {row: 0, start: 0, columns: 1, rotate: 0},
-        upLeft: {row: 0, start: 0, columns: 1, rotate: 7*Math.PI/4},
-        upRight: {row: 0, start: 0, columns: 1, rotate: Math.PI/4},
+        down: {row: 0, start: 0, columns: 2, rotate: Math.PI},
+        downRight: {row: 0, start: 0, columns: 2, rotate: 3*Math.PI/4},
+        downLeft: {row: 0, start: 0, columns: 2, rotate: 5*Math.PI/4},
+        left: {row: 0, start: 0, columns: 2, rotate: 3*Math.PI/2},
+        right: {row: 0, start: 0, columns: 2, rotate: Math.PI/2},
+        up: {row: 0, start: 0, columns: 2, rotate: 0},
+        upLeft: {row: 0, start: 0, columns: 2, rotate: 7*Math.PI/4},
+        upRight: {row: 0, start: 0, columns: 2, rotate: Math.PI/4},
         hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
@@ -221,26 +221,9 @@ class GameLevelHomePage {
         }.bind(this)
     };
 
-    // List of objects defnitions for this level
-
-    // Define flame image paths
-    const leftFlame = path + "/images/digital-famine/rocketship-left-no-bg.png";
-    const rightFlame = path + "/images/digital-famine/rocketship-right-no-bg.png";
-    
-    // Simple flame-flicker toggle (run AFTER sprite_data_chillguy is declared)
-    let flameToggle = false;
-    setInterval(() => {
-      flameToggle = !flameToggle;
-      // Keep current rotation while changing flame image
-      const currentRotation = sprite_data_chillguy.currentRotation || 0;
-      sprite_data_chillguy.src = flameToggle ? leftFlame : rightFlame;
-      sprite_data_chillguy.currentRotation = currentRotation;
-    }, 150);
-
-
     // Objects on this level
     this.classes = [
-      { class: GamEnvBackground, data: image_data_desert },
+      { class: GameEnvBackground, data: image_data_desert },
       { class: Player, data: sprite_data_chillguy },
       { class: Npc, data: sprite_data_cyberplanet },
       { class: Npc, data: sprite_data_medialit },
