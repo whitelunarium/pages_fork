@@ -49,19 +49,20 @@ class GameLevelHomePage {
         src: sprite_src_chillguy,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
-        ANIMATION_RATE: 50,
+        ANIMATION_RATE: 0,
         INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
-        pixels: {height: 384, width: 512},
-        orientation: {rows: 3, columns: 4 },
-        down: {row: 0, start: 0, columns: 3 },
-        downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/16 },
-        downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/16 },
-        left: {row: 2, start: 0, columns: 3 },
-        right: {row: 1, start: 0, columns: 3 },
-        up: {row: 3, start: 0, columns: 3 },
-        upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/16 },
-        upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/16 },
-        hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+        pixels: {height: 681, width: 346},
+        orientation: {rows: 1, columns: 1},
+        pivot: { x: 0.5, y: 0.5 },  // Center the rotation point
+        down: {row: 0, start: 0, columns: 1, rotate: Math.PI},
+        downRight: {row: 0, start: 0, columns: 1, rotate: 3*Math.PI/4},
+        downLeft: {row: 0, start: 0, columns: 1, rotate: 5*Math.PI/4},
+        left: {row: 0, start: 0, columns: 1, rotate: 3*Math.PI/2},
+        right: {row: 0, start: 0, columns: 1, rotate: Math.PI/2},
+        up: {row: 0, start: 0, columns: 1, rotate: 0},
+        upLeft: {row: 0, start: 0, columns: 1, rotate: 7*Math.PI/4},
+        upRight: {row: 0, start: 0, columns: 1, rotate: Math.PI/4},
+        hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 
@@ -230,7 +231,10 @@ class GameLevelHomePage {
     let flameToggle = false;
     setInterval(() => {
       flameToggle = !flameToggle;
+      // Keep current rotation while changing flame image
+      const currentRotation = sprite_data_chillguy.currentRotation || 0;
       sprite_data_chillguy.src = flameToggle ? leftFlame : rightFlame;
+      sprite_data_chillguy.currentRotation = currentRotation;
     }, 150);
 
 
