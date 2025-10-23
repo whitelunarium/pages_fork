@@ -1,9 +1,9 @@
 ---
 layout: post 
 tailwind: True
-title: Analytics and Mastery Certificate Quest
+title: Media Literacy Quest
 description: >
-  Analytics and Mastery Certificate - Demonstrate comprehensive understanding and earn your CS Portfolio certificate
+  Learn about media literacy and help defent Media Literacy plant from Foreign invaders. Build your shield level by completing the modules. 
 author: CSA 2025-26
 permalink: /digital-famine/media/
 lxdData:
