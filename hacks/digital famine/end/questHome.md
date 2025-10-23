@@ -1,14 +1,14 @@
 ---
 layout: post 
 tailwind: True
-title: Backend Development Quest
+title: End Quest
 description: >
-  Learn about database structures, types, and integration with frontend for real-world full-stack development
-author: CSA 2025-26
+  Finish off the game of DIGITAL FAMINE and bring back knowledge and skills to your home
+author: CodeMaxxers
 permalink: /digital-famine/end/
 lxdData:
-  Title: "Backend Development Modules"
-  Description: "Master backend development and database integration skills!"
+  Title: "End Modules"
+  Description: "Bring home the knowledge you gained from previous planets back home!"
   Topics:
     - Title: "Submodule 1"
       Genre: "Project Creation"
