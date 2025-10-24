@@ -1,18 +1,18 @@
 ---
 layout: post
-title: "Submodule 4"
-description: "Submodule 4 of Analytics/Admin Mini-Quest"
-permalink: /west-coast/analytics/submodule_4/
+title: "San Francisco"
+description: "Submodule 2 of Analytics/Admin Mini-Quest"
+permalink: /west-coast/analytics/submodule_2/
 parent: "Analytics/Admin"
 team: "Curators"
-submodule: 4
+submodule: 2
 categories: [CSP, Submodule, Analytics/Admin]
 tags: [analytics, submodule, curators]
 author: "Curators Team"
 date: 2025-10-21
 ---
 
-# Submodule 4
+# San Francisco
 
 ## Content Coming Soon
 This submodule will be developed by the Curators team.

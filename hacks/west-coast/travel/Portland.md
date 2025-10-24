@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Submodule 3"
+title: "Portland"
 description: "Submodule 3 of Analytics/Admin Mini-Quest"
 permalink: /west-coast/analytics/submodule_3/
 parent: "Analytics/Admin"
@@ -12,7 +12,7 @@ author: "Curators Team"
 date: 2025-10-21
 ---
 
-# Submodule 3
+# Portland
 
 ## Content Coming Soon
 This submodule will be developed by the Curators team.

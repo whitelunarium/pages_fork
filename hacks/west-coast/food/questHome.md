@@ -152,4 +152,4 @@ lxdData:
             - "Optimize data structures for better performance"
             - "Generate reports on data usage and cleanup"
 ---
-{%- include tailwind/food_module.html -%}
+{%- include tailwind/quests/west-coast-food.html -%}
