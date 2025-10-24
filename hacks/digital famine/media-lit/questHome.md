@@ -4,11 +4,11 @@ tailwind: True
 title: Media Literacy Quest
 description: >
   Learn about media literacy and help defent Media Literacy plant from Foreign invaders. Build your shield level by completing the modules. 
-author: CSA 2025-26
+author: CSP 2025-26
 permalink: /digital-famine/media/
 lxdData:
-  Title: "Analytics and Mastery Modules"
-  Description: "Complete your CS Portfolio journey and earn your mastery certificate!"
+  Title: "Mastery of Media Literacy Modules"
+  Description: "Complete your Media Literacy journey and unlock your vault and defend your planet!"
   Topics:
     - Title: "Awareness"
       Genre: "Integration"
