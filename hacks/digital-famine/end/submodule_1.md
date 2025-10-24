@@ -2,7 +2,7 @@
 layout: post
 title: "Task 1 for End Quest"
 description: "Submodule 1 for End Quest"
-permalink: /digital-famine/end/submodule-1/
+permalink: /digital-famine/end/submodule_1/
 parent: "End Quest"
 team: "CodeMaxxers"
 submodule: 1

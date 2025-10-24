@@ -4,7 +4,6 @@ import Player from '/assets/js/adventureGame/GameEngine/Player.js';
 import Npc from '/assets/js/adventureGame/GameEngine/Npc.js';
 import GameControl from '/assets/js/adventureGame/GameEngine/GameControl.js';
 import DialogueSystem from '/assets/js/adventureGame/DialogueSystem.js';
-import DialogueSystem from '/assets/js/adventureGame/DialogueSystem.js';
 
 class GameLevelHomePage {
   constructor(gameEnv) {
