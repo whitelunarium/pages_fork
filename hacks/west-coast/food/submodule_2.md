@@ -2,7 +2,7 @@
 layout: post
 title: "Markdown to HTML"
 description: "Submodule 2 of Frontend Development Mini-Quest"
-permalink: /west-coast/frontend/submodule_2/
+permalink: /west-coast/food/LA/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 2
