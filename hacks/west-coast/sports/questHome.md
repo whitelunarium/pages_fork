@@ -4,7 +4,7 @@ tailwind: True
 title: Backend Development Quest
 description: >
   Learn about database structures, types, and integration with frontend for real-world full-stack development
-author: CSA 2025-26
+author: CSP 2025-26
 permalink: /west-coast/sports/
 lxdData:
   Title: "Backend Development Modules"
@@ -46,23 +46,5 @@ lxdData:
       Lessons: "/west-coast/backend/submodule_4/"
       Image: "/images/west-coast/backend.svg"
       Alt: "Backend Submodule 4"
-    - Title: "Submodule 5"
-      Genre: "Project Creation"
-      Level: 5
-      Description: "Team-defined backend development module"
-      Categories: ["Backend", "Flask", "Spring", "Databases"]
-      Video: "/west-coast/backend/submodule_5-video"
-      Lessons: "/west-coast/backend/submodule_5/"
-      Image: "/images/west-coast/backend.svg"
-      Alt: "Backend Submodule 5"
-    - Title: "Submodule 6"
-      Genre: "Project Creation"
-      Level: 6
-      Description: "Team-defined backend development module"
-      Categories: ["Backend", "Flask", "Spring", "Databases"]
-      Video: "/west-coast/backend/submodule_6-video"
-      Lessons: "/west-coast/backend/submodule_6/"
-      Image: "/images/west-coast/backend.svg"
-      Alt: "Backend Submodule 6"
 ---
 {%- include tailwind/quests/west-coast.html -%}
