@@ -11,12 +11,12 @@ class MansionLevel5 {
 	let path = gameEnv.path;
 
 	// Background data
-	const image_background = path + "/images/gamify/desert.png"; // be sure to include the path
+	const image_background = path + "/images/gamify/mansionGame/background_lvl5.png"; // be sure to include the path
 	const image_data_background = {
 		name: 'background',
 		greeting: "This is the library, you will fight hordes of enemies, survive as long as possible.",
 		src: image_background,
-		pixels: {height: 580, width: 1038}
+		pixels: {height: 1280, width: 720}
 	};
 
 	// Player data for character
@@ -83,7 +83,7 @@ class MansionLevel5 {
 	// 		let levelArray = [GameLevelStarWars];
 	// 		let gameInGame = new GameControl(gameEnv.game, levelArray);
 	// 		primaryGame.pause();
-		
+
 	// 		// Start the new game
 	// 		gameInGame.start();
 
