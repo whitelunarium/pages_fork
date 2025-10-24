@@ -178,7 +178,7 @@ date: 2025-10-21
   <strong style="color: #fa709a; font-size: 1.2em;">📝 Instructions:</strong>
   <ol style="color: #555; line-height: 1.8;">
     <li>Write a bad prompt (vague, no details)</li>
-    <li>Write a good prompt (specific, with context and constraints)</li>
+    <li>Write a good prompt (specific, with context & constraints)</li>
     <li>Test both with an AI</li>
     <li>Document what worked better and why</li>
   </ol>
