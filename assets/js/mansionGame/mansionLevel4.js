@@ -26,5 +26,4 @@ class MansionLevel5 {
 
 }
 
-export default MansionLevel5;import GameEnvBackground from './GameEngine/GameEnvBackground.js'
-import AnimatedPlayer from './GameEngine/AnimatedPlayer.js'
+export default MansionLevel5
