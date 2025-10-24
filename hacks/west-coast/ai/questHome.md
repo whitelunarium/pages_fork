@@ -3,18 +3,18 @@ layout: post
 tailwind: True
 title: AI Usage Quest
 description: >
-  Learn to prompt AI to streamline frontend and backend development, data visualization, and resume building
-author: CSA 2025-26
+  Learn to prompt AI to create your itinerary, data visualization, and learn about the core concepts and limitations of AI!
+author: CSP 2025-26
 permalink: /west-coast/ai/
 lxdData:
   Title: "AI Usage Modules"
-  Description: "Master AI tools and prompting techniques for efficient development!"
+  Description: "Master AI tools, prompting techniques, and storage concepts for efficient development!"
   Topics:
     - Title: "Key 1"
       Genre: "Assessment"
       Level: 1
       Description: "Team-defined AI usage module"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
+      Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_1-video"
       Lessons: "/west-coast/ai/submodule_1/"
       Image: "/images/west-coast/ai.svg"
@@ -23,7 +23,7 @@ lxdData:
       Genre: "Assessment"
       Level: 2
       Description: "Team-defined AI usage module"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
+      Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_2-video"
       Lessons: "/west-coast/ai/submodule_2/"
       Image: "/images/west-coast/ai.svg"
@@ -32,7 +32,7 @@ lxdData:
       Genre: "Assessment"
       Level: 3
       Description: "Team-defined AI usage module"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
+      Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_3-video"
       Lessons: "/west-coast/ai/submodule_3/"
       Image: "/images/west-coast/ai.svg"
@@ -41,7 +41,7 @@ lxdData:
       Genre: "Assessment"
       Level: 4
       Description: "Team-defined AI usage module"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
+      Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_4-video"
       Lessons: "/west-coast/ai/submodule_4/"
       Image: "/images/west-coast/ai.svg"
@@ -50,7 +50,7 @@ lxdData:
       Genre: "Assessment"
       Level: 5
       Description: "Team-defined AI usage module"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
+      Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_5-video"
       Lessons: "/west-coast/ai/submodule_5/"
       Image: "/images/west-coast/ai.svg"
@@ -59,7 +59,7 @@ lxdData:
       Genre: "Assessment"
       Level: 6
       Description: "Team-defined AI usage module"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
+      Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_6-video"
       Lessons: "/west-coast/ai/submodule_6/"
       Image: "/images/west-coast/ai.svg"

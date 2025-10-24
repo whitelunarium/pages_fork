@@ -1,18 +1,18 @@
 ---
 layout: post
 title: "Submodule 2"
-description: "Submodule 2 of AI Usage Mini-Quest"
+description: "Submodule 2 of AI Usage Mini-Quest about AI Limitations and Storage"
 permalink: /west-coast/ai/submodule_2/
 parent: "AI Usage"
-team: "The Sprinters"
+team: "TheSprinters"
 submodule: 2
 categories: [CSP, Submodule, AIUsage]
-tags: [ai, submodule, thinkers]
-author: "The Sprinters"
+tags: [AI, submodule, AI_Limits, Storage]
+author: "TheSprinters"
 date: 2025-10-21
 ---
 
-# Submodule 2
+# Key 2
 
 
 
