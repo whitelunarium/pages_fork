@@ -11,7 +11,7 @@ class MansionLevel5 {
 	let path = gameEnv.path;
 
 	// Background data
-	const image_background = path + "/images/gamify/mansionGame/background_lvl5.png"; // be sure to include the path
+	const image_background = path + "/images/mansionGame/background_lvl5.png"; // be sure to include the path
 	const image_data_background = {
 		name: 'background',
 		greeting: "This is the library, you will fight hordes of enemies, survive as long as possible.",
