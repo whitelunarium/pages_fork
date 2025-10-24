@@ -14,10 +14,10 @@ class MansionLevel1 {
     const image_background = path + "/images/mansionGame/kitchen_lvl1.png"; // be sure to include the path
     const image_data_background = {
         name: 'background',
-        greeting: "This is the kitchen, you will fight hordes of enemies, survive as long as possible.",
+        greeting: "This is the kitchen, you will search for ingredients and create a potion.",
         src: image_background,
-        pixels: {height: 580, width: 1038}
-        mode: 'contain'
+        pixels: {height: 580, width: 1038},
+        mode: 'contain',
     };
 
     // Player data for character
