@@ -2,6 +2,7 @@
 layout: post 
 tailwind: True
 title: AI Usage Quest
+breadcrumb : True
 description: >
   Learn to prompt AI to streamline frontend and backend development, data visualization, and resume building
 author: CSA 2025-26
