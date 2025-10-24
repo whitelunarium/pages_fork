@@ -2,7 +2,7 @@
 layout: post
 title: "CSS Styling Fundamentals"
 description: "Submodule 3 of Frontend Development Mini-Quest"
-permalink: /west-coast/frontend/submodule_3/
+permalink: /west-coast/food/sanfrancisco/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 3

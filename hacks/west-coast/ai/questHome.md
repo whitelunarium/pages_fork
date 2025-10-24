@@ -80,4 +80,4 @@ lxdData:
       Image: "/images/west-coast/ai.svg"
       Alt: "AI Key 6"
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/quests/west-coast.html -%}
