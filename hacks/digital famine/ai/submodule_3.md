@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Submodule 3"
-description: "Submodule 3 of AI Usage Mini-Quest"
+title: "AI APIs"
+description: "Going over how to use AI APIs"
 permalink: /digital-famine/ai/submodule_3/
 parent: "AI Usage"
-team: "Thinkers"
+team: "Debuggers"
 submodule: 3
 categories: [CSP, Submodule, AIUsage]
-tags: [ai, submodule, thinkers]
-author: "Thinkers Team"
+tags: [ai, API, flask, debuggers]
+author: "Debuggers Team"
 date: 2025-10-21
 ---
 

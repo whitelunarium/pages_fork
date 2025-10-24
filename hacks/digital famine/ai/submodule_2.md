@@ -1,18 +1,20 @@
 ---
 layout: post
-title: "Submodule 2"
-description: "Submodule 2 of AI Usage Mini-Quest"
+title: "Prompt Engineering"
+description: "Using different Prompts"
 permalink: /digital-famine/ai/submodule_2/
 parent: "AI Usage"
-team: "Thinkers"
+team: "Debuggers"
 submodule: 2
 categories: [CSP, Submodule, AIUsage]
-tags: [ai, submodule, thinkers]
-author: "Thinkers Team"
+tags: [ai, prompts, debuggers]
+author: "Debuggers Team"
 date: 2025-10-21
 ---
 
-# Submodule 2
+# Prompt Engineering
+## How to use different prompts:
+ - Text Prompts
+ - Voice Commands
+ - Visual Prompts
 
-## Content Coming Soon
-This submodule will be developed by the Thinkers team.

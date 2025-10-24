@@ -1,18 +1,20 @@
 ---
 layout: post
-title: "Submodule 1"
-description: "Submodule 1 of AI Usage Mini-Quest"
+title: "Types of AI"
+description: "Going over the three types of AI"
 permalink: /digital-famine/ai/submodule_1/
 parent: "AI Usage"
-team: "Thinkers"
+team: "Debuggers"
 submodule: 1
 categories: [CSP, Submodule, AIUsage]
-tags: [ai, submodule, thinkers]
-author: "Thinkers Team"
+tags: [ai, submodule, Debuggers]
+author: "Debuggers Team"
 date: 2025-10-21
 ---
 
-# Submodule 1
+# Types of AI
 
-## Content Coming Soon
-This submodule will be developed by the Thinkers team.
+## Narrow AI
+## General AI
+## Super AI
+
