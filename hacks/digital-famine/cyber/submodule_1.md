@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Mission 1"
+title: "Mission 1 — Build the Base Database"
 description: "Submodule 1 of Frontend Development Mini-Quest"
 permalink: /digital-famine/cyber/submodule_1/
 parent: "Frontend Development"
@@ -11,8 +11,6 @@ tags: [frontend, purpose, fundamentals]
 author: "Aaryav, Dhyan, Aditya, Aarnav, Saathwik, West"
 date: 2025-10-21
 ---
-
-# Mission 1 — Build the Base Database
 
 Earth’s intel vault has been wiped clean. Your first assignment is to revive the SQLite backbone that keeps orbital radar and field agents in sync.
 
