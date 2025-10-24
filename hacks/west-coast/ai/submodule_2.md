@@ -14,18 +14,17 @@ date: 2025-10-21
 
 # Submodule 2
 
-<<<<<<< HEAD
-## Content Coming Soon
 
-This submodule will be developed by the The Sprinters
-=======
+
+<span style="color:#ADD8E6">This submodule was developed by The Sprinters</span>
+
 <h2 style="text-align:right;">
 
 
 AI Response and Storage</h2>
 
 
-* **AI learns from lots of data thats stored**
+
 <h2>AI Response and Storage</h2>
 
 <p>AI models, such as GPT, Gemini, Copilot, and Claude, are trained on millions of books, articles, websites, and more. This allows them to generate content that is informed by a vast amount of data, which can be both powerful and slightly concerning.</p>
@@ -36,7 +35,7 @@ AI Response and Storage</h2>
 
 <h3>Privacy Concerns with Stored Conversations</h3>
 
-<p>One of the mis iwth privacy. When AI stores data, it can potentially be used to identify individuals, track their behavior, or even be used for nefarious purposes.</p>
+<p>One of the problems with privacy is that when AI stores data, it's possible to detect individuals, track their behavior, or even be used for different purposes.</p>
 
 <h4>Benefits of Stored Data</h4>
 
@@ -51,4 +50,3 @@ Here are some cool things that AI can do if it stores data:
 * It can remember things from a long time ago and use that information to help you better
 * It can learn from all the things it's been asked to do and get better and better at helping people
 
->>>>>>> d5a3dc97 (Completed the second module)
