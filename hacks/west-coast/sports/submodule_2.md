@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Submodule 2"
+title: "Los Angeles"
 description: "Submodule 2 of Backend Development Mini-Quest"
 permalink: /west-coast/backend/submodule_2/
 parent: "Backend Development"

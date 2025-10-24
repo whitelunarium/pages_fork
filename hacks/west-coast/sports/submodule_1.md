@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Submodule 1"
-description: "Submodule 1 of Backend Development Mini-Quest"
+title: "San Diego"
+description: "Stop 1: San Diego — “Connecting to the Data Field”"
 permalink: /west-coast/backend/submodule_1/
 parent: "Backend Development"
 team: "Zombies"
