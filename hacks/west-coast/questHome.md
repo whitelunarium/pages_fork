@@ -16,7 +16,7 @@ lxdData:
       Description: "Learn how to develop blogs and projects that convey information effectively and are visually appealing"
       Categories: ["Frontend", "HTML", "CSS","Javascript"]
       Video: "/west-coast/frontend-video"
-      Lessons: "/west-coast/frontend/"
+      Lessons: "/west-coast/ai/"
       Image: "/images/west-coast/frontend.svg"
       Alt: "CS Portfolio Quest Frontend"
     - Title: "C2: Food"
@@ -34,7 +34,7 @@ lxdData:
       Description: "Learn about how to visualize data from various sources for effective representation and application, such as machine learning"
       Categories: ["Visualization", "ML", "Collation"]
       Video: "/west-coast/data-viz-video"
-      Lessons: "/west-coast/data-viz/"
+      Lessons: "/west-coast/sports/"
       Image: "/images/west-coast/data-viz.svg"
       Alt: "CS Portfolio Quest Data Visualization"
     - Title: "C4: Travel"
@@ -43,8 +43,8 @@ lxdData:
       Description: "Learn to write about your CS projects for inclusion on your resume, both in technical and non-technical terms"
       Categories: ["CV", "Resume", "Blogging"]
       Video: "/west-coast/resume-video"
-      Lessons: "/west-coast/resume/"
+      Lessons: "/west-coast/travel/"
       Image: "/images/west-coast/resume.svg"
       Alt: "CS Portfolio Quest Resume"
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/quests/west-coast.html -%}
