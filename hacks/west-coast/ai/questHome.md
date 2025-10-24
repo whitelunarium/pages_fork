@@ -3,13 +3,8 @@ layout: post
 tailwind: True
 title: AI Usage Quest
 description: >
-<<<<<<< HEAD
-  Learn to prompt AI to create your itinerary, data visualization, and learn about the core concepts and limitations of AI!
+  Learn to prompt AI to generate your itinerary, data visualization, and learn about the core concepts and limitations of AI!
 author: CSP 2025-26
-=======
-  Learn to prompt AI to streamline frontend and backend development, data visualization, and resume building
-author: The Sprinters (CSP) 25-26
->>>>>>> 3e848cef (ybyb)
 permalink: /west-coast/ai/
 lxdData:
   Title: "AI Usage Modules"
@@ -18,13 +13,8 @@ lxdData:
     - Title: "Key 1"
       Genre: "Assessment"
       Level: 1
-<<<<<<< HEAD
       Description: "Team-defined AI usage module"
       Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
-=======
-      Description: "Central Dogma and workflow of AI"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
->>>>>>> 3e848cef (ybyb)
       Video: "/west-coast/ai/submodule_1-video"
       Lessons: "/west-coast/ai/submodule_1/"
       Image: "/images/west-coast/ai.svg"
@@ -32,13 +22,8 @@ lxdData:
     - Title: "Key 2"
       Genre: "Assessment"
       Level: 2
-<<<<<<< HEAD
       Description: "Team-defined AI usage module"
       Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
-=======
-      Description: "AI Response and Storage"
-      Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
->>>>>>> 3e848cef (ybyb)
       Video: "/west-coast/ai/submodule_2-video"
       Lessons: "/west-coast/ai/submodule_2/"
       Image: "/images/west-coast/ai.svg"
