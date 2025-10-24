@@ -159,7 +159,7 @@ Visual prompts involve uploading or showing images to AI (like asking it to desc
 Clear visuals + context = accurate analysis or creative output.
 Unclear images or vague prompts = poor results or confusion.
 
-## Types of AI prompt engineering (MIT Sloan Teaching and Learning Technologies)
+## Types of AI prompt engineering (from MIT Sloan Teaching and Learning Technologies)
 |         Prompt Type         |                                                                                                                     Description                                                                                                                      |                                           Example                                            |   |   |
 |:---------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|---|---|
 |      Zero-Shot Prompt       |                                                                              Give simple and clear instructions without examples. Useful for a quick, general response.                                                                              |                         “Summarize this article in 5 bullet points.”                         |   |   |
