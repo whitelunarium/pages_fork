@@ -12,19 +12,28 @@ author: "Darshan"
 date: 2025-10-21
 ---
 
+<style>
+  h3 {
+    color: #0000ff;
+    background-color: #000000;
+    padding: 5px;
+    border-radius: 5px;
+  }
+</style>
+
 # Key 1
 
-## The Central Concept of AI
+## <span style="color: #0000ff">The Central Concept of AI</span>
 
-## What is AI?
+## <span style="color: #0000ff">What is AI?</span>
 
 AI is an acronym that stands for Artificial Intelligence. It refers of the development of computer systems that are able to perform tasks that would normally require human intelligence, such as visual perception, speech analyzation, decision-making, and translating languages
 
-## What is the Central Concept of AI?
+## <span style="color: #0000ff">What is the Central Concept of AI?</span>
 
 The main concept of AI is the ability of machines to learn from data and improve their performance over time. This is achievsed through machine learning algorithms. They are sets of instructions that are used to analyze data and make predictions or decisions.
 
-## How does AI Work?
+## <span style="color: #0000ff">How does AI Work?</span>
 
 The workflow of AI typically involves the following steps:
 
@@ -34,9 +43,9 @@ The workflow of AI typically involves the following steps:
 4. **Evaluation**: Testing the performance of the AI system and making it as what is nessearcy
 5. **Deployment**: Integrating the AI system into a larger system or application.
 
-## Activities
+## <span style="color: #0000ff">Activities</span>
 
-### Activity 1: AI in Everyday Life
+### <span style="color: #0000ff">Activity 1: AI in Everyday Life</span>
 
 Make a list of all the ways you use AI in your everyday life. This could include things like virtual assistants, image recognition software, language translation apps, and more
 
@@ -46,8 +55,7 @@ Make a list of all the ways you use AI in your everyday life. This could include
   <textarea rows="10" cols="50"></textarea>
 </div>
 
-
-### Activity 2: Machine Learning Algorithms
+### <span style="color: #0000ff">Activity 2: Machine Learning Algorithms</span>
 
 Research and write a short description of three different machine learning algorithms. How do they work? What are their strengths and weaknesses?
 
