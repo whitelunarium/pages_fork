@@ -38,7 +38,7 @@ AI Response and Storage</h2>
 <p>One of the problems with privacy is that when AI stores data, it's possible to detect individuals, track their behavior, or even be used for different purposes.</p>
 
 <h4>Benefits of Stored Data</h4>
-
+f
 <p>Despite the concerns storing data can help in many ways. For example, it allows AI to:</p>
 
 Here are some cool things that AI can do if it stores data:
