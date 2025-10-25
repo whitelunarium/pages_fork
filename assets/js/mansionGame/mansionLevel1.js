@@ -4,19 +4,20 @@ import GameEnvBackground from './GameEngine/GameEnvBackground.js';
 // import GameControl from './GameEngine/GameControl.js'
 
 
-class MansionLevel5 {
+class MansionLevel1 {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
 
     // Background data
-    const image_background = path + "/images/gamify/kitchen.png"; // be sure to include the path
+    const image_background = path + "/images/mansionGame/kitchen_lvl1.png"; // be sure to include the path
     const image_data_background = {
         name: 'background',
-        greeting: "This is the kitchen, you will fight hordes of enemies, survive as long as possible.",
+        greeting: "This is the kitchen, you will search for ingredients and create a potion.",
         src: image_background,
-        pixels: {height: 580, width: 1038}
+        pixels: {height: 580, width: 1038},
+        mode: 'contain',
     };
 
     // Player data for character
