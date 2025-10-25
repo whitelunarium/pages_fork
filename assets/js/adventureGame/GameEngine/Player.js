@@ -9,6 +9,8 @@ const INIT_POSITION = { x: 0, y: 0 };
 
 
 class Player extends Character {
+    // Static counter for unique player IDs (uninitialized)
+    static playerCount;
     /**
      * The constructor method is called when a new Player object is created.
      * 
@@ -16,8 +18,12 @@ class Player extends Character {
      */
     constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
+        // Increment static player counter and assign unique id
+        Player.playerCount = (Player.playerCount || 0) + 1;
+        this.id = data?.id ? data.id.toLowerCase() : `player${Player.playerCount}`;
         this.keypress = data?.keypress || {up: 87, left: 65, down: 83, right: 68};
         this.touchOptions = data?.touchOptions || {interactLabel: "E", position: "left"};
+        this.touchOptions.id = `touch-controls-${this.id}`;
         this.touchOptions.mapping = this.keypress;
         this.pressedKeys = {}; // active keys array
         this.bindMovementKeyListners();
@@ -25,8 +31,7 @@ class Player extends Character {
         this.acceleration = 0.001;
         this.time = 0;
         this.moved = false;
-        
-        // Initialize touch controls for mobile devices, using data.touchControls if provided
+        // Initialize touch controls for mobile devices
         this.touchControls = new TouchControls(gameEnv, this.touchOptions);
     }
 
