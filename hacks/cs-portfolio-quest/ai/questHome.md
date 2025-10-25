@@ -22,7 +22,7 @@ lxdData:
     - Title: "Prompt Engineering"
       Genre: "Assessment"
       Level: 2
-      Description: "Team-defined AI usage module"
+      Description: "Master the art of specific prompts by including context, the problem, what you've tried, and desired outcomes. Practice iterative refinement to get better AI responses."
       Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
       Video: "/cs-portfolio-quest/ai/submodule_2-video"
       Lessons: "/cs-portfolio-quest/ai/submodule_2/"
