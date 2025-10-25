@@ -17,8 +17,8 @@ class Player extends Character {
     constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
         this.keypress = data?.keypress || {up: 87, left: 65, down: 83, right: 68};
-        this.touchControls = data?.touchControls || {interactLabel: "E", position: "left"};
-        this.touchControls.mapping = this.keypress;
+        this.touchOptions = data?.touchOptions || {interactLabel: "E", position: "left"};
+        this.touchOptions.mapping = this.keypress;
         this.pressedKeys = {}; // active keys array
         this.bindMovementKeyListners();
         this.gravity = data.GRAVITY || false;
@@ -27,7 +27,7 @@ class Player extends Character {
         this.moved = false;
         
         // Initialize touch controls for mobile devices, using data.touchControls if provided
-        this.touchControls = new TouchControls(gameEnv, touchControls);
+        this.touchControls = new TouchControls(gameEnv, this.touchOptions);
     }
 
     /**
