@@ -46,6 +46,23 @@ date: 2025-10-21
             text-align: center;
             font-weight: 600;
             letter-spacing: -0.5px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         h2 {
@@ -56,6 +73,25 @@ date: 2025-10-21
             font-weight: 500;
             border-bottom: 2px solid #3b82f6;
             padding-bottom: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        h2:hover {
+            color: #93c5fd;
+        }
+
+        h2::before {
+            content: '▼';
+            position: absolute;
+            left: 0;
+            transition: transform 0.3s;
+        }
+
+        h2.collapsed::before {
+            transform: rotate(-90deg);
         }
 
         h3 {
@@ -79,6 +115,16 @@ date: 2025-10-21
             margin: 20px 0;
             border-radius: 8px;
             backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            overflow: hidden;
+            max-height: 1000px;
+        }
+
+        .section.collapsed {
+            max-height: 0;
+            padding: 0 25px;
+            margin: 0;
+            opacity: 0;
         }
 
         .workflow-step {
@@ -87,6 +133,13 @@ date: 2025-10-21
             margin: 15px 0;
             border-radius: 8px;
             border-left: 3px solid #60a5fa;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .workflow-step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .workflow-step strong {
@@ -100,12 +153,44 @@ date: 2025-10-21
             margin: 30px 0;
             border-radius: 12px;
             border: 1px solid #3b82f6;
+            transition: border-color 0.3s;
+        }
+
+        .activity-box.completed {
+            border-color: #10b981;
         }
 
         .activity-box h3 {
             color: #7dd3fc;
             margin-top: 0;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkmark {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .checkmark.checked {
+            background: #10b981;
+            border-color: #10b981;
+            position: relative;
+        }
+
+        .checkmark.checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            top: -2px;
+            left: 3px;
         }
 
         textarea {
@@ -134,64 +219,424 @@ date: 2025-10-21
             margin-bottom: 5px;
             display: block;
         }
+
+        .progress-bar {
+            background: rgba(30, 41, 59, 0.6);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0 40px;
+            border: 1px solid #3b82f6;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .quiz-section {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 12px;
+            border: 2px solid #8b5cf6;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quiz-option {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #475569;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            border-color: #8b5cf6;
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .quiz-option.correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            animation: fadeIn 0.5s;
+        }
+
+        .feedback.success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #6ee7b7;
+        }
+
+        .feedback.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+
+        .word-count {
+            text-align: right;
+            color: #94a3b8;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .save-indicator {
+            color: #10b981;
+            font-size: 0.9em;
+            margin-top: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Key 1</h1>
+        <h1>Key 1: Understanding AI</h1>
 
-        <h2>What is AI?</h2>
-        <div class="section">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%;">0% Complete</div>
+        </div>
+
+        <h2 id="section1Header">What is AI?</h2>
+        <div class="section" id="section1">
             <p>AI is an acronym that stands for Artificial Intelligence. It refers to the development of computer systems that are able to perform tasks that would normally require human intelligence, such as visual perception, speech analyzation, decision-making, and translating languages.</p>
         </div>
 
-        <h2>What is the Central Concept of AI?</h2>
-        <div class="section">
+        <h2 id="section2Header">What is the Central Concept of AI?</h2>
+        <div class="section" id="section2">
             <p>The main concept of AI is the ability of machines to learn from data and improve their performance over time. This is achieved through machine learning algorithms. They are sets of instructions that are used to analyze data and make predictions or decisions.</p>
         </div>
 
-        <h2>How does AI Work?</h2>
-        <p>The workflow of AI typically involves the following steps:</p>
+        <h2 id="section3Header">How does AI Work?</h2>
+        <div class="section" id="section3">
+            <p>The workflow of AI typically involves the following steps:</p>
 
-        <div class="workflow-step">
-            <strong>1. Data Collection:</strong> Gathering data relevant to the problem or task that the AI is intended to solve.
+            <div class="workflow-step">
+                <strong>1. Data Collection:</strong> Gathering data relevant to the problem or task that the AI is intended to solve.
+            </div>
+
+            <div class="workflow-step">
+                <strong>2. Data Preprocessing:</strong> Cleaning, transforming, and preparing the data for use in the machine learning algorithm.
+            </div>
+
+            <div class="workflow-step">
+                <strong>3. Training for module:</strong> Using the machine learning algorithm to analyze the data and make predictions or make decisions.
+            </div>
+
+            <div class="workflow-step">
+                <strong>4. Evaluation:</strong> Testing the performance of the AI system and making it as what is necessary.
+            </div>
+
+            <div class="workflow-step">
+                <strong>5. Deployment:</strong> Integrating the AI system into a larger system or application.
+            </div>
         </div>
 
-        <div class="workflow-step">
-            <strong>2. Data Preprocessing:</strong> Cleaning, transforming, and preparing the data for use in the machine learning algorithm.
+        <h2 id="section3bHeader">Types of AI</h2>
+        <div class="section" id="section3b">
+            <p>AI can be categorized into different types based on capabilities:</p>
+
+            <div class="workflow-step">
+                <strong>Narrow AI:</strong> Designed for specific tasks like voice recognition or playing chess. This is what we use today.
+            </div>
+
+            <div class="workflow-step">
+                <strong>General AI:</strong> Would match human intelligence across all areas. This doesn't exist yet.
+            </div>
+
+            <div class="workflow-step">
+                <strong>Super AI:</strong> Would surpass human intelligence. This is theoretical and remains science fiction.
+            </div>
         </div>
 
-        <div class="workflow-step">
-            <strong>3. Training for module:</strong> Using the machine learning algorithm to analyze the data and make predictions or make decisions.
+        <h2 id="section4Header">Quick Knowledge Check</h2>
+        <div class="section quiz-section" id="section4">
+            <div class="quiz-question">
+                <h3>Test your understanding!</h3>
+                <p><strong>Question 1:</strong> What is the main concept of AI?</p>
+                <div class="quiz-options" id="quiz1Options">
+                    <div class="quiz-option" data-answer="wrong" data-quiz="1">A) Making computers faster</div>
+                    <div class="quiz-option" data-answer="correct" data-quiz="1">B) Machines learning from data and improving over time</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="1">C) Creating robots that look like humans</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="1">D) Programming computers with fixed rules</div>
+                </div>
+                <button class="submit-btn" id="quizSubmit1" disabled>Check Answer</button>
+                <div id="quizFeedback1"></div>
+            </div>
+
+            <div class="quiz-question" style="margin-top: 40px;">
+                <p><strong>Question 2:</strong> Which type of AI is currently in use today?</p>
+                <div class="quiz-options" id="quiz2Options">
+                    <div class="quiz-option" data-answer="correct" data-quiz="2">A) Narrow AI</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="2">B) General AI</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="2">C) Super AI</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="2">D) Universal AI</div>
+                </div>
+                <button class="submit-btn" id="quizSubmit2" disabled>Check Answer</button>
+                <div id="quizFeedback2"></div>
+            </div>
         </div>
 
-        <div class="workflow-step">
-            <strong>4. Evaluation:</strong> Testing the performance of the AI system and making it as what is necessary.
-        </div>
+        <h2 id="section5Header">Activities</h2>
+        <div class="section" id="section5">
+            <div class="activity-box" data-activity="1">
+                <h3>
+                    <span class="checkmark" id="check1"></span>
+                    Activity 1: AI in everyday Life
+                </h3>
+                <p>Make a list of all the ways you use AI in your everyday life. This could include things like virtual assistants, image recognition software, language translation apps, and more.</p>
+                <label class="label">Type your answers here:</label>
+                <textarea rows="10" id="activity1" placeholder="Start typing your answer..."></textarea>
+                <div class="word-count" id="count1">0 words</div>
+                <div class="save-indicator" id="save1">Saved ✓</div>
+            </div>
 
-        <div class="workflow-step">
-            <strong>5. Deployment:</strong> Integrating the AI system into a larger system or application.
-        </div>
+            <div class="activity-box" data-activity="2">
+                <h3>
+                    <span class="checkmark" id="check2"></span>
+                    Activity 2: Machine Learning Algorithms
+                </h3>
+                <p>Research and write a short description of three different machine learning algorithms. How do they work? What are their strengths and weaknesses?</p>
+                <label class="label">Type your answers here:</label>
+                <textarea rows="10" id="activity2" placeholder="Start typing your answer..."></textarea>
+                <div class="word-count" id="count2">0 words</div>
+                <div class="save-indicator" id="save2">Saved ✓</div>
+            </div>
 
-        <h2>Activities</h2>
-
-        <div class="activity-box">
-            <h3>Activity 1: AI in Everyday Life</h3>
-            <p>Make a list of all the ways you use AI in your everyday life. This could include things like virtual assistants, image recognition software, language translation apps, and more.</p>
-            <label class="label">Type your answers here:</label>
-            <textarea rows="10"></textarea>
-        </div>
-
-        <div class="activity-box">
-            <h3>Activity 2: Machine Learning Algorithms</h3>
-            <p>Research and write a short description of three different machine learning algorithms. How do they work? What are their strengths and weaknesses?</p>
-            <label class="label">Type your answers here:</label>
-            <textarea rows="10"></textarea>
+            <div class="activity-box" data-activity="3">
+                <h3>
+                    <span class="checkmark" id="check3"></span>
+                    Activity 3: AI in Healthcare
+                </h3>
+                <p>Research and write a short description of how AI is being used in the healthcare industry. What are the benefits and drawbacks of using AI in healthcare?</p>
+                <label class="label">Type your answers here:</label>
+                <textarea rows="10" id="activity3" placeholder="Start typing your answer..."></textarea>
+                <div class="word-count" id="count3">0 words</div>
+                <div class="save-indicator" id="save3">Saved ✓</div>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Collapsible sections
+        document.querySelectorAll('h2').forEach(header => {
+            header.addEventListener('click', function() {
+                const sectionId = this.id.replace('Header', '');
+                const section = document.getElementById(sectionId);
+                
+                this.classList.toggle('collapsed');
+                section.classList.toggle('collapsed');
+            });
+        });
+
+        // Quiz functionality
+        let selectedAnswer1 = null;
+        let selectedAnswer2 = null;
+        
+        // Quiz 1
+        const quiz1Options = document.querySelectorAll('[data-quiz="1"]');
+        const submitBtn1 = document.getElementById('quizSubmit1');
+        const feedback1 = document.getElementById('quizFeedback1');
+
+        quiz1Options.forEach(option => {
+            option.addEventListener('click', function() {
+                if (this.classList.contains('correct') || this.classList.contains('incorrect')) {
+                    return;
+                }
+                
+                quiz1Options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedAnswer1 = this.dataset.answer;
+                submitBtn1.disabled = false;
+            });
+        });
+
+        submitBtn1.addEventListener('click', function() {
+            if (selectedAnswer1 === 'correct') {
+                quiz1Options.forEach(opt => {
+                    if (opt.dataset.answer === 'correct') {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback1.className = 'feedback success';
+                feedback1.textContent = '🎉 Correct! Machine learning is all about systems learning from data and improving their performance over time.';
+            } else {
+                quiz1Options.forEach(opt => {
+                    if (opt.classList.contains('selected')) {
+                        opt.classList.add('incorrect');
+                    }
+                    if (opt.dataset.answer === 'correct') {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback1.className = 'feedback error';
+                feedback1.textContent = '❌ Not quite. The main concept of AI is about machines learning from data and improving over time. Try again!';
+            }
+            submitBtn1.disabled = true;
+            updateProgress();
+        });
+
+        // Quiz 2
+        const quiz2Options = document.querySelectorAll('[data-quiz="2"]');
+        const submitBtn2 = document.getElementById('quizSubmit2');
+        const feedback2 = document.getElementById('quizFeedback2');
+
+        quiz2Options.forEach(option => {
+            option.addEventListener('click', function() {
+                if (this.classList.contains('correct') || this.classList.contains('incorrect')) {
+                    return;
+                }
+                
+                quiz2Options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedAnswer2 = this.dataset.answer;
+                submitBtn2.disabled = false;
+            });
+        });
+
+        submitBtn2.addEventListener('click', function() {
+            if (selectedAnswer2 === 'correct') {
+                quiz2Options.forEach(opt => {
+                    if (opt.dataset.answer === 'correct') {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback2.className = 'feedback success';
+                feedback2.textContent = '🎉 Correct! Narrow AI is designed for specific tasks and is the only type currently in use.';
+            } else {
+                quiz2Options.forEach(opt => {
+                    if (opt.classList.contains('selected')) {
+                        opt.classList.add('incorrect');
+                    }
+                    if (opt.dataset.answer === 'correct') {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback2.className = 'feedback error';
+                feedback2.textContent = '❌ Not quite. Narrow AI is the only type of AI we have today - it handles specific tasks like voice recognition.';
+            }
+            submitBtn2.disabled = true;
+            updateProgress();
+        });
+
+        // Activity tracking
+        const activities = ['activity1', 'activity2', 'activity3'];
+        const activityData = {};
+
+        activities.forEach((activityId, index) => {
+            const textarea = document.getElementById(activityId);
+            const wordCount = document.getElementById(`count${index + 1}`);
+            const saveIndicator = document.getElementById(`save${index + 1}`);
+            const checkmark = document.getElementById(`check${index + 1}`);
+
+            textarea.addEventListener('input', function() {
+                const text = this.value.trim();
+                const words = text ? text.split(/\s+/).length : 0;
+                wordCount.textContent = `${words} words`;
+
+                activityData[activityId] = this.value;
+                
+                saveIndicator.classList.add('show');
+                setTimeout(() => saveIndicator.classList.remove('show'), 2000);
+
+                if (words >= 20) {
+                    checkmark.classList.add('checked');
+                    textarea.closest('.activity-box').classList.add('completed');
+                } else {
+                    checkmark.classList.remove('checked');
+                    textarea.closest('.activity-box').classList.remove('completed');
+                }
+
+                updateProgress();
+            });
+        });
+
+        // Progress tracking
+        function updateProgress() {
+            let completed = 0;
+            const total = 5;
+
+            activities.forEach((activityId, index) => {
+                const textarea = document.getElementById(activityId);
+                const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+                if (words >= 20) completed++;
+            });
+
+            if (feedback1.textContent && feedback1.classList.contains('success')) {
+                completed++;
+            }
+            if (feedback2.textContent && feedback2.classList.contains('success')) {
+                completed++;
+            }
+
+            const percentage = Math.round((completed / total) * 100);
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '% Complete';
+        }
+    </script>
 </body>
 </html>
-
-
-
 
