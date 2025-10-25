@@ -161,6 +161,31 @@ class Player extends Character {
     }
 
     /**
+     * Show the interact button when near an NPC
+     */
+    showInteractButton() {
+        if (this.touchControls) {
+            this.touchControls.showInteractButton();
+        }
+    }
+
+    /**
+     * Hide the interact button when not near an NPC
+     */
+    hideInteractButton() {
+        if (this.touchControls) {
+            this.touchControls.hideInteractButton();
+        }
+    }
+
+    /**
+     * Check if interact button is currently visible
+     */
+    isInteractButtonVisible() {
+        return this.touchControls ? this.touchControls.isInteractButtonVisible() : false;
+    }
+
+    /**
      * Clean up resources when player is destroyed
      */
     destroy() {

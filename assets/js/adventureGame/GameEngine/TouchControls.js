@@ -12,7 +12,8 @@ class TouchControls {
             'up': 87,    // W key
             'left': 65,  // A key
             'down': 83,  // S key
-            'right': 68  // D key
+            'right': 68, // D key
+            'interact': 69 // E key
         };
         
         this.init();
@@ -20,13 +21,18 @@ class TouchControls {
     }
 
     /**
-     * Detect if device is mobile and show/hide controls accordingly
+     * Detect if device supports touch and show/hide controls accordingly
      */
     detectMobile() {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-                        || ('ontouchstart' in window);
+        const hasTouchscreen = ('ontouchstart' in window) || 
+                              (navigator.maxTouchPoints > 0) || 
+                              (navigator.msMaxTouchPoints > 0);
         
-        if (isMobile) {
+        // Also check for mobile user agents as backup
+        const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Show controls if device has touch capabilities OR is mobile
+        if (hasTouchscreen || isMobileUserAgent) {
             this.show();
         } else {
             this.hide();
@@ -60,6 +66,13 @@ class TouchControls {
                     height: 150px;
                 }
                 
+                .interact-container {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    z-index: 1000;
+                }
+                
                 .dpad-button {
                     position: absolute;
                     width: 45px;
@@ -78,8 +91,43 @@ class TouchControls {
                     touch-action: none;
                 }
                 
+                .interact-button {
+                    position: relative;
+                    width: 55px;
+                    height: 55px;
+                    background: rgba(100, 255, 100, 0.8);
+                    border: 2px solid rgba(0, 100, 0, 0.5);
+                    border-radius: 50%;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #004d00;
+                    cursor: pointer;
+                    transition: all 0.1s ease;
+                    touch-action: none;
+                    animation: pulse 2s infinite;
+                }
+                
+                @keyframes pulse {
+                    0% { box-shadow: 0 0 0 0 rgba(100, 255, 100, 0.7); }
+                    70% { box-shadow: 0 0 0 10px rgba(100, 255, 100, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(100, 255, 100, 0); }
+                }
+                
+                .interact-button.visible {
+                    display: flex;
+                }
+                
                 .dpad-button:active, .dpad-button.pressed {
                     background: rgba(100, 150, 255, 0.9);
+                    color: white;
+                    transform: scale(0.95);
+                }
+                
+                .interact-button:active, .interact-button.pressed {
+                    background: rgba(50, 200, 50, 0.9);
                     color: white;
                     transform: scale(0.95);
                 }
@@ -116,6 +164,12 @@ class TouchControls {
                         font-size: 14px;
                     }
                     
+                    .interact-button {
+                        width: 45px;
+                        height: 45px;
+                        font-size: 14px;
+                    }
+                    
                     .dpad-up, .dpad-down {
                         left: 42px;
                     }
@@ -131,6 +185,9 @@ class TouchControls {
                 <div class="dpad-button dpad-right" data-direction="right">→</div>
                 <div class="dpad-button dpad-down" data-direction="down">↓</div>
             </div>
+            <div class="interact-container">
+                <div class="interact-button" data-direction="interact">E</div>
+            </div>
         `;
 
         // Add to DOM
@@ -144,7 +201,7 @@ class TouchControls {
      * Bind touch events to the virtual buttons
      */
     bindEvents() {
-        const buttons = this.controlsContainer.querySelectorAll('.dpad-button');
+        const buttons = this.controlsContainer.querySelectorAll('[data-direction]');
         
         buttons.forEach(button => {
             const direction = button.dataset.direction;
@@ -220,6 +277,34 @@ class TouchControls {
         });
         
         document.dispatchEvent(event);
+    }
+
+    /**
+     * Show the interact button (when near an NPC)
+     */
+    showInteractButton() {
+        const interactButton = this.controlsContainer?.querySelector('.interact-button');
+        if (interactButton) {
+            interactButton.classList.add('visible');
+        }
+    }
+
+    /**
+     * Hide the interact button (when not near an NPC)
+     */
+    hideInteractButton() {
+        const interactButton = this.controlsContainer?.querySelector('.interact-button');
+        if (interactButton) {
+            interactButton.classList.remove('visible');
+        }
+    }
+
+    /**
+     * Check if interact button is currently visible
+     */
+    isInteractButtonVisible() {
+        const interactButton = this.controlsContainer?.querySelector('.interact-button');
+        return interactButton?.classList.contains('visible') || false;
     }
 
     /**
