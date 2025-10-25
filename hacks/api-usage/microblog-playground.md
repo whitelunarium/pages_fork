@@ -14,6 +14,11 @@ This page demonstrates fetching and displaying microblog posts using the `microb
   <em>Loading microblog posts...</em>
 </div>
 
+<!-- jQuery and DataTables CDN -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <script type="module">
 import { fetchPosts } from '/assets/js/api/microblog.js';
 
@@ -29,9 +34,9 @@ async function renderMicroblogTable() {
         const attributes = [
             'id', 'userId', 'userName', 'userUid', 'content', 'topicId', 'timestamp', 'updatedAt', 'characterCount'
         ];
-        // Table: starts with headers
+        // Table: starts with headers, microblog-table 'id" definition is for jquery feattures.
         let table = `
-        <table border="1" style="border-collapse:collapse; margin-top:1em;">
+        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em;">
         <thead>
             <tr>
             ${attributes.map(header => `<th>${header}</th>`).join('')}
@@ -47,11 +52,15 @@ async function renderMicroblogTable() {
         table += '</tbody></table>';
         // Table: set DOM element container with HTML, which displays content
         container.innerHTML = topicInfo + table;
+        // Wait for DOM update, then initialize DataTables
+        setTimeout(() => {
+            if (window.jQuery && $('#microblog-table').length) {
+                $('#microblog-table').DataTable();
+            }
+        }, 0);
     } catch (error) {
         container.innerHTML = `<div style="color:red;">Failed to load microblog posts: ${error.message}</div>`;
     }
 }
 renderMicroblogTable();
 </script>
-
-
