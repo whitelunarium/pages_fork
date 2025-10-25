@@ -90,10 +90,9 @@ The system is now defunct, as humans took to the stars. We'll have the reestabli
         },
         interaction: {
             hover: true,
-            zoomSpeed: 0.5,
-            dragNodes: true,
+            zoomView: false,
             dragView: true,
-            zoomView: true
+            dragNodes: true
         },
         layout: {
             improvedLayout: true
@@ -106,14 +105,14 @@ The system is now defunct, as humans took to the stars. We'll have the reestabli
     // fit the network to view all nodes at default zoom
     network.fit();
 
-    // open nods URL on click
+    // open node URL on click in same tab
     network.on('click', function (params) {
         if (params.nodes.length) {
             var nodeId = params.nodes[0];
             var node = nodes.get(nodeId);
             if (node && node.url) {
-                // open in new tab
-                window.open(node.url, '_blank');
+                // navigate in same tab
+                window.location.href = node.url;
             }
         }
     });
