@@ -13,7 +13,7 @@ lxdData:
     - Title: "Resume & Interview Prep"
       Genre: "Assessment"
       Level: 1
-      Description: "Team-defined AI usage module"
+      Description: "Learn to rewrite resume bullets with metrics using STAR format and prepare for the three most common interview questions by recording and analyzing your responses."
       Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
       Video: "/cs-portfolio-quest/ai/submodule_1-video"
       Lessons: "/cs-portfolio-quest/ai/submodule_1/"
