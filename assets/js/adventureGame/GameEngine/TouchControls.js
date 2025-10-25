@@ -66,13 +66,6 @@ class TouchControls {
                     height: 150px;
                 }
                 
-                .interact-container {
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    z-index: 1000;
-                }
-                
                 .dpad-button {
                     position: absolute;
                     width: 45px;
@@ -92,22 +85,23 @@ class TouchControls {
                 }
                 
                 .interact-button {
-                    position: relative;
-                    width: 55px;
-                    height: 55px;
+                    position: absolute;
+                    top: 52px;
+                    left: 52px;
+                    width: 45px;
+                    height: 45px;
                     background: rgba(100, 255, 100, 0.8);
                     border: 2px solid rgba(0, 100, 0, 0.5);
                     border-radius: 50%;
-                    display: none;
+                    display: flex;
                     align-items: center;
                     justify-content: center;
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: bold;
                     color: #004d00;
                     cursor: pointer;
                     transition: all 0.1s ease;
                     touch-action: none;
-                    animation: pulse 2s infinite;
                 }
                 
                 @keyframes pulse {
@@ -115,9 +109,8 @@ class TouchControls {
                     70% { box-shadow: 0 0 0 10px rgba(100, 255, 100, 0); }
                     100% { box-shadow: 0 0 0 0 rgba(100, 255, 100, 0); }
                 }
-                
-                .interact-button.visible {
-                    display: flex;
+                .interact-button.pulse {
+                    animation: pulse 2s infinite;
                 }
                 
                 .dpad-button:active, .dpad-button.pressed {
@@ -184,8 +177,6 @@ class TouchControls {
                 <div class="dpad-button dpad-left" data-direction="left">←</div>
                 <div class="dpad-button dpad-right" data-direction="right">→</div>
                 <div class="dpad-button dpad-down" data-direction="down">↓</div>
-            </div>
-            <div class="interact-container">
                 <div class="interact-button" data-direction="interact">E</div>
             </div>
         `;
@@ -280,31 +271,31 @@ class TouchControls {
     }
 
     /**
-     * Show the interact button (when near an NPC)
+     * Visually highlight the interact button (when near an NPC)
      */
     showInteractButton() {
         const interactButton = this.controlsContainer?.querySelector('.interact-button');
         if (interactButton) {
-            interactButton.classList.add('visible');
+            interactButton.classList.add('pulse');
         }
     }
 
     /**
-     * Hide the interact button (when not near an NPC)
+     * Remove highlight from the interact button (when not near an NPC)
      */
     hideInteractButton() {
         const interactButton = this.controlsContainer?.querySelector('.interact-button');
         if (interactButton) {
-            interactButton.classList.remove('visible');
+            interactButton.classList.remove('pulse');
         }
     }
 
     /**
-     * Check if interact button is currently visible
+     * Check if interact button is currently highlighted
      */
     isInteractButtonVisible() {
         const interactButton = this.controlsContainer?.querySelector('.interact-button');
-        return interactButton?.classList.contains('visible') || false;
+        return interactButton?.classList.contains('pulse') || false;
     }
 
     /**
