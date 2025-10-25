@@ -3,6 +3,7 @@ layout: post
 title: "Prompt Engineering"
 description: "Using different Prompts"
 permalink: /digital-famine/ai/submodule_2/
+breadcrumb: true
 parent: "AI Usage"
 team: "Debuggers"
 submodule: 2
