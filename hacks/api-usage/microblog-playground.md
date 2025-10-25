@@ -32,7 +32,7 @@ async function renderMicroblogTable() {
         `;
         // Table columns
         const attributes = [
-            'id', 'userId', 'userName', 'userUid', 'content', 'topicId', 'timestamp', 'updatedAt', 'characterCount'
+            'id', 'userName', 'userUid', 'content', 'topicId', 'timestamp', 'characterCount'
         ];
         // Table: starts with headers, microblog-table 'id" definition is for jquery feattures.
         let table = `
