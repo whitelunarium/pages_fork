@@ -5,32 +5,34 @@
 
 import { queryGemini } from './api/gemini.js';
 
-// Example 1: Basic AI query with custom prompt
-async function basicAIQuery() {
+// Example 1: Basic AI query returning raw text/markdown (default behavior)
+async function basicTextAnalysis() {
     try {
         const result = await queryGemini({
-            prompt: "Summarize the following text in 3 bullet points:",
-            text: "Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed..."
+            prompt: "Analyze this text for writing quality and provide feedback:",
+            text: "The student wrote a essay about climate change but forgot to include citations."
         });
         
-        console.log('Basic AI Query Result:', result);
+        // result contains raw response data (for C4-style markdown analysis)
+        console.log('Analysis result:', result);
         return result;
     } catch (error) {
-        console.error('Failed:', error);
+        console.error('Analysis failed:', error.message);
     }
 }
 
-// Example 2: Citation research using functional programming style
+// Example 2: Citation research requesting JSON parsing (C2-style)
 function researchQuoteExample() {
     const CITATION_PROMPT = `Please locate a primary source for the provided text and format response as JSON structure with these exact keys: author, date, title, source, url, formal_quote, intext_citation. The quote is: `;
     
     return queryGemini({
         prompt: CITATION_PROMPT,
-        text: "The only way to do great work is to love what you do"
+        text: "The only way to do great work is to love what you do",
+        parseJSON: true  // Request JSON parsing for structured citation data
     })
     .then(citation => {
         console.log('Citation found:', citation);
-        // citation is already parsed and validated by the API
+        // citation is parsed JSON with: author, date, title, source, url, formal_quote, intext_citation
         return citation;
     })
     .catch(error => {

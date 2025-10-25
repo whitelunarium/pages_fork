@@ -344,6 +344,7 @@ The future of education will likely involve a collaborative approach between hum
             queryGemini({
                 prompt: prompt,
                 text: text
+                // parseJSON: false (default) - C4 expects raw text/markdown for analysis
             })
             .then(result => {
                 // result is already parsed and validated by the API
