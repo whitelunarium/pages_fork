@@ -3,19 +3,23 @@
  * Creates on-screen buttons that simulate keyboard WASD input
  */
 class TouchControls {
-    constructor(gameEnv) {
+    /**
+     * @param {object} gameEnv - Game environment
+     * @param {object} options - { keyMap, interactLabel, position, id }
+     *   keyMap: {up, left, down, right, interact} (keyCodes)
+     *   interactLabel: string (e.g. 'E' or 'U')
+     *   position: 'left' | 'right' (default: 'left')
+     *   id: string (for unique DOM id)
+     */
+    constructor(gameEnv, options = {}) {
         this.gameEnv = gameEnv;
         this.isVisible = false;
         this.controlsContainer = null;
         this.activeButtons = new Set();
-        this.buttonMap = {
-            'up': 87,    // W key
-            'left': 65,  // A key
-            'down': 83,  // S key
-            'right': 68, // D key
-            'interact': 69 // E key
-        };
-        
+        this.buttonMap = options.mapping;
+        this.interactLabel = options.interactLabel;
+        this.position = options.position;
+        this.domId = options.id || 'touch-controls';
         this.init();
         this.detectMobile();
     }
@@ -45,13 +49,15 @@ class TouchControls {
     init() {
         // Create controls container
         this.controlsContainer = document.createElement('div');
-        this.controlsContainer.id = 'touch-controls';
+        this.controlsContainer.id = this.domId;
+        // Position left or right
+        let sideStyle = this.position === 'right' ? 'right: 20px; left: auto;' : 'left: 20px; right: auto;';
         this.controlsContainer.innerHTML = `
             <style>
-                #touch-controls {
+                #${this.domId} {
                     position: fixed;
                     bottom: 20px;
-                    left: 20px;
+                    ${sideStyle}
                     z-index: 1000;
                     display: none;
                     user-select: none;
@@ -59,13 +65,11 @@ class TouchControls {
                     -moz-user-select: none;
                     -ms-user-select: none;
                 }
-                
                 .dpad-container {
                     position: relative;
                     width: 150px;
                     height: 150px;
                 }
-                
                 .dpad-button {
                     position: absolute;
                     width: 45px;
@@ -83,7 +87,6 @@ class TouchControls {
                     transition: all 0.1s ease;
                     touch-action: none;
                 }
-                
                 .interact-button {
                     position: absolute;
                     top: 52px;
@@ -103,7 +106,6 @@ class TouchControls {
                     transition: all 0.1s ease;
                     touch-action: none;
                 }
-                
                 @keyframes pulse {
                     0% { box-shadow: 0 0 0 0 rgba(100, 255, 100, 0.7); }
                     70% { box-shadow: 0 0 0 10px rgba(100, 255, 100, 0); }
@@ -112,61 +114,50 @@ class TouchControls {
                 .interact-button.pulse {
                     animation: pulse 2s infinite;
                 }
-                
                 .dpad-button:active, .dpad-button.pressed {
                     background: rgba(100, 150, 255, 0.9);
                     color: white;
                     transform: scale(0.95);
                 }
-                
                 .interact-button:active, .interact-button.pressed {
                     background: rgba(50, 200, 50, 0.9);
                     color: white;
                     transform: scale(0.95);
                 }
-                
                 .dpad-up {
                     top: 0;
                     left: 52px;
                 }
-                
                 .dpad-left {
                     top: 52px;
                     left: 0;
                 }
-                
                 .dpad-right {
                     top: 52px;
                     right: 0;
                 }
-                
                 .dpad-down {
                     bottom: 0;
                     left: 52px;
                 }
-                
                 @media (max-width: 480px) {
                     .dpad-container {
                         width: 120px;
                         height: 120px;
                     }
-                    
                     .dpad-button {
                         width: 36px;
                         height: 36px;
                         font-size: 14px;
                     }
-                    
                     .interact-button {
                         width: 45px;
                         height: 45px;
                         font-size: 14px;
                     }
-                    
                     .dpad-up, .dpad-down {
                         left: 42px;
                     }
-                    
                     .dpad-left, .dpad-right {
                         top: 42px;
                     }
@@ -177,7 +168,7 @@ class TouchControls {
                 <div class="dpad-button dpad-left" data-direction="left">←</div>
                 <div class="dpad-button dpad-right" data-direction="right">→</div>
                 <div class="dpad-button dpad-down" data-direction="down">↓</div>
-                <div class="interact-button" data-direction="interact">E</div>
+                <div class="interact-button" data-direction="interact">${this.interactLabel}</div>
             </div>
         `;
 
@@ -260,7 +251,7 @@ class TouchControls {
      * @param {number} keyCode - The key code to simulate
      */
     dispatchKeyEvent(type, keyCode) {
-        // Map keyCode to key string for WASD and E
+        // Map keyCode to key string for WASD/E or IJKL/U
         let key = undefined;
         switch (keyCode) {
             case 87: key = 'w'; break;
@@ -268,6 +259,11 @@ class TouchControls {
             case 83: key = 's'; break;
             case 68: key = 'd'; break;
             case 69: key = 'e'; break;
+            case 73: key = 'i'; break;
+            case 74: key = 'j'; break;
+            case 75: key = 'k'; break;
+            case 76: key = 'l'; break;
+            case 85: key = 'u'; break;
             default: key = undefined;
         }
         const event = new KeyboardEvent(type, {

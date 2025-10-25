@@ -74,7 +74,7 @@ class GameLevelEnd {
         upLeft: {row: 5, start: 0, columns: 4, rotate: Math.PI/8 },
         upRight: {row: 7, start: 0, columns: 4, rotate: -Math.PI/8 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-        keypress: { up: 87, left: 65, down: 83, right: 68 } // Using W, A, S, D for Steve
+        // keypress: { up: 87, left: 65, down: 83, right: 68 } // Using W, A, S, D for Steve
     };
     
     const sprite_src_alex = path + "/images/gamify/Alex.png";
@@ -99,7 +99,11 @@ class GameLevelEnd {
         upLeft: {row: 5, start: 0, columns: 4, rotate: Math.PI/8 },
         upRight: {row: 7, start: 0, columns: 4, rotate: -Math.PI/8 },
         hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-        keypress: { up: 73, left: 74, down: 75, right: 76 } // Using I, J, K, L for Alex to differentiate from Steve 
+        keypress: { up: 73, left: 74, down: 75, right: 76, interact: 85 }, // Using I, J, K, L for Alex to differentiate from Steve 
+        touchControls: {
+          interactLabel: "U",
+          position: "right"
+        }
     };
 
     // Store a reference to the current instance to use in closures
