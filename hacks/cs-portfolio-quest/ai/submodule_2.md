@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Submodule 2"
+title: "Prompt Engineering"
 description: "Submodule 2 of AI Usage Mini-Quest"
 permalink: /cs-portfolio-quest/ai/submodule_2/
 parent: "AI Usage"

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Submodule 5"
+title: "Gemini/Workspace Integration"
 description: "Submodule 5 of AI Usage Mini-Quest"
 permalink: /cs-portfolio-quest/ai/submodule_5/
 parent: "AI Usage"
