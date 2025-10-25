@@ -46,6 +46,28 @@ export function queryGemini(options) {
             return response.json();
         })
         .then(data => {
+            // Handle API-level errors before parsing
+            if (data.error || (data.message && !data.success)) {
+                let errorMsg = data.error || data.message || "Unknown error";
+                
+                // Add error code if present
+                if (data.error_code) {
+                    errorMsg += ` (Error ${data.error_code})`;
+                }
+                
+                // Special handling for authentication errors
+                if (data.message && data.message.includes("Authentication")) {
+                    errorMsg += " (Login required)";
+                }
+                
+                throw new Error(errorMsg);
+            }
+            
+            // For C4-style responses: Check for successful response with content
+            if (data.hasOwnProperty('success') && (!data.success || !data.text)) {
+                throw new Error("No clear analysis provided by the backend");
+            }
+            
             // Automatically parse the response before returning
             return parseGeminiResponse(data);
         });

@@ -239,8 +239,7 @@ window.generativeQuoteToFillValuesForAPA = function() {
         return citationData;
     })
     .catch(error => {
-        console.error("Error in AI quote research:", error);
-        showAIStatus("⚠️ Login is required or connection failed: " + error.message, "error");
+        showAIStatus("⚠️ " + error.message, "error");
 
         // Fallback: Fill with example data for the Steve Jobs quote if that's what was entered
         if (text.toLowerCase().includes("innovation distinguishes") || text.toLowerCase().includes("steve jobs")) {

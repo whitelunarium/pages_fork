@@ -30,11 +30,11 @@ function researchQuoteExample() {
     })
     .then(citation => {
         console.log('Citation found:', citation);
-        // citation is already parsed and has: author, date, title, source, url, formal_quote, intext_citation
+        // citation is already parsed and validated by the API
         return citation;
     })
     .catch(error => {
-        console.error('Citation research failed:', error);
+        console.error('Citation research failed:', error.message);
         throw error;
     });
 }
@@ -47,7 +47,7 @@ function chainedQueries() {
         text: "Long article text here..."
     })
     .then(summaryData => {
-        // summaryData is already parsed JSON
+        // summaryData is already parsed and validated
         const summaryText = summaryData.summary || summaryData.text || summaryData;
         
         // Second query using result from first
@@ -61,24 +61,25 @@ function chainedQueries() {
         return keywordsData;
     })
     .catch(error => {
-        console.error('Chained queries failed:', error);
+        console.error('Chained queries failed:', error.message);
         throw error;
     });
 }
 
-// Example 4: Simple parsing with error handling
-function customParsingExample() {
+// Example 4: Simple error handling
+function simpleAnalysisExample() {
     return queryGemini({
         prompt: "Analyze this text and return JSON with keys: sentiment, keywords, summary",
         text: "I love this new technology! It's amazing and revolutionary."
     })
-    .then(parsedData => {
-        // Data is already parsed JSON from the API
-        console.log('Parsed data:', parsedData);
-        return parsedData;
+    .then(analysisData => {
+        // Data is already parsed and validated by the API
+        console.log('Analysis completed:', analysisData);
+        return analysisData;
     })
     .catch(error => {
-        console.error('Query failed:', error);
+        // All errors are already standardized by the API
+        console.error('Analysis failed:', error.message);
         throw error;
     });
 }
