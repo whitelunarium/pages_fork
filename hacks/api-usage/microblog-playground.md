@@ -28,16 +28,27 @@ async function renderMicroblogTable() {
             <div><strong>Can Post:</strong> ${data.canPost ? 'Yes' : 'No'}</div>
             <div><strong>Your Post Count:</strong> ${data.userPostCount || 0}</div>
         `;
-        // Table header
-        const headers = [
+        // Table columns
+        const attributes = [
             'id', 'userId', 'userName', 'userUid', 'content', 'topicId', 'timestamp', 'updatedAt', 'characterCount'
         ];
-        let table = `<table border="1" style="border-collapse:collapse; margin-top:1em;">
-            <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>`;
+        // Table: starts with headers
+        let table = `
+        <table border="1" style="border-collapse:collapse; margin-top:1em;">
+        <thead>
+            <tr>
+            ${attributes.map(header => `<th>${header}</th>`).join('')}
+            </tr>
+        </thead>
+        <tbody>
+        `;
+        // Table: display data
         (data.microblogs || []).forEach(post => {
-            table += '<tr>' + headers.map(h => `<td>${post[h] ?? ''}</td>`).join('') + '</tr>';
+            table += '<tr>' + attributes.map(data => `<td>${post[data] ?? ''}</td>`).join('') + '</tr>';
         });
+        // Table: closing tags
         table += '</tbody></table>';
+        // Table: set DOM element container with HTML, which displays content
         container.innerHTML = topicInfo + table;
     } catch (error) {
         container.innerHTML = `<div style="color:red;">Failed to load microblog posts: ${error.message}</div>`;
