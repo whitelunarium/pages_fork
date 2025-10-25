@@ -40,7 +40,7 @@ lxdData:
     - Title: "Coding with AI - The Realistic Version"
       Genre: "Assessment"
       Level: 4
-      Description: "Team-defined AI usage module"
+      Description: "Use the SPEC framework for code generation, follow a debugging template, and always run security checks. The key principle: understand and verify before using any AI-generated code."
       Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
       Video: "/cs-portfolio-quest/ai/submodule_4-video"
       Lessons: "/cs-portfolio-quest/ai/submodule_4/"
