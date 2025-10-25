@@ -5,7 +5,7 @@ title: Building a Computer Science Linkedin Profile
 description: >
   Understand how to ideate, develop, and describe computer science projects for future career success!
 author: CSA 2025-26
-permalink: /digital-famine
+permalink: /digital-famine/home
 lxdData:
   Title: "Learning Modules"
   Description: "Build critical project development skills and earn a certificate upon completion!"
