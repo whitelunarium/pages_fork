@@ -190,7 +190,8 @@ window.generativeQuoteToFillValuesForAPA = function() {
     // Functional programming style with promise chaining
     queryGemini({
         prompt: CITATION_PROMPT,
-        text: text
+        text: text,
+        parseJSON: true  // Request JSON parsing for citation data
     })
     .then(citationData => {
         // citationData is already parsed JSON from the API

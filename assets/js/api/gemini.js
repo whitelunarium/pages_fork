@@ -11,13 +11,15 @@ import { pythonURI, fetchOptions } from './config.js';
  * @param {string} options.prompt - The AI prompt/instruction
  * @param {string} options.text - The user input text to process
  * @param {string} [options.endpoint='/api/gemini'] - API endpoint
+ * @param {boolean} [options.parseJSON=false] - Whether to parse response as JSON
  * @returns {Promise} - Returns promise for chaining
  */
 export function queryGemini(options) {
     const {
         prompt,
         text,
-        endpoint = '/api/gemini'
+        endpoint = '/api/gemini',
+        parseJSON = false
     } = options;
 
     // Validate required parameters
@@ -68,8 +70,13 @@ export function queryGemini(options) {
                 throw new Error("No clear analysis provided by the backend");
             }
             
-            // Automatically parse the response before returning
-            return parseGeminiResponse(data);
+            // Conditionally parse JSON based on parseJSON parameter
+            if (parseJSON) {
+                return parseGeminiResponse(data);
+            } else {
+                // Return raw data for text/markdown responses (C4 style)
+                return data;
+            }
         });
 }
 
