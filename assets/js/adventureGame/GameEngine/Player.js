@@ -1,4 +1,5 @@
 import Character from './Character.js';
+import TouchControls from './TouchControls.js';
 
 // Define non-mutable constants as defaults
 const SCALE_FACTOR = 25; // 1/nth of the height of the canvas
@@ -22,6 +23,9 @@ class Player extends Character {
         this.acceleration = 0.001;
         this.time = 0;
         this.moved = false;
+        
+        // Initialize touch controls for mobile devices
+        this.touchControls = new TouchControls(gameEnv);
     }
 
     /**
@@ -127,6 +131,43 @@ class Player extends Character {
         this.pressedKeys = {};
         this.updateVelocityAndDirection();
         super.handleCollisionReaction(other);
+    }
+
+    /**
+     * Toggle touch controls visibility (useful for debugging or user preference)
+     */
+    toggleTouchControls() {
+        if (this.touchControls) {
+            this.touchControls.toggle();
+        }
+    }
+
+    /**
+     * Show touch controls explicitly
+     */
+    showTouchControls() {
+        if (this.touchControls) {
+            this.touchControls.show();
+        }
+    }
+
+    /**
+     * Hide touch controls explicitly  
+     */
+    hideTouchControls() {
+        if (this.touchControls) {
+            this.touchControls.hide();
+        }
+    }
+
+    /**
+     * Clean up resources when player is destroyed
+     */
+    destroy() {
+        if (this.touchControls) {
+            this.touchControls.destroy();
+        }
+        super.destroy?.();
     }
 
 
