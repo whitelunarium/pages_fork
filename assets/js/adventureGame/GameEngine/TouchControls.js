@@ -260,13 +260,23 @@ class TouchControls {
      * @param {number} keyCode - The key code to simulate
      */
     dispatchKeyEvent(type, keyCode) {
+        // Map keyCode to key string for WASD and E
+        let key = undefined;
+        switch (keyCode) {
+            case 87: key = 'w'; break;
+            case 65: key = 'a'; break;
+            case 83: key = 's'; break;
+            case 68: key = 'd'; break;
+            case 69: key = 'e'; break;
+            default: key = undefined;
+        }
         const event = new KeyboardEvent(type, {
             keyCode: keyCode,
             which: keyCode,
+            key: key,
             bubbles: true,
             cancelable: true
         });
-        
         document.dispatchEvent(event);
     }
 
