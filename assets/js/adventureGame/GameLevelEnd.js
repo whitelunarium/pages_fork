@@ -52,12 +52,12 @@ class GameLevelEnd {
         zIndex: 5  // Higher z-index to appear above parallax
     };
     
-    const sprite_src_chillguy = path + "/images/gamify/end_steve.png";
+    const sprite_src_steve = path + "/images/gamify/end_steve.png";
     const CHILLGUY_SCALE_FACTOR = 7;
-    const sprite_data_chillguy = {
+    const sprite_data_steve = {
         id: 'Steve',
         greeting: "Hi, I am Steve.",
-        src: sprite_src_chillguy,
+        src: sprite_src_steve,
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 25,
@@ -473,7 +473,7 @@ class GameLevelEnd {
     this.classes = [
       { class: BackgroundParallax, data: image_data_parallax },  // Add parallax background first
       { class: GamEnvBackground, data: image_data_end },         // Then regular background
-      { class: Player, data: sprite_data_chillguy },
+      { class: Player, data: sprite_data_steve },
       { class: Npc, data: sprite_data_endship },
       { class: Collectible, data: sprite_data_eye },
       { class: Player, data: sprite_data_alex },
