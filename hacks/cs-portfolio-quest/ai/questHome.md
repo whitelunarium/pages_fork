@@ -31,7 +31,7 @@ lxdData:
     - Title: "Real Project Example"
       Genre: "Assessment"
       Level: 3
-      Description: "Team-defined AI usage module"
+      Description: "A walkthrough of simplifying a Flask/Spring backend into Flask-only using AI assistance, broken into phases: understanding the system, planning migration, implementing changes, and debugging."
       Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
       Video: "/cs-portfolio-quest/ai/submodule_3-video"
       Lessons: "/cs-portfolio-quest/ai/submodule_3/"

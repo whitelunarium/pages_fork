@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Real Project Example"
-description: "Submodule 3 of AI Usage Mini-Quest"
+description: "A walkthrough of simplifying a Flask/Spring backend into Flask-only using AI assistance, broken into phases: understanding the system, planning migration, implementing changes, and debugging."
 permalink: /cs-portfolio-quest/ai/submodule_3/
 parent: "AI Usage"
 team: "Thinkers"
