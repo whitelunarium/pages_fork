@@ -23,10 +23,7 @@ async function renderMicroblogTable() {
         const data = await fetchPosts();
         // Topic-level info
         const topicInfo = `
-            <div><strong>Topic:</strong> ${data.topic || ''}</div>
             <div><strong>Post Count:</strong> ${data.count || 0}</div>
-            <div><strong>Can Post:</strong> ${data.canPost ? 'Yes' : 'No'}</div>
-            <div><strong>Your Post Count:</strong> ${data.userPostCount || 0}</div>
         `;
         // Table columns
         const attributes = [
