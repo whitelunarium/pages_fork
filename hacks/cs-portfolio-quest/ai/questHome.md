@@ -49,7 +49,7 @@ lxdData:
     - Title: "Gemini/Workspace Integration"
       Genre: "Assessment"
       Level: 5
-      Description: "Team-defined AI usage module"
+      Description: "When AI integration helps: summarizing documents, extracting action items, basic data work. When it doesn't: technical content, legal documents, anything requiring perfect accuracy. Includes warning signs for unreliable output."
       Categories: ["ChatGPT", "Prompting", "Vibe Coding"]
       Video: "/cs-portfolio-quest/ai/submodule_5-video"
       Lessons: "/cs-portfolio-quest/ai/submodule_5/"

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Gemini/Workspace Integration"
-description: "Submodule 5 of AI Usage Mini-Quest"
+description: "When AI integration helps: summarizing documents, extracting action items, basic data work. When it doesn't: technical content, legal documents, anything requiring perfect accuracy. Includes warning signs for unreliable output."
 permalink: /cs-portfolio-quest/ai/submodule_5/
 parent: "AI Usage"
 team: "Thinkers"
