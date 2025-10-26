@@ -7,9 +7,15 @@ import DialogueSystem from '/assets/js/adventureGame/DialogueSystem.js';
 
 class GameLevelHomePage {
   constructor(gameEnv) {
+    // Store gameEnv reference for use in methods
+    this.gameEnv = gameEnv;
+    
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
+
+    // Initialize dialogue system FIRST before it's used anywhere
+    this.dialogueSystem = new DialogueSystem();
 
     // Helper function for locked planet effect
     this.applyLockedEffect = (ctx, sprite) => {
@@ -49,9 +55,6 @@ class GameLevelHomePage {
         current: this.progression.current
       });
     };
-
-    // Reset progress (remove this line later if you want to keep progress)
-    localStorage.removeItem('planetProgression');
     
     // Load progression from localStorage if available
     const savedProgress = localStorage.getItem('planetProgression');
@@ -102,8 +105,6 @@ class GameLevelHomePage {
         }
       }
     });
-
-    this.dialogueSystem = new DialogueSystem();
     
     // Keep track of active key listener
     this.activeKeyListener = null;
@@ -156,6 +157,38 @@ class GameLevelHomePage {
         upRight: {row: 0, start: 0, columns: 2, rotate: Math.PI/4},
         hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
+    };
+
+    // Satellite companion data
+    const sprite_src_satellite = path + "/images/digital-famine/Satellite.png";
+    const sprite_data_satellite = {
+        id: 'Satellite',
+        greeting: "",
+        src: sprite_src_satellite,
+        SCALE_FACTOR: 18,  // Reduced from 25 to make it bigger (lower number = bigger sprite)
+        ANIMATION_RATE: 1,
+        pixels: {height: 1920, width: 1902},  // Use actual image dimensions
+        INIT_POSITION: { x: 100, y: height - (height/CHILLGUY_SCALE_FACTOR) - 50 },  // Start at x: 100 instead of 0
+        orientation: {rows: 1, columns: 1},
+        down: {row: 0, start: 0, columns: 1, rotate: 0},
+        hitbox: { widthPercentage: 0.01, heightPercentage: 0.01 },  // Invisible hitbox since it's non-interactive
+        zIndex: 15  // Higher z-index than planets (10) to ensure it's visible on top
+    };
+
+    // Ancient Book sprite data (bottom right corner)
+    const sprite_src_ancientBook = path + "/images/digital-famine/ancientBook.png";
+    const sprite_data_ancientBook = {
+        id: 'AncientBook',
+        greeting: "",
+        src: sprite_src_ancientBook,
+        SCALE_FACTOR: 10,
+        ANIMATION_RATE: 1,
+        pixels: {height: 512, width: 512},  // Adjust based on actual image size
+        INIT_POSITION: { x: width - 120, y: height - 120 },  // Bottom right corner
+        orientation: {rows: 1, columns: 1},
+        down: {row: 0, start: 0, columns: 1, rotate: 0},
+        hitbox: { widthPercentage: 0.01, heightPercentage: 0.01 },
+        zIndex: 20  // Higher than all other elements
     };
 
     //End Ship
@@ -422,8 +455,118 @@ class GameLevelHomePage {
       { class: Npc, data: sprite_data_ai },
       { class: Npc, data: sprite_data_microblog },
       { class: Npc, data: sprite_data_home },
+      { class: Npc, data: sprite_data_satellite },
+      { class: Npc, data: sprite_data_ancientBook },
     ];
+
+    // Store reference to satellite data for updates
+    this.satelliteData = sprite_data_satellite;
+    this.playerData = sprite_data_chillguy;
+
+    // Will store game object references after initialization
+    this.satelliteObject = null;
+    this.playerObject = null;
+    
+    // Create page counter display
+    this.createPageCounter();
+  }
+  
+  // Create page counter display next to the book
+  createPageCounter() {
+    const counterDiv = document.createElement('div');
+    counterDiv.id = 'page-counter';
+    counterDiv.style.position = 'absolute';
+    counterDiv.style.right = '20px';
+    counterDiv.style.bottom = '20px';
+    counterDiv.style.color = 'white';
+    counterDiv.style.fontSize = '24px';
+    counterDiv.style.fontWeight = 'bold';
+    counterDiv.style.textShadow = '2px 2px 4px rgba(0,0,0,0.8)';
+    counterDiv.style.zIndex = '25';
+    counterDiv.style.fontFamily = 'Arial, sans-serif';
+    
+    // Calculate pages collected
+    const pagesCollected = (this.progression.microblog ? 1 : 0) +
+                           (this.progression.medialit ? 1 : 0) +
+                           (this.progression.ai ? 1 : 0) +
+                           (this.progression.cyber ? 1 : 0);
+    
+    counterDiv.textContent = `${pagesCollected}/4`;
+    document.getElementById('gameContainer').appendChild(counterDiv);
+    
+    // Store reference for updates
+    this.pageCounter = counterDiv;
+  }
+  
+  // Update page counter
+  updatePageCounter() {
+    if (this.pageCounter) {
+      const pagesCollected = (this.progression.microblog ? 1 : 0) +
+                             (this.progression.medialit ? 1 : 0) +
+                             (this.progression.ai ? 1 : 0) +
+                             (this.progression.cyber ? 1 : 0);
+      this.pageCounter.textContent = `${pagesCollected}/4`;
+    }
+  }
+
+  // Initialize method called after objects are created
+  initialize() {
+    console.log('Initializing GameLevelHomePage...');
+    console.log('Number of game objects:', this.gameEnv.gameObjects.length);
+    
+    // Find and store references to the player and satellite objects
+    for (let gameObject of this.gameEnv.gameObjects) {
+      // Check both this.id (for Player) and this.canvas.id (for NPCs and other objects)
+      const objectId = gameObject.id || gameObject.canvas?.id;
+      if (objectId === 'Chill Guy' || objectId === 'chill guy') {
+        this.playerObject = gameObject;
+        console.log('Player found:', gameObject);
+      } else if (objectId === 'Satellite' || objectId === 'satellite') {
+        this.satelliteObject = gameObject;
+        console.log('Satellite found!', gameObject);
+        // Hide satellite initially - press T to toggle
+        gameObject.canvas.style.display = 'none';
+        console.log('Satellite hidden. Press T to toggle visibility.');
+      }
+    }
+    
+    // Add key listener to toggle satellite visibility
+    document.addEventListener('keydown', (e) => {
+      // Press 'T' to toggle satellite
+      if (e.key.toLowerCase() === 't' && this.satelliteObject) {
+        const isVisible = this.satelliteObject.canvas.style.display !== 'none';
+        this.satelliteObject.canvas.style.display = isVisible ? 'none' : 'block';
+        console.log('Satellite toggled:', !isVisible ? 'visible' : 'hidden');
+      }
+    });
+  }
+
+  // Update method called every frame to handle satellite following
+  update() {
+    // Update page counter
+    this.updatePageCounter();
+    
+    // Only update satellite if it's visible and player exists
+    const isVisible = this.satelliteObject && this.satelliteObject.canvas.style.display !== 'none';
+    if (isVisible && this.playerObject && this.satelliteObject) {
+      // Calculate target position relative to player
+      const targetOffsetX = -60;  // Offset to the left of player
+      const targetOffsetY = -40;  // Offset above the player
+      const followSpeed = 0.08;   // How fast it follows (0-1)
+
+      const playerX = this.playerObject.position.x;
+      const playerY = this.playerObject.position.y;
+
+      const targetX = playerX + targetOffsetX;
+      const targetY = playerY + targetOffsetY;
+
+      // Linear interpolation for smooth following
+      this.satelliteObject.position.x += (targetX - this.satelliteObject.position.x) * followSpeed;
+      this.satelliteObject.position.y += (targetY - this.satelliteObject.position.y) * followSpeed;
+    }
   }
 }
 
 export default GameLevelHomePage;
+
+
