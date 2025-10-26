@@ -223,10 +223,13 @@ async function renderMicroblogTable() {
                       renderMicroblogTable();
                     }
                     setTimeout(() => {
-                      const pageIconEl = document.getElementById('page-icon');
-                      const manyPagesIconEl = document.getElementById('many-pages-icon');
-                      if (pageIconEl) pageIconEl.onclick = () => setFilterMode('page');
-                      if (manyPagesIconEl) manyPagesIconEl.onclick = () => setFilterMode('people');
+                      // Bind ALL filter icons (top and bottom)
+                      document.querySelectorAll('#page-icon').forEach(el => {
+                        el.onclick = () => setFilterMode('page');
+                      });
+                      document.querySelectorAll('#many-pages-icon').forEach(el => {
+                        el.onclick = () => setFilterMode('people');
+                      });
                       // Only set default filter if not already set
                       if (!window.__microblogFilterModeInitialized) {
                         window.__microblogFilterModeInitialized = true;
