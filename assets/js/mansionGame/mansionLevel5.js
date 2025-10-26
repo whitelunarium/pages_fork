@@ -29,18 +29,18 @@ class MansionLevel5 {
 		src: sprite_player,
 		SCALE_FACTOR: player_scale_factor,
 		STEP_FACTOR: 1000,
-		ANIMATION_RATE: 0, //no animation
-		INIT_POSITION: { x: 0, y: height - (height/player_scale_factor) }, 
+		ANIMATION_RATE: 50, //no animation
+		INIT_POSITION: { x: 0, y: 0 }, 
 		pixels: {height: 32, width: 32}, // size of spritesheet, since only one frame and character is 32x32, this is 32x32
 		orientation: {rows: 1, columns: 1 }, // only one frame of anim
-		down: {row: 0, start: 0, columns: 3 },
-		downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/4 /*45 degrees in radians */},
-		downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/4 /*45 degrees in radians */},
-		left: {row: 2, start: 0, columns: 3 },
-		right: {row: 1, start: 0, columns: 3 },
-		up: {row: 3, start: 0, columns: 3 },
-		upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/4/*45 degrees in radians */ },
-		upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/4 /*45 degrees in radians */},
+		down: {row: 1, start: 0, columns: 0 },
+		downRight: {row: 1, start: 0, columns: 0, rotate: Math.PI/4 /*45 degrees in radians */},
+		downLeft: {row: 1, start: 0, columns: 0, rotate: -Math.PI/4 /*45 degrees in radians */},
+		left: {row: 1, start: 0, columns: 0 },
+		right: {row: 1, start: 0, columns: 0 },
+		up: {row: 1, start: 0, columns: 0 },
+		upLeft: {row: 1, start: 0, columns: 0, rotate: Math.PI/4/*45 degrees in radians */ },
+		upRight: {row: 1, start: 0, columns: 0, rotate: -Math.PI/4 /*45 degrees in radians */},
 		hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
 		keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
 	};
