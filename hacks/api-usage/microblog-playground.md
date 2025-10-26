@@ -81,15 +81,16 @@ document.getElementById('microblog-form').onsubmit = async function(e) {
 async function renderMicroblogTable() {
     const container = document.getElementById('microblog-playground');
     try {
+        // Fetch data for pages
         const data = await fetchPosts();
-        // Use SVG icons for Create (plus) and Edit (pencil)
+        // SVG icons for Create (plus) and Edit (pencil)
         const createIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>`;
         const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z" /></svg>`;
 
-  // Create button and post count for DataTables controls (top and bottom)
-  const controlsInfo = `<button id="create-btn" class="ml-2 bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center">${createIcon}</button><span class="font-bold ml-2">Posts: ${data.count || 0}&nbsp;&nbsp;</span>`;
+        // Create button and post count for DataTables controls (top and bottom)
+        const controlsInfo = `<button id="create-btn" class="ml-2 bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center">${createIcon}</button><span class="font-bold ml-2">Posts: ${data.count || 0}&nbsp;&nbsp;</span>`;
 
-        // Table columns for vertical stack with formatting and custom labels
+        // Table: Keys and Special Formatting
         const analytics = [
           { key: 'userName' },
           { key: 'timestamp', format: ts => {
@@ -105,17 +106,19 @@ async function renderMicroblogTable() {
           { key: 'topicPath', format: v => `Topic: ${v}` },
           { key: 'content' }
         ];
-        let table = `
-        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
-        <thead>
-            <tr>
-                <th style="width:30%">Analytics</th>
-                <th>Message</th>
-            </tr>
-        </thead>
-        <tbody>
+
+        // Table: columns
+        let head = `
+            <thead>
+                <tr>
+                    <th style="width:30%">Analytics</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
         `;
-        // Table: display data, each row is a post
+
+        // Table: rows; generated from microblog data
+        let genBody = '';
         (data.microblogs || []).forEach(post => {
             const analyticsCell = analytics.map(f => {
               let value = post[f.key] ?? '';
@@ -133,50 +136,63 @@ async function renderMicroblogTable() {
               }
               return `<div>${value}</div>`;
             }).join('');
-            table += `<tr><td class="text-left">${analyticsCell}</td><td class="text-left">${messageCell}</td></tr>`;
+            genBody += `<tr><td class="text-left">${analyticsCell}</td><td class="text-left">${messageCell}</td></tr>`;
         });
-    table += '</tbody></table>';
-    // Table: set DOM element container with HTML, which displays content
-    container.innerHTML = table;
 
-    // Wait for DOM update, then initialize DataTables
-    setTimeout(() => {
-      if (window.jQuery && $('#microblog-table').length) {
-        $('#microblog-table').DataTable({
-          initComplete: function() {
-            // Top controls (Show entries)
-            const lengthDiv = document.querySelector('.dataTables_length');
-            if (lengthDiv) {
-              lengthDiv.style.display = 'flex';
-              lengthDiv.style.alignItems = 'center';
-              lengthDiv.insertAdjacentHTML('afterbegin', controlsInfo);
-              lengthDiv.querySelectorAll('*').forEach(el => {
-                el.style.marginTop = '0';
-                el.style.marginBottom = '0';
-              });
-              const createBtn = document.getElementById('create-btn');
-              if (createBtn) createBtn.onclick = () => openModal({ mode: 'create' });
-            }
-            // Bottom controls (prefix to info)
-            const infoDiv = document.querySelector('.dataTables_info');
-            if (infoDiv) {
-              infoDiv.style.display = 'flex';
-              infoDiv.style.alignItems = 'center';
-              infoDiv.innerHTML = controlsInfo + infoDiv.innerHTML;
-              // Only bind if not already bound (avoid duplicate IDs)
-              const btns = infoDiv.querySelectorAll('#create-btn');
-              btns.forEach(btn => btn.onclick = () => openModal({ mode: 'create' }));
-            }
-          }
-        });
-        // Bind edit buttons
-        $('.edit-btn').on('click', function() {
-          const id = $(this).data('id');
-          const post = (data.microblogs || []).find(p => p.id == id);
-          openModal({ mode: 'edit', post });
-        });
-      }
-    }, 0);
+        // Table: body
+        let body = `
+        <tbody>
+            ${genBody}
+        </tbody>
+        `;
+
+        // Table: set container
+        container.innerHTML = `
+        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
+            ${head}
+            ${body}
+        </table>
+        `;
+
+        // Wait for DOM update, then initialize DataTables
+        setTimeout(() => {
+        // JQuery micro-table Bottom and Top control updates
+        if (window.jQuery && $('#microblog-table').length) {
+            $('#microblog-table').DataTable({
+                initComplete: function() {
+                    // Top controls (Show entries)
+                    const lengthDiv = document.querySelector('.dataTables_length');
+                    if (lengthDiv) {
+                    lengthDiv.style.display = 'flex';
+                    lengthDiv.style.alignItems = 'center';
+                    lengthDiv.insertAdjacentHTML('afterbegin', controlsInfo);
+                    lengthDiv.querySelectorAll('*').forEach(el => {
+                        el.style.marginTop = '0';
+                        el.style.marginBottom = '0';
+                    });
+                    const createBtn = document.getElementById('create-btn');
+                    if (createBtn) createBtn.onclick = () => openModal({ mode: 'create' });
+                    }
+                    // Bottom controls (prefix to info)
+                    const infoDiv = document.querySelector('.dataTables_info');
+                    if (infoDiv) {
+                        infoDiv.style.display = 'flex';
+                        infoDiv.style.alignItems = 'center';
+                        infoDiv.innerHTML = controlsInfo + infoDiv.innerHTML;
+                        // Only bind if not already bound (avoid duplicate IDs)
+                        const btns = infoDiv.querySelectorAll('#create-btn');
+                        btns.forEach(btn => btn.onclick = () => openModal({ mode: 'create' }));
+                    }
+                }
+            });
+            // Bind edit buttons
+            $('.edit-btn').on('click', function() {
+                const id = $(this).data('id');
+                const post = (data.microblogs || []).find(p => p.id == id);
+                openModal({ mode: 'edit', post });
+            });
+        }
+        }, 0);
     } catch (error) {
         container.innerHTML = `<div style="color:red;">Failed to load microblog posts: ${error.message}</div>`;
     }
