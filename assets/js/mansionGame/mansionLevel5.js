@@ -1,6 +1,6 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnvBackground from './GameEngine/GameEnvBackground.js';
-// import Player from './GameEngine/Player.js';
+import Player from './GameEngine/Player.js';
 // import GameControl from './GameEngine/GameControl.js'
 
 
@@ -20,30 +20,30 @@ class MansionLevel5 {
 		mode: 'contain'
 	};
 
-	// Player data for character
-	// const sprite_src_chillguy = path + "/images/gamify/chillguy.png"; // be sure to include the path
-	// const CHILLGUY_SCALE_FACTOR = 5;
-	// const sprite_data_chillguy = {
-	// 	id: 'Chill Guy',
-	// 	greeting: "Hi I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
-	// 	src: sprite_src_chillguy,
-	// 	SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
-	// 	STEP_FACTOR: 1000,
-	// 	ANIMATION_RATE: 50,
-	// 	INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
-	// 	pixels: {height: 384, width: 512},
-	// 	orientation: {rows: 3, columns: 4 },
-	// 	down: {row: 0, start: 0, columns: 3 },
-	// 	downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/16 },
-	// 	downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/16 },
-	// 	left: {row: 2, start: 0, columns: 3 },
-	// 	right: {row: 1, start: 0, columns: 3 },
-	// 	up: {row: 3, start: 0, columns: 3 },
-	// 	upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/16 },
-	// 	upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/16 },
-	// 	hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-	// 	keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
-	// };
+	//data for player
+	const sprite_player = path + "/images/mansionGame/placeholder_player_lvl5.png"; // be sure to include the path
+	const player_scale_factor = 5;
+	const sprite_data_player = {
+		id: 'Player',
+		greeting: "I am the player",
+		src: sprite_player,
+		SCALE_FACTOR: player_scale_factor,
+		STEP_FACTOR: 1000,
+		ANIMATION_RATE: 50,
+		INIT_POSITION: { x: 0, y: height - (height/player_scale_factor) }, 
+		pixels: {height: 32, width: 32}, // size of spritesheet, since only one frame and character is 32x32, this is 32x32
+		orientation: {rows: 1, columns: 1 }, // only one frame of anim
+		down: {row: 0, start: 0, columns: 3 },
+		downRight: {row: 1, start: 0, columns: 3, rotate: Math.PI/4 /*45 degrees in radians */},
+		downLeft: {row: 2, start: 0, columns: 3, rotate: -Math.PI/4 /*45 degrees in radians */},
+		left: {row: 2, start: 0, columns: 3 },
+		right: {row: 1, start: 0, columns: 3 },
+		up: {row: 3, start: 0, columns: 3 },
+		upLeft: {row: 2, start: 0, columns: 3, rotate: Math.PI/4/*45 degrees in radians */ },
+		upRight: {row: 1, start: 0, columns: 3, rotate: -Math.PI/4 /*45 degrees in radians */},
+		hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+		keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
+	};
 
 	// const sprite_src_r2d2 = path + "/images/gamify/r2_idle.png";
 	// const sprite_greet_r2d2 = "Hi I am R2D2. Leave this planet and help defend the rebel base on Hoth!";
@@ -98,7 +98,7 @@ class MansionLevel5 {
 	// List of objects defnitions for this level
 	this.classes = [
 	  { class: GameEnvBackground, data: image_data_background },
-	//   { class: Player, data: sprite_data_chillguy },
+	  { class: Player, data: sprite_data_player },
 	];
   }
 
