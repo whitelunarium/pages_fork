@@ -1,14 +1,10 @@
 ---
 layout: post
 title: Microblog AI Playground
-description: Interactive tool to explore different Microbg prompts and response formats
+description: Interactive tool to explore different Microblog prompts and response formats
 author: John Mortensen
 permalink: /hacks/microblog
 ---
-
-This page demonstrates fetching and displaying microblog posts using the `microblog.js` API module.
-
-## Fetch all microblogs
 
 <div id="microblog-playground">
   <em>Loading microblog posts...</em>
@@ -63,8 +59,6 @@ document.getElementById('modal-close').onclick = closeModal;
 document.getElementById('microblog-modal').onclick = function(e) {
   if (e.target === this) closeModal();
 };
-
-document.getElementById('create-btn').onclick = () => openModal({ mode: 'create' });
 
 document.getElementById('microblog-form').onsubmit = async function(e) {
   e.preventDefault();
