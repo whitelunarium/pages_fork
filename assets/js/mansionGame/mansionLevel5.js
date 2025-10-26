@@ -33,14 +33,14 @@ class MansionLevel5 {
 		INIT_POSITION: { x: 0, y: 0 }, 
 		pixels: {height: 32, width: 32}, // size of spritesheet, since only one frame and character is 32x32, this is 32x32
 		orientation: {rows: 1, columns: 1 }, // only one frame of anim
-		down: {row: 1, start: 0, columns: 0 },
-		downRight: {row: 1, start: 0, columns: 0, rotate: Math.PI/4 /*45 degrees in radians */},
-		downLeft: {row: 1, start: 0, columns: 0, rotate: -Math.PI/4 /*45 degrees in radians */},
-		left: {row: 1, start: 0, columns: 0 },
-		right: {row: 1, start: 0, columns: 0 },
-		up: {row: 1, start: 0, columns: 0 },
-		upLeft: {row: 1, start: 0, columns: 0, rotate: Math.PI/4/*45 degrees in radians */ },
-		upRight: {row: 1, start: 0, columns: 0, rotate: -Math.PI/4 /*45 degrees in radians */},
+		down: {row: 0, start: 0, columns: 1 },
+		downRight: {row: 0, start: 0, columns: 1, rotate: Math.PI/4 /*45 degrees in radians */},
+		downLeft: {row: 0, start: 0, columns: 1, rotate: -Math.PI/4 /*45 degrees in radians */},
+		left: {row: 0, start: 0, columns: 1 },
+		right: {row: 0, start: 0, columns: 1 },
+		up: {row: 0, start: 0, columns: 1 },
+		upLeft: {row: 0, start: 0, columns: 1, rotate: Math.PI/4/*45 degrees in radians */ },
+		upRight: {row: 0, start: 0, columns: 1, rotate: -Math.PI/4 /*45 degrees in radians */},
 		hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
 		keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
 	};
