@@ -32,7 +32,7 @@ class MansionLevel5 {
 		ANIMATION_RATE: 50, //no animation
 		INIT_POSITION: { x: 0, y: 0 }, 
 		pixels: {height: 32, width: 32}, // size of spritesheet, since only one frame and character is 32x32, this is 32x32
-		orientation: {rows: 1, columns: 1 }, // only one frame of anim
+		orientation: {rows: 0, columns: 1 }, // only one frame of anim
 		down: {row: 0, start: 0, columns: 1 },
 		downRight: {row: 0, start: 0, columns: 1, rotate: Math.PI/4 /*45 degrees in radians */},
 		downLeft: {row: 0, start: 0, columns: 1, rotate: -Math.PI/4 /*45 degrees in radians */},
