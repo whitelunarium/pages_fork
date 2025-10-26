@@ -81,17 +81,22 @@ document.getElementById('microblog-form').onsubmit = async function(e) {
 async function renderMicroblogTable() {
     const container = document.getElementById('microblog-playground');
     try {
-        // Fetch data for pages
-        const data = await fetchPosts();
+        // Determine filter mode and pass page if needed
+        let pageArg = undefined;
+        if (window.__microblogFilterMode === undefined || window.__microblogFilterMode === 'page') {
+          // Use current page as filter; fallback to location.pathname or a default string
+          pageArg = window.location ? window.location.pathname : 'default';
+        }
+        const data = await fetchPosts(pageArg);
         // SVG icons for Create (plus) and Edit (pencil)
         const createIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>`;
         const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z" /></svg>`;
 
         // SVG icons for filter controls
-  // Single page icon (default)
-  const pageIcon = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white mx-1 cursor-pointer" id="page-icon"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="6" y="4" width="12" height="16" rx="2" fill="white" stroke="white" stroke-width="1.5"/><rect x="8" y="6" width="8" height="12" rx="1" fill="purple" stroke="white" stroke-width="1.5"/></svg></span>`;
-  // Many pages (stacked documents) icon for clarity
-  const manyPagesIcon = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white mx-1 cursor-pointer" id="many-pages-icon"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><g><rect x="7" y="15" width="10" height="6" rx="2" fill="#60a5fa" stroke="white" stroke-width="1.2"/><rect x="5" y="11" width="12" height="6" rx="2" fill="#2563eb" stroke="white" stroke-width="1.2"/><rect x="3" y="7" width="12" height="6" rx="2" fill="#1e40af" stroke="white" stroke-width="1.2"/></g></svg></span>`;
+        // Single page icon (default)
+        const pageIcon = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white mx-1 cursor-pointer" id="page-icon"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="6" y="4" width="12" height="16" rx="2" fill="white" stroke="white" stroke-width="1.5"/><rect x="8" y="6" width="8" height="12" rx="1" fill="purple" stroke="white" stroke-width="1.5"/></svg></span>`;
+        // Many pages (stacked documents) icon for clarity
+        const manyPagesIcon = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white mx-1 cursor-pointer" id="many-pages-icon"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><g><rect x="7" y="15" width="10" height="6" rx="2" fill="#60a5fa" stroke="white" stroke-width="1.2"/><rect x="5" y="11" width="12" height="6" rx="2" fill="#2563eb" stroke="white" stroke-width="1.2"/><rect x="3" y="7" width="12" height="6" rx="2" fill="#1e40af" stroke="white" stroke-width="1.2"/></g></svg></span>`;
         // Create button and filter icons for DataTables controls (top and bottom)
         const controlsInfo = `
           <span id="filter-icons" class="flex items-center" style="color:white;">
@@ -195,11 +200,10 @@ async function renderMicroblogTable() {
                       btns.forEach(btn => btn.onclick = () => openModal({ mode: 'create' }));
                     }
                     // Filter mode logic (default: page, people = all)
-                    let filterMode = 'page';
+                    window.__microblogFilterMode = 'page';
                     function setFilterMode(mode) {
-                      filterMode = mode;
-                      // TODO: update API call to use filterMode when backend/API is ready
-                      // For now, just update icon backgrounds for visual feedback
+                      window.__microblogFilterMode = mode;
+                      // Update icon backgrounds for visual feedback
                       const pageIconEl = document.getElementById('page-icon');
                       const manyPagesIconEl = document.getElementById('many-pages-icon');
                       if (pageIconEl && manyPagesIconEl) {
@@ -215,14 +219,19 @@ async function renderMicroblogTable() {
                           pageIconEl.style.opacity = '0.5';
                         }
                       }
-                      // Optionally, re-fetch/render table here when API is ready
+                      // Re-render table with new filter
+                      renderMicroblogTable();
                     }
                     setTimeout(() => {
                       const pageIconEl = document.getElementById('page-icon');
                       const manyPagesIconEl = document.getElementById('many-pages-icon');
                       if (pageIconEl) pageIconEl.onclick = () => setFilterMode('page');
                       if (manyPagesIconEl) manyPagesIconEl.onclick = () => setFilterMode('people');
-                      setFilterMode('page'); // default
+                      // Only set default filter if not already set
+                      if (!window.__microblogFilterModeInitialized) {
+                        window.__microblogFilterModeInitialized = true;
+                        setFilterMode('page');
+                      }
                     }, 0);
                 }
             });
