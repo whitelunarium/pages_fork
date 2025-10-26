@@ -44,10 +44,6 @@ This page demonstrates fetching and displaying microblog posts using the `microb
   </div>
 </div>
 
-<div class="mb-4">
-  <button id="create-btn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Create Post</button>
-</div>
-
 <script type="module">
 import { fetchPosts, createPost, updatePost } from '/assets/js/api/microblog.js';
 
@@ -92,9 +88,16 @@ async function renderMicroblogTable() {
     const container = document.getElementById('microblog-playground');
     try {
         const data = await fetchPosts();
-        // Topic-level info
+        // Use SVG icons for Create (plus) and Edit (pencil)
+        const createIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>`;
+        const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z" /></svg>`;
+
+        // Topic-level info with Create button inline
         const topicInfo = `
-            <div><strong>Post Count:</strong> ${data.count || 0}</div>
+        <div class="flex items-center mb-2">
+            <button id="create-btn" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center"> ${createIcon} </button>
+            <div class="font-bold ml-2">Posts: ${data.count || 0}</div>
+        </div>
         `;
         // Table columns for vertical stack with formatting and custom labels
         const analytics = [
@@ -106,10 +109,10 @@ async function renderMicroblogTable() {
               return d.toLocaleString();
             }
           },
-          { key: 'characterCount', format: c => `Count: ${c}` }
+          { key: 'characterCount', format: v => `Count: ${v}` }
         ];
         const message = [
-          { key: 'topicPath', format: t => `Topic: ${t}` },
+          { key: 'topicPath', format: v => `Topic: ${v}` },
           { key: 'content' }
         ];
         let table = `
@@ -118,7 +121,6 @@ async function renderMicroblogTable() {
             <tr>
                 <th style="width:30%">Analytics</th>
                 <th>Message</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -130,17 +132,22 @@ async function renderMicroblogTable() {
               if (f.format) value = f.format(value);
               return `<div>${value}</div>`;
             }).join('');
+            // Edit button inline with Topic
             const messageCell = message.map(f => {
               let value = post[f.key] ?? '';
-              if (f.format) value = f.format(value);
+              if (f.key === 'topicPath') {
+                value = (f.format ? f.format(value) : value) +
+                  ` <button class='edit-btn ml-2' data-id='${post.id}' title='Edit'>${editIcon}</button>`;
+              } else if (f.format) {
+                value = f.format(value);
+              }
               return `<div>${value}</div>`;
             }).join('');
-            table += `<tr><td class="text-left">${analyticsCell}</td><td class="text-left">${messageCell}</td>` +
-              `<td><button class='edit-btn bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600' data-id='${post.id}'>Edit</button></td></tr>`;
+            table += `<tr><td class="text-left">${analyticsCell}</td><td class="text-left">${messageCell}</td></tr>`;
         });
         table += '</tbody></table>';
         // Table: set DOM element container with HTML, which displays content
-        container.innerHTML = topicInfo + table;
+        container.innerHTML = topicInfo + table + topicInfo;
         // Wait for DOM update, then initialize DataTables
         setTimeout(() => {
             if (window.jQuery && $('#microblog-table').length) {
