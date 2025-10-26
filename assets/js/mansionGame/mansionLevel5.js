@@ -29,7 +29,7 @@ class MansionLevel5 {
 		src: sprite_player,
 		SCALE_FACTOR: player_scale_factor,
 		STEP_FACTOR: 1000,
-		ANIMATION_RATE: 50,
+		ANIMATION_RATE: 0, //no animation
 		INIT_POSITION: { x: 0, y: height - (height/player_scale_factor) }, 
 		pixels: {height: 32, width: 32}, // size of spritesheet, since only one frame and character is 32x32, this is 32x32
 		orientation: {rows: 1, columns: 1 }, // only one frame of anim
