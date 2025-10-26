@@ -96,26 +96,48 @@ async function renderMicroblogTable() {
         const topicInfo = `
             <div><strong>Post Count:</strong> ${data.count || 0}</div>
         `;
-        // Table columns
-        const attributes = [
-            'userName', 'topicPath', 'content', 'timestamp', 'characterCount'
+        // Table columns for vertical stack with formatting and custom labels
+        const analytics = [
+          { key: 'userName' },
+          { key: 'timestamp', format: ts => {
+              if (!ts) return '';
+              const d = new Date(ts);
+              if (isNaN(d)) return ts;
+              return d.toLocaleString();
+            }
+          },
+          { key: 'characterCount', format: c => `Count: ${c}` }
         ];
-        // Table: starts with headers, microblog-table 'id" definition is for jquery feattures.
+        const message = [
+          { key: 'topicPath', format: t => `Topic: ${t}` },
+          { key: 'content' }
+        ];
         let table = `
-        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em;">
+        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
         <thead>
             <tr>
-            ${attributes.map(header => `<th>${header}</th>`).join('')}<th>Action</th>
+                <th style="width:30%">Analytics</th>
+                <th>Message</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         `;
-        // Table: display data
+        // Table: display data, each row is a post
         (data.microblogs || []).forEach(post => {
-            table += '<tr>' + attributes.map(data => `<td>${post[data] ?? ''}</td>`).join('') +
+            const analyticsCell = analytics.map(f => {
+              let value = post[f.key] ?? '';
+              if (f.format) value = f.format(value);
+              return `<div>${value}</div>`;
+            }).join('');
+            const messageCell = message.map(f => {
+              let value = post[f.key] ?? '';
+              if (f.format) value = f.format(value);
+              return `<div>${value}</div>`;
+            }).join('');
+            table += `<tr><td class="text-left">${analyticsCell}</td><td class="text-left">${messageCell}</td>` +
               `<td><button class='edit-btn bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600' data-id='${post.id}'>Edit</button></td></tr>`;
         });
-        // Table: closing tags
         table += '</tbody></table>';
         // Table: set DOM element container with HTML, which displays content
         container.innerHTML = topicInfo + table;
