@@ -77,7 +77,7 @@ document.getElementById('microblog-form').onsubmit = async function(e) {
   const content = document.getElementById('content').value;
   try {
     if (id) {
-      await updatePost(id, { content });
+      await updatePost({ id, content, topicPath });
     } else {
       await createPost({ content, topicPath });
     }
@@ -98,7 +98,7 @@ async function renderMicroblogTable() {
         `;
         // Table columns
         const attributes = [
-            'id', 'userName', 'userUid', 'topicPath', 'content', 'timestamp', 'characterCount'
+            'userName', 'topicPath', 'content', 'timestamp', 'characterCount'
         ];
         // Table: starts with headers, microblog-table 'id" definition is for jquery feattures.
         let table = `

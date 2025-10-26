@@ -54,8 +54,8 @@ export async function createPost(postData) {
  * @param {Object} postData - Fields to update
  * @returns {Promise<Object>} - Updated post or error
  */
-export async function updatePost(id, postData) {
-    const apiUrl = pythonURI + `/api/microblog/${id}`;
+export async function updatePost(postData) {
+    const apiUrl = pythonURI + `/api/microblog`;
     const options = {
         ...fetchOptions,
         method: 'PUT',
