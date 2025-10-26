@@ -9,22 +9,26 @@ To begin your mission, you'll have to repair Old Earth's communications network 
 
 The system is now defunct, as humans took to the stars. We'll have the reestablish this network to maintain contact with our operatives.
 
-<html>
-<head>
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<!--Vis Network Style-->
+<style type="text/css">
+    #comm_network {
+        width: 100%;
+        height: 600px;
+        border: 1px solid lightgray;
+    }
+</style>
 
-    <style type="text/css">
-        #comm_network {
-            width: 100%;
-            height: 600px;
-            border: 1px solid lightgray;
-        }
-    </style>
-</head>
-<body>
+<!--Vis Network Container-->
 <div id="comm_network"></div>
 
-<script type="text/javascript">
+<!--Vis Network Dependency-->
+<script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+<!--Microblog Communication Network -->
+<script>
+    // create a network
+    var container = document.getElementById('comm_network');
+
     // create an array with nodes
     var nodes = new vis.DataSet([
         {id: 1, label: 'Node 1', url: '{{ base.siteurl }}/digital-famine/microblog/submodule_1', title: 'Open Node 1'},
@@ -41,9 +45,6 @@ The system is now defunct, as humans took to the stars. We'll have the reestabli
         {from: 2, to: 4},
         {from: 2, to: 5}
     ]);
-
-    // create a network
-    var container = document.getElementById('comm_network');
 
     // provide the data in the vis format
     var data = {
@@ -63,9 +64,15 @@ The system is now defunct, as humans took to the stars. We'll have the reestabli
                     border: 'black'
                 }
             },
-            size: 20,
-            hover: {
-                size: 25
+            size: 25,
+            fixed: {
+                x: false,
+                y: false
+            },
+            font: {
+                color: 'white',
+                size: 14,
+                face: 'arial'
             }
         },
         edges: {
@@ -73,33 +80,40 @@ The system is now defunct, as humans took to the stars. We'll have the reestabli
                 color: 'white',
                 highlight: 'yellow'
             },
-            width: 2
+            width: 2,
+            smooth: {
+                type: 'continuous'
+            }
         },
         physics: {
             enabled: false
         },
         interaction: {
             hover: true,
-            zoomSpeed: 0.5
+            zoomView: false,
+            dragView: true,
+            dragNodes: true
+        },
+        layout: {
+            improvedLayout: true
         }
     };
+
     // initialize network
     var network = new vis.Network(container, data, options);
 
     // fit the network to view all nodes at default zoom
     network.fit();
 
-    // open nods URL on click
+    // open node URL on click in same tab
     network.on('click', function (params) {
         if (params.nodes.length) {
             var nodeId = params.nodes[0];
             var node = nodes.get(nodeId);
             if (node && node.url) {
-                // open in new tab
-                window.open(node.url, '_blank');
+                // navigate in same tab
+                window.location.href = node.url;
             }
         }
     });
 </script>
-</body>
-</html>
