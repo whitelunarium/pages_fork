@@ -86,20 +86,8 @@ async function renderMicroblogTable() {
         const createIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>`;
         const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z" /></svg>`;
 
-        // Topic-level info with Create button inline
-        // Use unique IDs for top and bottom create buttons
-        const topicInfoTop = `
-        <div class="flex items-center mb-2">
-        <button id="create-btn" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center"> ${createIcon} </button>
-        <div class="font-bold ml-2">Posts: ${data.count || 0}</div>
-        </div>
-        `;
-        const topicInfoBottom = `
-        <div class="flex items-center mt-2 mb-2">
-        <button id="create-btn-bottom" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center"> ${createIcon} </button>
-        <div class="font-bold ml-2">Posts: ${data.count || 0}</div>
-        </div>
-        `;
+        // Create button and post count for DataTables controls area
+        const controlsInfo = `<button id="create-btn" class="ml-2 bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center">${createIcon}</button><span class="font-bold ml-2">Posts: ${data.count || 0}&nbsp;&nbsp;</span>`;
 
         // Table columns for vertical stack with formatting and custom labels
         const analytics = [
@@ -147,26 +135,40 @@ async function renderMicroblogTable() {
             }).join('');
             table += `<tr><td class="text-left">${analyticsCell}</td><td class="text-left">${messageCell}</td></tr>`;
         });
-        table += '</tbody></table>';
-        // Table: set DOM element container with HTML, which displays content
-  container.innerHTML = topicInfoTop + table + topicInfoBottom;
-        // Wait for DOM update, then initialize DataTables
-        setTimeout(() => {
-            if (window.jQuery && $('#microblog-table').length) {
-                $('#microblog-table').DataTable();
-                // Bind edit buttons
-                $('.edit-btn').on('click', function() {
-                  const id = $(this).data('id');
-                  const post = (data.microblogs || []).find(p => p.id == id);
-                  openModal({ mode: 'edit', post });
-                });
+    table += '</tbody></table>';
+    // Table: set DOM element container with HTML, which displays content
+    container.innerHTML = table;
+
+    // Wait for DOM update, then initialize DataTables
+    setTimeout(() => {
+      if (window.jQuery && $('#microblog-table').length) {
+        $('#microblog-table').DataTable({
+          initComplete: function() {
+            // Inject controlsInfo into DataTables length (left) controls
+            const lengthDiv = document.querySelector('.dataTables_length');
+            if (lengthDiv) {
+              // Make .dataTables_length a flex container for horizontal alignment
+              lengthDiv.style.display = 'flex';
+              lengthDiv.style.alignItems = 'center';
+              lengthDiv.insertAdjacentHTML('afterbegin', controlsInfo);
+              // Remove margin-top/margin-bottom from children for tight alignment
+              lengthDiv.querySelectorAll('*').forEach(el => {
+                el.style.marginTop = '0';
+                el.style.marginBottom = '0';
+              });
+              const createBtn = document.getElementById('create-btn');
+              if (createBtn) createBtn.onclick = () => openModal({ mode: 'create' });
             }
-            // Bind both create buttons
-            const createBtn = document.getElementById('create-btn');
-            if (createBtn) createBtn.onclick = () => openModal({ mode: 'create' });
-            const createBtnBottom = document.getElementById('create-btn-bottom');
-            if (createBtnBottom) createBtnBottom.onclick = () => openModal({ mode: 'create' });
-        }, 0);
+          }
+        });
+        // Bind edit buttons
+        $('.edit-btn').on('click', function() {
+          const id = $(this).data('id');
+          const post = (data.microblogs || []).find(p => p.id == id);
+          openModal({ mode: 'edit', post });
+        });
+      }
+    }, 0);
     } catch (error) {
         container.innerHTML = `<div style="color:red;">Failed to load microblog posts: ${error.message}</div>`;
     }
