@@ -87,12 +87,20 @@ async function renderMicroblogTable() {
         const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z" /></svg>`;
 
         // Topic-level info with Create button inline
-        const topicInfo = `
+        // Use unique IDs for top and bottom create buttons
+        const topicInfoTop = `
         <div class="flex items-center mb-2">
-            <button id="create-btn" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center"> ${createIcon} </button>
-            <div class="font-bold ml-2">Posts: ${data.count || 0}</div>
+        <button id="create-btn" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center"> ${createIcon} </button>
+        <div class="font-bold ml-2">Posts: ${data.count || 0}</div>
         </div>
         `;
+        const topicInfoBottom = `
+        <div class="flex items-center mt-2 mb-2">
+        <button id="create-btn-bottom" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 flex items-center"> ${createIcon} </button>
+        <div class="font-bold ml-2">Posts: ${data.count || 0}</div>
+        </div>
+        `;
+
         // Table columns for vertical stack with formatting and custom labels
         const analytics = [
           { key: 'userName' },
@@ -141,7 +149,7 @@ async function renderMicroblogTable() {
         });
         table += '</tbody></table>';
         // Table: set DOM element container with HTML, which displays content
-        container.innerHTML = topicInfo + table + topicInfo;
+  container.innerHTML = topicInfoTop + table + topicInfoBottom;
         // Wait for DOM update, then initialize DataTables
         setTimeout(() => {
             if (window.jQuery && $('#microblog-table').length) {
@@ -153,6 +161,11 @@ async function renderMicroblogTable() {
                   openModal({ mode: 'edit', post });
                 });
             }
+            // Bind both create buttons
+            const createBtn = document.getElementById('create-btn');
+            if (createBtn) createBtn.onclick = () => openModal({ mode: 'create' });
+            const createBtnBottom = document.getElementById('create-btn-bottom');
+            if (createBtnBottom) createBtnBottom.onclick = () => openModal({ mode: 'create' });
         }, 0);
     } catch (error) {
         container.innerHTML = `<div style="color:red;">Failed to load microblog posts: ${error.message}</div>`;
