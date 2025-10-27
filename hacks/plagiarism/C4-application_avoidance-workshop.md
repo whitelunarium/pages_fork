@@ -1,10 +1,11 @@
 ---
 layout: post
+microblog: True
+breadcrumb: True
 title: Plagiarism Avoidance Workshop 
 description: A tool to assist students in building an APA reference in citations using AI. 
 author: John Mortensen
 permalink: /plagiarism/4
-breadcrumb: True
 ---
 
 ## Evaluate Sample Paragraphs

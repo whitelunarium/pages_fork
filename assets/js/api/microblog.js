@@ -9,11 +9,24 @@ import { pythonURI, fetchOptions } from './config.js';
  * Fetch all microblog posts
  * @returns {Promise<Array>} - Resolves to an array of posts or an error
  */
-export async function fetchPosts() {
-    const apiUrl = pythonURI + '/api/microblog';
-
+/**
+ * Fetch microblog posts, optionally filtered by page
+ * @param {string} [page] - Optional page filter
+ * @returns {Promise<Array>} - Resolves to an array of posts or an error
+ */
+export async function fetchPosts(pagePath) {
+    let apiUrl = pythonURI + '/api/microblog';
+    if (pagePath) {
+        // Encode pagePath as a query parameter
+        const param = encodeURIComponent(pagePath);
+        apiUrl += `?pagePath=${param}`;
+    }
+    const options = {
+        ...fetchOptions,
+        method: 'GET',
+    };
     try {
-        const response = await fetch(apiUrl, fetchOptions);
+        const response = await fetch(apiUrl, options);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
