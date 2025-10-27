@@ -1,10 +1,9 @@
 ---
 layout: post 
 tailwind: True
-title: Building a Computer Science Linkedin Profile
+title: Starting homepage on earth
 description: >
-  Understand how to ideate, develop, and describe computer science projects for future career success!
-author: CSA 2025-26
+author: digitalFamine
 permalink: /digital-famine
 lxdData:
   Title: "Learning Modules"
@@ -19,6 +18,7 @@ lxdData:
       Lessons: "/digital-famine/cyber/"
       Image: "/images/digital-famine/cyber.svg"
       Alt: "CS Portfolio Quest cyber"
+
     - Title: "C2: media"
       Genre: "Project Creation"
       Level: 2
@@ -28,6 +28,7 @@ lxdData:
       Lessons: "/digital-famine/media/"
       Image: "/images/digital-famine/media.svg"
       Alt: "CS Portfolio Quest media"
+
     - Title: "C3: AI"
       Genre: "Practice"
       Level: 3
@@ -37,6 +38,7 @@ lxdData:
       Lessons: "/digital-famine/ai/"
       Image: "/images/digital-famine/ai.svg"
       Alt: "CS Portfolio Quest Data Visualization"
+
     - Title: "C4: microblog"
       Genre: "Application"
       Level: 4
@@ -46,6 +48,7 @@ lxdData:
       Lessons: "/digital-famine/microblog/"
       Image: "/images/west-coast/microblog.svg"
       Alt: "CS Portfolio Quest microblog"
+      
     - Title: "C5: end"
       Genre: "Application"
       Level: 4
