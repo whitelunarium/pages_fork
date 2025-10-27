@@ -8,10 +8,54 @@ import { queryGemini } from './api/gemini.js';
 // Example 1: Basic AI query returning raw text/markdown (default behavior)
 async function basicTextAnalysis() {
     try {
-        const result = await queryGemini({
-            prompt: "Analyze this text for writing quality and provide feedback:",
-            text: "The student wrote a essay about climate change but forgot to include citations."
-        });
+        /**
+ * Basic usage examples for the Gemini API module
+ * For interactive learning, visit: /hacks/gemini
+ */
+
+import { queryGemini } from './gemini.js';
+
+// Example 1: Basic text analysis (C4-style - default behavior)
+function analyzeText(prompt, text) {
+    return queryGemini({
+        prompt: prompt,
+        text: text
+        // parseJSON: false (default) - returns raw response
+    });
+}
+
+// Example 2: Structured data extraction (C2-style - JSON parsing)
+function extractStructuredData(prompt, text) {
+    return queryGemini({
+        prompt: prompt,
+        text: text,
+        parseJSON: true  // parse response as JSON
+    });
+}
+
+// Example 3: Basic error handling pattern
+function safeQuery(prompt, text, parseJSON = false) {
+    return queryGemini({
+        prompt: prompt,
+        text: text,
+        parseJSON: parseJSON
+    })
+    .then(result => {
+        console.log('Query successful:', result);
+        return result;
+    })
+    .catch(error => {
+        console.error('Query failed:', error.message);
+        throw error;
+    });
+}
+
+// Export functions
+export {
+    analyzeText,
+    extractStructuredData,
+    safeQuery
+};
         
         // result contains raw response data (for C4-style markdown analysis)
         console.log('Analysis result:', result);
