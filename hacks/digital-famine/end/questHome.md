@@ -56,7 +56,11 @@ lxdData:
       Lessons: "/digital-famine/end/submodule_5/"
       Image: "/images/digital-famine/end.svg"
       Alt: "end Submodule 5"
+<<<<<<< HEAD:hacks/digital famine/end/questHome.md
+    - Title: "Submodule 6"
+=======
     - Title: "Submodule 6."
+>>>>>>> 84f02f42f30b2d14aecbad041bf5481517e36d09:hacks/digital-famine/end/questHome.md
       Genre: "Project Creation"
       Level: 6
       Description: "Team-defined end development module"
