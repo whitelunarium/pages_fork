@@ -1,5 +1,7 @@
 ---
-layout: post
+layout: microblog
+tailwind: True
+jquery: True 
 title: APA Reference Instruction
 description: A tool to assist students in building an APA reference. 
 author: John Mortensen
