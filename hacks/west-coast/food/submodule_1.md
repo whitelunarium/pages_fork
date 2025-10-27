@@ -2,7 +2,7 @@
 layout: post
 title: "Purpose of Frontend"
 description: "Submodule 1 of Frontend Development Mini-Quest"
-permalink: /west-coast/frontend/submodule_1/
+permalink: /west-coast/food/sandiego/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 1

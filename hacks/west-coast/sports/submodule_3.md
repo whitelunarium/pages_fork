@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Submodule 3"
+title: "San Francisco"
 description: "Submodule 3 of Backend Development Mini-Quest"
 permalink: /west-coast/backend/submodule_3/
 parent: "Backend Development"
-team: "Encrypters"
+team: "Zombies"
 submodule: 3
 categories: [CSP, Submodule, Backend]
-tags: [backend, submodule, encrypters]
-author: "Encrypters Team"
+tags: [backend, submodule, zombies]
+author: "Zombies Team"
 date: 2025-10-21
 ---
 
