@@ -103,14 +103,14 @@ This submodule will be developed by the Thinkers team.
                 correct: 0 
             },
             {
-                question: "Question 4: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                question: "Which of the following usernames best protect Sloane's PII?",
+                options: ["SloaneSommers1234TulipStreet 1", "SloaneS.", "s.sommers1234", "colorfulZebra"],
                 correct: 3
             },
             {
-                question: "Question 5: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-                correct: 0
+                question: "You should click on links from unfamiliar websites that don't start with "https://"",
+                options: ["True", "False"],
+                correct: 1
             },
             {
                 question: "Question 6: Sample question here?",
@@ -118,18 +118,18 @@ This submodule will be developed by the Thinkers team.
                 correct: 1
             },
             {
-                question: "Question 7: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-                correct: 2
+                question: "Where is the safest place to store your passwords?",
+                options: ["Microsoft Authenticator/Google Password Manager", "safepasswordstorage.com;p", "The notes app", "A Google document"],
+                correct: 0
             },
             {
-                question: "Question 8: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                question: "Which of these people should you share your passwords with?",
+                options: ["Your estranged cousin who visits every 3 years", "Your classmates", "Your favorite streamer", "Your parents"],
                 correct: 3
             },
             {
-                question: "Question 9: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                question: "If the wrong people get ahold of your PII, there can be real life consequences, such as monetary loss or exposure of private information",
+                options: ["True", "False"],
                 correct: 0
             },
             {
