@@ -1,70 +1,9 @@
-<style>
-/* File-specific styles only - iridescent styles moved to _sass/open-coding/elements/buttons/iridescent.scss */
-.module-progress {
-  height: 4px;
-  background-color: #374151;
-  border-radius: 2px;
-  margin-bottom: 8px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
-  border-radius: 2px;
-  transition: width 0.3s ease;
-  width: 0%;
-}
-
-.progress-bar.completed { width: 100%; }
-.progress-bar.partial { width: 50%; }
-
-.module-status {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 10;
-}
-
-.status-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.status-completed { background-color: #10b981; color: white; }
-.status-current { background-color: #f59e0b; color: white; }
-.status-locked { background-color: #6b7280; color: white; }
-
-.card-hover-effects {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-hover-effects::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  transition: left 0.5s ease;
-}
-
-.card-hover-effects:hover::before {
-  left: 100%;
-}
-</style>
-
-  <!-- Prerequisites links -->
-  {% if page.lxdData.Prequisites %}
-  <div class="mb-8">
-    <ul class="flex flex-wrap gap-4 justify-center">{% for prereq in page.lxdData.Prequisites %}<li><a href="{{ site.baseurl}}{{ prereq.link }}" class="iridescent flex-1 text-white text-white text-center py-2 rounded-lg font-semibold transition">{{ prereq.title }}</a></li>{% endfor %}</ul>
-  </div>
-  {% endif %}
+<!-- Prerequisites links -->
+{% if page.lxdData.Prequisites %}
+<div class="mb-8">
+  <ul class="flex flex-wrap gap-4 justify-center">{% for prereq in page.lxdData.Prequisites %}<li><a href="{{ site.baseurl}}{{ prereq.link }}" class="iridescent flex-1 text-white text-white text-center py-2 rounded-lg font-semibold transition">{{ prereq.title }}</a></li>{% endfor %}</ul>
+</div>
+{% endif %}
 
 <!-- Progress Overview -->
 <div class="mb-8 text-center">
