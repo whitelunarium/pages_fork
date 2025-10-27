@@ -11,7 +11,6 @@ tags: [AI, submodule, AI_Functionality]
 author: "Darshan"
 date: 2025-10-21
 ---
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,6 +35,7 @@ date: 2025-10-21
         .container {
             max-width: 900px;
             margin: 0 auto;
+            padding-bottom: 60px;
         }
 
         h1 {
@@ -115,15 +115,10 @@ date: 2025-10-21
             border-radius: 8px;
             backdrop-filter: blur(10px);
             transition: all 0.3s;
-            overflow: hidden;
-            max-height: 1000px;
         }
 
         .section.collapsed {
-            max-height: 0;
-            padding: 0 25px;
-            margin: 0;
-            opacity: 0;
+            display: none;
         }
 
         .workflow-step {
@@ -242,14 +237,18 @@ date: 2025-10-21
 
         .quiz-section {
             background: rgba(30, 41, 59, 0.6);
-            padding: 25px;
+            padding: 30px;
             margin: 30px 0;
             border-radius: 12px;
             border: 2px solid #8b5cf6;
         }
 
         .quiz-question {
-            margin-bottom: 20px;
+            margin-bottom: 50px;
+        }
+
+        .quiz-question:last-child {
+            margin-bottom: 0;
         }
 
         .quiz-options {
@@ -257,6 +256,7 @@ date: 2025-10-21
             flex-direction: column;
             gap: 10px;
             margin-top: 15px;
+            margin-bottom: 20px;
         }
 
         .quiz-option {
@@ -291,17 +291,18 @@ date: 2025-10-21
         .submit-btn {
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
-            padding: 12px 30px;
+            padding: 14px 32px;
             border: none;
             border-radius: 8px;
-            font-size: 1.1em;
+            font-size: 1.05em;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 20px;
+            display: block;
+            margin-top: 15px;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
         }
@@ -425,7 +426,7 @@ date: 2025-10-21
                 <div id="quizFeedback1"></div>
             </div>
 
-            <div class="quiz-question" style="margin-top: 40px;">
+            <div class="quiz-question">
                 <p><strong>Question 2:</strong> Which type of AI is currently in use today?</p>
                 <div class="quiz-options" id="quiz2Options">
                     <div class="quiz-option" data-answer="correct" data-quiz="2">A) Narrow AI</div>
@@ -638,4 +639,3 @@ date: 2025-10-21
     </script>
 </body>
 </html>
-
