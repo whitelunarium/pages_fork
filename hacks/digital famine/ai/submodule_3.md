@@ -3,6 +3,7 @@ layout: post
 title: "AI APIs"
 description: "Going over how to use AI APIs"
 permalink: /digital-famine/ai/submodule_3/
+breadcrumb: true
 parent: "AI Usage"
 team: "Debuggers"
 submodule: 3
