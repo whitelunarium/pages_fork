@@ -15,4 +15,4 @@ date: 2025-10-21
 # Los AngEles 
 
 ## Content Coming Soon
-This submodule will be developed by the Curators team. hello
+This submodule will be developed by the Cool COllaboarters team. hello
