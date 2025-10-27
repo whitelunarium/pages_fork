@@ -1605,3 +1605,82 @@ createSession();
 ---
 
 *Want to learn more? Try modifying the demos, experimenting with different context window sizes, or building your own LLM memory visualizations!*
+<style>
+.completion-banner {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+</style>
+
+<script>
+// Scroll-to-bottom completion tracking
+document.addEventListener("DOMContentLoaded", function() {
+    const storageKey = 'ai-module-c2-completed';
+    
+    // Check if already completed
+    if (localStorage.getItem(storageKey) === 'true') {
+        return;
+    }
+    
+    let hasScrolledToBottom = false;
+    
+    function checkScrollPosition() {
+        const scrollTop = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // Check if user scrolled to within 100px of bottom
+        if (scrollTop + windowHeight >= documentHeight - 100) {
+            if (!hasScrolledToBottom) {
+                hasScrolledToBottom = true;
+                
+                // Mark module as completed
+                localStorage.setItem(storageKey, 'true');
+                
+                // Show completion banner
+                const banner = document.createElement('div');
+                banner.className = 'completion-banner';
+                banner.innerHTML = `
+                    <h3 style="margin: 0; font-size: 18px; font-weight: bold;">🎉 Module 2 Completed!</h3>
+                    <p style="margin: 5px 0 0 0; font-size: 14px;">Module 3 unlocked!</p>
+                `;
+                document.body.appendChild(banner);
+                
+                // Remove banner after 4 seconds
+                setTimeout(() => {
+                    banner.style.animation = 'slideIn 0.5s ease-out reverse';
+                    setTimeout(() => banner.remove(), 500);
+                }, 4000);
+                
+                // Remove scroll listener
+                window.removeEventListener('scroll', checkScrollPosition);
+            }
+        }
+    }
+    
+    // Add scroll listener
+    window.addEventListener('scroll', checkScrollPosition);
+    
+    // Check immediately in case page is short
+    checkScrollPosition();
+});
+</script>
