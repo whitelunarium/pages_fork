@@ -4,6 +4,7 @@ title: "AI APIs"
 description: "Going over how to use AI APIs"
 permalink: /digital-famine/ai/submodule_3/
 breadcrumb: true
+microblog: true
 parent: "AI Usage"
 team: "Debuggers"
 submodule: 3
