@@ -1,0 +1,58 @@
+---
+layout: post
+microblog: True
+title: Microblog Article
+description: A new way to have others engage with your articles through microblogging.
+author: John Mortensen
+permalink: /microblog
+---
+
+## Microblogging
+
+The premise is to have an engaging way to chat on articles.
+
+## See Microblog Live
+
+Look at [/plagiarismi/2]({{site.baseurl}}/plagiarism/2),[/plagiarismi/3]({{site.baseurl}}/plagiarism/3),[/plagiarismi/4]({{site.baseurl}}/plagiarism/4)
+
+### Frontmatter
+
+Observe any of the frontmatter on these pages it now has the microblog: True dependencies.
+
+## Microblogging: Engage Your Readers
+
+Microblogging adds a real-time, interactive chat panel to your articles, allowing readers to comment, ask questions, and discuss content directly alongside your lesson or post. This feature is designed to boost engagement and foster community around your content.
+
+### How It Works
+
+- A floating "Microblog" button appears on pages with microblogging enabled.
+- Clicking the button opens a side panel where users can read and post short messages.
+- The panel is mobile-friendly and overlays the main content without disrupting the reading experience.
+- All microblog logic and dependencies are managed centrally, so you only need to enable it in your page’s frontmatter.
+
+### Enabling Microblogging
+
+To add microblogging to any article or lesson, simply include the below in your page’s frontmatter.  **The permalink is you topic**.
+
+```yaml
+---
+layout: post 
+microblog: True
+title: Your Article Title
+description: Brief description of your article.
+author: Your Name
+permalink: /your-path
+---
+```
+
+- Use `layout: opencs` to ensure the microblog overlay and dependencies are included.
+- Set `microblog: True` to activate the feature.
+
+### Key Files
+
+- `_layouts/opencs.html` — Main layout that injects the microblog overlay and required scripts.
+- `assets/js/api/microblog.js` — Handles the microblog panel’s interactivity and API calls.
+
+### API Reference
+
+For developers: see the [Microblog API documentation]({{site.baseurl}}/microblog/reference) for details on backend integration and customization.
