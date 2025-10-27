@@ -133,9 +133,9 @@ This submodule will be developed by the Thinkers team.
                 correct: 0
             },
             {
-                question: "Question 10: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-                correct: 1
+                question: "What websites should you use the same passwords on?",
+                options: ["Every website I visit", "Any website except my bank", "No two websites should have the same password", "Gaming websites can have identical passwords, but other websites will differentiate"],
+                correct: 2
             }
         ];
 
