@@ -84,10 +84,10 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Only run progress tracking on the main plagiarism navigation page
-    // Should run on /plagiarism or /plagiarism/ 
+    // Only run progress tracking on the main cs-portfolio-quest navigation page
+    // Should run on /cs-portfolio-quest or /cs-portfolio-quest/ 
     const currentPath = window.location.pathname;
-    if (currentPath !== '/plagiarism' && currentPath !== '/plagiarism/') {
+    if (currentPath !== '/cs-portfolio-quest' && currentPath !== '/cs-portfolio-quest/') {
         return;
     }
     
@@ -120,31 +120,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 case 'c1':
                     // C1 is always available (case studies) and auto-mark as viewed
                     isAvailable = true;
-                    // Auto-mark C1 as viewed if we're on any plagiarism page
-                    if (window.location.pathname.includes('/plagiarism')) {
-                        localStorage.setItem('plagiarism-c1-viewed', 'true');
+                    // Auto-mark C1 as viewed if we're on any cs-portfolio-quest page
+                    if (window.location.pathname.includes('/cs-portfolio-quest')) {
+                        localStorage.setItem('cs-portfolio-quest-c1-viewed', 'true');
                     }
-                    isCompleted = localStorage.getItem('plagiarism-c1-viewed') === 'true';
+                    isCompleted = localStorage.getItem('cs-portfolio-quest-c1-viewed') === 'true';
                     break;
                 case 'c2':
                     isAvailable = true; // Available after C1
-                    isCompleted = localStorage.getItem('plagiarism-c2-assessment') !== null;
+                    isCompleted = localStorage.getItem('cs-portfolio-quest-c2-assessment') !== null;
                     break;
                 case 'c3':
-                    isAvailable = localStorage.getItem('plagiarism-c2-assessment') !== null;
-                    isCompleted = localStorage.getItem('plagiarism-c3-assessment') !== null;
+                    isAvailable = localStorage.getItem('cs-portfolio-quest-c2-assessment') !== null;
+                    isCompleted = localStorage.getItem('cs-portfolio-quest-c3-assessment') !== null;
                     break;
                 case 'c4':
-                    isAvailable = localStorage.getItem('plagiarism-c3-assessment') !== null;
-                    isCompleted = localStorage.getItem('plagiarism-c4-assessment') !== null;
+                    isAvailable = localStorage.getItem('cs-portfolio-quest-c3-assessment') !== null;
+                    isCompleted = localStorage.getItem('cs-portfolio-quest-c4-assessment') !== null;
                     break;
                 case 'c5':
-                    isAvailable = localStorage.getItem('plagiarism-c4-assessment') !== null;
-                    isCompleted = localStorage.getItem('plagiarism-instructor-assessment') !== null;
+                    isAvailable = localStorage.getItem('cs-portfolio-quest-c4-assessment') !== null;
+                    isCompleted = localStorage.getItem('cs-portfolio-quest-instructor-assessment') !== null;
                     break;
                 case 'c6':
-                    isAvailable = localStorage.getItem('plagiarism-instructor-assessment') !== null;
-                    isCompleted = localStorage.getItem('plagiarism-certificate-confirmation') !== null;
+                    isAvailable = localStorage.getItem('cs-portfolio-quest-instructor-assessment') !== null;
+                    isCompleted = localStorage.getItem('cs-portfolio-quest-certificate-confirmation') !== null;
                     break;
             }
             
@@ -188,9 +188,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Mark C1 as viewed when navigation page loads
-    if (window.location.pathname.includes('/plagiarism') && 
-        !window.location.pathname.includes('/plagiarism/')) {
-        localStorage.setItem('plagiarism-c1-viewed', 'true');
+    if (window.location.pathname.includes('/cs-portfolio-quest') && 
+        !window.location.pathname.includes('/cs-portfolio-quest/')) {
+        localStorage.setItem('cs-portfolio-quest-c1-viewed', 'true');
     }
     
     // Update status on page load
