@@ -137,7 +137,7 @@ class GameLevelHomePage {
     };
 
     // Player data for Chillguy
-    const sprite_src_chillguy = path + "/images/digital-famine/rocketship_sprite_2x1.png"; // be sure to include the path
+  const sprite_src_chillguy = path + "/images/digital-famine/finalRocket.png"; // be sure to include the path
     const CHILLGUY_SCALE_FACTOR = 5;
     const sprite_data_chillguy = {
         id: 'Chill Guy',
@@ -146,18 +146,19 @@ class GameLevelHomePage {
         SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 10,
-        INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
-        pixels: {height: 692, width: 681},
-        orientation: {rows: 1, columns: 2},
-        pivot: { x: 0.5, y: 0.5 },  // Center the rotation point
-        down: {row: 0, start: 0, columns: 2, rotate: Math.PI},
-        downRight: {row: 0, start: 0, columns: 2, rotate: 3*Math.PI/4},
-        downLeft: {row: 0, start: 0, columns: 2, rotate: 5*Math.PI/4},
-        left: {row: 0, start: 0, columns: 2, rotate: 3*Math.PI/2},
-        right: {row: 0, start: 0, columns: 2, rotate: Math.PI/2},
-        up: {row: 0, start: 0, columns: 2, rotate: 0},
-        upLeft: {row: 0, start: 0, columns: 2, rotate: 7*Math.PI/4},
-        upRight: {row: 0, start: 0, columns: 2, rotate: Math.PI/4},
+  INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
+  pixels: {height: 998, width: 1497},
+  orientation: {rows: 2, columns: 4},
+
+    up: { column: 0, start: 0, frames: 2, vertical: true, rotate: 0 },
+    right: { column: 1, start: 0, frames: 2, vertical: true, rotate: Math.PI/2 },
+    down: { column: 2, start: 0, frames: 2, vertical: true, rotate: Math.PI },
+    left: { column: 3, start: 0, frames: 2, vertical: true, rotate: 3*Math.PI/2 },
+    // Diagonals use the nearest direction with rotation adjustments
+    upRight: { column: 1, start: 0, frames: 2, vertical: true, rotate: Math.PI/4 },
+    upLeft: { column: 0, start: 0, frames: 2, vertical: true, rotate: 7*Math.PI/4 },
+    downRight: { column: 2, start: 0, frames: 2, vertical: true, rotate: 3*Math.PI/4 },
+    downLeft: { column: 2, start: 0, frames: 2, vertical: true, rotate: 5*Math.PI/4 },
         hitbox: { widthPercentage: 0.05, heightPercentage: 0.05 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
