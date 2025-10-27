@@ -159,12 +159,15 @@ async function renderMicroblogTable() {
         </tbody>
         `;
 
-        // Table: set container
+
+        // Table: set container with scrollable wrapper
         container.innerHTML = `
-        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
-            ${head}
-            ${body}
-        </table>
+        <div style="max-height: 60vh; overflow-y: auto;">
+          <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
+              ${head}
+              ${body}
+          </table>
+        </div>
         `;
 
         // Wait for DOM update, then initialize DataTables
