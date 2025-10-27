@@ -81,7 +81,7 @@ jquery: True
   <button id="microblog-toggle-btn" aria-label="Open Microblog">💬 Microblog</button>
   <!-- Microblog panel (hidden by default) -->
   <aside id="microblog-panel" class="fixed top-0 right-0 h-full sm:w-[400px] max-w-full shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col" tabindex="-1" aria-label="Microblog panel">
-    <button class="close-btn self-end m-4 text-2xl text-gray-500 hover:text-gray-700 bg-none border-none" aria-label="Close Microblog">&times;</button>
+    <button id="microblog-close-btn" class="close-btn self-end m-4 p-2 text-2xl font-bold text-gray-700 hover:text-red-600 bg-white border border-gray-300 rounded-full shadow" aria-label="Close Microblog">&times;</button>
     <div class="microblog-content flex-1 overflow-y-auto px-4 pb-4">
       {% if page.microblog_heading %}
         <h2 class="text-xl font-bold mb-4">{{ page.microblog_heading }}</h2>
@@ -99,34 +99,18 @@ jquery: True
 <script>
 const overlay = document.getElementById('microblog-panel');
 const toggleBtn = document.getElementById('microblog-toggle-btn');
-const closeBtn = overlay.querySelector('.close-btn');
+const closeBtn = document.getElementById('microblog-close-btn');
 
 function openMicroblog() {
   overlay.classList.add('open');
   overlay.style.transform = 'translateX(0)';
   overlay.focus();
-  // Add a transparent backdrop for mobile tap-to-close
-  if (!document.getElementById('microblog-backdrop')) {
-    const backdrop = document.createElement('div');
-    backdrop.id = 'microblog-backdrop';
-    backdrop.style.position = 'fixed';
-    backdrop.style.top = '0';
-    backdrop.style.left = '0';
-    backdrop.style.width = '100vw';
-    backdrop.style.height = '100vh';
-    backdrop.style.zIndex = '1049';
-    backdrop.style.background = 'rgba(0,0,0,0.01)';
-    backdrop.onclick = closeMicroblog;
-    document.body.appendChild(backdrop);
-  }
+  toggleBtn.style.display = 'none';
 }
 function closeMicroblog() {
   overlay.classList.remove('open');
   overlay.style.transform = 'translateX(100%)';
-  toggleBtn.focus();
-  // Remove backdrop if present
-  const backdrop = document.getElementById('microblog-backdrop');
-  if (backdrop) backdrop.remove();
+  toggleBtn.style.display = '';
 }
 toggleBtn.onclick = openMicroblog;
 closeBtn.onclick = closeMicroblog;
