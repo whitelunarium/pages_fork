@@ -220,49 +220,54 @@ date: 2025-10-21
             height: 30px;
             border-radius: 15px;
             overflow: hidden;
-            margin: 20px 0 40px;
-            border: 1px solid #3b82f6;
+            margin: 30px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #10b981);
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
             transition: width 0.5s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
-            font-size: 0.9em;
+            font-size: 0.95em;
         }
 
-        .quiz-section {
-            background: rgba(30, 41, 59, 0.6);
-            padding: 30px;
-            margin: 30px 0;
-            border-radius: 12px;
-            border: 2px solid #8b5cf6;
+        .word-count {
+            text-align: right;
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+
+        .save-indicator {
+            color: #10b981;
+            font-size: 0.9em;
+            text-align: right;
+            margin-top: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
         }
 
         .quiz-question {
-            margin-bottom: 50px;
-        }
-
-        .quiz-question:last-child {
-            margin-bottom: 0;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-            margin-bottom: 20px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+            border: 1px solid #3b82f6;
         }
 
         .quiz-option {
-            background: rgba(30, 41, 59, 0.4);
-            padding: 15px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 15px 20px;
+            margin: 10px 0;
             border-radius: 8px;
             border: 2px solid #475569;
             cursor: pointer;
@@ -270,7 +275,7 @@ date: 2025-10-21
         }
 
         .quiz-option:hover {
-            border-color: #8b5cf6;
+            border-color: #3b82f6;
             transform: translateX(5px);
         }
 
@@ -290,22 +295,21 @@ date: 2025-10-21
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
             color: white;
-            padding: 14px 32px;
+            padding: 12px 30px;
             border: none;
             border-radius: 8px;
-            font-size: 1.05em;
-            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: block;
+            font-size: 1em;
+            font-weight: 600;
             margin-top: 15px;
+            transition: all 0.3s;
         }
 
         .submit-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
 
         .submit-btn:disabled {
@@ -314,113 +318,114 @@ date: 2025-10-21
         }
 
         .feedback {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 15px;
             border-radius: 8px;
-            animation: fadeIn 0.5s;
+            font-weight: 500;
         }
 
         .feedback.success {
             background: rgba(16, 185, 129, 0.2);
             border: 1px solid #10b981;
-            color: #6ee7b7;
+            color: #10b981;
         }
 
         .feedback.error {
             background: rgba(239, 68, 68, 0.2);
             border: 1px solid #ef4444;
-            color: #fca5a5;
+            color: #ef4444;
         }
 
-        .word-count {
-            text-align: right;
-            color: #94a3b8;
-            font-size: 0.85em;
-            margin-top: 5px;
+        .completion-banner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
         }
 
-        .save-indicator {
-            color: #10b981;
-            font-size: 0.9em;
-            margin-top: 5px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .save-indicator.show {
-            opacity: 1;
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Key 1: Understanding AI</h1>
-
+        <h1>🤖 Understanding Artificial Intelligence</h1>
+        
         <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width: 0%;">0% Complete</div>
+            <div class="progress-fill" id="progressFill">0% Complete</div>
         </div>
 
         <h2 id="section1Header">What is AI?</h2>
         <div class="section" id="section1">
-            <p>AI is an acronym that stands for Artificial Intelligence. It refers to the development of computer systems that are able to perform tasks that would normally require human intelligence, such as visual perception, speech analyzation, decision-making, and translating languages.</p>
+            <p>Artificial Intelligence (AI) refers to computer systems designed to perform tasks that typically require human intelligence. These tasks include learning, problem-solving, understanding language, recognizing patterns, and making decisions.</p>
+            
+            <h3>Key Concepts:</h3>
+            <div class="workflow-step">
+                <strong>Machine Learning:</strong> A subset of AI where systems learn from data and improve their performance over time without being explicitly programmed.
+            </div>
+            <div class="workflow-step">
+                <strong>Neural Networks:</strong> Computing systems inspired by biological neural networks that process information in layers, similar to how the human brain works.
+            </div>
+            <div class="workflow-step">
+                <strong>Natural Language Processing (NLP):</strong> The ability of computers to understand, interpret, and generate human language in a valuable way.
+            </div>
         </div>
 
-        <h2 id="section2Header">What is the Central Concept of AI?</h2>
+        <h2 id="section2Header">Types of AI</h2>
         <div class="section" id="section2">
-            <p>The main concept of AI is the ability of machines to learn from data and improve their performance over time. This is achieved through machine learning algorithms. They are sets of instructions that are used to analyze data and make predictions or decisions.</p>
+            <h3>1. Narrow AI (Weak AI)</h3>
+            <p>Designed and trained for specific tasks. Examples include virtual assistants, image recognition systems, and recommendation algorithms. This is the only type of AI that currently exists.</p>
+
+            <h3>2. General AI (Strong AI)</h3>
+            <p>Theoretical AI that would have human-like intelligence and the ability to understand, learn, and apply knowledge across different domains. This doesn't exist yet.</p>
+
+            <h3>3. Super AI</h3>
+            <p>Hypothetical AI that would surpass human intelligence in all aspects. This is purely speculative and far from current reality.</p>
         </div>
 
-        <h2 id="section3Header">How does AI Work?</h2>
+        <h2 id="section3Header">How AI Works</h2>
         <div class="section" id="section3">
-            <p>The workflow of AI typically involves the following steps:</p>
-
+            <h3>The Learning Process:</h3>
             <div class="workflow-step">
-                <strong>1. Data Collection:</strong> Gathering data relevant to the problem or task that the AI is intended to solve.
+                <strong>Step 1: Data Collection</strong><br>
+                AI systems need large amounts of data to learn patterns and make predictions.
             </div>
-
             <div class="workflow-step">
-                <strong>2. Data Preprocessing:</strong> Cleaning, transforming, and preparing the data for use in the machine learning algorithm.
+                <strong>Step 2: Training</strong><br>
+                The AI analyzes the data, identifies patterns, and adjusts its internal parameters to improve accuracy.
             </div>
-
             <div class="workflow-step">
-                <strong>3. Training for module:</strong> Using the machine learning algorithm to analyze the data and make predictions or make decisions.
+                <strong>Step 3: Testing</strong><br>
+                The trained model is tested on new data to verify its performance and accuracy.
             </div>
-
             <div class="workflow-step">
-                <strong>4. Evaluation:</strong> Testing the performance of the AI system and making it as what is necessary.
-            </div>
-
-            <div class="workflow-step">
-                <strong>5. Deployment:</strong> Integrating the AI system into a larger system or application.
+                <strong>Step 4: Deployment</strong><br>
+                Once validated, the AI model can be used to make predictions or decisions on real-world data.
             </div>
         </div>
 
-        <h2 id="section3bHeader">Types of AI</h2>
-        <div class="section" id="section3b">
-            <p>AI can be categorized into different types based on capabilities:</p>
-
-            <div class="workflow-step">
-                <strong>Narrow AI:</strong> Designed for specific tasks like voice recognition or playing chess. This is what we use today.
-            </div>
-
-            <div class="workflow-step">
-                <strong>General AI:</strong> Would match human intelligence across all areas. This doesn't exist yet.
-            </div>
-
-            <div class="workflow-step">
-                <strong>Super AI:</strong> Would surpass human intelligence. This is theoretical and remains science fiction.
-            </div>
-        </div>
-
-        <h2 id="section4Header">Quick Knowledge Check</h2>
-        <div class="section quiz-section" id="section4">
+        <h2 id="section4Header">Quick Quiz</h2>
+        <div class="section" id="section4">
             <div class="quiz-question">
-                <h3>Test your understanding!</h3>
-                <p><strong>Question 1:</strong> What is the main concept of AI?</p>
+                <p><strong>Question 1:</strong> What is the main concept behind AI?</p>
                 <div class="quiz-options" id="quiz1Options">
-                    <div class="quiz-option" data-answer="wrong" data-quiz="1">A) Making computers faster</div>
-                    <div class="quiz-option" data-answer="correct" data-quiz="1">B) Machines learning from data and improving over time</div>
-                    <div class="quiz-option" data-answer="wrong" data-quiz="1">C) Creating robots that look like humans</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="1">A) Creating human-like robots</div>
+                    <div class="quiz-option" data-answer="correct" data-quiz="1">B) Systems learning from data and improving over time</div>
+                    <div class="quiz-option" data-answer="wrong" data-quiz="1">C) Replacing all human workers</div>
                     <div class="quiz-option" data-answer="wrong" data-quiz="1">D) Programming computers with fixed rules</div>
                 </div>
                 <button class="submit-btn" id="quizSubmit1" disabled>Check Answer</button>
@@ -637,6 +642,58 @@ date: 2025-10-21
             progressFill.style.width = percentage + '%';
             progressFill.textContent = percentage + '% Complete';
         }
+
+        // Scroll-to-bottom completion tracking
+        document.addEventListener("DOMContentLoaded", function() {
+            const storageKey = 'ai-module-c1-completed';
+            
+            // Check if already completed
+            if (localStorage.getItem(storageKey) === 'true') {
+                return;
+            }
+            
+            let hasScrolledToBottom = false;
+            
+            function checkScrollPosition() {
+                const scrollTop = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                // Check if user scrolled to within 100px of bottom
+                if (scrollTop + windowHeight >= documentHeight - 100) {
+                    if (!hasScrolledToBottom) {
+                        hasScrolledToBottom = true;
+                        
+                        // Mark module as completed
+                        localStorage.setItem(storageKey, 'true');
+                        
+                        // Show completion banner
+                        const banner = document.createElement('div');
+                        banner.className = 'completion-banner';
+                        banner.innerHTML = `
+                            <h3 style="margin: 0; font-size: 18px; font-weight: bold;">🎉 Module 1 Completed!</h3>
+                            <p style="margin: 5px 0 0 0; font-size: 14px;">Module 2 unlocked!</p>
+                        `;
+                        document.body.appendChild(banner);
+                        
+                        // Remove banner after 4 seconds
+                        setTimeout(() => {
+                            banner.style.animation = 'slideIn 0.5s ease-out reverse';
+                            setTimeout(() => banner.remove(), 500);
+                        }, 4000);
+                        
+                        // Remove scroll listener
+                        window.removeEventListener('scroll', checkScrollPosition);
+                    }
+                }
+            }
+            
+            // Add scroll listener
+            window.addEventListener('scroll', checkScrollPosition);
+            
+            // Check immediately in case page is short
+            checkScrollPosition();
+        });
     </script>
 </body>
 </html>

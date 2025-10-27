@@ -4,11 +4,11 @@ title: "Submodule 2"
 description: "Submodule 2 of AI Usage Mini-Quest"
 permalink: /west-coast/ai/submodule_2/
 parent: "AI Usage"
-team: "Thinkers"
+microblog: True
 submodule: 2
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, thinkers]
-author: "Thinkers Team"
+author: "TheSprinters"
 date: 2025-10-21
 ---
 
