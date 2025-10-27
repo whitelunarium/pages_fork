@@ -45,6 +45,9 @@ class GameLevelHomePage {
       }
     };
     
+    // Clear localStorage to reset progression
+    localStorage.removeItem('planetProgression');
+    
     // Debug helper
     this.debugProgress = () => {
       console.log('Current Progress:', {
@@ -179,15 +182,15 @@ class GameLevelHomePage {
     const sprite_src_ancientBook = path + "/images/digital-famine/ancientBook.png";
     const sprite_data_ancientBook = {
         id: 'AncientBook',
-        greeting: "",
+        greeting: "This is the amount of pages you collected. Collect 4 ancient pages to save humanity!",
         src: sprite_src_ancientBook,
-        SCALE_FACTOR: 10,
+        SCALE_FACTOR: 8,  // Bigger book (lower number = bigger size)
         ANIMATION_RATE: 1,
-        pixels: {height: 512, width: 512},  // Adjust based on actual image size
-        INIT_POSITION: { x: width - 120, y: height - 120 },  // Bottom right corner
+        pixels: {height: 1080, width: 1688},  // Actual image dimensions
+        INIT_POSITION: { x: width - 200, y: height - 150 },  // Lower in bottom right corner
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1, rotate: 0},
-        hitbox: { widthPercentage: 0.01, heightPercentage: 0.01 },
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },  // Make it interactable
         zIndex: 20  // Higher than all other elements
     };
 
@@ -476,14 +479,14 @@ class GameLevelHomePage {
     const counterDiv = document.createElement('div');
     counterDiv.id = 'page-counter';
     counterDiv.style.position = 'absolute';
-    counterDiv.style.right = '20px';
-    counterDiv.style.bottom = '20px';
-    counterDiv.style.color = 'white';
-    counterDiv.style.fontSize = '24px';
+    counterDiv.style.right = '60px';  // Moved more to the right (closer to book)
+    counterDiv.style.bottom = '120px';  // Align with book height
+    counterDiv.style.color = '#FFD700';  // Gold color to match the book
+    counterDiv.style.fontSize = '28px';  // Larger to match book scale
     counterDiv.style.fontWeight = 'bold';
-    counterDiv.style.textShadow = '2px 2px 4px rgba(0,0,0,0.8)';
+    counterDiv.style.textShadow = '2px 2px 4px rgba(0,0,0,0.9)';
     counterDiv.style.zIndex = '25';
-    counterDiv.style.fontFamily = 'Arial, sans-serif';
+    counterDiv.style.fontFamily = 'Georgia, serif';  // More book-like font
     
     // Calculate pages collected
     const pagesCollected = (this.progression.microblog ? 1 : 0) +
