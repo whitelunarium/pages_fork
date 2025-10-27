@@ -28,22 +28,35 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
 <head>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-    background: #121212 !important;
+    background: #1a1a2e !important;
+    color: #eee !important;
   }
   .demo-container {
-    background: #121212 !important;
+    background: #16213e !important;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
     margin: 20px 0;
+    border: 1px solid #0f3460;
+  }
+  .demo-container h2 {
+    color: #4ecca3 !important;
+    margin-top: 0;
+  }
+  .demo-container p,
+  .demo-container label,
+  .demo-container span,
+  .demo-container small,
+  .demo-container em {
+    color: #eee !important;
   }
   .conversation {
-    background: #f9f9f9;
-    border: 2px solid #e0e0e0;
+    background: #0f3460 !important;
+    border: 2px solid #1a1a2e;
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
@@ -51,26 +64,30 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
     overflow-y: auto;
   }
   .message {
-    background: white;
+    background: #1a1a2e !important;
     padding: 12px 16px;
     margin: 8px 0;
     border-radius: 8px;
-    border-left: 4px solid #2196F3;
+    border-left: 4px solid #4ecca3;
     transition: all 0.3s;
+    color: #eee !important;
+  }
+  .message div {
+    color: #eee !important;
   }
   .message.in-context {
-    background: #e3f2fd;
-    border-left-color: #2196F3;
-    box-shadow: 0 2px 4px rgba(33,150,243,0.2);
+    background: #16213e !important;
+    border-left-color: #4ecca3;
+    box-shadow: 0 2px 8px rgba(78, 204, 163, 0.3);
   }
   .message.out-of-context {
-    background: #ffebee;
-    border-left-color: #f44336;
+    background: #1a1a2e !important;
+    border-left-color: #e74c3c;
     opacity: 0.5;
   }
   .message.current {
-    background: #fff9c4;
-    border-left-color: #FFC107;
+    background: #2d4059 !important;
+    border-left-color: #f39c12;
     font-weight: bold;
   }
   .controls {
@@ -80,63 +97,68 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
     flex-wrap: wrap;
   }
   button {
-    background: #2196F3;
-    color: white;
+    background: #4ecca3 !important;
+    color: #1a1a2e !important;
     border: none;
     padding: 12px 24px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s;
+    font-weight: 600;
+    transition: all 0.3s;
   }
   button:hover {
-    background: #1976D2;
+    background: #45b393 !important;
+    transform: translateY(-2px);
   }
   button.secondary {
-    background: #757575;
+    background: #533483 !important;
+    color: #eee !important;
   }
   button.secondary:hover {
-    background: #616161;
+    background: #6c4ba0 !important;
   }
   .stats {
-    background: #263238;
-    color: white;
+    background: #0f3460 !important;
+    color: #eee !important;
     padding: 20px;
     border-radius: 8px;
     margin: 20px 0;
     font-family: 'Courier New', monospace;
+    border: 1px solid #1a1a2e;
   }
   .stat-row {
     display: flex;
     justify-content: space-between;
     margin: 8px 0;
     padding: 8px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(78, 204, 163, 0.1) !important;
     border-radius: 4px;
   }
   .stat-label {
-    color: #81d4fa;
+    color: #4ecca3 !important;
   }
   .stat-value {
-    color: #a5d6a7;
+    color: #f39c12 !important;
     font-weight: bold;
   }
   .progress-bar {
     width: 100%;
     height: 30px;
-    background: #e0e0e0;
+    background: #1a1a2e !important;
     border-radius: 15px;
     overflow: hidden;
     margin: 10px 0;
+    border: 1px solid #0f3460;
   }
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    background: linear-gradient(90deg, #4ecca3, #45b393) !important;
     transition: width 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #1a1a2e !important;
     font-weight: bold;
   }
   .legend {
@@ -149,6 +171,12 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
     display: flex;
     align-items: center;
     gap: 8px;
+    background: #0f3460 !important;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .legend-item span {
+    color: #eee !important;
   }
   .legend-box {
     width: 20px;
@@ -158,6 +186,11 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
   input[type="range"] {
     width: 100%;
     margin: 10px 0;
+    background: #0f3460 !important;
+  }
+  #window-size-display {
+    color: #4ecca3 !important;
+    font-weight: bold;
   }
 </style>
 </head>
@@ -174,21 +207,21 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
   
   <div class="controls">
     <button onclick="addMessage()">📝 Add New Message</button>
-    <button onclick="processMessage()" style="background: #4CAF50;">🤖 LLM Processes</button>
+    <button onclick="processMessage()">🤖 LLM Processes</button>
     <button onclick="resetConversation()" class="secondary">🔄 Reset</button>
   </div>
   
   <div class="legend">
     <div class="legend-item">
-      <div class="legend-box" style="background: #e3f2fd; border: 2px solid #2196F3;"></div>
+      <div class="legend-box" style="background: #16213e; border: 2px solid #4ecca3;"></div>
       <span>In Context (LLM can see)</span>
     </div>
     <div class="legend-item">
-      <div class="legend-box" style="background: #ffebee; border: 2px solid #f44336;"></div>
+      <div class="legend-box" style="background: #1a1a2e; border: 2px solid #e74c3c;"></div>
       <span>Out of Context (Forgotten)</span>
     </div>
     <div class="legend-item">
-      <div class="legend-box" style="background: #fff9c4; border: 2px solid #FFC107;"></div>
+      <div class="legend-box" style="background: #2d4059; border: 2px solid #f39c12;"></div>
       <span>Current Processing</span>
     </div>
   </div>
@@ -209,7 +242,7 @@ LLMs don't have memory like humans. Instead, they have a **context window** - th
       <span class="stat-value" id="out-context">0</span>
     </div>
     <div>
-      <div style="margin-top: 15px; color: #81d4fa;">Context Usage:</div>
+      <div style="margin-top: 15px; color: #4ecca3 !important;">Context Usage:</div>
       <div class="progress-bar">
         <div class="progress-fill" id="context-progress">0%</div>
       </div>
@@ -279,16 +312,15 @@ function renderConversation() {
     }
     
     div.innerHTML = `
-      <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
+      <div style="font-size: 12px; color: #aaa !important; margin-bottom: 4px;">
         Message #${msg.id} - ${msg.timestamp}
       </div>
-      <div>${msg.text}</div>
+      <div style="color: #eee !important;">${msg.text}</div>
     `;
     
     container.appendChild(div);
   });
   
-  // Update stats
   const inContext = Math.min(totalMessages, contextWindowSize);
   const outContext = Math.max(0, totalMessages - contextWindowSize);
   
@@ -301,7 +333,6 @@ function renderConversation() {
   progressBar.style.width = `${Math.min(contextUsage, 100)}%`;
   progressBar.textContent = `${contextUsage}%`;
   
-  // Scroll to bottom
   container.scrollTop = container.scrollHeight;
 }
 
@@ -312,7 +343,6 @@ async function processMessage() {
   const totalMessages = messages.length;
   const startIndex = Math.max(0, totalMessages - contextWindowSize);
   
-  // Highlight each message in context
   for (let i = startIndex; i < totalMessages; i++) {
     const allMessages = document.querySelectorAll('.message');
     allMessages[i].classList.add('current');
@@ -322,7 +352,6 @@ async function processMessage() {
     allMessages[i].classList.remove('current');
   }
   
-  // Add LLM response
   messageCounter++;
   messages.push({
     id: messageCounter,
@@ -340,11 +369,9 @@ function resetConversation() {
   renderConversation();
 }
 
-// Initialize
 document.getElementById('window-size').addEventListener('input', updateContextWindow);
 renderConversation();
 
-// Add a few initial messages
 for (let i = 0; i < 3; i++) {
   addMessage();
 }
@@ -352,7 +379,6 @@ for (let i = 0; i < 3; i++) {
 
 </body>
 </html>
-
 
 ---
 
@@ -366,27 +392,42 @@ The attention mechanism allows LLMs to weigh the importance of different tokens 
 <head>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-    background: #f5f5f5;
+    background: #1a1a2e !important;
+    color: #eee !important;
   }
   .demo-container {
-    background: white;
+    background: #16213e !important;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
     margin: 20px 0;
+    border: 1px solid #0f3460;
+  }
+  .demo-container h2 {
+    color: #4ecca3 !important;
+    margin-top: 0;
+  }
+  .demo-container p,
+  .demo-container label,
+  .demo-container span,
+  .demo-container strong,
+  .demo-container br {
+    color: #eee !important;
   }
   .sentence-input {
     width: 100%;
     padding: 15px;
     font-size: 16px;
-    border: 2px solid #ddd;
+    border: 2px solid #0f3460;
     border-radius: 8px;
     margin: 15px 0;
     font-family: inherit;
+    background: #0f3460 !important;
+    color: #eee !important;
   }
   .word-container {
     display: flex;
@@ -394,7 +435,7 @@ The attention mechanism allows LLMs to weigh the importance of different tokens 
     gap: 10px;
     margin: 30px 0;
     padding: 20px;
-    background: #f9f9f9;
+    background: #0f3460 !important;
     border-radius: 8px;
     min-height: 100px;
     align-items: center;
@@ -409,21 +450,22 @@ The attention mechanism allows LLMs to weigh the importance of different tokens 
     cursor: pointer;
     border: 2px solid transparent;
     position: relative;
+    color: #1a1a2e !important;
   }
   .word:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   }
   .word.selected {
-    border: 2px solid #2196F3;
-    box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+    border: 2px solid #4ecca3;
+    box-shadow: 0 0 20px rgba(78, 204, 163, 0.4);
   }
   .attention-score {
     position: absolute;
     top: -10px;
     right: -10px;
-    background: #FF5722;
-    color: white;
+    background: #e74c3c !important;
+    color: white !important;
     border-radius: 50%;
     width: 28px;
     height: 28px;
@@ -440,32 +482,39 @@ The attention mechanism allows LLMs to weigh the importance of different tokens 
     flex-wrap: wrap;
   }
   button {
-    background: #2196F3;
-    color: white;
+    background: #4ecca3 !important;
+    color: #1a1a2e !important;
     border: none;
     padding: 12px 24px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s;
+    font-weight: 600;
+    transition: all 0.3s;
   }
   button:hover {
-    background: #1976D2;
+    background: #45b393 !important;
+    transform: translateY(-2px);
   }
   .info-box {
-    background: #e3f2fd;
-    border-left: 4px solid #2196F3;
+    background: #0f3460 !important;
+    border-left: 4px solid #4ecca3;
     padding: 20px;
     border-radius: 4px;
     margin: 20px 0;
   }
+  .info-box strong,
+  .info-box br {
+    color: #4ecca3 !important;
+  }
   .query-word {
-    background: #fff9c4;
+    background: #2d4059 !important;
     padding: 8px 16px;
     border-radius: 6px;
     display: inline-block;
     font-weight: bold;
-    border: 2px solid #FFC107;
+    border: 2px solid #4ecca3;
+    color: #4ecca3 !important;
   }
   .heatmap-legend {
     display: flex;
@@ -473,24 +522,23 @@ The attention mechanism allows LLMs to weigh the importance of different tokens 
     gap: 10px;
     margin: 20px 0;
   }
+  .heatmap-legend span {
+    color: #eee !important;
+  }
   .heatmap-gradient {
     width: 200px;
     height: 30px;
     background: linear-gradient(90deg, 
-      rgba(255,255,255,0.3),
+      rgba(26, 26, 46, 0.5),
       rgba(76, 175, 80, 0.5),
-      rgba(33, 150, 243, 0.7),
-      rgba(156, 39, 176, 0.9)
-    );
+      rgba(78, 204, 163, 0.7),
+      rgba(243, 156, 18, 0.9)
+    ) !important;
     border-radius: 4px;
-    border: 1px solid #ddd;
+    border: 1px solid #0f3460;
   }
-  .connection-line {
-    position: absolute;
-    height: 2px;
-    background: rgba(33, 150, 243, 0.5);
-    transform-origin: left;
-    pointer-events: none;
+  #selected-word {
+    color: #eee !important;
   }
 </style>
 </head>
@@ -535,7 +583,7 @@ The attention mechanism allows LLMs to weigh the importance of different tokens 
   <div id="selected-word" style="margin: 15px 0; font-size: 18px;"></div>
   
   <div class="word-container" id="word-container">
-    <p style="color: #999;">Enter a sentence and click "Calculate Attention" to begin</p>
+    <p style="color: #999 !important;">Enter a sentence and click "Calculate Attention" to begin</p>
   </div>
 </div>
 
@@ -557,45 +605,31 @@ function loadExample(num) {
 }
 
 function calculateAttentionWeights(queryIndex, words) {
-  // Simplified attention calculation
-  // In reality, this uses complex neural network computations
   const weights = [];
   const queryWord = words[queryIndex].toLowerCase();
   
   for (let i = 0; i < words.length; i++) {
     const keyWord = words[i].toLowerCase();
-    
-    // Simulate attention based on simple heuristics:
-    // 1. Self-attention is high
-    // 2. Pronouns attend to recent nouns
-    // 3. Verbs attend to subjects
-    // 4. Nearby words get some attention
-    
-    let weight = 0.1; // Base attention
+    let weight = 0.1;
     
     if (i === queryIndex) {
-      weight = 0.95; // Strong self-attention
+      weight = 0.95;
     } else {
       const distance = Math.abs(i - queryIndex);
-      
-      // Distance-based attention (closer = more attention)
       weight += Math.max(0, (10 - distance) / 20);
       
-      // Pronoun attention to nouns
       if (['it', 'she', 'he', 'they', 'them'].includes(queryWord)) {
         if (['cat', 'dog', 'alice', 'store', 'sun', 'sky', 'mat'].includes(keyWord)) {
           weight += 0.5;
         }
       }
       
-      // Verb attention to nearby nouns
       if (['sat', 'went', 'bought', 'sets', 'turns'].includes(queryWord)) {
         if (['cat', 'alice', 'sun', 'sky'].includes(keyWord)) {
           weight += 0.4;
         }
       }
       
-      // Article attention to following nouns
       if (queryWord === 'the' && i === queryIndex + 1) {
         weight += 0.6;
       }
@@ -614,7 +648,6 @@ function processAttention() {
   words = sentence.split(' ').filter(w => w.length > 0);
   attentionMatrix = [];
   
-  // Calculate attention weights for each word
   for (let i = 0; i < words.length; i++) {
     attentionMatrix.push(calculateAttentionWeights(i, words));
   }
@@ -623,11 +656,10 @@ function processAttention() {
 }
 
 function getColorForAttention(attention) {
-  // Map attention (0-1) to color
-  if (attention < 0.2) return `rgba(255, 255, 255, ${0.3 + attention})`;
+  if (attention < 0.2) return `rgba(45, 64, 89, ${0.5 + attention * 2})`;
   if (attention < 0.4) return `rgba(76, 175, 80, ${attention})`;
-  if (attention < 0.7) return `rgba(33, 150, 243, ${attention})`;
-  return `rgba(156, 39, 176, ${attention})`;
+  if (attention < 0.7) return `rgba(78, 204, 163, ${attention})`;
+  return `rgba(243, 156, 18, ${attention})`;
 }
 
 function renderWords(highlightIndex = null) {
@@ -643,7 +675,7 @@ function renderWords(highlightIndex = null) {
     if (highlightIndex !== null) {
       const attention = attentionMatrix[highlightIndex][index];
       wordDiv.style.background = getColorForAttention(attention);
-      wordDiv.style.color = attention > 0.5 ? 'white' : 'black';
+      wordDiv.style.color = attention > 0.5 ? '#1a1a2e' : '#eee';
       
       if (attention > 0.3) {
         const scoreDiv = document.createElement('div');
@@ -652,8 +684,8 @@ function renderWords(highlightIndex = null) {
         wordDiv.appendChild(scoreDiv);
       }
     } else {
-      wordDiv.style.background = '#e0e0e0';
-      wordDiv.style.color = 'black';
+      wordDiv.style.background = '#0f3460';
+      wordDiv.style.color = '#eee';
     }
     
     if (index === selectedWordIndex) {
@@ -716,18 +748,33 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
 <head>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
-    background: #f5f5f5;
+    background: #1a1a2e !important;
+    color: #eee !important;
   }
   .demo-container {
-    background: white;
+    background: #16213e !important;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
     margin: 20px 0;
+    border: 1px solid #0f3460;
+  }
+  .demo-container h2,
+  .demo-container h3 {
+    color: #4ecca3 !important;
+  }
+  .demo-container p,
+  .demo-container label,
+  .demo-container span,
+  .demo-container small,
+  .demo-container strong,
+  .demo-container em,
+  .demo-container br {
+    color: #eee !important;
   }
   .phases {
     display: grid;
@@ -736,26 +783,31 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
     margin: 20px 0;
   }
   .phase-box {
-    border: 3px solid #ddd;
+    border: 3px solid #0f3460;
     border-radius: 12px;
     padding: 20px;
     transition: all 0.3s;
   }
   .phase-box.active {
-    border-color: #4CAF50;
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    border-color: #4ecca3;
+    box-shadow: 0 0 20px rgba(78, 204, 163, 0.3);
   }
   .phase-box.training {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #533483 0%, #6c4ba0 100%) !important;
+    color: white !important;
   }
   .phase-box.runtime {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
+    background: linear-gradient(135deg, #2d4059 0%, #395270 100%) !important;
+    color: white !important;
+  }
+  .phase-box h3,
+  .phase-box p,
+  .phase-box small {
+    color: white !important;
   }
   .knowledge-base {
-    background: #263238;
-    color: #4CAF50;
+    background: #0f3460 !important;
+    color: #4ecca3 !important;
     padding: 20px;
     border-radius: 8px;
     font-family: 'Courier New', monospace;
@@ -763,13 +815,21 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
     max-height: 300px;
     overflow-y: auto;
     margin: 15px 0;
+    border: 1px solid #1a1a2e;
+  }
+  .knowledge-base div {
+    color: #4ecca3 !important;
   }
   .knowledge-item {
     padding: 8px;
     margin: 5px 0;
-    background: rgba(76, 175, 80, 0.1);
-    border-left: 3px solid #4CAF50;
+    background: rgba(78, 204, 163, 0.1) !important;
+    border-left: 3px solid #4ecca3;
     border-radius: 3px;
+    color: #eee !important;
+  }
+  .knowledge-item small {
+    color: #aaa !important;
   }
   .controls {
     display: flex;
@@ -784,36 +844,44 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s;
-    font-weight: 500;
+    font-weight: 600;
   }
   .train-btn {
-    background: #667eea;
-    color: white;
+    background: #533483 !important;
+    color: white !important;
   }
   .train-btn:hover {
-    background: #5568d3;
+    background: #6c4ba0 !important;
+    transform: translateY(-2px);
   }
   .query-btn {
-    background: #f093fb;
-    color: white;
+    background: #4ecca3 !important;
+    color: #1a1a2e !important;
   }
   .query-btn:hover {
-    background: #d87ae6;
+    background: #45b393 !important;
+    transform: translateY(-2px);
   }
   .reset-btn {
-    background: #757575;
-    color: white;
+    background: #e74c3c !important;
+    color: white !important;
   }
   .reset-btn:hover {
-    background: #616161;
+    background: #c0392b !important;
+    transform: translateY(-2px);
   }
   input[type="text"] {
     flex: 1;
     padding: 12px;
-    border: 2px solid #ddd;
+    border: 2px solid #0f3460;
     border-radius: 6px;
     font-size: 16px;
     min-width: 200px;
+    background: #0f3460 !important;
+    color: #eee !important;
+  }
+  input[type="text"]::placeholder {
+    color: #aaa !important;
   }
   .input-group {
     display: flex;
@@ -822,12 +890,24 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
     align-items: center;
   }
   .response-box {
-    background: #fff9c4;
-    border: 2px solid #FFC107;
+    background: #0f3460 !important;
+    border: 2px solid #4ecca3;
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
     min-height: 80px;
+  }
+  .response-box strong {
+    color: #4ecca3 !important;
+  }
+  .response-box br {
+    color: #eee !important;
+  }
+  .response-box small {
+    color: #aaa !important;
+  }
+  .response-box em {
+    color: #aaa !important;
   }
   .stat-display {
     display: grid;
@@ -836,26 +916,30 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
     margin: 20px 0;
   }
   .stat-card {
-    background: #e3f2fd;
+    background: #0f3460 !important;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
+    border: 1px solid #1a1a2e;
   }
   .stat-number {
     font-size: 36px;
     font-weight: bold;
-    color: #1976D2;
+    color: #4ecca3 !important;
   }
   .stat-label {
-    color: #666;
+    color: #eee !important;
     margin-top: 8px;
   }
   .alert {
-    background: #ffebee;
-    border-left: 4px solid #f44336;
+    background: #2d1f1f !important;
+    border-left: 4px solid #e74c3c;
     padding: 15px;
     border-radius: 4px;
     margin: 15px 0;
+  }
+  .alert strong {
+    color: #e74c3c !important;
   }
 </style>
 </head>
@@ -904,13 +988,13 @@ LLMs have two phases: **training** (where they learn patterns) and **runtime** (
   
   <h3>💾 Model's Knowledge Base (From Training)</h3>
   <div class="knowledge-base" id="knowledge-base">
-    <div style="color: #81d4fa;">// Model's learned knowledge appears here...</div>
-    <div style="color: #666; margin-top: 10px;">// No training data yet. Use the training phase to teach the model!</div>
+    <div style="color: #4ecca3 !important;">// Model's learned knowledge appears here...</div>
+    <div style="color: #aaa !important; margin-top: 10px;">// No training data yet. Use the training phase to teach the model!</div>
   </div>
   
   <h3>💬 Model Response</h3>
   <div class="response-box" id="response-box">
-    <em style="color: #666;">Train the model or ask it a question to see responses...</em>
+    <em style="color: #aaa !important;">Train the model or ask it a question to see responses...</em>
   </div>
   
   <div class="controls">
@@ -940,7 +1024,6 @@ function trainModel() {
   const input = document.getElementById('training-input').value.trim();
   if (!input) return;
   
-  // Simulate training
   const trainingPhase = document.getElementById('training-phase');
   trainingPhase.classList.add('active');
   
@@ -976,7 +1059,6 @@ function queryModel() {
   runtimePhase.classList.add('active');
   
   setTimeout(() => {
-    // Simulate querying the knowledge base
     let response = findBestMatch(query);
     
     if (response.found) {
@@ -1008,11 +1090,9 @@ function queryModel() {
 function findBestMatch(query) {
   const queryLower = query.toLowerCase();
   
-  // Simple keyword matching simulation
   for (let item of knowledgeBase) {
     const itemLower = item.text.toLowerCase();
     
-    // Extract key entities and check for matches
     if (queryLower.includes('capital') && itemLower.includes('capital')) {
       const match = itemLower.match(/(\w+)\s+is the capital of\s+(\w+)/);
       if (match) {
@@ -1040,7 +1120,6 @@ function findBestMatch(query) {
       };
     }
     
-    // Check if query words match training data
     const queryWords = queryLower.split(' ').filter(w => w.length > 3);
     const itemWords = itemLower.split(' ');
     const matches = queryWords.filter(w => itemWords.some(iw => iw.includes(w) || w.includes(iw)));
@@ -1059,12 +1138,12 @@ function findBestMatch(query) {
 
 function updateKnowledgeBase() {
   const kb = document.getElementById('knowledge-base');
-  kb.innerHTML = '<div style="color: #81d4fa;">// Model\'s learned knowledge:</div>';
+  kb.innerHTML = '<div style="color: #4ecca3 !important;">// Model\'s learned knowledge:</div>';
   
   knowledgeBase.forEach(item => {
     const div = document.createElement('div');
     div.className = 'knowledge-item';
-    div.innerHTML = `[Training #${item.id}] ${item.text} <small style="opacity: 0.6;">(${item.timestamp})</small>`;
+    div.innerHTML = `[Training #${item.id}] ${item.text} <small style="opacity: 0.6; color: #aaa !important;">(${item.timestamp})</small>`;
     kb.appendChild(div);
   });
 }
@@ -1109,12 +1188,12 @@ function resetModel() {
   updateStats();
   
   document.getElementById('knowledge-base').innerHTML = `
-    <div style="color: #81d4fa;">// Model's learned knowledge appears here...</div>
-    <div style="color: #666; margin-top: 10px;">// No training data. Use the training phase to teach the model!</div>
+    <div style="color: #4ecca3 !important;">// Model's learned knowledge appears here...</div>
+    <div style="color: #aaa !important; margin-top: 10px;">// No training data. Use the training phase to teach the model!</div>
   `;
   
   document.getElementById('response-box').innerHTML = `
-    <em style="color: #666;">Model reset! Train the model or ask it a question to see responses...</em>
+    <em style="color: #aaa !important;">Model reset! Train the model or ask it a question to see responses...</em>
   `;
 }
 </script>
@@ -1134,18 +1213,32 @@ Each conversation is isolated. The LLM cannot remember previous conversations!
 <head>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
-    background: #f5f5f5;
+    background: #1a1a2e !important;
+    color: #eee !important;
   }
   .demo-container {
-    background: white;
+    background: #16213e !important;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
     margin: 20px 0;
+    border: 1px solid #0f3460;
+  }
+  .demo-container h2 {
+    color: #4ecca3 !important;
+    margin-top: 0;
+  }
+  .demo-container p,
+  .demo-container label,
+  .demo-container span,
+  .demo-container strong,
+  .demo-container ol,
+  .demo-container li {
+    color: #eee !important;
   }
   .session-container {
     display: grid;
@@ -1154,42 +1247,49 @@ Each conversation is isolated. The LLM cannot remember previous conversations!
     margin: 20px 0;
   }
   .session-box {
-    border: 3px solid #ddd;
+    border: 3px solid #0f3460;
     border-radius: 12px;
     padding: 20px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%) !important;
   }
   .session-box.active {
-    border-color: #4CAF50;
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    border-color: #4ecca3;
+    box-shadow: 0 0 20px rgba(78, 204, 163, 0.3);
   }
   .conversation {
-    background: white;
+    background: #1a1a2e !important;
     border-radius: 8px;
     padding: 15px;
     min-height: 250px;
     max-height: 400px;
     overflow-y: auto;
     margin: 15px 0;
+    border: 1px solid #0f3460;
   }
   .message {
     padding: 10px 15px;
     margin: 8px 0;
     border-radius: 8px;
   }
+  .message strong {
+    color: #4ecca3 !important;
+  }
   .user-msg {
-    background: #e3f2fd;
-    border-left: 4px solid #2196F3;
+    background: #0f3460 !important;
+    border-left: 4px solid #4ecca3;
+    color: #eee !important;
   }
   .ai-msg {
-    background: #f3e5f5;
-    border-left: 4px solid #9C27B0;
+    background: #2d4059 !important;
+    border-left: 4px solid #f39c12;
+    color: #eee !important;
   }
   .system-msg {
-    background: #fff9c4;
-    border-left: 4px solid #FFC107;
+    background: #2d1f1f !important;
+    border-left: 4px solid #e74c3c;
     font-style: italic;
     font-size: 14px;
+    color: #eee !important;
   }
   .input-group {
     display: flex;
@@ -1198,55 +1298,75 @@ Each conversation is isolated. The LLM cannot remember previous conversations!
   }
   input {
     flex: 1;
-    padding: 10px;
-    border: 2px solid #ddd;
+    padding: 12px;
+    border: 2px solid #0f3460;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 16px;
+    background: #0f3460 !important;
+    color: #eee !important;
+  }
+  input::placeholder {
+    color: #aaa !important;
   }
   button {
-    background: #2196F3;
-    color: white;
+    background: #4ecca3 !important;
+    color: #1a1a2e !important;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
   }
   button:hover {
-    background: #1976D2;
+    background: #45b393 !important;
+    transform: translateY(-2px);
   }
   .new-session-btn {
-    background: #4CAF50;
-    padding: 12px 24px;
-    font-size: 16px;
-    margin: 20px 0;
+    background: #533483 !important;
+    color: white !important;
+    padding: 14px 28px;
+    font-size: 18px;
+    display: block;
+    margin: 20px auto;
   }
   .new-session-btn:hover {
-    background: #45a049;
+    background: #6c4ba0 !important;
   }
   .warning-box {
-    background: #ffebee;
-    border: 2px solid #f44336;
+    background: #2d1f1f !important;
+    border: 2px solid #e74c3c;
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
+  }
+  .warning-box strong {
+    color: #e74c3c !important;
   }
   .info-box {
-    background: #e8f5e9;
-    border: 2px solid #4CAF50;
+    background: #0f3460 !important;
+    border: 2px solid #4ecca3;
     border-radius: 8px;
     padding: 20px;
     margin: 20px 0;
   }
+  .info-box strong {
+    color: #4ecca3 !important;
+  }
   .session-header {
-    background: rgba(0,0,0,0.1);
+    background: rgba(78, 204, 163, 0.1) !important;
     padding: 10px;
     border-radius: 6px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid #4ecca3;
+  }
+  .session-header strong,
+  .session-header span {
+    color: #4ecca3 !important;
   }
 </style>
 </head>
@@ -1285,13 +1405,12 @@ function createSession() {
   const session = {
     id: sessionId,
     messages: [],
-    userInfo: {}  // Info learned in THIS session only
+    userInfo: {}
   };
   
   sessions.push(session);
   renderSessions();
   
-  // Add welcome message
   addMessage(sessionId, 'system', `Session #${sessionId} started. I have no memory of previous conversations!`);
   
   return session;
@@ -1305,7 +1424,6 @@ function renderSessions() {
   const container = document.getElementById('session-container');
   container.innerHTML = '';
   
-  // Show only the last 2 sessions
   const visibleSessions = sessions.slice(-2);
   
   visibleSessions.forEach(session => {
@@ -1316,7 +1434,7 @@ function renderSessions() {
     sessionDiv.innerHTML = `
       <div class="session-header">
         <strong>💬 Session #${session.id}</strong>
-        <span style="font-size: 12px; opacity: 0.7;">
+        <span style="font-size: 12px;">
           ${session.messages.length} messages
         </span>
       </div>
@@ -1330,7 +1448,7 @@ function renderSessions() {
         >
         <button onclick="sendMessage(${session.id})">Send</button>
       </div>
-      <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">
+      <div style="font-size: 12px; margin-top: 10px; color: #aaa !important;">
         Known info: ${Object.keys(session.userInfo).length} items
       </div>
     `;
@@ -1389,7 +1507,6 @@ function sendMessage(sessionId) {
   
   const session = sessions.find(s => s.id === sessionId);
   
-  // Highlight active session
   document.querySelectorAll('.session-box').forEach(box => {
     box.classList.remove('active');
   });
@@ -1398,7 +1515,6 @@ function sendMessage(sessionId) {
   addMessage(sessionId, 'user', message);
   input.value = '';
   
-  // Simulate AI response
   setTimeout(() => {
     const response = generateResponse(session, message);
     addMessage(sessionId, 'ai', response);
@@ -1408,7 +1524,6 @@ function sendMessage(sessionId) {
 function generateResponse(session, message) {
   const msgLower = message.toLowerCase();
   
-  // Extract and store information from this session
   if (msgLower.includes('my name is') || msgLower.includes('i am') || msgLower.includes("i'm")) {
     const nameMatch = message.match(/(?:my name is|i am|i'm)\s+(\w+)/i);
     if (nameMatch) {
@@ -1425,7 +1540,6 @@ function generateResponse(session, message) {
     }
   }
   
-  // Try to recall information
   if (msgLower.includes('what') && msgLower.includes('name')) {
     if (session.userInfo.name) {
       return `In THIS conversation, you told me your name is ${session.userInfo.name}.`;
@@ -1446,7 +1560,6 @@ function generateResponse(session, message) {
     return `⚠️ I cannot access previous conversations! Each session is completely isolated. I only know what we've discussed in THIS session (#${session.id}).`;
   }
   
-  // Generic responses
   const responses = [
     `I understand. What else would you like to discuss in this session?`,
     `Interesting! This information is only stored in Session #${session.id}'s context.`,
@@ -1457,13 +1570,11 @@ function generateResponse(session, message) {
   return responses[Math.floor(Math.random() * responses.length)];
 }
 
-// Initialize with one session
 createSession();
 </script>
 
 </body>
 </html>
-
 
 ---
 
