@@ -47,15 +47,7 @@ jquery: True
     background: #1e40af;
     opacity: 1;
   }
-  #microblog-overlay .close-btn {
-    align-self: flex-end;
-    margin: 1rem 1rem 0 0;
-    font-size: 1.5rem;
-    color: #555;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
+  /* Removed custom close-btn styles, now using Tailwind only */
   @media (max-width: 600px) {
     #microblog-overlay {
       width: 100vw;
@@ -80,8 +72,10 @@ jquery: True
   <!-- Microblog toggle button (floating, mobile-friendly) -->
   <button id="microblog-toggle-btn" aria-label="Open Microblog">💬 Microblog</button>
   <!-- Microblog panel (hidden by default) -->
-  <aside id="microblog-panel" class="fixed top-0 right-0 h-full sm:w-[400px] max-w-full shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col" tabindex="-1" aria-label="Microblog panel">
-    <button id="microblog-close-btn" class="close-btn self-end m-4 p-2 text-2xl font-bold text-gray-700 hover:text-red-600 bg-white border border-gray-300 rounded-full shadow" aria-label="Close Microblog">&times;</button>
+  <aside id="microblog-panel" class="fixed top-20 right-0 h-[calc(100vh-theme(spacing.20))] sm:w-[400px] max-w-full shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col bg-blue-800" tabindex="-1" aria-label="Microblog panel">
+    <div class="flex items-center justify-end p-2 border-b border-gray-200 bg-blue-800">
+      <button id="microblog-close-btn" class="p-2 text-2xl font-bold text-gray-700 hover:text-red-600 bg-blue-800 border border-gray-300 rounded-full shadow focus:outline-none" aria-label="Close Microblog">&times;</button>
+    </div>
     <div class="microblog-content flex-1 overflow-y-auto px-4 pb-4">
       {% if page.microblog_heading %}
         <h2 class="text-xl font-bold mb-4">{{ page.microblog_heading }}</h2>
