@@ -22,7 +22,7 @@ class MansionLevel6 {
             greeting: "You hear a faint echo from behind the ebony doors.",
             src: image_src_chamber,
             pixels: {height: 580, width: 1038},
-            mode: 'stretch'
+            mode: 'contain'
         };
         
         // This is the data for the player
