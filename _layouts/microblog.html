@@ -30,7 +30,7 @@ jquery: True
     top: 4.5rem;
     right: 2.5rem;
     z-index: 1100;
-    background: #2563eb;
+    background: #191d26;
     color: white;
     border-radius: 999px;
     padding: 1rem 1.5rem;
@@ -72,9 +72,9 @@ jquery: True
   <!-- Microblog toggle button (floating, mobile-friendly) -->
   <button id="microblog-toggle-btn" aria-label="Open Microblog">💬 Microblog</button>
   <!-- Microblog panel (hidden by default) -->
-  <aside id="microblog-panel" class="fixed top-20 right-0 h-[calc(100vh-theme(spacing.20))] sm:w-[400px] max-w-full shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col bg-blue-800" tabindex="-1" aria-label="Microblog panel">
-    <div class="flex items-center justify-end p-2 border-b border-gray-200 bg-blue-800">
-      <button id="microblog-close-btn" class="p-2 text-2xl font-bold text-gray-700 hover:text-red-600 bg-blue-800 border border-gray-300 rounded-full shadow focus:outline-none" aria-label="Close Microblog">&times;</button>
+  <aside id="microblog-panel" class="fixed top-20 right-0 h-[calc(100vh-theme(spacing.20))] sm:w-[400px] max-w-full shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col bg-gray-600" tabindex="-1" aria-label="Microblog panel">
+    <div class="flex items-center justify-end p-2 border-b border-gray-200">
+      <button id="microblog-close-btn" class="p-2 text-2xl font-bold text-gray-700 hover:text-red-600 border border-gray-300 rounded-full shadow focus:outline-none" aria-label="Close Microblog">&times;</button>
     </div>
     <div class="microblog-content flex-1 overflow-y-auto px-4 pb-4">
       {% if page.microblog_heading %}
@@ -108,7 +108,4 @@ function closeMicroblog() {
 }
 toggleBtn.onclick = openMicroblog;
 closeBtn.onclick = closeMicroblog;
-overlay.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeMicroblog();
-});
 </script>
