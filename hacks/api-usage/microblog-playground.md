@@ -39,7 +39,7 @@ To add microblogging to any article or lesson, simply include the following in y
 
 ```yaml
 ---
-layout: opencs
+layout: post
 microblog: True
 title: Your Article Title
 description: Brief description of your article.
@@ -70,4 +70,4 @@ python main.py
 
 ### API Reference
 
-For developers: see the [Microblog API documentation]({{site.baseurl}}/microblog/api) for details on backend integration and customization.
+For developers: see the [Microblog API reference]({{site.baseurl}}/microblog/reference) for details on backend integration and customization.
