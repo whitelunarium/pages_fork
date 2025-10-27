@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Microblog API - JavaScript Promise Demonstration
-description: Instructor-Led Demonstration of API Consumption with Promise Patterns for Digital Citizenship Quest Projects
-permalink: /microblog/api
 toc: True
+title: Microblog Reference 
+description: Instructor-Led Demonstration of API Consumption with Promise Patterns for Digital Citizenship Quest Projects
+permalink: /microblog/reference
 author: John Mortensen
 ---
 
@@ -40,19 +40,6 @@ This article is the main technical reference for the microblog system, which use
 ---
 
 ## Enabling and Extending Microblogging
-
-To enable microblogging on any page, use this frontmatter:
-
-```yaml
----
-layout: opencs
-microblog: True
-title: Your Article Title
-description: Brief description of your article.
-author: Your Name
-permalink: /your-path
----
-```
 
 To extend or customize, edit `_layouts/opencs.html` for layout changes, or `assets/js/api/microblog.js` for UI/API logic.
 

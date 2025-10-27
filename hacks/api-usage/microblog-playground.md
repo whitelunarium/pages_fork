@@ -11,9 +11,9 @@ permalink: /microblog
 
 The premise is to have an engaging way to chat on articles.
 
-## Usage
+## See Microblog Live
 
-Look at [/plagiarism]({{site.baseurl}}/plagiarism) articles C2, C3, C4 where microblogging is coming to life in these lessons.
+Look at [/plagiarismi/2]({{site.baseurl}}/plagiarism/2),[/plagiarismi/3]({{site.baseurl}}/plagiarism/3),[/plagiarismi/4]({{site.baseurl}}/plagiarism/4)
 
 ### Frontmatter
 
@@ -32,11 +32,11 @@ Microblogging adds a real-time, interactive chat panel to your articles, allowin
 
 ### Enabling Microblogging
 
-To add microblogging to any article or lesson, simply include the following in your page’s frontmatter:
+To add microblogging to any article or lesson, simply include the below in your page’s frontmatter.  **The permalink is you topic**.
 
 ```yaml
 ---
-layout: opencs
+layout: post 
 microblog: True
 title: Your Article Title
 description: Brief description of your article.
@@ -48,13 +48,6 @@ permalink: /your-path
 - Use `layout: opencs` to ensure the microblog overlay and dependencies are included.
 - Set `microblog: True` to activate the feature.
 
-### Example in Action
-
-See microblogging live on these pages:
-- `/plagiarism/C2-demo_reference-instruction`
-- `/plagiarism/C3-application_detection-workshop`
-- `/plagiarism/C4-application_avoidance-workshop`
-
 ### Key Files
 
 - `_layouts/opencs.html` — Main layout that injects the microblog overlay and required scripts.
@@ -62,4 +55,4 @@ See microblogging live on these pages:
 
 ### API Reference
 
-For developers: see the [Microblog API documentation](/microblog/api) for details on backend integration and customization.
+For developers: see the [Microblog API documentation]({{site.baseurl}}/microblog/reference) for details on backend integration and customization.
