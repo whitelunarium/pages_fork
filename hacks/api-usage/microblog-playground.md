@@ -48,6 +48,16 @@ permalink: /your-path
 - Use `layout: opencs` to ensure the microblog overlay and dependencies are included.
 - Set `microblog: True` to activate the feature.
 
+### To Test Microbloggin
+
+Gotop project directory with (venv) set.
+
+```sh
+git pull
+./db_init.py # if you have database trobule
+python main.py
+```
+
 ### Key Files
 
 - `_layouts/opencs.html` — Main layout that injects the microblog overlay and required scripts.
