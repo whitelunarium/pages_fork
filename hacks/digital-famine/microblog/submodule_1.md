@@ -88,19 +88,19 @@ This submodule will be developed by the Thinkers team.
     <script>
         const questions = [
             {
-                question: "Question 1: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-                correct: 0
-            },
-            {
-                question: "Question 2: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                question: "What does PII stand for?",
+                options: ["Peer Investigation Information", "Personally Identifiable Information", "Please Invert Intestine", "Personal Induction Infirmary"],
                 correct: 1
             },
             {
-                question: "Question 3: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                question: "Why do we protect PII?",
+                options: ["Because mean people want to stop us from making friends", "Because we're mysterious and nonchalant, sharing PII would diminsh that", "To prevent hackers, scammers, and others with ill intent from harming us", "Because Kai Cenat told us to"],
                 correct: 2
+            },
+            {
+                question: "What is the most important piece of PII to protect?",
+                options: ["Your address", "The name of your pet", "How many w's you spammed today", "Your first name"],
+                correct: 0 
             },
             {
                 question: "Question 4: Sample question here?",
