@@ -1,5 +1,6 @@
 ---
-layout: post
+layout: opencs
+microblog: True 
 title: "San Francisco"
 description: "City Three of Food - San Francisco"
 permalink: /west-coast/food/SF/

@@ -1,5 +1,6 @@
 ---
-layout: post
+layout: opencs
+microblog: True 
 title: "Los Angeles"
 description: "City Two of Food - Los Angeles"
 permalink: /west-coast/food/LA/
