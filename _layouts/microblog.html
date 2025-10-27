@@ -27,22 +27,25 @@ jquery: True
   }
   #microblog-toggle-btn {
     position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 4.5rem;
+    right: 2.5rem;
     z-index: 1100;
     background: #2563eb;
     color: white;
     border-radius: 999px;
-    padding: 0.75rem 1.25rem;
-    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     border: none;
     cursor: pointer;
     transition: background 0.2s;
+    opacity: 0.97;
+    touch-action: manipulation;
   }
   #microblog-toggle-btn:hover {
     background: #1e40af;
+    opacity: 1;
   }
   #microblog-overlay .close-btn {
     align-self: flex-end;
@@ -60,9 +63,13 @@ jquery: True
     }
     #microblog-toggle-btn {
       right: 0.5rem;
-      top: 0.5rem;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      top: 3.5rem;
+      padding: 1.2rem 2.2rem;
+      font-size: 1.5rem;
+      min-width: 56px;
+      min-height: 56px;
+      border-radius: 50%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
     }
   }
 </style>
@@ -73,7 +80,7 @@ jquery: True
   <!-- Microblog toggle button (floating, mobile-friendly) -->
   <button id="microblog-toggle-btn" aria-label="Open Microblog">💬 Microblog</button>
   <!-- Microblog panel (hidden by default) -->
-  <aside id="microblog-panel" class="fixed top-0 right-0 h-full w-full sm:w-[400px] max-w-full bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col" tabindex="-1" aria-label="Microblog panel">
+  <aside id="microblog-panel" class="fixed top-0 right-0 h-full sm:w-[400px] max-w-full shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col" tabindex="-1" aria-label="Microblog panel">
     <button class="close-btn self-end m-4 text-2xl text-gray-500 hover:text-gray-700 bg-none border-none" aria-label="Close Microblog">&times;</button>
     <div class="microblog-content flex-1 overflow-y-auto px-4 pb-4">
       {% if page.microblog_heading %}
@@ -98,21 +105,32 @@ function openMicroblog() {
   overlay.classList.add('open');
   overlay.style.transform = 'translateX(0)';
   overlay.focus();
+  // Add a transparent backdrop for mobile tap-to-close
+  if (!document.getElementById('microblog-backdrop')) {
+    const backdrop = document.createElement('div');
+    backdrop.id = 'microblog-backdrop';
+    backdrop.style.position = 'fixed';
+    backdrop.style.top = '0';
+    backdrop.style.left = '0';
+    backdrop.style.width = '100vw';
+    backdrop.style.height = '100vh';
+    backdrop.style.zIndex = '1049';
+    backdrop.style.background = 'rgba(0,0,0,0.01)';
+    backdrop.onclick = closeMicroblog;
+    document.body.appendChild(backdrop);
+  }
 }
 function closeMicroblog() {
   overlay.classList.remove('open');
   overlay.style.transform = 'translateX(100%)';
   toggleBtn.focus();
+  // Remove backdrop if present
+  const backdrop = document.getElementById('microblog-backdrop');
+  if (backdrop) backdrop.remove();
 }
 toggleBtn.onclick = openMicroblog;
 closeBtn.onclick = closeMicroblog;
 overlay.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeMicroblog();
-});
-// Responsive: close panel on outside click (mobile)
-document.addEventListener('click', function(e) {
-  if (overlay.classList.contains('open') && !overlay.contains(e.target) && e.target !== toggleBtn) {
-    closeMicroblog();
-  }
 });
 </script>
