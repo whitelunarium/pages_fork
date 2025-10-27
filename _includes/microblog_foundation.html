@@ -238,11 +238,11 @@ async function renderMicroblogTable() {
                     }, 0);
                 }
             });
-            // Bind edit buttons
-            $('.edit-btn').on('click', function() {
-                const id = $(this).data('id');
-                const post = (data.microblogs || []).find(p => p.id == id);
-                openModal({ mode: 'edit', post });
+            // Bind edit buttons using event delegation so it works on all pages
+            $('#microblog-table').off('click', '.edit-btn').on('click', '.edit-btn', function() {
+              const id = $(this).data('id');
+              const post = (data.microblogs || []).find(p => p.id == id);
+              openModal({ mode: 'edit', post });
             });
         }
         }, 0);
