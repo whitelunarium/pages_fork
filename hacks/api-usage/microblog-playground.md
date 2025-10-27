@@ -50,7 +50,7 @@ permalink: /your-path
 
 ### To Test Microbloggin
 
-Gotop project directory with (venv) set.
+In project directory with (venv) set.
 
 ```sh
 git pull
