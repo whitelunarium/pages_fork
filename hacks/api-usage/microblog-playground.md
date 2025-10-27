@@ -1,24 +1,19 @@
 ---
 layout: post
+tailwind: True
+jquery: True
 title: Microblog AI Playground
 description: Interactive tool to explore different Microblog prompts and response formats
 author: John Mortensen
 permalink: /hacks/microblog
 ---
 
+<!-- MicorBlog Container -->
 <div id="microblog-playground">
   <em>Loading microblog posts...</em>
 </div>
 
-<!-- jQuery and DataTables CDN -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<!-- Tailwind CDN for responsive modals -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-<!-- Create/Edit Modal Overlay -->
+<!-- Create/Edit Modal Overlay using Tailwind -->
 <div id="microblog-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
   <div class="bg-blue-500 rounded-lg shadow-lg w-full max-w-lg mx-2 p-6 relative">
     <button id="modal-close" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
@@ -40,11 +35,15 @@ permalink: /hacks/microblog
   </div>
 </div>
 
+<!--JavaScript Logic for MicroBlog -->
 <script type="module">
+// Imports for APIs used on this page
 import { fetchPosts, createPost, updatePost } from '/assets/js/api/microblog.js';
 
+// Default Key for New MicroBlog Posts
 const pagePermalink = '{{page.permalink}}';
 
+// Create/Edit Modal Functions
 function openModal({ mode, post = {} }) {
   document.getElementById('microblog-modal').classList.remove('hidden');
   document.getElementById('modal-title').textContent = mode === 'edit' ? 'Edit Microblog Post' : 'Create Microblog Post';
@@ -60,12 +59,14 @@ document.getElementById('microblog-modal').onclick = function(e) {
   if (e.target === this) closeModal();
 };
 
+// Save Button Listner for Update and Create
 document.getElementById('microblog-form').onsubmit = async function(e) {
   e.preventDefault();
   const id = document.getElementById('post-id').value;
   const topicPath = document.getElementById('topic-id').value;
   const content = document.getElementById('content').value;
   try {
+    // API calls to Update and Create Posts
     if (id) {
       await updatePost({ id, content, topicPath });
     } else {
@@ -78,6 +79,7 @@ document.getElementById('microblog-form').onsubmit = async function(e) {
   }
 };
 
+// MicroBlog Table Manager
 async function renderMicroblogTable() {
     const container = document.getElementById('microblog-playground');
     try {
@@ -87,17 +89,16 @@ async function renderMicroblogTable() {
           // Use current page as filter; fallback to location.pathname or a default string
           pageArg = window.location ? window.location.pathname : 'default';
         }
+        // API call to Read former Posts
         const data = await fetchPosts(pageArg);
-        // SVG icons for Create (plus) and Edit (pencil)
+        // SVG icons for Create (+) and Edit (pencil)
         const createIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>`;
         const editIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-2.828 1.172H7v-2a4 4 0 011.172-2.828z" /></svg>`;
-
-        // SVG icons for filter controls
         // Single page icon (default)
         const pageIcon = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white mx-1 cursor-pointer" id="page-icon"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="6" y="4" width="12" height="16" rx="2" fill="white" stroke="white" stroke-width="1.5"/><rect x="8" y="6" width="8" height="12" rx="1" fill="purple" stroke="white" stroke-width="1.5"/></svg></span>`;
-        // Many pages (stacked documents) icon for clarity
+        // Many pages icon (secondary option)
         const manyPagesIcon = `<span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white mx-1 cursor-pointer" id="many-pages-icon"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><g><rect x="7" y="15" width="10" height="6" rx="2" fill="#60a5fa" stroke="white" stroke-width="1.2"/><rect x="5" y="11" width="12" height="6" rx="2" fill="#2563eb" stroke="white" stroke-width="1.2"/><rect x="3" y="7" width="12" height="6" rx="2" fill="#1e40af" stroke="white" stroke-width="1.2"/></g></svg></span>`;
-        // Create button and filter icons for DataTables controls (top and bottom)
+        // Create and Page Icons
         const controlsInfo = `
           <span id="filter-icons" class="flex items-center" style="color:white;">
             <button id="create-btn" class="bg-green-600 text-white px-2 py-1 rounded-full hover:bg-green-700 flex items-center justify-center w-8 h-8">${createIcon}</button>
