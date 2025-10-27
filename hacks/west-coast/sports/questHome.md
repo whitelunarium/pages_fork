@@ -4,65 +4,47 @@ tailwind: True
 title: Backend Development Quest
 description: >
   Learn about database structures, types, and integration with frontend for real-world full-stack development
-author: CSA 2025-26
-permalink: /west-coast/backend/
+author: CSP 2025-26
+permalink: /west-coast/sports/
 lxdData:
   Title: "Backend Development Modules"
   Description: "Master backend development and database integration skills!"
   Topics:
-    - Title: "Submodule 1"
+    - Title: "San Diego"
       Genre: "Project Creation"
       Level: 1
-      Description: "Team-defined backend development module"
+      Description: "Stop 1: San Diego — “Connecting to the Data Field”"
       Categories: ["Backend", "Flask", "Spring", "Databases"]
       Video: "/west-coast/backend/submodule_1-video"
       Lessons: "/west-coast/backend/submodule_1/"
       Image: "/images/west-coast/backend.svg"
       Alt: "Backend Submodule 1"
-    - Title: "Submodule 2"
+    - Title: "Los Angeles"
       Genre: "Project Creation"
       Level: 2
-      Description: "Team-defined backend development module"
+      Description: "Stop 2: Los Angeles — “Filtering the Playbook”"
       Categories: ["Backend", "Flask", "Spring", "Databases"]
       Video: "/west-coast/backend/submodule_2-video"
       Lessons: "/west-coast/backend/submodule_2/"
       Image: "/images/west-coast/backend.svg"
       Alt: "Backend Submodule 2"
-    - Title: "Submodule 3"
+    - Title: "San Francisco"
       Genre: "Project Creation"
       Level: 3
-      Description: "Team-defined backend development module"
+      Description: "Stop 3: San Francisco — “Analyzing Performance Data”"
       Categories: ["Backend", "Flask", "Spring", "Databases"]
       Video: "/west-coast/backend/submodule_3-video"
       Lessons: "/west-coast/backend/submodule_3/"
       Image: "/images/west-coast/backend.svg"
       Alt: "Backend Submodule 3"
-    - Title: "Submodule 4"
+    - Title: "Seattle"
       Genre: "Project Creation"
       Level: 4
-      Description: "Team-defined backend development module"
+      Description: "Stop 4: Seattle — “Updating the Leaderboard”"
       Categories: ["Backend", "Flask", "Spring", "Databases"]
       Video: "/west-coast/backend/submodule_4-video"
       Lessons: "/west-coast/backend/submodule_4/"
       Image: "/images/west-coast/backend.svg"
       Alt: "Backend Submodule 4"
-    - Title: "Submodule 5"
-      Genre: "Project Creation"
-      Level: 5
-      Description: "Team-defined backend development module"
-      Categories: ["Backend", "Flask", "Spring", "Databases"]
-      Video: "/west-coast/backend/submodule_5-video"
-      Lessons: "/west-coast/backend/submodule_5/"
-      Image: "/images/west-coast/backend.svg"
-      Alt: "Backend Submodule 5"
-    - Title: "Submodule 6"
-      Genre: "Project Creation"
-      Level: 6
-      Description: "Team-defined backend development module"
-      Categories: ["Backend", "Flask", "Spring", "Databases"]
-      Video: "/west-coast/backend/submodule_6-video"
-      Lessons: "/west-coast/backend/submodule_6/"
-      Image: "/images/west-coast/backend.svg"
-      Alt: "Backend Submodule 6"
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/quests/west-coast.html -%}
