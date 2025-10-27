@@ -147,7 +147,7 @@ class GameLevelHomePage {
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 10,
         INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
-        pixels: {height: 681, width: 692},
+        pixels: {height: 692, width: 681},
         orientation: {rows: 1, columns: 2},
         pivot: { x: 0.5, y: 0.5 },  // Center the rotation point
         down: {row: 0, start: 0, columns: 2, rotate: Math.PI},
@@ -158,7 +158,7 @@ class GameLevelHomePage {
         up: {row: 0, start: 0, columns: 2, rotate: 0},
         upLeft: {row: 0, start: 0, columns: 2, rotate: 7*Math.PI/4},
         upRight: {row: 0, start: 0, columns: 2, rotate: Math.PI/4},
-        hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
+        hitbox: { widthPercentage: 0.05, heightPercentage: 0.05 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 
