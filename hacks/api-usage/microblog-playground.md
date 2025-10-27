@@ -1,5 +1,6 @@
 ---
 layout: post
+tailwind: True
 title: Microblog AI Playground
 description: Interactive tool to explore different Microblog prompts and response formats
 author: John Mortensen
@@ -14,9 +15,6 @@ permalink: /hacks/microblog
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-<!-- Tailwind CDN for responsive modals -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 <!-- Create/Edit Modal Overlay -->
 <div id="microblog-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
