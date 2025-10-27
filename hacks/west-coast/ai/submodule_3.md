@@ -12,6 +12,16 @@ author: "TheSprinters"
 date: 2025-10-21
 ---
 
+<style>
+body {
+  background-image: url('{{ site.baseurl }}/images/hackingbackground.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+</style>
+
 # <span style="color:#00D9FF">Key 3: Prompt Engineering Mastery</span>
 
 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 15px; margin: 20px 0;">
@@ -19,11 +29,11 @@ date: 2025-10-21
   <p style="color: #E0E0E0; margin: 10px 0 0 0;">Master the skill of crafting perfect AI prompts and unlock limitless possibilities!</p>
 </div>
 
-<p style="font-size: 1.1em; line-height: 1.8; color: #555;">Prompt engineering is the skill of writing clear, effective instructions to get the best results from AI models. Think of it like learning how to ask the right questions to get the answers you need!</p>
+<p style="font-size: 1.1em; line-height: 1.8; color: #555; background-color: white; padding: 15px; border-radius: 10px; display: inline-block;">Prompt engineering is the skill of writing clear, effective instructions to get the best results from AI models. Think of it like learning how to ask the right questions to get the answers you need!</p>
 
 ---
 
-## <span style="color:#667eea">✨ What Makes a Good Prompt?</span>
+## <span style="color:#667eea; background-color: white; padding: 5px 10px; border-radius: 5px;">✨ What Makes a Good Prompt?</span>
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
 
@@ -63,7 +73,7 @@ date: 2025-10-21
 
 ---
 
-### <span style="color:#f5576c">🌍 Challenge 1: The Travel Planner</span>
+### <span style="color:#f5576c; background-color: white; padding: 5px 10px; border-radius: 5px;">🌍 Challenge 1: The Travel Planner</span>
 
 <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
   <tr>
@@ -94,7 +104,7 @@ date: 2025-10-21
 
 ---
 
-### <span style="color:#764ba2">✍️ Challenge 2: The Creative Writer</span>
+### <span style="color:#764ba2; background-color: white; padding: 5px 10px; border-radius: 5px;">✍️ Challenge 2: The Creative Writer</span>
 
 <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
   <tr>
@@ -125,7 +135,7 @@ date: 2025-10-21
 
 ---
 
-### <span style="color:#00f2fe">💻 Challenge 3: The Code Helper</span>
+### <span style="color:#00f2fe; background-color: black; padding: 5px 10px; border-radius: 5px;">💻 Challenge 3: The Code Helper</span>
 
 <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
   <tr>
@@ -156,7 +166,7 @@ date: 2025-10-21
 
 ---
 
-### <span style="color:#fa709a">🎨 Challenge 4: Interactive Prompt Analyzer</span>
+### <span style="color:#fa709a; background-color: white; padding: 5px 10px; border-radius: 5px;">🎨 Challenge 4: Interactive Prompt Analyzer</span>
 
 <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); padding: 25px; border-radius: 15px; color: white; margin-bottom: 20px;">
   <h3 style="margin: 0 0 10px 0;">✍️ Type Your Prompt Below</h3>
@@ -165,7 +175,7 @@ date: 2025-10-21
 
 <div style="background: #FFFFFF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin: 20px 0;">
 
-  <label for="promptInput" style="display: block; font-size: 1.1em; font-weight: bold; color: #667eea; margin-bottom: 10px;">
+  <label for="promptInput" style="display: block; font-size: 1.1em; font-weight: bold; color: #667eea; background-color: white; padding: 8px; border-radius: 5px; margin-bottom: 10px;">
     💭 Enter your prompt:
   </label>
 
@@ -201,7 +211,7 @@ date: 2025-10-21
           <strong style="color: #f5576c; font-size: 1.1em;">🎯 Clarity</strong>
           <span id="clarityScore" style="font-size: 1.2em;">-</span>
         </div>
-        <p id="clarityFeedback" style="margin: 10px 0 0 0; color: #555;"></p>
+        <p id="clarityFeedback" style="margin: 10px 0 0 0; color: #555; background-color: white; padding: 5px; border-radius: 3px;"></p>
       </div>
 
       <div id="contextBox" class="criteria-box" style="background: #E6F7FF; padding: 20px; border-radius: 10px; border-left: 5px solid #4facfe;">
@@ -209,7 +219,7 @@ date: 2025-10-21
           <strong style="color: #4facfe; font-size: 1.1em;">📚 Context</strong>
           <span id="contextScore" style="font-size: 1.2em;">-</span>
         </div>
-        <p id="contextFeedback" style="margin: 10px 0 0 0; color: #555;"></p>
+        <p id="contextFeedback" style="margin: 10px 0 0 0; color: #555; background-color: white; padding: 5px; border-radius: 3px;"></p>
       </div>
 
       <div id="formatBox" class="criteria-box" style="background: #E6FFF9; padding: 20px; border-radius: 10px; border-left: 5px solid #43e97b;">
@@ -217,7 +227,7 @@ date: 2025-10-21
           <strong style="color: #43e97b; font-size: 1.1em;">📋 Format Specification</strong>
           <span id="formatScore" style="font-size: 1.2em;">-</span>
         </div>
-        <p id="formatFeedback" style="margin: 10px 0 0 0; color: #555;"></p>
+        <p id="formatFeedback" style="margin: 10px 0 0 0; color: #555; background-color: white; padding: 5px; border-radius: 3px;"></p>
       </div>
 
       <div id="specificityBox" class="criteria-box" style="background: #FFF9E6; padding: 20px; border-radius: 10px; border-left: 5px solid #fee140;">
@@ -225,7 +235,7 @@ date: 2025-10-21
           <strong style="color: #fa709a; font-size: 1.1em;">🔍 Specificity</strong>
           <span id="specificityScore" style="font-size: 1.2em;">-</span>
         </div>
-        <p id="specificityFeedback" style="margin: 10px 0 0 0; color: #555;"></p>
+        <p id="specificityFeedback" style="margin: 10px 0 0 0; color: #555; background-color: white; padding: 5px; border-radius: 3px;"></p>
       </div>
 
     </div>
@@ -238,8 +248,8 @@ date: 2025-10-21
 
     <div id="improvedPrompt" style="background: #F0F0FF; padding: 25px; border-radius: 12px; margin-top: 20px; display: none;">
       <h4 style="color: #667eea; margin: 0 0 15px 0; font-size: 1.2em;">✨ Example Improved Version</h4>
-      <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
-        <p id="improvedPromptText" style="margin: 0; color: #555; line-height: 1.6; font-style: italic;"></p>
+      <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <p id="improvedPromptText" style="margin: 0; color: #333; line-height: 1.6; font-style: italic;"></p>
       </div>
     </div>
 
@@ -544,7 +554,7 @@ function generateImprovedPrompt(original, scores) {
 </div>
 
 <div style="background: #FFF9E6; padding: 30px; border-radius: 15px; margin: 20px 0; border: 3px solid #fee140;">
-  <p style="font-size: 1.1em; color: #555; margin: 0 0 20px 0;">Take this poorly written prompt and improve it:</p>
+  <p style="font-size: 1.1em; color: #333; margin: 0 0 20px 0; background-color: white; padding: 10px; border-radius: 5px; display: inline-block;">Take this poorly written prompt and improve it:</p>
 
   <div style="background: #FFE6E6; padding: 20px; border-radius: 10px; border-left: 5px solid #f5576c; margin: 15px 0;">
     <strong style="color: #f5576c; font-size: 1.1em;">❌ Before:</strong>
@@ -562,7 +572,7 @@ function generateImprovedPrompt(original, scores) {
 
   <div style="background: #E6F7FF; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
     <strong style="color: #4facfe; font-size: 1.1em;">🏆 Share Your Results!</strong>
-    <p style="color: #555; margin: 10px 0 0 0;">Share your improved prompts with classmates and see who can get the most creative, useful, or interesting AI responses!</p>
+    <p style="color: #333; margin: 10px 0 0 0; background-color: white; padding: 8px; border-radius: 5px;">Share your improved prompts with classmates and see who can get the most creative, useful, or interesting AI responses!</p>
   </div>
 </div>
 
@@ -599,6 +609,6 @@ function generateImprovedPrompt(original, scores) {
   <p style="color: white; font-size: 1.2em; margin: 15px 0 0 0;">You're on your way to becoming a prompt engineering expert!</p>
 </div>
 
-<p style="text-align: center; color: #ADD8E6; font-size: 0.9em; margin: 30px 0;">
+<p style="text-align: center; color: #ADD8E6; background-color: rgba(0,0,0,0.7); padding: 10px; border-radius: 8px; font-size: 0.9em; margin: 30px 0; display: inline-block;">
   <em>This submodule was developed by The Sprinters</em>
 </p>
