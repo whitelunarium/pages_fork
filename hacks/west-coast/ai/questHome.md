@@ -3,7 +3,7 @@ layout: post
 tailwind: True
 title: AI Usage Quest
 description: >
-  Learn to prompt AI to generate your itinerary, data visualization, and learn about the core concepts and limitations of AI!
+  Learn to prompt AI to create your itinerary, data visualization, and learn about the core concepts and limitations of AI!
 author: CSP 2025-26
 permalink: /west-coast/ai/
 lxdData:
@@ -17,7 +17,7 @@ lxdData:
       Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_1-video"
       Lessons: "/west-coast/ai/submodule_1/"
-      Image: "/images/west-coast/ai.svg"
+      Image: "/images/WC_AI_Submodule1.png"
       Alt: "AI Key 1"
     - Title: "Key 2"
       Genre: "Assessment"
@@ -26,7 +26,7 @@ lxdData:
       Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_2-video"
       Lessons: "/west-coast/ai/submodule_2/"
-      Image: "/images/west-coast/ai.svg"
+      Image: "/images/WC_AI_Submodule2.png"
       Alt: "AI Key 2"
     - Title: "Key 3"
       Genre: "Assessment"
@@ -35,7 +35,7 @@ lxdData:
       Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_3-video"
       Lessons: "/west-coast/ai/submodule_3/"
-      Image: "/images/west-coast/ai.svg"
+      Image: "/images/WC_AI_Submodule3.webp"
       Alt: "AI Key 3"
     - Title: "Key 4"
       Genre: "Assessment"
@@ -44,7 +44,7 @@ lxdData:
       Categories: ["ChatGPT", "Prompting", "AI Limitations", "Generation"]
       Video: "/west-coast/ai/submodule_4-video"
       Lessons: "/west-coast/ai/submodule_4/"
-      Image: "/images/west-coast/ai.svg"
+      Image: "/images/WC_AI_Submodule4RM.png"
       Alt: "AI Key 4"
     - Title: "Key 5"
       Genre: "Assessment"
