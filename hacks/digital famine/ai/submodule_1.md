@@ -4,6 +4,7 @@ title: "Types of AI"
 description: "Going over the three types of AI"
 permalink: /digital-famine/ai/submodule_1/
 breadcrumb: true
+microblog: true
 parent: "AI Usage"
 team: "Debuggers"
 submodule: 1

@@ -4,6 +4,7 @@ title: "Prompt Engineering"
 description: "Using different Prompts"
 permalink: /digital-famine/ai/submodule_2/
 breadcrumb: true
+microblog: true
 parent: "AI Usage"
 team: "Debuggers"
 submodule: 2
