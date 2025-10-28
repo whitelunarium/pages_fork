@@ -65,3 +65,6 @@ From today’s **Narrow AI** to the future idea of **Super AI**, each stage show
 
 =======
 >>>>>>> f6ec4208 (changes)
+
+javac AIQuiz.java
+Java AIQuiz
