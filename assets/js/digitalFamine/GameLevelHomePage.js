@@ -143,7 +143,7 @@ class GameLevelHomePage {
         id: 'Chill Guy',
         greeting: "Hi I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
         src: sprite_src_chillguy,
-        SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
+        SCALE_FACTOR: 9,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 10,
   INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
@@ -157,7 +157,7 @@ class GameLevelHomePage {
   upLeft: {row: 1, start: 0, columns: 2, rotate: Math.PI/16},
   downRight: {row: 3, start: 0, columns: 2, rotate: Math.PI/16},
   downLeft: {row: 1, start: 0, columns: 2, rotate: -Math.PI/16},
-        hitbox: { widthPercentage: 0.05, heightPercentage: 0.05 },
+        hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
         keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
     };
 

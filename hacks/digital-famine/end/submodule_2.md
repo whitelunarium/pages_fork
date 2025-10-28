@@ -81,7 +81,157 @@ breadcrumb: true
   .hidden { display: none !important; }
   .notice { border: 1px dashed var(--card-border); background: rgba(2,6,23,.6); padding: 10px 12px; border-radius: 10px; color: var(--muted); }
   .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; padding: 1px 6px; border-radius: 6px; border: 1px solid var(--card-border); background: #0b1020; }
+
+  @keyframes shieldPulse {
+    0% { transform: scale(2); opacity: 0; border-width: 1px; }
+    50% { opacity: 0.5; }
+    100% { transform: scale(1); opacity: 0; border-width: 15px; }
+  }
+
+  .shield-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .shield-pulse {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    animation: shieldPulse 1s ease-out forwards;
+  }
+
+  .shield-icon {
+    position: absolute;
+    font-size: 60px;
+    animation: fadeInOut 1s ease-out forwards;
+  }
+
+  @keyframes fadeInOut {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+  }
 </style>
+
+<style>
+@keyframes alertFlash {
+  0% { background: rgba(239,68,68,0.1); }
+  50% { background: rgba(239,68,68,0.3); }
+  100% { background: rgba(239,68,68,0.1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes glitch {
+  0% { clip-path: inset(40% 0 61% 0); }
+  20% { clip-path: inset(92% 0 1% 0); }
+  40% { clip-path: inset(43% 0 1% 0); }
+  60% { clip-path: inset(25% 0 58% 0); }
+  80% { clip-path: inset(54% 0 7% 0); }
+  100% { clip-path: inset(58% 0 43% 0); }
+}
+
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: alertFlash 2s infinite;
+}
+
+.alert-box {
+  background: rgba(20,22,30,0.95);
+  border: 2px solid var(--bad);
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 600px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.alert-box::before {
+  content: "ALERT";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 40px;
+  color: var(--bad);
+  opacity: 0.1;
+  animation: glitch 1s infinite;
+}
+
+.alert-title {
+  color: var(--bad);
+  font-size: 24px;
+  margin: 0 0 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.alert-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.alert-message {
+  color: var(--text);
+  margin-bottom: 25px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.alert-button {
+  background: var(--bad);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.alert-button:hover {
+  transform: scale(1.05);
+}
+</style>
+
+<div id="alien-alert" class="alert-overlay" style="display: none;">
+  <div class="alert-box">
+    <div class="alert-icon">🚨</div>
+    <h2 class="alert-title">Alien Cyberattack Detected!</h2>
+    <p class="alert-message">
+      EMERGENCY: Your ship's shields are under attack from hostile alien disinformation!<br><br>
+      Shield Status: CRITICAL<br>
+      Defensive Action Required: Complete 5 security challenges to restore shield integrity.<br><br>
+      <span style="color: var(--warn)">⚠️ WARNING: Each wrong answer drains shield power! Choose wisely.</span>
+    </p>
+    <button class="alert-button" onclick="startChallenge()">Initialize Defense Protocol</button>
+  </div>
+</div>
 
 <div class="rpg-wrap">
   <div class="console" id="intro">
@@ -275,7 +425,44 @@ breadcrumb: true
   function hide(id){ $(id).classList.add('hidden'); }
 
   function drainEnergy(n=2){ state.energy = clamp(state.energy - n, 0, 100); refreshHUD(); }
-  function addScore(n){ state.score = clamp(state.score + n, 0, 100); refreshHUD(); }
+  function addScore(n){ 
+    // Add score and ensure it can reach 100
+    const newScore = state.score + n;
+    state.score = clamp(newScore, 0, 100); 
+    refreshHUD(); 
+    if (n > 0) showShieldEffect();
+    console.log('Score updated:', state.score); // Debug logging
+  }
+
+  function showShieldEffect() {
+    // Create shield effect container
+    const shieldEffect = document.createElement('div');
+    shieldEffect.className = 'shield-effect';
+    
+    // Create pulse circle
+    const pulse = document.createElement('div');
+    pulse.className = 'shield-pulse';
+    
+    // Create shield icon
+    const icon = document.createElement('div');
+    icon.className = 'shield-icon';
+    icon.textContent = '🛡️';
+    
+    // Assemble and show effect
+    shieldEffect.appendChild(pulse);
+    shieldEffect.appendChild(icon);
+    document.body.appendChild(shieldEffect);
+    
+    // Play shield sound
+    const shieldSound = new Audio('data:audio/wav;base64,UklGRqQIAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YYAIAACBhYqFhoJ8bXJpa2BaZWl1eICHjomPipCVi4eCfHl9f4OLkpOZoqWppKWprK2yubW2vru/vb28vLW6uK+us6quttbU1tHT0c3JyMC+vru7vr7CwMfDysjByMLJwcrN0s3IztDLy8fNy83JzcrOzdLP0dXY1NfT1NHK4vn8+vr69/Hx6+nq7urs8fDx9PLw8u7s7+rr7Onp7Ojm5+Pi4+Pi4uLl5eTn6Obn6Onq7O3r7vLu8PHv8O7s6urp7Ovt7fDw8vX19vj6/Pz9/f39+/r6+Pf29PP19PHx8vDu7u7s7Ozr6+ro6ejo5+fn5uXm5eTk4+Pi4uHh4ODf39/e3t7d3d3c29zb29va2trZ2dnY2NjX19fW1tbV1dXU1NTT09PS0tLR0dHQ0NDPz8/Ozs7Nzc3MzMzLy8vKysrJycnIyMjHx8fGxsbFxcXExMTDw8PCwsLBwcHAwMC/v7++vr69vb28vLy7u7u6urq5ubm4uLi3t7e2tra1tbW0tLSzs7OysrKxsbGwsLCvr6+urq6tra2srKyrq6uqqqqpqamoqKinp6empqalpaWkpKSjo6OioqKhoaGgoKCfn5+enp6dnZ2cnJybm5uam5qZmZmYmJiXl5eWlpaVlZWUlJSTk5OSkpKRkZGQkJCPj4+Oj4+Njo6MjYyMjIyLi4uKioqJiYmIiIiHh4eGhoaFhYWEhISEg4ODgoKCgYGBgICAfX19fHx8eXl5dnZ2c3NzcXFxbm5ubGxsamRjYmBfXl1cWlhYVlZVU1JSUVBPTk1MS0pJSEdGRkVEQ0NCQkFAP0A/Pj4+PT08Ozw7Ojk5ODg3NjY2NTU0MzQzMjIyMTExMDAwLy8vLi4uLS0tLCwsKysrKioqKSkpKCgoJycnJiYmJSUlJCQkIyMjIiIiISEhICAgHx8fHh4eHR0dHBwcGxsbGhoaGRkZGBgYFxcXFhYWFRUVFBQUExMTEhISEREREBAQDw8PDg4ODQ0NDAwMCwsLCgoKCQkJCAgIBwcHBgYGBQUFBAQEAwMDAgICAQEBAAAA//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8AAP//');
+    shieldSound.volume = 0.2;
+    shieldSound.play();
+    
+    // Remove effect after animation
+    setTimeout(() => {
+      document.body.removeChild(shieldEffect);
+    }, 1000);
+  }
 
   function lockStage(n){
     // basic autosave
@@ -369,17 +556,28 @@ breadcrumb: true
     state.stages[4].picks = picks;
     const isCorrect = picks.includes('cb1') && picks.includes('cb2') && picks.length===2;
     state.stages[4].correct = isCorrect;
+    
+    // Disable checkboxes after answering
+    $$('#stage-4 .cb').forEach(cb => cb.disabled = true);
+    
     if (isCorrect){
       fb.className = 'feedback good';
       fb.innerHTML = '✅ Correct. #1 is sensational; #2 implies secret knowledge. #3 may be factual (depending on source), not inherently clickbait.';
       addScore(20);
+      showShieldEffect(); // Explicitly trigger shield effect
     } else {
       fb.className = 'feedback bad';
       fb.innerHTML = '❌ Not quite. Select the sensational/emotive or conspiratorial framing (#1 and #2).';
       drainEnergy(2);
     }
     fb.style.display = 'block';
+    
+    // Disable the check button after answering
+    $('#check-4').disabled = true;
+    
+    // Ensure stage is properly locked and progress is saved
     lockStage(4);
+    save();
   });
   $('#stage-4 [data-next]').addEventListener('click', ()=>{
     state.stages[4].rewrite = $('#mini-4').value.trim();
@@ -418,11 +616,20 @@ breadcrumb: true
     setMeter('#meter-final', '#meter-final-txt', finalScore);
     setMeter('#meter-final-energy', '#meter-final-energy-txt', energy);
 
-    const passed = finalScore >= 80 && energy >= 70;
+    const passed = finalScore >= 60 && energy >= 70; // Adjusted pass condition to be more reasonable
+    const stagesAnswered = Object.values(state.stages).filter(s=>s.answered).length;
+    const stagesCorrect = Object.values(state.stages).filter(s=>s.correct).length;
+    const notesSaved = (state.stages[1].mini?1:0) + 
+                      (state.stages[3].mini?1:0) + 
+                      (state.stages[4].rewrite?1:0) + 
+                      (state.stages[5].rationale?1:0);
+    
+    console.log('Stage completion:', state.stages); // Debug log
+    
     const summary = `
-      Stages cleared: ${Object.values(state.stages).filter(s=>s.answered).length}/5 •
-      Correct: ${Object.values(state.stages).filter(s=>s.correct).length}/5 •
-      Notes saved: ${(state.stages[1].mini?1:0)+(state.stages[3].mini?1:0)+(state.stages[4].rewrite?1:0)+(state.stages[5].rationale?1:0)}
+      Stages cleared: ${stagesAnswered}/5 •
+      Correct: ${stagesCorrect}/5 •
+      Notes saved: ${notesSaved}
     `;
     $('#summary').textContent = summary;
 
@@ -472,6 +679,48 @@ breadcrumb: true
 
   // Initialize meters
   refreshHUD();
+
+  // Alien Alert Functionality
+  window.startChallenge = function() {
+    const alert = document.getElementById('alien-alert');
+    alert.style.animation = 'fadeOut 0.5s forwards';
+    setTimeout(() => {
+      alert.style.display = 'none';
+    }, 500);
+  }
+
+  // Show alien alert when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const alert = document.getElementById('alien-alert');
+      alert.style.display = 'flex';
+      
+      // Add some dynamic effects
+      const alertBox = alert.querySelector('.alert-box');
+      alertBox.style.transform = 'scale(0)';
+      void alertBox.offsetWidth; // Force reflow
+      alertBox.style.transition = 'transform 0.5s cubic-bezier(0.2, 1.5, 0.3, 1)';
+      alertBox.style.transform = 'scale(1)';
+      
+      // Add shake animation for 1 second
+      alertBox.style.animation = 'shake 0.5s cubic-bezier(.36,.07,.19,.97) infinite';
+      setTimeout(() => {
+        alertBox.style.animation = 'none';
+      }, 1000);
+
+      // Add some sound effects (optional - comment out if not wanted)
+      const alertSound = new Audio('data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=');
+      alertSound.play();
+    }, 1000);
+  });
+
+  // Start button handler
+  $('#start').addEventListener('click', () => {
+    hide('#intro');
+    show('#stage-1');
+    refreshHUD();
+    save();
+  });
 })();
 </script>
     
