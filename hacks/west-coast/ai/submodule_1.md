@@ -5,6 +5,7 @@ description: "Key 1 of AI Usage Mini-Quest about AI functionality"
 permalink: /west-coast/ai/submodule_1/
 parent: "AI Usage"
 team: "TheSprinters"
+microblog: True
 submodule: 1
 categories: [CSP, Submodule, AIUsage]
 tags: [AI, submodule, AI_Functionality]
