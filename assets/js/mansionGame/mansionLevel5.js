@@ -21,7 +21,7 @@ class MansionLevel5 {
 	};
 
 	//data for player
-	const sprite_player = path + "/images/mansionGame/placeholder_player_lvl5.png"; // be sure to include the path
+	const sprite_player = path + "/images/gamify/spookMcWalk.png"; // be sure to include the path
 	const player_scale_factor = 5;
 	const sprite_data_player = {
         id: 'Player',
