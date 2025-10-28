@@ -22,7 +22,6 @@ date: 2025-10-21
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            border: 1px solid black;
         }
 
         body {
@@ -59,11 +58,6 @@ date: 2025-10-21
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         h2 {
@@ -117,6 +111,7 @@ date: 2025-10-21
             border-radius: 8px;
             backdrop-filter: blur(10px);
             transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .section.collapsed {
@@ -148,12 +143,14 @@ date: 2025-10-21
             padding: 30px;
             margin: 30px 0;
             border-radius: 12px;
-            border: 1px solid #3b82f6;
-            transition: border-color 0.3s;
+            border: 2px solid #3b82f6;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .activity-box.completed {
             border-color: #10b981;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
         .activity-box h3 {
@@ -223,6 +220,7 @@ date: 2025-10-21
             overflow: hidden;
             margin: 30px 0;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            border: none;
         }
 
         .progress-fill {
@@ -262,7 +260,8 @@ date: 2025-10-21
             padding: 25px;
             margin: 25px 0;
             border-radius: 12px;
-            border: 1px solid #3b82f6;
+            border: 2px solid #3b82f6;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .quiz-option {
@@ -306,6 +305,7 @@ date: 2025-10-21
             font-weight: 600;
             margin-top: 15px;
             transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .submit-btn:hover:not(:disabled) {
@@ -323,17 +323,18 @@ date: 2025-10-21
             padding: 15px;
             border-radius: 8px;
             font-weight: 500;
+            border: none;
         }
 
         .feedback.success {
             background: rgba(16, 185, 129, 0.2);
-            border: 1px solid #10b981;
+            border-left: 4px solid #10b981;
             color: #10b981;
         }
 
         .feedback.error {
             background: rgba(239, 68, 68, 0.2);
-            border: 1px solid #ef4444;
+            border-left: 4px solid #ef4444;
             color: #ef4444;
         }
 
@@ -348,6 +349,7 @@ date: 2025-10-21
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 1000;
             animation: slideIn 0.5s ease-out;
+            border: none;
         }
 
         @keyframes slideIn {
@@ -451,7 +453,7 @@ date: 2025-10-21
             <div class="activity-box" data-activity="1">
                 <h3>
                     <span class="checkmark" id="check1"></span>
-                    Activity 1: AI in everyday Life
+                    Activity 1: AI in Everyday Life
                 </h3>
                 <p>Make a list of all the ways you use AI in your everyday life. This could include things like virtual assistants, image recognition software, language translation apps, and more.</p>
                 <label class="label">Type your answers here:</label>
@@ -487,7 +489,6 @@ date: 2025-10-21
     </div>
 
     <script>
-        // Collapsible sections
         document.querySelectorAll('h2').forEach(header => {
             header.addEventListener('click', function() {
                 const sectionId = this.id.replace('Header', '');
@@ -498,11 +499,9 @@ date: 2025-10-21
             });
         });
 
-        // Quiz functionality
         let selectedAnswer1 = null;
         let selectedAnswer2 = null;
         
-        // Quiz 1
         const quiz1Options = document.querySelectorAll('[data-quiz="1"]');
         const submitBtn1 = document.getElementById('quizSubmit1');
         const feedback1 = document.getElementById('quizFeedback1');
@@ -545,7 +544,6 @@ date: 2025-10-21
             updateProgress();
         });
 
-        // Quiz 2
         const quiz2Options = document.querySelectorAll('[data-quiz="2"]');
         const submitBtn2 = document.getElementById('quizSubmit2');
         const feedback2 = document.getElementById('quizFeedback2');
@@ -588,9 +586,7 @@ date: 2025-10-21
             updateProgress();
         });
 
-        // Activity tracking
         const activities = ['activity1', 'activity2', 'activity3'];
-        const activityData = {};
 
         activities.forEach((activityId, index) => {
             const textarea = document.getElementById(activityId);
@@ -602,8 +598,6 @@ date: 2025-10-21
                 const text = this.value.trim();
                 const words = text ? text.split(/\s+/).length : 0;
                 wordCount.textContent = `${words} words`;
-
-                activityData[activityId] = this.value;
                 
                 saveIndicator.classList.add('show');
                 setTimeout(() => saveIndicator.classList.remove('show'), 2000);
@@ -620,12 +614,11 @@ date: 2025-10-21
             });
         });
 
-        // Progress tracking
         function updateProgress() {
             let completed = 0;
             const total = 5;
 
-            activities.forEach((activityId, index) => {
+            activities.forEach((activityId) => {
                 const textarea = document.getElementById(activityId);
                 const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
                 if (words >= 20) completed++;
@@ -643,12 +636,10 @@ date: 2025-10-21
             progressFill.style.width = percentage + '%';
             progressFill.textContent = percentage + '% Complete';
         }
-<!-- Lock/Unlock Logic -->
-        // Scroll-to-bottom completion tracking
+
         document.addEventListener("DOMContentLoaded", function() {
             const storageKey = 'ai-module-c1-completed';
             
-            // Check if already completed
             if (localStorage.getItem(storageKey) === 'true') {
                 return;
             }
@@ -660,15 +651,12 @@ date: 2025-10-21
                 const windowHeight = window.innerHeight;
                 const documentHeight = document.documentElement.scrollHeight;
                 
-                // Check if user scrolled to within 100px of bottom
                 if (scrollTop + windowHeight >= documentHeight - 100) {
                     if (!hasScrolledToBottom) {
                         hasScrolledToBottom = true;
                         
-                        // Mark module as completed
                         localStorage.setItem(storageKey, 'true');
                         
-                        // Show completion banner
                         const banner = document.createElement('div');
                         banner.className = 'completion-banner';
                         banner.innerHTML = `
@@ -677,22 +665,17 @@ date: 2025-10-21
                         `;
                         document.body.appendChild(banner);
                         
-                        // Remove banner after 4 seconds
                         setTimeout(() => {
                             banner.style.animation = 'slideIn 0.5s ease-out reverse';
                             setTimeout(() => banner.remove(), 500);
                         }, 4000);
                         
-                        // Remove scroll listener
                         window.removeEventListener('scroll', checkScrollPosition);
                     }
                 }
             }
             
-            // Add scroll listener
             window.addEventListener('scroll', checkScrollPosition);
-            
-            // Check immediately in case page is short
             checkScrollPosition();
         });
     </script>
