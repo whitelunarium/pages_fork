@@ -15,7 +15,7 @@ date: 2025-10-21
 <!-- Lock/Unlock Logic -->
 <style>
 body {
-  background-image: url('{{ site.baseurl }}/images/gradientsolid.png');
+  background-image: url('{{ site.baseurl }}/images/pwerfple.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -103,6 +103,13 @@ body {
   <strong style="color: #667eea;">🤔 Your Turn:</strong> Try both prompts with an AI and compare the results. What differences do you notice?
 </div>
 
+<div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  <label style="display: block; font-weight: bold; color: #667eea; margin-bottom: 10px;">📝 Share your findings:</label>
+  <textarea id="travel-notes" placeholder="What differences did you notice between the bad and good prompts?" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; resize: vertical;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#ddd'"></textarea>
+  <button onclick="saveChallenge('travel', document.getElementById('travel-notes').value)" style="margin-top: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Save My Notes ✅</button>
+  <span id="travel-saved" style="margin-left: 10px; color: #43e97b; font-weight: bold; display: none;">Saved! ✨</span>
+</div>
+
 ---
 
 ### <span style="color:#764ba2; background-color: white; padding: 5px 10px; border-radius: 5px;">✍️ Challenge 2: The Creative Writer</span>
@@ -134,6 +141,13 @@ body {
   <strong style="color: #667eea;">🤔 Your Turn:</strong> Which prompt gives you a more useful and interesting story?
 </div>
 
+<div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  <label style="display: block; font-weight: bold; color: #667eea; margin-bottom: 10px;">📝 Share your findings:</label>
+  <textarea id="story-notes" placeholder="What made the good prompt's story better?" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; resize: vertical;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#ddd'"></textarea>
+  <button onclick="saveChallenge('story', document.getElementById('story-notes').value)" style="margin-top: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Save My Notes ✅</button>
+  <span id="story-saved" style="margin-left: 10px; color: #43e97b; font-weight: bold; display: none;">Saved! ✨</span>
+</div>
+
 ---
 
 ### <span style="color:#00f2fe; background-color: black; padding: 5px 10px; border-radius: 5px;">💻 Challenge 3: The Code Helper</span>
@@ -163,6 +177,13 @@ body {
 
 <div style="background: #F0F0FF; padding: 15px; border-radius: 10px; border-left: 5px solid #667eea;">
   <strong style="color: #667eea;">🤔 Your Turn:</strong> Try asking for coding help both ways. Which gets you closer to what you actually need?
+</div>
+
+<div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  <label style="display: block; font-weight: bold; color: #667eea; margin-bottom: 10px;">📝 Share your findings:</label>
+  <textarea id="code-notes" placeholder="How did specificity help with the coding task?" style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-family: inherit; resize: vertical;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#ddd'"></textarea>
+  <button onclick="saveChallenge('code', document.getElementById('code-notes').value)" style="margin-top: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Save My Notes ✅</button>
+  <span id="code-saved" style="margin-left: 10px; color: #43e97b; font-weight: bold; display: none;">Saved! ✨</span>
 </div>
 
 ---
@@ -259,6 +280,141 @@ body {
 </div>
 
 <script>
+// Challenge note saving
+function saveChallenge(challenge, notes) {
+  if (!notes.trim()) {
+    alert('Please write something before saving!');
+    return;
+  }
+  localStorage.setItem('ai-module-c3-challenge-' + challenge, notes);
+  const savedIndicator = document.getElementById(challenge + '-saved');
+  savedIndicator.style.display = 'inline';
+  setTimeout(() => {
+    savedIndicator.style.display = 'none';
+  }, 3000);
+}
+
+// Load saved challenges on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const challenges = ['travel', 'story', 'code', 'bonus'];
+  challenges.forEach(challenge => {
+    const saved = localStorage.getItem('ai-module-c3-challenge-' + challenge);
+    if (saved) {
+      const element = document.getElementById(challenge + '-notes') || document.getElementById(challenge + '-prompt');
+      if (element) element.value = saved;
+    }
+  });
+
+  // Load saved reflections
+  document.querySelectorAll('.reflection-input').forEach(input => {
+    const num = input.getAttribute('data-reflection');
+    const saved = localStorage.getItem('ai-module-c3-reflection-' + num);
+    if (saved) input.value = saved;
+  });
+});
+
+// Save reflections
+function saveReflections() {
+  let count = 0;
+  document.querySelectorAll('.reflection-input').forEach(input => {
+    const num = input.getAttribute('data-reflection');
+    if (input.value.trim()) {
+      localStorage.setItem('ai-module-c3-reflection-' + num, input.value);
+      count++;
+    }
+  });
+
+  const savedIndicator = document.getElementById('reflection-saved');
+  if (count > 0) {
+    savedIndicator.textContent = `${count} reflection${count !== 1 ? 's' : ''} saved! ✨`;
+    savedIndicator.style.display = 'block';
+    setTimeout(() => {
+      savedIndicator.style.display = 'none';
+    }, 4000);
+  } else {
+    alert('Please write at least one reflection before saving!');
+  }
+}
+
+// Analyze bonus prompt
+function analyzeBonusPrompt() {
+  const prompt = document.getElementById('bonus-prompt').value;
+  const feedback = document.getElementById('bonus-feedback');
+
+  if (!prompt.trim()) {
+    alert('Please write a prompt first!');
+    return;
+  }
+
+  // Simple analysis
+  const wordCount = prompt.trim().split(/\s+/).length;
+  const hasContext = /for|because|about|regarding|need|want|help|audience|purpose/.test(prompt.toLowerCase());
+  const hasFormat = /format|table|list|points|paragraph|structure|include/.test(prompt.toLowerCase());
+  const hasNumbers = /\d/.test(prompt);
+
+  let score = 0;
+  let comments = [];
+
+  if (wordCount > 15) {
+    score += 3;
+    comments.push('✅ Great length with good detail!');
+  } else if (wordCount > 8) {
+    score += 2;
+    comments.push('👍 Decent length, could add more details.');
+  } else {
+    score += 1;
+    comments.push('⚠️ Try adding more specific details.');
+  }
+
+  if (hasContext) {
+    score += 3;
+    comments.push('✅ Good context provided!');
+  } else {
+    comments.push('💡 Try adding context (audience, purpose, etc.)');
+  }
+
+  if (hasFormat) {
+    score += 2;
+    comments.push('✅ Output format specified!');
+  } else {
+    comments.push('💡 Consider specifying the desired format.');
+  }
+
+  if (hasNumbers) {
+    score += 2;
+    comments.push('✅ Specific constraints included!');
+  }
+
+  const maxScore = 10;
+  const percentage = Math.round((score / maxScore) * 100);
+
+  let grade, color;
+  if (percentage >= 80) {
+    grade = 'Excellent!';
+    color = '#43e97b';
+  } else if (percentage >= 60) {
+    grade = 'Good job!';
+    color = '#4facfe';
+  } else if (percentage >= 40) {
+    grade = 'Getting better!';
+    color = '#fee140';
+  } else {
+    grade = 'Keep trying!';
+    color = '#f5576c';
+  }
+
+  feedback.innerHTML = `
+    <div style="background: linear-gradient(135deg, ${color} 0%, ${color}CC 100%); padding: 20px; border-radius: 10px; color: white;">
+      <h4 style="margin: 0 0 10px 0;">Your Score: ${score}/${maxScore} - ${grade}</h4>
+      <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;">
+        ${comments.map(c => '<p style="margin: 5px 0;">' + c + '</p>').join('')}
+      </div>
+      <p style="margin: 15px 0 0 0; font-style: italic;">Original: "make something cool" - Your version is ${wordCount > 3 ? 'much' : 'somewhat'} better!</p>
+    </div>
+  `;
+  feedback.style.display = 'block';
+}
+
 function analyzePrompt() {
   const input = document.getElementById('promptInput').value;
   const charCount = document.getElementById('charCount');
@@ -436,6 +592,112 @@ function generateImprovedPrompt(original, scores) {
   <p style="color: #E0E0E0; margin: 10px 0 0 0;">Level up your prompt game with these pro techniques!</p>
 </div>
 
+<div style="background: #FFF9E6; padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #fee140;">
+  <h3 style="color: #fa709a; margin: 0 0 15px 0;">🎮 Interactive Tips Quiz</h3>
+  <p style="color: #333; margin-bottom: 15px;">Test your knowledge! Click on each tip below to reveal a challenge:</p>
+  <div style="display: grid; gap: 10px;">
+    <div class="quiz-tip" onclick="toggleQuiz(1)" style="background: white; padding: 15px; border-radius: 8px; border-left: 5px solid #667eea; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+      <strong style="color: #667eea;">🎭 Tip 1: Role Assignment</strong> <span style="float: right;">▼</span>
+      <div id="quiz-1" style="display: none; margin-top: 10px; padding-top: 10px; border-top: 2px dashed #667eea;">
+        <p style="color: #555; margin: 10px 0;">Try it: Write a prompt that assigns the AI the role of a "friendly chef teaching cooking to beginners"</p>
+        <textarea id="quiz-1-input" placeholder="Write your prompt here..." style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #667eea; border-radius: 5px; margin-top: 5px;"></textarea>
+        <button onclick="checkQuiz(1); event.stopPropagation();" style="margin-top: 8px; background: #667eea; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Check My Answer ✓</button>
+        <div id="quiz-1-feedback" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+
+    <div class="quiz-tip" onclick="toggleQuiz(2)" style="background: white; padding: 15px; border-radius: 8px; border-left: 5px solid #4facfe; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+      <strong style="color: #4facfe;">🎯 Tip 2: Few-Shot Learning</strong> <span style="float: right;">▼</span>
+      <div id="quiz-2" style="display: none; margin-top: 10px; padding-top: 10px; border-top: 2px dashed #4facfe;">
+        <p style="color: #555; margin: 10px 0;">Try it: Provide examples to teach AI to convert sentences to hashtags</p>
+        <textarea id="quiz-2-input" placeholder="Example: 'I love pizza' → #FoodLover #PizzaTime" style="width: 100%; min-height: 60px; padding: 10px; border: 2px solid #4facfe; border-radius: 5px; margin-top: 5px;"></textarea>
+        <button onclick="checkQuiz(2); event.stopPropagation();" style="margin-top: 8px; background: #4facfe; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Check My Answer ✓</button>
+        <div id="quiz-2-feedback" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+
+    <div class="quiz-tip" onclick="toggleQuiz(3)" style="background: white; padding: 15px; border-radius: 8px; border-left: 5px solid #43e97b; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+      <strong style="color: #43e97b;">📋 Tip 3: Breaking Into Steps</strong> <span style="float: right;">▼</span>
+      <div id="quiz-3" style="display: none; margin-top: 10px; padding-top: 10px; border-top: 2px dashed #43e97b;">
+        <p style="color: #555; margin: 10px 0;">Try it: Break down "plan my birthday party" into clear steps</p>
+        <textarea id="quiz-3-input" placeholder="Step 1: ..." style="width: 100%; min-height: 80px; padding: 10px; border: 2px solid #43e97b; border-radius: 5px; margin-top: 5px;"></textarea>
+        <button onclick="checkQuiz(3); event.stopPropagation();" style="margin-top: 8px; background: #43e97b; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;">Check My Answer ✓</button>
+        <div id="quiz-3-feedback" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleQuiz(num) {
+  const quiz = document.getElementById('quiz-' + num);
+  const isVisible = quiz.style.display !== 'none';
+
+  // Close all quizzes
+  for (let i = 1; i <= 3; i++) {
+    document.getElementById('quiz-' + i).style.display = 'none';
+  }
+
+  // Toggle current quiz
+  if (!isVisible) {
+    quiz.style.display = 'block';
+  }
+}
+
+function checkQuiz(num) {
+  const input = document.getElementById('quiz-' + num + '-input').value.trim();
+  const feedback = document.getElementById('quiz-' + num + '-feedback');
+
+  if (!input) {
+    feedback.innerHTML = '<p style="color: #f5576c; padding: 10px; background: #FFE6E6; border-radius: 5px;">Please write something first!</p>';
+    return;
+  }
+
+  const wordCount = input.split(/\s+/).length;
+  let message = '';
+
+  if (num === 1) {
+    const hasRole = /you are|act as|as a|pretend/i.test(input);
+    if (hasRole && wordCount > 5) {
+      message = '<p style="color: #43e97b; padding: 10px; background: #E6FFE6; border-radius: 5px;">🌟 Excellent! You clearly assigned a role to the AI!</p>';
+    } else {
+      message = '<p style="color: #fee140; padding: 10px; background: #FFF9E6; border-radius: 5px;">💡 Good start! Try using phrases like "You are a..." or "Act as a..." to make the role crystal clear.</p>';
+    }
+  } else if (num === 2) {
+    const hasArrow = /→|->|:|=>/i.test(input);
+    const hasExample = wordCount > 8;
+    if (hasArrow && hasExample) {
+      message = '<p style="color: #43e97b; padding: 10px; background: #E6FFE6; border-radius: 5px;">🌟 Perfect! You provided clear examples with the pattern!</p>';
+    } else {
+      message = '<p style="color: #fee140; padding: 10px; background: #FFF9E6; border-radius: 5px;">💡 Try showing multiple examples with arrows (→) to demonstrate the pattern!</p>';
+    }
+  } else if (num === 3) {
+    const hasSteps = /step|1\.|2\.|•|-/i.test(input);
+    if (hasSteps && wordCount > 15) {
+      message = '<p style="color: #43e97b; padding: 10px; background: #E6FFE6; border-radius: 5px;">🌟 Great job! You broke it down into clear, actionable steps!</p>';
+    } else {
+      message = '<p style="color: #fee140; padding: 10px; background: #FFF9E6; border-radius: 5px;">💡 Try breaking it into numbered steps or bullet points for clarity!</p>';
+    }
+  }
+
+  feedback.innerHTML = message;
+
+  // Save the answer
+  localStorage.setItem('ai-module-c3-quiz-' + num, input);
+}
+
+// Load saved quiz answers
+document.addEventListener('DOMContentLoaded', function() {
+  for (let i = 1; i <= 3; i++) {
+    const saved = localStorage.getItem('ai-module-c3-quiz-' + i);
+    if (saved) {
+      const element = document.getElementById('quiz-' + i + '-input');
+      if (element) element.value = saved;
+    }
+  }
+});
+</script>
+
 <div style="display: grid; gap: 20px; margin: 20px 0;">
 
 <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 15px; color: white;">
@@ -497,13 +759,27 @@ function generateImprovedPrompt(original, scores) {
 </div>
 
 <div style="background: #F5F5FF; padding: 25px; border-radius: 15px; border-left: 8px solid #667eea; margin: 20px 0;">
-  <ol style="color: #555; line-height: 2; font-size: 1.05em;">
-    <li><strong style="color: #667eea;">How did adding details change the AI's responses?</strong></li>
-    <li><strong style="color: #764ba2;">What happened when you specified a format?</strong></li>
-    <li><strong style="color: #f5576c;">Did providing context make the answers more relevant?</strong></li>
-    <li><strong style="color: #00f2fe;">Which techniques worked best for different types of tasks?</strong></li>
-    <li><strong style="color: #43e97b;">How can you apply prompt engineering to help with your schoolwork or projects?</strong></li>
+  <ol style="color: #555; line-height: 2; font-size: 1.05em;" id="reflection-list">
+    <li><strong style="color: #667eea;">How did adding details change the AI's responses?</strong><br/>
+      <textarea class="reflection-input" data-reflection="1" placeholder="Type your reflection here..." style="width: 95%; min-height: 60px; padding: 10px; margin-top: 8px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9em; resize: vertical;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#ddd'"></textarea>
+    </li>
+    <li><strong style="color: #764ba2;">What happened when you specified a format?</strong><br/>
+      <textarea class="reflection-input" data-reflection="2" placeholder="Type your reflection here..." style="width: 95%; min-height: 60px; padding: 10px; margin-top: 8px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9em; resize: vertical;" onfocus="this.style.borderColor='#764ba2'" onblur="this.style.borderColor='#ddd'"></textarea>
+    </li>
+    <li><strong style="color: #f5576c;">Did providing context make the answers more relevant?</strong><br/>
+      <textarea class="reflection-input" data-reflection="3" placeholder="Type your reflection here..." style="width: 95%; min-height: 60px; padding: 10px; margin-top: 8px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9em; resize: vertical;" onfocus="this.style.borderColor='#f5576c'" onblur="this.style.borderColor='#ddd'"></textarea>
+    </li>
+    <li><strong style="color: #00f2fe;">Which techniques worked best for different types of tasks?</strong><br/>
+      <textarea class="reflection-input" data-reflection="4" placeholder="Type your reflection here..." style="width: 95%; min-height: 60px; padding: 10px; margin-top: 8px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9em; resize: vertical;" onfocus="this.style.borderColor='#00f2fe'" onblur="this.style.borderColor='#ddd'"></textarea>
+    </li>
+    <li><strong style="color: #43e97b;">How can you apply prompt engineering to help with your schoolwork or projects?</strong><br/>
+      <textarea class="reflection-input" data-reflection="5" placeholder="Type your reflection here..." style="width: 95%; min-height: 60px; padding: 10px; margin-top: 8px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.9em; resize: vertical;" onfocus="this.style.borderColor='#43e97b'" onblur="this.style.borderColor='#ddd'"></textarea>
+    </li>
   </ol>
+  <div style="text-align: center; margin-top: 20px;">
+    <button onclick="saveReflections()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Save All Reflections 📝</button>
+    <div id="reflection-saved" style="margin-top: 10px; color: #43e97b; font-weight: bold; font-size: 1.1em; display: none;">All reflections saved! ✨</div>
+  </div>
 </div>
 
 ---
@@ -566,9 +842,11 @@ function generateImprovedPrompt(original, scores) {
 
   <div style="background: #E6FFE6; padding: 20px; border-radius: 10px; border-left: 5px solid #43e97b; margin: 15px 0;">
     <strong style="color: #43e97b; font-size: 1.1em;">✅ Your Improved Version:</strong>
-    <blockquote style="background: white; padding: 15px; margin: 10px 0; border-radius: 5px; font-style: italic; color: #999;">
-      (Write your improved prompt here - be creative!)
-    </blockquote>
+    <textarea id="bonus-prompt" placeholder="Write your improved version of 'make something cool' here - be creative!" style="width: 100%; min-height: 100px; padding: 15px; margin: 10px 0; border-radius: 8px; border: 2px solid #43e97b; font-family: inherit; resize: vertical;" onfocus="this.style.borderColor='#38f9d7'" onblur="this.style.borderColor='#43e97b'"></textarea>
+    <button onclick="analyzeBonusPrompt()" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; transition: transform 0.2s; margin-right: 10px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Analyze My Prompt 🔍</button>
+    <button onclick="saveChallenge('bonus', document.getElementById('bonus-prompt').value)" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1em; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Save My Prompt ✅</button>
+    <span id="bonus-saved" style="margin-left: 10px; color: #43e97b; font-weight: bold; display: none;">Saved! ✨</span>
+    <div id="bonus-feedback" style="margin-top: 15px; display: none;"></div>
   </div>
 
   <div style="background: #E6F7FF; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
