@@ -1,22 +1,21 @@
 ---
 layout: post
-title: "Submodule 1"
-description: "Submodule 1 of AI Usage Mini-Quest"
+title: "Microblogging Multiple Choice"
+description: "Microblog Multiple Choice Quiz for Microblogging Planet"
 permalink: /digital-famine/microblog/mcq/
 parent: "AI Usage"
-team: "Thinkers"
+team: "Unzippers"
 submodule: 1
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, thinkers]
-author: "Thinkers Team"
+author: "The Unzippers"
 date: 2025-10-21
 breadcrumb: true
 ---
 
 # Submodule 1
 
-## Content Coming Soon
-This submodule will be developed by the Thinkers team.
+## You must get 8 correct to continue!!
 
 <html lang="en">
 <head>
@@ -114,8 +113,8 @@ This submodule will be developed by the Thinkers team.
                 correct: 1
             },
             {
-                question: "Question 6: Sample question here?",
-                options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+                question: "You should keep your passwords easy to guess",
+                options: ["True", "False"],
                 correct: 1
             },
             {

@@ -6,6 +6,7 @@ description: >
   Finish off the game of DIGITAL FAMINE and bring back knowledge and skills to your home
 author: CodeMaxxers
 permalink: /digital-famine/end/
+breadcrumb: true
 lxdData:
   Title: "End Modules"
   Description: "Bring home the knowledge you gained from previous planets back home!"
