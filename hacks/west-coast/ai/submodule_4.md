@@ -5,6 +5,7 @@ description: "Submodule 4 of AI Usage Mini-Quest of Generating the Itinerary"
 permalink: /west-coast/ai/submodule_4/
 parent: "AI Usage"
 team: "TheSprinters"
+microblog: True
 submodule: 4
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, Generation]

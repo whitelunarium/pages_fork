@@ -5,6 +5,7 @@ description: "Submodule 3 of AI Usage Mini-Quest about Prompt Engineering"
 permalink: /west-coast/ai/submodule_3/
 parent: "AI Usage"
 team: "TheSprinters"
+microblog: True
 submodule: 3
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, PromptEnginering]
