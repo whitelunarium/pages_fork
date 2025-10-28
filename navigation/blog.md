@@ -1,4 +1,5 @@
 ---
+toc: true
 layout: blogs 
 title: Blogs
 description: This page contains reference materials, learning resources, and course content for Computer Science Education programs including CSSE, AP Computer Science Principles, and AP Computer Science A.
@@ -19,6 +20,4 @@ permalink: /navigation/blogs/
     </tr>
 </table>
 
-## Course Materials
 
-<!-- Auto Generated Blogs -->
