@@ -10,7 +10,7 @@ lxdData:
   Title: "Analytics and Mastery Modules"
   Description: "Complete your CS Portfolio journey and earn your mastery certificate!"
   Topics:
-    - Title: "Los Angeles"
+    - Title: "San Diego"
       Genre: "Integration"
       Level: 1
       Description: "Team-defined analytics and mastery module"
@@ -19,7 +19,7 @@ lxdData:
       Lessons: "/west-coast/analytics/submodule_1/"
       Image: "/images/west-coast/analytics.svg"
       Alt: "Analytics Submodule 1"
-    - Title: "San Francisco"
+    - Title: "Los Angeles"
       Genre: "Integration"
       Level: 2
       Description: "Team-defined analytics and mastery module"
@@ -28,7 +28,7 @@ lxdData:
       Lessons: "/west-coast/analytics/submodule_2/"
       Image: "/images/west-coast/analytics.svg"
       Alt: "Analytics Submodule 2"
-    - Title: "Portland"
+    - Title: "San Francisco"
       Genre: "Integration"
       Level: 3
       Description: "Team-defined analytics and mastery module"
@@ -46,23 +46,5 @@ lxdData:
       Lessons: "/west-coast/analytics/submodule_4/"
       Image: "/images/west-coast/analytics.svg"
       Alt: "Analytics Submodule 4"
-    - Title: "Submodule 5"
-      Genre: "Integration"
-      Level: 5
-      Description: "Team-defined analytics and mastery module"
-      Categories: ["Certificate", "Integration", "Achievement"]
-      Video: "/west-coast/analytics/submodule_5-video"
-      Lessons: "/west-coast/analytics/submodule_5/"
-      Image: "/images/west-coast/analytics.svg"
-      Alt: "Analytics Submodule 5"
-    - Title: "Submodule 6"
-      Genre: "Integration"
-      Level: 6
-      Description: "Team-defined analytics and mastery module"
-      Categories: ["Certificate", "Integration", "Achievement"]
-      Video: "/west-coast/analytics/submodule_6-video"
-      Lessons: "/west-coast/analytics/submodule_6/"
-      Image: "/images/west-coast/analytics.svg"
-      Alt: "Analytics Submodule 6"
 ---
 {%- include tailwind/quests/west-coast.html -%}
