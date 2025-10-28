@@ -77,7 +77,7 @@ breadcrumb: true
         <div id="quiz">
             <div id="question"></div>
             <div class="options" id="options"></div>
-            <button id="submit">Submit Answer</button>
+            <button id="submit" type="button">Submit Answer</button>
         </div>
         <div id="results" style="display: none;">
             <div class="result">Your Score: <span id="score">0</span>/10</div>
@@ -108,7 +108,7 @@ breadcrumb: true
                 correct: 3
             },
             {
-                question: "You should click on links from unfamiliar websites that don't start with "https://"",
+                question: "You should click on links from unfamiliar websites that don't start with \"https://\"",
                 options: ["True", "False"],
                 correct: 1
             },
