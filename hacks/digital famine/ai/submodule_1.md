@@ -10,7 +10,7 @@ team: "Debuggers"
 submodule: 1
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, Debuggers]
-author: "Debuggers Team"
+author: "Debuggers Team - Laya Balaji"
 date: 2025-10-21
 ---
 

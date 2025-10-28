@@ -25,6 +25,6 @@ An AI API (Application Programming Interface) is a set of rules that allows deve
 ## Example of using AI API 🔈
 An typical example of using an AI API is to build a **customer service chatbot** that uses a natural language processing API to understand customer queries and generate responses.
 
-## How do you use AI API as a creater 💡
+## How do you use AI API as a creator 💡
 - As a creater to use AI API, first, you need to go to the AI provider's platform to borrow AI such as **Open AI**
 - Sign up and get an API key, then use the provided documentation to make a request from your code, passing in a prompt and your API key for authorization. 

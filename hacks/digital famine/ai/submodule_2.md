@@ -47,9 +47,9 @@ Generative AI, like ChatGPT and Claude use natural language processing and machi
 
 - Give context
 
-✅ Good: “I’m a high school student. Can you explain the basic principles of quantum physics in simple terms?”
+✅ Good: “I’m a high school student. Can you explain the basic principles of plant biology in simple terms?”
 
-❌ Bad: “Explain quantum physics.”
+❌ Bad: “Explain biology.”
 
 
 
