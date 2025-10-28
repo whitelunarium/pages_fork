@@ -61,4 +61,7 @@ While the idea sounds cool, it also brings serious risks. If a Super AI acted on
 ## Conclusion
 
 From today’s **Narrow AI** to the future idea of **Super AI**, each stage shows how technology can grown and change. Understanding these types helps us see where AI is now and how it might shape the future.
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6ec4208 (changes)
