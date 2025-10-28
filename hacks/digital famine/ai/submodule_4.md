@@ -28,3 +28,9 @@ Locked Until Vault Code is Provided
 - 1: Which is a real-life example of Narrow AI?
 - 2: Which is a type of prompt engineering? (use from table)
 - 3: What is NOT a real life example of an AI API?
+
+Notes: 
+
+DELETE Play again button on minigame
+Reroute to escaping the planet
+
