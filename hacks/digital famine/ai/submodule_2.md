@@ -10,7 +10,7 @@ team: "Debuggers"
 submodule: 2
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, prompts, debuggers]
-author: "Debuggers Team - Ruchika Kench"
+author: "Debuggers Team - Ruchika Kench, Anishka Sanghvi"
 date: 2025-10-21
 ---
 
