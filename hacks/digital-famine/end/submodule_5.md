@@ -68,10 +68,7 @@ Your rocket is approaching the landing pad! Execute the correct key sequences to
       <h2 style="color: #00ff00;">🎉 SUCCESSFUL LANDING! 🎉</h2>
       <div style="font-size: 100px; margin: 30px 0;">🚀✅</div>
       <p style="font-size: 20px;">The rocket has touched down safely!</p>
-      <p>Mission accomplished, Commander!</p>
-      <button id="playAgainBtn" style="background: #00ff00; color: black; padding: 15px 30px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;">
-        PLAY AGAIN
-      </button>
+      <p>You have made it back to Earth, and you will now restore the lost knowledge! Great work!/p>
     </div>
 
     <div id="game-over-screen" style="display: none; text-align: center; color: white;">
@@ -121,7 +118,7 @@ Your rocket is approaching the landing pad! Execute the correct key sequences to
     { sequenceLength: 6, timeLimit: 18, altitude: 500 }
   ];
 
-  const possibleKeys = ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
+const possibleKeys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   
   // DOM elements
   const elements = {
@@ -163,8 +160,8 @@ Your rocket is approaching the landing pad! Execute the correct key sequences to
     elements.feedback.textContent = 'Memorize the sequence!';
     elements.feedback.style.color = '#ffff00';
     
-    // Show sequence for 2 seconds + 0.5 seconds per key
-    const displayTime = 2000 + (level.sequenceLength * 500);
+    // Show sequence for 0.5 seconds + 0.5 seconds per key
+    const displayTime = 0.5 + (level.sequenceLength * 500);
     
     setTimeout(() => {
       elements.sequenceDisplay.textContent = '?????'.slice(0, level.sequenceLength).split('').join(' ');
@@ -350,17 +347,5 @@ Your rocket is approaching the landing pad! Execute the correct key sequences to
   document.head.appendChild(style);
 })();
 </script>
-
-## Challenge Complete?
-
-Once you've successfully landed the rocket, you've demonstrated the precision and timing needed for space operations. Well done, Commander!
-
-### Learning Objectives
-- **Pattern Recognition**: Memorizing and reproducing key sequences
-- **Time Management**: Working under pressure with countdown timers
-- **Progressive Difficulty**: Adapting to increasingly complex challenges
-- **Error Recovery**: Managing limited attempts and learning from mistakes
-
----
 
 *This minigame was created as part of the End Quest series by the CodeMaxxers team.*
