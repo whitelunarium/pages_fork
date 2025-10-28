@@ -51,6 +51,12 @@ class MansionLevel4 {
 		];
   }
 
+  		// collision check function
+		const barrierData = [
+			{ x: 100, y: 200, width: 50, height: 300 }, // starting objects
+			{ x: 400, y: 100, width: 200, height: 50 }, // starting objects
+		];
+	}
 }
 
 export default MansionLevel4
