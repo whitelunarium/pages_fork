@@ -56,4 +56,4 @@ lxdData:
       Image: "/images/cs-portfolio-quest/ai.svg"
       Alt: "AI Submodule 5"
 ---
-{%- include tailwind/cs-portfolio-quest_info.html -%}
+{%- include tailwind/cs-portfolio-mini_quest_info.html -%}
