@@ -1,20 +1,20 @@
 ---
 layout: post
-title: "Submodule 2"
-description: "Submodule 2 of AI Usage Mini-Quest"
-permalink: /digital-famine/microblog/submodule_2/
+title: "Hints"
+description: "Submodule 2 of Hints Mini-Quest"
+permalink: /digital-famine/microblog/hints/
 parent: "AI Usage"
 team: "Thinkers"
 submodule: 2
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, thinkers]
-author: "Thinkers Team"
-date: 2025-10-21
+author: "Jaynee Chauhan, Michelle Ji"
+date: 2025-10-28
 ---
 
 # Hints
 
-## Quick Links
+## Choose your path
 
 <button style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Cybersecurity</button>
 
