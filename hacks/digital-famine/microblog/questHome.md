@@ -3,6 +3,7 @@ layout: page
 title: Microblogging Communications Network Establishment
 description: Navigate through interconnected challenges in a satellite communication network
 permalink: /digital-famine/microblog/
+breadcrumb: true
 ---
 
 To begin your mission, you'll have to repair Old Earth's communications network *Rampart-B*. The old *Rampart-A* network was a partnership between global agencies and the NSA to monitor all internet activity worldwide (monitoring at a rate of 3 terabits/sec!), but as an apocalyptic event occurred, the network was repurposed as a fallback communications network for humanity.
