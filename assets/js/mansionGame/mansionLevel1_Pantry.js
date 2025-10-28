@@ -1,20 +1,19 @@
 import GameEnvBackground  from "./GameEngine/GameEnvBackground.js";
 import Player from "./GameEngine/Player.js";
-import Npc from './GameEngine/Npc.js';
-import MansionLevel1_Pantry from "./mansionLevel1_Pantry.js";
+import Npc from "./GameEngine/Npc.js";
+import MansionLevel1 from './mansionLevel1.js';
 
-
-class MansionLevel1 {
+class MansionLevel1_Pantry {
   constructor(gameEnv) {
     let width = gameEnv.innerWidth;
     let height = gameEnv.innerHeight;
     let path = gameEnv.path;
 
     // Background data
-    const image_background = path + "/images/mansionGame/kitchen_lvl1.png"; // be sure to include the path
+    const image_background = path + "/images/mansionGame/kitchen_pantry.png"; // be sure to include the path
     const image_data_background = {
         name: 'background',
-        greeting: "This is the kitchen, you will search for ingredients and create a potion.",
+        greeting: "This is the pantry, you will search for ingredients and create a potion.",
         src: image_background,
         pixels: {height: 580, width: 1038},
         mode: 'contain',
@@ -44,24 +43,24 @@ class MansionLevel1 {
             keypress: {up: 87, left: 65, down: 83, right: 68} // W, A, S, D
         };
 
-      // Pantry door (collision object) placed on the left side of the screen.
-      // Position: 1/4 from left, slightly below the middle vertically
-      const sprite_src_pantrydoor = path + "/images/gamify/invisDoorCollisionSprite.png"; // replace with your door sprite if needed
-      const sprite_greet_pantrydoor = "Would you like to enter the pantry? Press E";
-      const sprite_data_pantrydoor = {
-        id: 'PantryDoor',
-        greeting: sprite_greet_pantrydoor,
-        src: sprite_src_pantrydoor,
-        SCALE_FACTOR: 6,
-        ANIMATION_RATE: 100,
-        pixels: {width: 256, height: 256},
-  // Move the door slightly higher (approx. half an inch ~48px)
-        INIT_POSITION: { x: (width * 1 / 4), y: (height / 2 + height * 0.1 - 48) },
-        orientation: {rows: 1, columns: 1},
-        down: {row: 0, start: 0, columns: 1},
-        hitbox: {widthPercentage: 0.2, heightPercentage: 0.3},
+const sprite_src_pantrydoor = path + "/images/gamify/invisDoorCollisionSprite.png"; // replace with your door sprite if needed
+  const sprite_greet_pantrydoor = "Would you like to exit the pantry? Press E";
+  const sprite_data_pantrydoor = {
+    id: 'PantryDoor',
+    greeting: sprite_greet_pantrydoor,
+    src: sprite_src_pantrydoor,
+    // Make the door slightly smaller by increasing SCALE_FACTOR and reducing pixels
+    SCALE_FACTOR: 12,
+    ANIMATION_RATE: 100,
+    pixels: {width: 128, height: 128},
+    // Position door at bottom middle of the pantry; subtract half of expected width to center
+    INIT_POSITION: { x: (width / 2 - 64), y: (height - (height * 0.18)) },
+    orientation: {rows: 1, columns: 1},
+    down: {row: 0, start: 0, columns: 1},
+    // Slightly smaller hitbox now that the door is smaller
+    hitbox: {widthPercentage: 0.15, heightPercentage: 0.22},
         dialogues: [
-          "The pantry awaits. Do you wish to enter?"
+          "Do you wish to exit?"
         ],
         reaction: function() {
           // no immediate reaction; interaction handled in interact()
@@ -77,14 +76,14 @@ class MansionLevel1 {
           }
 
           this.dialogueSystem.showDialogue(
-            "Would you like to enter the pantry?",
+            "Would you like to exit the pantry?",
             "Pantry",
             this.spriteData.src
           );
 
           this.dialogueSystem.addButtons([
             {
-              text: "Enter",
+              text: "Exit",
               primary: true,
               action: () => {
                 this.dialogueSystem.closeDialogue();
@@ -96,10 +95,13 @@ class MansionLevel1 {
                   // Store original classes so you can return later if desired
                   gameControl._originalLevelClasses = gameControl.levelClasses;
 
-                  // TODO: Replace THIS_FILE_HERE with your pantry level import at top:
-                  // import THIS_FILE_HERE from './path/to/yourPantryLevel.js'
-                  // For now we set a placeholder so the developer will replace it.
-                  gameControl.levelClasses = [MansionLevel1_Pantry];
+                  // Restore the original level classes (return to mansion)
+                  if (gameControl._originalLevelClasses && gameControl._originalLevelClasses.length) {
+                    gameControl.levelClasses = gameControl._originalLevelClasses;
+                  } else {
+                    // Fallback to explicitly return to MansionLevel1
+                    gameControl.levelClasses = [MansionLevel1];
+                  }
                   gameControl.currentLevelIndex = 0;
                   gameControl.isPaused = false;
                   gameControl.transitionToLevel();
@@ -126,4 +128,4 @@ class MansionLevel1 {
 
 }
 
-export default MansionLevel1;
+export default MansionLevel1_Pantry;
