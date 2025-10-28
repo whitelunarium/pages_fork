@@ -159,12 +159,15 @@ async function renderMicroblogTable() {
         </tbody>
         `;
 
-        // Table: set container
+
+        // Table: set container with scrollable wrapper
         container.innerHTML = `
-        <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
-            ${head}
-            ${body}
-        </table>
+        <div class="max-h-[45vh] sm:max-h-[60vh] lg:max-h-[70vh] overflow-y-auto" style="max-height:70vh;">
+          <table id="microblog-table" border="1" style="border-collapse:collapse; margin-top:1em; width:100%;">
+              ${head}
+              ${body}
+          </table>
+        </div>
         `;
 
         // Wait for DOM update, then initialize DataTables
@@ -235,11 +238,11 @@ async function renderMicroblogTable() {
                     }, 0);
                 }
             });
-            // Bind edit buttons
-            $('.edit-btn').on('click', function() {
-                const id = $(this).data('id');
-                const post = (data.microblogs || []).find(p => p.id == id);
-                openModal({ mode: 'edit', post });
+            // Bind edit buttons using event delegation so it works on all pages
+            $('#microblog-table').off('click', '.edit-btn').on('click', '.edit-btn', function() {
+              const id = $(this).data('id');
+              const post = (data.microblogs || []).find(p => p.id == id);
+              openModal({ mode: 'edit', post });
             });
         }
         }, 0);
