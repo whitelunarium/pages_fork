@@ -74,3 +74,96 @@ document.addEventListener("DOMContentLoaded", function () {
   activateOnScroll();
 });
 </script>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>File Upload</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    .upload-box {
+      border: 2px dashed #888;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      cursor: pointer;
+    }
+
+    #fileName {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+    <p>Click or drag a file to upload</p>
+    <input type="file" id="fileInput" />
+    <div id="fileName"></div>
+  </div>
+
+  <button id="uploadBtn">Upload</button>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileName');
+    const uploadBtn = document.getElementById('uploadBtn');
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        fileNameDisplay.textContent = `Selected file: ${file.name}`;
+      } else {
+        fileNameDisplay.textContent = '';
+      }
+    });
+
+    uploadBtn.addEventListener('click', () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        alert('Please select a file first.');
+        return;
+      }
+
+      // Placeholder for backend integration
+      const formData = new FormData();
+      formData.append('file', file);
+
+      console.log('File ready to be sent to backend:', file);
+      alert(`File "${file.name}" is ready to be uploaded.`);
+      
+      // Example (when backend is ready):
+      // fetch('/upload', { method: 'POST', body: formData })
+      //   .then(response => response.json())
+      //   .then(data => console.log('Success:', data))
+      //   .catch(error => console.error('Error:', error));
+    });
+  </script>
+
+</body>
+</html>
