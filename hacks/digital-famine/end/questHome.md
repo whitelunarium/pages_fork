@@ -23,7 +23,7 @@ lxdData:
     - Title: "Submodule 2"
       Genre: "Project Creation"
       Level: 2
-      Description: "Team-defined end development module"
+      Description: "This submodule will test you on your media literacy! You will need to apply all your knowledge learned in the media literacy planet to identify fake information in a multiple choice style quiz. You will be able to gather all parts needed to fix the information sector of the ship at the end of the quiz."
       Categories: ["end", "Flask", "Spring", "Databases"]
       Video: "/digital-famine/end/submodule_2-video"
       Lessons: "/digital-famine/end/submodule_2/"
