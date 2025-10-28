@@ -1605,6 +1605,10 @@ createSession();
 ---
 
 *Want to learn more? Try modifying the demos, experimenting with different context window sizes, or building your own LLM memory visualizations!*
+
+
+
+<!-- Lock/Unlock Logic -->
 <style>
 .completion-banner {
   position: fixed;

@@ -642,7 +642,7 @@ date: 2025-10-21
             progressFill.style.width = percentage + '%';
             progressFill.textContent = percentage + '% Complete';
         }
-
+<!-- Lock/Unlock Logic -->
         // Scroll-to-bottom completion tracking
         document.addEventListener("DOMContentLoaded", function() {
             const storageKey = 'ai-module-c1-completed';

@@ -72,6 +72,8 @@ lxdData:
 ---
 {%- include tailwind/quests/west-coast.html -%}
 
+
+<!-- Lock/Unlock Logic -->
 <style>
 .quest-locked-overlay {
   position: absolute;

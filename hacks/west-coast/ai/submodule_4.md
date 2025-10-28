@@ -706,6 +706,9 @@ date: 2025-10-21
 }
 </style>
 
+
+
+<!-- Lock/Unlock Logic -->
 <script>
 // Scroll-to-bottom completion tracking
 document.addEventListener("DOMContentLoaded", function() {
