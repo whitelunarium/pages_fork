@@ -10,6 +10,7 @@ categories: [CSP, Submodule, AIUsage]
 tags: [ai, submodule, thinkers]
 author: "Jaynee Chauhan, Michelle Ji"
 date: 2025-10-28
+breadcrumb: true
 ---
 
 # Hints
