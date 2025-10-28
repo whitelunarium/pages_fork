@@ -86,7 +86,7 @@ The system is now defunct, as humans took to the stars. We'll have the reestabli
             }
         },
         physics: {
-            enabled: false
+            enabled: true
         },
         interaction: {
             hover: true,
