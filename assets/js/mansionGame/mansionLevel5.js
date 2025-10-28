@@ -17,7 +17,7 @@ class MansionLevel5 {
 		greeting: "This is the library, you will fight hordes of enemies, survive as long as possible.",
 		src: image_background,
 		pixels: {height: 1280, width: 720},
-		mode: 'contain'
+		mode: 'stretch'
 	};
 
 	//data for player
