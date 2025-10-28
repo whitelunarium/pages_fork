@@ -14,7 +14,7 @@ date: 2025-10-28
 
 # Hints
 
-## Choose your path
+## Choose your path!
 
 <button style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Cybersecurity</button>
 
@@ -22,4 +22,4 @@ date: 2025-10-28
 
 <button style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Media Literacy</button>
 
-<button style="background-color: #555555; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Empty</button>
+<button style="background-color: #555555; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Microblog</button>
