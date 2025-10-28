@@ -10,7 +10,7 @@ team: "Debuggers"
 submodule: 3
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, API, flask, debuggers]
-author: "Debuggers Team - Lilian Wu, Rebecca Yan"
+author: "Debuggers Team"
 date: 2025-10-21
 ---
 
@@ -23,7 +23,6 @@ An AI API (Application Programming Interface) is a set of rules that allows deve
 ## 🔈 Example of using AI API 
 An typical example of using an AI API is to build a **customer service chatbot** that uses a natural language processing API to understand customer queries and generate responses.
 
-<<<<<<< HEAD
 ## 💡 How do you use AI API as a creater 
 - As a creater to use AI API, first, you need to go to the AI provider's platform to borrow AI such as **Open AI**
 - Sign up and get an API key, then use the provided documentation to make a request from your code, passing in a prompt and your API key for authorization. 
@@ -78,5 +77,3 @@ function fetchMicroblogPosts() {
         });
 }
  ```
-=======
->>>>>>> cf57b2cf20a3fedb312f86d361b03de20bcf8c7c
