@@ -8,7 +8,7 @@ team: "TheSprinters"
 submodule: 1
 categories: [CSP, Submodule, AIUsage]
 tags: [AI, submodule, AI_Functionality]
-author: "Darshan"
+author: "TheSprinters"
 date: 2025-10-21
 ---
 <html lang="en">
