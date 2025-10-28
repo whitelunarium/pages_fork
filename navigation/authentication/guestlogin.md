@@ -97,10 +97,10 @@ show_reading_time: false
             return true;
         }
 
-        if (password.length < 8) {
+        if (password.length < 2) {
             confirmField.classList.add('password-length');
             messageDiv.classList.add('error');
-            messageDiv.textContent = '✗ Passwords must be at least 8 characters long';
+            messageDiv.textContent = '✗ Passwords must be at least 2 characters long';
             return false;
         }
 
@@ -128,8 +128,8 @@ show_reading_time: false
             return false;
         }
 
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long.');
+        if (password.length < 2) {
+            alert('Password must be at least 2 characters long.');
             document.getElementById('signupPassword').focus();
             return false;
         }
@@ -144,7 +144,7 @@ show_reading_time: false
         const text = element.querySelector('.status-text');
 
         // Remove existing status classes
-        element.classList.remove('pending', 'success', 'error');
+        element.classList.remove('pending', 'success', 'error', 'disabled');
 
         switch(status) {
             case 'pending':
@@ -162,6 +162,11 @@ show_reading_time: false
                 icon.textContent = '❌';
                 text.textContent = `${backend.charAt(0).toUpperCase() + backend.slice(1)} ✗`;
                 break;
+            case 'disabled':
+                element.classList.add('disabled');
+                icon.textContent = '⊘';
+                text.textContent = `${backend.charAt(0).toUpperCase() + backend.slice(1)} (Disabled)`;
+                break;
         }
     }
 
@@ -174,21 +179,34 @@ show_reading_time: false
         const springSuccess = springEl.classList.contains('success');
         const flaskError = flaskEl.classList.contains('error');
         const springError = springEl.classList.contains('error');
+        const springDisabled = springEl.classList.contains('disabled');
 
         overallEl.classList.remove('hidden', 'success', 'partial', 'error');
 
-        if (flaskSuccess && springSuccess) {
-            overallEl.classList.add('success');
-            overallEl.textContent = '🎉 Account created on both backends! You can now login.';
-        } else if (flaskSuccess && springError) {
-            overallEl.classList.add('partial');
-            overallEl.textContent = '⚠️ Flask account created successfully! Spring failed but you can still login.';
-        } else if (flaskError && springSuccess) {
-            overallEl.classList.add('partial');
-            overallEl.textContent = '⚠️ Spring account created! Flask failed - please try again.';
-        } else if (flaskError && springError) {
-            overallEl.classList.add('error');
-            overallEl.textContent = '💥 Both backends failed. Please check your information and try again.';
+        // If Spring is disabled (guest mode)
+        if (springDisabled) {
+            if (flaskSuccess) {
+                overallEl.classList.add('success');
+                overallEl.textContent = '🎉 Guest account created successfully! You can now login.';
+            } else if (flaskError) {
+                overallEl.classList.add('error');
+                overallEl.textContent = '❌ Account creation failed. Please check your information and try again.';
+            }
+        } else {
+            // Regular mode with both backends
+            if (flaskSuccess && springSuccess) {
+                overallEl.classList.add('success');
+                overallEl.textContent = '🎉 Account created on both backends! You can now login.';
+            } else if (flaskSuccess && springError) {
+                overallEl.classList.add('partial');
+                overallEl.textContent = '⚠️ Flask account created successfully! Spring failed but you can still login.';
+            } else if (flaskError && springSuccess) {
+                overallEl.classList.add('partial');
+                overallEl.textContent = '⚠️ Spring account created! Flask failed - please try again.';
+            } else if (flaskError && springError) {
+                overallEl.classList.add('error');
+                overallEl.textContent = '💥 Both backends failed. Please check your information and try again.';
+            }
         }
     }
 
@@ -362,7 +380,8 @@ show_reading_time: false
         signupButton.classList.add("disabled");
         // Reset status indicators
         updateBackendStatus('flask', 'pending');
-        updateBackendStatus('spring', 'pending');
+        // Mark Spring as disabled for guest accounts
+        updateBackendStatus('spring', 'disabled');
         document.getElementById('overallStatus').classList.add('hidden');
 
         const data = signupFormData && Object.keys(signupFormData).length > 0 ? signupFormData : {
@@ -370,16 +389,11 @@ show_reading_time: false
             password: document.getElementById("signupPassword").value,
         };
 
-        const signupDataJava = {
-            uid: data.uid,
-            password: data.password
-        };
+        console.log("Sending this data to Flask (Guest):", JSON.stringify(data, null, 2));
+        console.log("Request URL:", `${pythonURI}/api/user/guest`);
 
-        console.log("Sending this data to Flask:", JSON.stringify(data, null, 2));
-        console.log("Request URL:", `${pythonURI}/api/user`);
-
-        // Flask Backend Request
-        const flaskPromise = fetch(`${pythonURI}/api/user`, {
+        // Flask Backend Request - GUEST endpoint
+        const flaskPromise = fetch(`${pythonURI}/api/user/guest`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -403,37 +417,19 @@ show_reading_time: false
             throw error;
         });
 
-        // Spring Backend Request
-        const springPromise = fetch(`${javaURI}/api/person/create`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(signupDataJava)
-        })
-        .then(response => {
-            if (response.ok) {
-                updateBackendStatus('spring', 'success');
-                return response.json();
-            } else {
-                throw new Error(`Spring: ${response.status}`);
-            }
-        })
-        .catch(error => {
-            console.error("Spring signup error:", error);
-            updateBackendStatus('spring', 'error');
-            throw error;
-        });
+        // Spring Backend is DISABLED for guest accounts
+        // Creating a resolved promise to maintain the Promise.allSettled pattern
+        const springPromise = Promise.resolve({ status: 'disabled', reason: 'Spring backend disabled for guest accounts' });
 
-        // Handle both requests
+        // Handle Flask request (Spring is disabled)
         Promise.allSettled([flaskPromise, springPromise])
             .then(results => {
                 const [flaskResult, springResult] = results;
 
                 console.log("Flask result:", flaskResult);
-                console.log("Spring result:", springResult);
+                console.log("Spring result (disabled):", springResult);
 
-                // Update overall status after both complete
+                // Update overall status after completion
                 setTimeout(updateOverallStatus, 500);
 
                 // Re-enable button
