@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Login
-permalink: /login
+permalink: /guestlogin
 search_exclude: true
 show_reading_time: false
 ---
@@ -14,7 +14,7 @@ show_reading_time: false
         <hr>
         <form id="pythonForm" onsubmit="loginBoth(); return false;">
             <div class="form-group">
-                <input type="text" id="uid" placeholder="GitHub ID" required>
+                <input type="text" id="uid" placeholder="Username" required>
             </div>
             <div class="form-group">
                 <input type="password" id="password" placeholder="Password" required>
@@ -30,9 +30,7 @@ show_reading_time: false
         <hr>
         <!-- Signup Form (simplified: username + password) -->
         <form id="signupForm" onsubmit="handleSignupSubmit(event);">
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Name (optional)">
-            </div>
+            <!-- name removed to keep signup minimal: only username + password -->
             <div class="form-group">
                 <input type="text" id="signupUsername" placeholder="Username" required>
             </div>
@@ -44,15 +42,7 @@ show_reading_time: false
                 <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <div id="password-validation-message" class="validation-message"></div>
             </div>
-            <p>
-                <label class="switch">
-                    <span class="toggle">
-                        <input type="checkbox" name="kasmNeeded" id="kasmNeeded">
-                        <span class="slider"></span>
-                    </span>
-                    <span class="label-text">Kasm Server Needed</span>
-                </label>
-            </p>
+            <!-- Kasm option removed: not required for simplified signup -->
             <p>
                 <button type="submit" class="large primary submit-button">Sign Up</button>
             </p>
@@ -217,12 +207,10 @@ show_reading_time: false
             return;
         }
 
-        // Store form data
+        // Store form data (only username and password)
         signupFormData = {
-            name: document.getElementById("name").value || (document.getElementById("signupUsername") ? document.getElementById("signupUsername").value : ''),
             uid: document.getElementById("signupUsername").value,
             password: document.getElementById("signupPassword").value,
-            kasm_server_needed: document.getElementById("kasmNeeded").checked,
         };
 
         // Call signup flow
@@ -303,15 +291,10 @@ show_reading_time: false
             // If login fails, attempt account creation
             if (error.message === "Invalid login") {
                 // alert("Login for Spring failed. Creating a new Java account...");
-                const signupData = JSON.stringify({
-                    uid: document.getElementById("uid").value,
-                    sid: "0000000",
-                    email: document.getElementById("uid").value + "@gmail.com",
-                    dob: "11-01-2024", // Static date, can be modified
-                    name: document.getElementById("uid").value,
-                    password: document.getElementById("password").value,
-                    kasmServerNeeded: false,
-                });
+                        const signupData = JSON.stringify({
+                            uid: document.getElementById("uid").value,
+                            password: document.getElementById("password").value
+                        });
                 const signupOptions = {
                     ...fetchOptions,
                     method: "POST",
@@ -383,20 +366,13 @@ show_reading_time: false
         document.getElementById('overallStatus').classList.add('hidden');
 
         const data = signupFormData && Object.keys(signupFormData).length > 0 ? signupFormData : {
-            name: document.getElementById("name").value,
             uid: document.getElementById("signupUsername").value,
             password: document.getElementById("signupPassword").value,
-            kasm_server_needed: document.getElementById("kasmNeeded").checked,
         };
 
         const signupDataJava = {
             uid: data.uid,
-            sid: data.sid || "0000000",
-            email: data.email || (data.uid + "@example.com"),
-            dob: "11-01-2024",
-            name: data.name || data.uid,
-            password: data.password,
-            kasmServerNeeded: data.kasm_server_needed || false,
+            password: data.password
         };
 
         console.log("Sending this data to Flask:", JSON.stringify(data, null, 2));
