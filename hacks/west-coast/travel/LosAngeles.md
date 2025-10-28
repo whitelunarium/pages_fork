@@ -4,11 +4,11 @@ title: "Los Angeles"
 description: "Submodule 1 of Analytics/Admin Mini-Quest"
 permalink: /west-coast/analytics/submodule_1/
 parent: "Analytics/Admin"
-team: "Curators"
+team: "Cool Collaborators"
 submodule: 1
 categories: [CSP, Submodule, Analytics/Admin]
 tags: [analytics, submodule, curators]
-author: "Curators Team"
+author: "Cool Collaborators"
 date: 2025-10-21
 ---
 
