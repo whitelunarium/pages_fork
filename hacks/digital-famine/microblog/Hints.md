@@ -20,6 +20,6 @@ date: 2025-10-28
 
 <button style="background-color: #008CBA; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">AI</button>
 
-<button style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Media Literacy</button>
+<button style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href='https://pages.opencodingsociety.com/digital-famine/microblog/hintsML/'">Media Literacy</button>
 
 <button style="background-color: #555555; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="window.location.href=''">Empty</button>
