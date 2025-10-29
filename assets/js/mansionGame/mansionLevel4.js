@@ -1,6 +1,5 @@
 // To build GameLevels, each contains GameObjects from below imports
 import GameEnvBackground from './GameEngine/GameEnvBackground.js';
-import Player from './GameEngine/Player.js';
 
 class MansionLevel4 {
   constructor(gameEnv) {
@@ -46,8 +45,6 @@ class MansionLevel4 {
 	// List of objects defnitions for this level
 	this.classes = [
 		{ class: GameEnvBackground, data: image_data_background },
-		// Use the MobilePlayer subclass so mobile users get an on-screen D-pad
-		{ class: MobilePlayer, data: sprite_data_chillguy },
 	];
   }
 
