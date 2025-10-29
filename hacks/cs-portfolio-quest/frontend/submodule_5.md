@@ -1,18 +1,44 @@
 ---
 layout: post
-title: "Responsive Design"
-description: "Submodule 5 of Frontend Development Mini-Quest"
+title: "JavaScript Guide"
+description: Guide on and how to code in JavaScript
 permalink: /cs-portfolio-quest/frontend/submodule_5/
 parent: "Frontend Development"
 team: "Creators"
 submodule: 5
 categories: [CSP, Submodule, Frontend]
-tags: [responsive, design, mobile]
+tags: [javascript]
 author: "Creators Team"
 date: 2025-10-21
 ---
 
-# Responsive Design
+# JavaScript Section
+
+### Purpose
+
+[Content here]
+
+### Syntax
+
+[Content here]
+
+### Variables
+
+[Content here]
+
+### Operators
+
+[Content here]
+
+### If Conditions
+
+[Content here]
+
+### Objects
+
+[Content here]
 
 ## Content Coming Soon
 This submodule will cover responsive design.
+
+{%- include tailwind/cs-portfolio-quest-lessons_info.html -%}

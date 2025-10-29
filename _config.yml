@@ -48,7 +48,7 @@ future: true
 #   quiet_deps: true
 #   silence_deprecations: [import]
 
-remote_theme: jekyll/minima@d4d779a
+remote_theme: jekyll/minima
 plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
