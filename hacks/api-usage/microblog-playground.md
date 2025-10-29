@@ -11,13 +11,15 @@ permalink: /microblog
 
 The premise is to have an engaging way to chat on articles.
 
+
 ## See Microblog Live
 
-Look at [/plagiarismi/2]({{site.baseurl}}/plagiarism/2),[/plagiarismi/3]({{site.baseurl}}/plagiarism/3),[/plagiarismi/4]({{site.baseurl}}/plagiarism/4)
+Look at [/plagiarism/2]({{site.baseurl}}/plagiarism/2), [/plagiarism/3]({{site.baseurl}}/plagiarism/3), [/plagiarism/4]({{site.baseurl}}/plagiarism/4)
+
 
 ### Frontmatter
 
-Observe any of the frontmatter on these pages it now has the microblog: True dependencies.
+Observe the frontmatter on these pages; it now includes `microblog: True` to enable microblogging.
 
 ## Microblogging: Engage Your Readers
 
@@ -32,11 +34,12 @@ Microblogging adds a real-time, interactive chat panel to your articles, allowin
 
 ### Enabling Microblogging
 
-To add microblogging to any article or lesson, simply include the below in your page’s frontmatter.  **The permalink is you topic**.
+
+To add microblogging to any article or lesson, simply include the following in your page’s frontmatter.  **The permalink is your topic.**
 
 ```yaml
 ---
-layout: post 
+layout: post
 microblog: True
 title: Your Article Title
 description: Brief description of your article.
@@ -48,11 +51,23 @@ permalink: /your-path
 - Use `layout: opencs` to ensure the microblog overlay and dependencies are included.
 - Set `microblog: True` to activate the feature.
 
+
+### To Test Microblogging
+
+In your project directory with your virtual environment (venv) activated:
+
+```sh
+git pull
+./scripts/db_init.py # if you have database trouble
+python main.py
+```
+
 ### Key Files
 
 - `_layouts/opencs.html` — Main layout that injects the microblog overlay and required scripts.
 - `assets/js/api/microblog.js` — Handles the microblog panel’s interactivity and API calls.
 
+
 ### API Reference
 
-For developers: see the [Microblog API documentation]({{site.baseurl}}/microblog/reference) for details on backend integration and customization.
+For developers: see the [Microblog API reference]({{site.baseurl}}/microblog/reference) for details on backend integration and customization.
