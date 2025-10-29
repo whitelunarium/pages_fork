@@ -6,8 +6,8 @@ permalink: /digital-famine/microblog/mcq/
 parent: "AI Usage"
 team: "Unzippers"
 submodule: 1
-categories: [CSP, Submodule, AIUsage]
-tags: [ai, submodule, thinkers]
+categories: [CSP, Submodule, Microblogging]
+tags: [microblogging, submodule, unzippers]
 author: "The Unzippers"
 date: 2025-10-21
 breadcrumb: true

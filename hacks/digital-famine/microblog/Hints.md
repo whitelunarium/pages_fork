@@ -6,8 +6,8 @@ permalink: /digital-famine/microblog/hints/
 parent: "AI Usage"
 team: "Thinkers"
 submodule: 2
-categories: [CSP, Submodule, AIUsage]
-tags: [ai, submodule, thinkers]
+categories: [CSP, Submodule, Microblogging]
+tags: [microblogging, submodule, unzippers]
 author: "Jaynee Chauhan, Michelle Ji"
 date: 2025-10-28
 breadcrumb: true
