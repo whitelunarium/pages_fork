@@ -114,16 +114,9 @@ class Character extends GameObject {
                         dirs.forEach(d => {
                             const dd = this.spriteData[d];
                             if (!dd) return;
-                            const isVertical = !!dd.vertical || (dd.column !== undefined && dd.column !== null);
-                            if (isVertical) {
-                                const col = (dd.column !== undefined && dd.column !== null) ? dd.column : (dd.start || 0);
-                                const frames = dd.frames || orientation.rows || 1;
-                                console.log(`[Character] direction ${d}: vertical column=${col}, frames=${frames}`);
-                            } else {
-                                const row = dd.row || 0;
-                                const cols = dd.columns || orientation.columns || 1;
-                                console.log(`[Character] direction ${d}: horizontal row=${row}, columns=${cols}`);
-                            }
+                            const row = dd.row || 0;
+                            const cols = dd.columns || orientation.columns || 1;
+                            console.log(`[Character] direction ${d}: row=${row}, columns=${cols}`);
                         });
                     } catch (logErr) {
                         console.warn('Character sprite diagnostics failed', logErr);
@@ -196,14 +189,13 @@ class Character extends GameObject {
      * Draws the current frame of the sprite sheet.
      */
     drawSprite() {
-
         // If sprite hasn't loaded yet, draw a placeholder
         if (!this.spriteReady) {
             this.drawDefaultSquare();
             return;
         }
 
-        // Calculate the frame dimensions (use integer pixels to avoid sub-pixel cropping)
+        // Calculate the frame dimensions
         const pixels = this.spriteData.pixels || { width: this.spriteSheet.naturalWidth, height: this.spriteSheet.naturalHeight };
         const orientation = this.spriteData.orientation || { rows: 1, columns: 1 };
         const frameWidth = Math.max(1, Math.round(pixels.width / orientation.columns));
@@ -211,21 +203,8 @@ class Character extends GameObject {
 
         // Calculate the frame position on the sprite sheet
         const directionData = this.spriteData[this.direction] || {};
-
-        // Support vertical (column-based) frame layouts: directionData.vertical === true
-        // or directionData.column is provided. In that case the column is fixed and
-        // frames advance down the rows.
-        const isVertical = !!directionData.vertical || (directionData.column !== undefined && directionData.column !== null);
-        let frameX, frameY;
-        if (isVertical) {
-            const col = (directionData.column !== undefined && directionData.column !== null) ? directionData.column : (directionData.start || 0);
-            const rowStart = directionData.start || 0;
-            frameX = col * frameWidth;
-            frameY = (rowStart + (this.frameIndex || 0)) * frameHeight;
-        } else {
-            frameX = ((directionData.start || 0) + (this.frameIndex || 0)) * frameWidth;
-            frameY = (directionData.row || 0) * frameHeight;
-        }
+        const frameX = ((directionData.start || 0) + (this.frameIndex || 0)) * frameWidth;
+        const frameY = (directionData.row || 0) * frameHeight;
 
         // Set the canvas dimensions based on the frame size
     // Set the canvas dimensions based on the frame size (integers)
@@ -253,14 +232,7 @@ class Character extends GameObject {
         this.frameCounter++;
         if (this.frameCounter % this.animationRate === 0) {
             const directionData = this.spriteData[this.direction] || {};
-            const isVertical = !!directionData.vertical || (directionData.column !== undefined && directionData.column !== null);
-            // Determine number of frames for this direction. Allow directionData.frames override.
-            let frames = 1;
-            if (isVertical) {
-                frames = directionData.frames || this.spriteData.orientation.rows || 1;
-            } else {
-                frames = directionData.columns || this.spriteData.orientation.columns || 1;
-            }
+            const frames = directionData.columns || this.spriteData.orientation.columns || 1;
             this.frameIndex = (this.frameIndex + 1) % frames;
         }
     }

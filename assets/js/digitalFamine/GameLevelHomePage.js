@@ -45,8 +45,8 @@ class GameLevelHomePage {
       }
     };
     
-    // Clear localStorage to reset progression
-    localStorage.removeItem('planetProgression');
+    // REMOVED: The line that was clearing progress
+    // localStorage.removeItem('planetProgression');
     
     // Debug helper
     this.debugProgress = () => {
@@ -70,8 +70,9 @@ class GameLevelHomePage {
         medialit: loaded.medialit && loaded.microblog ? loaded.medialit : false,
         ai: loaded.ai && loaded.medialit ? loaded.ai : false,
         cyber: loaded.cyber && loaded.ai ? loaded.cyber : false,
-        current: this.progression.getNextPlanet()
+        current: loaded.current || this.progression.getNextPlanet()
       };
+      console.log('Loaded saved progress:', this.progression);
     }
 
     // Add keyboard navigation
@@ -107,6 +108,13 @@ class GameLevelHomePage {
           }
         }
       }
+      
+      // 'R' key to reset progress (for debugging/testing)
+      if (e.key.toLowerCase() === 'r' && e.ctrlKey) {
+        localStorage.removeItem('planetProgression');
+        console.log('Progress reset! Reloading...');
+        location.reload();
+      }
     });
     
     // Keep track of active key listener
@@ -128,7 +136,7 @@ class GameLevelHomePage {
     };
     
     // Background data
-    const image_src_desert = path + "/images/digital-famine/galaxy.jpg"; // be sure to include the path
+    const image_src_desert = path + "/images/digital-famine/galaxy.jpg";
     const image_data_desert = {
       name: 'galaxy',
       greeting: "Welcome to the Galaxy!  This will be the start of your adventure in saving the Earth",
@@ -137,30 +145,28 @@ class GameLevelHomePage {
     };
 
     // Player data for Chillguy
-  const sprite_src_chillguy = path + "/images/digital-famine/finalRocket.png"; // be sure to include the path
+    const sprite_src_chillguy = path + "/images/digital-famine/Rocket.png";
     const CHILLGUY_SCALE_FACTOR = 5;
     const sprite_data_chillguy = {
         id: 'Chill Guy',
         greeting: "Hi I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
         src: sprite_src_chillguy,
-        SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
+        SCALE_FACTOR: 9,
         STEP_FACTOR: 1000,
         ANIMATION_RATE: 10,
-  INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
-  pixels: {height: 998, width: 1497},
-  orientation: {rows: 2, columns: 4},
-
-    up: { column: 0, start: 0, frames: 2, vertical: true, rotate: 0 },
-    right: { column: 1, start: 0, frames: 2, vertical: true, rotate: Math.PI/2 },
-    down: { column: 2, start: 0, frames: 2, vertical: true, rotate: Math.PI },
-    left: { column: 3, start: 0, frames: 2, vertical: true, rotate: 3*Math.PI/2 },
-    // Diagonals use the nearest direction with rotation adjustments
-    upRight: { column: 1, start: 0, frames: 2, vertical: true, rotate: Math.PI/4 },
-    upLeft: { column: 0, start: 0, frames: 2, vertical: true, rotate: 7*Math.PI/4 },
-    downRight: { column: 2, start: 0, frames: 2, vertical: true, rotate: 3*Math.PI/4 },
-    downLeft: { column: 2, start: 0, frames: 2, vertical: true, rotate: 5*Math.PI/4 },
-        hitbox: { widthPercentage: 0.05, heightPercentage: 0.05 },
-        keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
+        INIT_POSITION: { x: 0, y: height - (height/CHILLGUY_SCALE_FACTOR) }, 
+        pixels: {height: 512, width: 256},
+        orientation: {rows: 4, columns: 2},
+        right: {row: 3, start: 0, columns: 2},
+        down: {row: 2, start: 0, columns: 2},
+        left: {row: 1, start: 0, columns: 2},
+        up: {row: 0, start: 0, columns: 2},
+        upRight: {row: 3, start: 0, columns: 2, rotate: -Math.PI/16},
+        upLeft: {row: 1, start: 0, columns: 2, rotate: Math.PI/16},
+        downRight: {row: 3, start: 0, columns: 2, rotate: Math.PI/16},
+        downLeft: {row: 1, start: 0, columns: 2, rotate: -Math.PI/16},
+        hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+        keypress: { up: 87, left: 65, down: 83, right: 68 }
     };
 
     // Satellite companion data
@@ -169,39 +175,37 @@ class GameLevelHomePage {
         id: 'Satellite',
         greeting: "",
         src: sprite_src_satellite,
-        SCALE_FACTOR: 18,  // Reduced from 25 to make it bigger (lower number = bigger sprite)
+        SCALE_FACTOR: 18,
         ANIMATION_RATE: 1,
-        pixels: {height: 1920, width: 1902},  // Use actual image dimensions
-        INIT_POSITION: { x: 100, y: height - (height/CHILLGUY_SCALE_FACTOR) - 50 },  // Start at x: 100 instead of 0
+        pixels: {height: 1920, width: 1902},
+        INIT_POSITION: { x: 100, y: height - (height/CHILLGUY_SCALE_FACTOR) - 50 },
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1, rotate: 0},
-        hitbox: { widthPercentage: 0.01, heightPercentage: 0.01 },  // Invisible hitbox since it's non-interactive
-        zIndex: 15  // Higher z-index than planets (10) to ensure it's visible on top
+        hitbox: { widthPercentage: 0.01, heightPercentage: 0.01 },
+        zIndex: 15
     };
 
-    // Ancient Book sprite data (bottom right corner)
+    // Ancient Book sprite data
     const sprite_src_ancientBook = path + "/images/digital-famine/ancientBook.png";
     const sprite_data_ancientBook = {
         id: 'AncientBook',
         greeting: "This is the amount of pages you collected. Collect 4 ancient pages to save humanity!",
         src: sprite_src_ancientBook,
-        SCALE_FACTOR: 8,  // Bigger book (lower number = bigger size)
+        SCALE_FACTOR: 8,
         ANIMATION_RATE: 1,
-        pixels: {height: 1080, width: 1688},  // Actual image dimensions
-        INIT_POSITION: { x: width - 200, y: height - 150 },  // Lower in bottom right corner
+        pixels: {height: 1080, width: 1688},
+        INIT_POSITION: { x: width - 200, y: height - 150 },
         orientation: {rows: 1, columns: 1},
         down: {row: 0, start: 0, columns: 1, rotate: 0},
-        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },  // Make it interactable
-        zIndex: 20  // Higher than all other elements
+        hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+        zIndex: 20
     };
-
-    //End Ship
-    const sprite_src_cyberplanet = path + "/images/digital-famine/planet-3.png";
-    const sprite_greet_cyberplanet = "Go To Cyber Planet";
 
     // Store a reference to the dialogueSystem for use in sprite data
     const dialogueSystem = this.dialogueSystem;
 
+    // Cyber Planet
+    const sprite_src_cyberplanet = path + "/images/digital-famine/planet-3.png";
     const sprite_data_cyberplanet = {
         id: 'CyberPlanet',
         greeting: "Cyber Planet - Final Destination",
@@ -215,25 +219,18 @@ class GameLevelHomePage {
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,
         render: function(ctx) {
-          this.isLocked = !this.progression.ai && this.progression.current !== 'cyber';
+          this.isLocked = !this.progression.ai;
           this.applyLockedEffect(ctx, this);
         }.bind(this),
         dialogues: ["Would you like to travel to the Cyber Planet?"],
         reaction: function() { },
         interact: function() {
           this.removeExistingKeyListener();
-          this.debugProgress();  // Debug current state
+          this.debugProgress();
           
-          // Check both previous completion and current status
           if (!this.progression.ai) {
             dialogueSystem.showDialogue("Complete AI Planet first!");
             console.log('Attempted to access Cyber without completing AI');
-            return;
-          }
-          
-          if (this.progression.current !== 'cyber') {
-            dialogueSystem.showDialogue("You must visit planets in order!");
-            console.log('Attempted to access Cyber out of order');
             return;
           }
 
@@ -242,10 +239,10 @@ class GameLevelHomePage {
             {
               text: "Travel",
               action: () => {
+                // Mark as completed but DON'T change current
                 this.progression.cyber = true;
-                this.progression.current = 'end';
                 localStorage.setItem('planetProgression', JSON.stringify(this.progression));
-                console.log('Updating progress - Cyber Planet completed');
+                console.log('Traveling to Cyber Planet...');
                 this.debugProgress();
                 window.location.href = '/digital-famine/cyber/';
               },
@@ -270,16 +267,16 @@ class GameLevelHomePage {
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,
         render: function(ctx) {
-          this.isLocked = !this.progression.microblog && this.progression.current !== 'medialit';
+          this.isLocked = !this.progression.microblog;
           this.applyLockedEffect(ctx, this);
         }.bind(this),
         dialogues: ["Would you like to travel to the Media Literacy Planet?"],
         reaction: function() { },
         interact: function() {
           this.removeExistingKeyListener();
-          this.debugProgress();  // Debug current state
+          this.debugProgress();
           
-          if (!this.progression.microblog || this.progression.current !== 'medialit') {
+          if (!this.progression.microblog) {
             dialogueSystem.showDialogue("Complete Microblogging Planet first!");
             return;
           }
@@ -290,9 +287,8 @@ class GameLevelHomePage {
               text: "Travel",
               action: () => {
                 this.progression.medialit = true;
-                this.progression.current = 'ai';
                 localStorage.setItem('planetProgression', JSON.stringify(this.progression));
-                console.log('Updating progress - Media Literacy completed');
+                console.log('Traveling to Media Literacy Planet...');
                 this.debugProgress();
                 window.location.href = '/digital-famine/media/';
               },
@@ -317,25 +313,18 @@ class GameLevelHomePage {
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,
         render: function(ctx) {
-          this.isLocked = !this.progression.medialit && this.progression.current !== 'ai';
+          this.isLocked = !this.progression.medialit;
           this.applyLockedEffect(ctx, this);
-        },
+        }.bind(this),
         dialogues: ["Would you like to travel to the AI Planet?"],
         reaction: function() { },
         interact: function() {
           this.removeExistingKeyListener();
-          this.debugProgress();  // Debug current state
+          this.debugProgress();
           
-          // Check both previous completion and current status
           if (!this.progression.medialit) {
             dialogueSystem.showDialogue("Complete Media Literacy Planet first!");
             console.log('Attempted to access AI without completing Media Lit');
-            return;
-          }
-          
-          if (this.progression.current !== 'ai') {
-            dialogueSystem.showDialogue("You must visit planets in order!");
-            console.log('Attempted to access AI out of order');
             return;
           }
 
@@ -345,9 +334,8 @@ class GameLevelHomePage {
               text: "Travel",
               action: () => {
                 this.progression.ai = true;
-                this.progression.current = 'cyber';
                 localStorage.setItem('planetProgression', JSON.stringify(this.progression));
-                console.log('Updating progress - AI Planet completed');
+                console.log('Traveling to AI Planet...');
                 this.debugProgress();
                 window.location.href = '/digital-famine/ai/';
               },
@@ -374,19 +362,12 @@ class GameLevelHomePage {
         render: function(ctx) {
           this.isLocked = false; // First planet is never locked
           this.applyLockedEffect(ctx, this);
-        },
+        }.bind(this),
         dialogues: ["Would you like to travel to the Microblogging Planet?"],
         reaction: function() { },
         interact: function() {
           this.removeExistingKeyListener();
-          this.debugProgress();  // Debug current state
-          
-          // Check if this is the current planet in progression
-          if (this.progression.current !== 'microblog') {
-            dialogueSystem.showDialogue("You must visit planets in order!");
-            console.log('Attempted to access Microblog out of order');
-            return;
-          }
+          this.debugProgress();
 
           dialogueSystem.showDialogue("Do you want to travel to Microblogging Planet?");
           dialogueSystem.addButtons([
@@ -394,9 +375,8 @@ class GameLevelHomePage {
               text: "Travel",
               action: () => {
                 this.progression.microblog = true;
-                this.progression.current = 'medialit';
                 localStorage.setItem('planetProgression', JSON.stringify(this.progression));
-                console.log('Updating progress - Microblog completed');
+                console.log('Traveling to Microblog Planet...');
                 this.debugProgress();
                 window.location.href = '/digital-famine/microblog/';
               },
@@ -421,7 +401,6 @@ class GameLevelHomePage {
         hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
         zIndex: 10,
         render: function(ctx) {
-          // Grey out if not all planets are completed
           this.isLocked = !(this.progression.microblog && 
                            this.progression.medialit && 
                            this.progression.ai && 
@@ -433,9 +412,8 @@ class GameLevelHomePage {
         interact: function() {
           this.removeExistingKeyListener();
           
-          // Check if all planets are completed in order
           if (!this.progression.cyber) {
-            dialogueSystem.showDialogue("Complete the Cyber Planet first!");
+            dialogueSystem.showDialogue("Complete all planets first!");
             return;
           }
           
@@ -463,33 +441,27 @@ class GameLevelHomePage {
       { class: Npc, data: sprite_data_ancientBook },
     ];
 
-    // Store reference to satellite data for updates
     this.satelliteData = sprite_data_satellite;
     this.playerData = sprite_data_chillguy;
-
-    // Will store game object references after initialization
     this.satelliteObject = null;
     this.playerObject = null;
     
-    // Create page counter display
     this.createPageCounter();
   }
   
-  // Create page counter display next to the book
   createPageCounter() {
     const counterDiv = document.createElement('div');
     counterDiv.id = 'page-counter';
     counterDiv.style.position = 'absolute';
-    counterDiv.style.right = '60px';  // Moved more to the right (closer to book)
-    counterDiv.style.bottom = '120px';  // Align with book height
-    counterDiv.style.color = '#FFD700';  // Gold color to match the book
-    counterDiv.style.fontSize = '28px';  // Larger to match book scale
+    counterDiv.style.right = '60px';
+    counterDiv.style.bottom = '120px';
+    counterDiv.style.color = '#FFD700';
+    counterDiv.style.fontSize = '28px';
     counterDiv.style.fontWeight = 'bold';
     counterDiv.style.textShadow = '2px 2px 4px rgba(0,0,0,0.9)';
     counterDiv.style.zIndex = '25';
-    counterDiv.style.fontFamily = 'Georgia, serif';  // More book-like font
+    counterDiv.style.fontFamily = 'Georgia, serif';
     
-    // Calculate pages collected
     const pagesCollected = (this.progression.microblog ? 1 : 0) +
                            (this.progression.medialit ? 1 : 0) +
                            (this.progression.ai ? 1 : 0) +
@@ -498,11 +470,9 @@ class GameLevelHomePage {
     counterDiv.textContent = `${pagesCollected}/4`;
     document.getElementById('gameContainer').appendChild(counterDiv);
     
-    // Store reference for updates
     this.pageCounter = counterDiv;
   }
   
-  // Update page counter
   updatePageCounter() {
     if (this.pageCounter) {
       const pagesCollected = (this.progression.microblog ? 1 : 0) +
@@ -513,14 +483,11 @@ class GameLevelHomePage {
     }
   }
 
-  // Initialize method called after objects are created
   initialize() {
     console.log('Initializing GameLevelHomePage...');
     console.log('Number of game objects:', this.gameEnv.gameObjects.length);
     
-    // Find and store references to the player and satellite objects
     for (let gameObject of this.gameEnv.gameObjects) {
-      // Check both this.id (for Player) and this.canvas.id (for NPCs and other objects)
       const objectId = gameObject.id || gameObject.canvas?.id;
       if (objectId === 'Chill Guy' || objectId === 'chill guy') {
         this.playerObject = gameObject;
@@ -528,15 +495,12 @@ class GameLevelHomePage {
       } else if (objectId === 'Satellite' || objectId === 'satellite') {
         this.satelliteObject = gameObject;
         console.log('Satellite found!', gameObject);
-        // Hide satellite initially - press T to toggle
         gameObject.canvas.style.display = 'none';
         console.log('Satellite hidden. Press T to toggle visibility.');
       }
     }
     
-    // Add key listener to toggle satellite visibility
     document.addEventListener('keydown', (e) => {
-      // Press 'T' to toggle satellite
       if (e.key.toLowerCase() === 't' && this.satelliteObject) {
         const isVisible = this.satelliteObject.canvas.style.display !== 'none';
         this.satelliteObject.canvas.style.display = isVisible ? 'none' : 'block';
@@ -545,18 +509,14 @@ class GameLevelHomePage {
     });
   }
 
-  // Update method called every frame to handle satellite following
   update() {
-    // Update page counter
     this.updatePageCounter();
     
-    // Only update satellite if it's visible and player exists
     const isVisible = this.satelliteObject && this.satelliteObject.canvas.style.display !== 'none';
     if (isVisible && this.playerObject && this.satelliteObject) {
-      // Calculate target position relative to player
-      const targetOffsetX = -60;  // Offset to the left of player
-      const targetOffsetY = -40;  // Offset above the player
-      const followSpeed = 0.08;   // How fast it follows (0-1)
+      const targetOffsetX = -60;
+      const targetOffsetY = -40;
+      const followSpeed = 0.08;
 
       const playerX = this.playerObject.position.x;
       const playerY = this.playerObject.position.y;
@@ -564,7 +524,6 @@ class GameLevelHomePage {
       const targetX = playerX + targetOffsetX;
       const targetY = playerY + targetOffsetY;
 
-      // Linear interpolation for smooth following
       this.satelliteObject.position.x += (targetX - this.satelliteObject.position.x) * followSpeed;
       this.satelliteObject.position.y += (targetY - this.satelliteObject.position.y) * followSpeed;
     }
@@ -572,5 +531,3 @@ class GameLevelHomePage {
 }
 
 export default GameLevelHomePage;
-
-
