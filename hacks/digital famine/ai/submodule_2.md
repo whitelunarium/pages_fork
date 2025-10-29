@@ -10,19 +10,19 @@ team: "Debuggers"
 submodule: 2
 categories: [CSP, Submodule, AIUsage]
 tags: [ai, prompts, debuggers]
-author: "Debuggers Team - Ruchika Kench"
+author: "Debuggers Team - Ruchika Kench, Anishka Sanghvi"
 date: 2025-10-21
 ---
 
 # Prompt Engineering
 
-## ⁉️ Why is prompt engineering important?
+## Why is prompt engineering important?
 Prompt engineering is both an art and a science. It empowers users to unlock the full potential of AI systems by communicating with them effectively and generate the output they want. No matter your purpose of using AI, mastering prompt engineering can really enhance your productivity and lead to more accurate responses by AI to your commands.
 
-## 🧠 How does AI respond to user prompts?
+## How does AI respond to user prompts?
 Generative AI, like ChatGPT and Claude use natural language processing and machine learning to respond to the prompts we give. This combination helps AI respond to users like it is talking to another human (natural language processing) and can learn from your input (machine learning).
 
-## 🖥️ Types of different prompts:
+## Types of different prompts:
  - Text Prompts
     - Example: Typing a command to AI to describe the difference between climate change and global warming.
 
@@ -33,7 +33,7 @@ Generative AI, like ChatGPT and Claude use natural language processing and machi
     - Example: Sending a picture of your family to AI and asking it to convert the picture to a Renaissance style painting.
 
 # How to use prompt engineering with different prompts
-## ✍️ Text Prompts
+## Text Prompts
 ✅ What to Do:
 
 
@@ -69,14 +69,14 @@ Generative AI, like ChatGPT and Claude use natural language processing and machi
 
 
 
-🎯 Impact:
+Impact:
 
 Clear prompts = more accurate, useful, and creative responses.
 
 Vague prompts = generic or off-topic answers.
 
 
-## 🎙️ Voice Commands
+## Voice Commands
 Voice prompts are used in smart assistants (like Siri, Alexa, or AI chat apps with voice input).
 
 ✅ What to Do:
@@ -111,14 +111,14 @@ This helps the AI stay in context.
 
 
 
-🎯 Impact:
+Impact:
 
 Clear voice commands = faster, more accurate responses.
 
 Mumbled or fragmented speech = misinterpretation or errors.
 
 
-## 🖼️ Visual Prompts
+## Visual Prompts
 Visual prompts involve uploading or showing images to AI (like asking it to describe, analyze, or generate something based on a picture).
 
 ✅ What to Do:
@@ -156,22 +156,56 @@ Visual prompts involve uploading or showing images to AI (like asking it to desc
 
 
 
-🎯 Impact:
+Impact:
 
 Clear visuals + context = accurate analysis or creative output.
 Unclear images or vague prompts = poor results or confusion.
 
 ## Types of AI prompt engineering (from MIT Sloan Teaching and Learning Technologies)
-|         Prompt Type         |                                                                                                                     Description                                                                                                                      |                                           Example                                            |   |   |
-|:---------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|---|---|
-|      Zero-Shot Prompt       |                                                                              Give simple and clear instructions without examples. Useful for a quick, general response.                                                                              |                         "Summarize this article in 5 bullet points."                         |   |   |
-|       Few-Shot Prompt       |                                                                    Provide a few examples of what you want the AI to mimic. Helps the model learn your desired structure or tone.                                                                    |               "Here are 2 example summaries. Write a third in the same style."               |   |   |
-|    Instructional Prompt     |                                                                                      Include direct commands using verbs like "write", "explain", or "compare."                                                                                      |             "Write an executive summary of this memo. Keep it under 100 words."              |   |   |
-|      Role-Based Prompt      |                                                                     Ask the AI to assume a particular persona or viewpoint. Useful for creativity and domain-specific responses.                                                                     |                  "You are an MBA professor preparing a lecture outline..."                   |   |   |
-|      Contextual Prompt      |                                                           Include relevant background or framing before asking a question. Helps the AI tailor responses to a specific audience or setting.                                                          | "This text is for an undergrad course on behavioral econ. Rephrase it in simpler language."  |   |   |
-| Meta Prompt / System Prompt | Behind-the-scenes, system-level instructions that set the AI's behavior, tone, or scope before any user input. Typically written by the platform (e.g., OpenAI). You won't usually don't see or write these unless you're building your own AI tool. |                "Always respond formally and cite real sources. Never guess."                 |   |   |
 
-## 🛠️ Final Tips for All Prompt Types
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ddd; padding: 12px; background-color: #f2f2f2; text-align: left;">Prompt Type</th>
+      <th style="border: 1px solid #ddd; padding: 12px; background-color: #f2f2f2; text-align: left;">Description</th>
+      <th style="border: 1px solid #ddd; padding: 12px; background-color: #f2f2f2; text-align: left;">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px;"><strong>Zero-Shot Prompt</strong></td>
+      <td style="border: 1px solid #ddd; padding: 12px;">Give simple and clear instructions without examples. Useful for a quick, general response.</td>
+      <td style="border: 1px solid #ddd; padding: 12px;">"Summarize this article in 5 bullet points."</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px;"><strong>Few-Shot Prompt</strong></td>
+      <td style="border: 1px solid #ddd; padding: 12px;">Provide a few examples of what you want the AI to mimic. Helps the model learn your desired structure or tone.</td>
+      <td style="border: 1px solid #ddd; padding: 12px;">"Here are 2 example summaries. Write a third in the same style."</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px;"><strong>Instructional Prompt</strong></td>
+      <td style="border: 1px solid #ddd; padding: 12px;">Include direct commands using verbs like "write", "explain", or "compare."</td>
+      <td style="border: 1px solid #ddd; padding: 12px;">"Write an executive summary of this memo. Keep it under 100 words."</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px;"><strong>Role-Based Prompt</strong></td>
+      <td style="border: 1px solid #ddd; padding: 12px;">Ask the AI to assume a particular persona or viewpoint. Useful for creativity and domain-specific responses.</td>
+      <td style="border: 1px solid #ddd; padding: 12px;">"You are an MBA professor preparing a lecture outline..."</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px;"><strong>Contextual Prompt</strong></td>
+      <td style="border: 1px solid #ddd; padding: 12px;">Include relevant background or framing before asking a question. Helps the AI tailor responses to a specific audience or setting.</td>
+      <td style="border: 1px solid #ddd; padding: 12px;">"This text is for an undergrad course on behavioral econ. Rephrase it in simpler language."</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px;"><strong>Meta Prompt / System Prompt</strong></td>
+      <td style="border: 1px solid #ddd; padding: 12px;">Behind-the-scenes, system-level instructions that set the AI's behavior, tone, or scope before any user input. Typically written by the platform (e.g., OpenAI). You won't usually don't see or write these unless you're building your own AI tool.</td>
+      <td style="border: 1px solid #ddd; padding: 12px;">"Always respond formally and cite real sources. Never guess."</td>
+    </tr>
+  </tbody>
+</table>
+
+## Final Tips for All Prompt Types
 
 Think like a teacher: Explain what you want as if teaching someone new. Make sure to treat the context of your responses as if AI does not know what you want (like explaining instructions to a 5 year old) 
 
@@ -181,7 +215,7 @@ Use formatting: For text prompts, ask for bullet points, tables, or sections.
 
 ---
 
-## 📝 Interactive Prompt Engineering Quiz
+## Interactive Prompt Engineering Quiz
 
 <div id="quiz-container">
   <div class="question-block" id="question1">
@@ -242,7 +276,7 @@ Use formatting: For text prompts, ask for bullet points, tables, or sections.
 }
 
 .question-block h3 {
-  color: #333;
+  color: #000000 !important;
   margin-bottom: 15px;
 }
 
@@ -260,6 +294,7 @@ Use formatting: For text prompts, ask for bullet points, tables, or sections.
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  color: #000000;
   transition: all 0.3s ease;
 }
 
@@ -271,11 +306,13 @@ Use formatting: For text prompts, ask for bullet points, tables, or sections.
 .option-btn.correct {
   background-color: #d4edda;
   border-color: #28a745;
+  color: #000000;
 }
 
 .option-btn.incorrect {
   background-color: #f8d7da;
   border-color: #dc3545;
+  color: #000000;
 }
 
 .option-btn:disabled {
@@ -305,6 +342,14 @@ Use formatting: For text prompts, ask for bullet points, tables, or sections.
   padding: 20px;
   background-color: white;
   border-radius: 8px;
+}
+
+#score-container h3 {
+  color: #000000;
+}
+
+#score-container p {
+  color: #000000;
 }
 
 .reset-btn {
